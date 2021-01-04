@@ -49,24 +49,6 @@ def generateOTPCode(length = 4):
     rnd = random.SystemRandom()
     return ''.join(rnd.choice(chars) for i in range(length))
 
-def tokenAuthentication(request):
-
-    ak = get_object_or_404(accountsKey, activation_key=request.GET['key'] , keyType='hashed')
-    #check if the activation key has expired, if it hase then render confirm_expired.html
-    if ak.key_expires < timezone.now():
-        raise SuspiciousOperation('Expired')
-    #if the key hasn't expired save user and set him as active and render some template to confirm activation
-    user = ak.user
-    user.is_active = True
-    user.save()
-    user.accessibleApps.all().delete()
-    for a in globalSettings.DEFAULT_APPS_ON_REGISTER:
-        app = application.objects.get(name = a)
-        p = permission.objects.create(app =  app, user = user , givenBy = User.objects.get(pk=1))
-    login(request , user)
-    authStatus = {'status' : 'success' , 'message' : 'Account actived, please login.' }
-    return render(request , globalSettings.LOGIN_TEMPLATE , {'authStatus' : authStatus ,'useCDN' : globalSettings.USE_CDN})
-
 
 from django.template import Template
 import django
@@ -439,63 +421,6 @@ def renderedStatic(request , filename):
     print filename
     return render(request , filename , {})
 
-def visualizer(request):
-    return render(request , 'app.visualizer.html' , {})
-@csrf_exempt
-def dataStreamer(request):
-    data = request.body.split(',')
-    print data
-
-    if int(data[1])< 800:
-        booleanVal = 'On'
-    else:
-        booleanVal = 'Off'
-
-    try:
-        yaw = data[2]
-    except:
-        yaw = 0
-
-    try:
-        roll = data[3]
-    except:
-        roll = 0
-
-    try:
-        pitch = data[4]
-    except:
-        pitch = 0
-
-    requests.post('https://13.235.115.86/notify',
-        verify = False,
-        json={
-            'topic': 'ad.display',
-            'args': [
-                {'label' : 'Weight' ,'value': data[0], 'type' : 'guage', 'min': '10KG' , 'max' : '100KG' , 'width' : str(float(data[0])*100/90) + '%' },
-              {'label' : 'Boolean A' ,'value': '%s'%(booleanVal)},
-              {'label' : 'Yaw' ,'value': '%s degress'%(yaw)},
-              {'label' : 'Roll' ,'value': '%s degrees'%(roll)},
-              {'label' : 'Pitch' ,'value': '%s degrees'%(pitch)},
-              {'label' : 'Acc X' ,'value': '%s m/s2'%(data[5])},
-              {'label' : 'Acc y' ,'value': '%s m/s2'%(data[6])},
-              {'label' : 'Acc z' ,'value': '%s m/s2'%(data[7])},
-              {'label' : 'Speed' ,'value': '%s m/s'%(data[8])},
-              {'label' : 'quatW' ,'value': '%s'%(data[9])},
-              {'label' : 'quatY' ,'value': '%s'%(data[10])},
-              {'label' : 'quatX' ,'value': '%s'%(data[11])},
-              {'label' : 'quatZ' ,'value': '%s'%(data[12])},
-              {'label' : 'suspension' ,'value': '%s'%(data[13])},
-            ]
-          }
-    )
-
-
-
-
-
-    return JsonResponse({"toReturn" : "OK"} , safe = False)
-
-
 def handleIntegration(request):
     print request.GET['code']
 
@@ -551,69 +476,12 @@ def SearchPeopleView(request):
 
     return JsonResponse(toReturn , safe = False)
 
-
-@csrf_exempt
-def getDetailsView(request):
-    customer = Contacts.objects.get(token = request.GET['token'] )
-    dp = None
-    if customer.dp is not None:
-        dp = customer.dp.url
-
-    return JsonResponse({"name" : customer.name, 'dp' : dp , 'mobile' : customer.mobile  , "pk" : customer.pk})
-
-
 class ContactsBareSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contacts
         fields = ('pk'  , 'name', 'mobile' ,'dp')
 
 
-@csrf_exempt
-def verifyOTPView(request):
-    if 'mobile' in request.GET:
-        mobile = request.GET['mobile']
-        customer = Contacts.objects.filter(mobile = mobile  , otp = request.GET['otp']  )[0]
-
-
-        length = 16
-        chars = string.digits
-        rnd = random.SystemRandom()
-        token = ''.join(rnd.choice(chars) for i in range(length))
-
-        customer.token = token
-
-        if 'name' in request.GET:
-            customer.name = request.GET['name']
-
-
-        customer.verified = True
-        customer.save()
-        dp = None
-        try:
-            dp = customer.dp.url
-        except:
-            pass
-
-        return JsonResponse({"token" : token, 'dp' : dp , 'name' : customer.name , 'number' : customer.mobile , "pk" : customer.pk})
-
-@csrf_exempt
-def generateExternalOTPView(request):
-    if 'mobile' in request.GET:
-        mobile = request.GET['mobile']
-        customer , new = Contacts.objects.get_or_create(mobile = mobile  )
-
-
-    length = 4
-    chars = string.digits
-    rnd = random.SystemRandom()
-    otp = ''.join(rnd.choice(chars) for i in range(length))
-    customer.deviceID = request.GET['deviceid']
-    customer.otp = otp
-    customer.save()
-
-
-
-    return JsonResponse({"otp" : otp , "new" : new })
 
 def renderedStatic(request , filename):
 
@@ -964,7 +832,7 @@ class getapplicationViewSet(viewsets.ModelViewSet):
     filter_fields = ['name' , 'module' , 'stateAlias']
     def get_queryset(self):
         u = self.request.user
-        ap = application.objects.all()
+        ap = application.objects.filter(admin = False)
         if 'statealias' in self.request.GET:
             ap = ap.filter(stateAlias__isnull = False)
         return ap

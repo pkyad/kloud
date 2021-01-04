@@ -301,3 +301,8 @@ class ContractTracker(models.Model):
     discount = models.FloatField(default=0)
     termsAndConditionTxts = models.TextField(max_length = 10000 , null = True, blank = True)
     heading = models.CharField(max_length = 300 , null = True)
+
+
+class ServiceTicket(models.Model):
+    created = models.DateTimeField(auto_now_add = True)
+    preferredTimeSlot = models.CharField(max_length=20 , null = True)

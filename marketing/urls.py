@@ -81,8 +81,6 @@ urlpatterns = [
     url(r'deleteInvoice/$' , DeleteInvoiceAPI.as_view()),
     url(r'fetchSIPCalls/$' , FetchSIPCalls.as_view()),
     url(r'updatePlayTime/$' , UpdatePlayTime.as_view()),
-    url(r'getFollowup/$' , GetFollowupAPIView.as_view()),
-    url(r'assign/$' , AssignCampaignAPIView.as_view()),
     url(r'getCampDetails/$' , GetCampDetailsAPIView.as_view()),
     url(r'downloadDailyCallReport/$' , DownloadDailyCallReportAPIView.as_view()),
     url(r'sendNofctn/$' , SendNotfcnAPIView.as_view()),
