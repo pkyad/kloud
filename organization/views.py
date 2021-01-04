@@ -18,7 +18,7 @@ from rest_framework.renderers import JSONRenderer
 import os
 import json
 
-from ERP.models import service, address
+from ERP.models import service, address, Division
 from website.models import *
 
 from clientRelationships.models import CRMTermsAndConditions, Contact, Contract
@@ -320,9 +320,10 @@ class DataMigrationsAPIView(APIView):
     renderer_classes = (JSONRenderer,)
     permission_classes = (permissions.AllowAny, )
     def get(self, request, format=None):
-        divisionPK = 35
+        divisionPK = 3
 
         divisionObj = Division.objects.get(pk = divisionPK)
+        unitObj = divisionObj.units.last()
 
         # #creating users
         userData = None
@@ -335,8 +336,8 @@ class DataMigrationsAPIView(APIView):
                 userObj.last_name = item['last_name']
                 userObj.email = item['email']
                 userObj.is_active = item['is_active']
-                userObj.is_superuser = item['is_superuser']
                 userObj.is_staff = item['is_staff']
+                userObj.set_password('essgi')
                 userObj.save()
 
                 profileObj = userObj.profile
@@ -360,6 +361,7 @@ class DataMigrationsAPIView(APIView):
 
                 designationObj = userObj.designation
                 designationObj.division = divisionObj
+                designationObj.unit = unitObj
                 designationObj.save()
 
                 print 'user', userObj.first_name, userObj.pk
@@ -372,32 +374,32 @@ class DataMigrationsAPIView(APIView):
             comapnyData = json.load(json_file)
             for item in comapnyData:
 
-                if item['user'] is not None:
-                    userObj = User.objects.get(username = item['user']['username'])
-                    objs = service.objects.filter(name = item['name'])
-                    if len(objs)>0:
-                        obj = objs[0]
-                    if len(objs) == 0:
-                        print item['name'], 'name '
-                        obj = service.objects.create(name = item['name'],user = userObj)
+                # if item['user'] is not None:
+                userObj = User.objects.get(username = 'sanjay')
+                objs = service.objects.filter(name = item['name'])
+                if len(objs)>0:
+                    obj = objs[0]
+                if len(objs) == 0:
+                    print item['name'], 'name '
+                    obj = service.objects.create(name = item['name'],user = userObj)
 
-                    obj.contactPerson = item['contactPerson']
-                    obj.mobile = item['mobile']
+                obj.contactPerson = item['contactPerson']
+                obj.mobile = item['mobile']
 
-                    if item['address'] is not None:
-                        addressObj = address.objects.create(city = item['address']['city'], country = item['address']['country'], lon = item['address']['lon'] , pincode = item['address']['pincode'], state = item['address']['state'],street = item['address']['street'],lat = item['address']['lat'])
+                if item['address'] is not None:
+                    addressObj = address.objects.create(city = item['address']['city'], country = item['address']['country'], lon = item['address']['lon'] , pincode = item['address']['pincode'], state = item['address']['state'],street = item['address']['street'],lat = item['address']['lat'])
 
-                        obj.address = addressObj
+                    obj.address = addressObj
 
-                    obj.save()
-                    print 'company', obj.name, obj.pk
+                obj.save()
+                print 'company', obj.name, obj.pk
 
         # #creating crm term and condition details
         termsAndConditionPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'DataMigrationFIles','essgi_crmtermsAndConditions.json')
         with open(termsAndConditionPath) as json_file:
             termsAndConditionData = json.load(json_file)
             for item in termsAndConditionData:
-                obj, created = CRMTermsAndConditions.objects.get_or_create(heading = item['heading'], version = 'V2', division = divisionObj)
+                obj, created = CRMTermsAndConditions.objects.get_or_create(heading = item['heading'], version = 'V1', division = divisionObj,themeColor = '#227daa')
                 obj.body = item['body']
                 obj.default = item['default']
                 obj.extraFieldOne = item['extraFieldOne']
