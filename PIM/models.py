@@ -3,6 +3,13 @@ from django.contrib.auth.models import User
 from time import time
 from marketing.models import   Contacts
 from organization.models import Division
+from django.db.models.signals import post_save , pre_delete
+from django.dispatch import receiver
+import json
+import datetime
+import requests
+from django.conf import settings as globalSettings
+
 # Create your models here.
 def getThemeImageUploadPath(instance , filename ):
     return 'PIM/images/theme/%s_%s_%s' % (str(time()).replace('.', '_'), instance.user.username, filename)
@@ -108,6 +115,8 @@ class ChatThread(models.Model):
     channel = models.CharField(choices = THREAD_CHANNEL_CHOICES , default = "self", max_length = 50)
     transferred = models.BooleanField(default = False)
     fid = models.CharField(max_length = 50 , null = True )
+    closedOn = models.DateTimeField(null = True, blank=True)
+    closedBy = models.ForeignKey(User , related_name = 'closedUser' , null = True, blank=True)
 
 
 MSG_TYPE_CHOICES = (
@@ -192,3 +201,108 @@ class calendar(models.Model):
     followers = models.ManyToManyField(User , related_name = 'calendarItemsFollowing' , blank = True)
     data = models.TextField(max_length = 200 , null = True)
 
+class ChatContext(models.Model):
+    uid = models.CharField(max_length = 50, null = True)
+    key = models.CharField(max_length = 50, null = True)
+    value = models.CharField(max_length = 500, null = True)
+    typ =  models.CharField(max_length = 10, null = True)
+
+
+@receiver(post_save, sender=ChatContext, dispatch_uid="server_post_save")
+def pushContextToUI(sender, instance, **kwargs):
+    if instance.key != 'step_id':
+        return
+
+    requests.post(globalSettings.WAMP_POST_ENDPOINT,
+        json={
+          'topic': globalSettings.WAMP_PREFIX + 'service.support.debugger.' + instance.uid ,
+          'args': [ "STEP" , instance.value  ]
+        }
+    )
+
+
+
+def saveContext(key , typ , ctx):
+    p, created = ChatContext.objects.get_or_create(
+        key= key,
+        uid = ctx['uid'],
+        typ = typ
+    )
+    p.value= str(ctx[key])
+    p.save()
+
+def removeContext(key , ctx):
+    ChatContext.objects.filter(uid = ctx['uid'] , key = key).delete()
+
+date_handler = lambda obj: (
+    obj.isoformat()
+    if isinstance(obj, (datetime.datetime, datetime.date))
+    else None
+)
+
+def createMessage(uid, message , fileObj = None):
+    sc = ChatMessage(uid = uid , message = message , sentByAgent = True, responseTime = 0 , is_hidden = False )
+
+
+    attachmentUrl = None
+
+
+    if fileObj is not None:
+        print "Saving file"
+        sc.attachment = fileObj
+
+        ext = sc.attachment.url.split('.')[-1]
+        if ext in ['jpg', 'jpeg' , 'png' , 'svg']:
+            sc.attachmentType = 'image'
+        elif ext in ['pdf']:
+            sc.attachmentType = 'application'
+
+        sc.save()
+        attachmentUrl = globalSettings.SITE_ADDRESS + sc.attachment.url
+
+    sc.save()
+
+    print "After creating message -------------//----------------"
+    userPk = None
+    if sc.user is not None:
+        userPk = sc.user.pk
+
+
+    chatThObj = ChatThread.objects.filter(uid=uid)
+    sJson = {
+        "attachment": attachmentUrl,
+        "attachmentType": None,
+        "created": json.dumps(datetime.datetime.now(), default=date_handler).replace('"' , ''),
+        "is_hidden": False,
+        "logs": None,
+        "message": sc.message,
+        "sentByAgent": True,
+        "timeDate": "00:00 PM",
+        "uid": sc.uid,
+        "sentfrom" : "system",
+        "pk" : sc.pk,
+        "user" : userPk,
+    }
+
+    try:
+        logoAdd = globalSettings.SITE_ADDRESS + chatThObj[0].company.dp.url
+    except:
+        logoAdd = globalSettings.SITE_ADDRESS + '/static/images/img_avatar_card.png'
+
+    if attachmentUrl is not None:
+
+        requests.post(globalSettings.WAMP_POST_ENDPOINT,
+            json={
+              'topic': globalSettings.WAMP_PREFIX + 'service.support.chat.' + sc.uid ,
+              'args': [ "MF" , {"filePk" : sc.pk } , {"agentDp" : logoAdd , "last_name" : chatThObj[0].company.name }, datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ') ]
+            }
+        )
+
+
+    else:
+        requests.post(globalSettings.WAMP_POST_ENDPOINT,
+            json={
+              'topic': globalSettings.WAMP_PREFIX + 'service.support.chat.' + sc.uid ,
+              'args': [ "M" , sJson , {"agentDp" : logoAdd , "last_name" : chatThObj[0].company.name }, datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ') ]
+            }
+        )

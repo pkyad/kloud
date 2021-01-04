@@ -11,8 +11,8 @@ from .models import *
 DEBUG = True
 from os import listdir
 from os.path import isfile, join
-from support.uipathHelper import uiPathToken , ReleasekeyGet
-
+from .uipathHelper import uiPathToken , ReleasekeyGet
+from PIM.models import *
 import math, random
 
 def isSafe(code):
@@ -332,7 +332,7 @@ def checkForSiblings(txt , ctx, config):
 
 def answerFAQandGeneral(txt , ctx, compProfile):
     print "Checking for general answers and node selection variations"
-    servce = compProfile.service
+    servce = compProfile
 
     FAQFileconfigs = list(FAQInputVariation.objects.filter(parent__company = servce))
 
@@ -543,7 +543,7 @@ def getResponse(txt, ctx , compProfile , fil = None):
     print "File : " , fil
     if txt is not None:
         txt = txt[0].lower() + txt[1:]
-    servce = compProfile.service
+    servce = compProfile
     if DEBUG:
         print ctx
     if (txt is None and fil is not None) or (txt is not None and len(txt) >= 2):

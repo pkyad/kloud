@@ -503,6 +503,7 @@ class DataMigrationsAPIView(APIView):
 
 import basehash
 hash_fn = basehash.base36()
+from chatbot.uipathHelper import uiPathToken
 
 class SaveSettingsAPIView(APIView):
     renderer_classes = (JSONRenderer,)

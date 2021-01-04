@@ -23,7 +23,10 @@ import sys, traceback
 from ERP.models import service, address
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-
+import datetime
+from marketing.models import Contacts
+from talk import *
+from PIM.models import *
 # Create your views here.
 
 def intentDesignerView(request , id):
@@ -324,10 +327,9 @@ class SaveSettingsAPIView(APIView):
     renderer_classes = (JSONRenderer,)
     permission_classes=(permissions.AllowAny,)
     def get(self , request , format = None):
-        if request.user.profile.userTyp == 'customer':
-
+        try:
             profile = request.user.designation.division
-        else:
+        except:
             return Response({'reason' : 'profile_not_found' },status = status.HTTP_403_FORBIDDEN)
 
 
@@ -348,7 +350,7 @@ class SaveSettingsAPIView(APIView):
 
 
     def post(self , request , format = None):
-        custProfile = CustomerProfile.objects.get(service = request.user.servicesContactPerson.all()[0])
+        custProfile = request.user.designation.division
 
         if request.data['type'] == 'uipath':
             d = request.data['data']
@@ -460,10 +462,7 @@ class UIPathResourcesAPIView(APIView):
     renderer_classes = (JSONRenderer,)
     permission_classes=(permissions.AllowAny,)
     def get(self , request , format = None):
-        if 'profile' in request.GET:
-            profile = CustomerProfile.objects.get(pk = request.GET['profile'])
-        else:
-            profile = CustomerProfile.objects.get(service = request.GET['customer'])
+        profile = request.user.designation.division
 
         token = uiPathToken(profile.uipathUsername, profile.uipathPass , profile.uipathTenent , profile.uipathUrl)
         print token
@@ -601,7 +600,7 @@ def activityView(request):
     if request.method == 'POST':
         d = json.loads(request.body)
         act = Activity.objects.create(**d)
-        return JsonResponse(ActivitySerializer(act , many = False).data)
+        return JsonResponse(ActivitySerializer(act , many = False).data , status = 201)
     elif request.method == 'PATCH':
         d = json.loads(request.body)
         if request.GET['act'] == 'undefined':
@@ -609,7 +608,7 @@ def activityView(request):
         act = Activity.objects.get(pk = request.GET['act'])
         act.timeDuration = d['duration']
         act.save()
-        return JsonResponse(ActivitySerializer(act , many = False).data)
+        return JsonResponse({})
     else:
         act = Activity.objects.filter(uid = request.GET['uid']).last()
         return JsonResponse(ActivitySerializer(act , many = False).data)
@@ -648,10 +647,34 @@ class SupportChatViewSet(viewsets.ModelViewSet):
             return ChatMessage.objects.all()
         return ChatMessage.objects.all()
 
+
 @csrf_exempt
 def publicAPI(request , objectType):
     if objectType == 'chatThread':
-        if request.method == 'POST':
+        if request.method == 'PATCH':
+            
+            data = json.loads(request.body)
+            chatThObj = ChatThread.objects.filter(uid = data['uid'])[0]
+            if 'status' in data and data['status']=='closed':
+                chatThObj.closedOn = datetime.datetime.now()
+                chatThObj.status = data['status']
+                # if 'closedByUser' in data:
+                #     pass
+                # else:
+                #     instance.closedBy = User.objects.get(pk=int(request.user.pk))
+                
+            if 'customerFeedback' in data:
+                chatThObj.customerFeedback = data['customerFeedback']
+                chatThObj.customerRating = data['customerRating']
+
+            if 'email' in data and len(data['email'])>0:
+                c , created = Contacts.objects.get_or_create(email = data['email'])
+                chatThObj.visitor = c
+
+            chatThObj.save()
+            return JsonResponse({})
+
+        elif request.method == 'POST':
             data = json.loads(request.body)
             c = ChatThread(uid =  data['uid'] )
             c.company = Division.objects.get(pk=data['company'])
@@ -672,15 +695,15 @@ def publicAPI(request , objectType):
                     except :
                         pass
             c.save()
-            return JsonResponse({"pk" : c.pk , "transferred" : c.transferred})
+            return JsonResponse({"pk" : c.pk , "transferred" : c.transferred}, status = 201)
         else:
-            c = ChatThread.objects.filter(uid = request.GET['uid'] )
+            c = ChatThread.objects.filter(uid = request.GET['uid'] , status = 'started' )
             return JsonResponse(PublicChatThreadSerializer(c , many = True ).data , safe=False)
 
-    elif objectType == 'supportChat': 
-        if request.method == 'POST':
-            print dir(request)
+    elif objectType == 'supportChat':
+        
 
+        if request.method == 'POST':
 
             try:
                 data = json.loads(request.body)
@@ -694,7 +717,7 @@ def publicAPI(request , objectType):
             s.thread = chatThObj
 
 
-            if 'attachmentType' in data:
+            if 'attachmentType' in data and data['attachmentType'] is not None:
                 s.attachment = request.FILES['attachment']
                 s.attachmentType = data['attachmentType']
             else:
@@ -730,7 +753,62 @@ def publicAPI(request , objectType):
                         'args': [ s.uid , "M" , sJson , chatThObj.company.pk , False , chatThObj.pk, chatThObj.company.name , chatThObj.company.pk ]
                         }
                     )
-            return JsonResponse(SupportChatSerializer(s , many = False).data , safe=False)
+            print s.is_hidden
+            print chatThObj.transferred
+            print s.sentByAgent
+            if s.is_hidden or chatThObj.transferred or s.user is not None:
+                print "Returning : "
+                return s
+
+            requests.post(globalSettings.WAMP_POST_ENDPOINT,
+                json={
+                'topic': globalSettings.WAMP_PREFIX + 'service.support.chat.' + s.uid ,
+                'args': [ "T"]
+                }
+            )
+            context = {"uid" : s.uid}
+            empty = True
+            for cntx in ChatContext.objects.filter(uid = s.uid):
+                empty = False
+                if cntx.typ == 'int':
+                    if cntx.value == 'None':
+                        context[cntx.key] = None
+                    else:
+                        context[cntx.key] = int(cntx.value)
+                elif cntx.typ == 'date':
+                    try:
+                        context[cntx.key] = datetime.datetime.strptime(cntx.value, '%Y-%m-%d %H:%M:%S')
+                    except:
+                        context[cntx.key] = datetime.datetime.strptime(cntx.value, '%Y-%m-%d %H:%M:%S.%f')
+                else:
+                    context[cntx.key] = cntx.value
+
+            print "chatThObj[0].company : " , chatThObj.company
+            if 'step_id' not in context:
+                context['step_id'] = str(NodeBlock.objects.filter(company = chatThObj.company , type = 'FAQ')[0].id)
+
+
+            if 'leadMagnetDefer' not in context:
+                context['leadMagnetDefer'] = 0
+            if 'leadMagnetSuccess' not in context:
+                context['leadMagnetSuccess'] = "0"
+
+            if 'retryID' not in context:
+                context['retryID'] = None
+
+            if 'retry' not in context:
+                context['retry'] = 0
+
+            context['chatThread'] = chatThObj
+            if s.attachment != None:
+                fileUrl = globalSettings.SITE_ADDRESS + s.attachment.url
+            else:
+                fileUrl = None
+
+            context = getResponse(s.message, context, chatThObj.company , fil = fileUrl)
+            print context
+            print "BOT LOGIC ---------------------------------ENDS"
+            return JsonResponse(SupportChatSerializer(s , many = False).data , safe=False , status = 201)
         if request.method == 'GET':
             msgs = ChatMessage.objects.filter(uid = request.GET['uid'], is_hidden = False)
             return JsonResponse(SupportChatSerializer(msgs , many = True).data , safe=False)

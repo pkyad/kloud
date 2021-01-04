@@ -1141,9 +1141,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
          });
        }
      };
-     xhttp.open('PATCH', '{{serverAddress}}/api/chatbot/chatThread/'+ chatThreadPk + '/', true);
+     xhttp.open('PATCH', '{{serverAddress}}/api/chatbot/publicFacing/chatThread/', true);
      xhttp.setRequestHeader("Content-type", "application/json");xhttp.setRequestHeader("X-CSRFToken", csrfToken);
-     xhttp.send(JSON.stringify({status:"closed",closedByUser:1}));
+     xhttp.send(JSON.stringify({status:"closed",closedByUser:1, uid:uid}));
     openFeedback()
   }
 
@@ -1206,7 +1206,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
       var feedbackText = document.getElementById('feedbackText')
       var ratingForm = {
         customerRating:0,
-        customerFeedback:feedbackText.value
+        customerFeedback:feedbackText.value,
+        uid : uid
       }
       var emailId = document.getElementById('emailId').value
 
@@ -1257,7 +1258,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
              });
          }
        };
-       xhttp.open('PATCH', '{{serverAddress}}/api/chatbot/chatThread/'+ chatThreadPk + '/', true);
+       xhttp.open('PATCH', '{{serverAddress}}/api/chatbot/publicFacing/chatThread/', true);
        xhttp.setRequestHeader("Content-type", "application/json");xhttp.setRequestHeader("X-CSRFToken", csrfToken);
        xhttp.send(ratingForm);
 

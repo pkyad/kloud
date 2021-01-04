@@ -8,7 +8,7 @@ from rest_framework.response import Response
 import re
 from PIL import Image
 import os
-from PIM.models import ChatMessage , ChatThread
+from PIM.models import *
 
 class NodeSlectionsVariationsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -349,7 +349,7 @@ class ChatThreadSerializer(serializers.ModelSerializer):
 class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Activity
-        fields = ( 'pk' , 'created' , 'updated' ,'uid', 'page', 'timeDuration','reference')
+        fields = ( 'pk' ,'uid', 'page', 'timeDuration','reference')
     def update(self ,instance, validated_data):
         for key in ['uid', 'page', 'timeDuration','reference']:
             try:
