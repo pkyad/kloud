@@ -1,0 +1,205 @@
+<style media="screen">
+  .fileList:hover {
+    background-color: #eeeeee;
+    cursor: pointer;
+  }
+  .fileList{
+    padding:15px;
+  }
+</style>
+
+<div class="container-fluid" style="padding:60px;padding-top:0px;" ng-controller="projectManagement.GIT.repos.explore">
+  <div class="row" style="padding-left:0px;padding-top:60px;">
+
+    <div class="col-md-11 col-md-offset-1 text-center" ng-if="repoCreate" style="padding:15px;">
+
+      <img src="https://cdn.vsassets.io/ext/ms.vss-tfs-web/project-overview-content/ProjectOverviewTab/Images/project_overview_day_zero.IG7Dq6Bqbg_T8t__L.png" style="width:50%;" alt="">
+
+      <h3>Welcome to Git!</h3>
+
+      <p>You can manage and host your Git repository here.</p>
+
+      <button type="button" class="btn btn-primary" ng-click="createRepo()">
+        Create
+      </button>
+
+    </div>
+
+
+
+    <div class="col-md-11 col-md-offset-1" ng-if="!repoCreate" style="border:solid 1px #eee;padding:15px;">
+      <div class="col-md-1">
+        <img src="https://img.icons8.com/dusk/2x/repository.png" style="width:50px;margin-left:10px;" alt="">
+      </div>
+      <div class="col-md-2">
+        <div class="dropdown">
+         <button class="btn btn-default dropdown-toggle" style="padding: 13px;border-radius:10px !important;padding-left:20px;padding-right:20px;" type="button" data-toggle="dropdown"> <img src="https://img.icons8.com/ios/72/compare-git.png" style="width:20px;margin-right:20px;" alt=""> {{branchInView}}
+         <span class="caret"></span></button>
+         <ul class="dropdown-menu">
+           <li ng-repeat="b in overview.branches" ng-click="changeBranch(b)"><a href="">{{b}}</a></li>
+         </ul>
+        </div>
+      </div>
+      <div class="col-md-1  pull-right" style="margin-left:20px;">
+        <button type="button" class="btn btn-default pull-right" style="padding: 12px;border-radius: 32px !important;padding-left: 28px;padding-right: 28px;" ng-click="openProperties()">
+          <i class="fa fa-cogs"></i>
+        </button>
+      </div>
+      <div class="col-md-2  pull-right">
+        <button type="button" class="btn btn-success pull-right" style="background: #4cae4c;color: white;padding: 12px;border-radius: 32px !important;padding-left: 28px;padding-right: 28px;">
+          Clone <i style="margin-left:20px;" class="fa fa-clone"></i>
+        </button>
+      </div>
+
+      <div class="col-md-2  pull-right text-center" ng-click="toggleView()" style="cursor:pointer;">
+        <h4>2,303</h4>
+        Commits
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row" ng-if="!repoCreate">
+    <div class="col-md-11 col-md-offset-1" ng-if="mode == 'folder'">
+      <div class="row">
+        <ol class="breadcrumb" style="margin-top: 15px;">
+          <li>
+            <a href="" ng-click="navigateViaBreadcrumb(-1)">{{repo.name}}</a>
+          </li>
+          <li ng-repeat="p in relPath.split('/')" ng-if="p.length>0" class="{{$last ? 'active' : ''}}">
+            <a href="" ng-click="navigateViaBreadcrumb(p)" ng-if="!$last">{{p}}</a>
+            <span ng-if="$last">{{p}}</span>
+          </li>
+        </ol>
+      </div>
+
+      <div class="row container-fluid">
+        <div class="row" style="border:solid 1px #eeeeee;padding:20px;">
+          <img src="http://localhost:8000/media/HR/images/DP/1591720800_95_admin_user7-128x128.jpg" style="width:40px;" class="img img-circle">
+          <strong style="margin-left:20px;">{{overview.firstCommit.committer.name}}</strong>
+          <span style="margin-left:20px;">{{overview.firstCommit.message}} in <strong>{{branchInView}}</strong></span>
+
+          <span class="pull-right">{{overview.firstCommit.date}}</span>
+
+
+        </div>
+      </div>
+
+
+
+      <div class="row container-fluid">
+        <div ng-repeat="f in files track by $index" ng-if="f.isDir">
+          <div class="row fileList" style="border:solid 1px #eeeeee;" ng-click="exploreSpecific(f)">
+            <div class="col-md-3">
+              <img src="https://img.icons8.com/ios/72/folder-invoices--v1.png" style="width:30px;" alt="">
+              <span style="color:grey;">{{f.name}}</span>
+            </div>
+            <div class="col-md-9">
+              <span style="margin-left:30px;">{{f.lastMessage}}</span>
+              <span  class="pull-right">{{f.lastModified | date:'fullDate'}}</span>
+            </div>
+          </div>
+        </div>
+        <div ng-repeat="f in files track by $index" ng-if="!f.isDir">
+          <div class="row fileList" style="border:solid 1px #eeeeee;" ng-click="exploreSpecific(f)">
+            <div class="col-md-3">
+              <img src="https://img.icons8.com/ios/72/file.png" style="width:30px;" alt="">
+              <span>{{f.name}}</span>
+            </div>
+            <div class="col-md-9">
+              <span style="margin-left:30px;">{{f.lastMessage}}</span>
+              <span  class="pull-right">{{f.lastModified | date:'fullDate'}}</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="col-md-11 col-md-offset-1" ng-if="mode == 'file'">
+      <div class="row" >
+        <ol class="breadcrumb" style="margin-top:15px;">
+          <li>
+            <a href="" ng-click="navigateViaBreadcrumb(-1)">{{repo.name}}</a>
+          </li>
+          <li ng-repeat="p in relPath.split('/')" ng-if="p.length>0">
+            <a href="" ng-click="navigateViaBreadcrumb(p)">{{p}}</a>
+          </li>
+          <li class="active">
+            <span>{{fileInView.name}}</span>
+          </li>
+        </ol>
+      </div>
+      <div class="row">
+        <div hljs hljs-source="fileInView.src" style="padding:10px;"></div>
+      </div>
+    </div>
+    <div class="col-md-11 col-md-offset-1" ng-if="mode == 'logs'">
+      <div ng-repeat="l in logs">
+        <div class="row fileList" style="padding:20px;border:solid 1px #eeeeee;{{logConfig.summaryInView==$index? 'background-color:#eeeeee;': ''}}" ng-click="showCommitSummary($index)">
+          <div class="col-md-1">
+            <img ng-src="{{-1 | getDP}}" class="img-circle" width="40" height="40"/>
+          </div>
+          <div class="col-md-3">
+            <div class="row">
+              {{l.committer.name}}
+            </div>
+            <div class="row">
+              {{l.committer.email}}
+            </div>
+          </div>
+          <div class="col-md-4">
+            {{l.message}}
+          </div>
+          <div class="col-md-2">
+            {{l.id.substring(l.id.length-10 , l.id.length)}}
+          </div>
+          <div class="col-md-1 text-center">
+            <span class="pull-right">{{l.date | date : 'hh:mm:a'}} </span><br>
+            <span class="pull-right">{{l.date | date : 'dd MMM'}}</span>
+          </div>
+          <div class="col-md-1">
+            <div class="btn-group btn-group-sm pull-right">
+              <button type="button" class="btn btn-default" ng-click="showCommitDiff($index);$event.stopPropagation();">
+                <i class="fa fa-code fa-lg"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="border:solid 1px #eeeeee;background-color:#fefefe" ng-if="logConfig.summaryInView == $index">
+          <div class="container-fluid" style="padding-left:70px;">
+            <div ng-repeat="(key , val) in l.files">
+              <div class="col-md-1">
+                <span class="label label-warning col-md-6">-{{val.deletions}}</span>
+                <span class="label label-success col-md-6">+{{val.insertions}}</span>
+              </div>
+              <div class="col-md-11">
+                {{key}}
+              </div>
+            </div>
+            <br>
+          </div>
+        </div>
+      </div>
+      <nav>
+        <ul class="pager">
+          <li ng-click="prevLogs()" ng-class="{disabled : logConfig.page == 0}">
+            <a href="">Previous</a>
+          </li>
+          <li ng-click="nextLogs()">
+            <a href="">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div class="row container-fluid" ng-if="mode == 'diff'">
+      <div ng-repeat="d in commit.diffs">
+        <div class="row bg-aqua container-fluid">
+          {{d.path}}
+        </div>
+        <div hljs hljs-source="d.diff" style="padding:0px;"></div>
+      </div>
+    </div>
+  </div>
+</div>

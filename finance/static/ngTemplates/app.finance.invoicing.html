@@ -1,0 +1,188 @@
+<style>
+  .status_input {
+    display: none
+  }
+  .flex-container {
+  display: flex;
+}
+
+
+.searchInpSales::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
+  }
+
+
+
+</style>
+<div class="container-fluid" style="padding:0px;">
+
+  <div class="col-md-2 " style="min-height:100vh;background:#EAEAEA;position:absolute;height:100vh;overflow:hidden;">
+
+    <div class="row" style="margin-top:20px;">
+      <div class="col-md-12">
+        <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
+      </div>
+    </div>
+
+    <div class="row" style="margin-top:20px;">
+      <div class="col-md-12 text-center">
+        <img src="/static/images/salesIcon.png" class="img" style="border-radius: 30px;" alt="" width="100px">
+
+        <h3> Sales </h3>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top:30px;">
+
+      <div  ng-repeat='a in filterOptions' style="">
+        <div class=" text-center" style="cursor:pointer;padding:10px;padding-top:20px;padding-bottom:20px;border-radius:0px;background-color:{{a.name == filters?'white':'#EAEAEA'}}"
+          ng-click="goTo(a.name)">
+
+          <span style="margin-top:10px;font-size:17px;">{{a.title}}  </span><span ng-if="a.count>0">({{a.count}})</span>
+
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-default " style="border : none !important;border-radius:10px !important;position: absolute;bottom: 80px;padding:15px;width: 88%;left: 15px;font-size:16px;" ng-click="$state.go('businessManagement.sales.invoice')">
+        New Invoice <img src="/static/images/icons8-plus-math-96.png" style="width:25px;margin-left:10px;" alt="">
+      </button>
+      <button type="button" class="btn btn-default " style="background: #e63d74;color: white;position: absolute;bottom: 13px;border : none !important;border-radius:10px !important;padding: 15px;width: 88%;left: 15px;font-size:16px;" ng-click="$state.go('businessManagement.sales.createSales')">
+        New Sale Order <img src="/static/images/icons8-plus-48.png" style="width:25px;margin-left:10px;" alt="">
+      </button>
+    </div>
+  </div>
+
+
+  <div class="col-md-10" style="background:#0E1C2C;position: absolute;right: 0px;padding:20px;height:100vh;overflow:auto;">
+
+
+
+    <div class="col-md-4 col-md-offset-4">
+      <div class="input-group" style="border : none !important;border-radius:10px !important;background:#E63D74 !important;padding:10px;padding-top:5px;padding-bottom:5px;">
+        <input type="text" class="form-control searchInpSales" placeholder="Search" ng-model="invoiceForm.ponumber" style="background:#E63D74 !important;border : none !important;color:white;" ng-enter="outboundInvoiceData()">
+        <div class="input-group-btn">
+          <button class="btn btn-default" style="background:#E63D74 !important;border : none !important;color:white;" type="submit" ng-click="outboundInvoiceData()">
+            <i class="glyphicon glyphicon-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-1 text-right">
+      <button type="button" style="border : none !important;border-radius:10px !important;background:#1E334C;color:white;padding:13px;padding-left:15px;padding-right:15px;" class="btn btn-sm btn-primary btn-block" ng-click="prevInvs()">Prev</button>
+    </div>
+    <div class="col-md-1 text-left">
+      <button type="button" style="border : none !important;border-radius:10px !important;background:#1E334C;color:white;padding:13px;padding-left:15px;padding-right:15px;" class="btn btn-sm btn-primary btn-block" ng-click="nextInvs()">Next</button>
+    </div>
+
+    <div class="col-md-2">
+      <button type="button" class="btn btn-default btn-block" style="border : none !important;border-radius:10px !important;background:#1E334C;color:white;" ng-click="download()">
+        Download <img src="/static/images/icons8-download-from-cloud-100.png" style="width: 35px;margin-left: 40px;" >
+      </button>
+    </div>
+
+
+    <div class="container-fluid">
+
+      <div class="row" style="margin-top:100px;color:white;font-size:20px;margin-bottom:10px;">
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-2">
+          Amount
+        </div>
+        <div class="col-md-2">
+          Paid
+        </div>
+        <div class="col-md-2">
+          Balance
+        </div>
+
+      </div>
+
+      <div class="row" style="margin-bottom:30px;color:white;background:#1E334C;margin-bottom:20px;border-radius:10px;padding-bottom:15px;" ng-repeat="po in InvoiceData" ng-click="$state.go('businessManagement.sales.explore',{id:po.pk});">
+        <div class="col-md-2">
+        <h3>  # {{po.pk}} </h3>{{po.poNumber}}
+        </div>
+        <div class="col-md-3">
+          <span style="font-size:20px;">{{po.name}}</span> <br>
+          <span style="font-size:20px;">{{po.personName}}</span>
+           <br>{{po.phone}}{{po.email}}
+        </div>
+        <div class="col-md-2">
+          <h3>{{po.total}}</h3>
+        </div>
+        <div class="col-md-2">
+          <h3>{{po.paidAmount}}</h3>
+        </div>
+        <div class="col-md-2">
+          <h2>{{po.balanceAmount}}</h2>
+        </div>
+        <div class="col-md-1" style="padding-top:15px;">
+          <div ng-if="$state.is('businessManagement.sales.SaleOrder')">
+            <span class="fa-stack" ng-if="!po.isPerforma&&po.isInvoice">
+              <span class="label label-default ng-scope" style="background-color:#27d52e">Invoice</span>
+            </span>
+            <span class="fa-stack" ng-if="!po.isPerforma&&!po.isInvoice">
+              <span class="label label-default ng-scope" style="background-color:var(--themeMain)">Sale Order</span>
+            </span>
+            <span class="fa-stack" ng-if="po.isPerforma&&po.isInvoice">
+              <span class="label label-default ng-scope" style="background-color:#ffffff;color:#000000">Performa</span>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+
+
+      <table class="table table-hover" style="display:none;">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>PO Number</th>
+            <th>Name</th>
+            <th>Person Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th ng-if="$state.is('businessManagement.sales.SaleOrder')" width="100px;">Type</th>
+            <th>Company</th>
+            <th style="cursor:pointer" ng-click="sortAmount.is_sort=!sortAmount.is_sort;outboundInvoiceData()"> <i ng-if="sortAmount.is_sort" class="fa fa-arrow-up"></i>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr >
+            <td ># {{po.pk}}</td>
+            <td >{{po.poNumber}}</td>
+            <td >{{po.name}}</td>
+            <td >{{po.personName}}</td>
+            <td >{{po.phone}}</td>
+            <td >{{po.email}}</td>
+            <td ng-if="$state.is('businessManagement.sales.SaleOrder')">
+              <span class="fa-stack" ng-if="po.isInvoice">
+                <span class="label label-default ng-scope" style="background-color:#27d52e">Invoice</span>
+              </span>
+              <span class="fa-stack" ng-if="!po.isInvoice">
+                <span class="label label-default ng-scope" style="background-color:var(--themeMain)">Sale Order</span>
+              </span>
+            </td>
+            <td ng-click="viewOutboundInv($index,po)">{{po.name}}</td>
+            <td ng-click="viewOutboundInv($index,po)" style="cursor:pointer">{{po.total}}</td>
+
+            <td>
+              <span  ng-if="!po.isInvoice" style="padding-right:15px;font-size:20px;" ng-click="$state.go('businessManagement.sales.editSales',{id:po.pk});$event.stopPropagation();"><i class="fa fa-pencil"></i></span>
+              <span ng-if="po.isInvoice" style="padding-right:15px;font-size:20px;" ng-click="$state.go('businessManagement.sales.editInvoice',{id:po.pk});$event.stopPropagation();"><i class="fa fa-pencil"></i></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+  </div>
+
+
+</div>

@@ -1,0 +1,177 @@
+<style media="screen">
+  .leftHead {
+    text-align: left !important;
+    padding-left: 70px !important;
+    font-size: 16px;
+  }
+
+  .rightHead {
+    font-size: 16px;
+  }
+
+  p {
+    margin: 0px !important;
+  }
+</style>
+
+
+<div class="container-fluid">
+  <div class="container-fluid" style="padding-left:0px;padding-right:0px;">
+    <div class="col-md-10" style="padding-left:0px;padding-right:0px;">
+      <div class="form-group">
+        <label>As On</label>
+        <div class="input-group">
+          <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.asOn" is-open="balDate.opened" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="balDate.opened = true;" ><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </div>
+        <!-- <p>{{asOn}}</p> -->
+      </div>
+
+    </div>
+    <div class="col-md-1" style="margin-top:25px;">
+      <a href="/api/finance/balancesheetpdf/" target="_blank"><span class="btn btn-default"><i class="fa fa-download"></i> Download</span></a>
+      <div class="btn-group">
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <!-- <img src="/static/images/balance-sheet-template.png" alt=""> -->
+  <div class="container-fluid" style="padding:30px;border:1px solid black;margin-bottom:30px;margin-top:30px;">
+    <div class="row" style="margin-bottom:20px;">
+      <div class="col-lg-6">
+        <h3 class="text-left" style="font-weight:600;color:black">{{balSheetData.compName}}</h3>
+
+      </div>
+      <div class=" col-lg-6 text-right">
+        <h3 style="font-weight:600;color:black">Balance Sheet</h3>
+        <p style="font-weight:600;color:black">Date: {{balSheetData.period}}</p>
+      </div>
+
+    </div>
+    <table class="table table-hover">
+      <tbody>
+        <tr style="background-color:#e1e1e1">
+          <th style="font-size:16px">Assets</th>
+          <th style="text-align:right;font-size:16px">{{balSheetData.period | date:'yyyy'}}</th>
+        </tr>
+        <tr style="background-color:#f2f2f2;">
+          <th style="font-size:16px;">Current Assets</th>
+          <th></th>
+        </tr>
+        <tr ng-repeat="CA in balSheetData.assets.cAssets">
+          <td class="leftHead">{{CA.title}}</td>
+          <td class="rightHead">{{CA.balance}}</td>
+        </tr>
+
+        <tr>
+          <td class="leftHead" style="text-align:right !important;">Total current assets</td>
+          <td class="rightHead" style="border-top:1px solid black !important;">{{balSheetData.assets.CAtotal}}</td>
+        </tr>
+        <tr style="background-color:#f2f2f2;">
+          <th style="font-size:16px;">Fixed (Long-Term) Assets</th>
+          <th></th>
+        </tr>
+        <tr ng-repeat="CA in balSheetData.assets.fixAssets">
+          <td class="leftHead">{{CA.title}}</td>
+          <td class="rightHead">{{CA.balance}}</td>
+
+        </tr>
+
+        <tr>
+          <td style="text-alig:right" class="rightHead">Total Fixed Assets</td>
+          <td class="rightHead" style="border-top:1px solid black !important;">{{balSheetData.assets.FATotal}}</td>
+        </tr>
+        <tr style="background-color:#f2f2f2;">
+          <th style="font-size:16px;">Other Assets</th>
+          <th></th>
+        </tr>
+        <tr ng-repeat="OA in balSheetData.assets.otherAssets">
+          <td class="leftHead">{{OA.title}}</td>
+          <td class="rightHead">{{OA.balance}}</td>
+        </tr>
+        <tr>
+          <td class="leftHead">Other</td>
+          <td class="rightHead"></td>
+        </tr>
+        <tr>
+          <td style="text-align:right" class="rightHead">Total Other Assets</td>
+          <td class="rightHead">{{ balSheetData.assets.OAssets}}</td>
+        </tr>
+        <tr>
+          <th style="font-size:16px">Total Assets</th>
+          <th style="text-align:right;font-size:16px;border-top:1px solid black !important;border-left:0px solid black;border-right:0px solid black;border-style:double !important">{{ balSheetData.assets.totalAssets}}</th>
+        </tr>
+        <tr style="background-color:#e1e1e1">
+          <th style="font-size:16px">Liabilities and Owner's Equity</th>
+          <th style="text-align:right;font-size:16px">{{balSheetData.period | date:'yyyy'}}</th>
+        </tr>
+        <tr style="background-color:#f2f2f2;">
+          <th style="font-size:16px;">Current Liabilities</th>
+          <th></th>
+        </tr>
+        <tr ng-repeat="CL in balSheetData.liabilities.Cliabilites">
+
+          <td class="leftHead"> {{CL.title}}</td>
+          <td class="rightHead">{{CL.balance}}</td>
+        </tr>
+
+        <tr>
+          <td style="text-align:right" class="rightHead">Total current liabilities</td>
+          <td class="rightHead" style="border-top:1px solid black !important;">{{balSheetData.liabilities.totalCL}}</td>
+        </tr>
+        <tr style="background-color:#f2f2f2;">
+          <th style="font-size:16px;"> Long-Term Liabilities</th>
+          <th></th>
+        </tr>
+        <tr ng-repeat="LTL in balSheetData.liabilities.ltLiabilities">
+          <td class="leftHead">{{LTL.title}}</td>
+          <td class="rightHead">{{LTL.balance}}</td>
+        </tr>
+        <!-- <tr>
+        <td class="leftHead">Deferred income tax</td>
+        <td class="rightHead"></td>
+      </tr> -->
+        <tr>
+          <td class="leftHead" style="text-align:right !important;">Total long-term liabilities</td>
+          <td class="rightHead" style="border-top:1px solid black !important">{{balSheetData.liabilities.totalLTL}}</td>
+        </tr>
+        <tr style="background-color:#f2f2f2;">
+          <th style="font-size:16px;">Owner's Equity</th>
+          <th></th>
+        </tr>
+        <tr ng-repeat="Equity in balSheetData.liabilities.ownerEquity">
+          <td class="leftHead">{{Equity.title}} </td>
+          <td class="rightHead">{{Equity.balance}}</td>
+        </tr>
+
+        <tr>
+          <td style="text-align:right" class="rightHead">Total owner's equity</td>
+          <td style="border-top:1px solid black !important;">{{balSheetData.liabilities.totalEquity}}</td>
+        </tr>
+        <tr>
+          <th style="font-size:16px">Total Liabilities and Owner's Equity</th>
+          <th style="text-align:right;font-size:16px;border-top:1px solid black !important;border-left:0px solid black;border-right:0px solid black;border-style:double !important">{{balSheetData.liabilities.totalLia}}</th>
+
+        </tr>
+        <tr style="background-color:#e1e1e1">
+          <th style="font-size:16px">Common Financial Ratios</th>
+          <th></th>
+        </tr>
+        <tr ng-repeat="Cr in balSheetData.commonRatios">
+          <td class="leftHead" style="padding-left:8px !important">
+            <p style="font-weight:600;">{{Cr.heading}} <span style="font-weight:normal">{{Cr.subheading}}</span></p>
+          </td>
+          <td class="rightHead">{{Cr.value}}</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>

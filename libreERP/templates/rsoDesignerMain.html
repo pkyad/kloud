@@ -1,0 +1,463 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html ng-app="app"  id="main">
+  <head>
+    <meta charset="utf-8">
+    <!-- <link rel="icon" type="image/jpg" href="https://www.syrow.com/wp-content/themes/Divi/images/favicon-32x32.png"> -->
+
+    <link rel="icon" type="image/jpg" href="{{BRAND_LOGO}}">
+    <title>Intent - {{title}}</title>
+    <meta name="viewport" content="initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" charset="utf-8">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" charset="utf-8">
+    <link rel="stylesheet" href="{% static 'css/angular-aside.min.css' %}" charset="utf-8">
+    <link rel="stylesheet" href="/static/css/angular-ui-switch.min.css" charset="utf-8">
+    <style media="screen">
+
+    .deleteBtnDiv{
+      height:20px;width: 20px;
+      background: url('/static/images/icons8-trash-128.png') no-repeat;
+      transition: all 0.5s ease;
+    }
+    .deleteBtnDiv:hover{
+      height:30px;width: 30px;
+      background: url('/static/images/icons8-trash-128-red.png') no-repeat;
+    }
+
+    input:focus, textarea:focus, select:focus{
+      outline: none;
+      box-shadow:none !important;
+    }
+    .modal-xl{
+        width:70%;
+    }
+
+    .draggable{
+      box-shadow: 0px 0px 20px rgba(176, 176, 176, 0.25);
+      border: 0.5px solid #ddd;
+      border-radius: 12px;
+      background:white;
+      transition: box-shadow 0.5s ease;
+    }
+    .draggable:hover{
+      box-shadow: 0px 0px 125px 5px rgba(0,0,0,0.2);
+    }
+    body{
+      background-attachment: scroll;
+      background-clip: border-box;
+      background-color: #eee;
+      /* background-image: linear-gradient(0deg,rgba(255, 255, 255, 0.8),rgba(255, 255, 255, 0.8)),url("/static/images/grid-new.png"); */
+      background-origin: padding-box;
+      background-position: 0% 0%;
+      background-position-x: 0%;
+      background-position-y: 0%;
+      background-repeat: repeat;
+      background-size: auto;
+    }
+    .paddingtop10{
+      padding-top:10px;
+    }
+
+    .circle-icon {
+      background: #3db94a;
+      padding: 9px;
+      border-radius: 50%;
+      color: white;
+      padding: 10px;
+      padding-left: 17px;
+      padding-right: 17px;
+      position: absolute;
+      left: 34%;
+      top: -22px;
+    }
+    .msgInput{
+      transition: font-size 0.5s ease;
+      border-radius:10px !important;
+    }
+    .msgInput:focus , .msgInput:hover{
+      font-size:17px;
+    }
+
+    /* #chatBox{
+        height:100vh !important;
+        bottom:0px !important;
+        right:0px !important;
+        border-radius: 0px !important;
+        width:30% !important;
+        box-shadow : none !important;
+        border-left:solid 2px #eee;
+    }
+    #chatBox_header{
+      border-radius: 0px !important;
+    } */
+
+    .btn-primary{
+      color: #337ab7;
+      border: solid 1px #337ab7 !important;
+      background: white;
+      border-radius:0px;
+    }
+    .btn-primary:hover{
+      color: white;
+      border: solid 1px #337ab7 !important;
+      background: #337ab7 ;
+    }
+
+    /* .arrowDirection:hover{
+      transition : font-size 16px;
+    } */
+
+    /* .arrowDirection{
+
+    } */
+
+    .dropdown-menu > li > a{
+      padding:10px;
+    }
+
+    .bubbleInput , .bubbleInput:hover , .bubbleInput:focus {
+      border:none;
+      box-shadow: none;
+    }
+
+    #aceEditor, #aceEditor2, #aceEditorPreValidator , #aceEditorValidator {
+     width: 100%;
+     height: 300px;
+     border-top:solid 2px #eee;
+     border-bottom:solid 2px #eee;
+    }
+
+    .runOn:hover{
+      cursor: pointer;
+    }
+    .testDropdown, .testDropdown:active , .testDropdown:focus, .testDropdown:hover {
+      background:#f7f7f7 !important;
+      color:black !important;
+      border:none !important;
+      border-left:solid 1px #eee !important;
+    }
+
+    /* .toggleHolder .switch{
+      background: #4c616b;
+    } */
+
+
+    #eaiLogo {
+
+    -webkit-animation: breathing 1s ease-out infinite normal;
+    animation: breathing 1s ease-out infinite normal;
+    -webkit-font-smoothing: antialiased;
+    }
+
+
+    @-webkit-keyframes breathing {
+      0% {
+        -webkit-transform: scale(0.9);
+        transform: scale(0.9);
+      }
+
+      25% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+      }
+
+      60% {
+        -webkit-transform: scale(0.9);
+        transform: scale(0.9);
+      }
+
+      100% {
+        -webkit-transform: scale(0.9);
+        transform: scale(0.9);
+      }
+    }
+
+    @keyframes breathing {
+      0% {
+        -webkit-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+        transform: scale(0.9);
+      }
+
+      25% {
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+      }
+
+      60% {
+        -webkit-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+        transform: scale(0.9);
+      }
+
+      100% {
+        -webkit-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+        transform: scale(0.9);
+      }
+    }
+
+    .ChatBoxDiv{
+      z-index:1 !important;
+    }
+
+
+    </style>
+  </head>
+  {% verbatim %}
+  <body ng-controller="main" ng-mousemove="mouseMoved($event)" >
+
+    <div style="position:fixed;width:100%;height:100vh;padding-top:300px;z-index:1;" class="container-fluid text-center" id="loader">
+
+      <img id="eaiLogo" src="/static/images/eai.png" alt="">
+
+    </div>
+
+    <div class="container-fluid" style="padding:20px;background:#f41919;color:white;width:35%;margin-left:30px;z-index: 3;position:fixed;bottom:30px;border-radius:20px;" ng-click="openErroMsg($event)" ng-if="showErrorMsg">
+      <div class="col-md-10">
+        {{errorMsg}}
+      </div>
+      <div class="col-md-2 text-right">
+        <i class="fa fa-times fa-lg" ng-click="closeErrorMsg($event)"></i>
+      </div>
+    </div>
+
+
+
+
+    <div class="row" style="height:50px;background:#f7f7f7;border-bottom:solid 2px #e1e1e1;margin:0px;position:fixed;width:100%;top:0px;z-index: 2;">
+      <div class="container-fluid" style="padding-right:0px;">
+        <div class="col-md-4">
+          <img src="/static/images/epsilonai_logo_dark.svg" style="height:30px;margin: 7px;" alt="">
+        </div>
+
+        <div class="col-md-4" style="padding-top: 7px;">
+          <span style="font-size: 18px;"> <strong>{{parentNode.name}}</strong> </span>
+        </div>
+
+        <div class="col-md-4" style="padding:0px;">
+          <div class="col-md-6 toggleHolder text-right" style="padding-top:5px;">
+            <div class="col-md-6" style="padding-top:5px;">
+              Auto Play
+            </div>
+            <div class="col-md-6">
+              <switch ng-model="autoPlay" class="neutral pull-right" ng-change="saveAutoPlay"></switch>
+            </div>
+
+          </div>
+
+          <div class="col-md-6" style="padding:0px;">
+            <div class="pull-right">
+              <div ng-click="playOnWeb()" style="background:#f7f7f7;height: 48px;padding: 10px;margin-right: 35px;cursor:pointer;padding-left:20px;padding-right:20px;">
+                <strong><i class="fa fa-play" style="margin-right:20px;"></i>  Test Your Bot</strong>
+              </div>
+              <div class="dropdown" style="position:absolute;right:0px;top:0px;">
+                <button class="btn btn-primary dropdown-toggle testDropdown" type="button" data-toggle="dropdown" style="height:48px">
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" style="position: fixed;right: 0px;top: 48px;width: 200px;left: unset;">
+                  <li ng-click="playOnDevice('android')"><a href="#"><span class="runOn" >Test on Android
+                  <img class="pull-right"  style="height:5vh;margin-left:10px;" src="/static/images/tech/android.png" alt=""></span></a></li>
+                  <li ng-click="playOnDevice('ios')"><a href="#"><span class="runOn" >Test on iPhone
+                  <img class="pull-right"  style="height:5vh;margin-left:10px;" src="/static/images/apple.png"  alt=""></span></a></li>
+
+
+                  <li ng-click="playOnDevice('whatsappTest')"><a href="#"><span class="runOn" >Test on WhatsApp
+                  <img  class="pull-right" style="height:5vh;margin-left:10px;" src="/static/images/whatsapp.png"  alt=""></span></a></li>
+
+
+                </ul>
+              </div>
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="min-height:200vh;margin:0px;" ng-mouseup="mouseUpShowOptions($event)" ng-click="clickingAnywhere()">
+      <div class="container-fluid">
+
+        <span class="dropdown" style="cursor:pointer;position:absolute;top:{{liveConnector.optx}}px;left:{{liveConnector.opty}}px;z-index:1000;color:black;"  >
+
+          <span class="dropdown-toggle" id="optionsDropdown" data-toggle="dropdown"></span>
+
+          <ul class="dropdown-menu" style="padding:0px;border-radius:0px;z-index:10000 !important;">
+            <li role="menuitem" ng-if="parentNode.type == 'FAQ'" ng-click="addBlock($index , $event , 'resume')"><a href=""> Resume </a></li>
+            <li role="menuitem" ng-click="addBlock($index , $event , 'getInput')"><a href=""> Ask Custom Input</a></li>
+
+            <li role="menuitem" ng-click="addBlock($index , $event , 'getName')"><a href=""> Ask Name</a></li>
+
+            <li role="menuitem" ng-click="addBlock($index , $event , 'getEmail')"><a href="">Ask Email ID</a></li>
+
+            <li role="menuitem" ng-click="addBlock($index , $event , 'getMobile')"><a href=""> Ask Mobile Number</a></li>
+
+            <li role="menuitem" ng-click="addBlock($index , $event , 'giveChoices')"><a href=""> Give Choices</a></li>
+
+            <li role="menuitem" ng-click="addBlock($index , $event , 'sendMessage')"><a href="">Send Message</a></li>
+
+            <li role="menuitem" ng-click="addBlock($index , $event , 'invokeUiPath')"><a href=""> Invoke UiPath Process</a></li>
+
+            <li role="menuitem" ng-click="addBlock($index , $event , 'getFile')"><a href=""> Request File</a></li>
+
+            <li role="menuitem" ng-click="addBlock($index , $event , 'runPython')"><a href=""> Run Python Code</a></li>
+
+            <li role="menuitem" ng-click="addBlock($index , $event , 'askForPermission')"><a href=""> Ask for permission </a></li>
+
+            <!-- <li role="menuitem" ng-click="addBlock($index , $event , 'addCondition')"><a href=""> Add Condition</a></li> -->
+
+            <li role="menuitem" ng-click="addBlock($index , $event , 'end')"><a href="">  End Conversation</a></li>
+
+            <li role="menuitem" ng-click="addBlock($index , $event , 'transfer')"><a href=""> Transfer Chat To Human</a></li>
+          </ul>
+        </span>
+
+        <div ng-init="b.hovering=false;" ng-mouseenter="b.hovering=true;" ng-mouseleave="b.hovering=false;" ng-repeat="b in blocks" id="draggable{{b.id}}" class="ui-widget-content draggable" style="width:{{ b.parent!= null && b.blockType != 'end' && b.blockType != 'resume' ? '290px':'150px'}}; position:absolute;z-index:1;cursor:pointer;" >
+
+
+          <div ng-repeat="connect in b.connections"  ng-if="connect.to == null" style="height: 0;width: 20px;border: 2px dotted;background: transparent !important;color: {{colors[$index]}};position:absolute;top:{{5+ 30*$index}}px;right:-20px;">
+            <div style="width: 20px;height: 20px;top: -10px;right: -20px;position: absolute;background:{{colors[$index]}};color:white;border-radius:10px;" class="text-center" ng-click="startConnector($event , b , connect , colors[$index] , $index , $parent.$parent.$index );connect.show = false;">
+              <i class="fa fa-plus"></i>
+            </div>
+
+          </div>
+
+          <div ng-click="openProperties($index , true)" style="background:{{b.backgroundColor}};padding-bottom:10px;border-radius: 12px;">
+            <div class="row " style="margin:0px;min-height:40px;">
+
+              <span class="circle-icon" ng-if="b.parent == null">
+                <i class="fa fa-flag fa-2x" style="font-size: 20px;"></i>
+              </span>
+
+              <span class="circle-icon" ng-if="b.blockType == 'end' || b.blockType == 'resume' " style="background:{{b.color}};color:white;">
+                <i class="fa fa-map-pin fa-2x" style=""></i>
+              </span>
+
+              <i class="fa fa-arrows fa-lg handle" title="Drag to change position" style="cursor:grabbing;margin:5px;color:{{b.color}}" ng-click="$event.stopPropagation()"></i>
+
+              <span class="dropdown" ng-if="b.blockType == 'sendMessage'" style="cursor:pointer;position:absolute;bottom:10px;left:15px;z-index:1000;color:{{b.color}}"  >
+
+                <span class="dropdown-toggle" ng-click="getVariables()" data-toggle="dropdown">variables</span>
+
+                <ul class="dropdown-menu" >
+                  <li ng-repeat="choice in liveConnector.variables">
+                    <a href ng-click="addVariableToMessage(choice , $parent.$index)">{{choice}}</a>
+                  </li>
+                </ul>
+
+              </span>
+
+              <!-- liveConnector.variables -->
+
+
+              <div style="cursor:pointer;position:absolute;bottom:10px;right:10px;z-index:1000;background-size: contain;" ng-click="delete($index);$event.stopPropagation()" class="deleteBtnDiv"  ng-if="b.parent != null ">
+              </div>
+
+              <img class="pull-right" ng-if="b.icon" src="{{b.icon}}" style="height:35px;border-radius: 20%;margin:5px;" alt="">
+
+              <span ng-if="!b.icon && b.parent != null && b.blockType != 'end' && b.blockType != 'resume' && b.blockType != 'sendMessage'" class="pull-right" style="padding:10px;padding-top:4px;padding-bottom:4px;background:{{b.color}};color:white;border-radius:12px;margin:5px;letter-spacing: 0.2px;"> {{b.label}}</span>
+
+              <span ng-if="b.blockType == 'sendMessage'" class="pull-right" style="padding:10px;padding-top:4px;padding-bottom:4px;background:{{b.color}};color:white;border-radius:12px;margin:5px;letter-spacing: 0.2px;"> Send Message</span>
+
+            </div>
+            <div class="row" style="margin:0px;padding-bottom:10px;">
+              <div class="container-fluid {{b.parent == null || b.blockType == 'end' || b.blockType == 'resume' ? 'text-center': ''}}" ng-if="b.blockType != 'sendMessage'">
+                <span style="font-size: 14px;font-weight: bold;color: #26344a;">
+                  <span ng-if="b.parent != null">{{b.name}}</span>
+                  <span ng-if="b.parent == null && b.blockType != 'end'">Start</span>
+                  <span ng-if="b.blockType == 'end'">End</span>
+                  <span ng-if="b.blockType == 'resume'">Resume</span>
+                </span> <br>
+
+                <span ng-if="b.parent != null && b.blockType != 'invokeUiPath'" class="text-muted" style="word-break: break-word;font-size: 12px;font-style: italic;letter-spacing: 0.3px;color: #26344a;">
+                   <span>{{b.description}}  <strong ng-if=" ['getInput' , 'getName' , 'getFile' , 'getEmail' , 'getMobile' , 'giveChoices'].indexOf(b.blockType) != -1"> : {{b.context_key}}</strong>  </span>
+                 </span>
+              </div>
+
+              <div ng-if="b.blockType == 'sendMessage'" class="container-fluid">
+                <textarea ng-model="b.auto_response" name="name" class="form-control msgInput" rows="3" cols="80" ng-blur="saveMessage(b)" style="margin-bottom:20px;resize: none;border-radius:0px;"></textarea>
+              </div>
+
+
+            </div>
+
+            <div class="row" ng-if="b.connections.length >1" style="margin:0px;margin-top:10px;" ng-repeat="connect in b.connections">
+              <div class="col-md-2" >
+                <div style="width: 20px;height: 20px;background:{{colors[$index]}};color:white;border-radius:10px;" class="text-center">
+                  <span>{{$index+1}}</span>
+                </div>
+              </div>
+              <div class="col-md-10" style="padding:0px;">
+                 On <span ng-if="connect.callbackName != 'option'">{{connect.callbackName}}</span><span ng-if="connect.callbackName == 'option'">{{connect.condition}}</span>
+              </div>
+            </div>
+
+            <div class="row" ng-if="b.parent != null && b.blockType == 'invokeUiPath'" style="margin: 0px;padding-top: 17px;">
+              <span ng-click="openUIPathConfig();$event.stopPropagation()"  class="text-muted" style="word-break: break-word;font-size: 12px;letter-spacing: 0.3px;color: #26344a;margin-left: 19px;">
+                 <i class="fa fa-cogs"></i> Open UiPath Settings
+               </span>
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+
+        <div ng-if="liveConnector.showdelete" style="padding:4px;padding-left:10px;padding-right:10px;background:black;color:white;position:absolute;border-radius:30px;left:{{liveConnector.deletex}}px;top:{{liveConnector.deletey}}px;cursor:pointer;z-index:100;" ng-click="deleteConnection()">Delete  <i class="fa fa-times"></i> </div>
+
+        <div id="liveConnector" ng-if="liveConnector.active">
+          <div style="height:{{liveConnector.h}}px;width:{{liveConnector.w}}px;border:solid 2px {{liveConnector.color}};position:absolute;top:{{liveConnector.y1}}px;left:{{liveConnector.x1}}px;
+          {{ liveConnector.b11? '':'border-top:none' }}; {{ liveConnector.b12? '':'border-right:none' }}; {{ liveConnector.b13? '':'border-bottom:none' }}; {{ liveConnector.b14? '':'border-left:none' }};border-{{liveConnector.br1}}-radius:{{liveConnector.h/5}}px;z-index: -1 !important;">
+          </div>
+
+          <i class="fa fa-caret-right fa-2x" style="position:absolute;top:{{liveConnector.connecty}}px;left:{{liveConnector.connectx-5}}px;color:{{liveConnector.color}};transform: rotate({{liveConnector.deg}}deg);z-index: -1 !important;"></i>
+
+
+          <div style="height:{{liveConnector.h}}px;width:{{liveConnector.w}}px;border:solid 2px {{liveConnector.color}};position:absolute;top:{{liveConnector.y2}}px;left:{{liveConnector.x2}}px;
+          {{ liveConnector.b21? '':'border-top:none' }}; {{ liveConnector.b22? '':'border-right:none' }}; {{ liveConnector.b23? '':'border-bottom:none' }}; {{ liveConnector.b24? '':'border-left:none' }};border-{{liveConnector.br2}}-radius:{{liveConnector.h/5}}px;z-index: -1 !important; ">
+
+          </div>
+        </div>
+
+        <div ng-repeat="b in blocks" >
+          <div ng-repeat="c in b.connections" ng-if="c.to != null " id="connector{{b.id}}-{{c.to}}" style="position:absolute;border-radius:10px;z-index:0;border-color:{{colors[$index]}};border-width:2px;" ng-click="checkConnectionSelection($event , $index , $parent.$parent.$index , c)" >
+            <i class="fa fa-caret-right fa-2x arrowDirection" id="arrow{{b.id}}-{{c.to}}" style="position:absolute;color:{{colors[$index]}};"></i>
+            <!-- <span id="label{{b.id}}-{{c.to}}" style="position:absolute;color:{{c.color}};width:40px;">{{c.label}}</span> -->
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    {% endverbatim %}
+
+    <script type="text/javascript">
+      var USER = '{{request.user.username}}';
+      var WS_SERVER = '{{WS_SERVER}}';
+      var INTENT_ID = '{{ID}}';
+      var COMPANY_PK = '{{COMPANY_PK}}';
+      var COMPANY_PROFILE = '{{COMP_PROFILE_PK}}';
+    </script>
+
+    <script src="/script/chatter-{{API_KEY}}.js?debugger=1"></script>
+    <script src="{% static 'js/autobahn.min.js' %}"></script>
+    <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+    <script src="{% static 'js/jquery.cookie-1.4.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/angular.min.js' %}"></script>
+    <script src="/static/js/angular-ui-switch.min.js"></script>
+    <script src="{% static 'js/ui-bootstrap-tpls-0.14.3.min.js' %}"></script>
+    <script src="{% static 'js/angular-aside.min.js' %}"></script>
+    <script src="{% static 'js/rsoDesignerMain.js' %}"></script>
+    <script src="{% static 'js/ace.js' %}"></script>
+    <script src="{% static 'js/ace/ext-language_tools.js' %}"></script>
+  </body>
+</html>

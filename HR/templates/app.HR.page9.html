@@ -1,0 +1,434 @@
+{% extends 'base.html' %}
+
+{% block specific_css %}
+  <style media="screen">
+    body{
+      background-color:#e5e5e5
+      overflow-x:hidden;
+      font-family:'Roboto'
+    }
+    #page9bgImg{
+      background-image:url('/static/images/page9bgImg.png');
+      height: 620px;
+      margin-bottom:100px;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      margin-bottom: 250px
+
+    }
+
+    #page9bgImg #twoDivs{
+      margin-top:50px;
+    }
+    #page9bgImg #twoDivs span{
+      font-size:50px;
+      font-weight:700;
+      line-height:58.59px;
+      color:white;
+;
+    }
+    #page9bgImg #twoDivs p{
+      font-size:40px;
+      font-weight:300;
+      line-height:58.59px;
+      color:white;
+;
+    }
+    #page9bgImg #twoDivs button{
+      background:white;
+      color:#6136C9;
+      border:2px solid  white;
+
+      font-size:22px;
+      font-weight:400;
+      line-height:25px;
+
+      margin-top:50px;
+      height:50px;
+      border-radius:50px;
+    }
+    #page9bgImg img{
+      padding:30px 0px;
+    }
+
+
+#page9Div2{
+  margin-bottom:100px
+}
+#page9Div2 span {
+font-weight:700;
+font-size:28px;
+color:#3C1C67;
+
+}
+#page9Div2 p {
+font-weight:400;
+font-size:18px;
+color:#3C1C67;
+}
+#page9Div2 #box1{
+  box-shadow: 0px 0px 5px 0px #ccc;
+  padding:65px 15px;
+  margin-bottom:50px;
+  border-radius:10px;
+  background-color:white;
+}
+#page9Div2 #box2{
+  box-shadow: 0px 0px 5px 0px #ccc;
+  padding:65px 15px;
+  margin-bottom:50px;
+  border-radius:10px;
+  background-color:white;
+}
+#page9Div2 #box3{
+  box-shadow: 0px 0px 5px 0px #ccc;
+  padding:65px 15px;
+  margin-bottom:50px;
+  border-radius:10px;
+  background-color:white;
+}
+#page9Div2 #box1 img{
+  padding: 10px;
+  background:#E91E21;
+  position: absolute;
+  top: -10%;
+  left: 45%;
+}
+#page9Div2 #box2 img{
+  padding: 10px;
+  background:#172D79;
+  position: absolute;
+  top: -10%;
+  left: 45%;
+}
+#page9Div2 #box3 img{
+  padding: 10px;
+  background:#E91E21;
+  position: absolute;
+  top: -10%;
+  left: 45%;
+}
+#downloadDiv{
+  background: linear-gradient(95.79deg, #3D2678 3.52%, #4A1389 95.01%);
+
+  border-top-left-radius:50px;
+  border-top-right-radius:50px;
+  height:500px;
+  margin-bottom:70px;
+}
+#downloadDiv #downloadBtn{
+  color:white;
+  border:2px solid white;
+  background-color:transparent;
+  height:60px;
+  border-radius:50px;
+  margin-top:20px;
+}
+#downloadDiv p{
+  font-size:50px;
+  font-weight:700;
+  line-height:58.59px;
+  color:white;
+  margin-top:100px;
+}
+#downloadBtn > i{
+  font-size:30px;
+}
+#downloadDiv #twoBoxes{
+  padding-top:50px;
+}
+#page9Div4{
+  margin-bottom:70px;
+
+}
+#page9Div4 p {
+  font-size:20px;
+  color:#5e5e5e;
+  font-weight:normal;
+}
+#page9Div4 span {
+  font-size:22px;
+  color:#5e5e5e;
+  font-weight:700;
+}
+#page9Div4 h6 img{
+  height: 80px;
+  width: 80px;
+  border: 3px solid  #3D2678;
+  border-radius: 50%;
+
+}
+#page9Div4 h6 i{
+  font-size: 60px;
+  padding-right: 15px;
+  color:#c8c8c8
+
+}
+#page9Div3 span{
+  font-size:40px;
+  font-weight:700;
+  color: #6136C9;
+
+}
+#page9Div3 p{
+  font-size:20px;
+  font-weight:normal;
+  color: #6136C9;
+
+}
+#page9Div3 img{
+  width:100%;
+  height:600px;
+}
+#page9Div3 #laptopText{
+  margin-top:150px;
+}
+.no_padding{
+  padding:0px;
+}
+#downloadDiv #firstBox{
+  background:white;box-shadow:0px 0px 10px 0px #ccc;border-radius:42px;height:450px;z-index:999;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  bottom:0px;
+  /* margin-top:50px; */
+
+}
+#downloadDiv #secondBox{
+  background:white;box-shadow:0px 0px 10px 0px #ccc;border-radius:42px;height:380px;
+  position: absolute;
+  right: 25%;
+  bottom: 0;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+#page9bgImg #columnBgimg{
+  background-image: url('/static/images/page9mobile.png');
+
+  background-position: center;
+
+  height: 780px;
+
+  background-repeat:no-repeat;
+  background-size: 210% 150%;
+}
+#page9bgImg #faLeft{
+  padding:10px;
+  background-color:#4A1389;
+  width: 40px;
+  height: 40px;
+  color:white;
+  font-size: 20px;
+  border-radius: 50%;
+}
+
+#page9bgImg #faRight{
+  padding:10px;
+  background-color:#4A1389;
+  width: 40px;
+  height: 40px;
+  color:white;
+  font-size: 20px;
+  border-radius: 50%;
+}
+#page9bgImg #columnBgimg span {
+  position: absolute;
+  right: 170px;
+  bottom: 30%;
+
+}
+#page9Div3 #laptop{
+  background:url('/static/images/laptop.svg');
+  background-size:contain;
+  background-repeat:no-repeat;
+  height: 600px;
+}
+@media only screen and (min-device-width : 320px) and (max-device-width : 600px) {
+  #downloadDiv{
+    height:580px;
+  }
+  #page9bgImg #columnBgimg span {
+    position: absolute;
+    right: 10px;
+    bottom: 40%;
+
+  }
+  #downloadDiv p{
+    padding-top:30px;
+    font-size:30px;
+    margin-top:0px;
+  }
+  #downloadDiv #firstBox{
+    height:300px;
+    bottom:6px;
+    /* margin-top:53px; */
+  }
+  #downloadDiv #secondBox{
+    height: 257px;
+    margin-left: 0%;
+    right: 0px;
+    bottom:6px;
+    /* margin-top: 25%; */
+    border-top-left-radius: 0px;
+  }
+  #page9Div2{
+    margin-bottom:30px;
+  }
+  #page9Div3 img{
+    height:300px
+  }
+  #page9Div3 {
+    height:30px
+  }
+  #page9Div3 #laptopText{
+
+    margin-top:30px;
+    margin-bottom:30px;
+  }
+  #downloadDiv p{
+    margin-top:10px;
+  }
+  #page9bgImg #page9Div1{
+    background-image:none;
+  }
+  #page9bgImg #columnBgimg{
+    background-image: url('/static/images/page9mobile.png');
+
+    background-position: center;
+
+    height: 500px;
+
+    background-size: cover;
+    background-repeat:no-repeat;
+  }
+
+}
+  </style>
+
+
+{% endblock %}
+
+
+{% block content %}
+
+<!-- {% load static %}
+  <img src="{% static   'vectors/page9bgImg.svg' %}" alt=""> -->
+  <div class="container-fluid no_padding" id="page9bgImg">
+    <div class="col-md-10 col-md-offset-1" id="page9Div1">
+      <!-- <div ><div class="content">text</div></div> -->
+      <div >
+        <div >
+        <img src="/static/images/zigmasmall.svg" alt="" >
+        </div>
+        <div class="row" >
+          <div class="col-md-6" id="twoDivs">
+            <span>APP Name</span>
+            <p>Descriptions</p>
+            <div class="col-md-4 no_padding">
+              <button type="button" class="btn btn-block" name="button">Read More</button>
+
+            </div>
+          </div>
+          <div class="col-md-6 text-center" id="columnBgimg">
+            <div class="" >
+              <span>
+                <i class="fa fa-caret-left" id="faLeft" aria-hidden="true"></i>
+                <i class="fa fa-caret-right" id="faRight" aria-hidden="true"></i>
+
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="container-fluid no_padding">
+    <div class="col-md-10 col-md-offset-1" id="page9Div2">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="" id="box1">
+            <div class="text-center">
+              <img src="/static/images/scalable.png" alt="">
+            </div>
+            <span>Scalable</span>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="" id="box2">
+            <div class="text-center">
+              <img src="/static/images/integrable.png" alt="">
+            </div>
+            <span>Scalable</span>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="" id="box3">
+            <div class="text-center">
+              <img src="/static/images/scalable.png" alt="">
+            </div>
+            <span>Scalable</span>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <div class="col-md-10 col-md-offset-1" id="page9Div3">
+      <div class="col-md-8 col-xs-12">
+        <div class="" id="laptop">
+
+        </div>
+      </div>
+      <div class="col-md-4 col-xs-12" id="laptopText">
+        <span>Scalable</span>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  </p>
+      </div>
+    </div>
+
+    <div class="col-md-10 col-md-offset-1" id="page9Div4">
+      <div class="col-md-6 col-md-offset-3 text-center">
+        <h6><i class="fa fa-quote-left"></i> <img src="/static/images/userIcon.png" alt=""></h6>
+        <p>“It has been an absolute pleasure dealing with Scan during the lockdown. Our church began to livestream our services, and Scan had a great selection of hardware....”</p>
+        <span>Judfy Dowson</span>
+      </div>
+    </div>
+
+    <div class="col-md-10 col-md-offset-1 col-xs-12 " id="downloadDiv">
+      <div class="col-md-11 col-md-offset-1 no_padding  " >
+        <div class="col-md-5 col-xs-12 text-left ">
+          <p>Download APP for your device</p>
+          <div class="col-md-6 no_padding">
+            <button type="button" name="button" class="btn btn-block" id="downloadBtn"><i class="fa fa-cloud-download" aria-hidden="true"></i></button>
+
+          </div>
+
+        </div>
+        <div class="col-md-7 col-xs-12  no_padding" id="twoBoxes">
+          <div class="col-md-5 col-xs-7" id="firstBox">
+
+          </div>
+          <div class="col-md-6 col-xs-5" id="secondBox">
+
+          </div>
+
+      </div>
+
+      </div>
+    </div>
+
+  </div>
+
+{% endblock %}
+
+{% block footer %}
+
+{% include 'app.HR.pagefooter.html'%}
+
+{% endblock %}

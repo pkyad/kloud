@@ -1,0 +1,82 @@
+<div class="modal-header bg-black text-center">
+  <h3 class="modal-title" ng-if="mode == 'edit'">Edit Account Of : <strong>{{form.title}}</strong></h3>
+  <h3 class="modal-title" ng-if="mode == 'new'">Create A New Account</h3>
+</div>
+
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row" >
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Petty Cash Account ?</label> <input type="checkbox" ng-model="form.personal">
+        </div>
+      </div>
+    </div>
+    <div class="" ng-if="!form.personal">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Friendly Name</label>
+            <input type="text" class="form-control" ng-model="form.title">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Bank Name</label>
+            <input type="text" class="form-control" ng-model="form.bank">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Account Number</label>
+            <input type="text" class="form-control" ng-model="form.number">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>IFSC Code</label>
+            <input type="text " class="form-control" ng-model="form.ifsc">
+          </div>
+        </div>
+      </div>
+      <div class="row" style="margin:0px">
+        <div class="form-group">
+          <label>Bank Branch / Address</label>
+          <textarea name="name" ng-model="form.bankAddress" class="form-control" rows="3"></textarea>
+        </div>
+
+      </div>
+      <div class="row" style="margin:0px">
+        <div >
+          <div class="form-group">
+            <label>Balance</label>
+            <input type="number" class="form-control" ng-model="form.balance" min="0">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" ng-if ='form.personal'>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" class="form-control" ng-model="form.title">
+        </div>
+      </div>
+
+      <div class="col-md-6" >
+        <div class="form-group">
+          <label>Opening Balance</label>
+          <input type="number" class="form-control" ng-model="form.balance" min="0">
+        </div>
+      </div>
+    </div>
+
+    <users-field url="/api/HR/userSearch/" data="form.authorizedSignaturies" col="4" label=" Authorized Signatories " ></users-field>
+    <!-- <user-field url="/api/HR/userSearch/" user="form.contactPerson" ng-if="form.personal" label="Owner"></user-field> -->
+    <div class="col-md-12 text-center">
+      <button type="button" class="btn btn-primary" ng-click="saveAccount()">Save</button>
+    </div>
+  </div>
+</div>

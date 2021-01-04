@@ -1,0 +1,384 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>e-Signature</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" charset="utf-8">
+        <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" charset="utf-8">
+        <style>
+            .whiteInputField {
+                border-radius: 10px !important;
+                border: none !important;
+                padding: 25px;
+            }
+            .btnPreview{
+                background: #461482;
+                color: white;
+                bottom: 20px;
+                border: none !important;
+                border-radius: 64px !important;
+                padding: 17px;
+                width: 112px;
+                font-size: 16px;
+                z-index: 10;
+                box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;
+            }
+            .contentSection p{
+                margin-top:20px;
+            }
+        </style>
+    </head>
+    <body ng-app="app" ng-controller="main" style="background:#f2f3f7;padding-left:15px;padding-right:15px;">
+        {% verbatim %}
+
+            
+            <div class="row" style="position:fixed;z-index:1;width:100%;top:0px;height:100px;background:rgba(48, 55, 95, 0.94)">
+                <div class="col-md-6" style="padding:20px;">
+                    <h3 style="color:white">E-Signature</h3>
+                </div>
+                <div class="col-md-6 text-right" style="padding:10px;">
+                    <h4 style="color:white">Document ID : 32323g2j3hj23-323hjh3j23-323hj3</h4>
+                    <h3 style="color:white">Offer Letter</h3>
+                </div>
+            </div>
+
+
+            
+            <div class="row">
+                <div style="background:white;min-height:400vh;padding:80px;padding-top:150px;font-size:20px;" class="col-md-8 col-md-offset-2 contentSection">
+                    
+                    <div class="row text-right">
+                        <img src="https://epsilonai.com/static/images/epsilonai_logo_dark.svg" style="height:50px;">
+                    </div>
+
+
+                    <p>Pradeep Yadav</p>
+                    <p>Bangalore</p>
+
+                    
+                    <div class="row text-center">
+                        <strong>Offer Letter</strong>
+                    </div>
+                    
+                    <p>Dear Mr. Pradeep, <br> <br>
+                        This has reference to your interest in taking up a full-time employment with <strong>CIOC FMCG PVT LTD</strong>
+                    </p>
+
+                    <p>
+                        We are pleased to welcome you to <strong>CIOC FMCG PVT LTD</strong> team in Bangalore, as a Senior Software Engineer – Technology Team with a joining date of 17-Aug-2020 as per below mentioned terms. You will be reporting to the Lead Engineer or any other person authorized by him.
+                    </p>
+
+                    <p><strong>1. Position</strong></p>
+
+                    <p>1.1. You will be employed with the Technology team. In addition to your usual duties, you will also
+                        perform, observe and conform to such directions and instructions assigned or communicated to
+                        you by the Company. As a member of an organization that practices flexibility and continuous
+                        improvement in work processes and practices, the Company may from time to time change your
+                        duties and responsibilities at its sole discretion.</p>
+
+                    <p><strong>2. Location</strong></p>
+
+                    <p>2.1 You will be based at the Company’s office at Bangalore.</p>
+
+                    <p>2.2 The Company reserves the right to transfer you at any time to any other location in India or
+                        abroad, and/or to a branch office, subsidiary, affiliate company, department or establishment of
+                        the Company, whether in existence on the date of this letter or established or acquired later,
+                        provided that the terms and conditions of your employment set forth herein are not adversely
+                        affected by such transfer. The Company further reserves the right, subject to applicable laws, to
+                        transfer your employment to any other company or legal entity, as part of any transfer of relevant
+                        business of the Company or as part of any restructuring or amalgamation or re-organization plan
+                        implemented by the Company or by which the Company is bound.</p>
+
+                    
+                    <p><strong>3. Compensation and Benefits</strong></p>
+
+                    <p>3.1. Your gross compensation shall be as set out in Annexure A annexed hereto and will be subject
+                        to all statutory deductions that the Company is required to make.</p>
+
+                    <p>3.2. The Company intends to provide all the applicable statutory benefits and such other benefits
+                        that the Company may from time to time decide to provide including (a) Employee Provident
+                        Fund,</p>
+
+                    <p>(b) Employee State Insurance (ESI), (c) Pension.</p>
+
+                    <p>It is however clarified that such benefits and other benefits, if any, and entitlements that may be
+                        provided to you by the Company are provided to you on a voluntary basis by the Company in accordance with applicable Company policy and hence are liable to be withdrawn or changed from
+                        time to time.</p>
+
+
+                    <p>3.3. You will be reimbursed for out-of-pocket expenses directly incurred in connection with the
+                        performance of your duties and responsibilities on behalf of the Company, as per Company’s
+                        Reimbursement Policy.</p>
+
+                    <p>4. Leave</p>
+
+                    <p>You will be entitled for paid leave as per company’s Leave Policy.</p>
+
+                    <p>5. Probation</p>
+
+                    <p>Your appointment is effective from the date of joining duty at the location specified above.
+                        You will be on probation for a period of 3 months from the date of joining duty, which may be
+                        extended by the Company in its sole discretion for such further period/periods as it may deem
+                        fit. If you successfully complete the probation period, either initial or extended as the case
+                        may be, the Company may in its sole discretion confirm your services.</p>
+
+                    <p>6. Notice Period</p>
+
+                    <p>6.1 During the probation period, if an employee decides to leave he/she has to serve a
+                        notice period of 90days with the Company ie by giving 90 days notice in writing (or has to
+                        pay an equivalent amount of grosssalary).</p>
+
+                    <p>6.2 Upon confirmation pursuant to resignation from the services of the Company, you will
+                        have to serve a notice period of 30 days from the date of resignation. This clause shall not be
+                        applicable if you are terminated from the services of the Company. For termination of
+                        employment, please refer clause 7.</p>
+
+                    <p>7. Termination of Employment</p>
+
+                    <p>7.1. Upon confirmation of your services, either party may terminate employment with the
+                        Company at any time by giving notice period of a decided timeline at the time of confirmation in
+                        writing (or by paying equivalent Basic Salary in lieu thereof) and without assigning any reasons
+                        therefor. Notwithstanding the foregoing, if you (i) engage in misconduct related to the Company
+                        or your employment, including but not limited to any breach of the terms of this offer letter or (ii)
+                        are convicted for any criminal offence during the tenure of your service with the Company by a
+                        court of law, the Company may terminate your employment immediately, without any prior notice
+                        and without payment of any additional amounts. The termination will not affect the rights and
+                        remedies that the Company may have under any laws, rules and regulations for the time being in
+                        force.</p>
+
+                    <p>7.2. The Company reserves the right to pay or recover the relevant amounts from you in lieu of
+                        notice. In the event you serve notice of termination, the Company may at its option, relieve you
+                        from the date as the Company may deem fit even before expiration of the notice period without
+                        incurring any obligations to pay any amounts for the unexpired notice period.</p>
+                    <p>
+                        7.3. In the event you serve notice of termination and you are in the middle of an assignment, the
+Company may require you to complete all operative parts of the assignment, as determined by the
+Company, before agreeing to relieve you from the services, even if such completion extends beyond 
+CIOC FMCG PVT LTD. Bengaluru – 560068 Phone: 4323432432
+the notice period. In such a case, the Company will pay you the salary on the existing terms and
+conditions up to the date of relieving you from the Company.
+                    </p>
+
+                    <p>7.4. You must maintain in confidence and will not disclose or use, either during or after the term of
+                        your employment, any proprietary or confidential information or know-how belonging to the
+                        Company (referred to herein as "Propriety Information"), whether or not in written form, except
+                        to the extent required to perform your duties on behalf of the Company. Proprietary Information
+                        includes any information, not generally known in the relevant trade or industry, which was
+                        obtained by you from the Company, or which was learned, discovered, developed, conceived,
+                        originated or prepared by you within the scope of your employment with the Company. Such
+                        Proprietary Information includes, but is not limited to, technical and business information relating
+                        to the Company’s inventions or products, research and development, production processes,
+                        machines and equipment, finances, agreements, customers, clients, marketing, as well as
+                        production, marketing and future business plans, and any other information which is identified as
+                        confidential by the Company or is considered confidential from its nature. Upon termination of
+                        your employment or at the request of the Company before termination, you will deliver to the
+                        Company all written and tangible material in your possession incorporating the Proprietary
+                        Information or otherwise relating to the Company’s business.</p>
+
+                    <p>7.5. Third-Party Proprietary Information. You recognize that the Company has received and will
+                        receive confidential or proprietary information from third parties, subject to an obligation on the
+                        Company’s part to maintain the confidentiality of such information and to use it only for certain
+                        limited purposes. Your obligations with respect to the Company’s Proprietary Information shall also
+                        extend to confidential and/or proprietary information belonging to clients, customers and suppliers
+                        of the Company who may have disclosed such information to you as the result of your status as an
+                        employee of the Company. You will not use, reproduce, distribute, discuss, disseminate, or disclose
+                        such third-party information for the benefit of or to anyone other than the Company (or Company’s
+                        other employees or representatives who need to know such information) or such third party, or in
+                        any manner inconsistent with the Company’s agreement with such third party either during the
+                        term of your employment with the Company, or at any time thereafter.</p>
+
+                    <p>7.6. Upon termination, you will immediately return to the Company any and all documents,
+                        manuals, data, records, confidential information, intellectual property, material, equipment and
+                        other property belonging to the Company that may be entrusted to and/or placed in your
+                        possession by virtue of and/or during the course of your employment with the Company, without
+                        making any copies thereof and/or extracts there from. You will also deliver to the Company
+                        immediately all notes, analysis, summaries and working papers relating thereto. The Company will
+                        settle your dues, if any, and issue a relieving letter to you only upon your compliance with the terms
+                        of this Clause 7.6.</p>
+
+                    <p>8. Obligations of Employee</p>
+
+                    <p>8.1 You will abide by all Company’s rules, regulations, policies and procedures framed by the
+                        Company from time to time and applicable to your position, which rules, regulations, policies and
+                        procedures shall be deemed to be a part of this offer letter as if they are specifically incorporated
+                        in this offer letter, Such rules, regulations may include without limitation matters of attendance,
+                        conduct, behavior, discipline, working hours, leave, holidays and other applicable benefits. You will
+                        take steps to be aware of the                         Company's rules, regulations, policies and procedures and ignorance of any of them shall not
+                        excuse any contravention of the terms of this offer letter.</p>
+
+                    <p>8.2 During the period of your employment with the Company, you will exclusively serve the company.</p>
+
+                    <p>8.3 You will not engage or become interested, directly or indirectly, without prior written consent
+                        of the Company in that behalf, with or without remuneration, in any trade, business, occupation,
+                        employment, service or calling whatsoever nor will undertake any activities which are or will be
+                        contrary to or conflict with interests of the Company and/or your duties and obligations hereunder;
+                        and Shall perform your duties and responsibilities with diligence and devotion and shall direct your
+                        best efforts to promote the interests of the Company and its operations and all the activities to the
+                        extent permitted by law.</p>
+
+                    <p>8.4 During the term of your employment with the Company and thereafter, you shall not (a) solicit
+                        for a competitor of the Company or attempt to gain the business of the Company for a competitor
+                        of the Company, or for yourself or any other purpose or reason, any customer of the Company that
+                        you solicited or served or about which you learned confidential information during your
+                        employment with the Company, or (b) solicit or encourage, or cause others to solicit or encourage,
+                        any employees or consultants, or collaborators of the Company to terminate their employment or
+                        engagement with the Company.</p>
+
+                    <p>8.5 This employment is offered to you upon the understanding and is conditional upon (i) the
+                        credentials; testimonials and particulars submitted by you with or in your application for
+                        employment being true, correct and accurate, and (ii) satisfactory verification of your background
+                        by the Company in a manner as it deems fit. If at any time it should emerge that the particulars
+                        furnished by you are false/incorrect or if any material or relevant information has been suppressed
+                        or concealed or the result of the background investigation and verification of
+                        documents/information is not satisfactory in the sole opinion of the Company, then
+                        notwithstanding your acceptance of this offer letter, this offer will be considered ineffective and
+                        irregular and would be liable to be terminated by the Company forthwith without notice and
+                        without payment of any compensation, whatsoever. This termination will not affect the rights and
+                        remedies that the Company may have under any laws, rules and regulations for the time being in
+                        force.</p>
+
+                    <p>8.6 Works made for Hire. You acknowledge and agree that the Company shall be the sole owner
+                        of all copyrights, trademarks, patents, patent rights, trade secret rights, and all other intellectual
+                        property or other rights that may be in connection with or which may have arisen during course of
+                        your employment and that which may be relevant to the subject matter of your employment by
+                        the Company. You further acknowledge and agree that any algorithms, designs, know-how,
+                        processes, techniques, computer and software programs, programming documentation, and other
+                        works of authorship, are “works made for hire” for purposes of the rights, title and interest that
+                        you may have with regard to such work. To the extent that your waiver is deemed unenforceable,
+                        you grant to the Company the exclusive, perpetual, irrevocable, world-wide and royalty-free right
+                        to use, market and modify the work created during the course of your employment without
+                        identifying or seeking your prior consent.</p>
+
+
+                    <p>8.7. Assignment of Rights. You acknowledge and agree that all proprietary information and all
+                        copyrights, trademarks, patents, patent rights, trade secret rights, and other rights (including
+                        without limitation, intellectual property rights) (“IP Rights”) anywhere in the world in connection
+                        therewith arising from, or created, produced or developed by you, either jointly with others or
+                        alone at any time in the course of your employment and involvement with the Company, is and
+                        shall be the sole and exclusive property of the Company. You shall irrevocably and unconditionally
+                        assign to the Company and waive in favour of the Company any and all rights, title and interest you
+                        may have or acquire in such proprietary information. It is clarified that this Clause would be deemed
+                        to include all IP Rights in relation to the business of the Company created by you prior to the date
+                        of this Offer Letter</p>
+
+                    <p>9. Miscellaneous</p>
+
+                    <p>9.1 This offer letter is governed by the laws of India. It is agreed that any disputes of whatsoever
+                        nature between you and the Company will be subject to the exclusive jurisdiction of the courts of
+                        Bangalore, India whether they be civil courts, labour courts, industrial tribunals, or any other courts
+                        or authority or whatsoever nature.</p>
+
+                    <p>9.2 You will keep the Company informed of your latest postal address at all times and intimate in
+                        writing in case of change of address. Any communication sent to you by the Company on your last
+                        known address will be deemed to have been duly served notwithstanding the fact that you have
+                        changed your address.</p>
+
+                    <p>9.3 Your offer and its continuation is subject to your being medically fit and the Company reserves
+                        its right to ask you to undergo medical examination, as and when deemed necessary, by a medical
+                        officer appointed by the Company. Further, in case of continued ill health, the Company will have
+                        the right to terminate your employment by giving 7 Days’ notice in writing (or by paying equivalent
+                        Basic Salary in lieu thereof). For purposes of this Offer letter, "continued ill health" will include any
+                        illness which persists for a continuous period of more than [30] days and in the opinion of the
+                        Company adversely affects due discharge of your duties under this offerletter.</p>
+
+                    <p>9.4 You shall retire from services of the Company on the last day of the month of
+                        your [58th] birthday.</p>
+
+                    <p>9.5 You may note that any and all taxes including those taxes which arise from any payments,
+                        benefits, etc. received by you from the Company in the course of employment will be borne by you
+                        and the Company assumes no responsibility for your personal tax affairs or your liability of such
+                        payments and benefits. The Company may deduct or withhold any amounts prior to effecting any
+                        payments to you in terms of this offer letter, in accordance with any provisions of applicable law,
+                        rules or regulations as may be in force from time to time, in accordance with applicable law.</p>
+
+                    <p>9.6 If any provision of this offer letter is invalid or prohibited under the applicable law, such
+                        invalidity will not affect the validity of other provisions contained herein. Any invalid or prohibited
+                        provision shall be replaced by a provision which reflects the original intention of the Company to
+                        the extent permissible by the applicable laws.</p>
+
+                    <p>9.7 The terms of this offer letter are strictly confidential between you and the Company and any
+                        breach of this confidence will be viewed with utmost seriousness and amount to misconduct.</p>
+
+                    <p><strong>ACKNOWLEDGEMENT</strong></p>
+
+                    <p>If the terms and conditions of this Offer letter along with its attachments are acceptable to you,
+                        please confirm your acceptance to the Company within seven days from the date of this letter.
+                        Further, if the terms and conditions are acceptable, you shall join services of the Company no later
+                        than 17-Aug-2020, failing which, notwithstanding your acceptance of this offer letter, the
+                        Company's offer to you and this offer letter shall be deemed to be withdrawn and be of no effect
+                        and consequences.</p>
+
+                    <p>We look forward to your high level of contribution to <strong>CIOC FMCG PVT LTD</strong>.</p>
+
+                    <p>Yours sincerely,</p>
+                    <p>For <strong>CIOC </strong></p>
+                    
+                    <p>Manager Human Resources</p>
+                    <p>Sowmya</p>
+
+                    <p>I confirm that I have read, understood, and accept the terms of this offer letter and its attachments.</p>
+
+                    
+                    <div class="row">
+                        <div class="col-md-2">
+                            <p>Name: </p>
+                            <p>Place: </p>
+                            <p>Signature: </p>
+                        </div>
+                        <div class="col-md-10">
+
+                        </div>
+                    </div>
+                    
+
+                    <div class="row text-center" style="margin-top:100px;">
+                        <div class="col-md-2 text-right" style="padding-top:20px;">
+                            <img src="https://epsilonai.com/static/images/epsilonai_logo_dark.svg" style="height:25px;">
+                        </div> 
+                        <div class="col-md-10">
+                            <p>CIOC FMCG PVT LTD , Venkatadhri Heights, Kudlu , 560068 , Bangalore, Karnataka, India</p>
+                            <p>
+                                info@cioc.in
+                            </p>
+                            
+    
+                        </div>
+                    </div>
+
+                </div>
+
+
+                
+
+
+
+            </div>
+            
+            
+            
+            
+            
+            
+
+
+
+
+        {% endverbatim %}
+        
+
+        <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+        <script src="{% static 'js/jquery.cookie-1.4.1.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/angular.min.js' %}"></script>
+        <script src="{% static 'js/ui-bootstrap-tpls-0.14.3.min.js' %}"></script>
+        <script src="{% static 'js/angular-bootstrap-confirm.min.js' %}"></script>
+        <script src="{% static 'js/angular-ui-router.min.js' %}"></script>
+        <script src="{% static 'js/angular-sanitize.min.js' %}"></script>
+        <script src="{% static 'js/custom/ngEContract.js' %}"></script>
+        <script src="{% static 'js/custom/directives.js' %}"></script>
+        <script src="{% static 'js/custom/directives.native.js' %}"></script>
+    </body>
+</html>

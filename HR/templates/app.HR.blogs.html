@@ -1,0 +1,219 @@
+{% extends 'base.html'%}
+
+
+{% block header %}
+  {% include 'app.HR.header.html' %}
+{% endblock  %}
+<style media="screen">
+
+  .btn-rounded{
+    background-color:#0085ca;
+    color:white;
+    border:2px solid #0085ca;
+  }
+  .btn-rounded:hover{
+    background-color:white;
+    color:#0085ca !important;
+    border:2px solid #0085ca;
+  }
+
+</style>
+
+{% block content %}
+<div class="container-fluid" style="">
+    {% if firstArticle.introSectionImg %}
+  <div class="row" style="background-image: url('/media/{{firstArticle.introSectionImg}}');background-size:cover;background-repeat:no-repeat;min-height:500px;background-position:center">
+
+    {% else %}
+    <div class="row" style="background-image: url('static/images/bg.jpeg');background-size:cover;background-repeat:no-repeat;min-height:500px;">
+      {% endif %}
+    <div class="col-md-8 col-md-offset-2 allMargins" style="margin-top:150px;">
+      <p style="color:white">Epsilon AI Blog</p>
+      <div class="blog_date_tag">
+        <ul style="padding:0px;display:flex;margin-top:30px;">
+          <p style="color:white;font-size:18px;margin-bottom:0px;">Epsilon AI <li style="color:white;font-size:18px;margin-left:30px;" >{{firstArticle.created}}</li></p>
+
+
+
+        </ul>
+
+      </div>
+      <h2 style="color:white;margin-top:0px;">{{firstArticle.title |truncatechars:50}}</h2>
+      <button type="button" class="btn btn-lg btn-default  btn_read" name="button" style="margin-top:40px;padding:10px 25px"><a href="/articles/{{firstArticle.articleUrl}} " class="link_read">Read Story</a></button>
+    </div>
+  </div>
+
+  <div class="row" style="margin:0px;margin-top:25px;">
+    <div class="col-md-8 col-md-offset-2 allMargins" style="padding:0px">
+
+      <h3 style=" margin-bottom:20px;">Featured Blogs</h3>
+      <div class="row">
+        {% for i in featuredblogs%}
+          {% if forloop.counter > 1 %}
+            <a href="/articles/{{i.articleUrl}}">
+              <div class="col-lg-4 text-center" style="margin-bottom:20px;">
+                {% if i.introSectionImg %}
+                <div style="background-image:url('{{i.introSectionImg.url}}');background-size:cover;min-height:300px;padding:30px;border-radius:5px;" >
+                  {% else %}
+                <div style="background-image:url('/static/images/bg.jpeg');background-size:cover;min-height:300px;padding:20px;border-radius:5px;" >
+                  {% endif %}
+                  <h3 style="color:white;height:40px;">{{i.title |truncatechars:60}}</h3>
+                  <button type="button" class="btn btn-lg btn-default  btn_cardread" name="button"><a class="read_art" href="/articles/{{i.articleUrl}}">Read Article </a></button>
+              </div>
+              </div>
+
+            </a>
+        {% endif%}
+        {% endfor%}
+
+      </div>
+
+
+
+    </div>
+
+  <div class="row" style="margin:0px;">
+    <div class="col-md-8 col-md-offset-2 allMargins" style="margin-top:20px;padding:0px">
+      <div class="row blog_cards">
+
+        <!-- {% verbatim%}
+          {{fildata}}
+
+        {% endverbatim %} -->
+        <div class="col-lg-9"  style="padding:0px;">
+          <div class="row" id="blogcards" >
+          <h4 style="text-transform:uppercase;font-weight:bold;font-size:16px;padding-left:15px;">Explore Our Blog</h4>
+          {% for i in blogs%}
+          <a href="/articles/{{i.articleUrl}}">
+            <div class="col-lg-4 col-sm-6 text-center" style="margin-bottom:20px;">
+              <div class="row" style="min-height:320px;margin-right:0px;margin-left:0px;border-bottom:1px solid rgba(0,40,85,.5);">
+                <div class="col-md-12" style="padding:0px;">
+                  {% if i.introSectionImg %}
+                  <div style="background-image:url('/media/{{i.introSectionImg}}');background-size:cover;min-height:150px;border-radius:5px;">
+                  </div>
+                  {% else%}
+                  <div style="background-image:url('/static/images/bg.jpeg');background-size:cover;min-height:150px;border-radius:5px;">
+                  </div>
+                  {%endif%}
+                  <div class="text-left" style="padding:20px;padding-left: 0px;padding-right: 0px;">
+                    <p style="color:#0085ca"><strong>{{i.category.name}}</strong></p>
+                    <a class="blog_text" href="/articles/{{i.articleUrl}}" style="display:block;margin-bottom:10px;min-height:100px;">{{i.title |truncatechars:50}}</a>
+                    <p style="margin-top:10px;color:rgba(0,40,85,.5)">{{i.created}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </a>
+
+          {% endfor %}
+        </div>
+          <div class="row col-lg-12" style="margin:0px;">
+
+            <div class="prevNextBtn">
+              <div>
+
+
+                    <a role="button" class="btn btn-lg btn-default btn-rounded "href="/blog/{{prevpage}}">Previous</a>
+              </div>
+
+              <div >
+                <a role="button" class="btn btn-lg btn-default btn-rounded " href="/blog/{{nextPage}}">Next</a>
+              </div>
+
+            </div>
+          </div>
+
+
+        </div>
+        <div class="col-lg-3 ">
+          <h4 style="text-transform:uppercase;font-weight:bold;font-size:16px;">Blog categories</h4>
+
+
+          {% for i in totalCatg %}
+          {% if i.articlesCount > 0%}
+          <div class="blog_cat " style="">
+            <div class="col-lg-10 col-xs-8 text-left" style="padding:10px" ng-click="filBlog('{{i.pk}}')">
+              <p style="font-weight:normal;color:#0085ca;font-family:'Poppins',sans-serif" >{{i.name}}</p>
+            </div>
+
+            <div class="col-lg-2 col-xs-4" style="padding:10px">
+              <span class="badge" style="background-color:#f1f1f1;color:black;font-weight:normal;padding:6px 15px;float:right">{{i.articlesCount}}</span>
+            </div>
+          </div>
+          {% endif %}
+        {% endfor %}
+
+          {% verbatim%}
+          <div class="blog_sub" style="margin-top:40px;margin-bottom:40px;" ng-controller="controller.uipath-go-compoments">
+            <h4 style="text-transform:uppercase;font-weight:bold;font-size:16px;">subscribe to newsletter</h4>
+            <!-- <div class="row">
+              <div class="col-lg-12 col-xs-12">
+                <div class="" style="color:#bf0000" ng-if="errorMsg.length>0" >
+                  <span > * {{errorMsg}} </span>
+                </div>
+                <div class="" style="color:#02ba3a" ng-if="successMsg.length>0">
+                  <span >  {{successMsg}} </span>
+                </div>
+              </div>
+
+            </div> -->
+            <div class="form-group" style="margin-top:25px;">
+              <label for="inputlg" style="font-weight:normal">Email*</label>
+              <input class="form-control input-lg" id="bloginput" type="email" ng-model="data.email" style="border:none;background-color:#f1f2f7ff;font-weight:normal;width:100%;border-radius:30px;height:50px;padding:20px;">
+            </div>
+            <button type="submit" class="btn btn-default btn_subscribe" ng-click="subscribeData()">Subscribe</button>
+
+          </div>
+          {% endverbatim %}
+          <div class="blog_updates" style="border-top:1px solid #ccc;border-bottom:1px solid #ccc;padding:20px;">
+            <div class="row" style="margin:0px;">
+              <div class="col-lg-3 col-xs-3 ">
+                  <i class="fa fa-linkedin" aria-hidden="true" style="font-size:25px"></i>
+              </div>
+              <div class="col-lg-3 col-xs-3">
+                  <i class="fa fa-facebook" aria-hidden="true" style="font-size:25px"></i>
+              </div>
+              <div class="col-lg-3 col-xs-3">
+                  <i class="fa fa-twitter" aria-hidden="true" style="font-size:25px;"></i>
+              </div>
+              <div class="col-lg-3 ol-xs-3">
+                  <i class="fa fa-youtube" aria-hidden="true" style="font-size:25px;"></i>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row" style="background-image: linear-gradient(106deg,#0078d4 50vw,#243a5e calc(50vw + 1px),#243a5e 50vw);background-color: #243a5e;background-repeat: no-repeat;min-height:200px;background-position-x: -250px;margin-top:30px;">
+    <div class="col-md-12 ">
+      <div class="col-lg-12 col-xs-12  explore_text" style="text-align:center">
+        <!-- <h4>New to AI?</h4>
+        <h5>Explore popular pre-built services for free</h5> -->
+        <a type="button" class="btn neonbtn" ng-click="schedule()"  style="margin-top:60px;">Get a free demo</a>
+
+      </div>
+      <!-- <div class="col-md-8" style="text-align:left;color:#50e6ff;padding:30px 0px">
+        <div class="col-md-3 col-md-offset-1 text-center">
+          <img src="/static/images/penta.png" alt="">
+        </div>
+        <div class="col-md-7 col-md-offset-1 col-xs-12" style="padding:30px 0px;line-height:2.5;">
+
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>
+</div>
+
+{% endblock %}
+{% block footer %}
+
+{% include 'app.HR.pagefooter.html'%}
+
+{% endblock%}

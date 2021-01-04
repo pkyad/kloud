@@ -1,0 +1,80 @@
+{% extends 'base.html'%}
+{% load staticfiles %}
+
+{% block specific_css %}
+<style media="screen">
+  body {
+    background-color: #fafafa;
+  }
+
+  #hidemeinallpage {
+    display: none !important;
+  }
+
+  #logoinnav {
+    height: 50px !important;
+  }
+
+  #wishicons {
+    display: block !important;
+  }
+
+  #searchinnav {
+    display: block !important;
+  }
+
+  .similarCard {
+    padding: 20px;
+    height: 310px;
+    width: 100%;
+    border-radius: 5px;
+  }
+
+  .similarCard:hover {
+    box-shadow: 0 5px 25px rgba(0, 0, 0, .1);
+    z-index: 10;
+  }
+</style>
+{% endblock %}
+{% block header %}
+{% verbatim %}
+<ecommerce-header> </ecommerce-header>
+
+{% endverbatim %}
+{% endblock %}
+
+
+{% block content %}
+
+
+<div>
+  {% verbatim %}
+  <product-details></product-details>
+
+  {% endverbatim %}
+</div>
+
+
+{% endblock %}
+
+{% block specific_js %}
+
+<script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+<script src="{% static 'js/jquery.cookie-1.4.1.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/angular.min.js' %}"></script>
+<script src="{% static 'js/ui-bootstrap-tpls-0.14.3.min.js' %}"></script>
+<script src="{% static 'js/angular-bootstrap-confirm.min.js' %}"></script>
+<script src="{% static 'js/angular-ui-router.min.js' %}"></script>
+<script src="{% static 'js/angular-sanitize.min.js' %}"></script>
+<script src="{% static 'js/angular-flash.js' %}"></script>
+<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'js/angular-owl-carousel-2.js' %}"></script>
+<script src="{% static 'js/app.main.js' %}"></script>
+<script src="{% static 'js/custom/nativeJS.js' %}"></script>
+<script src="{% static 'js/custom/services.js' %}"></script>
+<script src="{% static 'js/custom/ecommerce.directive.js' %}"></script>
+<script src="{% static 'js/custom/directives.js' %}"></script>
+<script src="{% static 'js/custom/directives.native.js' %}"></script>
+
+{% endblock%}

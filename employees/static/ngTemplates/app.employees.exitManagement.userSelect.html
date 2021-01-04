@@ -1,0 +1,23 @@
+<div class="modal-body">
+<div class="container-fluid">
+  <div class="form-group">
+    <input type="text" class="form-control" id="" placeholder="" ng-model="form.user" uib-typeahead="user as getName(user) for user in userSearch($viewValue)" >
+    <p class="help-block">Select the Deboarding Employee.</p>
+  </div>
+  <div class="input-group">
+    <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.lastWorkingDate" is-open="statusLast.opened" ng-init="today" />
+    <span class="input-group-btn">
+      <button type="button" class="btn btn-default" ng-click="statusLast.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+    </span>
+  </div>
+  <p class="help-block">Select last working day of employee.</p>
+</div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default" type="button" ng-click="$dismiss()">
+    Cancel
+  </button>
+  <button class="btn btn-primary" type="button" ng-click="save()">
+    OK
+  </button>
+</div>

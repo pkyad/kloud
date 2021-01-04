@@ -1,0 +1,25 @@
+<div class="container-fluid" style="padding-bottom:15px;">
+  <div class="text-center">
+    <h3>Add a Section to Notes : {{notevalues}}</h3>
+    <hr>
+  </div>
+  <div class="form-group">
+    Image <switch ng-model="form.mode" class="green"></switch><span style="margin-left:10px;">Text</span>
+  </div>
+  <div class="form-group">
+    <textarea class="form-control" ng-model="form.noteTxt" name="name" ng-if="form.mode" rows="6" cols="80" style="resize:none;"></textarea>
+    <input ng-if="!form.mode" file-model="form.noteImage" type="file" >
+  </div>
+  <div class="form-group">
+    <button type="button" class="btn btn-primary" ng-click="saveNoteSection()"> Save </button>
+  </div>
+  <div class="" ng-if="form.mode">
+    <hr>
+    <div mathjax-bind="form.noteTxt" ng-if="form.noteTxt">
+    </div>
+    <div class="" ng-if="!form.noteTxt">
+      <h5 class="text-center"> No Preview Available</h5>
+
+    </div>
+  </div>
+</div>

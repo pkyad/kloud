@@ -1,0 +1,160 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Template Editor : {{pk}}</title>
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" charset="utf-8">
+  <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" charset="utf-8">
+  <link rel="stylesheet" href="{% static 'css/angular-ui-switch.min.css' %}" charset="utf-8">
+  <style>
+    .whiteInputField {
+      border-radius: 10px !important;
+      border: none !important;
+      padding: 25px;
+    }
+
+    .btnPreview {
+      background: #461482;
+      color: white;
+      bottom: 20px;
+      border: none !important;
+      border-radius: 64px !important;
+      padding: 17px;
+      width: 112px;
+      font-size: 16px;
+      z-index: 10;
+      box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;
+    }
+
+    #aceEditor,
+    #aceEditor2,
+    #aceEditorPreValidator,
+    #aceEditorValidator {
+      width: 100%;
+      height: 600px;
+      border-top: solid 2px #eee;
+      border-bottom: solid 2px #eee;
+    }
+
+    .force-mobile {
+      width: 750px;
+      max-width: 750px;
+      height: 1334px;
+      margin: 0 auto;
+      border-style: none;
+      border-color: inherit;
+      border-width: 0px;
+      -webkit-transform: scale(0.5);
+      -webkit-transform-origin: 0 0;
+      display: block;
+    }
+  </style>
+
+</head>
+
+<body ng-app="app" ng-controller="templateEditor" style="background:#f2f3f7">
+  {% verbatim %}
+  <div class="container-fluid" style="padding:10px;background:black;color:white;">
+    <div class="col-md-1">
+      <label>Name</label>
+    </div>
+    <div class="col-md-1">
+      <input type="text" name="" value="" class="form-control" ng-model="form.name" style="border-radius: 15px;background:#4d4d4d;color:white;border: none;">
+    </div>
+    <div class="col-md-1">
+      <label>Mobile Preview</label>
+    </div>
+    <div class="col-md-2">
+      <input type="file" file-model="form.mobilePreview">
+    </div>
+    <div class="col-md-1">
+      <label>Web Preview</label>
+    </div>
+    <div class="col-md-2">
+      <input type="file" file-model="form.sampleImg">
+    </div>
+
+    <div class="col-md-1">
+      <label for="">Category</label>
+
+    </div>
+    <div class="col-md-1">
+
+      <div class="form-group">
+        <select class="form-control" name="" ng-model = "form.templateCategory" ng-options="k for k in choices">
+
+        </select>
+
+      </div>
+    </div>
+    <div class="col-md-1">
+      <label>Live</label>
+      <input type="checkbox" ng-model="form.live">
+    </div>
+    <!-- <div class="col-md-1">
+    </div> -->
+    <div class="col-md-1">
+      <button type="button" class="btn btn-primary" name="button" ng-click="save()">Save</button>
+    </div>
+  </div>
+  <div class="container-fluid" >
+    <div class="row">
+
+      <div class="col-md-4">
+        <div id="aceEditor2" class="" ng-bind-html="form.defaultData" >
+        </div>
+      </div>
+      <div class="col-md-6" style="padding:0px;">
+        <div id="aceEditor" class="" ng-bind-html="form.template">
+        </div>
+      </div>
+      <div class="col-md-2">
+        <iframe width="100%" height="600" ng-src="{{uielement}}" frameborder="0"      allowfullscreen  ></iframe>
+        <!-- <iframe width="100%" height="768"  ng-src="{{uielement}}"  style="-webkit-transform:scale(0.5);-moz-transform-scale(0.5);"></iframe> -->
+      </div>
+    </div>
+      <div class="row" style="margin:0px;">
+        <iframe id="iFrame" ng-src="{{uielement}}" name="template" style="height:50vh;"  width="100%" frameborder="0"      allowfullscreen>
+        </iframe>
+
+      </div>
+
+
+  </div>
+
+  <div class="alert alert-{{msg.status}} text-center" style="position: absolute;z-index: 99999999;top: 10%;
+left: 40%;width:30%">
+  <strong>{{msg.text}}</strong>
+  </div>
+
+
+
+
+
+  {% endverbatim %}
+  <script type="text/javascript">
+    var PK = '{{pk}}';
+  </script>
+
+
+  <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+  <script src="{% static 'js/jquery.cookie-1.4.1.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/angular.min.js' %}"></script>
+  <script src="{% static 'js/ui-bootstrap-tpls-0.14.3.min.js' %}"></script>
+  <script src="{% static 'js/angular-bootstrap-confirm.min.js' %}"></script>
+  <script src="{% static 'js/angular-sanitize.min.js' %}"></script>
+  <script src="{% static 'js/angular-flash.js' %}"></script>
+  <script src="{% static 'js/angular-ui-switch.min.js' %}"></script>
+  <script src="{% static 'js/ace.js' %}"></script>
+  <script src="{% static 'js/ace/ext-language_tools.js' %}"></script>
+  <script src="{% static 'js/app.templateEditor.js' %}"></script>
+
+
+</body>
+
+</html>

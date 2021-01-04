@@ -1,0 +1,60 @@
+<div class="col-md-3 " style="margin-bottom:15px">
+  <div class="card" style="padding:20px;cursor:pointer;border:2px solid {{data.status=='created'?'#0b0b0b':''}}{{data.status=='Sent'?'#e81414':''}}{{data.status=='GRN'?'#337bb8':''}}{{data.status=='Approved'?'#73AD21':''}};border-radius: 25px"  ng-click = "rowActionClicked('details')">
+    <div class="row" >
+      <div class="col-md-10">
+        <!-- <div class="row" style="padding-top:5px">
+          <div class="col-md-2">
+            <span style="font-size:18px">#{{data.poNumber}}</span>
+          </div>
+        </div> -->
+        <div class="row" style="padding-top:5px">
+          <div class="col-md-12">
+            <span>#{{data.pk}}</span>
+          </div>
+
+        </div>
+
+        <div class="row" style="padding-top:5px">
+          <div class="col-md-2">
+            <span><i class="fa fa-building fa-2x"></i></span>
+          </div>
+          <div class="col-md-10">
+            <span style="font-size:14px">{{data.name}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:5px">
+          <div class="col-md-2">
+            <span><i class="fa fa-user fa-2x"></i></span>
+          </div>
+          <div class="col-md-10">
+            <span style="font-size:14px">{{data.personName}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:5px">
+          <div class="col-md-2">
+            <span><i class="fa fa-phone fa-2x"></i></span>
+          </div>
+          <div class="col-md-10">
+            <span style="font-size:14px">{{data.phone}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:5px">
+          <div class="col-md-2">
+            <span><i class="fa fa-envelope fa-2x"></i></span>
+          </div>
+          <div class="col-md-10">
+            <span style="font-size:14px">{{data.email}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2" style="color:{{data.status=='created'?'#0b0b0b':''}}{{data.status=='Sent'?'#e81414':''}}{{data.status=='GRN'?'#337bb8':''}}{{data.status=='Approved'?'#73AD21':''}}">
+        <div class="row" >
+            <i class="fa fa-2x fa-pencil" style="position:absolute;right:20px;top:10px;cursor:pointer;" ng-click = "rowActionClicked('edit');$event.stopPropagation();"></i>
+        </div>
+        <div class="row" ng-click=";$event.stopPropagation();">
+            <i class="fa fa-2x fa-trash"  mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="rowActionClicked('delete')" confirm-button-type="default" cancel-button-type="default"  style="position:absolute;right:20px;top:100px;cursor:pointer;"></i>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>

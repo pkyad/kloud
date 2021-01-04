@@ -1,0 +1,48 @@
+<style>
+  .detailsHover :hover {
+    background-color: #485461;
+    /* background-image: linear-gradient(315deg, #485461 0%, #28313b 74%); */
+    color:white;
+  }
+</style>
+<div class="container-fluid" ng-controller="businessManagement.recordings" style="padding-left:40px;padding-right:40px;">
+  <div class="row" style="padding-bottom:15px;margin-top:20px;">
+    <div class="col-md-4 col-md-offset-4" style="position:relative;">
+      <input type="text" class="form-control" ng-model="searchForm.search" ng-enter="fetchData()" placeholder="Search by Customer Phone" style="border: none !important;      border-radius: 10px !important;   padding: 15px;      left: 15px;      font-size: 16px;background:#F2F3F7;height:55px;">
+      <button type="button" class="btn btn-default"  ng-click="fetchData()" style="position:absolute;top: 9px;right: 23px;border: none !important;background:#F2F3F7"><i class="fa fa-search "  ></i></button>
+    </div>
+
+    <div class="col-md-2">
+      <button style="border: none !important;      border-radius: 10px !important;   padding: 15px;      left: 15px;      font-size: 16px;background:#F2F3F7" type="button" class="btn btn-block" ng-click="prev()">Prev</button>
+
+    </div>
+    <div class="col-md-2">
+
+        <button type="button" class="btn btn-block" style="border: none !important;  border-radius: 10px !important;  padding: 15px;   left: 15px;  font-size: 16px;background:#F2F3F7" ng-click="next()">Next</button>
+
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row" ng-repeat="a in data.logs" style="border-bottom:1px solid #dfdfdf;" ng-init="a.playing = false;">
+        <div class="col-md-4" ng-click="report(a , $index)" style="cursor:pointer;padding-top:15px;padding-bottom:15px;">
+          <h3>{{a.created | date:'medium'}}</h3> {{a.userPk | getName}} {{a.userPk}} <br>  <h4>{{a.to}}</h4>
+        </div>
+        <div class="col-md-8">
+          <div class="col-md-1 text-right" style="padding-top: 26px;">
+
+            <img src="/static/images/icons8-circled-play-128.png" style="width: 74px;" ng-if="!a.playing" ng-click="play($index);a.playing = true;" >
+            <img src="/static/images/icons8-pause-button-64.png" style="width: 74px;" ng-if="a.playing" ng-click="pause($index);a.playing = false;" >
+
+          </div>
+          <div class="col-md-11">
+            <div id="waveform{{$index}}" ng-init="setupWave($index , a.fileUrl , a.fileUrl2)"></div>
+
+            <div id="waveform2{{$index}}" style="display:none;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

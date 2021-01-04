@@ -1,0 +1,203 @@
+<style media="screen">
+    .cleanInput , .cleanInput:hover , .cleanInput:focus, .mce-tinymce{
+      border:none !important;
+    }
+    .mce-edit-area{
+      border:none;
+      padding:10px;
+    }
+  </style>
+  
+  <div class="row" style="padding-top:30px;">
+    <div class="col-md-7" style="text-align: center; border-right:2px solid #F5F5F5">
+  
+      <div class="row text-right" style="margin:0px;">
+        <button type="button" class="btn btn-primary " ng-click="saveCustomerProfile()">Save</button>
+      </div>
+  
+      <div class="row">
+  
+  
+  
+        <div class="container-fluid" style="background-image:url('/static/images/imac-frame.png');height:700px;background-position:center;background-size:contain;background-repeat:no-repeat;width:700px;position:relative;">
+  
+          <div ng-if="cpForm.chatIconType == 'Circle' && cpForm.chatIconPosition == 'left-bottom'" style="height:60px;width:60px;border-radius:60px;background:{{cpForm.supportBubbleColor}};position:absolute;bottom:248px;right:603px;" class="text-center">
+            <svg style="position:absolute; top:20px; left:19px; height:51px;" viewBox="0 0 28 32">
+               <path id="closeChatSvg" style="fill:{{cpForm.iconColor}};" d="M13.978 12.637l-1.341 1.341L6.989 8.33l-5.648 5.648L0 12.637l5.648-5.648L0 1.341 1.341 0l5.648 5.648L12.637 0l1.341 1.341L8.33 6.989l5.648 5.648z" fill-rule="evenodd"></path>
+             </svg>
+          </div>
+  
+          <div ng-if="cpForm.chatIconType == 'Circle' && cpForm.chatIconPosition == 'right-bottom'" style="height:60px;width:60px;border-radius:60px;background:{{cpForm.supportBubbleColor}};position:absolute;bottom:248px;right:38px;" class="text-center">
+            <svg style="position:absolute; top:20px; left:19px; height:51px;" viewBox="0 0 28 32">
+               <path id="closeChatSvg" style="fill:{{cpForm.iconColor}};" d="M13.978 12.637l-1.341 1.341L6.989 8.33l-5.648 5.648L0 12.637l5.648-5.648L0 1.341 1.341 0l5.648 5.648L12.637 0l1.341 1.341L8.33 6.989l5.648 5.648z" fill-rule="evenodd"></path>
+             </svg>
+          </div>
+  
+          <div ng-if="cpForm.chatIconType == 'Box' && cpForm.chatIconPosition == 'right-bottom'" style="height: 38px;width: 143px;background:{{cpForm.supportBubbleColor}};position: absolute;bottom: 239px;right: 51px;border-top-left-radius: 20px;border-top-right-radius: 20px;color:white;padding-top:10px;" class="text-center">
+            Chat with Us <i class="fa fa-whatsapp"></i>
+          </div>
+  
+          <div ng-if="cpForm.chatIconType == 'Box' && cpForm.chatIconPosition == 'left-bottom'" style="height: 38px;width: 143px;background:{{cpForm.supportBubbleColor}};position: absolute;bottom: 239px;left: 51px;border-top-left-radius: 20px;border-top-right-radius: 20px;color:white;padding-top:10px;" class="text-center">
+            Chat with Us <i class="fa fa-whatsapp"></i>
+          </div>
+  
+          <div ng-if="cpForm.chatIconType == 'Box' && cpForm.chatIconPosition == 'right-center'" style="height: 38px;width: 143px;background:{{cpForm.supportBubbleColor}};position: absolute;bottom: 336px;right: -22px;;border-top-left-radius: 20px;border-top-right-radius: 20px;color:white;padding-top:10px;transform: rotate(-90deg);" class="text-center">
+            Chat with Us <i class="fa fa-whatsapp"></i>
+          </div>
+  
+          <div ng-if="cpForm.chatIconType == 'Box' && cpForm.chatIconPosition == 'left-center'" style="height: 38px;width: 143px;background:{{cpForm.supportBubbleColor}};position: absolute;bottom: 332px;left: -23px;border-top-left-radius: 20px;border-top-right-radius: 20px;color:white;padding-top:10px;transform: rotate(90deg);" class="text-center">
+            Chat with Us <i class="fa fa-whatsapp"></i>
+          </div>
+  
+          <div style="box-shadow:0px 8px 108px rgba(157, 157, 157, 0.94) !important; height: 290px;position: absolute;width: 254px;background: white;right: {{ cpForm.chatIconPosition == 'left-center' || cpForm.chatIconPosition == 'left-bottom' ?  '350px':'91px'}};top: 113px;border-radius: 16px;">
+            <div style="height: 70px;background: {{cpForm.windowColor}};position: absolute;width: 100%;border-top-left-radius: 16px;border-top-right-radius: 16px;padding:10px;">
+              <img id="robotIcon2" src="/static/images/img_avatar_card.png" class="img img-circle" style="width:50px;position:absolute;left:10px;top:10px;" alt="">
+  
+              <span style="color:{{cpForm.fontColor}};font-size:14px;position:absolute;left:70px;top:15px;">{{cpForm.mascotName}}</span>
+  
+              <div style="background:#f6f6f6;width:180px;position:absolute;left:20px;top:90px;padding:7px;text-align:left;border-radius:10px;border-top-left-radius:0px;" ng-bind-html="cpForm.firstMessage">
+  
+              </div>
+  
+              <div style="background:{{cpForm.windowColor}};color:{{cpForm.fontColor}};width:180px;position:absolute;right:20px;top:200px;padding:7px;text-align:left;border-radius:10px;border-top-right-radius:0px;" >
+                <p>A message from user</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5">
+  
+      <div class="row" style="padding-bottom:15px;">
+        <div class="col-md-4" style="font-size:15px;">
+          <span ><i class="fa fa-gg-circle"></i> &nbsp;<span>Button Colour</span> &nbsp;</span>
+        </div>
+        <div class="col-md-2">
+            <input style="position:static; left:0px; opacity:1;" class="form-control" type="color" ng-model="cpForm.supportBubbleColor">
+        </div>
+      </div>
+  
+      <div class="row" style="padding-bottom:15px;">
+        <div class="col-md-4" style="font-size:15px;">
+          <span ><i class="fa fa-info-circle"></i> &nbsp;<span>Icon Colour</span> &nbsp;</span>
+        </div>
+        <div class="col-md-2">
+            <input class="form-control" style="position:static; left:0px; opacity:1;" type="color" ng-model="cpForm.iconColor">
+        </div>
+      </div>
+  
+      <hr>
+  
+      <div class="row" style="padding-bottom:15px;">
+        <div class="col-md-4" style="font-size:15px;">
+          <span ><i class="fa fa-compass"></i> &nbsp;<span>Select Button Type</span></span>
+        </div>
+        <div class="col-md-8">
+          <input type="radio" ng-model="cpForm.chatIconType" value="Circle">
+            <span>
+              <span style="border:2px solid #e0e0e0;padding:2px 3px 2px 7px;border-radius:50%;background:{{cpForm.supportBubbleColor}};color:{{cpForm.fontColor}}">
+                <i class="fa fa-whatsapp" aria-hidden="true"></i>
+              </span>
+            </span> &nbsp;
+          <input type="radio" ng-model="cpForm.chatIconType" value="Box">
+          <span>
+            <span style="border:2px solid #e0e0e0;padding:2px 5px;background:{{cpForm.supportBubbleColor}};color:{{cpForm.fontColor}}">
+              Chat With Us <i class="fa fa-whatsapp" aria-hidden="true"></i>
+            </span>
+          </span>
+        </div>
+      </div>
+      <div class="row" style="padding-bottom:15px;">
+        <div class="col-md-4" style="font-size:15px;">
+          <span ><i class="fa fa-object-group"></i> &nbsp;<span>Position</span></span>
+        </div>
+        <div class="col-md-8">
+          <input ng-if="cpForm.chatIconType=='Box'" type="radio" ng-model="cpForm.chatIconPosition" value="left-center">&nbsp;
+            <span style="display:inline-block;margin-bottom:-7px" ng-if="cpForm.chatIconType=='Box'">
+              <div style="border:2px solid #e0e0e0;width:30px;height:30px;position:relative">
+                <span style="position: absolute;top:40%;background:black;border-radius:50%;width:7px;height:7px"></span>
+              </div>
+            </span> &nbsp;
+            <input type="radio" ng-model="cpForm.chatIconPosition" value="right-center" ng-if="cpForm.chatIconType=='Box'">&nbsp;
+            <span style="display:inline-block; margin-bottom:-7px" ng-if="cpForm.chatIconType=='Box'">
+              <div style="border:2px solid #e0e0e0;width:30px;height:30px;position:relative">
+                <span style="position: absolute;top:40%;right:0px;background:black;border-radius:50%;width:7px;height:7px"></span>
+              </div>
+            </span> &nbsp;
+            <input type="radio" ng-model="cpForm.chatIconPosition" value="left-bottom">&nbsp;
+            <span style="display:inline-block ;margin-bottom:-7px">
+              <div style="border:2px solid #e0e0e0;width:30px;height:30px;position:relative">
+                <span style="position: absolute;bottom:0%;background:black;border-radius:50%;width:7px;height:7px"></span>
+              </div>
+            </span> &nbsp;
+              <input type="radio" ng-model="cpForm.chatIconPosition" value="right-bottom">&nbsp;
+            <span style="display:inline-block;margin-bottom:-7px">
+              <div style="border:2px solid #e0e0e0;width:30px;height:30px;position:relative">
+                <span style="position: absolute;bottom:0%;right: 0px;background:black;border-radius:50%;width:7px;height:7px"></span>
+              </div>
+            </span>
+        </div>
+      </div>
+  
+      <hr>
+  
+  
+      <div class="row" style="padding-bottom:15px;">
+        <div class="col-md-4" style="font-size:15px;">
+          <span> <i class="fa fa-desktop"></i> &nbsp;<span>Window Colour</span> &nbsp;</span>
+        </div>
+        <div class="col-md-2">
+            <input style="position:static; left:0px; opacity:1;" class="form-control" type="color" ng-model="cpForm.windowColor">
+        </div>
+      </div>
+  
+      <div class="row" style="padding-bottom:15px;">
+        <div class="col-md-4" style="font-size:15px;">
+          <span ><i class="fa fa-bold"></i> &nbsp;<span>Font Colour</span> &nbsp;</span>
+        </div>
+        <div class="col-md-2">
+            <input style="position:static; left:0px; opacity:1;" class="form-control" type="color" ng-model="cpForm.fontColor">
+        </div>
+      </div>
+  
+  
+      <div class="row" style="padding-bottom:15px;">
+        <div class="col-md-4" style="font-size:15px;">
+          <span ><i class="fa fa-picture-o"></i> &nbsp;<span>Robot Icon</span></span>
+        </div>
+        <div class="col-md-5" style="overflow:hidden;position:relative;">
+            <input type="file" file-model="cpForm.dp">
+        </div>
+        <!-- <div class="col-md-2" ng-if="cpForm.dp">
+          <img id="robotIcon1"  style="width:50px;height:50px;">
+        </div> -->
+        <div class="col-md-3" ng-if="cpForm.showDpReset== true">
+          <button class="btn btn-primary" ng-click="setDpDefault()">Reset</button>
+        </div>
+      </div>
+  
+      <div class="row" style="padding-bottom:15px;">
+        <div class="col-md-4" style="font-size:15px;">
+          <span ><i class="fa fa-user"></i> &nbsp;<span>Robot Name</span></span>
+        </div>
+        <div class="col-md-8">
+          <input class="form-control cleanInput" type="text" ng-model="cpForm.mascotName">
+        </div>
+      </div>
+  
+      <div class="row" style="padding-bottom:15px;">
+        <div class="col-md-4" style="font-size:15px;">
+          <span ><i class="fa fa-commenting-o"></i> &nbsp;<span>First Message</span></span>
+        </div>
+      </div>
+      <div class="row" style="padding-bottom:15px;">
+        <textarea ui-tinymce="tinymceOptions" class="cleanInput" ng-model="cpForm.firstMessage"></textarea>
+      </div>
+  
+  
+  
+  
+    </div>
+  </div>
+  

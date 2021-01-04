@@ -1,0 +1,64 @@
+<div class="row "  style="background-image:url('/static/img/blue1.svg');background-repeat:no-repeat;background-size:100%;background-position: top;">
+  <div class="row ">
+    <div class="centered">
+      <h2 class="career_heading">want to help build the future of social media intelligence?</h2>
+    </div>
+  </div>
+  <div class="row career_start">
+        <div class="col-md-4 col-lg-4 career_hed">
+          <p style="">current job openings </p>
+        </div>
+        <div class="col-md-8 col-lg-8 career_card">
+          <div class="col-md-5 col-lg-5 cm_padding" style="margin-top: -5%;">
+            <!-- <h3 style="text-align:center">current jobs</h3> -->
+
+
+
+            <div class="career_cmn_card" ng-repeat="i in allJobs1">
+              <span style="letter-spacing:0.5px;color:gray;"><i class="fa fa-map-marker " aria-hidden="true" style="font-size:20px;color:#e5e5e5;padding-right:10px;"></i> {{i.unit.city}}</span>
+              <!-- <p style="margin-bottom:0px;font-size:22px;font-weight:bold;margin-top:10px;letter-spacing:0.5px;">UI/UX Developer </p> -->
+              <div style="margin-top:15px">
+
+                <a href="/career/{{i.pk}}" style="margin-bottom:0px;font-size:22px;font-weight:bold;letter-spacing:0.5px;color:black">{{i.role.name}}</a>
+              </div>
+              <div style="height:100px">
+                <span ng-bind-html="i.skill"></span>
+                <p style="font-size:16px;min-height:5vh;color:gray;margin-top:10px;line-height:1.5;letter-spacing:0.5px;">
+                </p>
+              </div>
+              <button class="btn  btn-default" type="button" name="button" style="color:#7493fbff;background-color:#e8eeffff;font-weight:bold;border:none;padding:10px 26px;">{{i.jobtype}} </button>
+            </div>
+
+
+          </div>
+          <div class="col-md-3 col-lg-5 cm_padding card_top_bottom">
+
+            <div class="career_cmn_card " ng-repeat="j in allJobs2">
+              <span style="letter-spacing:0.5px;color:gray;"><i class="fa fa-map-marker " aria-hidden="true" style="font-size:20px;color:#e5e5e5;padding-right:10px;"></i> {{j.unit.city}}</span>
+
+              <div style="margin-top:15px">
+
+                <a href="/career/{{j.pk}}" style="margin-bottom:0px;font-size:22px;font-weight:bold;letter-spacing:0.5px;color:black">{{j.role.name}}</a>
+              </div>
+              <div style="height:100px">
+                <span ng-bind-html="j.skill"></span>
+                <p style="font-size:16px;min-height:5vh;color:gray;margin-top:10px;line-height:1.5;letter-spacing:0.5px;">
+                </p>
+              </div>
+              <button class="btn  btn-default" type="button" name="button" style="color:#7493fbff;background-color:#e8eeffff;font-weight:bold;border:none;padding:10px 26px;">{{j.jobtype}}</button>
+            </div>
+
+
+          </div>
+
+        </div>
+      </div>
+      <div class="row" style="ackground-image:url('/static/images/constellation-bg.png');background-repeat: no-repeat;background-size: cover;min-height: 200px;background-position: center;background-color:#080738">
+        <div class="col-md-12 text-center" style="color:#fff;padding:20px">
+          <h2>Experience a better learning platform</h2><br>
+          <a type="button" class="btn btn-default redbtn" ng-click="schedule()">Get a free demo</a>
+        </div>
+      </div>
+
+
+</div>

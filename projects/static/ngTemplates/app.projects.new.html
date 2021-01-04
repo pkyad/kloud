@@ -1,0 +1,74 @@
+<div class="container-fluid">
+  <div class="modal-header">
+
+
+      <button type="button" class="btn btn-default pull-right" ng-click="close()">
+         <i class="fa fa-times"></i>
+      </button>
+
+
+
+  </div>
+  <div class="modal-body">
+    <div class="col-md-4" style="margin-top:10px;">
+      <h3 ng-if="form.title.length==0" class="text-muted" style="word-wrap:break-word;">Untitled..</h3>
+      <h3 style="word-wrap:break-word;">{{form.title}}</h3>
+      <hr>
+      <users-Field data="form.team" url="/api/HR/userSearch/" col="6" label="team"></users-Field>
+    </div>
+    <div class="col-md-8" style="position:relative; min-height:90vh;top:0px;right:0px;padding:0px;">
+      <div style="overflow:auto;height:100%;position:absolute;width:100%;border-left:solid 3px #eee;padding:20px;">
+        <div class="col-md-12">
+          <div class="form-group" style="margin-top:10px;">
+            <label>Title</label>
+            <input type="text" ng-model="form.title" class="form-control" placeholder="Title..">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Company</label>
+            <input uib-typeahead="c as c.name for c in companySearch($viewValue)" ng-model="form.company" type="text" class="form-control" placeholder="Search By Company Name">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Due date</label>
+            <div class="input-group">
+              <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.dueDate" is-open="status.opened" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="status.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Cost Center</label>
+            <input uib-typeahead="cc as cc.name for cc in ccSearch($viewValue)" ng-model="form.costCenter" type="text" class="form-control" placeholder="Search By Cost Center Name">
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Description</label>
+            <textarea class="form-control" rows="5" cols="40" placeholder="Description" ng-model="form.description"></textarea>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <media-Field data="data.files" url="/api/projects/media/"></media-Field>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer text-center" style="border-top:0px solid transparent">
+    <div class="btn-group btn-group-sm ">
+    <button type="button" class="btn btn-default" ng-click="resetForm()">
+      Reset
+    </button>
+    <button type="button" class="btn btn-primary" ng-click="postProject()">
+      Save <i class="fa fa-floppy-o"></i>
+    </button>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,64 @@
+<div class="modal-header">
+  <h3> Add Invoice </h3>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3">
+        <span> Name : {{data.contact.name}} </span>
+      </div>
+      <div class="col-md-3">
+        <span> Mobile : {{data.contact.mobile}} </span>
+      </div>
+      <div class="col-md-3">
+        <span> Email : {{data.contact.email}} </span>
+      </div>
+      <div class="col-md-3">
+        <span> Address : {{data.contact.addrs}}, {{data.contact.city}}, {{data.contact.state}}, {{data.contact.country}}- {{data.contact.pincode}}</span>
+      </div>
+    </div>
+    <!-- <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Select Asset</label>
+            <input type="text" class="form-control" placeholder="Search and select asset" ng-model="data.asset" uib-typeahead="meta as meta.name for meta in assetsSearch($viewValue)">
+          </div>
+        </div>
+    </div> -->
+    <div class="row" style="padding-top:20px" >
+      <div class="col-md-10" style="padding:0px;">
+        <!-- <div class="row" style="border-bottom:solid 2px #eeeeee;margin:5px"> -->
+        <table class="invoiceTable" style=" width: 100%;">
+          <tbody>
+            <tr style="background-color: #eeeeee;height: 50px;">
+              <th>S.No</th>
+              <th>Asset</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th></th>
+            </tr>
+            <tr ng-repeat="v in data.products track by $index">
+              <td>{{$index + 1}}  {{v.asset.checkinAllCount}}</td>
+              <td><input type="text" class="form-control-pos text-center" ng-model="v.asset" uib-typeahead="meta as meta.name for meta in assetsSearch($viewValue)"></td>
+              <td><span> {{v.price}} </span></td>
+              <td><input type="text" class="form-control-pos text-center" ng-model="v.receivedQty" style="{{v.receivedQty>v.asset.checkinAllCount?'background-color:red':''}}"></td>
+              <td><button type="button" class="btn btn-danger btn-sm"  ng-click="delete($index)"> <i class="fa fa-trash"></i> </button></td>
+            </tr>
+            <tr>
+              <td><button style="background-color:white;border:none;" ng-click="addTableRow($index)"><i class="fa fa-plus" style="cursor:pointer"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row" style="padding-top:15px">
+      <div class="col-md-12">
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" ng-click="save()">Save</button>
+          <!-- <button ng-if="mode=='new'" type="button" class="btn btn-default" ng-click="refresh()">Refresh</button> -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

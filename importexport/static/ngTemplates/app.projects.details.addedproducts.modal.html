@@ -1,0 +1,24 @@
+<div class="modal-header">
+  <div class="col-md-11">
+    <h3 class="text-center">Uploaded Products Details</h3>
+  </div>
+  <div class="col-md-1">
+    <button class="btn btn-primary" ng-click="$close('ok')"><i class="fa fa-close"></i></button>
+  </div>
+</div>
+<div class="modal-body" ng-if="!updateFlag">
+  <div>
+    <div style="font-size:20px">
+      No of Products uploaded : {{appendCount}}
+    </div>
+    <div style="font-size:20px">
+      No of Products It was Already Added : {{notAdded}}
+    </div>
+    <div style="font-size:20px">
+      Incorrect Part No(s) :
+      <ul>
+        <li ng-repeat="i in inCorrectArr track by $index">{{i}} </li>
+      </ul>
+    </div>
+  </div>
+</div>

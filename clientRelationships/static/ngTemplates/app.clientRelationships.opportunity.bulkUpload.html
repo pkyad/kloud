@@ -1,0 +1,16 @@
+<div class="modal-header">
+<button class="btn btn-default pull-right" ng-click="close()"> <i class="fa fa-close"></i> </button>
+  </div>
+
+<div class="modal-body">
+  <div class="row" style="padding:15px">
+  <div class="form-group">
+    <label>File</label>
+    <input type="file" file-model="form.xlFile">
+  </div>
+  <a href="/static/Opportunites.xlsx">Find the sample attachment to Upload</a> <br/><br/>
+  <button class="btn btn-default " ng-click="upload()"> Upload</button>
+  <p ng-if = "form.usrCount" style="padding-top:15px;color:#2c603b"> {{form.usrCount}} Opportunities Added</p>
+    <p ng-if = "form.unaddedCount" style="padding-top:15px;color:#6e1010"> {{form.unaddedCount}} Opportunities are not Added</p>
+  </div>
+  </div>

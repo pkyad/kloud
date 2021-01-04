@@ -1,0 +1,156 @@
+<!-- <div ng-controller="businessManagement.finance.purchaseOrder.explore"> -->
+<div >
+  <div class="row" style="padding-top:20px">
+    <div class="col-md-3">
+      <div class="row">
+        <div class="col-md-12">
+          <div class = "row"  style="padding-top:10px" >
+            <div class="col-md-6 text-right">
+                <strong> ID : </strong>
+            </div>
+            <div class="col-md-6">
+                <span>#{{tab.data.pk}}</span>
+            </div>
+          </div>
+          <div class = "row"  style="padding-top:10px" >
+            <div class="col-md-6 text-right">
+                <strong> Name : </strong>
+            </div>
+            <div class="col-md-6">
+                <span>{{tab.data.name}}</span>
+            </div>
+          </div>
+          <div class = "row" style="padding-top:10px" >
+            <div class="col-md-6 text-right">
+                <strong>  Person Name : </strong>
+            </div>
+            <div class="col-md-6">
+                <span>{{tab.data.personName}}</span>
+            </div>
+          </div>
+          <div class = "row"  style="padding-top:10px">
+            <div class="col-md-6 text-right">
+                <strong>  Email :  </strong>
+            </div>
+            <div class="col-md-6">
+                <span>{{tab.data.email}}</span>
+            </div>
+          </div>
+          <div class = "row"  style="padding-top:10px">
+            <div class="col-md-6 text-right">
+                <strong>  Phone :  </strong>
+            </div>
+            <div class="col-md-6">
+                <span>{{tab.data.phone}}</span>
+            </div>
+          </div>
+          <div class = "row" style="padding-top:10px" >
+            <div class="col-md-6 text-right">
+                <strong>  Status : </strong>
+            </div>
+            <div class="col-md-6">
+                <span>{{tab.data.status}}</span>
+            </div>
+          </div>
+          <div class = "row" style="padding-top:10px" >
+            <div class="col-md-6 text-right">
+                <strong>  Address : </strong>
+            </div>
+            <div class="col-md-6">
+                <span>{{tab.data.address}}</span>
+            </div>
+          </div>
+          <!-- <div class = "row" style="padding-top:10px" >
+            <div class="col-md-6 text-right">
+                <strong>  PO Number : </strong>
+            </div>
+            <div class="col-md-6">
+                <span>{{tab.data.poNumber}}</span>
+            </div>
+          </div> -->
+          <div class = "row" style="padding-top:10px" >
+            <div class="col-md-6 text-right">
+                <strong>  Quotation Number : </strong>
+            </div>
+            <div class="col-md-6">
+                <span>{{tab.data.quoteNumber}}</span>
+            </div>
+          </div>
+          <div class = "row" style="padding-top:10px" >
+            <div class="col-md-6 text-right">
+                <strong> Delivery Date : </strong>
+            </div>
+            <div class="col-md-6">
+                <span>{{tab.data.deliveryDate}}</span>
+            </div>
+          </div>
+          <div class = "row" style="padding-top:10px" >
+            <div class="col-md-6 text-right">
+                <strong> Terms & Condition : </strong>
+            </div>
+            <div class="col-md-6">
+                <span>{{tab.data.terms}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9" ng-controller="businessManagement.finance.purchaseOrder.explore" >
+      <div class="row" >
+        <p></p>
+        <wizard steps="projectSteps.steps" editable="false" active="data.selectedStatus" error="false"></wizard>
+      </div>
+      <div class="row" style="padding-top:15px">
+        <table class="invoiceTable" style=" width: 100%;">
+          <tbody>
+            <tr style="background-color: #eeeeee;height: 50px;">
+              <th>S.No</th>
+              <th>Product Name</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th ng-if="tab.data.status=='Approved'||tab.data.status=='GRN'">Received Quantity</th>
+              <th>Total</th>
+            </tr>
+            <tr ng-repeat="v in products track by $index">
+              <td>{{$index + 1}}</td>
+              <td>{{v.product}}</td>
+              <td>{{v.price}}</td>
+              <td>{{v.qty}}</td>
+              <th ng-if="tab.data.status=='GRN'"><input type="text" class="form-control-pos text-center" ng-model="v.receivedQty"></th>
+              <th ng-if="tab.data.status=='Approved'">{{v.receivedQty}}</th>
+              <td>{{v.total}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- <div class="row" style="padding-top:15px" ng-if="tab.data.status=='created'">
+        <div class="col-md-12">
+          <button type="button" class="btn btn-success pull-right" mwl-confirm title="Confirm" message="Are you sure?" tab.data-placement="top" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="sendForApproval()"
+            confirm-button-type="default" cancel-button-type="default"> Send For Approval</button>
+        </div>
+      </div> -->
+      <div class="row" style="padding-top:15px" ng-if="tab.data.status=='created'">
+        <div class="col-md-12 text-right">
+          <div class="btn-group">
+            <button type="button" class="btn btn-success pull-right" mwl-confirm title="Confirm" message="Are you sure?" tab.data-placement="top" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="approve()" confirm-button-type="default"
+              cancel-button-type="default">Approve</button>
+            <button type="button" class="btn btn-danger pull-right" mwl-confirm title="Confirm" message="Are you sure?" tab.data-placement="top" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="reject()" confirm-button-type="default"
+              cancel-button-type="default">Reject</button>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="row" style="padding-top:15px" ng-if="tab.data.status=='GRN'">
+        <div class="col-md-12 text-left">
+          <button type="button" class="btn btn-success pull-right" mwl-confirm title="Confirm" message="Are you sure?" tab.data-placement="top" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="savetab.data()" confirm-button-type="default"
+            cancel-button-type="default"> Save</button>
+        </div>
+      </div> -->
+      <div class="row" style="padding-top:15px" ng-if="tab.data.status=='Approved'">
+        <div class="col-md-12 text-right">
+          <!-- <span ><a class="btn btn-primary" target="_blank" href="/api/finance/grnDownload?value={{tab.data.pk}}" style="min-width:50px"><i class="fa fa-download "></i> Download GRN</a></span> -->
+          <button type="button" class="btn btn-primary" ng-click="addToInvoice()"> Move To Invoice</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,99 @@
+
+      <div class="container-fluid contactList" style="background:#FAFAFA;min-height:100vh;">
+        <div class="row" style="background:rgb(18, 46, 99);padding:15px;padding-top:20px;padding-bottom:20px;">
+          <div class="col-md-4">
+          </div>
+          <div class="col-md-8">
+            <div class="col-md-2 col-md-offset-2">
+              <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.importexport.newInvoice')">New</button>
+            </div>
+            <div class="col-md-4">
+              <div class="input-group" style="background:#ffffff;border-radius:10px;">
+                <input type="text" class="form-control" ng-model="search.query" placeholder="Search by invoice no" ng-enter="fetchData()" style="border:none !important;background:#ffffff;">
+                <div class="input-group-btn">
+                  <button class="btn btn-default" type="submit" ng-click="fetchData()" style="border:none !important;background:#ffffff;">
+                    <i class="glyphicon glyphicon-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="privious()">Prev</button>
+            </div>
+            <div class="col-md-2">
+              <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="next()">Next</button>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="background:rgb(18, 46, 99);color:white;padding-bottom:20px;padding:30px;">
+          <div class="col-md-4"> </div>
+          <div class="col-md-4 text-center">
+            <h3>Invoices</h3>
+          </div>
+          <div class="col-md-4"> </div>
+        </div>
+        <div class="row" style="margin-top:30px">
+          <div class="col-md-4" ng-repeat="data in allData" style="padding-bottom:20px;padding-left:10px;padding-right:10px;">
+            <div class="container-fluid card" ng-click="$state.go('businessManagement.importexport.viewInvoice',{'id':data.pk})" style="border: 2px solid #090a0a;cursor:pointer">
+              <div class="row text-center" style="height:6vh;">
+                <div class="col-md-12" style="position:relative;display:block;">
+                  <div class="row" style="padding-left:10px;">
+                    <h3>{{data.invoiceNumber}}</h3>
+                  </div>
+                </div>
+              </div>
+              <div class="row container-fluid" style="padding-top:20px;height:12vh;">
+                <div class="col-md-10">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="row">
+                        <div class="col-md-5 text-left">
+                          <strong>Date : </strong>
+                        </div>
+                        <div class="col-md-6 text-left">
+                          <span>{{data.invoiceDate}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="row">
+                        <div class="col-md-5 text-left">
+                          <strong>PO Number : </strong>
+                        </div>
+                        <div class="col-md-6 text-left">
+                          <span>{{data.poNumber}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="row">
+                        <div class="col-md-5 text-left">
+                          <strong>Name : </strong>
+                        </div>
+                        <div class="col-md-6 text-left">
+                          <span>{{data.shipName}}{{data.lockInvoice}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2" style="padding-bottom:15px">
+                  <div class="row">
+                    <span ng-if="!data.lockInvoice" class="pull-right" style="cursor:pointer;position:absolute;" ng-click="$state.go('businessManagement.importexport.editInvoice',{'id':data.pk})">
+                      <i class="fa fa-pencil fa-2x"></i>
+                    </span>
+                    <span ng-if="!data.lockInvoice" class="pull-right" style="cursor:pointer;position:absolute;top:4vh;" ng-click="$event.stopPropagation()" mwl-confirm title="Delete" message="Are you sure?"
+                      confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="deleteInvoice(data.pk)" confirm-button-type="default" cancel-button-type="default"></i>
+                      <i class="fa fa-trash fa-2x"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>

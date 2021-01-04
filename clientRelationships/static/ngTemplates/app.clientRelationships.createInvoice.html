@@ -1,0 +1,200 @@
+<style media="screen">
+  .borderLessHead{
+    border-bottom:none !important;
+  }
+
+  input[flexible-input] {
+    background:white;border-radius:none;padding-left:10px;margin-top:10px;border:solid 1px #eee;
+  }
+  input[cleanInput] {
+    border-radius:none;padding:0px;border:none;
+  }
+  .noPadd{
+    padding:0px !important;
+  }
+</style>
+
+<div class="col-lg-12" style="margin:0px;padding-top:90px;background-image: linear-gradient(180deg,#fff 0%,#f0f0f0 100%);height:100vh;overflow:auto;font-size:15px;padding-left:0px;padding-right:0px;">
+
+  <div class="col-md-10 col-md-offset-1" style="margin-bottom:20px;padding:0px;">
+    <button type="button" class="btn btn-info" style="border-radius:100px !important;background:#5bc0de;color:white;padding-left:20px;padding-right:20px;">
+      Reset
+    </button>
+
+    <button type="button" class="btn btn-primary pull-right" style="border-radius:100px !important;background:#337ab7;color:white;padding-left:20px;padding-right:20px;margin-left:30px;" ng-click="saveQuotation()">
+      Save <i class="fa fa-floppy-o" style="margin-left:20px;"></i>
+    </button>
+    <button type="button" class="btn btn-danger pull-right" style="border-radius:100px !important;background:#d9534f;color:white;padding-left:20px;padding-right:20px;">
+      Download <i class="fa fa-download" style="margin-left:20px;"></i>
+    </button>
+    <!-- <button type="button" class="btn btn-primary pull-right" ng-click="Createprofile()"style="border-radius:100px !important;background:#006901;color:white;padding-left:20px;padding-right:20px;margin-right:30px;">
+      Add User <i class="fa fa-plus" style="margin-left:20px;"></i>
+    </button> -->
+  </div>
+
+  <div class="col-md-10 col-md-offset-1 bg-white" style="min-height:150vh;box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;margin-bottom:100px;padding:40px;border-bottom:solid 8px #227daa;border-top:solid 8px #227daa">
+
+    <div class="row">
+      <div class="col-md-12" style="height:175px;">
+        <img-field img="form.img"></img-field>
+      </div>
+    </div>
+
+    <div class="row text-center" style="font-size:20px;margin:30px;">
+      <strong>QUOTATION</strong>
+    </div>
+    <div class="form-group">
+      <!-- <label>Category</label> -->
+      <div class="input-group" >
+        <!-- <input uib-typeahead="c as c.username for c in categorySearch($viewValue)" class="form-control" type="text" ng-model="form.name" placeholder="Search By Category Name"> -->
+        <!-- <span class="input-group-btn" >
+          <button class="btn btn-primary" type="button" ng-click="openCategory()"><span ng-if="!product.category.pk">New </span> <span ng-if="product.category.pk">Update </span></button>
+        </span> -->
+      </div>
+        <!-- <input ng-if="storeTyp == 'MULTI-VENDOR'" uib-typeahead="c as c.name for c in categorySearch($viewValue)" class="form-control" type="text" ng-model="product.category" placeholder="Search By Category Name"> -->
+    </div>
+     <!-- uib-typeahead="k as k.profile.mobile for k in mobileSearch($viewValue)"  -->
+    <div class="row">
+      <div class="col-md-8">
+        <strong>Quote # : </strong><input flexible-input type="text" ng-model="form.quoteNumber" placeholder="Quote Number">  <br>
+        <strong>Date : </strong>{{form.dated | date}} <br> <br>
+        <strong>Kind Attention : </strong>
+        <input flexible-input uib-typeahead="c as c.username for c in inactUserSearch($viewValue)"  type="text" ng-model="form.name" placeholder="Search By Username" >
+        ( Mobile # <input flexible-input  type="text"ng-model="form.mobile"  placeholder="Mobile"> )<input flexible-input type="text" ng-model="form.email" placeholder="Email"> <br><br>
+        <strong><input flexible-input type="text" ng-model="form.companyName" placeholder="Company Name"> </strong> <br>
+        <span><input flexible-input type="text" ng-model="form.street" placeholder="Street"> </span> <br>
+        <span><input flexible-input type="text" ng-model="form.pincode" placeholder="Pincode">,{{form.city}}, {{form.state}},  {{form.country}} </span> <br>
+        <strong>GSTIN : </strong><input flexible-input type="text" ng-model="form.gstin" placeholder="GST"> <br> <br>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="container-fluid">
+        <table class="table">
+          <thead style="background-color:#227daa;color:white;">
+            <tr>
+              <th class="borderLessHead" width="35%">Details of Products & Services</th>
+              <th class="borderLessHead" width="10%">HSN/SAC</th>
+              <th class="borderLessHead" width="8%">Rate</th>
+              <th class="borderLessHead" width="7%">Qty</th>
+              <th class="borderLessHead" width="10%">Total</th>
+              <th class="borderLessHead" width="9%">CGST</th>
+              <th class="borderLessHead" width="9%">SGST</th>
+              <th class="borderLessHead" width="12%">Sub Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="p in form.products">
+
+              <td>
+                <span>{{p.txt}}</span> <br> <br>
+                <span ng-click="removeProduct($index)" style="cursor:pointer;" class="text-danger text-center">
+                  Remove <i class="fa fa-trash"></i>
+                </span>
+              </td>
+
+              <td>{{p.hsn}}</td>
+              <td>{{p.rate}}</td>
+              <td> <input style="margin-top:0px;" flexible-input type="text" ng-model="p.qty"  ng-change="updateQty($index)"> </td>
+              <td>{{p.total}}</td>
+              <td>{{p.cgst}}</td>
+              <td>{{p.sgst}}</td>
+              <td>{{p.subTotal}}</td>
+            </tr>
+            <tr>
+              <td class="noPadd">
+                <!-- <textarea style="border:none;" class="form-control" placeholder="Describe Your Products..." ng-model="form.editor.txt" rows="3" ></textarea> -->
+                <input id="editorTxt" placeholder="Search for a product.." cleanInput class="form-control" type="text" ng-model="form.editor.txt" uib-typeahead="p as p.displayName for p in productSearch($viewValue)" >
+              </td>
+              <td class="noPadd">
+                <!-- <input placeholder="HSN/SAC..." cleanInput class="form-control" type="text" ng-model="form.editor.hsn"> -->
+                {{form.editor.hsn}}
+              </td>
+
+              <td class="noPadd">
+                <!-- <input placeholder="Rate..." cleanInput class="form-control" type="text" ng-model="form.editor.rate"> -->
+                {{form.editor.rate}}
+              </td>
+              <td class="noPadd">
+                <input ng-if="form.editor.variant" placeholder="QTY..." cleanInput  class="form-control" type="text" ng-model="form.editor.qty"  ng-change="changeQty()" ng-enter="addProduct()">
+              </td>
+              <td class="noPadd">
+                <!-- <input placeholder="Total..." cleanInput class="form-control" type="text" ng-model="form.editor.total"> -->
+                {{form.editor.total}}
+              </td>
+              <td class="noPadd">
+                <!-- <input placeholder="CGST..." cleanInput class="form-control" type="text" ng-model="form.editor.cgst"> -->
+                {{form.editor.cgst}}
+              </td>
+              <td class="noPadd">
+                <!-- <input placeholder="SGST..." cleanInput class="form-control" type="text" ng-model="form.editor.sgst"> -->
+                {{form.editor.sgst}}
+              </td>
+              <td class="noPadd">
+                <!-- <input placeholder="Total..." cleanInput class="form-control" type="text" ng-model="form.editor.subTotal"> -->
+                <span ng-if="form.editor.variant">{{form.editor.subTotal | number}}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="row" style="margin:0px;">
+
+          <div class="col-md-2 pull-right text-right" style="font-size:17px;padding:5px;">
+            <input type="text" ng-change="calculateFinalTotal()" class="form-control" ng-model="form.discount" style="text-align: end;">
+          </div>
+          <div class="col-md-1 pull-right text-right" style="font-size:17px;padding:5px;padding-right:0px;padding-top:10px;">
+            Discount :
+          </div>
+        </div>
+        <div class="row" style="margin:0px;">
+          <div class="col-md-3 pull-right text-right" style="background:#227daa;color:white;font-size:17px;padding:5px;padding-right:20px;">
+            Grand Total (INR) : {{form.grandTotal}}
+          </div>
+        </div>
+
+        <strong>Amount Payable (in words) :</strong> <br>
+        <span>{{form.inWords}}</span> <br> <br>
+
+        <strong>Terms and Conditions :</strong> <i class="fa fa-plus fa-lg" ng-click="addTerms()"></i> <br><br>
+
+
+        <span ng-repeat="t in form.tnc" ng-init="t.hover = false;">
+
+
+          <div class="row" ng-mouseenter="t.hover = true;" ng-mouseleave="t.hover = false;">
+            <div class="col-md-1" style="padding:0px;cursor:pointer;">
+              <div ng-if="t.hover">
+                <i class="fa fa-arrow-up" ng-click="moveUp($index)" ng-if="!$first"></i>
+                <i class="fa fa-arrow-down" style="margin-left:20px;" ng-click="moveDown($index)" ng-if="!$last"></i>
+                <i class="fa fa-trash text-danger" style="margin-left:20px;" ng-click="deleteTerm($index)" ></i>
+              </div>
+            </div>
+            <div class="col-md-11">
+              <strong>{{$index+1}}. </strong> <span contenteditable ng-model="t.text"></span> <br>
+            </div>
+          </div>
+
+        </span>
+        <div class="row">
+          <div class="col-md-1">
+
+          </div>
+          <div class="col-md-11">
+            <strong>{{form.tnc.length+1}}. </strong> <input flexible-input type="text" placeholder="Add a term..." ng-model="form.editor.term" ng-enter="addTerm()">
+          </div>
+        </div>
+
+
+        <br><br>
+        <strong>Generated By : </strong> {{me.first_name}} {{me.last_name}}
+
+      </div>
+    </div>
+
+
+  </div>
+
+
+</div>

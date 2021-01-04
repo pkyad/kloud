@@ -1,0 +1,101 @@
+<div class="container-fluid" style="padding:20px;" ng-controller="businessManagement.importexport.CMS.explore">
+
+  <div class="col-md-3" style="border-right:solid 2px #eeeeee;">
+    <div class="row">
+      <div class="col-md-12" style="padding-top:8px;font-size:18px">
+        <span><i class="fa fa-hashtag"></i> {{data.invoiceNumber}}</span>
+      </div>
+      <div class="col-md-12" style="padding-top:8px;font-size:18px">
+        <span><i class="fa fa-calendar"></i> {{data.invoiceDate | date : 'dd-MMM-yyyy'}}</span>
+      </div>
+      <div class="col-md-12" style="padding-top:8px">
+        <strong style="font-size:17px">PO No.</strong> : <span>{{data.poNumber}}</span>
+      </div>
+      <div class="col-md-12" style="padding-top:8px">
+        <strong style="font-size:17px">Insurance</strong> : <span>{{data.insuranceNumber}}</span>
+      </div>
+      <div class="col-md-12" style="padding-top:8px">
+        <strong style="font-size:17px">Transporter</strong> : <span>{{data.transporter}}</span>
+      </div>
+      <div class="col-md-12" style="padding-top:8px">
+        <strong style="font-size:17px">LR No.</strong> : <span>{{data.lrNo}}</span>
+      </div>
+      <div class="col-md-12" style="padding-top:8px">
+        <strong style="font-size:17px">Payment Terms</strong> : <span>{{data.invoiceTerms}}</span>
+      </div>
+      <div class="col-md-12" style="padding-top:8px">
+        <strong style="font-size:17px">Billing Address</strong> :
+      </div>
+      <div class="col-md-12" style="padding-top:3px;font-size:15px;padding-left:35px">
+        <span><i class="fa fa-map-marker fa-lg"></i> {{data.billName}}</span><br>
+        <span> &nbsp; {{data.billGst}}</span><br>
+        <span> &nbsp; {{data.billAddress.street}}&nbsp; {{data.billAddress.city}}&nbsp; {{data.billAddress.pincode}}</span><br>
+        <span> &nbsp; {{data.billState}} , {{data.billCode}}</span>
+      </div>
+      <div class="col-md-12" style="padding-top:8px">
+        <strong style="font-size:17px">Shipping Address</strong> :
+      </div>
+      <div class="col-md-12" style="padding-top:3px;font-size:15px;padding-left:35px">
+        <span><i class="fa fa-map-marker fa-lg"></i> {{data.shipName}}</span><br>
+        <span> &nbsp; {{data.shipGst}}</span><br>
+        <span> &nbsp; {{data.shipAddress.street}}&nbsp; {{data.shipAddress.city}}&nbsp; {{data.shipAddress.pincode}}</span><br>
+        <span> &nbsp; {{data.shipState}} , {{data.shipCode}}</span>
+      </div>
+    </div>
+    <hr>
+    <div class="row" style="font-size:25px" ng-if="data.project">
+      <div class="col-md-12">
+        <span><strong>Project :</strong> {{data.project.title}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <div class="row" style="margin-bottom:20px" ng-if="data.pk">
+      <div class="col-md-12 text-right">
+        <span><a class="btn btn-primary" target="_blank" href="/api/importexport/invoiceDownload/?pkVal={{data.pk}}&potrait=True" style="min-width:50px"><i class="fa fa-download"></i> Download Invoice Portrait</a></span>
+        <span><a class="btn btn-primary" target="_blank" href="/api/importexport/invoiceDownload/?pkVal={{data.pk}}&potrait=False" style="min-width:50px"><i class="fa fa-download"></i> Download Invoice Landscape </a></span>
+
+      </div>
+    </div>
+    <table class="invoiceTable" style=" width: 100%;">
+      <tbody>
+        <tr style="background-color: #eeeeee;height: 50px;">
+          <th>Si.No</th>
+          <th>Part No</th>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>HSN</th>
+          <th>Rate</th>
+          <th>Taxable Value</th>
+          <th>CGST %</th>
+          <th>CGST Amount</th>
+          <th>SGST %</th>
+          <th>SGST Amount</th>
+          <th>IGST %</th>
+          <th>IGST Amount</th>
+          <th>Total</th>
+        </tr>
+        <tr ng-repeat="v in products track by $index">
+          <td>{{$index + 1}}</td>
+          <td>{{v.part_no}}</td>
+          <td>{{v.description_1}}</td>
+          <td>{{v.qty}}</td>
+          <td>{{v.customs_no}}</td>
+          <td>{{v.price}}</td>
+          <td>{{v.taxableprice}}</td>
+          <td>{{v.cgst}}</td>
+          <td>{{v.cgstVal}}</td>
+          <td>{{v.sgst}}</td>
+          <td>{{v.sgstVal}}</td>
+          <td>{{v.igst}}</td>
+          <td>{{v.igstVal}}</td>
+          <td>{{v.total}}</td>
+
+        </tr>
+
+
+      </tbody>
+    </table>
+  </div>
+
+</div>

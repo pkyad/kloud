@@ -1,0 +1,87 @@
+<div class="row" style="margin:15px;padding-top:50px" ng-controller="admin.settings.configure.hsnsac.form">
+  <div class="col-md-4">
+    <div class="row text-center" style="font-size:18px">
+      <b>{{holiDayForm.pk ? 'Update' : 'Create '}}</b>
+    </div>
+
+    <div class="form-group">
+      <label>Type</label>
+      <select class="form-control" ng-model="form.typ">
+        <option value="HSN">HSN</option>
+        <option value="SAC">SAC</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Tax Rate</label>
+      <input type="text" name="" value="" class="form-control" ng-model="form.taxRate">
+
+    </div>
+    <div class="form-group">
+      <label>Tax Code</label>
+      <input type="text" name="" value="" class="form-control" ng-model="form.code">
+
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea name="name" rows="8" cols="80" class="form-control" ng-model="form.description"></textarea>
+
+    </div>
+
+    <div class="row text-center" style="padding:25px 0px">
+      <button type="button" class="btn btn-primary" ng-click="save()"> {{form.pk ? 'Update' : 'Create'}}</button>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search" ng-model="searchForm.searchValue" ng-enter="alltaxCodes()">
+          <div class="input-group-btn">
+            <button class="btn btn-default" type="submit" ng-click="alltaxCodes()">
+              <i class="glyphicon glyphicon-search"></i>
+            </button>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-primary btn-block" ng-click="previous()">Prev</button>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-primary btn-block" ng-click="next()">Next</button>
+      </div>
+    </div>
+    <br>
+    <br>
+    <div class="row" style="margin:0px;">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Tax Code</th>
+            <th>Tax Rate</th>
+            <th>Type</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="k in codes track by $index">
+            <td>{{$index+1}}</td>
+            <td>{{k.code}}</td>
+            <td>{{k.taxRate}}</td>
+            <td>
+              <span class="label label-primary" ng-if="k.typ == 'HSN'">HSN</span>
+              <span class="label label-success" ng-if="k.typ == 'SAC'">SAC</span>
+
+
+            </td>
+            <td ng-click="editCodes(k,$index)"><i class="fa fa-pencil fa-lg"></i></td>
+            <td ng-click="delTaxcodes(k,$index)"><i class="fa fa-trash fa-lg"></i></td>
+          </tr>
+
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>

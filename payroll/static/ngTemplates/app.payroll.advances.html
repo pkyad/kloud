@@ -1,0 +1,90 @@
+<style media="screen">
+  .navigationBtn , .navigationBtn:hover{
+    padding: 10px;
+    border:none !important;
+    border-radius:10px !important;
+  }
+   .contactList input ,.contactList button , .contactList .btn, .contactList .btn-primary{
+    border:none !important;
+  }
+  .contactList input, .contactList .form-control{
+    padding: 20px;
+    border-radius: 23px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  .text-dull{
+    color: #bbb;
+  }
+
+  .tableNew th{
+    padding:17px !important;
+  }
+
+  .tableNew {
+    border-radius: 1em;
+    overflow: hidden;
+  }
+
+  .contentTd{
+    padding:18px !important;
+  }
+
+  table, th, td{
+    border-color:#f2f2f2 !important;
+  }
+
+</style>
+
+<!-- <ui-view> -->
+  <div class="container-fluid contactList" style="padding:40px;min-height:100vh;background:#FAFAFA;">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-4">
+        <div class="col-md-2 col-md-offset-2">
+          <button type="button" class="navigationBtn btn btn-primary btn-block" name="button" ng-click="$state.go('businessManagement.accounting.new')">New</button>
+        </div>
+        <div class="col-md-4">
+          <div class="input-group" style="background:#ffffff;border-radius:10px;">
+            <input type="text" class="form-control" ng-model="search" placeholder="Search by user" ng-enter="getall()" style="border:none !important;background:#ffffff;">
+            <div class="input-group-btn">
+              <button class="btn btn-default" type="submit" ng-click="purchaseOrders()" style="border:none !important;background:#ffffff;">
+                <i class="glyphicon glyphicon-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="prev()">Prev</button>
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="next()">Next</button>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <div class="row" style="margin:10px;">
+      <table class="table table-hover tableNew">
+        <thead>
+          <tr style="background:#f2f2f2;padding:10px;">
+            <th>ID</th>
+            <th>User</th>
+            <th>Reason</th>
+            <th>Date Of Return</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="p in advances" style="padding:10px;background:white;" ng-click="$state.go('businessManagement.advanceexplore' , {'id':p.pk})">
+            <td class="contentTd" >#{{p.pk}}</td>
+            <td class="contentTd" style="font-size:20px;">{{p.user.first_name}} {{p.user.last_name}}</td>
+            <td class="contentTd">{{p.reason}}</td>
+            <td class="contentTd">{{p.dateOfReturn | date}}</td>
+            <td class="contentTd" style="font-size:20px;">{{p.amount}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<!-- </ui-view> -->

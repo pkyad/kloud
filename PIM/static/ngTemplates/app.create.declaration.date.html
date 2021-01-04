@@ -1,0 +1,13 @@
+<div class="modal-body">
+  <div class = "row">
+    <div class="col-md-12">
+      <div class="input-group">
+        <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.startDate" is-open="status.DOBOpened" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="status.DOBOpened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </div>
+      <button type="button" name="button" class="btn btn-primary pull-right" style="margin-top:15px" ng-click="calc()"> Calculate </button>
+    </div>
+  </div>
+</div>

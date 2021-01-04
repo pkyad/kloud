@@ -1,0 +1,28 @@
+
+
+.neonbtn {
+  color: #111010;
+  background-color: #aef711;
+  border-radius: 2px;
+  z-index: 100;
+  border: 1px solid #aef711;
+  /* max-width: 200px; */
+  padding: 10px;
+  font-size: 16px;
+}
+
+.neonbtn:hover {
+  color: #111010;
+  background-color: #8df432;
+  border: 1px solid #8df432;
+}
+
+.neonbtn {
+  margin-top: 20px;
+}
+
+
+.explore_text {
+  text-align: center;
+  z-index: 1;
+}

@@ -1,0 +1,43 @@
+<div class="container-fluid" style="padding:20px;" >
+  <div class="col-lg-12">
+    <div class="form-group">
+      <label>Title </label>
+      <input type="text" class="form-control" ng-model="form.title"  >
+    </div>
+
+  </div>
+  <div class="col-lg-12">
+    <div class="form-group">
+      <label>Version </label>
+      <input type="text" class="form-control" ng-model="form.version"  >
+    </div>
+
+  </div>
+  <div class="col-lg-12">
+    <div class="form-group">
+      <label>Description </label>
+      <textarea name="name" rows="8" cols="80" class="form-control" ng-model="form.description"></textarea>
+    </div>
+  </div>
+  <div class="col-lg-12">
+    <div class="form-group">
+      <label> <input type="checkbox"ng-model="form.active"  > Active</label>
+    </div>
+  </div>
+  <div class="col-lg-12">
+    <div class="form-group">
+      <label>File </label>
+      <input type="file" file-model="form.docFile"  >
+    </div>
+  </div>
+  <div class="col-lg-12">
+    <div class="form-group">
+      <label>User</label>
+      <input uib-typeahead="acc as acc.first_name+' '+acc.last_name for acc in userSearch($viewValue)" ng-model="form.user" type="text" class="form-control" placeholder="Search By Account Number">
+    </div>
+  </div>
+
+  <div class="col-lg-12 text-right">
+      <button type="button" name="button" class="btn btn-md btn-primary " ng-click="saveDoc()"> Save</button>
+  </div>
+</div>

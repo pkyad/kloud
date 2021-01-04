@@ -1,0 +1,259 @@
+<div style="padding-top:20px;background:#FAFAFA">
+
+  <div class="row animated fadeIn" >
+    <div class="container-fluid">
+      <div class="col-md-3">
+        <div class="col-md-{{local.minInfo ? '1':'2'}}" style="padding:0px;">
+          <div style="{{ !local.minInfo? 'width:50;height:50;font-size:30px':'width:30px;height:30px;font-size:22px'}}; background:#FCB95B;display:bolck;padding-bottom:5px;border-radius:7px;" class="text-center">
+            <i class="fi-crown" style="color:white;"></i>
+          </div>
+        </div>
+        <div class="col-md-{{local.minInfo ? '11':'10'}}" style="paddint-top:0px;">
+          <div ng-if="!local.minInfo">
+            <span class="text-muted" style="font-size:15px;">{{deal.name | humanize}}</span> <br>
+            <span style="font-size:17px;">{{deal.company.name | humanize}}</span>
+          </div>
+          <div ng-if="local.minInfo">
+
+            <span style="font-size:17px;">{{deal.company.name | humanize}} | </span><span class="text-muted" style="font-size:15px;">{{deal.name | humanize}}</span>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="col-md-2">
+          <span ng-if="!local.minInfo" class="text-muted" style="font-size:15px;">VALUATION <br></span>
+          <span style="font-size:17px;"> <i class="fa fa-{{deal.currency | lowercase}} fa-lg text-muted"></i> {{deal.value}}</span>
+        </div>
+        <div class="col-md-3">
+          <span ng-if="!local.minInfo" class="text-muted" style="font-size:15px;">CLOSING DATE <br></span>
+          <span style="font-size:17px;"> <i ng-if="local.minInfo" class="fa fa-calendar fa-lg text-muted" style="margin-right:20px;"></i> {{deal.closeDate | date:'dd-MMM-yyyy'}}</span>
+        </div>
+        <div class="col-md-3">
+          <span ng-if="!local.minInfo" class="text-muted" style="font-size:15px;">OWNER <br></span>
+          <img ng-src="{{deal.user.pk | getDP}}" class="img img-rounded" style="{{ !local.minInfo? 'height:40px;width:40px':'height:30px;width:30px'}};"> <span style="font-size:17px;">{{deal.user.pk | getName}}</span>
+        </div>
+        <div class="col-md-4">
+          <div class="btn-group btn-group-sm pull-right">
+            <button type="button" class="btn btn-default" ng-click="addAggrement()">
+              <i class="fa fa-file"></i> Aggrement
+            </button>
+            <button type="button" class="btn btn-default" ng-click="viewDetails()">
+              <i class="fa fa-info"></i> View
+            </button>
+            <button type="button" class="btn btn-default" ng-click="editDeal()">
+              <i class="fa fa-pencil"></i> Edit
+            </button>
+            <button type="button" class="btn btn-default" ng-click="quote()">
+              <i class="fa fa-money"></i> Quote
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="margin:0px;margin-top:20px;padding-bottom:20px;border-bottom:solid 2px #eeeeee;background:#FAFAFA">
+    <div class="container-fluid" style="padding-left:0px;">
+      <div class="col-md-1 text-center" style="width:5%;">
+        <div ng-click="toggleInfoLevel()" class="btn" style="border-radius: 25px !important;height:48px;width:48px;padding:10px;border-radius:25px;font-size:17px;background:#eeeeee;color:#347b95;">
+          <i class="fa fa-chevron-{{ local.minInfo? 'down':'up'}}"></i>
+        </div>
+      </div>
+      <div class="col-md-9" style="padding:0px;width:77%;">
+        <wizard steps="data.steps" editable="false" active="deal.state" error="deal.result == 'lost'"></wizard>
+      </div>
+      <div class="col-md-2 text-center" >
+
+
+        <div class="input-group-btn">
+          <div ng-if="deal.state<5 && deal.result == 'na'" class="btn" ng-click="moveToNextStage()"  style="height:45px;padding:10px;font-size:17px;background:#2980b9;color:white;border-top-left-radius: 20px !important;border-bottom-left-radius: 20px !important;">
+            <span ng-if="deal.state != -1"><i class="fa fa-check"></i> Mark stage as complete</span>
+            <span ng-if="deal.state == -1"><i class="fa fa-phone"></i> Ready Set Go! </span>
+          </div>
+
+          <a ng-if="deal.state<5 && deal.result == 'na'"  style="height:45px;padding:10px;font-size:17px;" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu pull-right"  >
+            <li ng-click="changeStatus()"><a href="" >Mark as Won</a></li>
+            <li ng-click = "updateStatus('lost')"><a href="" >Mark as Lost</a></li>
+          </ul>
+
+        </div>
+
+
+        <div class="row" ng-if="deal.state==5 && deal.result == 'na'">
+          <div class="col-md-6" style="padding:0px;padding-right:5px;">
+            <div  class ="btn btn-block" ng-click="changeStatus()"  style="height:48px;padding:10px;border-radius:25px;font-size:17px;color:white;background:#2980b9;">
+              <i class="fa fa-check"></i> Won
+            </div>
+          </div>
+          <div class="col-md-6" style="padding:0px;padding-right:5px;">
+            <div class="btn btn-block bg-red" ng-click="concludeDeal('lost')"  style="height:48px;padding:10px;border-radius:25px;font-size:17px;background:#2980b9;color:white;">
+              <i class="fa fa-check"></i> Lost
+            </div>
+          </div>
+        </div>
+
+        <div ng-if="deal.result != 'na'" class="bg-{{deal.result == 'won' ? 'green': 'red'}}" style="height:48px;padding:10px;border-radius:25px;font-size:17px;background;color:white;">
+          <i class="fa fa-{{deal.result == 'won' ? 'check': 'times'}}"></i> {{ deal.result | humanize}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin:0px;background:white;">
+    <div class="col-md-4" style="padding:30px;">
+      <label class="text-muted">Contacts</label>
+      <div ng-repeat="c in deal.contacts" class="row" style="margin-top:10px;cursor:pointer;" ng-if="c.pk != contact.pk" >
+
+        <div class="row" style="margin:15px;" ng-click="$state.go('businessManagement.contacts.delatils' , {id : c.pk})">
+          <div class="container-fluid" style="background:#FAFAFA;border-radius:15px;padding:15px;">
+            <div class="row">
+              <div class="col-md-2" style="padding:0px;">
+                <img style="width: 50px;height:50px;" class="img img-rounded pull-right" ng-src="{{c | getCRMDP}}" onerror="this.src='/static/images/img_avatar_card2.png'">
+              </div>
+              <div class="col-md-10" style="padding-top:3px;" >
+                <div class="row" style="margin:0px;">
+                  <span style="font-size:17px;">{{c.name}}</span>
+                  <br> <span class="text-muted">{{c.designation}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="row" style="margin:0px;margin-top:20px;">
+              <img src="/static/images/icons8-email-96.png" style="width: 25px;"> {{c.email}}
+              <img src="/static/images/icons8-dialing-number-100.png" style="width: 25px;margin-left:20px;"> {{c.mobile}} <br>
+            </div>
+          </div>
+
+
+        </div>
+
+
+
+
+      </div> <br>
+      <div ng-if="deal.internalUsers.length > 0">
+        <label class="text-muted" style="margin-bottom:15px;">Followers</label>
+        <div ng-repeat="c in deal.internalUsers" class="row" style="padding-bottom:10px;">
+          <div class="col-md-3 text-right">
+            <img style="width: 50px;height:50px;" class="img img-rounded" ng-src="{{c | getDP}}">
+          </div>
+          <div class="col-md-9">
+            {{c | getName}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8" style="min-height:70vh;border-right:solid 2px #eeeeee;border-left:solid 2px #eeeeee;padding:30px;">
+
+
+
+
+      <div class="container-fluid" style="margin-top:20px;">
+        <div class="row">
+          <table class="table tableNew" style="overflow: unset;">
+            <thead>
+              <tr style="background:#f2f2f2;padding:10px;">
+                <th>ID</th>
+                <th>Value</th>
+                <!-- <th>Items</th> -->
+                <th>Updated</th>
+                <th style="width:20%;">Status</th>
+                <th style="width:20%;"></th>
+              </tr>
+            </thead>
+
+            <tbody class="hilighted">
+              <tr ng-repeat="c in deal.contracts">
+                <td class="contentTd"  ng-click="editQuote(c)">{{c.pk}}</td>
+                <td class="contentTd"  ng-click="editQuote(c)">
+                  <span style="font-size:18px;">{{c.value | number}}</span>
+                  <i class="fa fa-inr"></i>
+                </td>
+                <!-- <td>{{c.data.length}}</td> -->
+                <td class="contentTd"  ng-click="editQuote(c)"><h4>{{c.created | timeAgo}}</h4>{{c.created | date}}</td>
+                <td class="contentTd" ng-click="editQuote(c)">
+                  <span ng-if="c.status == 'billed'" class="fileLabel" style="margin-left:0px !important;margin:13px;">{{c.status | humanize}} </span>
+                  <span ng-if="c.status == 'approved'" class="timeLabel" style="margin-left:0px !important;margin:13px;padding: 10px;padding-left: 15px;padding-right: 15px;">{{c.status | humanize}} </span>
+                  <span ng-if="c.status == 'quoted'" class="projectLabel" style="margin-left:0px !important;margin:13px;padding: 10px;padding-left: 15px !important;padding-right: 15px !important;">{{c.status | humanize}} </span>
+                  <br> <br>
+                  <span ng-if="c.status == 'billed'"><span class="text-muted">{{c.dueDate | date : 'dd-MMM-yyyy'}}</span></span>
+                </td>
+                <td>
+                  <div class="btn-group btn-group-sm pull-right">
+                    <a ng-if="c.status != 'cancelled'" href="/api/clientRelationships/downloadInvoice/?contract={{c.pk}}" class="btnClear" target="_blank">
+
+                      <img src="/static/images/download.png" style="width:27px;" alt="">
+                    </a>
+
+                    <!-- <button type="button" class="btn btn-info" ng-click="sendNotification($index)" ng-if="['billed', 'dueElapsed'].indexOf(c.status) != -1">
+                  <i class="fa fa-envelope-o"></i>
+                </button> -->
+                    <button type="button" class="dropdown-toggle btnClear" data-toggle="dropdown" style="border:none;padding:20px;background:white;">
+                      <img src="https://i.ya-webdesign.com/images/three-dots-menu-png-15.png" style="width:20px;" alt="">
+                    </button>
+                    <ul class="dropdown-menu" role="menu" >
+
+                      <!-- style="width:500px;height:100px;"
+                      <div class="col-md-6">
+                        ok
+                      </div>
+                      <div class="col-md-6">
+                        ok
+                      </div> -->
+                      <li><a style="padding:10px;" href="" ng-click="changeStatus('quoted', $index)">Quoted</a></li>
+                      <li><a style="padding:10px;" href="" ng-click="changeStatus('approved', $index)">Approved</a></li>
+                      <li><a style="padding:10px;" href="" ng-click="changeStatus('billed', $index)">Billed</a></li>
+                      <li><a style="padding:10px;" href="" ng-click="changeStatus('received', $index)">Received</a></li>
+                      <li><a style="padding:10px;" href="" ng-click="changeStatus('cancelled', $index)">Cancelled</a></li>
+                      <li><a style="padding:10px;" href="" ng-click="changeStatus('dueElapsed', $index)">Due Elapsed</a></li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+
+          </table>
+          <div class="text-center" ng-if="deal.contracts.length == 0" style="margin-top:50px;">
+            <span>No data!</span>
+          </div>
+        </div>
+      </div>
+
+
+      <comment-Input text="noteEditor.text" doc="noteEditor.doc" save-Note="saveNote"></comment-Input>
+      <div class="text-center text-muted" ng-if="timelineItems.length == 0" style="padding-top:50px;">
+        No activity log found!
+      </div>
+      <div class="col-md-10 col-md-offset-2" style="padding-top:40px;">
+        <ul class="timeline timeline-inverse">
+          <div ng-repeat="feed in timelineItems">
+            <div ng-if="feed.newMonth || $first" style="position:absolute; margin-left:-130px;">
+              <span ng-if="!$first" class="badge badge-pill bg-yellow" style="font-size:15px;">{{feed.created | date:'MMM-yy'}}</span>
+              <span ng-if="$first" class="badge badge-pill bg-yellow" style="font-size:15px;">{{feed.created |timeAgo}} Ago</span>
+            </div>
+            <crm-Note ng-if="feed.typ == 'note'" data="feed"></crm-Note>
+            <crm-Call ng-if="feed.typ == 'call'" data="feed"></crm-Call>
+            <crm-Meeting ng-if="feed.typ == 'meeting'" data="feed"></crm-Meeting>
+            <crm-Mail ng-if="feed.typ == 'mail' && feed.data.length >0" data="feed"></crm-Mail>
+            <crm-Todo ng-if="feed.typ == 'todo'" data="feed"></crm-Todo>
+          </div>
+        </ul>
+      </div>
+
+      <nav>
+        <ul class="pager">
+          <li class="previous {{pageNo == 0? 'disabled':''}}"><a href="" ng-click="prevPage()"><span aria-hidden="true">&larr;</span> Prev</a></li>
+          <li class="next {{disableNext? 'disabled':''}}"><a href="" ng-click="nextPage()">Next <span aria-hidden="true">&rarr;</span></a></li>
+        </ul>
+      </nav>
+
+    </div>
+  </div>
+
+
+  <!-- {{deal}} -->
+
+</div>

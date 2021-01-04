@@ -1,0 +1,322 @@
+<style media="screen">
+  .leftHead {
+    text-align: left !important;
+    padding-left: 70px !important;
+    font-size: 16px;
+  }
+
+  .rightHead {
+    font-size: 16px;
+  }
+  p{
+    margin:0px !important;
+  }
+  .padding_all {
+    padding-top:15px;
+    padding-bottom:15px
+  }
+</style>
+
+
+
+<!-- <img src="/static/images/balance-sheet-template.png" alt=""> -->
+<div class="container-fluid" style="padding-bottom:100px;border:1px solid black;margin-bottom:30px;margin-top:30px;" >
+  <div class="row" style="margin-bottom:20px;">
+    <div class="col-lg-6">
+    </div>
+    <div class=" col-lg-6 text-right">
+      <h3 style="font-weight:600;color:black">Balance Sheet</h3>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="row padding_all" style="background-color:#e1e1e1">
+          <div class="col-md-12">
+            <p style="font-size:16px"><strong>Assets</strong></p>
+          </div>
+      </div>
+      <div class="row padding_all" style="background-color:#f2f2f2">
+          <div class="col-md-12">
+            <p style="font-size:16px"><strong>Current Assets</strong></p>
+          </div>
+      </div>
+      <div class="row padding_all show_options" ng-repeat="i in balance.current.data">
+          <div class="col-md-10" style="padding-left:60px">
+            <p ng-if="!i.is_edit" > <i class="fa fa-pencil pull-right itag"  style="cursor:pointer" ng-if="!i.is_lock" ng-click="i.is_edit=true"></i> <i ng-if="!i.is_lock" class="fa fa-trash pull-right itag"  style="cursor:pointer" ng-click="delete(i.pk)"></i>  {{i.title}}</p>
+            <input ng-if="i.is_edit" type="text" class="form-control" ng-enter="saveData('currentAsset',i.title,i.balance,i.pk)" ng-model="i.title">
+          </div>
+          <div class="col-md-2 text-right">
+            <p ng-if="!i.is_edit" >  {{i.balance}}</p>
+            <input ng-if="i.is_edit" type="text" class="form-control" ng-enter="saveData('currentAsset',i.title,i.balance,i.pk)" ng-model="i.balance">
+          </div>
+      </div>
+      <div class="row padding_all" >
+          <div class="col-md-10" style="padding-left:60px">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-enter="saveData('currentAsset',form.currentAsset,form.currentAssetAmount)" ng-model="form.currentAsset">
+            </div>
+          </div>
+          <div class="col-md-2 text-right">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-enter="saveData('currentAsset',form.currentAsset,form.currentAssetAmount)" ng-model="form.currentAssetAmount">
+            </div>
+          </div>
+      </div>
+      <div class="row padding_all" >
+          <div class="col-md-10 text-right" style="padding-left:60px">
+            <p style="font-size:16px">Total current assets</p>
+          </div>
+          <div class="col-md-2 text-right" style="border-top:1px solid black">
+            <p style="font-size:16px">{{balance.current.total}}</p>
+          </div>
+      </div>
+      <div class="row padding_all" style="background-color:#f2f2f2">
+          <div class="col-md-12">
+            <p style="font-size:16px"><strong>Fixed (Long-Term) Assets</strong></p>
+          </div>
+      </div>
+      <div class="row padding_all show_options" ng-repeat="i in balance.fixed.data">
+        <div class="col-md-10" style="padding-left:60px">
+          <p ng-if="!i.is_edit" > <i  ng-if="!i.is_lock" class="fa fa-pencil pull-right itag"  style="cursor:pointer" ng-click="i.is_edit=true"></i> <i  ng-if="!i.is_lock" class="fa fa-trash pull-right itag"  style="cursor:pointer" ng-click="delete(i.pk)"></i>  {{i.title}}</p>
+          <input ng-if="i.is_edit" type="text" class="form-control" ng-enter="saveData('currentAsset',i.title,i.balance,i.pk)" ng-model="i.title">
+        </div>
+        <div class="col-md-2 text-right">
+          <p ng-if="!i.is_edit" >  {{i.balance}}</p>
+          <input ng-if="i.is_edit" type="text" class="form-control" ng-enter="saveData('currentAsset',i.title,i.balance,i.pk)" ng-model="i.balance">
+        </div>
+      </div>
+      <div class="row padding_all" >
+          <div class="col-md-10" style="padding-left:60px">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-enter="saveData('fixedAsset',form.fixedAsset,form.fixedAssetAmount)" ng-model="form.fixedAsset">
+            </div>
+          </div>
+          <div class="col-md-2 text-right">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-enter="saveData('fixedAsset',form.fixedAsset,form.fixedAssetAmount)" ng-model="form.fixedAssetAmount">
+            </div>
+          </div>
+      </div>
+      <div class="row padding_all" >
+          <div class="col-md-10 text-right" style="padding-left:60px">
+            <p style="font-size:16px">Total Fixed Assets</p>
+          </div>
+          <div class="col-md-2 text-right" style="border-top:1px solid black">
+            <p style="font-size:16px">{{balance.fixed.total}}</p>
+          </div>
+      </div>
+      <div class="row padding_all" style="background-color:#f2f2f2">
+          <div class="col-md-12">
+            <p style="font-size:16px"><strong>Other Assets</strong></p>
+          </div>
+      </div>
+      <div class="row padding_all show_options" ng-repeat="i in balance.other.data">
+        <div class="col-md-10" style="padding-left:60px">
+          <p ng-if="!i.is_edit" > <i  ng-if="!i.is_lock" class="fa fa-pencil pull-right itag"  style="cursor:pointer" ng-click="i.is_edit=true"></i> <i  ng-if="!i.is_lock" class="fa fa-trash pull-right itag"  style="cursor:pointer" ng-click="delete(i.pk)"></i>  {{i.title}}</p>
+          <input ng-if="i.is_edit" type="text" class="form-control" ng-enter="saveData('currentAsset',i.title,i.balance,i.pk)" ng-model="i.title">
+        </div>
+        <div class="col-md-2 text-right">
+          <p ng-if="!i.is_edit" >  {{i.balance}}</p>
+          <input ng-if="i.is_edit" type="text" class="form-control" ng-enter="saveData('currentAsset',i.title,i.balance,i.pk)" ng-model="i.balance">
+        </div>
+      </div>
+      <div class="row padding_all" >
+          <div class="col-md-10" style="padding-left:60px">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-enter="saveData('otherAsset',form.otherAsset,form.otherAssetAmount)" ng-model="form.otherAsset">
+            </div>
+          </div>
+          <div class="col-md-2 text-right">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-enter="saveData('otherAsset',form.otherAsset,form.otherAssetAmount)" ng-model="form.otherAssetAmount">
+            </div>
+          </div>
+      </div>
+      <div class="row padding_all" >
+          <div class="col-md-10 text-right" style="padding-left:60px">
+            <p style="font-size:16px">Total Other Assets</p>
+          </div>
+          <div class="col-md-2 text-right" style="border-top:1px solid black">
+            <p style="font-size:16px">{{balance.other.total}}</p>
+          </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="row padding_all" style="background-color:#e1e1e1">
+          <div class="col-md-12">
+            <p style="font-size:16px"><strong>Liabilities and Owner's Equity</strong></p>
+          </div>
+      </div>
+      <div class="row padding_all" style="background-color:#f2f2f2">
+          <div class="col-md-12">
+            <p style="font-size:16px"><strong>Current Liabilities</strong></p>
+          </div>
+      </div>
+      <div class="row padding_all show_options" ng-repeat="i in balance.currentLiability.data">
+        <div class="col-md-10" style="padding-left:60px">
+          <p ng-if="!i.is_edit" > <i  ng-if="!i.is_lock" class="fa fa-pencil pull-right itag"  style="cursor:pointer" ng-click="i.is_edit=true"></i> <i  ng-if="!i.is_lock" class="fa fa-trash pull-right itag"  style="cursor:pointer" ng-click="delete(i.pk)"></i>  {{i.title}}</p>
+          <input ng-if="i.is_edit" type="text" class="form-control" ng-enter="saveData('currentAsset',i.title,i.balance,i.pk)" ng-model="i.title">
+        </div>
+        <div class="col-md-2 text-right">
+          <p ng-if="!i.is_edit" >  {{i.balance}}</p>
+          <input ng-if="i.is_edit" type="text" class="form-control" ng-enter="saveData('currentAsset',i.title,i.balance,i.pk)" ng-model="i.balance">
+        </div>
+      </div>
+      <div class="row padding_all" >
+          <div class="col-md-10" style="padding-left:60px">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-enter="saveData('currentLiability',form.currentLiability,form.currentLiabilityAmount)" ng-model="form.currentLiability">
+            </div>
+          </div>
+          <div class="col-md-2 text-right">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-enter="saveData('currentLiability',form.currentLiability,form.currentLiabilityAmount)" ng-model="form.currentLiabilityAmount">
+            </div>
+          </div>
+      </div>
+      <div class="row padding_all" >
+          <div class="col-md-10 text-right" style="padding-left:60px">
+            <p style="font-size:16px">Total current liabilities</p>
+          </div>
+          <div class="col-md-2 text-right" style="border-top:1px solid black">
+            <p style="font-size:16px">{{balance.currentLiability.total}}</p>
+          </div>
+      </div>
+      <div class="row padding_all" style="background-color:#f2f2f2">
+          <div class="col-md-12">
+            <p style="font-size:16px"><strong> Long-Term Liabilities</strong></p>
+          </div>
+      </div>
+      <div class="row padding_all show_options" ng-repeat="i in balance.longTermLiability.data">
+        <div class="col-md-10" style="padding-left:60px">
+          <p ng-if="!i.is_edit" > <i  ng-if="!i.is_lock" class="fa fa-pencil pull-right itag"  style="cursor:pointer" ng-click="i.is_edit=true"></i> <i  ng-if="!i.is_lock" class="fa fa-trash pull-right itag"  style="cursor:pointer" ng-click="delete(i.pk)"></i>  {{i.title}}</p>
+          <input ng-if="i.is_edit" type="text" class="form-control" ng-enter="saveData('currentAsset',i.title,i.balance,i.pk)" ng-model="i.title">
+        </div>
+        <div class="col-md-2 text-right">
+          <p ng-if="!i.is_edit" >  {{i.balance}}</p>
+          <input ng-if="i.is_edit" type="text" class="form-control" ng-enter="saveData('currentAsset',i.title,i.balance,i.pk)" ng-model="i.balance">
+        </div>
+      </div>
+      <div class="row padding_all" >
+          <div class="col-md-10" style="padding-left:60px">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-enter="saveData('longTermLiability',form.longTermLiability,form.longTermLiabilityAmount)" ng-model="form.longTermLiability">
+            </div>
+          </div>
+          <div class="col-md-2 text-right">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-enter="saveData('longTermLiability',form.longTermLiability,form.longTermLiabilityAmount)" ng-model="form.longTermLiabilityAmount">
+            </div>
+          </div>
+      </div>
+      <div class="row padding_all" >
+          <div class="col-md-10 text-right" style="padding-left:60px">
+            <p style="font-size:16px">Total long-term liabilities</p>
+          </div>
+          <div class="col-md-2 text-right" style="border-top:1px solid black">
+            <p style="font-size:16px">{{balance.longTermLiability.total}}</p>
+          </div>
+      </div>
+      <div class="row padding_all" style="background-color:#f2f2f2">
+          <div class="col-md-12">
+            <p style="font-size:16px"><strong>Owner's Equity</strong></p>
+          </div>
+      </div>
+      <div class="row padding_all show_options" ng-repeat="i in balance.owner.data">
+        <div class="col-md-10" style="padding-left:60px">
+          <p ng-if="!i.is_edit" > <i  ng-if="!i.is_lock" class="fa fa-pencil pull-right itag"  style="cursor:pointer" ng-click="i.is_edit=true"></i> <i  ng-if="!i.is_lock" class="fa fa-trash pull-right itag"  style="cursor:pointer" ng-click="delete(i.pk)"></i>  {{i.title}}</p>
+          <input ng-if="i.is_edit" type="text" class="form-control" ng-enter="saveData('currentAsset',i.title,i.balance,i.pk)" ng-model="i.title">
+        </div>
+        <div class="col-md-2 text-right">
+          <p ng-if="!i.is_edit" >  {{i.balance}}</p>
+          <input ng-if="i.is_edit" type="text" class="form-control" ng-enter="saveData('currentAsset',i.title,i.balance,i.pk)" ng-model="i.balance">
+        </div>
+      </div>
+      <div class="row padding_all" >
+          <div class="col-md-10" style="padding-left:60px">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-enter="saveData('ownerEquity',form.ownerEquity,form.ownerEquityAmount)" ng-model="form.ownerEquity">
+            </div>
+          </div>
+          <div class="col-md-2 text-right">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-enter="saveData('ownerEquity',form.ownerEquity,form.ownerEquityAmount)" ng-model="form.ownerEquityAmount">
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="row" >
+          <div class="col-md-10" style="padding-left:60px">
+            <p style="font-size:16px"><strong>Total Assets</strong></p>
+          </div>
+          <div class="col-md-2 text-right" style="border-top:1px solid black;border-bottom:1px solid black">
+            <p style="font-size:16px"><strong>{{balance.assetTotal}}</strong></p>
+          </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="row" >
+          <div class="col-md-10" >
+            <p style="font-size:16px"><strong>Total Liabilities and Owner's Equity</strong></p>
+          </div>
+          <div class="col-md-2 text-right" style="border-top:1px solid black;border-bottom:1px solid black">
+            <p style="font-size:16px"><strong>{{balance.liabilityTotal}}</strong></p>
+          </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="row">
+    <div class="col-md-12">
+      <div class="row padding_all" style="background-color:#e1e1e1">
+          <div class="col-md-12">
+            <p style="font-size:16px"><strong>Common Financial Ratios</strong></p>
+          </div>
+      </div>
+      <div class="row padding_all" >
+          <div class="col-md-10">
+            <p style="font-size:16px"> <strong>Debt Ratio</strong> (Total Liabilities/Total Assets)</p>
+          </div>
+          <div class="col-md-2 text-right" >
+            <p style="font-size:16px">0.56</p>
+          </div>
+      </div>
+      <div class="row padding_all" >
+          <div class="col-md-10" >
+            <p style="font-size:16px"> <strong>Current Ratio</strong> (Current Assets /Current Liabilities)</p>
+          </div>
+          <div class="col-md-2 text-right" >
+            <p style="font-size:16px">0.56</p>
+          </div>
+      </div>
+      <div class="row padding_all" >
+          <div class="col-md-10" >
+            <p style="font-size:16px"> <strong>Working Capital</strong> (Current Assets - Current Liabilities)</p>
+          </div>
+          <div class="col-md-2 text-right" >
+            <p style="font-size:16px">0.56</p>
+          </div>
+      </div>
+      <div class="row padding_all" >
+          <div class="col-md-10" >
+            <p style="font-size:16px"> <strong>Assets-to-Equity Ratio</strong> (Total Assets / Owner's Equity)</p>
+          </div>
+          <div class="col-md-2 text-right" >
+            <p style="font-size:16px">0.56</p>
+          </div>
+      </div>
+      <div class="row padding_all" >
+          <div class="col-md-10" >
+            <p style="font-size:16px"> <strong>Debt-to-Equity Ratio</strong> (Total Liabilities / Owner's Equity)</p>
+          </div>
+          <div class="col-md-2 text-right">
+            <p style="font-size:16px">0.56</p>
+          </div>
+      </div>
+    </div>
+</div> -->
+</div>

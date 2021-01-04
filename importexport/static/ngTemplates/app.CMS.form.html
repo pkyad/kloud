@@ -1,0 +1,118 @@
+<div ng-controller="businessManagement.importexport.CMS.form">
+  <div class="row" style="margin-top:20px;">
+    <div ng-if="!form.pk" class="col-md-12">
+
+      <span
+        style="font-size: 180%; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Create
+          Complaint</b></span>
+      <hr>
+    </div>
+    <div ng-if="form.pk" class="col-md-12">
+    
+      <span
+        style="font-size: 180%; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Edit
+          Complaint</b></span>
+      <hr>
+    </div>
+  </div>
+  <div id="body" class="container-fluid">
+    <h2 ng-if="form.status=='Closed'">Complaint Processed Successfully</h2>
+    <div class="row" style="padding:10px">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-8">
+          </div>
+          <div class="col-md-4">
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 form-group">
+            <label>Customer</label>
+            <input class="form-control " ng-model="form.customer" uib-typeahead="g as g.name for g in genericUserSearch($viewValue)">
+          </div>
+          <div class="col-md-5 form-group">
+            <label>Contact</label>
+            <input ng-model="form.contact" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 form-group">
+            <label>Complaint referance</label>
+            <input ng-model="form.complaintRef" type="text" class="form-control">
+          </div>
+          <div class="col-md-5 form-group">
+            <label>Machhine</label>
+            <input ng-model="form.machine" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 form-group">
+            <label>Complaint type</label>
+            <div class="form-group">
+              <select class="form-control" ng-model="form.complaintType" class="" name="">
+                <option value="Mechanical">Mechanical</option>
+                <option value="Electrical">Electrical</option>
+                <option value="ElectroMechanical">ElectroMechanical</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-5 form-group">
+            <label for="">Error Code</label>
+            <input ng-model="form.errorCode" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 form-group">
+            <label for="">Service Report No.</label>
+            <input ng-model="form.serviceReportNo" type="text" class="form-control">
+          </div>
+          <div class="col-md-5 form-group">
+            <label for="">Whether Machine Running</label>
+            <select class="form-control" ng-model=form.machineRunning name="">
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <!-- <div class="col-md-5 form-group">
+            <label for=""></label>
+            <textarea ng-model="form.description" type="text" class="form-control" rows="4" cols="80"></textarea>
+          </div> -->
+          <div class="col-md-5 form-group">
+            <label for="">Refurbished by BIND</label>
+            <select class="form-control" ng-model=form.RefurbishedBind name="">
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+          <div class="col-md-5 form-group">
+            <label for="">Nature Of Complaint</label>
+            <textarea ng-model="form.attr1" type="text" class="form-control" rows="4" cols="80"></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 form-group">
+            <label for="">Interim action</label>
+            <textarea ng-model="form.attr2" type="text" class="form-control" rows="4" cols="80"></textarea>
+          </div>
+          <div class="col-md-5 form-group">
+            <label for="">Disposition</label>
+            <textarea ng-model="form.attr3" type="text" class="form-control" rows="4" cols="80"></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2" style="padding-top:20px">
+            <button type="button" class="btn btn-primary " ng-if="form.pk&&form.status=='Open'" ng-click="complaintUpdate(form.pk)">Update</button>
+            <button ng-if="!form.pk" type="button" class="btn btn-primary " ng-click="complaintCreation()">Save</button>
+          </div>
+          <div class="col-md-2" style="padding-top:20px">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

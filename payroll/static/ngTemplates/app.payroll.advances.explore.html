@@ -1,0 +1,213 @@
+
+<!-- <div class="container-fluid" ng-controller="workforceManagement.payroll.advances.explore">
+  <div class="col-md-3" style="border-right:1px solid #eee; padding:15px;line-height:1.8;">
+    <div class="col-md-6"> <b>Employee : </b> </div>
+    <div class="col-md-6">{{advData.user.username}}</div> <br>
+    <div class="col-md-6"> <b>{{advData.typ == 'advance' ? 'Advance' : 'Loan'}} Amount : </b> </div>
+    <div class="col-md-6">{{advData.amount}}</div> <br>
+    <div class="col-md-6"> <b>Return Date : </b> </div>
+    <div class="col-md-6">{{advData.dateOfReturn}}</div> <br>
+    <div class="col-md-6"> <b>Document : </b> </div>
+    <div class="col-md-6"> <a href="{{advData.document}}" ng-if="advData.document"> view File <i class="fa fa-file" aria-hidden="true"></i></a> <span ng-if="!advData.document" class="text-danger"> No Document Attached</span> </div> <br>
+    <div class="col-md-6"> <b>Reason : </b> </div>
+    <div class="col-md-6">{{advData.reason}}</div> <br>
+  </div>
+  </div>
+  <div class="col-md-6" style="margin-top:15px;" ng-if="advData.disbursed == true">
+    <div ng-if="advData.typ == 'advance'">
+      <div class="form-group">
+        <label>Return Balance</label>
+        <input type="number" class="form-control" placeholder="Balance Amount To be Returned" ng-model="form.returnBalance" ng-disabled="advData.settled == true">
+      </div>
+      <div class="form-group">
+        <label>Mode Of Return</label>
+        <select class="form-control" ng-model="form.modeOfReturn" ng-disabled="advData.settled == true">
+          <option value="salary_deduct">Salary Deduct</option>
+          <option value="cash">Cash</option>
+          <option value="cheque">Cheque</option>
+          <option value="online">Online</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Reference Number</label>
+        <input type="text" class="form-control" placeholder="Reference Number" ng-model="form.referenceNumber" ng-disabled="advData.settled == true">
+      </div>
+    </div>
+    <div ng-if="advData.typ == 'loan'">
+      <div class="form-group">
+        <label>EMI Start Offset</label>
+        <input type="numer" class="form-control" placeholder="" ng-model="form.emiStartOffset" ng-disabled="advData.settled == true">
+      </div>
+      <div class="form-group">
+        <label>EMI</label>
+        <input type="number" class="form-control" placeholder="" ng-model="form.emi" ng-disabled="advData.settled == true">
+      </div>
+      <div class="form-group">
+        <label>Tenure</label>
+        <input type="number" class="form-control" ng-model="form.tenure" placeholder="" ng-disabled="advData.settled == true">
+      </div>
+    </div>
+    <button type="button"  ng-if="advData.settled != true && me.pk != advData.user.pk" class="btn btn-success" ng-click="settlement(advData.pk)">
+      Settle {{advData.typ == 'advance' ? 'Advance' : 'Loan'}}
+    </button>
+  </div>
+  <div class="col-md-3" style="padding-left:30px;margin-top:15px;">
+    <div class="form-group">
+      <div ng-if="advData.approvers.length > 0">
+        <label>Approved By</label>
+        <p class="help-block">Minimum 3 Approvals Required To Approve {{advData.typ == 'advance' ? 'Advance' : 'Loan'}} Amount of {{advData.amount}}.</p>
+        <div class="row" ng-repeat="i in advData.approvers" style="margin-top:15px;">
+          <div class="container-fluid card" style="padding-bottom:0px;">
+            <div class="col-md-3" style="padding:15px 10px;">
+              <img src="{{i.profile.displayPicture}}" width="100%" style="border-radius:50%;">
+            </div>
+            <div class="col-md-8">
+              <h4>{{i.username}}</h4>
+              <h6>{{i.designation}}</h6>
+            </div>
+          </div>
+        </div>
+        <div ng-if="advData.showBtn" style="padding-top:15px;">
+          <button type="button" class="btn btn-success pull-right" ng-click="approve(advData.pk)">Approve</button>
+        </div>
+        <div class="container-fluid pull-right" style="padding-top:15px;" ng-if="advData.approved == true">
+          <button type="button" class="btn btn-primary" ng-hide="advData.disbursed == true" ng-click="disburse(advData.pk)">
+            Send for disbursal
+          </button>
+        </div>
+      </div>
+      <div class="text-center text-warning" ng-if="advData.approvers.length == 0 && me.pk != advData.user.pk">
+        <button type="button" class="btn btn-success pull-right" ng-click="approve(advData.pk)">Approve</button>
+        <span> Approval Request Pending...</span>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="container-fluid">
+  <div class="col-md-3" style="border-right:1px solid #eee; padding:15px;line-height:1.8;">
+    <div class="col-md-6"> <b>Employee : </b> </div>
+    <div class="col-md-6">{{advData.user.username}}</div> <br>
+    <div class="col-md-6"> <b>{{advData.typ == 'advance' ? 'Advance' : 'Loan'}} Amount : </b> </div>
+    <div class="col-md-6">&#x20b9; {{advData.amount}}</div> <br>
+    <div class="" ng-if="advData.typ != 'loan'">
+      <div class="col-md-6"> <b>Return Date : </b> </div>
+      <div class="col-md-6">{{advData.dateOfReturn}}</div>
+    </div>
+    <div class="col-md-6"> <b>Document : </b> </div>
+    <div class="col-md-6"> <a href="{{advData.document}}" ng-if="advData.document" target="_blank"> view File <i class="fa fa-file" aria-hidden="true"></i></a> <span ng-if="!advData.document" class="text-danger"> No Document Attached</span> </div>
+    <br>
+    <div class="col-md-6"> <b>Reason : </b> </div>
+    <div class="col-md-6">{{advData.reason}}</div> <br>
+  </div>
+  <div class="col-md-6" style="margin-top:15px;" ng-if="advData.disbursed == true">
+    <div ng-if="advData.typ == 'advance'">
+      <div class="form-group">
+        <label>Return Balance</label>
+        <input type="number" class="form-control" placeholder="Balance Amount To be Returned" ng-model="form.returnBalance" ng-disabled="advData.settled == true">
+      </div>
+      <div class="form-group">
+        <label>Mode Of Return</label>
+        <select class="form-control" ng-model="form.modeOfReturn" ng-disabled="advData.settled == true">
+          <option value="salary_deduct">Salary Deduct</option>
+          <option value="cash">Cash</option>
+          <option value="cheque">Cheque</option>
+          <option value="online">Online</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Reference Number</label>
+        <input type="text" class="form-control" placeholder="Reference Number" ng-model="form.referenceNumber" ng-disabled="advData.settled == true">
+      </div>
+      <div class="form-group">
+        <label>Invoice Amount</label>
+        <input type="number" class="form-control" placeholder="Balance Amount To be Returned" ng-model="form.invoiceAmt" ng-disabled="advData.settled == true">
+      </div>
+      <div class="form-group">
+        <label>Invoices</label>
+        <input type="file" file-model="form.invoice" ng-disabled="advData.settled == true">
+      </div>
+    </div>
+    <div ng-if="advData.typ == 'loan'">
+      <div class="form-group">
+        <label>EMI</label>
+        <input type="number" class="form-control" placeholder="" ng-model="form.emi" min="1" max="{{advData.amount}}" ng-disabled="advData.loanStarted">
+      </div>
+      <div class="form-group">
+        <label>Tenure</label>
+        <input type="number" class="form-control" ng-model="form.tenure" placeholder="" min="1" max="{{form.tenure}}" disabled>
+      </div>
+      <div class="form-group">
+        <label>EMI Start Offset</label>
+        <input type="number" class="form-control" placeholder="" ng-model="form.emiStartOffset" min="0" ng-disabled="advData.loanStarted">
+      </div>
+    </div>
+    <button type="button" ng-if="advData.settled != true && me.pk != advData.user.pk && advData.typ == 'advance'" class="btn btn-success" ng-click="settlement(advData.pk)">
+      Settle Advance
+    </button>
+    <button type="button" ng-if="!advData.loanStarted && me.pk != advData.user.pk && advData.typ == 'loan'" class="btn btn-success" ng-click="startLoan(advData.pk)">
+      Start Loan
+    </button>
+    <div class="col-md-12" ng-if="advData.settled && advData.typ == 'advance'">
+      <h4 class="text-success text-center"><b>Advance has been Settled on {{advData.settlementDate | date:'dd-MMM-yyyy'}} by {{advData.settlementUser.pk | getName}}</b> </h4>
+      <span ng-if="advData.invoiceAmt > 0 && advData.returnBalance > 0" class="text-Success">Advance Amount Settled with Return Balance &#x20b9; {{advData.returnBalance}} and Invoice Amount &#x20b9; {{advData.invoiceAmt}} </span>
+      <a href="{{advData.invoice}}" ng-if="advData.invoice" target="_blank"> view Invoice <i class="fa fa-file" aria-hidden="true"></i></a>
+    </div>
+
+    <div class="col-md-12" ng-if="advData.loanStarted" style="padding-top:25px;">
+      <table class="invoiceTable" style=" width: 100%;">
+        <tr style="background-color:#4CAF50;color:#fff">
+          <th>Scheduled Date</th>
+          <th>EMI Amount</th>
+        </tr>
+        <tr ng-repeat="i in emilist">
+          <td>
+            <span>{{i.dt}}</span>
+          </td>
+          <td>
+            {{i.amt}}
+          </td>
+        </tr>
+      </table>
+      <div class="container-fluid text-center" style="padding-top:15px;">
+        <button type="button" class="btn btn-success" ng-click="settlement(advData.pk)" ng-if="!advData.settled">
+          Settle Loan
+        </button>
+      </div>
+      <div class="col-md-12" ng-if="advData.settled && advData.typ == 'loan'">
+        <h4 class="text-success text-center"><b>Loan has been Settled on {{advData.settlementDate | date:'dd-MMM-yyyy'}} by {{advData.settlementUser.pk | getName}}</b> </h4>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3" style="padding-left:30px;margin-top:15px;">
+    <div class="form-group">
+      <div ng-if="advData.approvers.length > 0">
+        <label>Approved By</label>
+        <p class="help-block">Minimum 3 Approvals Required To Approve {{advData.typ == 'advance' ? 'Advance' : 'Loan'}} Amount of {{advData.amount}}.</p>
+        <div class="row" ng-repeat="i in advData.approvers" style="margin-top:15px;">
+          <div class="container-fluid card" style="padding-bottom:0px;">
+            <div class="col-md-3" style="padding:15px 10px;">
+              <img src="{{i.profile.displayPicture}}" width="100%" style="border-radius:50%;">
+            </div>
+            <div class="col-md-8">
+              <h4>{{i.username}}</h4>
+              <h6>{{i.designation}}</h6>
+            </div>
+          </div>
+        </div>
+        <div ng-if="advData.showBtn" style="padding-top:15px;">
+          <button type="button" class="btn btn-success pull-right" ng-click="approve(advData.pk)">Approve</button>
+        </div>
+        <div class="container-fluid pull-right" style="padding-top:15px;" ng-if="advData.approved == true">
+          <button type="button" class="btn btn-primary" ng-hide="advData.disbursed == true" ng-click="disburse(advData.pk)">
+            Send for disbursal
+          </button>
+        </div>
+      </div>
+      <div class="text-center text-warning" ng-if="advData.approvers.length == 0 && me.pk != advData.user.pk">
+        <button type="button" class="btn btn-success pull-right" ng-click="approve(advData.pk)">Approve</button>
+        <span> Approval Request Pending...</span>
+      </div>
+    </div>
+  </div>
+</div>

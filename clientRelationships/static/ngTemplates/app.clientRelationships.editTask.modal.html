@@ -1,0 +1,25 @@
+<div class="modal-header">
+  <h3 class="text-center">{{form.text}}</h3>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+      <div class="form-group">
+        <label>By when </label>
+        <div class="input-group">
+          <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.when" is-open="status.opened" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="status.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </div>
+      </div>
+      <br>
+      <clients-Field data="form.clients" url="/api/clientRelationships/contactLite/" col="4" label="Other stakeholders"></clients-Field>
+      <div class="form-group">
+        <label>Task details</label>
+        <textarea class="form-control" rows="4" cols="80" ng-model="form.text"></textarea>
+      </div>
+      <button type="button" class="btn btn-default" ng-click="saveTask()">
+        Save
+      </button>
+  </div>
+</div>

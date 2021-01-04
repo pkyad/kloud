@@ -1,0 +1,45 @@
+<style media="screen">
+.ace_editor{
+  height:300px;
+}
+  #aceEditor, #aceEditor2, #aceEditorPreValidator , #aceEditorValidator {
+   width: 100%;
+   height: 300px;
+   border-top:solid 2px #eee;
+   border-bottom:solid 2px #eee;
+  }
+</style>
+
+
+<div class="modal-header">
+  <div ng-if="!formData"><p style="text-align:center;font-weight:bold;">Create Data Type : Chart</p></div>
+  <div ng-if="formData"><p style="text-align:center;font-weight:bold;">Edit Data Type : Chart</p></div>
+  <div class="pull-right" ng-click="close()" style="cursor:pointer;"><i class="fa fa-close"></i></div>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <switch ng-model="form.enabled" class="green pull-right"></switch>
+        <br>
+        <label>Name :</label>
+        <br>
+        <input class="form-control" ng-model="form.name" type="text">
+      </div>
+      <div class="form-group">
+        <label>Select Chart Type :</label>
+        <select class="form-control" ng-model="form.chartType" ng-change="setDefault(form.chartType)">
+          <option value="{{c}}" ng-repeat="c in chartTypeList">{{c}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Query :</label><br>
+        <textarea id="aceEditor" style="width:100%;height:200px;" ng-model="form.query"></textarea>
+      </div>
+      <div class="row" style="text-align:center;">
+        <button type="button" class="btn-primary" name="button" style="padding:8px;" ng-click="submit()">Submit</button>
+        <div ng-if="formData" ng-click="deleteChart()"><i style="padding-right:20px;padding-top:5px;color:#FF0000;" class="fa fa-trash fa-2x pull-right"></i></div>
+      </div>
+    </div>
+  </div>
+</div>

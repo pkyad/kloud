@@ -1,0 +1,53 @@
+<style>
+  .searchInp {
+    border-radius: 45px !important;
+    box-shadow: 10px 8px 23px rgba(0, 0, 0, 0.1) !important;
+    border: none;
+    padding: 20px;
+    padding-left: 50px;
+    padding-top: 25px;
+    padding-bottom: 23px;
+  }
+
+</style>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-12">
+      <i class="fa fa-search fa-2x" style="position:absolute;left:29px;top:10px;color: #f2f2f2;font-size: 26px;"></i>
+      <input type="text" class="form-control searchInp" ng-model="query" placeholder="Search template by title" ng-change="getAllData()">
+    </div>
+  </div>
+  <div class="row" style="margin-top:20px;">
+    <div class="container-fluid">
+      <div class="panel-group" ng-repeat="t in templates">
+        <div class="panel panel-default" ng-init="open = false;">
+          <div class="panel-heading container-fluid" ng-click="open = !open">
+            <div class="row">
+              <div class="col-md-8">
+                <h4 class="panel-title">
+                  <a>
+                    {{t.title}}
+                  </a>
+                </h4>
+                <p>{{t.description}}</p>
+              </div>
+              <div class="col-md-3">
+                <label>{{t.files.length}} Files</label> <br>
+                <span ng-repeat="f in t.files">{{f.fileName}} <br></span>
+              </div>
+              <div class="col-md-1">
+                <button type="button" ng-click="selectTemplate(t);$event.stopPropagation()" class="btn btn-default">
+                  Use
+                </button>
+              </div>
+            </div>
+          </div>
+          <div ng-if="open" class="panel-collapse collapse in">
+            <div ng-bind-html="t.htmltemplate" class="panel-body">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

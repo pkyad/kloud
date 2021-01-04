@@ -1,0 +1,320 @@
+<style media="screen">
+  .footer {
+    background-color: #13191C;
+    padding: 30px;
+    color: white;
+  }
+
+  .footer h5 {
+    font-weight: 500;
+    font-size: 20px;
+  }
+
+  .footer span {
+    font-size: 30px;
+    font-weight: 700
+  }
+
+  .footer button {
+    background-color: #FA949D;
+    width: 150px;
+    height: 50px;
+    text-align: left;
+    box-shadow: none;
+    color: white;
+    border-radius: 10px;
+    border: 2px solid #FA949D
+  }
+
+  .footer button:hover {
+    color: white;
+  }
+
+  .footer .facebookin {
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background-color: #5B2EDA;
+    padding: 18px 25px;
+    font-size: 20px;
+
+  }
+
+  .footer .twitter {
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background-color: #FA949D;
+    padding: 18px 25px;
+    font-size: 20px;
+    margin: 0px 20px
+  }
+
+  .footer #OrangeCircle {
+    background-color: #FA949D;
+    border-radius: 50%;
+    padding: 115px;
+    /* box-shadow: 0px 8px 18px #FA949D !important; */
+  }
+
+  .footer #BlueCircle {
+    background-color: #5B2EDA;
+    border-radius: 50%;
+    padding: 150px 50px;
+    position: absolute;
+    left: 95px;
+    opacity: 0.8;
+    z-index: 99;
+    top: 15%;
+    /* box-shadow: 0px 8px 18px rgb(91, 46, 218) !important; */
+  }
+
+  .footer #BlueCircle p {
+    font-size: 20px;
+    font-weight: 400;
+  }
+
+  .footer #Greencircle {
+    background-color: #8EC1C0;
+    border-radius: 50%;
+    padding: 85px;
+    position: absolute;
+    right: 330px;
+    bottom: -285px;
+    /* box-shadow: 0px 8px 18px #8EC1C0 !important; */
+  }
+
+  .footer h3 {
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1.5
+  }
+
+
+  .footer .circleMargins {
+    margin-top: 30px;
+  }
+   @media only screen and (min-width : 600px) and (max-width : 1000px) {
+     .footer #BlueCircle{
+       position:absolute;
+       left:350px !important;
+       top:100px !important;
+       float:right !important;
+     }
+     .footer #OrangeCircle{
+       display:none;
+     }
+     .footer #Greencircle{
+       display:none;
+     }
+   }
+  @media only screen and (min-width : 200px) and (max-width : 600px) {
+    .footer {
+      padding: 0px 15px;
+    }
+
+    .footer #OrangeCircle {
+      height: 70px;
+      display:none;
+    }
+
+    .footer #BlueCircle {
+      position: relative;
+      left: 0px !important;
+      /* display:none; */
+      padding: 100px 50px;
+      margin-bottom: 50px;
+      top:0%;
+    }
+
+    .footer #Greencircle {
+      height: 50px;
+      position: relative;
+      right: 0;
+      display:none;
+      bottom: -80px;
+      left: -70px;
+
+    }
+
+    .footer h3 {
+      font-size: 25px;
+    }
+
+    .footer #BlueCircle p {
+      font-size: 16px;
+    }
+  }
+
+  @media screen and (max-width: 1365px){
+
+    .footer #OrangeCircle {
+      box-shadow: none !important;
+      border: 2px solid #FA949D;
+      padding:90px;
+    }
+    .footer h3 {
+      font-size:25px;
+
+    }
+    .footer #BlueCircle {
+      padding: 65px;
+      left: 50px;
+      border: 2px solid #5B2EDA;top:25%;
+    }
+
+    .footer #Greencircle {
+      border: 2px solid #8EC1C0;
+      background-color:  #8EC1C0;
+      border-radius: 50%;
+      padding: 55px;
+      position: absolute;
+      right: 250px;
+      bottom: -210px;
+      box-shadow: none !important;
+    }
+
+    .footer .twitter {
+      margin: 0px 5px;
+    }
+  }
+
+  @media screen and (min-width: 1366px) and (max-width:1445px) {
+    .footer #OrangeCircle {
+      box-shadow: none !important;
+      border: 2px solid #FA949D;
+      padding:90px;
+    }
+    .footer h3 {
+      font-size:25px;
+
+    }
+    .footer #BlueCircle {
+      padding: 75px;
+      left: 50px;
+      border: 2px solid #5B2EDA;top:25%;
+    }
+
+    .footer #Greencircle {
+      border: 2px solid #8EC1C0;
+      background-color:  #8EC1C0;
+      border-radius: 50%;
+      padding: 55px;
+      position: absolute;
+      right: 250px;
+      bottom: -210px;
+      box-shadow: none !important;
+    }
+
+
+    .footer .twitter {
+      margin: 0px 10px;
+    }
+ }
+  @media screen and (min-width: 1446px) and (max-width:1620px) {
+    .footer #OrangeCircle {
+      box-shadow: none !important;
+      border: 2px solid #FA949D;
+      padding:90px;
+    }
+    .footer h3 {
+      font-size:25px;
+
+    }
+    .footer #BlueCircle {
+      padding:105px;
+      left: 50px;
+      border: 2px solid #5B2EDA;top:25%;
+    }
+
+    .footer #Greencircle {
+      border: 2px solid #8EC1C0;
+      background-color:  #8EC1C0;
+      border-radius: 50%;
+      padding: 65px;
+      position: absolute;
+      right: 310px;
+      bottom: -250px;
+      box-shadow: none !important;
+    }
+
+    .footer .twitter {
+      margin: 0px 10px;
+    }
+ }
+
+</style>
+<div class="container-fluid footer">
+  <div class="col-md-8 col-md-offset-2">
+    <div class="row circleMargins">
+      <div class="col-md-9 ">
+        <div class="row">
+          <div class="col-md-3 hidden-xs" id="OrangeCircle">
+            <div clas>
+
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-12 text-center" id="BlueCircle">
+
+            <h3>Want to create something great ?</h3>
+            <p>Get in touch <img src="/static/images/longarrow.png" alt=""></p>
+          </div>
+          <div class="col-md-2 hidden-xs" id="Greencircle">
+
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-3 col-xs-12  text-start" >
+        <div class="row">
+          <span>
+            <img src="/static/images/zigmasmall.svg" alt="" style="padding-right:20px !important;margin:0px;padding:0px;">Kloud ERP
+          </span>
+        </div>
+        <div class="row">
+          <h5>we do care about everything</h5>
+          <p >Drop us a mail or visit our office</p>
+        </div>
+        <div class="row" >
+          <a href="/aboutus" target="_self" style="margin-bottom:4px;padding:0px;">
+            <h5>About Us</h5>
+          </a>
+          <a href="/careers" target="_self" style="margin-bottom:4px;padding:0px;">
+            <h5>Careers</h5>
+          </a>
+          <a href="/contactus" target="_self" style="margin-bottom:4px;padding:0px;">
+            <h5>Contact Us</h5>
+          </a>
+          <a href="/blog" target="_self" style="margin-bottom:4px;padding:0px;">
+            <h5>Blog</h5>
+          </a>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-1 col-xs-4  col-sm-4 facebookin" style="">
+            <i class="fa fa-facebook" aria-hidden="true"></i>
+          </div>
+          <div class="col-md-1 col-xs-4  col-sm-4 twitter" style="">
+            <i class="fa fa-twitter" aria-hidden="true"></i>
+          </div>
+          <div class="col-md-1 col-xs-4  col-sm-4 facebookin">
+            <i class="fa fa-linkedin" aria-hidden="true"></i>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <ul class="list-unstyled ">
+            <li style="display:inline;color:#FA949D;"><a href="/terms">Terms & Conditions </a></li>
+            <li style="display:inline;padding-left:10px;"><a href="/privacypolicy">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <br>
+        <div class="row">
+          <p>2020 all rights reserved</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

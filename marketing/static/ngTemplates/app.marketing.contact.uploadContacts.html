@@ -1,0 +1,87 @@
+<style>
+  .file_upload {
+    opacity: 0.0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    -moz-opacity: 0.0;
+    -khtml-opacity: 0.0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+<div class="modal-body" style="background: #F3F3F3;padding: 40px;">
+  <h3 >Upload Contacts</h3>
+  <div class="row">
+    <div class="col-md-12">
+      <!-- <div class="form-group">
+        <label>Excel File</label>
+        <input type="file" file-model="form.exFile">
+      </div> -->
+      <!-- <div class="container-fluid text-center fileContainer" style="background-image:url(/media/{{form.fileUrl}});background-size: cover;"  ng-click="selectFile()" >
+      </div> -->
+      <div class="col-md-12 text-center">
+        <div style="background:url('/static/images/icons8-microsoft-excel-128.png') no-repeat center;border-radius:15px;padding:10px;height:120px;margin:20px;" ng-click="selectFile()">
+
+          <input type="file" file-model="form.exFile" onchange="angular.element(this).scope().fileupload(this.files)" class="file_upload" multiple />
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group" >
+        <label>Source</label>
+        <input type="text" class="form-control" ng-model="form.source" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:5px;font-size:20px;">
+      </div>
+    </div>
+  </div>
+  <!-- <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Data Type</label>
+        <select class="form-control" ng-model="form.dataType" style="height: 60px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;">
+          <option hidden disabled selected value></option>
+          <option value="sales">Sales</option>
+          <option value="services">Services</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Priority</label>
+        <select class="form-control" ng-model="form.priority" style="height: 60px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;">
+          <option hidden disabled selected value></option>
+          <option value="urgent">Urgent</option>
+          <option value="normal">Normal</option>
+        </select>
+      </div>
+    </div>
+
+  </div> -->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <a href="/static/contactSheet.xlsx" target="_blank"> Sample file to upload </a>
+      </div>
+    </div>
+  </div>
+  <div class="row" ng-if="!uploading">
+    <div class="col-md-6">
+      <button class="btn btn-danger" ng-click="close()"  style="background: #c11700;color: white;border: none !important;border-radius: 64px !important;padding: 10px;width: 112px;font-size: 16px;"> Close </button>
+    </div>
+      <div class="col-md-6 text-right">
+      <button class="btn btn-primary" ng-click="postFile()" style="background: #461482;color: white;border: none !important;border-radius: 64px !important;padding: 10px;width: 112px;font-size: 16px;"> Upload </button>
+    </div>
+  </div>
+  <div class="row" ng-if="uploading">
+    <div class="col-md-12">
+      <button class="btn btn-primary"> <i class="fa fa-spinner"></i> Please Wait </button>
+    </div>
+  </div>
+</div>

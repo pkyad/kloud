@@ -1,0 +1,99 @@
+<div class="" style="min-height:100vh;position:relative;padding:20px;background:#FAFAFA;">
+
+  <div class="container-fluid">
+    <div class="row" style="margin-left:20px;margin-right:20px;">
+      <div class="container-fluid">
+        <div class="row">
+
+          <div class="col-md-2" style="padding-top:20px;">
+            <input class="form-control" type="text" ng-model="userform.user" uib-typeahead="user as user.username for user in userSearch($viewValue)" style="padding:20px  !important;border-radius:10px  !important;border : none !important;font-size:20px;" />
+          </div>
+
+          <div class="col-md-6" style="padding-top:25px;">
+            <div class="col-md-3">
+              <span class="badge badge-pill space " style="height:25px;width:25px;background-color: #ddf9d7;"> </span> Present
+            </div>
+
+            <div class="col-md-3">
+              <span class="badge badge-pill " style="height:25px;width:25px;background-color: #feefde;"> </span> Half Day
+            </div>
+
+            <div class="col-md-3">
+              <span class="badge badge-pill " style="height:25px;width:25px;background-color: #e2f3fe;"> </span> Absent
+            </div>
+
+            <div class="col-md-3">
+              <span class="badge badge-pill " style="height:25px;width:25px;background-color: #E4E4E4;"> </span> on Leave
+            </div>
+          </div>
+
+
+
+          <button type="button" class="btn btn-default " style="background: #000000;color: white;position: fixed;bottom: 24px;border: none !important;border-radius: 10px !important;padding: 15px;width: 139px;right: 25px;font-size: 16px;" ng-click="openUploadForm()">
+            Upload <img src="/static/images/icons8-upload-48.png" style="width:25px;margin-left:10px;" alt="">
+          </button>
+
+          <div class="col-md-2 text-right" style="padding-top:10px;">
+            <h3>{{dateDisp | date:'MMM yyyy'}}</h3>
+          </div>
+          <div class="col-md-2" style="padding-top:20px;padding-right:0px;">
+            <div class=" col-md-6">
+              <button class="btn btn-success btn-block" ng-click="gotoPrev()" style="border:none !important;background:#E4E4E4;color:black;padding:10px;border-radius:10px !important;">
+                Previous
+              </button>
+            </div>
+            <!-- <div class="col-md-4">
+              <button class="btn btn-primary col-sm-8 col-xs-6" ng-click="gotoToday()">Current Month</button>
+            </div> -->
+            <div class="col-md-6">
+              <button class="btn btn-success btn-block" ng-click="gotoNext()" style="border:none !important;background:#E4E4E4;color:black;padding:10px;border-radius:10px !important;">Next</button>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row" style="margin-top:40px;">
+          <div class="weekHeader text-center" style="padding-top:10px;">
+            <div class="weekDay ">Sunday</div>
+
+            <div class="weekDay">Monday</div>
+
+            <div class="weekDay">Tuesday</div>
+
+            <div class="weekDay">Wednesday</div>
+
+            <div class="weekDay">Thursday</div>
+
+            <div class="weekDay">Friday</div>
+
+            <div class="weekDay">Saturday</div>
+          </div>
+        </div>
+
+        <div class="week">
+          <table width="100%" style="height:74vh;">
+            <tbody>
+              <tr ng-repeat="w in range(0,5)">
+                <td class="dayy {{(dates[w*7 + d] == (dateDisp|date : 'dd')) && (dateFlags[w*7 + d]=='Cur') ? 'dayyActive': ''}}" ng-repeat="d in range(0,6) track by $index" style="background-color:{{dateFlags[w*7 + d]=='Cur'?getval(dateFlags[w*7 + d],dates[w*7 + d]):''}};" ng-click="openDay(w*7 + d)">
+
+                  <span class="dayyType{{dateFlags[w*7 + d]}} " style="top:1%;right:2%;position:absolute;">
+                    {{dates[w*7 + d]}}
+                  </span>
+
+                  <span style="top:40%;right:35%;position:absolute;font-size:20px;color:#8f8f8f">
+                    {{dateFlags[w*7 + d]=='Cur'?timeList[dates[w*7 + d]-1]:''}} {{dateFlags[w*7 +
+                    d]=='Cur' && values[dates[w*7 + d]-1]>=0 ? 'Hrs':''}}
+                  </span>
+
+                  <span style="top:40%;right:38%;position:absolute;font-size:20px;color:#909090">
+                    {{values[dates[w*7 + d]-1] === -2 ? leavetype[0]:''}}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

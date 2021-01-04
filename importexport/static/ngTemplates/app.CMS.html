@@ -1,0 +1,89 @@
+
+      <div class="container-fluid contactList" style="background:#FAFAFA;min-height:100vh;">
+        <div class="row" style="background:rgb(18, 46, 99);padding:15px;padding-top:20px;padding-bottom:20px;">
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-3">
+            <ul class="nav navbar-nav navbar-left">
+              <li style="padding-bottom:1.5vh;margin-top:5px;">
+                <strong style="margin-left:-10px;color:white;font-size:20px;">BIND</strong>
+              </li>
+              <li style="margin-right:100px;margin-top:5px;">
+                <switch ng-model="formToggle.toggleMain"></switch>
+              </li>
+              <li style="padding-bottom:1.5vh;margin-top:5px;">
+                <strong style="margin-left:-90px;color:white;font-size:20px;">Trading</strong>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-8">
+
+            <div class="col-md-2 col-md-offset-2">
+              <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.importexport.newCMS')">New</button>
+            </div>
+            <div class="col-md-4">
+              <div class="input-group" style="background:#ffffff;border-radius:10px;">
+                <input type="text" class="form-control" ng-model="search.query" placeholder="Search by comp. ref" ng-enter="fetchData()" style="border:none !important;background:#ffffff;">
+                <div class="input-group-btn">
+                  <button class="btn btn-default" type="submit" ng-click="fetchData()" style="border:none !important;background:#ffffff;">
+                    <i class="glyphicon glyphicon-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="privious()">Prev</button>
+            </div>
+            <div class="col-md-2">
+              <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="next()">Next</button>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="background:rgb(18, 46, 99);color:white;padding-bottom:20px;padding:30px;">
+          <div class="col-md-1 text-center">
+            <h4>ID</h4>
+          </div>
+          <div class="col-md-3 text-center">
+            <h4>Customer</h4>
+          </div>
+          <div class="col-md-2 text-center">
+            <h4>Registered by</h4>
+          </div>
+          <div class="col-md-2 text-center">
+            <h4>Complaint Ref.</h4>
+          </div>
+          <div class="col-md-2 text-center">
+            <h4>Status</h4>
+          </div>
+          <div class="col-md-2 text-center">
+            <h4>Action</h4>
+          </div>
+        </div>
+        <div class="row" style="margin-top:30px">
+          <div class="row">
+            <div class="col-md-12" style="border-top:solid 2px #eee;padding:20px;padding-top:30px;padding-bottom:30px;" ng-repeat="p in products">
+              <div class="container-fluid">
+                <div class="col-md-1 text-center" style="position:relative;display:block;">
+                  <div class="row" style="padding-left:10px;">
+                    <span style="font-size:20px">{{p.pk}}</span> <br>
+                  </div>
+                </div>
+                <div class="col-md-3 text-center">
+                  <h4><b></b>{{p.customer.name}}</h4>
+                  <img height="35" width="35" src="https://img.icons8.com/color/48/000000/checked-user-male--v1.png" /><b>&nbsp;{{p.customer.personName}}</b>
+                </div>
+                <div class="col-md-2 text-center">{{p.registeredBy.first_name}} {{p.registeredBy.last_name}}</div>
+                <div class="col-md-2 text-center">{{p.complaintRef}}</div>
+                <div class="col-md-2 text-center">{{p.status}}</div>
+                <div class="col-md-2 text-center" id="back">
+                  <button type="button" class="btn btn-success" ng-click="changeState(p.pk)" ng-if="p.registeredBy.is_staff" name="button">View </button>
+                  <button type="button" class="btn btn-primary" ng-include="'/static/ngTemplates/app..CMS.view.html'" name="button">View</button>
+                  <button type="button" class="btn btn-primary" ng-if="!p.is_RefurbishedBind" ng-click="$state.go('businessManagement.importexport.editCMS',{'id':p.pk})" name="button">edit <i class="fa fa-edit"></i></button>
+                  <button type="button" class="btn btn-warning" mwl-confirm title="Process Complaint Delete" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="Delete(p.pk)"
+                    confirm-button-type="success" cancel-button-type="default">Remove <i class="fa fa-trash"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>

@@ -1,0 +1,116 @@
+<style media="screen">
+  .navigationBtn , .navigationBtn:hover{
+    padding: 10px;
+    border:none !important;
+    border-radius:10px !important;
+  }
+   .contactList input ,.contactList button , .contactList .btn, .contactList .btn-primary{
+    border:none !important;
+  }
+  .contactList input, .contactList .form-control{
+    padding: 20px;
+    border-radius: 23px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  .text-dull{
+    color: #bbb;
+  }
+
+  .tableNew th{
+    padding:17px !important;
+  }
+
+  .tableNew {
+    border-radius: 1em;
+    overflow: hidden;
+  }
+
+  .contentTd{
+    padding:18px !important;
+  }
+
+  table, th, td{
+    border-color:#f2f2f2 !important;
+  }
+
+</style>
+
+<ui-view>
+  <div class="container-fluid contactList" style="padding:40px;min-height:100vh;background:#FAFAFA;">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-2">
+          <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.contacts.new')">New</button>
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="uploadContactList()">Upload</button>
+        </div>
+        <div class="col-md-4">
+          <!-- <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search" ng-model="contactForm.search" ng-enter="getallContacts()" >
+            <div class="input-group-btn">
+              <button class="btn btn-default" ng-click="getallContacts()" style="border-top-right-radius:23px !important;border-bottom-right-radius:23px !important;padding: 10px;padding-right:20px;">
+                <i class="glyphicon glyphicon-search" ></i>
+              </button>
+            </div>
+          </div> -->
+          <div class="input-group" style="background:#ffffff;border-radius:10px;">
+            <input type="text" class="form-control" ng-model="contactForm.search" placeholder="Search" ng-enter="getallContacts()" style="border:none !important;background:#ffffff;">
+            <div class="input-group-btn">
+              <button class="btn btn-default" type="submit" ng-click="getallContacts()" style="border:none !important;background:#ffffff;">
+                <i class="glyphicon glyphicon-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="previous()">Prev</button>
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="next()">Next</button>
+
+        </div>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.CRM.companies')">Show Companies Wise</button>
+      </div>
+    </div>
+
+    <br>
+    <br>
+    <div class="row" style="margin:10px;">
+      <table class="table table-hover tableNew">
+        <thead>
+          <tr style="background:#f2f2f2;padding:10px;">
+            <th> </th>
+            <th></th>
+            <th>Name</th>
+            <th>Company</th>
+            <th>Mobile</th>
+            <th>Email</th>
+            <th>Designation</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-click="$state.go('businessManagement.contacts.delatils' , {id : k.pk})" ng-repeat="k in contactList" style="padding:10px;background:white;">
+            <td class="contentTd" >{{k.pk}}</td>
+            <td>
+              <img ng-src="{{k.dp}}" ng-if="k.dp" style="width:40px;height:40px;" onerror="this.src='/static/images/img_avatar_card.png'" class="img img-circle">
+              <img src="/static/images/img_avatar_card.png" ng-if="k.dp==null" style="width:40px;height:40px;" class="img img-circle">
+            </td>
+            <td class="contentTd"><h4>{{k.name}}</h4></td>
+            <td class="contentTd">{{k.company.name}}</td>
+            <td class="contentTd">{{k.mobile}}</td>
+            <td class="contentTd">{{k.email}}</td>
+            <td class="contentTd">{{k.designation}}</td>
+            <td class="contentTd" ng-click="$state.go('businessManagement.contacts.edit', {id : k.pk});$event.stopPropagation();"><i class="fa fa-pencil"></i></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ui-view>

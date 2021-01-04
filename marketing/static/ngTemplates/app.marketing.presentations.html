@@ -1,0 +1,71 @@
+<style media="screen">.menuCol{width:9.8%;}.appCol{width:90.2%;}</style>
+<div class="" style="min-height:93vh;position:relative;">
+
+  <breadcrumb></breadcrumb>
+  <div class="col-md-12">
+    <!-- <generic-Calendar date="date" day-Items="[]" item-Templates="{{templates}}" day-Clicked="showDay" item-Clicked="showPerticular"></generic-Calendar> -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="btn-group col-md-3 col-sm-12 col-xs-12">
+          <button class="btn btn-default col-sm-3 col-xs-3" ng-click="gotoPrev()"> <i class="glyphicon glyphicon-chevron-left"></i> </button>
+          <button class="btn btn-default col-sm-3 col-xs-3" ng-click="gotoNext()"> <i class="glyphicon glyphicon-chevron-right"></i></button>
+          <button class="btn btn-success col-sm-6 col-xs-6" ng-click="gotoToday()">Today</button>
+        </div>
+        <div class="headerCalender col-md-4 col-sm-12 col-xs-12">
+          <p>{{dateDisp | date:'dd MMM yyyy'}} </p>
+        </div>
+        <div class="col-md-5 col-sm-12 col-xs-12">
+          <div class="col-md-3 col-sm-4 col-xs-4 btn btn-primary" ng-click="createNewDemo()">
+            New Demo <i class="fa fa-plus"></i>
+          </div>
+          <div class="col-md-5 col-sm-4 col-xs-4">
+            <div class="dropdown">
+             <button class="btn btn-default btn-block dropdown-toggle" type="button" data-toggle="dropdown"> {{listOfMonths[dropMonth.val].disp}}
+             <span class="caret" style="margin-left:30px;"></span></button>
+             <ul class="dropdown-menu">
+               <li ng-repeat="m in listOfMonths" ng-click="setMonth(m)"><a href="">{{m.disp}}</a></li>
+             </ul>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 col-xs-4 pull-right">
+            <div class="dropdown">
+             <button class="btn btn-default btn-block dropdown-toggle" type="button" data-toggle="dropdown"> {{dropYear.val}}
+             <span class="caret" style="margin-left:30px;"></span></button>
+             <ul class="dropdown-menu">
+               <li ng-repeat="m in listOfYears" ng-click="setYear(m)"><a href="">{{m.disp}}</a></li>
+             </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="weekHeader">
+          <div class="weekDay text-muted">Sunday</div>
+          <div class="weekDay text-muted">Monday</div>
+          <div class="weekDay text-muted">Tuesday</div>
+          <div class="weekDay text-muted">Wednesday</div>
+          <div class="weekDay text-muted">Thursday</div>
+          <div class="weekDay text-muted">Friday</div>
+          <div class="weekDay text-muted">Saturday</div>
+        </div>
+      </div>
+      <div class="week">
+        <table width="100%" style="height:74vh;">
+          <tr ng-repeat="w in range(0,5)">
+            <td class="day {{(dates[w*7 + d] == (dateDisp|date : 'dd')) && (dateFlags[w*7 + d]=='Cur') ? 'dayActive': ''}}"  ng-repeat="d in range(0,6) track by $index" ng-click="showSlots(scheduleData[dates[w*7 + d]],dateFlags[w*7 + d]);showDay(w*7 + d)" style="cursor:{{(dateFlags[w*7 + d]=='Cur') ? 'pointer': 'default'}}">
+              <span style="top:1%;right:2%;position:absolute;" class="dayType{{dateFlags[w*7 + d]}} ">
+                {{dates[w*7 + d]}}
+              </span>
+              <span ng-if="dateFlags[w*7 + d]=='Cur'">
+                <!-- <span ng-if="scheduleData[dates[w*7 + d]].length==0" style="top:40%;right:35%;position:absolute;font-size:20px;color:#8f8f8f">No Demo</span> -->
+                <span ng-if="scheduleData[dates[w*7 + d]].length>0" style="top:40%;right:35%;position:absolute;font-size:20px;color:#2b6cdb"><i class="fa fa-laptop fa-lg" ></i> {{scheduleData[dates[w*7 + d]].length}}</span>
+              </span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>

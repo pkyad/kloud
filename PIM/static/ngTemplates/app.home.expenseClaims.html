@@ -1,0 +1,257 @@
+<style media="screen">
+
+
+  .navigationBtn , .navigationBtn:hover{
+    padding: 10px;
+    border:none !important;
+    border-radius:10px !important;
+  }
+
+  .text-dull{
+    color: #bbb;
+  }
+
+  .tableNew th{
+    padding:17px !important;
+  }
+
+  .tableNew {
+    border-radius: 1em;
+    overflow: hidden;
+  }
+
+  .contentTd{
+    padding:18px !important;
+  }
+
+  table, th, td{
+    border-color:#f2f2f2 !important;
+  }
+
+
+  .tableNew {
+    border-radius: 0px;
+    overflow: hidden;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+
+
+  .timeLabel {
+    color:orange;font-size:13px;margin-left:15px;
+    padding:10px;
+    border-radius:100px !important;padding-left:15px;padding-right:15px;
+    background:rgb(255, 251, 243);
+    border:none;
+  }
+
+  .timeLabel:hover{
+    background:orange !important;
+    color:white !important;
+    cursor:pointer;
+
+  }
+
+
+  .projectLabel{
+    padding:8px;color:rgb(42, 60, 136);font-size:13px;margin-left:15px;
+    border-radius:100px !important;padding-left:15px;padding-right:15px;
+    background:rgb(239, 246, 251);
+  }
+
+  .projectLabel:hover{
+    background:rgb(42, 60, 136) !important;
+    color:white !important;
+    cursor:pointer;
+  }
+  .fileLabel{
+    padding:8px;color:grey;font-size:13px;margin-left:15px;
+    border-radius:100px !important;padding-left:15px;padding-right:15px;
+    background:rgb(247, 247, 247);
+  }
+  .fileLabel:hover{
+    background:grey !important;
+    color:white !important;
+    cursor:pointer;
+  }
+
+  .pendingItem:hover{
+    background:#FAFAFA;
+    cursor:pointer;
+  }
+  .menuItem {
+    padding:30px;color:white;font-size:17px;cursor:pointer;
+  }
+  .menuItem:hover{
+    background:#1b2735;
+  }
+
+</style>
+<div class="row" style="background:#2f455c;margin:0px;">
+  <!-- <div class="col-md-2">
+
+
+
+    <div class="row text-center" style="margin-top:40px;" ng-click="$state.go('home.profile')">
+      <img src="/static/images/userIcon.png" class="img img-circle" style="width:80px;margin-left:20px;">
+
+      <h2 style="color:white">Hi,  {{me.first_name}}</h2>
+    </div>
+
+
+
+    <div style="margin-top:100px;" class="row text-center menuItem" ng-click="$state.go('home.leave')">
+      Apply for Leave
+    </div>
+    <div style="background:#1b2735;" class="row text-center menuItem">
+      Expense Claims
+    </div>
+    <div class="row text-center menuItem" ng-click="$state.go('home.payslips')">
+      View Payslips & Form 16
+    </div>
+    <div ng-click="$state.go('home.itDeclaration')" class="row text-center menuItem">
+      IT Declaration
+    </div>
+
+
+    <div class="row text-center" style="margin-top:100px;">
+        <button class="btn btn-primary" style="background:#ff0007;margin-top:30px;color:white;font-size:20px;padding:10px;cursor: pointer;border-radius:20px !important;border:none !important;padding-left:50px;padding-right:50px;" onclick="window.location.href='/logout/'">
+          Logout
+        </button>
+    </div>
+
+  </div> -->
+  <div class="col-md-12" style="background:#FAFAFA;min-height:100vh;padding:50px;padding-top:0px;">
+
+
+    <div class="row" style="padding:40px;padding-top:0px;">
+
+      <div class="container-fluid" style="background:white;border-radius:30px;min-height:300px;box-shadow: 20px 20px 50px #eee, -30px -30px 60px #eee;margin-top:-50px;">
+        <div class="row" style="padding: 25px;padding-left:35px;padding-top:100px;">
+          <div class="col-md-1 text-right" style="padding:0px;">
+              <img style="width:100%;" src="https://i.pinimg.com/originals/e3/7e/7d/e37e7dee6ac2b5b56f7a132bec0d5224.png" alt="">
+          </div>
+          <div class="col-md-7">
+            <h2 style="color:#2F455C;">Expenses</h2>
+          </div>
+          <div class="col-md-1" style="margin-top:22px">
+            <img ng-click="download()" src="/static/images/download-from-cloud.png" style="width:40px;" >
+          </div>
+          <div class="col-md-3 text-right" style="padding-top:20px;">
+            <button type="button" class="btn btn-primary cutebuttonplain pull-right" style="background:rgb(14, 67, 136);color:white;" ng-click="openNewExpenses()">
+              Submit New Claim
+            </button>
+          </div>
+        </div>
+        <div class="row" style="padding:20px;">
+          <div class="col-md-1">
+            <div class="container-fluid" style="margin-top:20px;">
+              <img src="https://www.pinclipart.com/picdir/big/113-1130159_wait-one-hour-time-coin-icon-clipart.png" style="width:30px;" alt="">
+            </div>
+          </div>
+          <div class="col-md-2" style="padding:10px;color:#c8c8c8;">
+            <h4>Advance Balance</h4>
+          </div>
+          <div class="col-md-1">
+            <div class="container-fluid" style="margin-top:20px;">
+              <img src="https://www.pinclipart.com/picdir/big/113-1130159_wait-one-hour-time-coin-icon-clipart.png" style="width:30px;" alt="">
+            </div>
+          </div>
+          <div class="col-md-2" style="padding:10px;color:#c8c8c8;">
+            <h4>Available to Claim</h4>
+          </div>
+          <div class="col-md-1">
+            <div class="container-fluid" style="margin-top:20px;">
+              <img src="/static/images/inprogress.png" style="width:40px;" alt="">
+            </div>
+          </div>
+          <div class="col-md-2" style="padding:10px;color:#c8c8c8;">
+            <h4>Submitted</h4>
+          </div>
+          <div class="col-md-1">
+            <div class="container-fluid" style="margin-top:20px;">
+              <img src="/static/images/paidIcon.png" style="width:40px;" alt="">
+            </div>
+          </div>
+          <div class="col-md-2" style="padding:10px;color:#c8c8c8;">
+            <h4>Paid</h4>
+          </div>
+        </div>
+        <div class="row text-center" style="padding:30px;padding-top:0px;">
+          <div class="col-md-3">
+            <h3>{{0 | number : 0}} <small><i class="fa fa-inr"></i></small> </h3>
+          </div>
+          <div class="col-md-2">
+            <h3>{{unclaimed | number : 0}} <small><i class="fa fa-inr"></i></small> </h3>
+          </div>
+          <div class="col-md-3">
+            <h3>{{claimed | number : 0}} <small><i class="fa fa-inr"></i></small> </h3>
+
+          </div>
+          <div class="col-md-4">
+            <h3>{{approved | number : 0}} <small><i class="fa fa-inr"></i></small> </h3>
+          </div>
+
+        </div>
+
+        <!-- <div class="row text-center" style="padding:30px;">
+          <img src="/static/images/chart.png" alt="">
+        </div> -->
+
+
+
+      </div>
+    </div>
+
+    <div class="row" style="padding:30px;">
+      <div class="col-md-6">
+        <h4>Unclaimed Bills</h4>
+      </div>
+      <div class="col-md-6 text-right">
+
+        <button type="button" class="btn btn-primary" style="background:rgb(14, 67, 136);color:white;" ng-click="addInvoicesData()">
+        <i class="fa fa-plus"> </i>
+        </button>
+      </div>
+
+    </div>
+    <div class="row" style="padding:30px;padding-top:0px;">
+      <div class="col-md-4" ng-repeat="data in invoicesData"  >
+        <div class="container-fluid" style="background:white;box-shadow:20px 20px 50px #eee, -30px -30px 60px #eee;padding:20px;min-height:100px;border-radius:20px;margin-bottom:20px;">
+          <div class="col-md-8">
+            <h3>{{data.code}}</h3>
+            {{data.created|date}}
+          </div>
+          <div class="col-md-4" >
+          <a ng-if="data.attachment"  href="{{data.attachment}}" target="_blank" class="pull-right">  <i class="fa fa-download fa-lg"></i> </a>
+            <h3 style="color:#888484;" class="ng-binding">{{data.amount|number:0}} <small> <i class="fa fa-inr"></i></small> </h3>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="padding:55px;padding-top:0px;">
+      <div class="row" ng-repeat="data in expenseData" style="background:white;box-shadow:20px 20px 50px #eee, -30px -30px 60px #eee;padding:20px;min-height:100px;border-radius:20px;margin-bottom:20px;" ng-click="$state.go('home.editExpenseClaims',{'id' : data.pk})">
+
+        <div class="col-md-7">
+          <h3>{{data.notes}}</h3>
+          {{data.created|date}}
+        </div>
+        <div class="col-md-3" >
+          <h3 style="color:#888484;" class="ng-binding">{{data.totAmount|number:0}} <small> <i class="fa fa-inr"></i></small> </h3>
+        </div>
+        <div class="col-md-2 text-right" style="padding-top:20px;">
+          <span class="timeLabel">{{data.stage}}</span>
+        </div>
+
+      </div>
+    </div>
+
+
+
+
+  </div>
+
+
+</div>

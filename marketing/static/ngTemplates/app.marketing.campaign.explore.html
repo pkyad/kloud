@@ -1,0 +1,86 @@
+<div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-1">
+        <img src="/static/images/emailCampaign.png" style="width:100px;">
+      </div>
+      <div class="col-md-9">
+        <h2>{{data.name}}</h2>
+      </div>
+      <div class="col-md-1">
+        <button type="button" class="btn btn-default" ng-click="sendTestMail()">
+          Send Test Mail
+        </button>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-2">
+        <label>Total</label> : <span style="font-size:22px;">{{stats.total}}</span>
+      </div>
+      <div class="col-md-3">
+        <label>Sent</label> :  <span style="font-size:22px;"> {{stats.sent}} ( {{stats.sentPercent | number : 2}} % )</span>
+      </div>
+      <div class="col-md-3">
+        <label>Opened</label> :  <span style="font-size:22px;"> {{stats.opened}} ( {{stats.openedPercent | number : 2}} % )</span>
+      </div>
+      <div class="col-md-3">
+        <label>Clicked</label> :  <span style="font-size:22px;"> {{stats.clicked}} ( {{stats.clickedPercent | number : 2}} % )</span>
+      </div>
+      <div class="col-md-1 text-muted">
+        <i class="fa fa-refresh fa-lg" style="cursor:pointer;" ng-click="refreshStats()"></i>
+      </div>
+    </div>
+
+  </div>
+  <hr>
+  <div class="container-fluid" style="padding:0px;">
+
+    <div class="row">
+      <div class="col-md-6 col-md-offset-6">
+        <div class="col-md-8">
+          <input type="text" class="form-control" ng-model="searchTxt" ng-enter="fetch()" placeholder="Search by email ....">
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="btn btn-primary btn-block" ng-click="prev()">
+            Prev
+          </button>
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="btn btn-primary btn-block" ng-click="next()">
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Company</th>
+        <th>Website</th>
+        <th>Emailed</th>
+        <th>Opened</th>
+        <th>Opened On</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in items">
+        <td>{{item.contact.name}}</td>
+        <td><a href="mailto:{{item.contact.email}}">{{item.contact.email}}</a></td>
+        <td>{{item.contact.companyName}}</td>
+        <td> <a target="_blank" href="{{item.contact.website}}">{{item.contact.website}}</a> </td>
+        <td>{{item.emailed}}</td>
+        <td>{{item.opened}}</td>
+        <td>{{item.openedTime | timeAgo}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+  </div>
+</div>

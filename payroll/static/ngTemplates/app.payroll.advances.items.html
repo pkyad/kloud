@@ -1,0 +1,22 @@
+<div class="">
+  <div class="col-md-3" style="padding-bottom:20px;padding-left:10px;padding-right:10px;">
+    <div class="container-fluid card" style="padding-bottom:10px;{{data.typ == 'loan'? 'background:#e2e2e2;':'background:#fff2da;'}}">
+      <div class="row" style="padding-left: 20px;padding-top: 10px;cursor:pointer;" ng-click="rowActionClicked('info')">
+        <div class="" style="padding-right:10px;" ng-if="data.settled == true">
+          <i class="fa fa-check-circle fa-2x pull-right text-success" aria-hidden="true"></i>
+        </div>
+        <div style="padding-right:10px;">
+          <span class="pull-right"style="{{data.typ == 'loan'? 'color:#707070;':'color:#b9934e;'}}"><b>{{data.typ == 'advance'? ' Advance' : 'Loan'}}</b> </span>
+        </div>
+        <span><strong> User : </strong> {{data.user.username}}</span> <br>
+        <span><strong> Amount : </strong> {{data.amount}}</span> <br>
+        <span ng-if="data.typ != 'loan'"><strong> Date Of Return : </strong> {{data.dateOfReturn | date : 'dd-MMM-yyyy'}} <br></span>
+        <span ng-if="data.typ == 'loan'"><strong> Requested On : </strong> {{data.created | date : 'dd-MMM-yyyy'}} <br></span>
+        <span><strong ng-if="data.settlementUser.username"> Settled By : </strong> {{data.settlementUser.username}}</span> <br>
+      </div>
+      <!-- <div class="row container-fluid" style="padding-top:20px;padding-bottom:10px;">
+      <i class="fa fa-pencil  text-primary pull-right" style="cursor:pointer;" ng-click="rowActionClicked('edit')"></i>
+    </div> -->
+    </div>
+  </div>
+</div>

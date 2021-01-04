@@ -1,0 +1,96 @@
+<div ng-controller="businessManagement.finance.vendor" class="Container-fluid" style="padding-top:10px;">
+  <div class="col-md-12">
+    <div class="row" style="margin-left:10px">
+      <h3>{{vendorData.service.name}}</h3>
+      <hr align="left" width="20%">
+    </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-1">
+          <strong>OWNER:</strong>
+        </div>
+        <div class="col-md-2">
+          <span>{{invoiceData.contactPerson}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1">
+          <strong><i style="width:30px;" class="fa fa-mobile"></i>:</strong>
+        </div>
+        <div class="col-md-2">
+          <span>{{invoiceData.mobile}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1">
+          <strong><i style="width:30px;" class="fa fa-envelope"></i>:</strong>
+        </div>
+        <div class="col-md-2" style="margin-left:0px">
+          <span>{{invoiceData.email}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="col-md-12">
+    <div class="row text-muted" style="margin-left:10px">
+      <h3>Invoice List</h3>
+      <button type="button" class="btn btn-primary pull-right" style="margin-top:-33px;" ng-click="openUpload()">Upload </button>
+    </div>
+    <div class="row" style=" margin-top: 10px;margin-left: 10px;">
+      <table class="invoiceTable" style=" width: 100%;">
+        <tbody>
+          <tr style="background-color: #eeeeee;height: 40px;">
+            <th>S.No</th>
+            <th>Dated</th>
+            <th>Invoice No.</th>
+            <th>Invoice</th>
+            <th>Amount</th>
+            <th>GST</th>
+            <th>Due Date</th>
+            <th></th>
+            <th>Approved Status</th>
+            <th></th>
+            <th>Disbursed Status</th>
+            <th>Actions</th>
+          <tr>
+          </tr>
+          <tr ng-repeat="i in vendorInvoiceData">
+            <td width=5%>{{$index + 1 + i.length}}</td>
+            <td>{{i.dated}}</td>
+            <td>{{i.invNo}}</td>
+            <td width=17%>{{i.invoice.split('__')[1]}}</td>
+            <td>{{i.amount}}</td>
+            <td>{{i.gst}}</td>
+            <td>{{i.dueDate}}</td>
+            <td>
+              <span ng-if="i.approved != null">
+                <i class="fa {{i.approved == true ? 'fa-check':'fa-times'}}" style="color:{{i.approved == true ? 'green':'red'}}"></i>
+              </span>
+            </td>
+            <td>{{i.approvedOn | date}} </td>
+            <td>
+              <span ng-if="i.disbursed != null">
+                <i class="fa {{i.disbursed == true ? 'fa-check':'fa-times'}}" style="color:{{i.disbursed == true ? 'green':'red'}}"></i>
+              </span>
+            </td>
+            <td>{{i.disbursedOn | date}}</td>
+            <td width=15%>
+              <div class="dropdown">
+                <a href="{{i.invoice}}" target="_blank" type="button" class="btn btn-primary btn-sm"> view </a>
+                <button type="button" class="btn btn-danger btn-sm" ng-click="deleteInvoice(i.pk , $index)"><i class="fa fa-trash"></i> </button>
+                <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" ng-disabled="i.approved == false || i.disbursed == true">Take Action <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                  <li ng-if="i.approved == null " ng-click="setStatus(i.pk ,$index, true);i.approved = true"><a>Approve</a></li>
+                  <li ng-if="i.approved == null " ng-click="setStatus(i.pk ,$index,  false);i.approved = false"><a>Reject</a></li>
+                  <li ng-if="i.approved != null && i.approved == true && i.disbursed != true" ng-click="setStatus(i.pk ,$index,  true,true);i.disbursed = true"><a>Disburse</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

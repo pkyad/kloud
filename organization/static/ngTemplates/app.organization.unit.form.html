@@ -1,0 +1,82 @@
+<div class="container-fluid" ng-controller="workforceManagement.organization.units.form">
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="modal-title" ng-if="mode == 'edit'">Edit unit : <strong>{{form.name}}</strong></h3>
+      <h3 class="modal-title" ng-if="mode == 'new'">Create a new Unit</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Division</label>
+        <input uib-typeahead="div as div.name for div in divisionSearch($viewValue)" ng-model="form.division" type="text" class="form-control" placeholder="Add division name">
+      </div>
+
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" ng-model="form.name" placeholder="enter name">
+      </div>
+
+      <div class="form-group">
+        <label>Address</label>
+        <input type="text " class="form-control" ng-model="form.address" placeholder="enter address">
+      </div>
+
+      <div class="form-group">
+        <label>Pincode</label>
+        <input type="text" class="form-control" ng-model="form.pincode" placeholder="enter pincode" uib-typeahead="pin as pin.pincode for pin in pinSearch($viewValue)">
+      </div>
+
+      <div class="form-group">
+        <label>Mobile</label>
+        <input type="text" class="form-control" ng-model="form.mobile" placeholder="enter mobile number">
+      </div>
+
+      <div class="form-group">
+        <label>Area Code</label>
+        <input type="text" class="form-control" ng-model="form.areaCode" placeholder="enter Area Code">
+      </div>
+
+      <div class="form-group">
+        <label>GSTIN</label>
+        <input type="text " class="form-control" ng-model="form.gstin" placeholder="enter GSTIN">
+      </div>
+
+      <span class="text-success" ng-init="showMore = false;" ng-click="showMore = !showMore" style="cursor:pointer;">More</span>
+
+      <div ng-if="showMore">
+
+        <div class="form-group">
+          <label>Is Warehouse ?</label>
+          <input type="checkbox" ng-model="form.warehouse">
+        </div>
+
+        <!-- <div class="form-group">
+          <label>Parent</label>
+          <input uib-typeahead="units as units.name for units in unitsSearch($viewValue)" ng-model="form.parent" type="text" class="form-control" placeholder="Select units">
+        </div> -->
+
+        <div class="form-group">
+          <label>L1</label>
+          <input type="text " class="form-control" ng-model="form.l1" placeholder="enter L1">
+        </div>
+
+        <div class="form-group">
+          <label>L2</label>
+          <input type="text " class="form-control" ng-model="form.l2" placeholder="enter L2">
+        </div>
+
+
+
+      </div>
+
+
+      <div class="btn-group pull-right">
+        <button type="button" ng-if="!form.pk" class="btn btn-default" ng-click="resetForm()">
+          Reset
+        </button>
+        <button type="button" class="btn btn-primary pull-right" ng-click="save()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

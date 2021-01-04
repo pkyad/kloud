@@ -1,0 +1,58 @@
+
+<br>
+<div class="container-fluid">
+<div class="row">
+<div class="col-md-5">
+
+</div>
+<div class="col-md-1">
+</div>
+<div class="col-md-6">
+<div class="col-md-8">
+  <div class="input-group">
+     <input type="text" class="form-control" placeholder="Search" ng-model="customerform.search" ng-enter="getallCustomers()">
+     <div class="input-group-btn" >
+       <button class="btn btn-default" type="submit" ng-click="getallCustomers()">
+         <i class="glyphicon glyphicon-search" ></i>
+       </button>
+     </div>
+   </div>
+</div>
+<div class="col-md-2">
+  <button type="button" class="btn btn-primary btn-block" ng-click="Customerprev()">Prev</button>
+</div>
+<div class="col-md-2">
+  <button type="button" class="btn btn-primary btn-block" ng-click="Customernext()">Next</button>
+</div>
+</div>
+</div>
+<br>
+<br>
+<div class="row">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>ID </th>
+        <th>Name</th>
+        <th>Mobile</th>
+        <th>TIN</th>
+        <th>CIN</th>
+        <th>Web</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat ="k in customerList">
+        <td ng-click="exploreCustomer(k)">{{k.pk}}</td>
+        <td ng-click="exploreCustomer(k)">{{k.name}}</td>
+        <td ng-click="exploreCustomer(k)">{{k.mobile}}</td>
+        <td ng-click="exploreCustomer(k)">{{k.tin}}</td>
+        <td ng-click="exploreCustomer(k)">{{k.cin}}</td>
+        <td ng-click="exploreCustomer(k)">{{k.web}}</td>
+
+          <td ng-click="editCustomer(k)"><i class="fa fa-pencil fa-lg"></i></td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+</div>

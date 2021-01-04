@@ -1,0 +1,202 @@
+<style>
+  .highlight_card:hover {
+    border-left: 3px solid var(--themeMain);
+    cursor: pointer
+  }
+  .flex-container {
+  display: flex;
+    flex-direction: row;
+}
+
+#map {
+  height: 100vh;
+  /* width: 94%; */
+  margin-left: 0px;
+}
+
+.address {
+  width: 100%;
+}
+
+.banner {
+  height: 40vh;
+}
+
+@media (max-width:997px) {
+  #map {
+    margin-left: 0;
+    width: 100%;
+    height: 300px;
+  }
+
+  .address {
+    width: 28%;
+  }
+
+  .banner {
+    height: 50vh;
+  }
+}
+
+
+.rz-pointer{
+  box-shadow: 0px 0px 21px #ff9d3e;
+  background-color: #ff9d3e !important;
+}
+
+.input-group .btn-default{
+  border:solid 2px #eee !important;
+}
+.input-group input{
+  border:none !important;
+  font-size:21px;
+}
+
+  .flipswitch {
+    position: relative;
+    background: white;
+    width: 90px;
+    height: 40px;
+    -webkit-appearance: initial;
+    border-radius: 3px;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    outline: none;
+    font-size: 14px;
+    font-family: Trebuchet, Arial, sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    border: 1px solid #ddd;
+  }
+
+  .flipswitch:after {
+    position: absolute;
+    top: 5%;
+    display: block;
+    line-height: 32px;
+    width: 45%;
+    height: 90%;
+    background: #fff;
+    box-sizing: border-box;
+    text-align: center;
+    transition: all 0.3s ease-in 0s;
+    color: black;
+    border: #888 1px solid;
+    border-radius: 3px;
+  }
+
+  .flipswitch:after {
+    left: 2%;
+    content: "OFF";
+  }
+
+  .flipswitch:checked:after {
+    left: 53%;
+    content: "ON";
+  }
+.gm-style-iw{
+  background: #faea82!important;
+  color:black!important
+}
+
+</style>
+
+<div class="row" >
+
+  <div class="col-md-12" style="position:relative;padding-right:0px;">
+    <div class="row" style="position: absolute;top: 20px;height: 150px;z-index: 1;padding-left:549px;padding-right:200px;" ng-if="showDate">
+      <div class="container-fluid" style="background: white;width:100%;border-radius: 80px;padding:20px;box-shadow:0px 0px 51px #b0b0b0;">
+        <div class="row" style="height:65px;border-bottom:1px solid #eee;">
+          <!-- <div class="col-md-4">
+            <img src="{{data.displayPicture}}" alt="" style="width:50px;height:50px;border-radius:50%;margin-left: 50px;margin-right: 19px;" class="img img-circle">
+            <span style="font-size:20px;">{{data.user.first_name}} {{data.user.last_name}}</span>
+          </div> -->
+          <div class="col-md-12 text-center">
+            <div class="input-group" style="font-size:20px;cursor:pointer;padding-top:12px;">
+              <input type="text" ng-click="status.AVOpened = true;" class="form-control text-center" show-weeks="false"  uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.dt" is-open="status.AVOpened"  ng-change="updateDate()"/>
+            </div>
+          </div>
+
+
+          <!-- <img src="/static/images/batteryFull.png" style="width:20px;" class="pull-right" alt="">
+          <span class="pull-right" style="padding: 16px;"><span style="font-size:20px;">{{data.mapDetails.battery}}</span> <span>%</span></span> -->
+          <!-- <span class="pull-right" style="padding: 16px;"><span style="font-size:20px;">{{data.mapDetails.total_distance | number : 2}}</span> <span>kms</span></span> -->
+
+        </div>
+        <!-- <div class="row" style="height:150px;padding-left:60px;padding-right:60px;">
+          <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options" ng-mouseup="onSliderChange()" ng-mousedown="onSliderChange()" rz-slider-step="1"></rzslider>
+        </div> -->
+      </div>
+    </div>
+    <!-- <map center="[{{data.lat}},{{data.lon}}]" style="display:block; width:auto; height:800px;" center="{{map_center}}" zoom="12" id="map">
+      <marker ng-repeat="i in users" position="{{i.lat}},{{i.lon}}" title="{{i.user.first_name}} {{i.user.last_name}}"></marker>
+      <marker ng-if="data.pk" icon="{{picture}}" position="{{data.lat}},{{data.lon}}" title="{{data.user.first_name}} {{data.user.last_name}}" scaledSize="[5, 5]"></marker>
+    </map> -->
+      <div id="map" class=" col-md-12 col-sm-12 col-xs-12"></div>
+  <!-- </div> -->
+  <div  style="position: absolute;top: 20px;height: 150px;z-index: 1;right:23px;width:20%">
+    <div class="row" style="padding-top:10px">
+
+      <div class="col-md-5">
+        <button class="btn btn-primary btn-block gradientBtnBlue" ng-click="showDate =! showDate"> {{showDate?'Hide':'Show'}} Date  </button>
+      </div>
+      <div class="col-md-7">
+          <button class="btn btn-primary btn-block gradientBtnBlue" ng-click="showUsers =! showUsers">  {{showUsers?'Hide':'Show'}} Technicians  </button>
+      </div>
+    </div>
+
+    <div class="row"  ng-if="showUsers">
+      <div class="col-md-12 "  style="margin-top:15px;margin-bottom:15px">
+        <button class="btn btn-primary btn-block gradientBtnBlue" ng-click="reset()"> Reset </button>
+      </div>
+    </div>
+    <div class="row" style="height:100vh; scroll-behavior: smooth;overflow: auto;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;background:#FAFAFA!important" ng-if="showUsers">
+      <div class="col-md-12 " ng-repeat="u in users" style="padding:10px" ng-click="changeMap($index)">
+        <div class="card highlight_card" style="border:none;padding:10px;{{u.selected?'border-left:3px solid var(--themeMain);':''}};border-radius:10px;" ng-click="u.selected = true">
+          <div class="row">
+            <div class="row">
+              <div class="col-md-10">
+              <img style="width: 50px;height:50px;" class="img img-rounded" ng-src="{{u.profile.displayPicture}}" onerror="this.src='/static/images/userIcon.png'" src="/static/images/userIcon.png">
+              <span style="color:grey;margin-left:15px;font-size:15px;"> {{u.user.first_name}}   {{u.user.last_name}} </span> </div>
+            <div class="col-md-2">
+                <img ng-click="call()" src="/static/images/call.png" alt="" style="width:25px;padding-top:15px;padding-right:2px" class="img pull-right">
+            </div>
+          </div>
+            <!-- <div class="col-md-6 flex-container">
+              <div style="height:11px;width:20%;border:1px solid black;margin-top:15px" >
+                <div style="height:11px;background:{{u.battery_level>20?'green':'red'}};width:{{u.battery_level}}%"></div>
+              </div>
+              <div style="margin-top:10px;margin-left:5px"> {{u.battery_level | number}}% </div>
+            </div> -->
+            <div class="row">
+            <div class="col-md-6">
+              <h5> {{u.last_updated |timeAgo }} Ago</h5>
+            </div>
+            <div class="col-md-6 text-right">
+              <h5 class="text-right">
+                <img src="/static/images/batteryFull.png" style="width:10px;"  alt="">
+                <span>{{u.battery_level | number}}% </span></h5>
+            </div>
+            <div class="col-md-6">
+              <h5 >
+                <img src="/static/images/lead.png" style="width:25px;"  alt="">
+                <span>{{u.totalTour}} </span></h5>
+            </div>
+            <div class="col-md-6">
+              <h5 class="text-right">
+                <img src="/static/images/distance.png" style="width:25px;"  alt="">
+                <span>{{u.total_distance| number : 2}}  km </span></h5>
+
+            </div>
+          </div>
+          </div>
+          <!-- <div class="row" ng-if="indx==$index">
+            <div class="col-md-12">
+              Total Distance : {{u.distanceTravelled | number : 2}}
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

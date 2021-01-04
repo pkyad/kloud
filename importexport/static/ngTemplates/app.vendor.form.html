@@ -1,0 +1,57 @@
+<div>
+  <div class="container-fluid" ng-if="mode=='new'">
+    <h3>Create a new Vendor Form</h3>
+  </div>
+  <div class="container-fluid" ng-if="mode=='edit'">
+    <h3>Edit Vendor {{form.name}} </h3>
+  </div>
+  <div class="col-md-6" style="padding-top:20px;">
+    <div class="form-group">
+      <label>Name</label>
+      <input ng-model="form.name" type="text" class="form-control" placeholder="Name">
+    </div>
+    <div class="form-group">
+      <label>Responsible Person</label>
+      <input type="text " class="form-control" ng-model="form.personName" placeholder="Responsible Person">
+    </div>
+    <div class="form-group">
+      <label>Mobile</label>
+      <input type="text " class="form-control" ng-model="form.mobile" placeholder="Mobile">
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="text " class="form-control" ng-model="form.email" placeholder="Email">
+    </div>
+    <div class="form-group">
+      <label>GST</label>
+      <input ng-model="form.gst" type="text" class="form-control" placeholder="GST">
+    </div>
+    <div class="form-group">
+      <label>Street</label>
+      <input type="text" ng-model="form.street" class="form-control" placeholder="Street">
+    </div>
+    <div class="form-group">
+      <label>City</label>
+      <input type="text" ng-model="form.city" class="form-control" placeholder="City">
+    </div>
+    <div class="form-group">
+      <label>Pincode</label>
+      <input type="text" ng-model="form.pincode" class="form-control" placeholder="Pincode">
+    </div>
+    <div class="form-group">
+      <label>State</label>
+      <input type="text" ng-model="form.state" class="form-control" placeholder="State">
+    </div>
+    <div class="form-group">
+      <label>Country</label>
+      <input type="text" ng-model="form.country" class="form-control" placeholder="Country">
+    </div>
+    <div class="btn-group pull-right">
+      <button ng-if="mode=='new'" type="button" class="btn btn-default" ng-click="resetForm()">
+        Reset
+      </button>
+      <button type="button" ng-if="!form.pk" class="btn btn-primary pull-right" ng-click="createVendor()">Save</button>
+      <button type="button" ng-if="form.pk" class="btn btn-primary pull-right" ng-click="updateVendor()">Update</button>
+    </div>
+  </div>
+</div>

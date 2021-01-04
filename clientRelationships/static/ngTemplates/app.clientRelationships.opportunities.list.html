@@ -1,0 +1,62 @@
+<ui-view>
+  <input type="text" class="form-control" ng-model="searchText" ng-enter=fetchDeals() style="border: none !important;
+  border-radius: 10px;
+  padding: 27px;
+  position: fixed;
+  right: 150px;
+  bottom: 30px;
+  width: 500px;
+  background: #393C45;
+  color: white;
+  box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;
+  font-size: 23px;" placeholder="Search by name or contact name ...">
+
+  <i class="fa fa-search" style="position: fixed;right: 168px;color: white;bottom: 45px;font-size: 26px;"></i>
+
+
+  <button type="button" class="btn btn-primary pull-right text-center" style="border: none !important;
+  border-radius: 110px !important;
+  padding: 12px;
+  position: fixed;
+  right: 50px;
+  bottom: 30px;
+  background: #E01B22;
+  color: white;
+  font-size: 23px;
+  padding-left: 0px;
+  padding-right: 0px;
+  box-shadow: 0px 8px 18px rgb(224, 27, 34) !important;
+  width: 57px;" ng-click="newOpportunity()">
+  <img src="/static/images/icons8-plus-48.png" style="width:25px;" alt="">
+</button>
+
+  <div class="row" style="box-shadow: 0px 13px 18px rgb(207, 207, 207) !important;margin:0px;position:absolute;width:100%;">
+
+
+
+
+    <div class="text-center col-md-2 boardHeader" style="width:20% !important;background:{{$index | rainbow}}" ng-repeat="c in columns">
+      <span style="font-size:20px;color:{{$index | darkrainbow}}">
+
+        <img ng-src="{{c.icon}}" ng-if="c.icon" width="50px">
+
+         {{c.text}}</span>
+    </div>
+  </div>
+  <div class="row" style="min-height:100vh;background:#FAFAFA;margin:0px;">
+
+    <div class="col-md-2" style="padding:20px;width:20% !important;padding-top:90px;" ng-repeat="col in columns">
+      <div class="row" style="min-height:70vh;" ng-drop="true" ng-drop-success="onDropComplete($data,$event , $index);$event.stopPropagation()" >
+        <div  class="draggable dealCard" ng-drag="true" ng-drag-data="c" data-allow-transform="true" ng-repeat="c in data[col.cat]">
+          <h4>{{c.name | humanize}}</h4>
+          <span style="font-size:16px;">
+
+            <img src="/static/images/icons8-building-blocks-96.png" width="20">
+            {{c.company.name}}</span> <br> <br>
+          <img ng-src="{{c.contacts[0] | getCRMDP}}" class="img img-circle" style="width:30px;height:30px;"> {{c.contacts[0].name}} <br>
+          <span class="text-primary" ng-click="openCard(c)">Open</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ui-view>

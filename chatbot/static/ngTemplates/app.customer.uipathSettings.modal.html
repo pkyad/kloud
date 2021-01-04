@@ -1,0 +1,59 @@
+<div class="modal-header" style="border-bottom:solid 3px #f30;">
+  <div class="row">
+    <div class="col-md-9">
+      <h3>UiPath Orchestrator Credentials</h3>
+    </div>
+    <div class="col-md-3">
+      <img src="/static/images/uipath-logo.svg" class="pull-right" style="height:60px;">
+    </div>
+  </div>
+</div>
+<div class="modal-body">
+  <div class="col-md-6">
+    <div class="form-group">
+      <label>URL</label>
+      <input ng-model="form.url" placeholder="Example : https://cloud.uipath.com/[organization]/[tenant]/" type="text" class="form-control">
+      <p class="help-block">Community or Local Enterprise Instance url</p>
+      <p class="text-danger">Please note that the https://cloud.uipath.com/[organization]/portal_/serviceinstances is not a correct URL </p>
+    </div>
+
+    <div class="form-group">
+      <label>Organization ID</label>
+      <input ng-model="form.uipathOrgId" type="text" class="form-control">
+      <p class="help-block">In the Url it is the value of <strong>fid=????</strong></p> <p>For example in : https://cloud.uipath.com/cioccyfzswo/CIOCDefault/orchestrator_/?tid=386815&fid=485439 , the Organization ID is :  <strong>485439</strong> </p>
+    </div>
+
+    <div class="form-group">
+      <label>User Key</label>
+      <input ng-model="form.password" type="text" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Tenant Logical Name</label>
+      <input ng-model="form.tenant" type="text" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Client ID</label>
+      <input ng-model="form.email" type="text" class="form-control">
+    </div>
+
+    <button ng-click="save()" type="button" class="btn btn-orange">
+      Test and Save
+    </button>
+    <button ng-click="clear()" type="button" class="btn btn-info">
+      Clear
+    </button>
+    <span ng-if="form.error" class="text-danger">Error!. Please check the details again</span>
+    <span ng-if="form.success" class="text-success">Saved</span>
+    <button ng-click="cancel()" type="button" class="btn btn-danger pull-right">
+      Close
+    </button>
+  </div>
+  <div class="col-md-6" >
+    <h4><strong>URL Example: </strong></h4>
+    <img src="/static/images/url_example_uipath.png" style="width:100%;" alt="">
+    <hr>
+    <h4>For other details please follow this instruction in your Orchestrator Account</h4>
+    <img src="/static/images/orch_settings.gif" style="width:100%;" alt="">
+  </div>
+
+</div>

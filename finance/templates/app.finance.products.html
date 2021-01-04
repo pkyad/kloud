@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+
+  <div class="">
+    <div class="row">
+      <div class="col-md-3">
+        <img src="/media/{{user.designation.division.logo}}" style="height:85px" alt="">
+      </div>
+      <div class="col-md-8 text-center">
+        <h3>{{user.designation.division.name}}</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:20px">
+    {% for k in data %}
+        <div class="col-md-4" style="margin-bottom:15px">
+          <div class="" style="background-image:url(/media/{{k.img1}});background-size:contain;height:85px;margin-bottom:15px;background-repeat:no-repeat;">
+
+          </div>
+          <p><b>Product :</b> {{k.name}}</p>
+          <p><b>Price :</b> {{k.rate}} <s>{{k.mrp}}</s></p>
+          <p><b>Quantity Added : </b>{{k.qtyAdded}}</p>
+        </div>
+
+    {% endfor %}
+  </div>
+
+{% endblock %}

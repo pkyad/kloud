@@ -1,0 +1,47 @@
+<div class="modal-header bg-black text-center">
+  <h3 class="modal-title">Upload Inflow Excel Data</h3>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- <div class="col-md-6">
+        <div class="form-group">
+          <label>Service</label>
+          <input uib-typeahead="s as s.name for s in serviceSearch($viewValue)" ng-model="form.service" type="text" class="form-control" placeholder="Search By Service Name">
+        </div>
+      </div> -->
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>To Account</label>
+          <input uib-typeahead="acc as getAccountName(acc) for acc in accountSearch($viewValue)" ng-model="form.toAcc" type="text" class="form-control" placeholder="Search By Account Number">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Currency Format</label>
+          <select class="form-control" ng-model="form.currency">
+            <option value="INR">INR</option>
+            <option value="USD">USD</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <div class="form-group">
+          <label>Excel File</label>
+          <input type="file" file-model="form.exFile">
+        </div>
+      </div>
+      <div class="col-md-4" style="padding-top:20px">
+        <div class="form-group">
+          <label>Verified</label>
+          <input type="checkbox" ng-model="form.verified">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 text-center" style="padding-top:15px">
+      <button type="button" class="btn btn-primary" mwl-confirm title="Upload This Excel" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="uploadExcel()" confirm-button-type="default" cancel-button-type="default">Upload</button>
+    </div>
+  </div>
+</div>

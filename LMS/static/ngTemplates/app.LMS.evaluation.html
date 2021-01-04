@@ -1,0 +1,73 @@
+      <div class="container-fluid" style="padding:0px;">
+
+        <div class="col-md-12" style="height:100vh;overflow:auto;">
+          <div class="row" style="padding:10px 10px 10px 10px;">
+          <div class="container-fluid contactList" style="background:#FAFAFA;min-height:100vh;">
+            <div class="row" style="background:rgb(18, 46, 99);padding:15px;padding-top:20px;padding-bottom:20px;">
+              <div class="col-md-4">
+              </div>
+              <div class="col-md-8">
+                <div class="col-md-2 col-md-offset-2">
+                  <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.LMS.newEvaluation')">New</button>
+                  <!-- <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.LMS.paperGroup')">Paper Group</button> -->
+                </div>
+                <div class="col-md-4">
+                  <div class="input-group" style="background:#ffffff;border-radius:10px;">
+                    <input type="text" class="form-control" ng-model="search.query" placeholder="Search" ng-enter="fetchData()" style="border:none !important;background:#ffffff;">
+                    <div class="input-group-btn">
+                      <button class="btn btn-default" type="submit" ng-click="fetchData()" style="border:none !important;background:#ffffff;">
+                        <i class="glyphicon glyphicon-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="privious()">Prev</button>
+                </div>
+                <div class="col-md-2">
+                  <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="next()">Next</button>
+                </div>
+              </div>
+            </div>
+            <div class="row" style="background:rgb(18, 46, 99);color:white;padding-bottom:20px;padding:30px;">
+              <div class="col-md-4 text-center">
+                <h4>Paper Name</h4>
+              </div>
+              <div class="col-md-2 text-center">
+                <h4>Active</h4>
+              </div>
+              <div class="col-md-2 text-center">
+                <h4>Created By</h4>
+              </div>
+              <div class="col-md-2 text-center">
+                <h4>Date</h4>
+              </div>
+
+              <div class="col-md-2 text-center">
+                <h4>Action</h4>
+              </div>
+            </div>
+            <div class="row">
+              <div ng-click="$state.go('businessManagement.LMS.viewPaper',{'id':a.pk})" class="col-md-12" style="border-top:solid 2px #eee;padding:20px;padding-top:30px;padding-bottom:30px;" ng-repeat="a in allData">
+                <div class="container-fluid">
+                  <div class="col-md-4 text-center" style="position:relative;display:block;">
+                    <div ng class="row" style="padding-left:10px;">
+                      <h5 style="font-size:20px">{{a.name}}</h5> <br>
+                      <i class="fa fa-bars">questions{{no.questions}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>
+                      <i class="fa fa-clock-o">&nbsp;{{a.timelimit}} min.</i>
+
+                    </div>
+                  </div>
+                  <div class="col-md-2 text-center">{{a.active}}</div>
+                  <div class="col-md-2 text-center">{{a.user | getName}}</div>
+                  <div class="col-md-2 text-center">{{a.created | getDate}}</div>
+                  <div class="col-md-2 text-center" id="back">
+
+                    <a ng-click="$state.go('businessManagement.LMS.editEvaluation',{'id':a.pk})"><img height="20" width="20" src="https://img.icons8.com/color/50/000000/edit.png" /></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>

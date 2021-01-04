@@ -1,0 +1,48 @@
+<div class="col-md-12" style="padding:0px;">
+  <div class="" style="padding:10px;border-left:4px solid #f4aa42;">
+    <div class="row" ng-if="$parent.$parent.$first">
+      <div class="col-md-2" style="padding-right:0px">
+        <i class="fa fa-bank"></i> <strong>Bank</strong>
+      </div>
+      <div class="col-md-2">
+        <strong>Amount</strong>
+      </div>
+      <div class="col-md-2" style="padding-right:0px">
+        <strong>Reference Id</strong>
+      </div>
+      <div class="col-md-2">
+        <strong>Description</strong>
+      </div>
+      <div class="col-md-2">
+        <strong>GST</strong>
+      </div>
+      <div class="col-md-2">
+        <strong>Verified</strong>
+      </div>
+      <hr>
+    </div>
+
+    <div class="row">
+      <div class="col-md-2" style="padding-right:0px">
+        {{data.toAcc.title}}
+      </div>
+      <div class="col-md-2">
+        {{data.amount | number}}
+      </div>
+      <div class="col-md-2" style="padding-right:0px">
+        {{data.referenceID}}
+      </div>
+      <div class="col-md-2">
+        {{data.description}}
+      </div>
+      <div class="col-md-2">
+        {{data.gstCollected | number}}
+      </div>
+      <div class="col-md-2">
+        <i class="fa fa-check-circle-o fa-lg" ng-if="data.verified" style="color:green"></i>
+        <i class="fa fa-times-circle-o fa-lg" ng-if="!data.verified" style="color:red"></i>
+      </div>
+    </div>
+
+  </div>
+</div>

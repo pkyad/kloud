@@ -1,0 +1,469 @@
+
+<style media="screen">
+  .navigationBtn,
+  .navigationBtn:hover {
+    padding: 10px;
+    border: none !important;
+    border-radius: 10px !important;
+  }
+
+  .contactList input,
+  .contactList button,
+  .contactList .btn,
+  .contactList .btn-primary {
+    border: none !important;
+  }
+
+  .contactList input,
+  .contactList .form-control {
+    padding: 20px;
+    border-radius: 23px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  .contactList input,
+  .contactList .form-control1 {
+
+  }
+  .fixedNavTabs .nav-tabs {
+    width: 100% !important;
+  }
+
+  .menuItems {
+    padding: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-right: solid 4px #F2F3F7;
+    padding-bottom: 15px;
+    padding-top: 15px;
+  }
+
+  .menuItems:hover {
+    background: #fbfbfb;
+    border-right: solid 4px red !important;
+  }
+
+  .activeMenu {
+    border-right: solid 4px red !important;
+    background: #fbfbfb !important;
+  }
+
+  .square-box {
+    padding-top: 15px;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: #e3e3e3;
+    height: 15em;
+  }
+
+  .box {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: #e3e3e3;
+    height: 15em;
+  }
+
+  .box h3 {
+    font-size: 50px;
+    font-weight: bold;
+    margin: 0px 0px 0px;
+    margin-left: 10px;
+    white-space: nowrap;
+    padding: 10px;
+    color: #fff;
+  }
+
+  .box .header {
+    text-align: center;
+    padding: 3px 0px;
+    color: white;
+    display: block;
+    background: #e3e3e3 none repeat scroll 0% 0%;
+  }
+
+  .square-box::after {
+    content: "";
+    display: block;
+    padding-top: 30%;
+  }
+
+  .square-box h3 {
+    font-size: 50px;
+    font-weight: bold;
+    margin: 0px 0px 0px;
+    margin-left: 10px;
+    white-space: nowrap;
+    padding: 10px;
+    color: #000000;
+  }
+
+  .square-box .header {
+    text-align: center;
+    padding: 3px 0px;
+    color: white;
+    display: block;
+    background: #e3e3e3 none repeat scroll 0% 0%;
+  }
+
+  /* .bottom {
+   position: absolute;
+   bottom: 0px;
+ } */
+
+  .caret1:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 110px;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 30px solid #8FC564;
+  }
+
+  .caret2:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 110px;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 30px solid #E3524F;
+  }
+
+  .caret3:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 110px;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 30px solid #8FC564;
+  }
+
+  .carettext {
+    font-size: 50px;
+    font-weight: bold;
+    margin: 0px 0px 0px;
+    color: rgb(141, 195, 110);
+    position: absolute;
+    bottom: 40px;
+    left: 3em;
+  }
+
+  .subtext {
+    font-size: 30px;
+
+  }
+  input[type=text], select {
+    width: 100%;
+    height:45px;
+    padding: 7px 15px;
+    margin: 5px 0;
+    background-color:#F8F8F8;
+    display: inline-block;
+    border: 2px solid #ccc;
+    border-radius: 20px;
+    box-sizing: border-box;
+  }
+  .textarea{
+    width: 100%;
+    height:180px;
+    padding: 12px 20px;
+    margin: 5px 0;
+    background-color:#F8F8F8;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    box-sizing: border-box;
+  }
+  textarea{
+    width: 100%;
+    height:180px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    background-color:#F8F8F8;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    box-sizing: border-box;
+  }
+  input[type=submit] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    background-color:#F8F8F8;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+
+  input[type=submit]:hover {
+    background-color: #45a049;
+  }
+  label{
+    margin-top:10px;
+  }
+.body {
+  border-radius: 10px;
+
+  padding: 0px;
+}
+ button{
+   background-color: #5cb85c ;
+  border: none;
+  color: white;
+  padding: 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+ }
+ .btn1{
+   background-color:  #0275d8;
+  border: none;
+  color: white;
+  padding: 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+ }
+.navbtn {
+  padding: 10px;
+
+  border-radius:10px !important;
+}
+
+.contactList input ,.contactList button , .contactList .btn, .contactList {
+ border:none !important;
+}
+.contactList input, .contactList .form-control{
+ padding: 20px;
+ border-radius: 23px;
+ border-top-right-radius: 0px;
+ border-bottom-right-radius: 0px;
+}
+.button {
+ background-color: #4CAF50;
+ border: none;
+ color: white;
+ padding: 20px;
+ text-align: center;
+ text-decoration: none;
+ display: inline-block;
+ font-size: 16px;
+ margin: 30px 10px;
+}
+#w3review{
+  margin: 30px 0px;
+  width: 100%;
+
+ box-sizing: border-box;
+ border: 2px solid black;
+
+}
+
+.button5 {border-radius: 50%;}
+label.myLabel input[type="file"] {
+  position:absolute;
+  top: -1000px;
+}
+
+.myLabel {
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 10px 16px;
+    margin: 2px;
+    background:white;
+    display: inline-block;
+    font-size:16px;
+}
+.myLabel:hover {
+    background: #22dc22;
+}
+.myLabel:active {
+    background: black;
+}
+.myLabel :invalid + span {
+    color: black;
+}
+.myLabel :valid + span {
+    color: black;
+}
+/* The container */
+.container {
+  display: block;
+  position: relative;
+  /* padding-left: 35px; */
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container .checkmark:after {
+ 	top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: white;
+}
+</style>
+
+<div class="container-fluid" style="padding:0px;">
+
+  <div class="col-md-2" style="margin:0px;margin-bottom:15px;background:#F2F3F7;height:100vh;overflow:auto;">
+    <div class="row" style="margin-top:20px;">
+
+
+
+      <div class="col-md-12">
+        <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
+      </div>
+    </div>
+
+
+<div style="margin-top:30px;margin-left:80px;" class="">
+    <img height="80px" width="80px" src="https://img.icons8.com/emoji/48/000000/books-emoji.png"/>
+
+</div>
+<div  style="margin-left:40px;" class="">
+<h2><b>Learning Management</b></h2>
+</div>
+    <div style="margin-top:20px;" class="row menuItems {{$state.is('businessManagement.LMS')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.LMS')">
+      <strong> Courses </strong>
+    </div>
+    <div style="margin-top:20px;" class="row menuItems {{$state.is('businessManagement.LMS.evaluation')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.LMS.evaluation')">
+      <strong> Online Tests </strong>
+    </div>
+    <div style="margin-top:20px;" class="row menuItems {{$state.is('businessManagement.LMS.Configureallbooks')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.LMS.Configureallbooks')">
+      <strong> Books </strong>
+    </div>
+
+
+
+  </div>
+  <div class="col-md-10" style="height:100vh;overflow:auto;padding:0px;">
+
+    <ui-view>
+
+
+
+        <div class="container-fluid contactList" style="background:#FAFAFA;min-height:100vh;">
+          <div class="row" style="padding:10px 10px 10px 10px">
+              <div class="container-fluid contactList"  style="background:#FAFAFA;min-height:100vh;">
+              <div class="row" style="background:rgb(18, 46, 99);padding:15px;padding-top:20px;padding-bottom:20px;">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-8">
+                  <div class="col-md-2 col-md-offset-2">
+                    <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.LMS.new')">New</button>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="input-group" style="background:#ffffff;border-radius:10px;">
+                      <input  type="text" class="form-control" ng-model="search.query" placeholder="Search by course name" ng-enter="fetchData()" style="border:none !important;background:#ffffff;">
+                      <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit" ng-click="fetchData()" style="border:none !important;background:#ffffff;">
+                          <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="privious()">Prev</button>
+                  </div>
+                  <div class="col-md-2">
+                    <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="next()">Next</button>
+                  </div>
+                </div>
+              </div>
+              <div class="row" style="background:rgb(18, 46, 99);color:white;padding-bottom:20px;padding:30px;">
+                <div class="col-md-4 text-center"><h4>Course Name</h4></div>
+                <div class="col-md-2 text-center"><h4>Registration Type</h4></div>
+                <div class="col-md-2 text-center"><h4>Description</h4></div>
+                <div class="col-md-2 text-center"><h4>Action</h4></div>
+              </div>
+              <div class="row" >
+                  <div  class="col-md-12" style="border-top:solid 2px #eee;padding:20px;padding-top:30px;padding-bottom:30px;" ng-repeat="a in allData" >
+                  <div class="container-fluid" >
+                    <div class="col-md-4 text-center" style="position:relative;display:block;">
+                      <div class="row" style="padding-left:10px;">
+                        <span style="font-size:20px">{{a.title}}</span> <br>
+                      </div>
+                    </div>
+                    <div class="col-md-2 text-center">{{a.enrollmentStatus}}</div>
+                    <div class="col-md-2 text-center">{{a.description}}</div>
+                    <div class="col-md-2 text-center" id="back">
+                    <button type="button" class="btn btn-primary" name="button" ng-click="$state.go('businessManagement.activityLog',{'id':a.pk})">View</button>
+                      <a ng-click="$state.go('businessManagement.LMS.edit',{'id':a.pk})" ><img height="20" width="20" src="https://img.icons8.com/color/50/000000/edit.png"/></a>
+                    </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+        </div>
+      </div>
+
+
+
+
+    </ui-view>
+
+  </div>
+</div>

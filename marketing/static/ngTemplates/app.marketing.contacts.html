@@ -1,0 +1,155 @@
+<style media="screen">.menuCol{width:9.8%;}.appCol{width:90.2%;}</style>
+<div class="container-fluid" style="margin-top:10px;">
+
+  <div class="col-md-2" style="height:86vh;overflow:auto;scrollbar-width:none;">
+    <div class="row">
+      <div class="col-md-6">
+        <input type="checkbox" ng-click="selectAll()" ng-model="data.selectAll"> Select All
+
+      </div>
+      <div class="col-md-6">
+        <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="bulkUpload()">Upload</button>
+
+      </div>
+    </div>
+    <hr>
+    <div ng-repeat="c in countries" class="row" ng-if="c.country !='' && c.country != null">
+      <input type="checkbox" ng-model="c.selected" ng-click="resetOtherFilters();evaluateTotal()">  <img  ng-src="/static/flags/{{c.country}}.png" alt="">  {{c.country}} <span class="pull-right">{{c.country__count}}</span>
+    </div>
+  </div>
+
+  <div class="col-md-10" style="padding:30px;padding-top:0px;height:80vh;overflow:auto;scrollbar-width:none;">
+    <div class="row">
+      <div class="col-md-10">
+
+        <div class="row" style="padding-top:20px;">
+          <div class="col-md-2">
+            <label>Data Availability</label>
+          </div>
+          <span style="margin-left:20px;">
+            <input ng-model="data.name" type="checkbox"> Name
+          </span>
+          <span style="margin-left:20px;">
+            <input ng-model="data.email" type="checkbox"> Email
+          </span>
+          <span style="margin-left:20px;">
+            <input ng-model="data.companyName" type="checkbox"> Company Name
+          </span>
+          <span style="margin-left:20px;">
+            <input ng-model="data.country" type="checkbox"> Country
+          </span>
+          <span style="margin-left:20px;">
+            <input ng-model="data.city" type="checkbox"> City
+          </span>
+          <span style="margin-left:20px;">
+            <input ng-model="data.mobile" type="checkbox"> Mobile
+          </span>
+          <span style="margin-left:20px;">
+            <input ng-model="data.website" type="checkbox"> Website
+          </span>
+          <span style="margin-left:20px;">
+            <input ng-model="data.gmail" type="checkbox"> Gmail
+          </span>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-md-2">
+            <label>Interaction</label>
+          </div>
+          <span style="margin-left:20px;">
+            <input ng-model="data.verified" type="checkbox"> Verified
+          </span>
+          <span style="margin-left:20px;">
+            <input ng-model="data.positiveResponse" type="checkbox"> Positive Response
+          </span>
+          <span style="margin-left:20px;">
+            <input ng-model="data.negativeResponse" type="checkbox"> Negative Response
+          </span>
+          <span style="margin-left:20px;">
+            <input ng-model="data.websiteVisit" type="checkbox"> Website Visit
+          </span>
+          <span style="margin-left:20px;">
+            <input ng-model="data.chat" type="checkbox"> Chat
+          </span>
+          <span style="margin-left:20px;">
+            <input ng-model="data.registered" type="checkbox"> Registered
+          </span>
+          <span style="margin-left:20px;">
+            <input ng-model="data.customer" type="checkbox"> Customer
+          </span>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-md-2">
+            <label>Source</label>
+          </div>
+          <span style="margin-left:20px;" ng-repeat="s in sources">
+            <input type="checkbox" ng-model="s.selected">
+            <span style="cursor:pointer;" ng-click="views.showSourceContacts(s.source)">
+              {{s.source}} ({{s.source__count}})
+            </span>
+          </span>
+        </div>
+        <div class="row" style="margin:0px;margin-bottom:20px;">
+          <tags-input ng-model="tags" add-on-paste="true" add-From-Autocomplete-Only="true" display-property="name" replace-spaces-with-dashes="true" >
+            <auto-complete source="getTagsSuggestions($query)" load-on-down-arrow="true"></auto-complete>
+          </tags-input>
+        </div>
+
+
+      </div>
+      <div class="col-md-2 text-center" style="padding:20px;">
+        <i class="fa fa-users fa-3x" style="color:#eeeeee;"></i> <br>
+        <span style="font-size:40px;">{{total | number}}</span>
+      </div>
+    </div>
+
+
+
+    <div class="row" style="padding-bottom:50px;">
+      <div class="col-md-3 " ng-repeat="t in tags" >
+        <div class="container-fluid bg-theme" style="padding:30px;padding-bottom:10px;margin-bottom:20px;">
+          <div class="row">
+            {{t.name}}
+          </div>
+          <div class="row">
+            <div class="col-md-8">
+              <h1 style="font-size:30px;">{{t.tagsCount}}</h1>
+            </div>
+            <div class="col-md-4">
+              <i class="fa fa-users fa-3x"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-top:20px;position:fixed;bottom:0px;padding:20px;padding-right:0px;width:68%;border-top:solid 2px #eeeeee;background:white;">
+
+
+      <div class="col-md-3">
+        <input type="radio" value="email" name="typeOfCampaign" ng-model="campaignType"> <img src="/static/images/email_icon.png"style="width:60px;"  alt=""> Email
+      </div>
+      <div class="col-md-3">
+        <input type="radio" value="sms" name="typeOfCampaign" ng-model="campaignType"> <img src="/static/images/sms_icon.png"style="width:40px;"  alt=""> SMS
+      </div>
+      <div class="col-md-3">
+        <input type="radio"   value="call" name="typeOfCampaign" ng-model="campaignType"> <img src="/static/images/call_icon.png" style="width:40px;" alt=""> Call
+      </div>
+
+      <button type="button" class="btn btn-default zoomOnHover pull-right" style="border-radius:20px !important;background-image: linear-gradient(to right,#f08621 0%,#ef1f22 25%,#d41e50 50%,#86398e 75%,#0351a4 100%);color:white;border:none;" ng-click="createCampaign()">
+        Create A Campaign <i style="margin-left:30px;" class="fa fa-arrow-right"></i>
+      </button>
+    </div>
+
+
+
+
+
+  </div>
+
+
+
+
+
+
+</div>

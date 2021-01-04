@@ -1,0 +1,128 @@
+<div class="container-fluid" style="padding:20px;">
+  <div class="row" style="margin-top:20px;">
+    <div class="col-md-12">
+  
+      <span
+        style="font-size: 180%; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Delivery
+        </b></span>
+      <hr>
+    </div>
+  </div>
+  <div class="col-md-3" style="border-right:solid 2px #eeeeee;margin-bottom:3em;min-height:80vh">
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> Customer Name : </label>
+          </div>
+          <div class="col-md-7 ">
+            <span> {{form.customername}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> Customer Address : </label>
+          </div>
+          <div class="col-md-7 ">
+            <span> {{form.customeraddress}}</span><br />
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> Customer GSTIN : </label>
+          </div>
+          <div class="col-md-7 ">
+            <span> {{form.customergst}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> Challan Number : </label>
+          </div>
+          <div class="col-md-7 ">
+            <span> {{form.challanNo}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> Challan Date: </label>
+          </div>
+          <div class="col-md-7 ">
+            <span> {{form.challanDate}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> Ref Number : </label>
+          </div>
+          <div class="col-md-7 ">
+            <span> {{form.refNo}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> Medium of Delivery: </label>
+          </div>
+          <div class="col-md-7 ">
+            <span> {{form.deliveryThr}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> Approximate Value: </label>
+          </div>
+          <div class="col-md-7 ">
+            <span> {{form.apprx}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> Heading details: </label>
+          </div>
+          <div class="col-md-7 ">
+            <span> {{form.heading}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> Notes: </label>
+          </div>
+          <div class="col-md-7 ">
+            <span> {{form.notes}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <div class="row" ng-if="materialIssue.length>0">
+      <div class="col-md-12">
+        <table class="invoiceTable" style=" width: 100%;">
+          <thead>
+          </thead>
+          <tbody>
+            <tr style="background-color: #eeeeee;height: 50px;">
+              <th>Si.No</th>
+              <th>Product</th>
+              <th>Part No</th>
+              <th>Quantity</th>
+            </tr>
+            <tr ng-repeat="m in materialIssue track by $index">
+              <td>{{$index + 1}}</td>
+              <td>{{m.product.description_1}}<span ng-if="m.product.description_2"> ({{m.product.description_2}})</span></td>
+              <td>{{m.product.part_no}}</td>
+              <td>{{m.qty}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <hr />
+    <div class="row" ng-if="materialIssue.length>0">
+      <div class="col-md-12 text-right">
+        <span> <a class="btn btn-primary" style="cursor:pointer;" target="_blank" href="/api/importexport/deliveryChallanDownload/?value={{form.pk}}">Download DC <i class="fa fa-download"></i></a></span>
+      </div>
+    </div>
+  </div>
+</div>

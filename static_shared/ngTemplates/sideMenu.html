@@ -1,0 +1,317 @@
+<div class="" ng-controller="sideMenu">
+
+  <div class="row" style="margin:0px;height:11vh;margin-bottom:20px;">
+    <div class="container-fluid" style="padding:30px;">
+
+      <div class="col-md-12 text-center" ng-click="goHome()">
+        <span>
+          <img ng-src="{{brandLogo}}" style="width: 72px;" alt="">
+        </span>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="row" >
+    <div class="container-fluid">
+      <ul class="nav nav-sidebar padded" style="width:100%;height:89vh;overflow:auto;scrollbar-width:none;margin-top:10px;">
+        <li ng-class="{active: $state.includes(a.state)}" class="ripple" ng-repeat="a in filter.menuApps" ng-if="$index <5" style="width:transition:10s" ng-mouseover="onHover=true" ng-mouseleave="onHover=false">
+          <a ng-if="a.state" ui-sref="{{a.state}}"  style="padding-top:10px !important;padding-bottom:0px !important;position:relative;" >
+            <div class="container-fluid text-center" style="padding:0px;padding-bottom:10px;overflow-x:visible;padding-left:5px;">
+              <img style="height:40px;filter: drop-shadow(5px 5px 5px #c8c4c4);max-width:100px;" ng-src="{{a.icon}}" alt="">
+              <br>
+              <span style="font-size:14px;font-weight: unset;">{{a.displayName}}</span>
+
+              <div style="position: absolute;top:5px;right:60px;background:red;border-radius: 30px;color:white;padding-left: 7px;padding-right: 7px;font-size: 18px;box-shadow: 5px 10px 20px #e3e3e3;" ng-if="$index==2">
+                2
+              </div>
+
+
+            </div>
+          </a>
+          <a ng-if="!a.state" href="#{{a.url}}" style="padding-top:10px !important;padding-bottom:0px !important;" >
+            <div class="container-fluid text-center" style="padding:0px;padding-bottom:10px;overflow-x:visible;padding-left:5px;">
+              <img style="height:40px;filter: drop-shadow(5px 5px 5px #c8c4c4);max-width:100px;" ng-src="{{a.icon}}" alt="">
+              <br>
+              <span style="font-size:14px;font-weight: unset;">{{a.displayName}}</span>
+            </div>
+          </a>
+        </li>
+
+        <li ng-click="activateSearch()" class="ripple" style="width:transition:10s" ng-mouseover="onHover=true" ng-mouseleave="onHover=false">
+          <a style="padding-top:20px !important;padding-bottom:10px !important;" >
+            <div class="container-fluid text-center" style="padding:0px;padding-bottom:10px;overflow-x:visible;padding-left:5px;">
+              <img style="height:35px;max-width:100px;" ng-src="/static/images/icons8-grid-view-52.png" alt="">
+              <br>
+            </div>
+          </a>
+        </li>
+
+
+
+
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="row" style="margin:0px;height:11vh;bottom:0px;position:fixed;width:10%;">
+    <div class="container-fluid" style="padding:30px;">
+      <div class="col-md-12 text-center" ng-click="openSwitcher()" ng-if="!adminOrManageMode">
+        <span>
+          <img src="/static/images/userIcon.png" style="width: 42px;filter: drop-shadow(5px 5px 5px #c8c4c4);" alt="">
+        </span>
+      </div>
+    </div>
+  </div>
+
+
+  <div ng-click="dialer.dialPad = !dialer.dialPad;" ng-if="enableTelephony" style="padding:13px;color: white;position: fixed;bottom: 100px;left: 50px;border-radius: 10px;font-size: 27px;padding-left: 20px;padding-right: 20px;">
+    <img src="/static/images/icons8-number-pad-64.png"  style="width:45px;">
+    <!-- <div style="position: absolute;top:5px;right:10px;background:red;border-radius: 30px;color:white;padding-left: 7px;
+              padding-right: 7px;
+              font-size: 18px;box-shadow: 5px 10px 20px #e3e3e3;" >
+                2
+              </div> -->
+  </div>
+
+  <div ng-if="enableMessaing" ng-click="$state.go('home.messenger')" style="padding:13px;color: white;position: fixed;bottom: 200px;left: 55px;border-radius: 10px;font-size: 27px;padding-left: 20px;padding-right: 20px;">
+    <img src="/static/images/icons8-whatsapp-128.png" style="width:40px;">
+    <div style="position: absolute;top:5px;right:10px;background:red;border-radius: 30px;color:white;padding-left: 7px;padding-right: 7px;font-size: 18px;box-shadow: 5px 10px 20px #e3e3e3;" >
+                1
+    </div>
+  </div>
+
+  <div class="dialPad" ng-if="dialer.dialPad" ng-click="dialer.dialPad = false" style="padding: 40px;color: white;background: #eeeeee4d;position: fixed;bottom: 0;left: 0;width: 100%;height: 100vh;">
+
+  </div>
+
+  <div class="dialPad" ng-if="dialer.dialPad" style="padding: 40px;color: white;background: #572f81;position: fixed;bottom: 0;left: 10%;width: 300px;height: 100vh;">
+
+    <div class="row" style="margin:0px;">
+      <input type="text" class="form-control dialInput" ng-model="dialer.editor" name="" value="" style="padding: 20px;background: #220f35;border: none;border-radius: 20px;font-size: 23px;color: white;">
+    </div>
+    <div class="row" style="margin:0px;margin-top:15px;">
+      <div class="col-md-4 numBtn" ng-click="dial(1)  ">
+        1
+      </div>
+      <div class="col-md-4 numBtn" ng-click="dial(2)  ">
+        2
+      </div>
+      <div class="col-md-4 numBtn" ng-click="dial(3)  ">
+        3
+      </div>
+    </div>
+    <div class="row" style="margin:0px;margin-top:15px;">
+      <div class="col-md-4 numBtn" ng-click="dial(4)  ">
+        4
+      </div>
+      <div class="col-md-4 numBtn" ng-click="dial(5)  ">
+        5
+      </div>
+      <div class="col-md-4 numBtn" ng-click="dial(6)  ">
+        6
+      </div>
+    </div>
+    <div class="row" style="margin:0px;margin-top:15px;">
+      <div class="col-md-4 numBtn" ng-click="dial(7)  ">
+        7
+      </div>
+      <div class="col-md-4 numBtn" ng-click="dial(8)  ">
+        8
+      </div>
+      <div class="col-md-4 numBtn" ng-click="dial(9)  ">
+        9
+      </div>
+    </div>
+    <div class="row" style="margin:0px;margin-top:15px;">
+      <div class="col-md-4 numBtn" ng-click="dial('*')  ">
+        *
+      </div>
+      <div class="col-md-4 numBtn" ng-click="dial(0)  ">
+        0
+      </div>
+      <div class="col-md-4 numBtn" ng-click="dial('#')  ">
+        #
+      </div>
+    </div>
+
+    <div class="row text-center" style="margin:0px;margin-top:15px;">
+      <div class="col-md-4 col-md-offset-4" style="background:#16ca16;color:white;padding:20px;padding-top: 10px;padding-bottom: 10px;font-size:20px;cursor:pointer;" ng-click="call(dialer.editor)">
+        Call
+      </div>
+    </div>
+
+
+  </div>
+
+
+
+  <div class="dialer row" ng-if="dialer.active" style="left:200px;">
+    <div class="col-md-8">
+      <span style="font-size: 30px;color: white;">{{dialer.number}}</span> <br>
+      <span ng-if="dialer.status != 'Connected'" style="color:white;">{{dialer.status}}....</span>
+
+      <span ng-if="dialer.status == 'Connected'" style="color:white;font-size: 18px;">{{dialer.timer}}</span>
+
+    </div>
+    <div class="col-md-1 text-center" style="padding-top:20px;padding-left:0px;">
+      <i ng-if="dialer.status == 'Connected'" class="fa fa-{{!dialer.onHold? 'pause' : 'play'}} fa-2x" style="color:white;cursor:pointer;" ng-click="hold()"></i>
+
+    </div>
+    <div class="col-md-3 text-right">
+      <img ng-click="disconnecCall()" ng-if="dialer.status != 'Incoming'" style="border-radius:70px;width:70px;height:70px;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;cursor:pointer;" src="https://cdn4.iconfinder.com/data/icons/weby-flat-phone/64/Phone-06-512.png">
+
+      </img>
+
+      <img ng-click="reject()" ng-if="dialer.status == 'Incoming'" style="border-radius: 70px;width: 50px;height: 50px;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;cursor: pointer;position: absolute;left: -66px;bottom: 0px;" src="https://cdn4.iconfinder.com/data/icons/weby-flat-phone/64/Phone-06-512.png">
+
+      </img>
+
+      <img ng-click="answerCall()" ng-if="dialer.status == 'Incoming'" style="border-radius:70px;width:70px;height:70px;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;cursor:pointer;" src="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-and-shapes-7/177800/320-512.png">
+
+      </img>
+
+
+    </div>
+
+
+      <audio id="line-1-remoteAudio"></audio>
+
+
+  </div>
+
+
+  <div class="mailer" ng-if="mailer.active" style="height:{{ mailer.toggle ? '800px':'50px'}};width:{{ mailer.toggle ? '800px':'300px'}}">
+    <div class="row bg-blue mailHeader" ng-click="mailer.toggle = !mailer.toggle" style="">
+      <span>New Email Message</span>    <i class="fa fa-times pull-right" ng-click="mailer.active = false;"></i>
+      <!-- <select ng-if="mailer.toggle" style="background:#2980b9;color:#ffffff;border:none" class="pull-right" ng-model="mailer.fromAddress" ng-change="$event.stopPropagation();" ng-click="$event.stopPropagation();">
+        <option value="e.email" ng-repeat="e in emailIds" >{{e.email}} </option>
+      </select> -->
+      <select ng-if="mailer.toggle" style="background:transparent;color:#ffffff;border:none;margin-top: -6px;" class="pull-right"  ng-model="mailer.fromAddress" ng-options="e.email for e in emailIds" ng-change="changeSignature();$event.stopPropagation();" ng-click="$event.stopPropagation();">
+      </select>
+    </div>
+    <div class="row" style="margin:0px;background:white;">
+      <div class="col-md-1" style="padding:0px;padding-top:10px;padding-left:20px;">
+        To
+      </div>
+      <div class="col-md-10" style="padding:0px;">
+        <tags-input ng-model="mailer.toAddress" add-on-paste="true" add-From-Autocomplete-Only="false" display-property="email">
+          <auto-complete source="getEmailAddressSuggestions($query)" load-on-down-arrow="true" ></auto-complete>
+        </tags-input>
+      </div>
+      <div class="col-md-1 text-right"  style="padding:0px;padding-top:10px;padding-right:20px;" ng-click="mailer.cc = true;" ng-if="!mailer.cc">
+        CC
+      </div>
+    </div>
+    <div class="row" style="border-top:solid 2px #eee !important;margin:0px;background:white;" ng-if="mailer.cc">
+      <div class="col-md-1" style="padding:0px;padding-top:10px;padding-left:20px;">
+        CC
+      </div>
+      <div class="col-md-11" style="padding:0px;">
+        <tags-input ng-model="mailer.ccAddress" add-on-paste="true" add-From-Autocomplete-Only="false" display-property="email">
+          <auto-complete source="getEmailAddressSuggestions($query)" load-on-down-arrow="true" ></auto-complete>
+        </tags-input>
+      </div>
+    </div>
+
+    <div class="row" style="margin:0px;">
+      <input type="text" class="form-control cleanInput subjectInput"  placeholder="Subject..." style="font-size: 22px;padding: 30px;" ng-model="mailer.subject">
+    </div>
+
+    <textarea ui-tinymce="mailer.options" ng-model="mailer.body"></textarea>
+
+
+    <div class="row" style="margin:0px;bottom:55px;width:100%;position:absolute;padding:10px;background:#dbdddd" ng-if="mailer.toggle && mailer.files.length>0">
+      <div class="col-md-4" ng-repeat="file in mailer.files" style="padding-left:0px;">
+        <div class="container-fluid bg-blue" style="padding:10px;margin-bottom:5px" >
+          <span style="font-size:16px;"> {{file.filename}}  <i class="fa fa-times pull-right" style="margin-left:30px;" ng-click="mailer.files.splice($index , 1)"></i> </span>
+        </div>
+      </div>
+      <!-- <span ng-repeat="file in mailer.files" class="label label-primary" style="margin-right:5px;"> {{file.filename}}  <i class="fa fa-times" style="margin-left:30px;" ng-click="mailer.files.splice($index , 1)"></i> </span> -->
+
+    </div>
+
+
+    <div class="row" style="margin:0px;bottom:0px;width:100%;position:absolute;padding:10px;background:#f2f2f2" ng-if="mailer.toggle">
+      <button type="button" class="btn btn-primary sendBtn pull-right"  ng-click="sendMail()" ng-if="!sendingEmail">
+        SEND
+      </button>
+      <span style="padding:15px" ng-if="sendingEmail">
+        <i class="fa fa-spinner fa-lg"></i>
+      </span>
+      <input style="display:none;" type="file" name="fileInput" id="attach" file-model="mailer.file">
+
+      <span style="cursor:pointer;" ng-click="attach()">
+        <img src="https://cdn3.iconfinder.com/data/icons/whatsapp-5/512/138_Attachment_Attach_Clip_Add-512.png" style="width: 30px;margin-left: 20px;">
+        Attach File
+      </span>
+
+      <span class="pull-right" style="cursor:pointer;padding-top:10px;padding-right:20px;" ng-click="viewTemplates()">
+        Templates
+      </span>
+
+    </div>
+
+  </div>
+
+
+</div>
+
+<style media="screen">
+
+  .subjectInput::placeholder {
+    color: #eee;
+  }
+
+  .tag-item{
+    padding: 23px;
+    padding-top: 23px;
+    padding-bottom: 23px;
+    border-radius: 55px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: solid 2px #e1d9d9;
+    height:unset;
+  }
+
+  .mailer{
+    position:fixed;
+    bottom:0px;
+
+    left:13.3%;
+
+    background:#FAFAFA;
+    border-top-right-radius:10px;
+    border-top-left-radius:10px;
+    box-shadow: 0px -21px 246px rgba(157, 157, 157, 0.94) !important;
+  }
+  .mailHeader{
+    margin:0px;padding:15px;
+    border-top-right-radius:10px;
+    border-top-left-radius:10px;
+    cursor:pointer;
+  }
+  .cleanInput {
+    border:none !important;
+    padding:20px;
+  }
+  .tags{
+     border:none !important;
+     box-shadow : none !important;
+  }
+  .sendBtn{
+    background:#0E4388;
+    color:white;
+    border-radius:5px;
+  }
+  .mce-edit-area{
+    padding:20px;
+  }
+  .numBtn{
+    padding:20px;
+    font-size:20px;
+    cursor:pointer;
+  }
+</style>

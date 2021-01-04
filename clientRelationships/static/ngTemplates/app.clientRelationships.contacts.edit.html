@@ -1,0 +1,122 @@
+<style media="screen">
+  .inputField{
+    padding:30px !important;
+    border-radius:20px !important;
+    border: none !important;
+    font-size:22px;
+  }
+
+  .floatingLabel{
+    color:red;
+    transform: translate(0, -2.125rem) scale(0.9);
+  }
+  .lbl{
+    transition: all 0.2s;
+    touch-action: manipulation;
+    position: absolute;
+    top: 20px;
+    left: 88px;
+    font-size:19px;
+  }
+</style>
+<div class="container-fluid" style="padding:300px;background:#ECECEC;padding-top:30px;">
+
+  <div class="row">
+    <div class="col-md-6">
+      <h3 ng-if="!form.pk" style="color:#9b9b9b;">Create a contact</h3>
+      <h3 ng-if="form.pk" style="color:#9b9b9b;">Edit  contact</h3>
+    </div>
+    <div class="col-md-offset-2 col-md-2 text-right" style="padding-top:15px;">
+      <button ng-if="form.pk" type="button" class="btn cutebuttonplain" style="border-radius:20px !important;background-image: linear-gradient(to right,#f08621 0%,#ef1f22 25%,#d41e50 50%,#86398e 75%,#0351a4 100%);;color:white;" ng-click="goToContact(form.pk)">
+        View Contact
+      </button>
+    </div>
+    <div class="col-md-2 text-right" style="padding-top:15px;">
+      <button type="button" class="btn btn-primary cutebuttonplain pull-right" style="background:rgb(14, 67, 136);color:white;" ng-click="save()">
+      Save
+    </button>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:40px;">
+    <div class="col-md-1 text-right" style="padding-top: 15px;">
+      <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
+    </div>
+    <div class="col-md-2 col-md-offset-1">
+      <img ng-src="http://localhost:8000/media/clientRelationships/dp/1591883760_25_admin_user7-128x128.jpg" class="img img-circle" style="width:80px;" src="http://localhost:8000/media/clientRelationships/dp/1591883760_25_admin_user7-128x128.jpg">
+    </div>
+    <div class="col-md-8" style="padding-top:10px;">
+      <div class="form-group">
+        <input type="text" class="form-control inputField"  placeholder="Name" ng-model="form.name">
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top:30px;">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Mobile Number</label>
+        <input type="text" class="form-control inputField" ng-model="form.mobile">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="text" class="form-control inputField" ng-model="form.email">
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin:0px;margin-top:30px;">
+    <div class="form-group">
+      <label>Company Name</label>
+      <input uib-typeahead="company as company.name for company in companySearch($viewValue)" ng-model="form.company" type="text" class="form-control inputField">
+    </div>
+  </div>
+  <div class="row" style="margin:0px;margin-top:30px;">
+    <div class="form-group" >
+      <label>Address</label>
+      <input type="text" class="form-control inputField" ng-model="form.street">
+    </div>
+  </div>
+  <div class="row" style="margin-top:30px;">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Pincode</label>
+        <input type="text" ng-model="form.pincode" ng-change="checkPincode()" class="form-control inputField" >
+      </div>
+      <span ng-if="form.city && form.city.length>0">{{form.city}}, {{form.state}}, India</span>
+    </div>
+    <div class="col-md-6">
+      <div class="col-md-2" style="padding-top:40px;">
+        <input type="checkbox" name="" value="" ng-model = "form.isGst">
+      </div>
+      <div class="col-md-10" style="padding-top:40px;">
+        SEZ Customer ?
+      </div>
+    </div>
+  </div>
+
+  <div class="row text-right" style="margin:0px;margin-top:30px;" ng-if="!form.showMore">
+    <div class="container-fluid">
+      <span style="color:#154388;cursor:pointer;" ng-click="form.showMore = true;">Show More</span>
+    </div>
+  </div>
+
+  <div class="row" ng-if="form.showMore" style="margin-top:30px;">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>GSTIN</label>
+        <input type="text" class="form-control inputField" ng-model="form.gstin">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Designation</label>
+        <input type="text" class="form-control inputField" ng-model="form.designation">
+      </div>
+    </div>
+  </div>
+
+
+
+
+</div>

@@ -1,0 +1,43 @@
+<div class="modal-header">
+  <!-- <button type="button" class="close" aria-label="Close" ng-click="$dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button> -->
+  <h4 class="modal-title">Deboarding Approval for : {{deboardData.user.pk | getName }}</h4>
+</div>
+<div class="modal-body">
+  <div class="container-fluid" style="padding:5px 0px;">
+    <span><b>Joining Date : </b></span><span>{{deboardData.user.payroll.joiningDate}}</span>
+  </div>
+  <div class="container-fluid" style="padding:5px 0px;" ng-if="me.pk == deboardData.manager &&  !deboardData.managersApproval">
+    <div class="col-md-4" style="padding:0px; margin:0px;">
+      <span><b>Manager Approval : </b> </span>
+    </div>
+    <!-- <span class="" style="margin-top:10px;margin-right:20px;">Approval :</span> -->
+    <div class="col-md-2">
+      <switch ng-model="form.managersApproval" class="green"></switch>
+    </div>
+  </div>
+  <div class="container-fluid text-center" ng-if="deboardData.managersApproval">
+    <span class="text-success">Manager Has Approved</span>
+  </div>
+  <div class="container-fluid" style="padding:5px 0px;" ng-if="me.pk == deboardData.superManager && !deboardData.superManagerApproval">
+    <div class="col-md-4" style="padding:0px; margin:0px;">
+      <span><b>Super Manager Approval : </b> </span>
+    </div>
+    <!-- <span class="" style="margin-top:10px;margin-right:20px;">Approval :</span> -->
+    <div class="col-md-2">
+      <switch ng-model="form.superManagerApproval" class="green"></switch>
+    </div>
+  </div>
+  <div class="container-fluid text-center" ng-if="deboardData.superManagerApproval">
+    <span class="text-success">Super Manager  Has Approved</span>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default" type="button" ng-click="$dismiss()">
+    Cancel
+  </button>
+  <button class="btn btn-primary" type="button" ng-click="save()" ng-disabled="deboardData.superManagerApproval && deboardData.managersApproval">
+    OK
+  </button>
+</div>

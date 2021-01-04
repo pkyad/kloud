@@ -1,0 +1,81 @@
+<div style="padding-top:30px;" class="container-fluid" >
+  <div class="row" style="margin:0px;">
+    <div class="col-md-4">
+      <h3>Chatbot Intents</h3>
+      <p>These are the tasks your chatbot can do</p>
+    </div>
+    <div class="col-md-4" style="padding-top: 45px;">
+
+      <div class="input-group">
+        <input type="text" placeholder="Search for an intent.... " ng-enter="fetchIntents()" class="form-control" ng-model="searchTxt">
+        <div class="input-group-btn">
+          <button ng-click="fetchIntents()" type="button" class="btn btn-primary">
+            Search
+          </button>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-4 pull-right" style="padding-top: 45px;font-size:18px;">
+      Need Help ? email us :<a href="mailto:support@epsilonai.com?Subject=I am facing issue in chatbot studio" target="_top"> support@epsilonai.com</a>
+    </div>
+  </div>
+
+  <div class="row" style="margin:0px;padding-top:30px;">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="text-center intentAddCard" style="padding: 16px;margin-bottom:20px;height: 16vh;cursor:pointer;color: var(--headerNavbarHighlight);border-radius:15px;background-color:white" ng-click="newIntentsForm('create')">
+            <i class="fa fa-plus fa-5x"></i>
+            <br>
+            Create New Intent
+          </div>
+        </div>
+        <div class="col-md-3" ng-repeat ="intent in IntentMaster">
+          <div class="intentCard" style="padding:20px 30px;margin-bottom:20px;cursor:pointer;height: 16vh;position:relative;border-radius:15px;background-color:white" ng-click="newIntentsForm('variations',intent.key)">
+            <div class="row" >
+              <div class="row">
+                <div class="col-md-12">
+                  <p ng-if="intent.type != 'FAQ'" style="font-size:17px;">{{intent.name}}</p>
+                  <p ng-if="intent.type == 'FAQ'" style="font-size:17px;">Default Fallback Intent</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="row text-right" ng-if="intent.type != 'FAQ'" style="margin-top: 10px;">
+                <i class="fa fa-pencil fa-lg" ng-click="editIntent($index);$event.stopPropagation();" style="margin-right:30px;"></i>
+
+                <i  class="fa fa-trash fa-lg" style="margin-top:20px;" ng-click=";$event.stopPropagation()" mwl-confirm
+                title="Confirm"
+                message="Are you sure?"
+                confirm-text="Yes <i class='fa fa-check'></i>"
+                cancel-text="No"
+                on-confirm="delete($index , intent.pk)"
+                confirm-button-type="danger"
+                cancel-button-type="default" style="position:relative;top:30px;right:-15px;cursor:pointer;"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <h4 style="margin-left:15px;margin-bottom:20px;color:#7e7e7e;" >Import from gallery ( Prebuilt examples and use cases )</h4>
+        <div class="col-md-3" ng-repeat="i in gallery">
+          <div style="padding: 16px;margin-bottom:20px;cursor:pointer;color: var(--headerNavbarHighlight);background:white;border-radius:15px;" ng-click="importIntent(i.file)">
+            <div class="row text-right row0">
+              <img ng-src="{{i.icon}}" style="width:70px;" alt="">
+            </div>
+            <div class="row row0" style="font-size:17px;margin-top:10px;">
+              {{i.name}}
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+
+    </div>
+  </div>
+</div>

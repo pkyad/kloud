@@ -1,0 +1,178 @@
+{% load staticfiles%} {% load staticfiles %} {% load socialaccount %}
+
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Login</title>
+  {% if useCDN %}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" charset="utf-8"> {% else %}
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" charset="utf-8">
+  <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" charset="utf-8"> {% endif %}
+  <link rel="stylesheet" href="{% static 'css/signin.css' %}" charset="utf-8">
+  <style media="screen">
+    .loginPageInput{
+      border:none !important;
+      border-radius:10px !important;
+      margin-bottom:20px !important;
+      padding:15px !important;
+      background:#f2f2f2
+    }
+    .loginPageInput:focus{
+      box-shadow:none !important;
+    }
+    .loginBtn{
+      margin-bottom:20px;margin-top:5px;display:block;border-radius:10px;border:none;box-shadow: 0px 26px 62px rgba(0, 0, 0, 0.21);
+      padding:15px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="col-md-8 " style="height:100%;position:absolute;left:0px;padding-top:100px;background:#F5F5F5;">
+    <div class="col-md-6" style="padding-top: 200px;">
+
+      {% if brandLogo %}
+      <img style="width:200px;margin-bottom:80px;" src="{{brandLogo}}" alt=""> <br>
+      {% endif %}
+      {% now "H" as current_time %}
+
+
+      <span style="color:orange;font-size:18px;">
+      {% if current_time > 12 %}
+          Good Afternoon
+      {% else %}
+          Good Morning
+      {% endif %}
+      </span>
+      <h1 style="font-size: 49px;color:#dfdfdf">Welcome to your personal cloud ERP</h1>
+    </div>
+    <div class="col-md-6 text-center">
+      <img src="/static/images/loginPage.png" style="width:500px;" alt="">
+    </div>
+  </div>
+  <div class="col-md-4" style="background-color:white;height:100%;position:absolute;right:0px;">
+
+
+    <div class="row text-center" style="padding-top:40px;">
+      <img src="/api/ERP/qrcode/?text={{token}}" alt="" width="250px">
+    </div>
+
+
+
+    {% csrf_token %}
+      <h2 class="form-signin-heading" style="color:black;margin-top:100px;margin-bottom:40px;">Login</h2> {% if authStatus.status != 'default' %}
+      <div class="alert alert-{{authStatus.status}}">{{authStatus.message}}</div>
+      {% endif %}
+
+      <div id="alerts">
+
+      </div>
+
+
+      <!-- <label for="username" class="sr-only">Username/Email</label> -->
+      <input id="mobile" name="mobile" type="text"  value="{{mobile}}"  style="display:none" class="form-control loginPageInput"  required>
+      <input id="otp" name="otp" type="password" class="form-control loginPageInput" placeholder="OTP"  required>
+      <button id="login"  class="loginBtn btn btn-lg btn-primary btn-block"  type="submit">Sign in</button>
+      <!-- <a style="color:black;" href="/accounts/password/reset/">Forgot password?</a>
+      <a href="/customer/login" class="pull-right"><i class="fa fa-user"></i> Customer Login</a>
+      Username/Email/Mobile
+      <div id="requestOTP" style="width:100px;height:100px;background-color:#0a9199;border-radius:50px; padding-top:10px;margin:auto;margin-top:50px;cursor:pointer;" class="text-center">
+        <span style="color:white;">
+            <i class="fa fa-mobile fa-3x" ></i> <br>
+            <span id="otptxt">Send OTP</span>
+          </span>
+      </div>
+      <a href="/exEmployee/login" style="position:fixed;bottom:5px;right:10px"><i class="fa fa-user"></i> Ex-employee Login</a> -->
+
+
+
+  </div>
+  <!-- /container -->
+  {% if useCDN %}
+  <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  {% else %}
+  <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+  <script src="{% static 'js/jquery.cookie-1.4.1.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  {% endif %}
+  <script src="{% static 'js/autobahn.min.js' %}"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+
+      connection = new autobahn.Connection({url: '{{wampServer}}', realm: 'default'});
+
+      onevent = function(args) {
+        console.log(args)
+        window.location.href = args[0]
+      }
+
+      connection.onopen = function (session) {
+        console.log("connection opned , subscribing" +  '{{token}}' )
+        session.subscribe('service.login.' + '{{token}}', onevent);
+      };
+
+      connection.open();
+      $('#login').click(function(e) {
+
+        $('#alerts').empty();
+
+
+        var mobile = $('#mobile').val()
+        var otp = $('#otp').val()
+        // if (mobile.length == 0) {
+        //   $('#alerts').append('<div class="alert alert-warning">Please enter your Mobile number or Email or Username</div>')
+        // } else {
+
+          var csrf = $.cookie("csrftoken")
+          $.ajax({
+            url: '/otpreg/',
+            data: {
+              mobile: mobile,
+              otp : otp,
+              csrfmiddlewaretoken :csrf
+            },
+            beforeSend: function(request) {
+              request.setRequestHeader("X-CSRFToken", csrf);
+            },
+            type: 'POST',
+            success: function(data, status, jqXHR) {
+              console.log(typeof data );
+              // if (jqXHR.status == 200) {
+              //   // parent.location.hash = '/ERP/'
+              // }
+            },
+            error: function(e) {
+              $('#alerts').append('<div class="alert alert-danger">Error while sending OTP</div>')
+            }
+          });
+
+        // }
+
+      });
+
+    });
+
+    $(document).ready(function() {
+      $('#changetologin').click(function(e) {
+        $("#password").attr("style", "display:block")
+        $('#id').attr("placeholder", "Username/Email/Mobile");
+        $('#password').attr("placeholder", "Password");
+        $('#password').attr("name", "password");
+        $('#password').attr("type", "password");
+        $("#login").attr("style", "display:block")
+        $("#requestOTP").attr("style", "display:none")
+        $("#id").attr("name", "username")
+        $("#changetologin").attr("style", "display:none")
+      });
+    });
+  </script>
+</body>
+
+</html>

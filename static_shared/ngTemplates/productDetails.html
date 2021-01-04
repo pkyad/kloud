@@ -1,0 +1,133 @@
+<div class="container-fluid" style="padding:0px;background:#fbfbfb;height:100vh">
+  <div class="col-md-8 col-md-offset-2" style="background-color:white;padding:50px 15px;">
+    <div class="row">
+      <div class="col-md-2 text-center">
+        <span ng-click="scrollmedec()" style="padding: 10px 10px;border-radius: 50%;border: solid 2px #eee;
+z-index: 1;position: relative;background-color:white;"><i class="fa fa-arrow-up"></i></span>
+        <div class="row" ng-repeat="k in products.images track by $index" style="margin:10px 0px;">
+          <div class="" style="border:1px solid #ccc;margin:" ng-click="showImage($index)">
+            <img src="{{k.image}}" style="width:100%;height:150px" alt="">
+          </div>
+        </div>
+        <span ng-click="scrollmedec()" style="padding: 10px 10px;border-radius: 50%;border: solid 2px #eee;
+z-index: 1;position: relative;background-color:white;"><i class="fa fa-arrow-down"></i></span>
+      </div>
+      <div class="col-md-4">
+        <img src="{{image.image}}" style="width:100%;min-height:100%">
+      </div>
+      <div class="col-md-6">
+        <div class="row" style="margin:0px">
+          <div class="col-md-12">
+            <h4><b>{{products.name}}</b></h4>
+
+          </div>
+          <div class="col-md-12">
+
+            <span><i class="fa fa-star" style="color:#eee"></i></span>
+            <span><i class="fa fa-star" style="color:#eee"></i></span>
+            <span><i class="fa fa-star" style="color:#eee"></i></span>
+            <span><i class="fa fa-star" style="color:#eee"></i></span>
+            <span><i class="fa fa-star" style="color:#eee"></i></span> 0 ratings
+          </div>
+          <br><br>
+          <div class="col-md-12">
+            <div>
+              <span class="" style="margin-right:10px;">
+                <strong style="color:black;font-size:18px;" class="ng-binding"><i class="fa fa-inr"></i>{{products.sellingPrice}} </strong>
+
+              </span>
+              <span class="ng-scope" style="margin-right:10px;">
+                <strong style="font-size:14px;"><strike class="ng-binding"><i class="fa fa-inr"></i>{{products.mrp}}</strike> </strong>
+              </span><span class="ng-scope" style="margin-right:10px;">
+                <span style="color:red;" class="ng-binding"> 17% OFF </span>
+              </span>
+            </div>
+          </div>
+          <br><br><br>
+          <div class="col-md-12">
+            <p>Delivered in:5 days</p>
+          </div>
+          <div class="row" style="margin:0px;">
+            <div class="col-md-5">
+              <button type="button" name="button" class="btn btn-block" style="background-color:var(--themeColor);color:white;font-weight:700;">Add To Cart</button>
+            </div>
+            <div class="col-md-3">
+              <button type="button" name="button" class="btn btn-block btn-success">BUY NOW</button>
+            </div>
+            <div class="col-md-4">
+              <button type="button" name="button" class="btn btn-block btn-success">ADD TO WISHLIST</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin:30px 0px;">
+      <h4>Similar Products</h4>
+
+    </div>
+    <div class="row">
+      <div class="col-md-3" ng-repeat="k in similarproducts">
+        <div class="similarCard">
+          <div class="" style="background-image:url({{k.images[0].image}});background-position:center;height:200px;background-size:contain">
+
+          </div>
+          <p><b>{{k.name}}</b></p>
+          <div class="col-md-12" style="padding:0px;">
+            <span  style="font-weight:500;font-size:16px;color:black;padding-right:10px;" class=" "><i class="fa fa-inr"></i>{{k.sellingPrice}}</span>
+            <strike>
+              <span style="font-size:12px;" class=" "> <i class="fa fa-inr"></i>{{k.mrp}}</span>
+            </strike>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="margin:30px 0px;">
+      <div class="col-md-6">
+        <h4>Be first one to rate or review</h4>
+      </div>
+      <div class="col-md-6">
+        <div class="col-md-12">
+          <h4>Have you used this product?</h4>
+          <h4>Leave Feedback</h4>
+
+        </div>
+        <br><br><br>
+        <div class="col-md-12" style="margin-top:20px;">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Title" name="" value="">
+          </div>
+        </div>
+
+        <div class="col-md-12 feedstars" ng-init="feedBack.rating = 5" style="margin:15px 0px;">
+          <span class="fa fa-star {{1<=feedBack.rating?'checked':''}}" ng-click="feedBack.rating = 1"></span>
+            <span class="fa fa-star {{2<=feedBack.rating?'checked':''}}" ng-click="feedBack.rating = 2"></span>
+            <span class="fa fa-star {{3<=feedBack.rating?'checked':''}}" ng-click="feedBack.rating = 3"></span>
+            <span class="fa fa-star {{4<=feedBack.rating?'checked':''}}" ng-click="feedBack.rating = 4"></span>
+            <span class="fa fa-star {{5<=feedBack.rating?'checked':''}}" ng-click="feedBack.rating = 5"></span>
+
+        </div>
+        <br>
+        <div class="col-md-12">
+          <div class="form-group">
+            <textarea name="name" rows="8" cols="80" class="form-control"></textarea>
+          </div>
+        </div>
+        <br>
+        <div class="col-md-12">
+          <div class="col-md-2">
+              <input type="file" file-model="form.attachment" class="file_upload" multiple onchange="angular.element(this).scope().fileupload(this.files)"/>
+          </div>
+        </div>
+        <br>
+        <div class="row" style="margin:0px;">
+          <div class="col-md-3 pull-right">
+            <button type="button" class="btn btn-block" name="button" style="background-color:blue;border:1px solid blue;color:white;">SUBMIT</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

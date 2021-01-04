@@ -1,0 +1,90 @@
+<!-- <style media="screen">.menuCol{width:9.8%;}.appCol{width:90.2%;}</style>
+<breadcrumb></breadcrumb>
+<div class="container-fluid">
+  <uib-tabset>
+    <uib-tab>
+      <uib-tab-heading>
+        New <i class="fa fa-plus"></i>
+      </uib-tab-heading>
+      <div style="margin-top:20px;" ng-include="'/static/ngTemplates/app.clientRelationships.customer.form.html'">
+      </div>
+    </uib-tab>
+    <uib-tab active="searchTabActive">
+        <uib-tab-heading>
+            Browse
+            <i class="fa fa-list-ul"></i>
+        </uib-tab-heading>
+        <div class="container-fluid">
+          <div ng-include="'/static/ngTemplates/app.clientRelationships.customerList.html'"></div>
+        </div>
+    </uib-tab>
+
+    <uib-tab ng-repeat="tab in tabs" active="tab.active" disable="tab.disabled">
+        <uib-tab-heading >
+            {{tab.title}}
+            <i ng-if="tab.cancel" class="fa fa-close" ng-click="closeTab($index);"></i>
+        </uib-tab-heading>
+        <div ng-if="tab.app == 'customerEditor'">
+            <div ng-include="'/static/ngTemplates/app.clientRelationships.customer.form.html'"></div>
+        </div>
+        <div ng-if="tab.app == 'customerExplorer'">
+            <div ng-include="'/static/ngTemplates/app.clientRelationships.customer.explore.html'"></div>
+        </div>
+        <div ng-if="tab.app == 'manageRelation'">
+          <div ng-include="'/static/ngTemplates/app.clientRelationships.relationships.manage.html'"></div>
+        </div>
+    </uib-tab>
+  </uib-tabset>
+</div> -->
+
+
+<div class="container-fluid" style="background:#FAFAFA;min-height: 100vh;padding: 30px;">
+  <div class="row">
+    <div class="  col-md-offset-2 col-md-8">
+      <div class="row" style="background:#ffffff;padding:20px;box-shadow: 0px 8px 18px rgba(236, 236, 236, 0.94) !important;margin-top:30px">
+        <div class=" col-md-2">
+          <button type="button" class="btn btn-default btn-block" style="border : none !important;border-radius:100px !important;height: 60px;background:#FAFAFA" ng-click="addCompany()">New</button>
+        </div>
+        <div class="col-md-8">
+          <div class="input-group" style="padding:10px;background: #FAFAFA;border-radius: 100px;padding-right: 30px;padding-left: 30px;">
+            <input type="text" class="form-control" ng-model="customerform.search" placeholder="Search  by company name " ng-enter="getallCustomers()"
+              style="border:none !important;background:#FAFAFA;border-radius:23px;padding:20px;font-size: 16px;">
+            <div class="input-group-btn">
+              <button class="btn btn-default" type="submit" ng-click="getallCustomers()" style="border:none !important;background:#FAFAFA;border-radius:23px !important;">
+                <i class="glyphicon glyphicon-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1" style="padding:0px;">
+          <button type="button" class="btn btn-default btn-block" style="border : none !important;border-radius:100px !important;height: 60px;background:#FAFAFA" ng-click="Customerprev()">Prev</button>
+        </div>
+        <div class="col-md-1" style="padding:0px;">
+          <button type="button" class="btn btn-default btn-block" style="border : none !important;border-radius:100px !important;height: 60px;background:#FAFAFA" ng-click="Customernext()">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top:30px">
+    <div class="col-md-offset-1 col-md-10">
+      <table class="table tableNew" style="overflow: unset;">
+        <thead>
+          <tr style="background:#f2f2f2;padding:10px;">
+            <th>Name</th>
+            <th>Address</th>
+            <th>GST</th>
+          </tr>
+        </thead>
+
+        <tbody class="hilighted">
+          <tr ng-repeat="c in customerList"  ng-click="addCompany(c)">
+            <td class="contentTd" >{{c.name}}</td>
+            <td class="contentTd" >{{c.address.street}} {{c.address.city}},<br/> {{c.address.state}}, {{c.address.country}} - {{c.address.pincode}}</td>
+            <td class="contentTd" >{{c.gst}}</td>
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+</div>

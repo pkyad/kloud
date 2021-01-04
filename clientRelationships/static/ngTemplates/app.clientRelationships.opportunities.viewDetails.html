@@ -1,0 +1,114 @@
+<div class="container-fluid">
+  <div class="row" style="background:#2980b9">
+    <div class="col-md-12" style="padding:10px;color:#ffffff">
+      <i class="fa  fa-arrow-circle-o-left  fa-2x" ng-click="close()"></i>
+      <a href="/api/clientRelationships/downloadOpportunity/?deal={{deal.pk}}" class="btn" target="_blank" style="color:#ffffff;float:right"><i class="fa  fa-download  fa-2x" ></i></a>
+    </div>
+  </div>
+  <div class="row" style="margin:20px;border:1px solid #2980b9;">
+    <div class="col-md-12" style="padding:15px">
+      <div class="row">
+        <div class="col-md-4" >
+          <p> <i class="fa fa-handshake-o "> </i> : {{deal.name}} </p>
+          <p> <i class="fa fa-building "> </i> : {{deal.company.name}} </p>
+          <p> <i class="fa fa-{{deal.currency | lowercase}} "> </i> : {{deal.value}} </p>
+          <p> <i class="fa fa-calendar "> </i> : {{deal.closeDate | date:'dd-MMM-yyyy'}} </p>
+          <p> <i class="fa fa-line-chart "> </i> : {{deal.deliveryTime}} Days </p>
+          <p> <i class="fa fa-user "> </i> : {{deal.user.pk | getName}} </p>
+        </div>
+
+        <div class="col-md-4">
+          External Stakeholders:
+          <div ng-repeat="c in deal.contacts" class="row " style="margin-top:10px;cursor:pointer;"  >
+            <div class="col-md-3">
+              <img style="width: 50px;height:50px;" class="img img-rounded" ng-src="{{c | getCRMDP}}">
+            </div>
+            <div class="col-md-9" style="padding-top:3px;" ng-click="getContact(c.pk)" >
+              <span>{{c.name}}</span>
+              <br> <span class="text-muted">{{c.designation}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          Internal Stakeholders:
+          <div ng-repeat="c in deal.internalUsers" class="row "  style="margin-top:10px;cursor:pointer;" >
+            <div class="col-md-3">
+              <img style="width: 50px;height:50px;" class="img img-rounded" ng-src="{{c | getDP}}">
+            </div>
+            <div class="col-md-9" style="padding-top:3px;" >
+              {{c | getName}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12" >
+        <div class="form-group">
+          <label>Other details (like tech stack , project aim etc )</label>
+          <textarea class="form-control" rows="4" ng-model="deal.requirements"></textarea>
+        </div>
+        <button class="btn btn-primary" ng-click="saveReq()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin:20px;">
+    <label style="padding:15px;font-size:20px">Requirements :</label>
+    <table class="table" style="margin-bottom:0px">
+      <thead>
+        <tr style="color:#337ab7" >
+          <th >Title</th>
+          <th >Description</th>
+          <th class="text-center"> Option</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="a in requiementsData" ng-click="editReq($index)"  style="padding-top:15px;">
+          <td>{{a.title}}</td>
+          <td>{{a.details}}</td>
+          <td class="text-center" ><i class="fa fa-trash fa-2x" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="deleteReq($index,a.pk)" confirm-button-type="danger" cancel-button-type="default" ng-click="$event.stopPropagation()"></i></td>
+        </tr>
+        <tr style="padding-top:15px;">
+          <td style="padding:0px"><input type="text" class="form-control" ng-model="requirement.title" placeholder="Title"></td>
+          <td style="padding:0px"><input type="text" class="form-control" ng-model="requirement.details" placeholder="Details"></td>
+          <td style="padding:0px">
+            <button type="button" class="btn btn-primary" ng-click="addReq()" style="width:100%">
+              Add
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row" style="margin:20px;">
+    <label style="padding:15px;font-size:20px">Payment :</label>
+    <table class="table" style="margin-bottom:0px">
+      <thead>
+        <tr style="color:#337ab7" >
+          <th >Offset</th>
+          <th >Percentage</th>
+          <th >Mile Stone</th>
+          <th class="text-center"> Option</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="b in paymentsData" ng-click="editPayment($index)"  style="padding-top:15px;">
+          <td>{{b.offset}}</td>
+          <td>{{b.percent}} %</td>
+          <td>{{b.milestone}}</td>
+          <td class="text-center"><i class="fa fa-trash fa-2x" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="deletePayment($index,b.pk)" confirm-button-type="danger" cancel-button-type="default" ng-click="$event.stopPropagation()"></i></td>
+        </tr>
+        <tr style="padding-top:15px;">
+          <td style="padding:0px"><input type="text" class="form-control" ng-model="payment.offset" placeholder="Offset"></td>
+          <td style="padding:0px"><input type="text" class="form-control" ng-model="payment.percent" placeholder="Percent"></td>
+          <td style="padding:0px"><input type="text" class="form-control" ng-model="payment.milestone" placeholder="Mile Stone"></td>
+          <td style="padding:0px">
+            <button type="button" class="btn btn-primary" ng-click="addPaymentData()" style="width:100%">
+              Add
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

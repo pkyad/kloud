@@ -1,0 +1,101 @@
+'<div id="chatBox" class="ChatBoxDiv '+chat_div_class+'">'+
+    '<div id="chatBox_header" class="chatBox_header flex_container">'+
+        '<img class="logo_image" id="logo_ji" src="'+dpSupport+'" alt="">'+
+        '<div class="chatBox_info">'+
+            '<span id="agentName" class="chatBox_name">'+ nameSupport +'</span>'+
+            '<span id="onlineStatus" class="chatBox_status">Online</span>'+
+        '</div>'+
+        '<i title="Audio Call" class="exitBtn SyrowFont font-SyrowPhone1" style="display:none" id="audioBtn"></i>'+
+        '<i title="Video Call" class="exitBtn SyrowFont font-SyrowVideoCall" style="display:none" id="videoBtn"></i>'+
+        '<i title="Minimize" class="closeIcon SyrowFont font-SyrowDown" style="font-size:18px !important; padding-top:15px !important;" id="closeIcon"></i>'+
+        '<i title="Exit" class="exitBtn SyrowFont font-SyrowLog-out" id="exitBtn"></i>'+
+    '</div>'+
+    '<div id="audioSection" class="audio_section">'+
+    '</div>'+
+    '<div id="videoSection" class="video_section">'+
+    '</div>'+
+    '<p style="color:black !important;" id="TypingBox" class="typingBox">Typing....</p>'+
+    '<div id="chatBox_content" class="chatBox_content">'+
+        '<div id="messageBox" class="content_section">'+
+        '</div>'+
+    '</div>'+
+    '<div id="chatBox_footer" class="chatBox_footer">'+
+          '<div class="chatbox_branding">'+
+            '<a style="color:var(--fontAndIconColor) !important;text-decoration:none;font-size:10px !important;" href="{{brandLink}}" target="_blank">We run on {{brandName}}</a>'+
+          '</div>'+
+          '<div id="messageComposer" class="flex_container">'+
+            '<textarea id="inputText" placeholder="Message..." name="name" rows="2" style="background-color:#fff !important;outline:none;font-size:14px !important;min-height:unset;" ></textarea>'+
+            '<input id="filePicker" type="file" style="display:none;"/>'+
+            '<i id="paperClip" title="Attach File"  class="paperClip SyrowFont font-SyrowPaperclip" aria-hidden="true" style="cursor:pointer"></i>'+
+            '<i id="paperPlane" title="Send" class="paperClip SyrowFont font-SyrowNavigation" aria-hidden="true" style="cursor:pointer"></i>'+
+          '</div>'+
+          '<div class="startNewChatBtn flex_container" id="startNewChatBtn" class="flex_container">'+
+            '<span>Start New Conversation </span>'+
+          '</div>'+
+    '</div>'+
+'</div>'+
+'<div id="closeSupport" class="close-support '+sy_circle_class+'" style="height:60px; width:60px; background-color: var(--supportBubbleColor) !important; border-radius:50%; position:fixed ; z-index:997654321; cursor:pointer;">'+
+'<svg style="position:absolute; top:20px; left:19px; height:51px;" viewBox="0 0 28 32">'+
+   '<path id="closeChatSvg" style="fill:var(--iconColor);" d="M13.978 12.637l-1.341 1.341L6.989 8.33l-5.648 5.648L0 12.637l5.648-5.648L0 1.341 1.341 0l5.648 5.648L12.637 0l1.341 1.341L8.33 6.989l5.648 5.648z" fill-rule="evenodd"></path>'+
+ '</svg>'+
+'</div>'+
+
+'<div id="circleStyle">'+
+  '<div id="supportCircle">'+
+      '<div style="background: var(--supportBubbleColor) !important; color:var(--iconColor) !important;cursor:pointer" class="sy-circle first_animation '+sy_circle_class+'" id="sy-main-icon">'+
+          '<span id="Syrow24hSupportText" style="background: var(--supportBubbleColor) !important; color:var(--iconColor) !important" class="sy-text '+sy_firsttext_class+'">24 Hours Support</span>'+
+          '<span id="chatSuggestionBar" style="display:none;background:var(--supportBubbleColor) !important; color:var(--iconColor) !important;min-width:245px !important;min-height: 52px;" class="sy-text-Suggested '+sy_firsttext_class+'"><img style="width:35px;height:35px;display:inline;border-radius:50%;margin:3px;margin-right:10px" src="'+dpSupport+'"/>'+welcomeMessage+'</span>'+
+          '<span id="24Icon" class="SyrowFont sy-md-1 sy-ops"><img id="supportDp" src="'+support_icon+'" style="width:40px !important; height:40px important; border-radius:50% !important;"></img> </span>'+
+          '<div  id="sy-sub-icons">'+
+              '<div style="background: var(--supportBubbleColor) !important; color:var(--iconColor) !important;cursor:pointer" id="callCircle" class="sy-circle '+sy_circle_class+'">'+
+                '<span id="callCircleText" style="background: var(--supportBubbleColor) !important; color:var(--iconColor) !important" class="sy-text '+sy_text_class+'">Callback</span>'+
+                '<span class="SyrowFont font-SyrowCallBack sy-md-1 sy-ops"></span></a>'+
+              '</div>'+
+              '<div style="background: var(--supportBubbleColor) !important; color:var(--iconColor) !important;cursor:pointer" id="chatCircle" class="sy-circle '+sy_circle_class+'">'+
+                '<span id="chatCircleText" style="background: var(--supportBubbleColor) !important; color:var(--iconColor) !important" class="sy-text '+sy_text_class+'">Chat</span>'+
+                '<span class="SyrowFont font-SyrowChat sy-md-2 sy-ops"></span>'+
+              '</div>'+
+              '<div style="background: var(--supportBubbleColor) !important; color:var(--iconColor) !important;cursor:pointer" id="audioCircle" class="sy-circle '+sy_circle_class+'">'+
+                '<span id="audioCircleText" style="background: var(--supportBubbleColor) !important; color:var(--iconColor) !important" class="sy-text '+sy_text_class+'">Audio Call</span>'+
+                '<span class="SyrowFont font-SyrowAudioCall sy-md-2 sy-ops"></span>'+
+              '</div>'+
+              '<div style="background: var(--supportBubbleColor) !important; color:var(--iconColor) !important;cursor:pointer" id="videoCircle" class="sy-circle '+sy_circle_class+'" >'+
+                '<span id="videoCircleText" style="background: var(--supportBubbleColor) !important; color:var(--iconColor) !important" class="sy-text '+sy_text_class+'">Video Call</span>'+
+                '<span class="SyrowFont font-SyrowVideoCall sy-md-2 sy-ops"></span>'+
+              '</div>'+
+              '<div style="background: var(--supportBubbleColor) !important; color:var(--iconColor) !important;cursor:pointer" id="ticketCircle" class="sy-circle '+sy_circle_class+'">'+
+                '<span id="ticketCircleText" style="background: var(--supportBubbleColor) !important; color:var(--iconColor) !important" class="sy-text '+sy_text_class+'">Ticket</span>'+
+                '<span class="SyrowFont font-SyrowTicket sy-md-1 sy-ops"></span>'+
+              '</div>'+
+          '</div>'+
+          '<span id="unreadMessageCircleStyle" style="color:var(--iconColor); position:absolute; right:0px; bottom: 0px; width:20px; height:20px; background: var(--supportBubbleColor) !important; padding:5px; text-align:center; border-radius:50%; display:none;"></span>'+
+      '</div>'+
+  '</div>'+
+
+  '<div id="singleService" style="background: var(--supportBubbleColor) !important; color:var(--iconColor) !important;cursor:pointer" class="sy-circle first_animation '+sy_circle_class+'">'+
+    '<span id="singleServiceText" style="background: var(--supportBubbleColor) !important; color:var(--iconColor) !important;display:none; transition: .5s;opacity:0" class="sy-text '+sy_text_class+'  "></span>'+
+    '<span id="chatSuggestionBar1" style="background: white;box-shadow: 0px -6px 114px rgba(26, 24, 20, 0.2);color: black;font-size:13px !important;display:flex !important" class="sy-text-Suggested '+sy_firsttext_class+'"><img style="width:35px;height:35px;display:inline;border-radius:50%;margin:8px;margin-right:10px" src="'+dpSupport+'"/><span style="padding-bottom: 4px; maegin:8px;">'+welcomeMessage+'</span></span>'+
+    '<span id="singleServiceFont" class="SyrowFont font-SyrowCallBack sy-md-2 sy-ops"> <img id="singleServiceSupportDp" src="'+support_icon+'" style="width:40px !important; height:40px important; border-radius:50% !important;"></img> </span></a>'+
+    '<span id="unreadMsgSingleServ" style="color:var(--iconColor); position:absolute; right:0px; bottom: 0px; width:20px; height:20px; background: var(--supportBubbleColor) !important; padding:5px; text-align:center; border-radius:50%; display:none;"></span>'+
+  '</div>'+
+'</div>'+
+
+'<div id="boxStyle">'+
+'<div id="ChatWithUs" style="background: var(--supportBubbleColor) !important; color:var(--iconColor) !important;cursor:pointer;" class="chat_with_us '+position_of_chat+'">'+
+'<span style="margin-right:10px;font-size:17px !important;">Chat With Us</span>'+
+'<span style="font-size:16px !important;" class="SyrowFont font-SyrowChat"></span>'+
+'<span id="unreadMessageBoxStyle" style="color:var(--iconColor); position:absolute; right:-0px; top: -4px; width:20px; height:20px; background: var(--supportBubbleColor) !important; padding:5px; text-align:center; border-radius:50%; display:none;">4</span>'+
+'</div>'+
+'</div>'+
+
+
+'<div id="myModal" class="syrow_modal">'+
+'<div id="modalContent" class="syrow_modal_content">'+
+'</div>'+
+'</div>'
+
+
+'<div id="myModal" class="syrow_modal">'+
+'<div id="modalContent" class="syrow_modal_content">'+
+'</div>'+
+'</div>'

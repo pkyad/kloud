@@ -1,0 +1,145 @@
+<style>
+  .tableNew th{
+    padding:17px !important;
+  }
+
+  .tableNew {
+    border-radius: 1em;
+    overflow: hidden;
+  }
+  table, th, td{
+    border-color:#f2f2f2 !important;
+  }
+</style>
+<div class="container-fluid">
+  <div class="row"  style="background:black;color:white;padding-top:30px;padding-bottom:30px">
+    <div class=" col-md-3" style="">
+      <!-- <h3 ng-if="mode == 'edit'">Edit Expense : <strong>{{form.notes}}</strong></h3>
+      <h3 ng-if="mode == 'new'">Create a Expense</h3> -->
+      <!-- <div class="form-group" style="padding-top: 19px;"> -->
+        <!-- <h3 style="display: table-cell ; width:25%"> Expense :</h3> -->
+        <input ng-if="(form.stage=='created' || form.stage=='submitted') && !is_approver" type="text" class="form-control-pos" ng-model="form.notes" style="background:black;color:white" ng-change="saveExpenseSheet()">
+        <p ng-if="form.stage=='approved' || form.stage=='cancelled' || is_approver" > {{form.notes}} </p>
+      <!-- </div> -->
+      <!-- <div class="btn-group" ng-if="(form.stage=='created' || form.stage=='submitted') && !is_approver">
+        <button type="button" class="btn btn-success" ng-click="saveExpenseSheet()">Save</button>
+      </div> -->
+    </div>
+    <div class=" col-md-6" >
+      <p> On : {{form.created | date}} </p>
+    </div>
+    <div class=" col-md-3 text-right"  ng-if="form.pk && !is_approver">
+      <button ng-if="form.stage=='created'" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="changeStatus('submitted')" confirm-button-type="default" cancel-button-type="default"
+        class="btn btn-default" style="border-radius:25px!important"> Send For Approval </button>
+      <button ng-if="form.stage=='submitted'"  style="border-radius:25px!important" class="btn btn-default"> Sent For Approval </button>
+      <button ng-if="form.stage=='approved'" style="background:green;border:1px solid green;border-radius:25px!important;color:white" class="btn btn-default"> Approved </button>
+      <button ng-if="form.stage=='cancelled'" style="background:red;border:1px solid red;border-radius:25px!important;color:white" class="btn btn-default"> Rejected </button>
+      <a ng-if="form.stage=='approved'" class="btn btn-default" style="background:#0026c6;color:white;border:1px solid #0026c6;border-radius:25px!important" href="/api/finance/downloadSheet/?pkVal={{form.pk}}">Download </a>
+
+    </div>
+    <div class=" col-md-3 text-right" style="padding-top: 19px;" ng-if="form.pk && is_approver">
+    <button ng-if="form.stage=='submitted'" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="changeStatus('approved')" confirm-button-type="default" cancel-button-type="default"
+      class="btn btn-success" style="background:green;color:white;border:1px solid green;border-radius:25px!important;margin-right:15px"  class="btn btn-default"> Approve </button>
+    <button ng-if="form.stage=='submitted'" style="background:red;color:white;border:1px solid red;border-radius:25px!important" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="changeStatus('created')" confirm-button-type="default" cancel-button-type="default"
+      class="btn btn-default" class="btn btn-danger"> Reject </button>
+      <button ng-if="form.stage=='approved'"style="background:green;color:white;border:1px solid green;border-radius:25px!important;margin-right:15px"  class="btn btn-default"> Approved </button>
+      <button ng-if="form.stage=='cancelled'" style="background:red;color:white;border:1px solid red;border-radius:25px!important" class="btn btn-default"> Rejected </button>
+      <a ng-if="form.stage=='approved'" class="btn btn-default" style="background:#0026c6;color:white;border:1px solid #0026c6;border-radius:25px!important" href="/api/finance/downloadSheet/?pkVal={{form.pk}}" class="btn btn-default" >Download </a>
+    </div>
+  </div>
+  <div> <span style="padding:15px;background:#e3e3e3;position:absolute;top:64px;border-radius:25px"> Claimed Expenses</span> </div>
+  <div class="row" style="margin:20px" ng-if="form.pk">
+    <div class="{{form.pk && is_approver?'col-md-offset-1 col-md-10':'col-md-12'}}" style="margin-bottom:20px;margin-top:20px">
+      <table class="table table-hover tableNew">
+        <thead >
+          <tr style="background: #f2f2f2;padding: 10px;">
+            <!-- <th scope="col">Date</th> -->
+            <th scope="col">Particular</th>
+            <th scope="col">Description</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Attachment</th>
+            <th scope="col" ng-if="(form.stage=='created' || form.stage=='submitted') && !is_approver" class="text-center" ng-if="mode=='edit'">Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="d in form.invoices" ng-click="editInvoice($index,d.pk)">
+            <!-- <td scope="row">{{d.dated}}</td> -->
+            <td>{{d.code}}</td>
+            <td>{{d.description}}</td>
+            <td>{{d.amount}}</td>
+            <td><a ng-if="d.attachment" href="{{d.attachment}}" target="_blank" class="btn btn-primary " ><i class="fa fa-download" ></i></a></td>
+            <td ng-if="mode=='edit'&&(form.stage=='created' || form.stage=='submitted') && !is_approver" class="text-center">
+              <i class="fa fa-trash  fa-lg" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="deleteInvoice($index,d.pk)" confirm-button-type="danger"
+                cancel-button-type="default" style="color:red;cursor:pointer" ng-click="$event.stopPropagation()"></i>
+                <button ng-if="d.added" class="btn btn-default" style="background:#c2c2c2;color:#000000;border-radius:25px!important" ng-click="undo($index);$event.stopPropagation()"> UNDO </button>
+              </td>
+          </tr>
+          <tr ng-if="!showEdit&&mode=='edit'&&(form.stage=='created' || form.stage=='submitted') && !is_approver">
+            <th scope=" row">
+            </th>
+            <!-- <td></td> -->
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-center"> <i class="fa fa-plus fa-2x" ng-click="show()" style="cursor:pointer"></i></td>
+          </tr>
+          <tr ng-if="showEdit">
+            <!-- <td scope="row">
+              <div class="input-group">
+                <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="invoiceForm.dated" is-open="statusDue.opened" ng-init="today" disabled />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="statusDue.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </div>
+            </td> -->
+            <!-- <td></td> -->
+            <td>
+              <input type="text" class="form-control" ng-model="invoiceForm.code" uib-typeahead="p as p.title for p in codeSearch($viewValue)" placeholder="Particular">
+            </td>
+            <td>
+              <input type="text" class="form-control" ng-model="invoiceForm.description" placeholder="Description">
+            </td>
+            <td>
+              <input type="tel" class="form-control" ng-model="invoiceForm.amount" placeholder="Amount">
+            </td>
+            <td>
+              <input type="file" file-model="invoiceForm.attachment">
+            </td>
+            <td class="text-center">
+              <i class="fa fa-floppy-o fa-2x" style="color:var(--themeMain)" ng-click="saveInvoice()"></i>
+              <i ng-if="!invoiceForm.pk" class="fa fa-close fa-2x" ng-click="cancel()"></i>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row" style="margin:20px" ng-if="form.stage=='created' || form.stage=='submitted'">
+    <div class="col-md-12" style="margin-bottom:20px" ng-if="form.pk && !is_approver && form.unapproved.length>0">
+      <!-- <h3>Unclaimed</h3> -->
+      <div> <span style="padding:15px;background:#e3e3e3;border-radius:25px"> Unclaimed Expenses </span> </div>
+      <table class="table table-hover tableNew" style="margin-bottom:20px;margin-top:20px">
+        <thead>
+          <tr style="background: #f2f2f2;padding: 10px;">
+            <th scope="col"></th>
+            <th scope="col">Particular</th>
+            <th scope="col">Description</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Attachment</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="d in form.unapproved" >
+            <td > <input  type="checkbox" name="name" ng-model = "d.accepted" ng-change="approveInvoice($index)" ng-click="$event.stopPropagation()"></td>
+            <td>{{d.code}}</td>
+            <td>{{d.description}}</td>
+            <td>{{d.amount}}</td>
+            <td><a ng-if="d.attachment" href="{{d.attachment}}" target="_blank" class="btn btn-primary " ><i class="fa fa-download" ></i></a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

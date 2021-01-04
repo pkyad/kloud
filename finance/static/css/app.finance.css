@@ -1,0 +1,22 @@
+/*here you can place all your app specific css class*/
+.bigfont {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.with_border {
+  border-bottom: 1px solid #a3a2a0;
+}
+
+.in_center {
+  height: 15vh;
+  padding-top: 30px;
+}
+
+.doughnut_text {
+  position: absolute;
+  top: 25%;
+  left: 40%;
+  /*font-size: 1.5em;*/
+  color:#aaa4a4
+}

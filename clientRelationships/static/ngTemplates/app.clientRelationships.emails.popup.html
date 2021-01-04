@@ -1,0 +1,37 @@
+<div class="modal-body">
+  <div class="container-fluid" style="padding-top:20px;">
+
+    <div class="col-md-12" ng-repeat="r in rowData">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" class="form-control" placeholder="Name" ng-model="r.name">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Description</label>
+          <input type="text" class="form-control" placeholder="Description" ng-model="r.desc">
+          <!-- <textarea class="form-control" rows="1" placeholder="Description" ng-model="r.desc"></textarea> -->
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Rate</label>
+          <input type="number" class="form-control" placeholder="Rate" min="0" ng-model="r.rate">
+        </div>
+      </div>
+      <div class="col-md-1" style="padding-top:25px">
+        <i class="fa fa-trash-o fa-2x pull-right" style="color:red;cursor:pointer" ng-click="deleteRow($index)"></i>
+      </div>
+    </div>
+    <div class="col-md-12" style="padding-top:15px">
+      <span class="btn btn-default" ng-click="addRow()">Add Row <i class="fa fa-plus-circle fa-lg"></i></span>
+    </div>
+    <div class="col-md-12" style="padding-top:15px">
+      <span class="pull-right btn btn-primary" ng-click="saveDetails()">Save</span>
+    </div>
+
+
+  </div>
+</div>

@@ -1,0 +1,89 @@
+<div class="modal-body">
+
+    <div ng-if="form.pk">
+        <div class="row" style="padding-top:50px;margin-bottom:15px;">
+          <div class="col-md-11"><b>Grant application access for {{crole.name}}<b></div>
+      </div>
+
+      <div class="row" >
+        <div class="col-md-6" ng-repeat="i in applications" style="margin-bottom:20px;">
+          <div style="background:{{$index%2 == 0 ? '#eee':''}}">
+            <div class="col-md-12" style="padding:20px;background:#FAFAFA;min-height:150px;border-radius:20px;overflow:hidden;" ng-click="crole[i.name] = !crole[i.name];updateRole(crole[i.name] , crole , i)">
+
+              <div class="col-md-3">
+                <img style="border-radius:20px;filter: drop-shadow(5px 5px 5px #c8c4c4);" ng-src="{{i.icon}}" height="90px">
+              </div>
+              <div class="col-md-9">
+                <span style="font-size:25px;">{{i.displayName}}</span>
+                <h5>{{i.description}}</h5>
+              </div>
+
+              <div ng-if="crole[i.name]" style="position: absolute;bottom: -64px;right: -41px;height: 149px;width: 100px;background: #145084;transform: rotate(47deg);">
+                <img src="/static/images/icons8-check-mark-144.png" style="width: 47px;transform: rotate(-56deg);margin-top: 54px;" alt="">
+              </div>
+
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="padding-top:50px;">
+        <div class="col-md-11"><b>Charts Permissions for {{crole.name}}<b></div>
+      </div>
+      <br>
+      <div ng-if="charts.length==0" class="col-md-11">
+        <p style="color:red;font-weight:300;">No charts has been created</p>
+      </div>
+      <div class="row" ng-repeat="i in charts">
+        <div class="col-md-12">
+          <div style="height:50px;background:{{$index%2 == 0 ? '#eee':''}}">
+            <div class="col-md-6">
+              <p style="font-weight:bold;padding:15px;">{{i.name}}</p>
+            </div>
+            <div class="col-md-1">
+              <div class="helptooltip" style="padding:15px;">
+                <i class="fa fa-info-circle" style="font-size:18px;"></i>
+                <span class="helptext">Chart Details</span>
+              </div>
+            </div>
+            <div class="col-md-1 col-md-offset-3">
+              <div class="row rowRole" style="background:{{$index%2 == 0 ? '#eee':''}};">
+                <input type="checkbox" ng-model="crole[i.name]" ng-change="updateChartRole(crole[i.name], crole, i)"></input>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="padding-top:50px;">
+        <div class="col-md-11"><b>Reports Permissions for {{crole.name}}<b></div>
+      </div>
+      <br>
+      <div ng-if="reports.length==0" class="col-md-11">
+        <p style="color:red;font-weight:300;">No reports has been created</p>
+      </div>
+      <div class="row" ng-repeat="i in reports">
+
+        <div class="col-md-12">
+          <div style="height:50px;background:{{$index%2 == 0 ? '#eee':''}}">
+            <div class="col-md-6">
+              <p style="font-weight:bold;padding:15px;">{{i.name}}</p>
+            </div>
+            <div class="col-md-1">
+              <div class="helptooltip" style="padding:15px;">
+                <i class="fa fa-info-circle" style="font-size:18px;"></i>
+                <span class="helptext">Report Details</span>
+              </div>
+            </div>
+            <div class="col-md-1 col-md-offset-3">
+              <div class="row rowRole" style="background:{{$index%2 == 0 ? '#eee':''}};">
+                <input type="checkbox" ng-model="crole[i.name]" ng-change="updateReportRole(crole[i.name], crole, i)"></input>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

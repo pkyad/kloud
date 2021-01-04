@@ -1,0 +1,31 @@
+<div class="modal-header">
+  Upload Units
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label>Excel File</label>
+        <input type="file" file-model="form.exFile">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <a href="/media/unitSheet.xlsx" target="_blank"> Sample file to upload </a>
+      </div>
+    </div>
+  </div>
+  <div class="row" ng-if="!uploading">
+    <div class="col-md-12">
+      <button class="btn btn-danger" ng-click="close()"> Close </button>
+      <button class="btn btn-primary" ng-click="postFile()"> Upload </button>
+    </div>
+  </div>
+  <div class="row" ng-if="uploading">
+    <div class="col-md-12">
+      <button class="btn btn-primary"> <i class="fa fa-spinner"></i> Please Wait </button>
+    </div>
+  </div>
+</div>

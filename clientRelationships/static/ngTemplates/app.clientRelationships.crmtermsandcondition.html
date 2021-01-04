@@ -1,0 +1,526 @@
+<style media="screen">
+  .glass::before {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: rgba(97, 97, 97, 0.23);
+    background-size: cover;
+    content: ' ';
+    opacity: 0.4;
+  }
+
+  .glass {
+    background-color: white;
+  }
+
+  .glass.down {
+    transform: translateY(100%) translateY(-7rem);
+  }
+
+  .glass.down::before {
+    transform: translateY(-100%) translateY(7rem);
+  }
+
+  .glass.up,
+  .glass.up::before {
+    transform: translateY(0);
+  }
+
+
+  .navigationBtn,
+  .navigationBtn:hover {
+    padding: 10px;
+    border: none !important;
+    border-radius: 23px !important;
+  }
+
+  .contactList input,
+  .contactList button,
+  .contactList .btn,
+  .contactList .btn-primary {
+    border: none !important;
+  }
+
+  .contactList input,
+  .contactList .form-control {
+    padding: 20px;
+    border-radius: 23px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  .text-dull {
+    color: #bbb;
+  }
+
+  .tableNew th {
+    padding: 17px !important;
+  }
+
+  .tableNew {
+    border-radius: 1em;
+    overflow: hidden;
+  }
+
+  .contentTd {
+    padding: 18px !important;
+  }
+
+  table,
+  th,
+  td {
+    border-color: #f2f2f2 !important;
+  }
+
+  .deleteBtn:hover,
+  .deleteBtn:focus {
+    background: white !important;
+    color: #E33B37 !important;
+  }
+
+  .editBtn:hover,
+  .editBtn:focus {
+    background: white !important;
+    color: #006dfc !important;
+  }
+
+  .cleanInputDark {
+    border: none !important;
+    resize: none;
+    background: #0E1C2C;
+    color: white;
+  }
+  .topTable  {
+    border: 1px solid black!important;
+    text-align:center
+  }
+  .topTable td {
+    border: 1px solid black!important;
+      text-align:center
+  }
+  .topTable th {
+    border: 1px solid black!important;
+      text-align:center
+  }
+
+  .contenteditablediv:hover{
+    border:solid 2px black;
+  }
+  .contenteditablediv{
+    border:solid 2px white;
+  }
+
+</style>
+
+<div class="container-fluid" style="font-size:10px!important">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-offset-10 col-md-2">
+          <button class="btn btn-default btn-block" style="border-radius:25px!important;background:#ede8e8;border:none" ng-click="createFormat()"> Create New Format </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class=" col-md-12">
+          <div class="row" ng-repeat="d in allData track by $index" style="border-radius:25px!important;background:#e6e6e6;border:none;margin-top:30px" ng-init="d.indx = $index">
+            <div class="col-md-12">
+              <div class="row" ng-click="view($index)">
+                <div class="col-md-12">
+                  <h4>  {{d.version}} - {{d.name}} </h4>
+                </div>
+              </div>
+              <div class="row" ng-if="$index == preview" style="margin-top:15px;margin-bottom:15px;padding:30px;">
+                <div class="col-md-8">
+                  <div class="row">
+                    <div class="col-md-10">
+                      <div class="col-md-3">
+                        <label>Theme Color</label>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <input ng-model="d.themeColor" type="color">
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <label>Show Taxes</label>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <switch ng-model="d.isGst" class="green" style="margin-bottom: -12px;margin-left: 40px;"></switch>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <button class="btn btn-default btn-block" ng-click="update($index)" style="border-radius:10px!important;background:#d9d9d9;border:none"> Save </button>
+                    </div>
+
+                  </div>
+
+                  <div class="row" >
+                    <div class="col-md-12" style="min-height:100vh;background:white;padding:15px;right:0px;border-top:6px solid {{d.themeColor}};">
+                      <div class="row" ng-if="d.version == 'V1'">
+                        <div class="col-md-4" style="height:152px;background:url({{settings.logo}});background-size:contain;background-repeat:no-repeat;margin:0px;">
+                        </div>
+                      </div>
+                      <div class="row" ng-if="d.version == 'V2'">
+                        <div class="col-md-2" style="height:152px;background:url({{settings.logo}});background-size:contain;background-repeat:no-repeat;margin:0px;">
+                        </div>
+                        <div class="col-md-6" style="margin-left:100px">
+                          <div class="row">
+                            <div class="col-md-12 text-left">
+                              <h3> {{settings.name}} </h3>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12 text-left">
+                              <p>{{settings.address}} , {{settings.city}}  - {{settings.pincode}}  </p>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6 text-left">
+                              <p style="margin:0px"><b> Tel : </b>{{settings.mobile}}   </p>
+                              <p style="margin:0px"><b> e-mail : </b>{{settings.email}}   </p>
+                            </div>
+                            <div class="col-md-6 text-left">
+                              <p style="margin:0px"><b> GST/UIN :  </b> {{settings.gst}} </p>
+                              <p style="margin:0px"><b> State Name :   </b> {{settings.state}} </p>
+                              <p style="margin:0px"><b> Company's PAN : </b> {{settings.pan}} </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row" ng-if="d.version == 'V3'">
+                        <div class="col-md-2" style="height:152px;background:url({{settings.logo}});background-size:contain;background-repeat:no-repeat;margin:0px;">
+                        </div>
+                        <div class="col-md-6">
+                          <div class="row">
+                            <div class="col-md-12 text-left">
+                              <h3> {{settings.name}} </h3>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12 text-left">
+                              <p>{{settings.address}} , {{settings.city}}  - {{settings.pincode}}  </p>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6 text-left">
+                              <p style="margin:0px"><b> Tel : </b>{{settings.mobile}}   </p>
+                              <p style="margin:0px"><b> e-mail : </b>{{settings.email}}   </p>
+                            </div>
+                            <div class="col-md-6 text-left">
+                              <p style="margin:0px"><b> GST/UIN :  </b> {{settings.gst}} </p>
+                              <p style="margin:0px"><b> Company's PAN : </b> {{settings.pan}} </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <table class="table topTable" style="font-size:10px">
+                            <tr>
+                              <th>QUOTE#</th>
+                              <th>DATE</th>
+                            </tr>
+                            <tr>
+                              <td>#545454</td>
+                              <td>16 Dec 2020</td>
+                            </tr>
+                            <tr>
+                              <th>CUSTOMER ID</th>
+                              <th>VALID UNTIL</th>
+                            </tr>
+                            <tr>
+                              <td>27</td>
+                              <td>
+                                <div class="form-group" style="width:100px;margin-bottom:0px">
+                                  <div class="input-group">
+                                    <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.dueDate" is-open="status1.opened" disabled />
+                                    <span class="input-group-btn">
+                                      <button type="button" class="btn btn-default" ng-click="status1.opened = true;" disabled><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="row text-center">
+                          <h3 contenteditable ng-model="d.heading" class="contenteditablediv" ></h3>
+                      </div>
+                      <div class="row" style="padding:50px;color:#dbdbdb;">
+                        <span style="font-size:10px;">On:</span> <span style="font-size:10px;"> 16 Dec 2020 </span> <br>
+                        <span style="font-size:10px;">Quote #:25 </span> <br> <br>
+                        <h5 style="font-weight:bold">Contact Company Name</h5> <br>
+                        <span>
+                          Contact Company Address <br>
+                          Contact Company State , Contact Company Pincode, Contact Company Country <br></span>
+                        GSTIN:{{contact.company.tin? contact.company.tin : 'NA'}} <br> <br>
+                        <span style="font-weight:bold">Kind Attention:</span> <span >Contact Name</span> (Mobile # NA)
+                      </div>
+                      <div class="container-fluid">
+                        <textarea placeholder="{{uiForm.placeholder}}" class="form-control" ng-model="d.message" style="border-radius:10px!important;border:none;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;"></textarea>
+                      </div>
+                      <div class="row" style="padding:30px;padding-top:10px;border-bottom:solid 5px {{d.themeColor}}">
+                        <table class="table table-hover tableNew"
+                          style="border-radius: 18px !important;box-shadow: 0px -12px 20px rgba(0, 0, 0, 0.1);border: none;padding: 20px;border-bottom-left-radius:0px !important;border-bottom-right-radius:0px !important;margin-bottom:0px;">
+                          <thead>
+                            <tr style="background:{{d.themeColor}};padding:10px;color:white;">
+                              <th>Item</th>
+                              <th ng-if="d.isGst">HSN <br>
+                                SAC Code</th>
+                              <th>Rate</th>
+                              <th>Qty</th>
+                              <th>Total</th>
+                              <th ng-if="d.isGst">GST</th>
+                              <th>Sub Total</th>
+                            </tr>
+                          </thead>
+                          <tbody style="color:#dbdbdb;">
+                            <tr ng-repeat="k in [1,2]" style="padding:10px;background:white;">
+                              <td class="contentTd">
+                                Product {{$index+1}} <br />
+                                {{k.extraFieldOne}} - {{k.extraFieldTwo}}
+                              </td>
+                              <td class="contentTd" ng-if="d.isGst">
+                                Tax code  <br>( 18 %)
+                              </td>
+                              <td class="contentTd"><strong>100</strong></td>
+                              <td class="contentTd">{{$index + 1}}</td>
+                              <td class="contentTd">{{100 * ($index + 1)}}</td>
+                              <td class="contentTd" ng-if="d.isGst">{{100 * ($index + 1)}}</td>
+                              <td class="contentTd">{{100 * ($index + 1)}}</td>
+                            </tr>
+
+                          </tbody>
+                        </table>
+                        <!-- <div class="row"
+                          style="margin:0px;background:white;border-radius: 18px !important;box-shadow: 0px 16px 23px rgba(0, 0, 0, 0.1) !important;border: none;border-top-left-radius:0px !important;border-top-right-radius:0px !important;margin-bottom:20px;border-top: solid 2px #eee;padding-top: 15px;background: #0E1C2C;">
+                          <div>
+                          <div class="{{d.isGst?'col-md-4':'col-md-6'}}" style="padding:0px !important;resize: none;">
+                            <textarea id="descEdit" name="name" rows="2" cols="80" class="form-control cleanInputDark" placeholder="Enter description...."
+                              style="border-bottom-left-radius: 18px !important;"></textarea>
+                          </div>
+                          <div class="col-md-2" style="padding-right:0px !important;padding-left:0px !important;width:21%;" ng-if="d.isGst">
+                            <input ng-model="form.productMeta" uib-typeahead="meta as meta.description for meta in searchTaxCode($viewValue)" type="text" class="form-control cleanInputDark" placeholder="HSN/SAC Code">
+                          </div>
+                          <div class="col-md-2" style="padding-right:0px !important;padding-left:0px !important;">
+                            <input type="text" ng-model="form.rate" class="form-control cleanInputDark" placeholder="Rate" >
+                          </div>
+                          <div class="col-md-2" style="padding-right:0px !important;padding-left:0px !important;">
+                            <input ng-model="form.qty" type="text" class="form-control cleanInputDark" placeholder="Quantity" >
+                          </div>
+                          <div class="col-md-1" style="padding-right:0px !important;padding-left:0px !important;">
+                            <button type="button" class="btn btn-primary" style="background:#1E334C;color:white;border: none !important;font-weight:bold;padding:15px;" >
+                              Add
+                            </button>
+                          </div>
+                          </div>
+                          <div>
+                            <div class="col-md-3" style="padding-right:0px !important;padding-left:0px !important;" ng-if="d.extraFieldOne.length>0">
+                                <textarea id="descEdit"  name="name" rows="2" cols="80" class="form-control cleanInputDark"  placeholder="{{d.extraFieldOne}}"
+                                  style="border-bottom-left-radius: 18px !important;"></textarea>
+                            </div>
+                            <div class="col-md-3" style="padding-right:0px !important;padding-left:0px !important;" ng-if="d.extraFieldTwo.length>0">
+                              <textarea id="descEdit" name="name" rows="2" cols="80" class="form-control cleanInputDark"  placeholder="{{d.extraFieldTwo}}"
+                                style="border-bottom-left-radius: 18px !important;"></textarea>
+                            </div>
+                          </div>
+                        </div> -->
+                        <div class="row" style="margin-top:40px;color:#dbdbdb;">
+                          <div class="col-md-4 col-md-offset-8 text-right">
+                            <div class="col-md-5 text-right" style="padding-top:10px;">
+                              Discount
+                            </div>
+                            <div class="col-md-7">
+                              100
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row" style="color:#dbdbdb">
+                          <div class="col-md-4 col-md-offset-8 text-right">
+                            <div class="col-md-5 text-right" style="padding-top:25px;">
+                              Total
+                            </div>
+                            <div class="col-md-7">
+                              <h3>300 <small><i class="fa fa-inr"></i></small></h3>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="container-fluid" style="margin-bottom:100px;">
+                          <h4 style="font-weight:bold;color:#dbdbdb">Amount Payable (in words) :</h4>
+                          <p style="color:#dbdbdb">Rupees three hundered only</p>
+
+                          <div class="row" ng-if="showTerms">
+                            <div class="col-md-6">
+                              <h4 style="font-weight:bold;margin-top:25px;">Terms and Conditions:
+                              </h4>
+                            </div>
+                            <div class="col-md-6 text-right" style="padding-top:20px;">
+                              <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle" style="background:white;color:#0E4388;border: none !important;border-radius: 18px !important;box-shadow: -1px 4px 23px rgba(0, 0, 0, 0.1) !important;" type="button"
+                                  data-toggle="dropdown">Select different template</button>
+                                <ul class="dropdown-menu">
+                                  <li ng-click="selectTemplate($index)" ng-repeat="tnc in tncList"><a href="" style="padding:10px;cursor:pointer;">{{tnc.heading}}</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row" ng-repeat="tnc in d.addedPoints track by $index" style="margin-top:15px;" ng-mouseenter="hovering = $index;" ng-mouseleave="hovering = null;">
+                            <div class="col-md-1">
+                              <img style="width:20px;cursor:pointer;" src="https://image.flaticon.com/icons/png/512/61/61848.png" alt="" ng-if="hovering == $index" ng-click="removeTnc($index, d.indx)">
+                            </div>
+                            <div class="col-md-11">
+                              <p> <strong style="font-weight:bold;margin-right:20px;">{{$index +1}}</strong> . <span contenteditable ng-model="tnc.txt" style="font-size:17px;text-transform:capitalize;"></span>
+                                 <i style="margin-left:20px;" ng-click="moveUp($index , d.indx)"
+                                      class="fa fa-arrow-up"></i>
+                                <i style="margin-left:20px;" ng-click="moveDown($index , d.indx)" class="fa fa-arrow-down"></i></p>
+                            </div>
+                          </div>
+
+                          <div class="row" style="margin-top:20px;">
+                            <div class="col-md-2" style="padding-left:87px;">
+                              <strong style="font-weight:bold;margin-right:20px;">{{ d.addedPoints.length+1}} </strong>
+                            </div>
+                            <div class="col-md-10" style="padding: 0px;margin-left: -16px;">
+                              <input ng-model="d.tnctxt" ng-enter="addtnctxt(d.tnctxt, d.indx)" type="text" class="form-control" placeholder="Press ENTER to add">
+                            </div>
+                          </div>
+
+
+
+                        </div>
+                        <div class="row" ng-if="d.version == 'V1' " style="background:{{d.themeColor}};color:white;margin-left:-20px;margin-right:-25px;padding-bottom:40px;">
+                          <div class="row text-center" style="margin-top:20px;">
+                            <h3>{{settings.name}}</h3>
+                          </div>
+                          <div class="row text-center" style="margin-top:20px;">
+                            {{settings.address}}, {{settings.city}}, {{settings.state}} - {{settings.pincode}} , {{settings.country}}
+                          </div>
+                          <div class="row" style="margin-top:20px;">
+                            <div class="col-md-3 text-center">
+                              {{settings.gst}}
+                            </div>
+                            <div class="col-md-3 text-center">
+                              {{settings.email}}
+                            </div>
+                            <div class="col-md-3 text-center">
+                              {{settings.website}}
+                            </div>
+                            <div class="col-md-3 text-center">
+                              {{settings.mobile}}
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="row">
+                      <div class="col-md-4">
+                        <label>Pamphlet</label>
+                      </div>
+                      <div class="col-md-8">
+                        <div class="form-group">
+                          <input type="file" file-model="d.companyPamphlet">
+                        </div>
+                      </div>
+                  </div>
+
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- <div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Version </label>
+        <select class="form-control" ng-model="form.version" ng-options="a  for a in versions" >
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Heading</label>
+        <input type="text" class="form-control" ng-model="form.heading">
+      </div>
+      <div class="form-group">
+        <label>Field1</label>
+          <input ng-model="form.extraFieldOne" type="text" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Field2</label>
+          <input ng-model="form.extraFieldTwo" type="text" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Theme Color</label><br/>
+          <input ng-model="form.themeColor" type="color" >
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea class="form-control" ng-model="form.message"></textarea>
+      </div>
+      <div class="form-group">
+        <input type="checkbox" ng-model="form.isGst">
+          <span>Tax?</span>
+      </div>
+      <div class="form-group">
+        <label>Pamphlet</label>
+        <input type="file" file-model="form.companyPamphlet" >
+      </div>
+      <div class="form-group">
+        <label>Body</label>
+        <div class="input-group">
+          <input ng-model="form.body" type="text" class="form-control">
+          <span ng-click="add()" class="input-group-addon btn btn-primary"><i class="fa fa-plus"></i></span>
+        </div>
+      </div>
+      <ol>
+        <li style="padding:10px" ng-repeat="i in form.addedPoints track by $index"> {{i}} <i style="margin-left:20px;" ng-click="deletePoint($index)" class="fa fa-trash"></i> <i style="margin-left:20px;" ng-click="moveUp($index)"
+            class="fa fa-arrow-up"></i> <i style="margin-left:20px;" ng-click="moveDown($index)" class="fa fa-arrow-down"></i></li>
+      </ol>
+      <button class="btn btn-primary" ng-click="save()"> Save</button>
+    </div>
+    <div class="col-md-6">
+      <div class="row" style="margin:0px;">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Version</th>
+              <th>Heading</th>
+              <th>Tax?</th>
+              <th>Theme Color</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr  ng-repeat="d in allData track by $index">
+              <td>{{d.version}}</td>
+              <td>{{d.heading}}</td>
+              <td><i class="fa fa-check-circle fa-lg" style="color:green" ng-if="d.isGst"></i> <i class="fa fa-times-circle-o fa-lg" style="color:red" ng-if="!d.isGst"></i></td>
+              <td>
+              <div style="height:25px;width:25px;border-radius:50%;background:{{d.themeColor}}"></div>
+              </td>
+              <td ng-click="edit($index)"><i class="fa fa-pencil fa-lg"></i></td>
+              <td>  <i class="fa fa-trash fa-lg" ng-click="$event.stopPropagation()" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="delete($index)"
+                  confirm-button-type="danger" cancel-button-type="default" style="color:red;cursor:pointer"> </i> </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div> -->

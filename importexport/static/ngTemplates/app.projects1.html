@@ -1,0 +1,299 @@
+<style media="screen">
+  .navigationBtn,
+  .navigationBtn:hover {
+    padding: 10px;
+    border: none !important;
+    border-radius: 10px !important;
+  }
+
+  .contactList input,
+  .contactList button,
+  .contactList .btn,
+  .contactList .btn-primary {
+    border: none !important;
+  }
+
+  .contactList input,
+  .contactList .form-control {
+    padding: 20px;
+    border-radius: 23px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  .contactList input,
+  .contactList .form-control1 {
+
+  }
+  .fixedNavTabs .nav-tabs {
+    width: 100% !important;
+  }
+
+  .menuItems {
+    padding: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-right: solid 4px #F2F3F7;
+    padding-bottom: 15px;
+    padding-top: 15px;
+  }
+
+  .menuItems:hover {
+    background: #fbfbfb;
+    border-right: solid 4px red !important;
+  }
+
+  .activeMenu {
+    border-right: solid 4px red !important;
+    background: #fbfbfb !important;
+  }
+
+  .square-box {
+    padding-top: 15px;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: #e3e3e3;
+    height: 15em;
+  }
+
+  .box {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: #e3e3e3;
+    height: 15em;
+  }
+
+  .box h3 {
+    font-size: 50px;
+    font-weight: bold;
+    margin: 0px 0px 0px;
+    margin-left: 10px;
+    white-space: nowrap;
+    padding: 10px;
+    color: #fff;
+  }
+
+  .box .header {
+    text-align: center;
+    padding: 3px 0px;
+    color: white;
+    display: block;
+    background: #e3e3e3 none repeat scroll 0% 0%;
+  }
+
+  .square-box::after {
+    content: "";
+    display: block;
+    padding-top: 30%;
+  }
+
+  .square-box h3 {
+    font-size: 50px;
+    font-weight: bold;
+    margin: 0px 0px 0px;
+    margin-left: 10px;
+    white-space: nowrap;
+    padding: 10px;
+    color: #000000;
+  }
+
+  .square-box .header {
+    text-align: center;
+    padding: 3px 0px;
+    color: white;
+    display: block;
+    background: #e3e3e3 none repeat scroll 0% 0%;
+  }
+
+  /* .bottom {
+   position: absolute;
+   bottom: 0px;
+ } */
+
+  .caret1:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 110px;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 30px solid #8FC564;
+  }
+
+  .caret2:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 110px;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 30px solid #E3524F;
+  }
+
+  .caret3:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 110px;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 30px solid #8FC564;
+  }
+
+  .carettext {
+    font-size: 50px;
+    font-weight: bold;
+    margin: 0px 0px 0px;
+    color: rgb(141, 195, 110);
+    position: absolute;
+    bottom: 40px;
+    left: 3em;
+  }
+
+  .subtext {
+    font-size: 30px;
+
+  }
+</style>
+
+<div class="container-fluid" style="padding:0px;">
+  <div class="col-md-2" style="margin:0px;margin-bottom:15px;background:#F2F3F7;height:100vh;overflow:auto;">
+    <div class="row" style="margin-top:20px;">
+
+      <div class="col-md-12">
+        <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
+      </div>
+    </div>
+    <div style="margin-top:30px;margin-left:80px;" class="">
+      <img height="80px" width="80px" src="https://img.icons8.com/cute-clipart/64/000000/garage-closed.png"/>
+    </div>
+    <div  style="margin-left:40px;" class="">
+    <h2><b>Import Export</b></h2>
+    </div>
+    <div style="margin-top:30px;" class="row menuItems {{$state.is('businessManagement.importexport.projects')? 'activeMenu' : 'businessManagement.importexport.projects'}}" ng-click="$state.go('businessManagement.importexport.projects')">
+      <strong> Projects </strong>
+    </div>
+    <div class="row menuItems {{$state.is('businessManagement.importexport.masterSheet')? 'activeMenu' : 'businessManagement.importexport.masterSheet'}}" ng-click="$state.go('businessManagement.importexport.masterSheet')">
+      <strong> MasterSheet </strong>
+    </div>
+    <div class="row menuItems {{$state.is('businessManagement.importexport.inventory1')? 'activeMenu' : 'businessManagement.importexport.inventory1'}}" ng-click="$state.go('businessManagement.importexport.inventory1')">
+      <strong> Inventry </strong>
+    </div>
+    <div class="row menuItems {{$state.is('businessManagement.importexport.vendor')? 'activeMenu' : 'businessManagement.importexport.vendor'}}" ng-click="$state.go('businessManagement.importexport.vendor')">
+      <strong> Vendor </strong>
+    </div>
+    <div class="row menuItems {{$state.is('businessManagement.importexport.invoice')? 'activeMenu' : 'businessManagement.importexport.invoice'}}" ng-click="$state.go('businessManagement.importexport.invoice')">
+      <strong> Invoice </strong>
+    </div>
+    <div class="row menuItems {{$state.is('businessManagement.importexport.deliveryChallan')? 'activeMenu' : 'businessManagement.importexport.deliveryChallan'}}" ng-click="$state.go('businessManagement.importexport.deliveryChallan')">
+      <strong> Delivery Challan </strong>
+    </div>
+    <div class="row menuItems {{$state.is('businessManagement.importexport.stockReport')? 'activeMenu' : 'businessManagement.importexport.stockReport'}}" ng-click="$state.go('businessManagement.importexport.stockReport')">
+      <strong> Stock Report </strong>
+    </div>
+    <div class="row menuItems {{$state.is('businessManagement.importexport.report')? 'activeMenu' : 'businessManagement.importexport.report'}}" ng-click="$state.go('businessManagement.importexport.report')">
+      <strong> Report </strong>
+    </div>
+    <div class="row menuItems {{$state.is('businessManagement.importexport.CMS')? 'activeMenu' : 'businessManagement.importexport.CMS'}}" ng-click="$state.go('businessManagement.importexport.CMS')">
+      <strong> Complaints </strong>
+    </div>
+  </div>
+  <div class="col-md-10" style="height:100vh;overflow:auto;padding:15px;">
+    <ui-view>
+
+      <div class="container-fluid contactList" style="background:#FAFAFA;min-height:100vh;">
+        <div class="row" style="background:rgb(18, 46, 99);padding:15px;padding-top:20px;padding-bottom:20px;">
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-3">
+            <ul class="nav navbar-nav navbar-left">
+              <li style="padding-bottom:1.5vh;margin-top:5px;">
+                <strong style="margin-left:0px;color:white;font-size:20px;">BIND</strong>
+              </li>
+              <li style="margin-right:90px;margin-top:5px;">
+                <switch ng-model="formToggle.toggleMain"></switch>
+              </li>
+              <li style="padding-bottom:1.5vh;margin-top:5px;">
+                <strong style="margin-left:-90px;color:white;font-size:20px;">Trading</strong>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-8">
+
+            <div class="col-md-2 col-md-offset-2">
+              <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.importexport.projectsNew')">New</button>
+            </div>
+            <div class="col-md-4">
+              <div class="input-group" style="background:#ffffff;border-radius:10px;">
+                <input type="text" class="form-control" ng-model="search.query" placeholder="Search" ng-enter="fetchData()" style="border:none !important;background:#ffffff;">
+                <div class="input-group-btn">
+                  <button class="btn btn-default" type="submit" ng-click="fetchData()" style="border:none !important;background:#ffffff;">
+                    <i class="glyphicon glyphicon-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="privious()">Prev</button>
+            </div>
+            <div class="col-md-2">
+              <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="next()">Next</button>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="background:rgb(18, 46, 99);color:white;padding-bottom:20px;padding:30px;">
+
+          <div class="col-md-4"> <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.importexport')">Projects</button></div>
+          <div class="col-md-4"> <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.importexport.archieveProject')">Archieve</button></div>
+          <div class="col-md-4"> <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.importexport.junkProject')">Junk</button></div>
+        </div>
+        <div class="row" style="margin-top:30px">
+          <div class="col-md-4" ng-repeat="data in allData" style="padding-bottom:20px;padding-left:10px;padding-right:10px;padding-top:10px;cursor:pointer">
+            <div class="container-fluid card" style="border: 2px solid green;" ng-click="$state.go('businessManagement.importexport.viewProject1',{id:data.comm_nr})">
+              <div class="row text-center" style="height:6vh;">
+                <div class="col-md-12" style="position:relative;display:block;">
+                  <div class="row" style="padding-left:10px;">
+                    <h3>{{data.comm_nr}}</h3>
+                  </div>
+                </div>
+              </div>
+              <div class="row container-fluid" style="padding-top:20px;height:12vh;">
+                <div class="col-md-10" style="z-index: 1;">
+                  <div class="row">
+                    <div class="col-md-5">
+                      <span style="font-size:12px;"><strong> Total Pojects </strong>:</span>
+                    </div>
+                    <div class="col-md-7">
+                      <span> {{data.totalProjects}}</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-5">
+                      <span style="font-size:12px;"><strong> Approved Projects: </strong>:</span>
+                    </div>
+                    <div class="col-md-7">
+                      <span ng-if="data.junkStatus"> {{data.approved}}</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-5">
+                      <span style="font-size:12px;"><strong>Pending Projects: </strong>:</span>
+                    </div>
+                    <div class="col-md-7">
+                      <span>{{data.pending}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </ui-view>
+  </div>
+</div>

@@ -1,0 +1,141 @@
+<div class="col-md-12" >
+    <div class="container-fluid" style="margin-top:2em;">
+      <div class="row">
+        <div class="form-group col-md-6">
+          <div class="col-md-2">
+            <label>TITLE*</label>
+          </div>
+          <div class="col-md-10">
+           <input ng-enter="refetch()"  type="text" class="form-control websiteInput" ng-model="filter1.title">
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <div class="col-md-2">
+           <label>Free Text Search*</label>
+          </div>
+          <div class="col-md-10">
+           <input ng-enter="refetch()"  type="text" class="form-control websiteInput" ng-model="filter1.freeText">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-4">
+          <div class="col-md-3">
+           <label>Author*</label>
+          </div>
+          <div class="col-md-9">
+
+           <input type="text" class="form-control websiteInput" ng-model="filter1.author" uib-typeahead="c as c.first_name + ' ' + c.last_name for c in userSearchDoctor($viewValue)">
+
+          </div>
+        </div>
+        <div class="form-group col-md-4" ng-if="manage">
+          <div class="col-md-3">
+           <label>Content Writer*</label>
+          </div>
+          <div class="col-md-9">
+            <input type="text" class="form-control websiteInput" ng-model="filter1.contentWriter" uib-typeahead="c as c.first_name + ' ' + c.last_name for c in userSearchWriter($viewValue)">
+          </div>
+        </div>
+
+
+      </div>
+      <div class="row">
+        <div class="form-group col-md-4">
+          <div class="col-md-3">
+           <label>Category*</label>
+          </div>
+          <div class="col-md-9">
+            <select class="form-control websiteInput" ng-model="filter1.parent" ng-options="t.name for t in parent track by t.pk"  >
+            </select>
+          </div>
+        </div>
+        <div class="form-group col-md-4" ng-if="filter1.parent.pk">
+          <div class="col-md-3">
+           <label>Sub Category*</label>
+          </div>
+          <div class="col-md-9">
+            <select class="form-control websiteInput" ng-model="filter1.category" ng-options="t.name for t in childrens track by t.pk" >
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <switch ng-model="filter1.published" class="green" ng-change="refetch()"></switch> Published ?
+          <button style="margin-left:20px;" ng-click="reset()" type="button" class="btn newBtn pull-right" >Reset</button>
+          <button style="margin-left:20px;" ng-click="refetch()" type="button" class="btn defaultBtn pull-right" >Filter</button>
+        </div>
+        <div class="form-group col-md-5" ng-if="manage">
+          <!-- <div class="col-md-3">
+            <label>Batch  Operation*</label>
+          </div>
+          <div class="col-md-3">
+            <select class="form-control websiteInput" ng-model="publishData">
+              <option value="publish" ng-if="!filter1.published">Publish</option>
+              <option value="unpublish" ng-if="filter1.published">Unpublish</option>
+            </select>
+          </div> -->
+          <!-- <div class="form-group col-md-6">
+            <button type="button" class="btn newBtn" ng-click="publish()">Apply To Selected Articles</button>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12" style="border-bottom:1px solid #eeeeee">
+      <h3>Uploaded Articles</h3>
+    </div>
+    <div class="col-md-12" style="padding:0px;">
+
+      <div class="form-group col-md-12" style="margin-top:2em;">
+        <table class="table table-hover" style=" width: 100%;">
+        <tbody>
+          <tr style="background-color: #eeeeee;height: 50px;">
+            <th><input type="checkbox" ng-model="filter1.selectAll"/></th>
+            <th style="width:33px;">ID</th>
+            <th style="width:410px;">Title</th>
+            <th>Type</th>
+            <th>Category</th>
+            <th>Sub Category</th>
+            <th>Author</th>
+            <th>Language</th>
+            <!-- <th>Publishing Channel</th> -->
+            <th>Updated</th>
+            <th>Operations</th>
+          </tr>
+          <tr ng-repeat="v in articles track by $index" style="">
+            <td> <input type="checkbox"  ng-model="v.selected" > </td>
+            <td>{{v.pk}}</td>
+            <td>{{v.title}}</td>
+            <td>{{v.typ.name}}</td>
+            <td>{{v.category.parent.name}}</td>
+            <td>{{v.category.name}}</td>
+            <td> <img onerror="this.src='/static/images/userIcon.png'" ng-src="{{v.author.pk}}" style="width:30px;height:30px;" alt=""> {{v.author.pk | getName}} </td>
+            <td>{{v.lang=='hi'? 'Hindi':'English' }}</td>
+            <!-- <td>Blog</td> -->
+            <td> <span>{{v.updated | date:'dd-MM-yyyy hh:mm a'}}</span>  </td>
+
+            <td>
+              <div class="btn-group btn-group-xs">
+                <button  ng-click="$state.go('businessManagement.website.editblog',{id:v.pk})" type="button" class="btn btn-default btn-sm" ng-if="(!v.published && v.status != 'submitted') || me.is_staff || me.is_superuser">
+                  <i class="fa fa-pencil"></i>
+                </button>
+                <button type="button" class="btn btn-primary btn-sm" ng-click="publishEach(v.pk,'publish',$index)" ng-if="!v.published && manage">
+               Publish
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" ng-click="publishEach(v.pk,'unpublish',$index)" ng-if="v.published && manage">
+                  Unpublish
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        </table>
+      </div>
+</div>
+  <div class="row text-center">
+    <button ng-click="refetch(true)" type="button" class="btn newBtn">
+      Load more
+    </button>
+  </div>
+
+</div>

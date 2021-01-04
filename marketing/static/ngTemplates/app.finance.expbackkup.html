@@ -1,0 +1,212 @@
+<!-- <breadcrumb></breadcrumb> -->
+<style>
+.flex-container {
+  display: flex;
+}
+</style>
+  <div class="container-fluid fixedNavTabs">
+    <uib-tabset>
+      <uib-tab active="searchTabActive">
+        <uib-tab-heading>
+          New Purchase Order <i class="fa fa-plus"></i>
+        </uib-tab-heading>
+        <div style="margin-top:20px;" ng-include="'/static/ngTemplates/app.finance.purchaseOrder.form.html'">
+        </div>
+      </uib-tab>
+      <uib-tab>
+        <uib-tab-heading>
+          Pending POs
+          <i class="fa fa-list-ul"></i>
+        </uib-tab-heading>
+        <div class="row" style="margin-top:20px;margin-bottom:20px;">
+          <div class="col-md-5" style="padding-left:10px;padding-right:0px;">
+            <div class="flex-container">
+            <div ng-repeat= 'a in filterOptions' style="padding:5px;">
+              <div class="text-center" style="color:{{a.is_selected?'#ffffff':'var(--themeMain)'}};cursor:pointer;padding:10px;padding-top:7px;padding-bottom:7px;border-radius:25px;background-color:{{a.is_selected?'var(--themeMain)':'#eeeeee'}}" ng-click="a.is_selected=!a.is_selected;refreshInboundinv()"> {{a.name}} <span ng-if="a.count>0">({{a.count}})</span></div>
+            </div>
+          </div>
+          </div>
+          <div class="col-md-1">
+            <a href="/api/finance/purchaseOrderspreadSheet/" type="button" class="btn btn-sm btn-primary btn-block" style="padding:8px 18px">Download</a>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search with Invoice Id" ng-model="orderForm.name" ng-enter="purchaseOrders()">
+              <div class="input-group-btn">
+                <button class="btn btn-default" type="submit" ng-click="purchaseOrders()">
+                  <i class="glyphicon glyphicon-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <button type="button" class="btn btn-sm btn-primary btn-block" style="padding:8px 18px" ng-click="prev()">Prev</button>
+          </div>
+          <div class="col-md-1">
+            <button type="button" class="btn btn-sm btn-primary btn-block " style="padding:8px 18px" ng-click="next()">Next</button>
+            <!-- <a href="/makepayment/?ord=5cf742a5ec739c02ecc70ba8">Paytm</a> -->
+
+          </div>
+
+        </div>
+        <div class="">
+
+
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th ng-click="allPurchaseorders()"><i class="fa fa-refresh" style="cursor:pointer;"></i></th>
+
+                <!-- <th>S.No</th> -->
+                <th>ID</th>
+                <th>Name</th>
+                <th>Person Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Pincode</th>
+                <!-- <th>User</th> -->
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="po in purchsedData"  >
+                <!-- <td>{{po}}</td> -->
+                <td ng-click="viewPO($index,po)">{{$index+1}}</td>
+                <td ng-click="viewPO($index,po)">#{{po.pk}}</td>
+                <td ng-click="viewPO($index,po)">{{po.name}}</td>
+                <td ng-click="viewPO($index,po)">{{po.personName}}</td>
+                <td ng-click="viewPO($index,po)">{{po.phone}}</td>
+                <td ng-click="viewPO($index,po)">{{po.email}}</td>
+                <td ng-click="viewPO($index,po)">{{po.pincode}}</td>
+                <!-- <td>{{po.user.username}}</td> -->
+
+
+                <td> <span class="label label-default" ng-if="po.status=='created'" style="background-color:#FF6C2C;cursor:pointer">Waiting for Approval</span>
+                  <span class="label label-primary" ng-if="po.status=='Approved'"  style="cursor:pointer">Approved</span>
+                    <span class="label label-danger" ng-if="po.status=='rejected'"  style="cursor:pointer">Rejected</span>
+                  <span class="label label-success" ng-if="po.status!='Approved'&&po.status!='created'&&po.status!='rejected'"  style="cursor:pointer">{{po.status}}</span>
+                </td>
+
+                <td><span style="padding-right:15px;font-size:20px;cursor:pointer" ng-click="editPO($index);$event.stopPropagation()"><i class="fa fa-pencil"></i></span> <span style="font-size:20px;padding-right:15px;cursor:pointer" ng-click="deletePO($index);$event.stopPropagation()"><i class="fa fa-trash pull-right"></i></span></td>
+                <td><a href="/api/finance/PurchaseOrderPdf/?id={{po.pk}}"><i class="fa fa-file pull-right"></i></a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+
+        <!-- <generic-Table data="data.tableData" config-Obj="{{config}}" callback-Fn="tableAction"></generic-Table> -->
+      </uib-tab>
+      <uib-tab>
+        <uib-tab-heading>
+          New Invoice Entry <i class="fa fa-plus"></i>
+        </uib-tab-heading>
+        <div style="margin-top:20px;" ng-include="'/static/ngTemplates/app.finance.inboundInvoices.form.html'">
+        </div>
+      </uib-tab>
+      <uib-tab>
+        <uib-tab-heading>
+          Invoices
+          <i class="fa fa-list-ul"></i>
+        </uib-tab-heading>
+        <div class="row" style="margin-top:20px;margin-bottom:20px;">
+          <div class="col-md-5">
+
+          </div>
+          <div class="col-md-1">
+            <a href="/api/finance/inboundInvoiceExcel/" type="button" class="btn btn-sm btn-primary btn-block" style="padding:8px 18px">Download</a>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search with Invoice Id" ng-model="orderForm.name" ng-enter="allinboundInvoices()">
+              <div class="input-group-btn">
+                <button class="btn btn-default" type="submit" ng-click="allinboundInvoices()">
+                  <i class="glyphicon glyphicon-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <button type="button" class="btn btn-sm btn-primary btn-block" style="padding:8px 18px" ng-click="prevPOInv()">Prev</button>
+          </div>
+          <div class="col-md-1">
+            <button type="button" class="btn btn-sm btn-primary btn-block " style="padding:8px 18px" ng-click="nextPOInv()">Next</button>
+            <!-- <a href="/makepayment/?ord=5cf742a5ec739c02ecc70ba8">Paytm</a> -->
+
+          </div>
+
+        </div>
+        <div class="" >
+
+
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <!-- <th>S.No</th> -->
+                <th ng-click="refreshInboundinv()"><i class="fa fa-refresh" style="cursor:pointer;"></i></th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Person Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Pincode</th>
+                <!-- <th>User</th> -->
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="po in inboundInvoiceData" >
+
+                <td ng-click="viewInv($index,po)">{{$index+1}}</td>
+                <td ng-click="viewInv($index,po)">#{{po.pk}}</td>
+                <td ng-click="viewInv($index,po)">{{po.name}}</td>
+                <td ng-click="viewInv($index,po)">{{po.personName}}</td>
+                <td ng-click="viewInv($index,po)">{{po.phone}}</td>
+                <td ng-click="viewInv($index,po)">{{po.email}}</td>
+                <td ng-click="viewInv($index,po)">{{po.pincode}}</td>
+                <!-- <td>{{po.user.username}}</td> -->
+                <td ng-click="viewInv($index,po)">{{po.status}}</td>
+                <td><span style="padding-right:15px;font-size:20px;" ng-click="editInv($index)"><i class="fa fa-pencil"></i></span> <span style="font-size:20px;padding-right:15px;" ng-click="deleteInv($index)"><i class="fa fa-trash pull-right" ></i></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- <generic-Table data="data.invoiceData" config-Obj="{{invoiceConfig}}" callback-Fn="invoicetableAction"></generic-Table> -->
+      </uib-tab>
+
+
+      <uib-tab ng-repeat="tab in tabs" active="tab.active" disable="tab.disabled">
+        <uib-tab-heading>
+          {{tab.title}}
+          <i ng-if="tab.cancel" class="fa fa-close" ng-click="closeTab($index);"></i>
+        </uib-tab-heading>
+        <div ng-if="tab.app == 'edit'">
+          <div ng-include="'/static/ngTemplates/app.finance.purchaseOrder.form.html'"></div>
+        </div>
+        <div ng-if="tab.app == 'details'">
+          <div ng-include="'/static/ngTemplates/app.finance.purchaseOrder.explore.html'"></div>
+        </div>
+        <div ng-if="tab.app == 'editinvoice'">
+          <div ng-include="'/static/ngTemplates/app.finance.inboundInvoices.form.html'">
+          </div>
+        </div>
+        <div ng-if="tab.app == 'idetails'">
+          <div ng-include="'/static/ngTemplates/app.finance.inboundInvoices.explore.html'"></div>
+        </div>
+        <!-- <div ng-if="tab.app == 'selected'">
+      <div ng-include="'/static/ngTemplates/app.recruitment.jobs.selected.html'"></div>
+    </div>
+    <div ng-if="tab.app == 'applicant'">
+      <div ng-include="'/static/ngTemplates/app.recruitment.jobs.applicant.html'"></div>
+    </div> -->
+      </uib-tab>
+      <!-- <uib-tab>
+        <uib-tab-heading>
+          Purchase<i class="fa fa-plus"></i>
+        </uib-tab-heading>
+        <div style="margin-top:20px;" ng-include="'/static/ngTemplates/app.finance.purchasedashboard.html'">
+        </div>
+      </uib-tab> -->
+    </uib-tabset>
+  </div>

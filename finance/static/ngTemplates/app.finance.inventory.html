@@ -1,0 +1,62 @@
+<div class="container-fluid" >
+  <div class="row">
+    <div class="col-md-12">
+
+      <div class="row" >
+        <div class=" col-md-4" style="padding-top:20px">
+          <div class="form-group">
+            <!-- <label>Search</label> -->
+              <input  type="text" class="form-control" ng-model="search"  placeholder="Search By Name">
+          </div>
+        </div>
+        <div class=" col-md-6 text-right" style="padding-top:20px">
+          <button class="btn btn-default " ng-click="addInventory()" style="margin-right:10px"> <i class="fa fa-plus" ></i> New </button>
+          <button class="btn btn-default " ng-click="prevInventory()" style="margin-right:10px">  Prev </button>
+          <button class="btn btn-default " ng-click="nextInventory()"> Next </button>
+        </div>
+        </div>
+      <div class="row">
+        <div class=" col-md-12">
+          <div class="invoiceTable" style="width:100%;">
+            <table class="table">
+              <thead>
+                <tr style="height: 50px;border-top:1px solid #ddd;background-color: #eeeeee;">
+                  <th style="width:10%" ng-click="getAll()"><i class="fa fa-refresh" style="cursor:pointer;"></i></th>
+                  <th style="width:20%">Name</th>
+                  <th style="width:10%">Buying Price</th>
+                  <th style="width:10%">Selling Price</th>
+                  <th style="width:10%">Available For Sale</th>
+                  <th style="width:15%">Tax Rate (%)</th>
+                    <th style="width:5%">Tax Code</th>
+                  <th style="width:10%"></th>
+                  <!-- <th style="width:5%">Delete</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="i in inventoryData track by $index" onmouseover="this.style.backgroundColor='#f4f5f9';" onMouseOut="this.style.backgroundColor='#ffffff'">
+                  <td style="width:10%">{{$index + 1}}</td>
+                  <td style="width:20%">{{i.name}}</td>
+                  <td style="width:10%">{{i.buyingPrice}}</td>
+                  <td style="width:10%">{{i.rate}}</td>
+                  <td style="width:10%">
+                    <switch ng-model="i.sellable" ng-change="toggleSellable(i.sellable , i.pk)" class="green" style="margin-bottom: -12px;margin-left: 40px;"></switch>
+                  </td>
+                  <td style="width:10%">{{i.taxRate}}</td>
+                  <td style="width:10%">{{i.taxCode}}</td>
+                  <td style="width:20%">
+                    <button type="button" class="btn btn-danger btn-sm" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="deleteData(i.pk , $index)" confirm-button-type="danger"
+                      cancel-button-type="default" style="cursor:pointer;"> <i class="fa fa-trash"></i></button>
+                    <button class="btn btn-primary btn-sm" ng-click="postData($index)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><button style="background-color:white;border:none;" ng-click="addInventory()"><i class="fa fa-plus" style="cursor:pointer"></i></button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

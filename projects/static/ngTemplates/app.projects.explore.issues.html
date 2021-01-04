@@ -1,0 +1,101 @@
+<div class="row" style="">
+
+  <div class="col-md-11 pull-right" style="padding-left:50px;margin-top:50px;">
+    <div class="row">
+      <div class="col-md-6">
+        <h4><label class="text-muted">Issues</label></h4>
+      </div>
+      <div class="col-md-6 text-right">
+        <button class="btn btn-default" type="button" style="border-radius:20px !important;border-color: #eee;" ng-click="openIssueForm()"> <i class="fa fa-plus"></i> Add New </button>
+
+        <button type="button" ng-init="project.showOngoing = false;" class="btn btn-default" style="border-radius:20px !important;margin-left:20px;border-color: #eee;{{project.showOngoing ? 'background:#eee': ''}}" ng-click="project.showOngoing = !project.showOngoing">
+          <i class="fa fa-eye"></i> {{project.showOngoing? 'Showing All' :'Showing Ongoing' }}
+        </button>
+
+      </div>
+    </div>
+    <hr>
+    <div class="row" style="margin-top:20px;">
+      <div class="col-md-1">
+        Priority
+      </div>
+      <div class="col-md-5">
+        Title
+      </div>
+      <div class="col-md-2">
+        Reported On
+      </div>
+      <div class="col-md-2">
+        Result
+      </div>
+      <div class="col-md-2 text-right">
+        Comment
+      </div>
+    </div>
+    <hr>
+
+    <div class="row hoverList" ng-repeat="q in issues" style="padding-top:10px;padding-bottom:10px;">
+      <div class="col-md-1">
+
+
+        <div class="dropdown" >
+          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" style="border: none !important;">
+            <img ng-if="q.priority=='low'" src="/static/images/images_low.png" style="width:30px;" alt="">
+            <img ng-if="q.priority=='medium'" src="/static/images/images_medi.png" style="width:30px;" alt="">
+            <img ng-if="q.priority=='high'" src="/static/images/images_high.png" style="width:30px;" alt="">
+
+          </button>
+
+
+
+
+
+          <ul class="dropdown-menu">
+            <li ng-click="q.priority = 'low'">
+              <img src="/static/images/images_low.png" style="width:40px;margin:10px;" alt=""> Low
+            </li>
+            <li ng-click="q.priority = 'medium'">
+              <img src="/static/images/images_medi.png" style="width:40px;margin:10px;" alt=""> Medium
+            </li>
+            <li ng-click="q.priority = 'high'">
+              <img src="/static/images/images_high.png" style="width:40px;margin:10px;" alt=""> High
+            </li>
+          </ul>
+        </div>
+
+
+      </div>
+      <div class="col-md-5" ng-click="showDetails(q.pk)">
+        {{q.title}}
+      </div>
+      <div class="col-md-2" ng-click="showDetails(q.pk)">
+        {{q.created | date:"d-M-yyyy"}}
+      </div>
+      <div class="col-md-1">
+        <span  ng-if="q.result=='resolved'" class="label label-success">
+          <i class="fa fa-check"></i> Resolved
+        </span>
+        <span ng-if="q.result=='partial'" class="label label-success">
+          <i class="fa fa-exclamation"></i>
+        </span>
+        <span ng-if="q.result=='parked'" class="label label-success">
+          <i class="fa fa-times"></i>
+        </span>
+      </div>
+      <div class="col-md-3 text-right">
+        <div ng-if="q.status == 'resolved'">
+          {{q.resultComments}}
+        </div>
+        <div class="dropdown" ng-if="q.status != 'resolved'" >
+          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" >
+            {{q.status}} <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            <li ng-if="q.status == 'created' " ng-click="setStatus(q.pk , 'inprogress');q.status = 'inprogress'"> <a>In Progress</a> </li>
+            <li ng-if="q.status == 'created' || q.status == 'inprogress'|| q.status == 'stuck'" ng-click="setStatus(q.pk, 'resolved');q.status = 'resolved'"><a>Resolve</a></li>
+            <li ng-if="q.status != 'stuck' && q.status != 'resolved' " ng-click="setStatus(q.pk ,'stuck');q.status = 'stuck'"><a>Stuck</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

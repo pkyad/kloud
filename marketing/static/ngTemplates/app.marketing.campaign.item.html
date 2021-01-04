@@ -1,0 +1,30 @@
+<div class="col-md-3" style="padding-bottom:10px;padding-left:10px;padding-right:10px;cursor:pointer">
+  <div class="container-fluid card" style="padding:15px 5px;" ng-click="rowActionClicked('info')">
+    <div class="row">
+      <div class="col-md-9" style="padding-left:30px;">
+        <h4>{{data.name}}</h4>
+      </div>
+      <div class="col-md-3">
+        <i class="fa fa-pencil fa-lg" ng-click="rowActionClicked('edit');$event.stopPropagation()"></i>
+      </div>
+    </div>
+    <hr>
+    <div class="row" style="padding:0px 15px;height:20px" ng-if="data.typ == 'call'">
+      <div class="col-md-10">
+        <label>Total : </label> {{data.itemCount}} <br>
+        <label>Called : </label> {{data.inProcess}} <br>
+        <label>Interested : </label> {{data.intersted}} <br>
+      </div>
+    </div>
+    <div class="row" style="padding:0px 15px;height:20px" ng-if="data.typ == 'email'">
+      <div class="col-md-9">
+        <label>Total : </label> {{data.mailStats.total}} <br>
+        <label>Emails Sent : </label> {{data.mailStats.sentPercent | number : 2}} % <br>
+        <label>Opened : </label> {{data.mailStats.openedPercent | number : 2}} % <br>
+      </div>
+      <div class="col-md-3">
+        <img src="/static/images/emailCampaign.png" style="width:100%;" >
+      </div>
+    </div>
+  </div>
+</div>

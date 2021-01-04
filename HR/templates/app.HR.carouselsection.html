@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block specific_css %}
+<link rel="stylesheet" href="/static/css/owl.carousel.css" charset="utf-8">
+<link rel="stylesheet" href="/static/css/owl.theme.default.css" charset="utf-8">
+<style media="screen">
+  #owl-demo .item {
+    margin: 3px;
+  }
+
+  .owl-item {
+    width: 350px !important;
+
+  }
+
+  #owl-demo .item img {
+    display: block;
+    width: 100%;
+    height: 500px;
+  }
+
+  .owl-nav .owl-next {
+    position: absolute;
+    right: -5%;
+    top: 20%
+  }
+
+  .owl-nav .owl-next span {
+    font-size: 35px;
+
+  }
+
+  .owl-nav .owl-prev span {
+    font-size: 35px;
+
+  }
+
+  .owl-nav .owl-prev {
+    position: absolute;
+    left: -5%;
+    top: 20%
+  }
+  #owl-demo {
+    margin-top:30px;
+    margin-bottom:30px;
+  }
+  @media only screen and (min-device-width : 320px) and (max-device-width : 600px) {
+
+    .owl-item {
+      width: 330px !important;
+
+    }
+    .item{
+      padding:0px;
+    }
+    .owl-nav .owl-prev {
+      top: 40%
+    }
+    .owl-nav .owl-next {
+      top: 40%
+    }
+
+  }
+</style>
+
+
+
+
+<div class="col-md-8 col-md-offset-2">
+
+  <div id="owl-demo" class="owl-carousel owl-theme">
+
+
+    <div class="item"><img src="/static/images/sendmoney.png" alt="Owl Image" /></div>
+    <div class="item"><img src="/static/images/mobilerc.png" alt="Owl Image" /></div>
+    <div class="item"><img src="/static/images/qr.png" alt="Owl Image" /></div>
+    <div class="item"><img src="/static/images/security.png" alt="Owl Image" /></div>
+    <div class="item"><img src="/static/images/savings.png" alt="Owl Image" /></div>
+    <div class="item"><img src="/static/images/credit.png" alt="Owl Image" /></div>
+    <div class="item"><img src="/static/images/cashback.png" alt="Owl Image" /></div>
+    <div class="item"><img src="/static/images/prefered.png" alt="Owl Image" /></div>
+
+
+  </div>
+</div>
+
+
+{% endblock %}
+{% block specific_js %}
+
+
+<script type="text/javascript" src="/static/js/owl.carousel.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+
+    $("#owl-demo").owlCarousel({
+
+      autoPlay: 3000, //Set AutoPlay to 3 seconds
+      loop: true,
+      // items: 4,
+
+      dots: false,
+      mousedrag: true,
+      slideTransition: 'linear',
+      responsiveClass: true,
+      nav: true,
+      responsive: {
+        0: {
+          items: 1,
+        },
+        479: {
+          items: 3,
+        },
+        600: {
+          items: 2,
+        },
+        1000: {
+          items: 4,
+        }
+      }
+
+    });
+
+  });
+</script>
+{% endblock %}

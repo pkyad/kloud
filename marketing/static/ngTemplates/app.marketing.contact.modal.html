@@ -1,0 +1,63 @@
+<div class="modal-content">
+  <div class="col-md-12">
+    <div class="row" style="padding:5px 15px;padding-top:15px">
+      <div class="col-md-7">
+        <h2>{{contact.name}}</h2>
+        <p>{{contact.about}}</p>
+
+        <span ng-if="contact.email.length > 0" style="font-size:18px"><i class="fa fa-envelope-o"></i> <a href="mailto:{{contact.email}}">{{contact.email}}</a> </i></span>
+
+      </div>
+      <div class="col-md-5">
+        <span ng-if="contact.mobile.length > 0" style="font-size:60px" class="pull-right"><i class="fa fa-phone"></i>&nbsp; {{contact.mobile}}</i></span> <br>
+        <span ng-if="contact.directNumber.length > 0" style="font-size:20px" class="pull-right"><i class="fa fa-phone"></i>&nbsp; {{contact.directNumber}}</i></span><br>
+        <span ng-if="contact.altNumber.length > 0" style="font-size:20px" class="pull-right"><i class="fa fa-phone"></i>&nbsp; {{contact.altNumber}}</i></span><br>
+        <span ng-if="contact.altNumber2.length > 0" style="font-size:20px" class="pull-right"><i class="fa fa-phone"></i>&nbsp; {{contact.altNumber2}}</i></span><br>
+
+        <a target="_blank" ng-if="contact.website.length>0" href="{{contact.website}}"> <i class="fa fa-globe"></i> {{contact.website}}</a> <br>
+
+        <h5><strong>Address</strong></h5>
+        <p> <span ng-if="contact.city.length > 0" >{{contact.city}} ,</span> <span ng-if="contact.state.length > 0">{{contact.state}} ,</span> {{contact.country}}  </p>
+
+        <div ng-if="contact.lang.length > 0">
+          <h5>Language</h5>
+          <p> {{contact.lang}}</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-md-12">
+    <h3 align="center">Comments</h3>
+    <div class="row" style="padding:0px 15px;">
+      <div class="form-group">
+        <label></label>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Comment Here..." ng-model="cmntTxt">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="postData(cmntTxt)">Send</button>
+          </div>
+        </div>
+      </div>
+    <div class="container-fluid card" ng-repeat="log in logs | reverse" style="padding:1px;margin:10px 5px;" >
+      <div class="col-md-2" style="padding-left:0px">
+        <img ng-src="{{log.user | getDP}}" class="img img-rounded" style="height:30px;width:30px"> <br>
+        {{log.user | getName}}
+      </div>
+      <div class="col-md-8" ng-if="log.typ=='comment'" >
+        <span style="font-size:17px">{{log.data}}</span>
+        </div>
+        <div class="col-md-8" ng-if="log.typ=='inbound' || log.typ=='outbound'">
+          <i class="fa fa-phone fa-2x"></i> {{log.typ | humanize}}
+        </div>
+        <div class="col-md-8" ng-if="log.typ=='followup'">
+          <i class="fa fa-calendar fa-2x"></i> {{log.typ | humanize}} at {{log.followupDate | date:'dd MMM yyyy hh:mm a'}}
+        </div>
+        <div class="col-md-2">
+          <span style="font-size:15px">{{log.created | timeAgo}} ago</span>
+        </div>
+      </div>
+    </div>
+</div>

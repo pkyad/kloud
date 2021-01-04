@@ -1,0 +1,28 @@
+<div>
+  <div class="row" style="padding:20px;">
+    <div class="" style="padding:10px;">
+      <div class="row" ng-if="item.typ == 'file'">
+        <div class="col-md-10">
+          <i class="fa fa-file-o fa-3x"></i> <a href="{{item.attachment}}" target="_blank">{{item.attachment.split('/')[item.attachment.split('/').length -1]}}</a>
+        </div>
+        <div class="col-md-2">
+          <span class="text-muted">{{item.created | timeAgo}}</span><br>
+          <span>{{item.user | getName}}</span>
+        </div>
+      </div>
+      <div class="row" ng-if="item.typ == 'video'">
+        <div class="col-md-10">
+
+          <video width="400" controls>
+            <source ng-src="{{item.attachment}}" type="video/mp4">
+            Your browser does not support HTML5 video.
+          </video>
+        </div>
+        <div class="col-md-2 text-muted">
+          <span class="text-muted">{{item.created | timeAgo}}</span><br>
+          <span>{{item.user | getName}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

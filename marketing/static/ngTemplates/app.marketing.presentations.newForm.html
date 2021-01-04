@@ -1,0 +1,53 @@
+<div class="modal-header">
+  <h3 class="text-center">Create New Demo &nbsp;<i class="fa fa-laptop fa-lg"></i></h3>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12" style="padding-bottom:15px;">
+      <div class="col-md-1 text-right" style="paddin-right:0px;padding-top:5px">
+        <label>Time : </label>
+      </div>
+      <div class="col-md-1" ng-repeat="slt in slots" style="padding-left:0px">
+        <input type="radio" ng-model="form.slot" value="{{slt}}"> <strong> {{slt}}</strong>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Source</label>
+          <select class="form-control" ng-model="form.source">
+            <option value="{{s}}" ng-repeat="s in sourceList">{{s}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Name :</label>
+          <input type="text" class="form-control" ng-model="form.name">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Email :</label>
+          <input type="email" class="form-control" ng-model="form.emailId">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Demo On :</label>
+          <div class="input-group">
+            <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.dated" is-open="manufacturedOn.opened" disabled min-date="minDate" />
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="manufacturedOn.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1 btn btn-success" ng-click="saveDemo()" style="margin-top:25px">
+        Save
+      </div>
+    </div>
+  </div>
+</div>
+</div>

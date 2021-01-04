@@ -1,0 +1,79 @@
+<div class="row">
+  <div class="col-md-6 text-right">
+    <h3><b> Paper:{{paper.name}}</b></h3>
+  </div>
+  <div style="margin-top:20px;" class="col-md-6 text-right">
+    <b> Test duration:{{paper.timelimit}}min.</b>
+
+  </div>
+</div>
+<hr>
+<div class="col-md-4">
+
+</div>
+<div class="col-md-4">
+  <div class="input-group" style="background:#ffffff;border-radius:10px;">
+    <input type="text" class="form-control" ng-model="search.query" placeholder="Search" ng-enter="fetchData()" style="border:none !important;background:#ffffff;">
+    <div class="input-group-btn">
+      <button class="btn btn-default" type="submit" ng-click="fetchData()" style="border:none !important;background:#ffffff;">
+        <i class="glyphicon glyphicon-search"></i>
+      </button>
+    </div>
+  </div>
+  </div>
+  <div class="col-md-4">
+
+  </div>
+<div class="rocontainer-fluid">
+  <div class="row" style="padding:10px 10px 10px 10px;">
+    <div class="col-md-12" style="height:100vh;width:100;">
+      <table class="table table-striped" border="1px solid">
+        <thead>
+          <tr>
+            <th style=" width:10%;">
+              <h3><b>Sr. No.</b></h3>
+            </th>
+            <th>
+              <h3><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Question</b></h3>
+            </th>
+
+          </tr>
+        </thead>
+        <tbody ng-repeat="q in quesArray">
+          <tr>
+            <td>{{$index + 1}}.</td>
+            <td >
+              <p class="container"><b>{{q}}</b></p>
+              <!-- <hr>
+              <label class="container">One{{option}}
+                <input type="radio" id="radio">
+                <span class=""></span>
+              </label>
+              <label class="container">Two{{option}}
+                <input type="radio" id="radio">
+                <span class=""></span>
+              </label>
+              <label class="container">Three{{option}}
+                <input type="radio" id="radio">
+                <span class=""></span>
+              </label>
+              <label class="container">Four{{option}}
+                <input type="radio" id="radio">
+                <span class=""></span>
+              </label> -->
+            </td>
+            <!-- <td ng-if="q.qtype=='string'">
+              <p class="container"><b>{{q.ques}}</b></p>
+              <hr>
+              <textarea placeholder="Type tour answer here.." name="name" rows="8" cols="80"></textarea>
+            </td> -->
+          </tr>
+
+        </tbody>
+        <button type="button" class="btn1 btn-primary btn-large" ng-click="onlineTest(paper.pk)" name="button">Add Question</button>
+      </table>
+
+    </div>
+
+  </div>
+</div>

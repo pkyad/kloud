@@ -1,0 +1,32 @@
+<div class="modal-body text-center" style="padding-bottom:0px;">
+    <h1>Hi</h1>
+
+
+    <img src="/static/images/userIcon.png" style="width: 72px;filter: drop-shadow(5px 5px 5px #c8c4c4);" alt="">
+
+
+    <h1>{{data.name}}</h1>
+
+    <div ng-if="goback">
+        <div class="row" style="margin-top:20px;cursor: pointer;font-size:16px;padding:10px;" onclick="window.location.href='/'">
+            Go Back To Main Portal
+        </div>
+    </div>
+
+    <div ng-if="!goback ">
+    
+        <div ng-if="data.is_staff" class="row" style="margin-top:20px;cursor: pointer;font-size:16px;padding:10px;" onclick="window.location.href='/admin/'">
+            Open Admin Panel
+        </div>
+
+        <div class="row" style="margin-top:20px;">
+            <a href="#/home/expenseClaims" ng-click="openProfile()">Open Profile</a>
+        </div>
+
+    </div>
+    
+    <div class="row" style="background:red;margin-top:30px;color:white;font-size:20px;padding:10px;cursor: pointer;" onclick="window.location.href='/logout'">
+        Logout
+    </div>
+
+</div>

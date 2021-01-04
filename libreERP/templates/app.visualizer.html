@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Asahi Denso Device Desk V1.0</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" charset="utf-8">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css" charset="utf-8">
+    <style media="screen">
+      .slider{
+        width:0px;
+      }
+    </style>
+  </head>
+  <body style="background:black;" ng-app="app" ng-controller="main">
+    {% verbatim %}
+      <div class="row" style="margin:0px;padding:10px;">
+        <img src="/static/images/asahi_denso.png" alt="" style="height:200px;">
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div  id="renderer">
+
+        </div>
+        <div class="text-center">
+          <h3 style="color:white;font-weight:700">Vehicle Orientation</h3>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div id="weightvstime" style="width: 100%;height: 500px;background-color:white;"></div>
+        <div class="text-center">
+          <h3 style="color:white;font-weight:700">Weight</h3>
+        </div>
+      </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div id="suspension" style="width: 100%;height: 500px;background-color:white;"></div>
+          <div class="text-center">
+            <h3 style="color:white;font-weight:700">Suspension</h3>
+          </div>
+        </div>
+        <div class="col-md-6">
+            <div id="acceleration" style="width: 100%;height: 500px;background-color:white;"></div>
+            <div class="text-center">
+              <h3 style="color:white;font-weight:700">Acceleration</h3>
+            </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+
+        </div>
+        <div class="col-md-6">
+            <div id="speed" style="width: 100%;height: 500px;background-color:white;"></div>
+        </div>
+      </div>
+      <div class="row" style="margin:0px;margin-top:30px;">
+        <div class="col-md-4" ng-repeat="d in data" style="padding:20px;">
+          <div class="container-fluid" ng-if="!d.type" style="background:rgb(69, 69, 69);border-radius:10px;color:white;">
+            <h1>{{d.value}}</h1>
+            <p>{{d.label}}</p>
+          </div>
+          <div class="container-fluid" ng-if="d.type == 'guage'" style="background:rgb(69, 69, 69);border-radius:10px;color:white;position:relative;overflow:hidden;">
+            <div class="col-md-2" style="padding-top:30px;">
+              {{d.min}}
+            </div>
+            <div class="col-md-8 text-center">
+              <h1>{{d.value}}</h1>
+              <p>{{d.label}}</p>
+            </div>
+            <div class="col-md-2" style="padding-top:30px;">
+              {{d.max}}
+            </div>
+            <div class="slider"  style="position:absolute;height:100%;width:{{d.width}};background:rgba(106, 105, 105, 0.49);top:0px;left:0px;transition: all 0.4s ease">
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    {% endverbatim %}
+
+
+
+    <script src="https://chatbot.epsilonai.com/static/js/autobahn.min.js"></script>
+    <script src="https://chatbot.epsilonai.com/static/js/jquery-2.1.4.min.js"></script>
+    <script src="https://chatbot.epsilonai.com/static/js/jquery.cookie-1.4.1.min.js"></script>
+    <script src="https://chatbot.epsilonai.com/static/js/jquery-ui.js"></script>
+    <script src="https://chatbot.epsilonai.com/static/js/bootstrap.min.js"></script>
+    <script src="https://chatbot.epsilonai.com/static/js/angular.min.js"></script>
+    <script src="https://chatbot.epsilonai.com/static/js/angular-ui-switch.min.js"></script>
+    <script src="https://chatbot.epsilonai.com/static/js/ui-bootstrap-tpls-0.14.3.min.js"></script>
+    <script src="https://chatbot.epsilonai.com/static/js/angular-aside.min.js"></script>
+    <script src="https://cdn.amcharts.com/lib/version/4.10.4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/version/4.10.4/charts.js"></script>
+    <script src="https://cdn.amcharts.com/lib/version/4.10.4/themes/material.js"></script>
+    <script src="https://cdn.amcharts.com/lib/version/4.10.4/lang/de_DE.js"></script>
+    <script src="https://cdn.amcharts.com/lib/version/geodata/4.1.17/germanyLow.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
+
+    <script src="/static/js/visualizer/three.min.js"></script>
+    <script src="/static/js/visualizer/DDSLoader.js"></script>
+    <script src="/static/js/visualizer/MTLLoader.js"></script>
+    <script src="/static/js/visualizer/OBJMTLLoader.js"></script>
+    <script src="/static/js/visualizer/STLLoader.js"></script>
+    <script src="/static/js/amcharts/core.js"></script>
+    <script src="/static/js/amcharts/charts.js"></script>
+    <script src="/static/js/amcharts/themes/animated.js"></script>
+
+
+    <script type="text/javascript">
+
+
+      var app = angular.module('app', ['ui.bootstrap', 'ngAside', 'uiSwitch']);
+      app.config(function($httpProvider) {
+        $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+        $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+        $httpProvider.defaults.withCredentials = true;
+      });
+
+      app.controller('main', function($scope, $http, $timeout, $aside , $uibModal ) {
+
+        $scope.connection = new autobahn.Connection({
+          transports : [
+             {
+                'type': 'websocket',
+                'url': 'wss://ws.epsilonai.com/ws',
+             },
+             {
+                'type': 'longpoll',
+                'url': 'https://ws.epsilonai.com/lp',
+             }
+          ],
+          // url: wampServer,
+          realm: 'default'
+        });
+
+
+        $scope.data = [
+            {'label' : 'Accel X' ,'value': '13 m/s'},
+            {'label' : 'Weight' ,'value': '13 KG', 'type' : 'guage', 'min': '50KG' , 'max' : '90KG', 'width' : '0px' },
+        ]
+
+        $scope.handleUpdate = function(args) {
+          $scope.data = args
+          updateSensorData(args);
+          $scope.$apply()
+        }
+
+        $scope.connection.onopen = function(session) {
+          session.subscribe('ad.display' , $scope.handleUpdate).then(
+            function(sub) {
+              console.log("subscribe to topic 'ad.display'");
+            },
+            function(err) {
+              console.log("failed to subscribe: " + err);
+            }
+          );
+
+
+        }
+
+        $scope.connection.open()
+        var scene = new THREE.Scene();
+        var sceneWidth = 640;
+        var sceneHeight = 480;
+        // Define list of 3D models.  Each item should have a name property that
+        // will be rendered in the drop down, and a load function that is called
+        // with the model instance and should add a model property with a Three.js
+        // scene graph object that will be rendered.
+
+
+
+        const cubeGeometry = new THREE.BoxGeometry( 5, 5, 5 );
+        const cubeMaterial = new THREE.MeshBasicMaterial( {color: '#454545'} );
+        const cubeObj = new THREE.Mesh( cubeGeometry, cubeMaterial );
+        var models = [
+          {
+            name: 'Bunny',
+            load: function(model) {
+              objMTLLoader.load(
+                "/static/visualizer/bunny.obj",
+                "/static/visualizer/bunny.mtl",
+                function(object) {
+                  var geom = object.children[1].geometry;
+                  // Rebuild geometry normals because they aren't loaded properly.
+                  geom.computeFaceNormals();
+                  geom.computeVertexNormals();
+                  // Build bunny mesh from geometry and material.
+                  model.model = new THREE.Mesh(geom, material);
+                  // Move the bunny so it's roughly in the center of the screen.
+                  model.model.position.y = -4;
+                }
+              );
+            }
+          }
+        ];
+
+        // Global state.
+        var bnoData = null;
+
+        $scope.weightData = [];
+        for (i = 0; i <= 10; i++) {
+            $scope.weightData.push({ weight: 10, value: i });
+        }
+        $scope.chartData = []
+        $scope.suspensionData = [];
+        for (var i = 0; i < 10; i++) {
+
+
+
+
+
+          $scope.chartData.push(
+
+            {
+            accX: 5,value:i},
+            {accY: 1,value:i+1},
+            {accZ: 2,value:i+2},
+        );
+        }
+        console.log($scope.chartData);
+        // for (i = 0; i <= 10; i++) {
+        //     $scope.suspensionData.push({ suspension: 10, value: i });
+        // }
+
+        var offset =new THREE.Group();
+        var orientation = new THREE.Group();
+        var objMTLLoader = new THREE.OBJMTLLoader();
+        var stlLoader = new THREE.STLLoader();
+        var currentModel = null;
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(75, sceneWidth / sceneHeight, 0.1, 1000);
+        camera.position.z = 10;
+
+        // Setup Three.js WebGL renderer and add it to the page.
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize(sceneWidth, sceneHeight);
+        renderer.setClearColor(0xff0000, 0);
+        $('#renderer').append(renderer.domElement);
+        $('#renderer canvas').addClass('center-block');  // Center the renderer.
+
+        // Create white material for the models.
+        var material = new THREE.MeshPhongMaterial({ color: 0xffffff });
+
+        // Setup 3 point lighting with a red and blue point light in upper left
+        // and right corners, plus a bit of backlight from the rear forward.
+        var pointLight1 = new THREE.PointLight(0xffbbbb, 0.6);
+        pointLight1.position.set(40, 15, 40);
+        scene.add(pointLight1);
+        var pointLight2 = new THREE.PointLight(0xbbbbff, 0.6);
+        pointLight2.position.set(-40, 15, 40);
+        scene.add(pointLight2);
+        var backLight = new THREE.DirectionalLight(0xffff, 0.3);
+        backLight.position.set(0, -0.25, -1);
+        scene.add(backLight);
+
+        offset = new THREE.Group();
+        orientation = new THREE.Group();
+        offset.add(orientation);
+        scene.add(offset);
+
+
+        //creating weight chart
+        am4core.ready(function() {
+          am4core.useTheme(am4themes_animated);
+
+          $scope.weightChart = am4core.create("weightvstime", am4charts.XYChart);
+          // Add data
+          $scope.weightChart.data = $scope.weightData
+          var xValueAxis = $scope.weightChart.xAxes.push(new am4charts.ValueAxis());
+          var yValueAxis = $scope.weightChart.yAxes.push(new am4charts.ValueAxis());
+
+          $scope.weightSeries = $scope.weightChart.series.push(new am4charts.LineSeries());
+          $scope.weightSeries.dataFields.valueX = "value";
+          $scope.weightSeries.dataFields.valueY = "weight";
+          $scope.weightSeries.interpolationDuration = 500;
+          $scope.weightSeries.defaultState.transitionDuration = 0;
+          $scope.weightSeries.tensionX = 0.8;
+
+
+
+
+
+          $scope.suspensionChart = am4core.create("suspension", am4charts.XYChart);
+          $scope.suspensionChart.data = $scope.suspensionData
+          var xAxis = $scope.suspensionChart.xAxes.push(new am4charts.ValueAxis());
+          var yAxis = $scope.suspensionChart.yAxes.push(new am4charts.ValueAxis());
+
+
+          $scope.suspensionSeries = $scope.suspensionChart.series.push(new am4charts.LineSeries());
+          $scope.suspensionSeries.dataFields.valueX = "value";
+          $scope.suspensionSeries.dataFields.valueY = "suspension";
+          $scope.suspensionSeries.interpolationDuration = 500;
+          $scope.suspensionSeries.defaultState.transitionDuration = 0;
+          $scope.suspensionSeries.tensionX = 0.8;
+
+
+
+
+          /**
+           * Hand
+           */
+
+
+
+
+
+
+          var accAhart = am4core.create("acceleration", am4charts.XYChart);
+
+//        // Increase contrast by taking evey second color
+        accAhart.colors.step = 2;
+
+        // Add data
+        accAhart.data = $scope.chartData;
+
+        // Create axes
+        var dateAxis = accAhart.xAxes.push(new am4charts.DateAxis());
+        dateAxis.renderer.minGridDistance = 50;
+
+        // Create series
+        function createAxisAndSeries(field, name, opposite, bullet) {
+          var valueAxis = accAhart.yAxes.push(new am4charts.ValueAxis());
+          if(accAhart.yAxes.indexOf(valueAxis) != 0){
+            valueAxis.syncWithAxis = accAhart.yAxes.getIndex(0);
+          }
+
+          var series = accAhart.series.push(new am4charts.LineSeries());
+          series.dataFields.valueY = field;
+          series.dataFields.dateX = "value";
+          series.strokeWidth = 2;
+          series.yAxis = valueAxis;
+          series.name = name;
+          series.tooltipText = "{name}: [bold]{valueY}[/]";
+          series.tensionX = 0.8;
+          series.showOnInit = true;
+
+          var interfaceColors = new am4core.InterfaceColorSet();
+
+
+
+          valueAxis.renderer.line.strokeOpacity = 1;
+          valueAxis.renderer.line.strokeWidth = 2;
+          valueAxis.renderer.line.stroke = series.stroke;
+          valueAxis.renderer.labels.template.fill = series.stroke;
+          valueAxis.renderer.opposite = opposite;
+        }
+
+        createAxisAndSeries("accX", "Visits", false, "circle");
+        createAxisAndSeries("accY", "Views", true, "triangle");
+        createAxisAndSeries("accZ", "Hits", true, "rectangle");
+
+        // Add legend
+        accAhart.legend = new am4charts.Legend();
+
+        // Add cursor
+        accAhart.cursor = new am4charts.XYCursor();
+
+        // generate some random data, quite different range
+
+
+        var chart = am4core.create("speed", am4charts.GaugeChart);
+         chart.innerRadius = am4core.percent(82);
+
+         /**
+          * Normal axis
+          */
+
+         var axis = chart.xAxes.push(new am4charts.ValueAxis());
+         axis.min = 0;
+         axis.max = 100;
+         axis.strictMinMax = true;
+         axis.renderer.radius = am4core.percent(80);
+         axis.renderer.inside = true;
+         axis.renderer.line.strokeOpacity = 1;
+         axis.renderer.ticks.template.disabled = false
+         axis.renderer.ticks.template.strokeOpacity = 1;
+         axis.renderer.ticks.template.length = 10;
+         axis.renderer.grid.template.disabled = true;
+         axis.renderer.labels.template.radius = 40;
+         axis.renderer.labels.template.adapter.add("text", function(text) {
+           return text + "%";
+         })
+
+         /**
+          * Axis for ranges
+          */
+
+         var colorSet = new am4core.ColorSet();
+
+         var axis2 = chart.xAxes.push(new am4charts.ValueAxis());
+         axis2.min = 0;
+         axis2.max = 100;
+         axis2.strictMinMax = true;
+         axis2.renderer.labels.template.disabled = true;
+         axis2.renderer.ticks.template.disabled = true;
+         axis2.renderer.grid.template.disabled = true;
+
+         var range0 = axis2.axisRanges.create();
+         range0.value = 0;
+         range0.endValue = 50;
+         range0.axisFill.fillOpacity = 1;
+         range0.axisFill.fill = colorSet.getIndex(0);
+
+         var range1 = axis2.axisRanges.create();
+         range1.value = 50;
+         range1.endValue = 100;
+         range1.axisFill.fillOpacity = 1;
+         range1.axisFill.fill = colorSet.getIndex(2);
+
+         /**
+          * Label
+          */
+
+         var label = chart.radarContainer.createChild(am4core.Label);
+         label.isMeasured = false;
+         label.fontSize = 45;
+         label.x = am4core.percent(50);
+         label.y = am4core.percent(100);
+         label.horizontalCenter = "middle";
+         label.verticalCenter = "bottom";
+         label.text = "50%";
+
+
+         /**
+          * Hand
+          */
+
+         var hand = chart.hands.push(new am4charts.ClockHand());
+         hand.axis = axis2;
+         hand.innerRadius = am4core.percent(20);
+         hand.startWidth = 10;
+         hand.pin.disabled = true;
+         hand.value = 50;
+
+         hand.events.on("propertychanged", function(ev) {
+           range0.endValue = ev.target.value;
+           range1.value = ev.target.value;
+           label.text = axis2.positionToValue(hand.currentPosition).toFixed(1);
+           axis2.invalidate();
+         });
+
+         setInterval(function() {
+           var value = Math.round(Math.random() * 100);
+           var animation = new am4core.Animation(hand, {
+             property: "value",
+             to: value
+           }, 1000, am4core.ease.cubicOut).start();
+         }, 2000);
+
+
+
+
+
+        })
+
+
+
+
+        var render = function() {
+
+          orientation.add(cubeObj);
+
+          requestAnimationFrame(render);
+          // Update the orientation with the last BNO sensor reading quaternion.
+          if (bnoData !== null) {
+           orientation.quaternion.set(parseFloat(bnoData[11].value), parseFloat(bnoData[10].value), parseFloat(bnoData[12].value), parseFloat(bnoData[9].value));
+
+
+
+
+
+
+           $scope.weightChart.addData(
+              { value: $scope.weightChart.data.length + 1, weight: parseFloat(bnoData[0].value) },$scope.weightChart.length+1
+          );
+
+
+            $scope.suspensionChart.addData(
+              { value: $scope.suspensionChart.data.length + 1, suspension: parseFloat(bnoData[13].value)  },$scope.suspensionChart.length+1
+            );
+
+
+          // $scope.suspensionChart.data.forEach((item, i) => {
+          //   if (i>1) {
+          //
+          //     if (Math.abs($scope.suspensionChart.data[i].suspension-$scope.suspensionChart.data[i+1].suspension) > 500) {
+          //       $scope.suspensionData.push({value:i,suspension:1})
+          //     }else {
+          //
+          //       $scope.suspensionData.push({value:i,suspension:0})
+          //     }
+          //   }
+          // });
+
+
+
+          }
+          renderer.render(scene, camera);
+        }
+        render();
+
+        function updateSensorData(data) {
+          console.log(data, 'data');
+          bnoData = data;
+        }
+
+        console.log($scope.suspensionChart.data.length,'sdffsd');
+
+
+
+
+        // var schart = am4core.create("suspension", am4charts.XYChart);
+        //
+        // // Add data
+        // schart.data = [
+        //   { 'suspension':0,'time':0},
+        //   { 'suspension':500,'time':10},
+        //   { 'suspension':400,'time':20},
+        //   { 'suspension':1000,'time':30 },
+        //
+        //
+        // ];
+        // for (var i = 0; i < schart.data.length; i++) {
+        //   if (schart.data[i].suspension >= 500) {
+        //     schart.data[i].value =1
+        //   }else {
+        //     schart.data[i].value =0
+        //
+        //   }
+        // }
+        //
+        // // Create axes
+        // var SdateAxis = schart.xAxes.push(new am4charts.DateAxis());
+        // SdateAxis.renderer.minGridDistance = 20;
+        //
+        // var SvalueAxis = schart.yAxes.push(new am4charts.ValueAxis());
+        //
+        // // Create series
+        // var sseries = schart.series.push(new am4charts.LineSeries());
+        // console.log(series,'series');
+        // sseries.dataFields.dateX = "time";
+        // sseries.dataFields.valueY = "value";
+        // sseries.strokeWidth = 2;
+        // sseries.minBulletDistance = 10;
+        // sseries.tooltipText = "{valueY}";
+        // sseries.tooltip.pointerOrientation = "vertical";
+        // sseries.tooltip.background.cornerRadius = 20;
+        // sseries.tooltip.background.fillOpacity = 0.5;
+        // sseries.tooltip.label.padding(12,12,12,12)
+        // sseries.smoothing = "monotoneX";
+        // // Add scrollbar
+        // schart.scrollbarX = new am4charts.XYChartScrollbar();
+        // schart.scrollbarX.series.push(sseries);
+        //
+        // // Add cursor
+        // schart.cursor = new am4charts.XYCursor();
+        // schart.cursor.xAxis = SdateAxis;
+        // schart.cursor.snapToSeries = sseries;
+
+
+
+
+
+
+
+
+
+      })
+
+
+
+
+
+
+    </script>
+
+
+  </body>
+</html>

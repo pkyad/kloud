@@ -1,0 +1,107 @@
+  <style media="screen">
+    body{
+      overflow-x:hidden;
+    }
+    #page7downloadDiv{
+      background-color:#6136C9;
+      border-top-left-radius:50px;
+      border-top-right-radius:50px;
+      height:500px;
+      margin-bottom:70px;
+    }
+    #page7downloadDiv #downloadBtn{
+      color:white;
+      border:2px solid white;
+      background-color:transparent;
+      height:60px;
+      border-radius:50px;
+      margin-top:20px;
+    }
+    #page7downloadDiv p{
+      font-size:50px;
+      font-weight:700;
+      line-height:58.59px;
+      color:white;
+      margin-top:100px;
+    }
+    #downloadBtn > i{
+      font-size:30px;
+    }
+    #page7downloadDiv #twoBoxes{
+      margin-top:50px;
+    }
+    #page7downloadDiv #firstBox{
+      background:white;box-shadow:0px 0px 10px 0px #ccc;border-radius:42px;height:450px;z-index:999;
+      border-bottom-right-radius: 0px;
+      border-bottom-left-radius: 0px;
+      bottom:-3px;
+      /* margin-top:50px; */
+
+    }
+    #page7downloadDiv #secondBox{
+      background:white;box-shadow:0px 0px 10px 0px #ccc;border-radius:42px;height:380px;
+      position: absolute;
+      right: 25%;
+      bottom: 0;
+      border-bottom-right-radius: 0px;
+      border-bottom-left-radius: 0px;
+    }
+    @media only screen and (min-device-width : 320px) and (max-device-width : 600px) {
+      .no_padding{
+        padding:0px;
+      }
+
+
+      #page7downloadDiv{
+        height:580px;
+      }
+      #page7downloadDiv #twoBoxes {
+        margin-top:50px;
+      }
+      #page7downloadDiv p{
+        padding-top:30px;
+        font-size:30px;
+      }
+      #page7downloadDiv #firstBox{
+        height:300px;
+        /* margin-top:53px; */
+      }
+      #page7downloadDiv #secondBox{
+        height: 257px;
+        margin-left: 0%;
+        right: 0;
+        top: 46px;
+        /* margin-top: 25%; */
+        border-top-left-radius: 0px;
+      }
+
+    }
+
+  </style>
+
+
+
+<div class="container-fluid text-center" >
+  <div class="col-md-10 col-md-offset-1" id="page7downloadDiv">
+    <div class="col-md-11 col-md-offset-1 no_padding">
+      <div class="col-md-5 text-left">
+        <p>Download APP for your device</p>
+        <div class="col-md-6 no_padding">
+          <button type="button" name="button" class="btn btn-block" id="downloadBtn"><i class="fa fa-cloud-download" aria-hidden="true"></i></button>
+
+        </div>
+
+      </div>
+      <div class="col-md-7 no_padding" id="twoBoxes" >
+        <div class="col-md-5 col-xs-7" id="firstBox">
+
+        </div>
+        <div class="col-md-6 col-xs-5" id="secondBox">
+
+        </div>
+
+    </div>
+
+    </div>
+  </div>
+</div>

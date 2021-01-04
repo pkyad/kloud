@@ -1,0 +1,324 @@
+<style media="screen">
+  i.fa-plus {
+    box-shadow: none;
+    padding: 0px;
+    color: black;
+    font-size: 14px;
+    background-color: transparent;
+
+  }
+</style>
+
+
+<div>
+  <div class="container-fluid col-md-8 col-md-offset-2">
+    <div class="" style="margin-top:30px;margin-bottom:30px;">
+      <h2 ng-if="!form.pk"">Create a new article </h2>
+      <h2 ng-if=" form.pk">Edit {{form.title}} </h2>
+
+    </div>
+
+
+
+
+    <div class="row">
+      <div class="pull-right" style="margin-bottom:40px;">
+        <button type="button" class="btn newBtn" ng-click="saveForm()">
+          Save
+        </button>
+        <!-- <button type="button" class="btn btn-primary" ng-click="save()">
+          Preview
+        </button> -->
+      </div>
+    </div>
+    <div class="panel-group">
+      <div class="panel panel-default" ng-init="ms = true;">
+        <div class="panel-heading" ng-click="ms = !ms">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion">
+              Main Section</a>
+          </h4>
+        </div>
+        <div id="collapse1" class="panel-collapse collapse in" ng-if="ms">
+          <div class="panel-body">
+
+            <div class="form-group">
+              <label>Title</label>
+              <input ng-blur="form.link = false;" id="titleMain" type="text" class="form-control websiteInput" ng-model="form.title" ng-change="errors.title = false;errors.articleUrl = false;">
+              <p ng-if="errors.title" class="help-block" style="color:red;">Please fill the Title</p>
+            </div>
+
+            <div class="form-group">
+              <label>URL </label>
+              <input ng-disabled="mode=='edit'" id="urlMain" type="text" class="form-control websiteInput" ng-model="form.articleUrl" ng-change="errors.articleUrl = false;">
+              <p ng-if="errors.articleUrl" class="help-block" style="color:red;">Please fill the Url</p>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Author</label>
+                  <input type="text" class="form-control websiteInput" ng-model="form.author" uib-typeahead="c as (c.first_name + ' ' + c.last_name) for c in userSearch($viewValue , true)" ng-change="errors.author = false;">
+                  <p ng-if="errors.author" class="help-block" style="color:red;">Please Search and choose the Author </p>
+
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Language</label>
+                  <select class="form-control websiteInput" ng-model="form.lang">
+                    <option value="hi">Hindi</option>
+                    <option value="en">English</option>
+                  </select>
+                  <p ng-if="errors.lang" class="help-block" style="color:red;">Please Select Language </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="input-group">
+                  <label>Category </label>
+                  <input type="text" typeahead-show-hint="true" typeahead-min-length="0" class="form-control websiteInput" ng-model="form.parent" uib-typeahead="c as c.name for c in parent " ng-change="errors.parent = false;"
+                    style="border-top-right-radius:0px !important;border-bottom-right-radius:0px !important;">
+                  <!-- <p>{{form.parent}}</p> -->
+                  <p ng-if="errors.parent" class="help-block" style="color:red;">Please fill the Category</p>
+                  <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit" style="margin-top: 35px;padding: 13px 12px;border:0px;    border-top-right-radius: 25px !important;    border-bottom-right-radius: 25px !important;outline:none;background-color:#F2F3F7;height:45px;">
+                      <span ng-if="!form.parent.pk" ng-click="createCategory(form.parent)">Create <i class="fa fa-plus"></i></span>
+                      <span ng-if="form.parent.pk" ng-click="createCategory(form.parent)">Edit <i class="fa fa-pencil" style="margin-left:8px;"></i></span>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-md-5" ng-if="childrens.length >0">
+                <div class="form-group">
+                  <label>Sub Category</label>
+                  <!-- <input type="text" class="form-control websiteInput" typeahead-show-hint="true" typeahead-min-length="0" class="form-control websiteInput" ng-model="form.category" uib-typeahead="c as c.name for c in categorySearch($viewValue , form.parent)"
+                     ng-change="errors.category = false;"> -->
+                  <select class="form-control websiteInput" ng-model="form.category" ng-options="t.name for t in childrens track by $index" ng-change="errors.category = false;">
+                  </select>
+                  <p ng-if="errors.category" class="help-block" style="color:red;">Please fill the Sub Category</p>
+
+                </div>
+              </div>
+
+              <div class="col-md-1" style="padding-top: 24px;" ng-if="childrens.length >0">
+                <button type="button" class="btn btn-primary btn-block" ng-click="addCategory()" name="button">Add</button>
+              </div>
+
+
+            </div>
+
+            <div class="row">
+              <div ng-repeat="cat in form.otherCategories" class="col-md-4" style="margin:10px 0px;">
+                <div class="container-fluid card bg-{{$index == 0? 'black':'blue'}}" style="padding-top:10px;">
+                  <i class="fa fa-times fa-lg pull-right" ng-click="removeOtherCategory($index)"></i>
+                  {{cat.name}}
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row" style="margin-top:10px;">
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Featured Content</label>
+                  <input type="checkbox" ng-model="form.featuredContent">
+                </div>
+              </div>
+
+            </div>
+
+
+
+
+            <div class="form-group">
+              <label>Summary</label>
+              <textarea name="name" rows="4" cols="80" class="form-control websiteInput" ng-model="form.summary" ng-change="errors.summary = false;"></textarea>
+              <p ng-if="errors.summary" class="help-block" style="color:red;">Please fill the field summary </p>
+
+            </div>
+
+            <div class="form-group">
+              <label>Article Tags</label>
+              <tags-input ng-model="form.tags" add-on-paste="true" add-From-Autocomplete-Only="false" display-property="name" ng-enter="errors.tags = false;" replace-spaces-with-dashes="false">
+                <auto-complete source="getArticleTagSuggestions($query)" load-on-down-arrow="true"></auto-complete>
+                <p ng-if="errors.tags" class="help-block" style="color:red;">Please Add the field Tags </p>
+
+            </div>
+
+            <div class="form-group">
+              <label>OG Image</label>
+              <input type="file" name="" value="" file-model="form.ogImg">
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- <div class="panel panel-default" ng-init="og = false;">
+         <div class="panel-heading" ng-click="og = !og">
+           <h4 class="panel-title">
+             <a data-toggle="collapse" data-parent="#accordion" >
+             OG Section</a>
+           </h4>
+         </div>
+         <div id="collapse1" class="panel-collapse collapse in" ng-if="og">
+           <div class="panel-body">
+
+             <div class="form-group">
+               <label>OG URL</label>
+               <input type="text" class="form-control websiteInput" ng-model="form.articleUrl" disabled>
+             </div>
+
+             <div class="form-group">
+               <label>OG Title</label>
+               <input type="text" class="form-control websiteInput" ng-model="form.ogTitle" ng-change="errors.ogTitle = false;" >
+               <p ng-if="errors.ogTitle" class="help-block" style="color:red;">Please fill the field in  OG Title </p>
+
+             </div>
+
+             <div class="form-group">
+               <label>OG Description</label>
+
+               <textarea rows="3" class="form-control websiteInput" ng-model="form.ogDescription" ng-change="errors.ogDescription = false;"></textarea>
+
+               <p ng-if="errors.ogDescription" class="help-block" style="color:red;">OG Description </p>
+             </div>
+
+
+
+           </div>
+         </div>
+       </div> -->
+
+      <div class="panel panel-default" ng-init="qb = false;">
+        <div class="panel-heading" ng-click="qb = !qb">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion">
+              Quick Bites Section</a>
+          </h4>
+        </div>
+        <div id="collapse1" class="panel-collapse collapse in" ng-if="qb">
+          <div class="panel-body">
+
+            <div class="row">
+              <div class="col-md-6" ng-repeat="b in bites track by $index">
+                <div class="form-group">
+                  <label>Quick Bite {{$index + 1}} <span style="margin-left:30px;" ng-click="bites.splice($index , 1)"> <i class="fa fa-times"></i> </span> </label>
+                  <textarea name="name" rows="2" cols="80" ng-model="b.text" class="form-control websiteInput" style="height:40px"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <button type="button" ng-click="addBites()" class="btn btn-default">
+              Add <i class="fa fa-plus"></i>
+            </button>
+
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default" ng-init="cs = true;">
+        <div class="panel-heading" ng-click="cs = !cs">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion">
+              Content Section</a>
+          </h4>
+        </div>
+        <div id="collapse1" class="panel-collapse collapse in" ng-if="cs">
+          <div class="panel-body">
+
+
+            <div class="">
+              <div class="row" style="margin:0px;margin-bottom:20px;cursor:pointer;">
+                <div class="col-md-2" ng-if="form.content_type=='article'" style="background:#eeeeee;padding:10px;border-top:solid 2px #eeeeee;border-bottom:2px solid {{ sectionIndex == 0 ? '': '#eeeeee'}};" ng-click="gotoSection(0)">
+                  Introduction
+                </div>
+
+                <div ng-if="form.content_type=='article'" ng-repeat="s in sections.slice(1)" class="col-md-2" style="padding:10px;border-top:solid 2px #eeeeee;border-bottom:2px solid {{ sectionIndex ==( $index+1) ? '': '#eeeeee'}};">
+                  <span ng-click="gotoSection($index+1)">Section {{$index + 1}} </span> <span style="margin-left:20px;"> <i class="fa fa-times" ng-click="removeSection($index + 1)"></i> </span>
+                </div>
+
+
+                <div ng-if="form.content_type=='article'" ng-click="addSection()" class="col-md-1" style="padding:10px;border-top:solid 2px #eeeeee;border-bottom:2px solid #eeeeee;">
+                  <i class="fa fa-plus"></i>
+                </div>
+              </div>
+              <div class="" ng-hide="hide">
+                <div class="form-group" ng-if="form.content_type=='article'">
+                  <label>Header</label>
+                  <input type="text" class="form-control websiteInput" ng-model="sectionInView.header">
+                </div>
+
+                <div class="form-group" ng-if="form.content_type=='article'">
+                  <label>Anchor Name</label>
+                  <input type="text" class="form-control websiteInput" ng-model="sectionInView.shortTitle">
+                </div>
+
+                <div class="form-group" ng-if="form.content_type=='article'">
+                  <label>Article</label>
+                  <textarea ui-tinymce="tinymceOptions" ng-model="sectionInView.content"></textarea>
+
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Upload Image</label>
+                      <input type="file" id="selectedFile{{form.pk}}" style="display: none;" file-model="sectionInView.img">
+                      <div class="btn-group btn-group-sm">
+                        <button type="button" class="btn btn-default" ng-click="openFilePicker(sectionIndex)">
+                          Browse...
+                        </button>
+                        <button type="button" class="btn btn-danger" ng-click="clearFile(sectionIndex)">
+                          Clear
+                        </button>
+                      </div>
+                      <p ng-if="errors.img" class="help-block" style="color:red;">Please upload at leat one image in Introduction section </p>
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="row" ng-if="indexVal==sectionIndex">
+                      <img alt="Please upload an Image" style="width:50%;" id="imgPreview{{form.pk}}" src="#" />
+                    </div>
+                    <div class="row" ng-if="mode =='edit' && sectionInView.imageUrl !=''">
+                      <strong>Existing image</strong> <br>
+                      <img ng-src="{{sectionInView.imageUrl}}" style="width:50%;" alt="">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group" ng-if="form.content_type=='video'">
+                  <label>Link</label>
+                  <input type="text" class="form-control websiteInput" ng-model="sectionInView.link">
+                </div>
+                <div class="form-group">
+                  <label>Keywords</label>
+                  <input type="text" class="form-control websiteInput" ng-model="sectionInView.altTexts">
+                </div>
+                <div class="form-group" ng-if="form.content_type=='article'||form.content_type=='image'">
+                  <label>Image Title</label>
+                  <input type="text" class="form-control websiteInput" ng-model="sectionInView.imageTitle">
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="position:fixed;bottom:0px;right:0px;z-index:20000;" class="btn btn-default" ng-click="gototop()"> Scroll Up</div>
+  </div>
+
+</div>
+
+<div class="col-md-4" style="position: fixed;bottom: 7px;right: -61px;">
+
+</div>

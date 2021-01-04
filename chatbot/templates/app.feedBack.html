@@ -1,0 +1,199 @@
+<!-- {% load staticfiles%} {% load staticfiles %} {% load socialaccount %} -->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Approval</title>
+  {% if useCDN %}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" charset="utf-8"> {% else %}
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" charset="utf-8">
+
+  <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" charset="utf-8"> {% endif %}
+  <link rel="stylesheet" href="{% static 'css/signin.css' %}" charset="utf-8">
+
+  <style type="text/css">
+
+    div.stars {
+  display: inline-block;
+}
+input.star { display: none; }
+label.star {
+  float: right;
+  padding: 8px;
+  font-size: 32px !important;
+  color: #fff;
+  text-shadow: #ff720b 1px 0 1px;
+  transition: all .5s;
+}
+input.star:checked ~ label.star:before {
+  content: '\2605';
+  color: #ff720b;
+  transition: all .25s;
+}
+.star1 {
+  content: '\2605';
+  color: #ff720b;
+}
+input.star-5:checked ~ label.star:before {
+  color: #ff720b;
+  text-shadow: 0 0 20px #952;
+}
+input.star-1:checked ~ label.star:before { color: #ff720b; }
+label.star:hover { color: #ff720b; }
+label.star:hover ~ label.star:before { color: #ff720b; }
+label.star:before {
+  content: '\2605';
+}
+  </style>
+
+</head>
+
+<body style="background-color:#f6f7fa">
+  <div class="container-fluid" >
+      {% if chatDetails.customerRating == None and chatDetails.customerFeedback == None %}
+    <div class="row" style="padding-top:30px;">
+      <div class=" text-center col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-offset-1 col-sm-10 col-xs-12" style="background-color:#fff;padding-bottom:30px"  id="alerts">
+        <div class="row text-center" >
+          <div class="col-md-12 col-xs-12 col-sm-12">
+            <h2> {{chatDetails.company.service.name}} </h2>
+            <h3> We appreciate your valuable feedback: </h3>
+          </div>
+        </div>
+        <div class="row text-center">
+          <div class="col-md-12 col-xs-12 col-sm-12  text-center">
+            <div class="stars">
+              <label> How satisfied are you with the chat?</label>
+              <form id="stars">
+                <input class="star star-5" id="star-5" type="radio" name="star" />
+                <label class="star star-5" for="star-5"></label>
+                <input class="star star-4" id="star-4" type="radio" name="star" />
+                <label class="star star-4" for="star-4"></label>
+                <input class="star star-3" id="star-3" type="radio" name="star" />
+                <label class="star star-3" for="star-3"></label>
+                <input class="star star-2" id="star-2" type="radio" name="star" />
+                <label class="star star-2" for="star-2"></label>
+                <input class="star star-1" id="star-1" type="radio" name="star" />
+                <label class="star star-1" for="star-1"></label>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="row text-center">
+          <div class=" col-md-offset-3 col-md-6 col-sm-offset-1  col-xs-12 col-sm-10">
+            <label> Describe your experience:</label>
+            <textarea rows="4" class="form-control" cols="80" placeholder="Feedback" id ="feedbackText"></textarea>
+          </div>
+        </div>
+          <div class="row text-center" style="padding-top:15px">
+              <div class=" col-md-offset-3 col-md-6 col-sm-offset-1  col-xs-12 col-sm-10">
+            <!-- <div id="alerts">
+            </div> -->
+          </div>
+          </div>
+        <div class="row text-center">
+          <div class="col-md-12 col-xs-12 col-sm-12">
+            <div claa="row" style="padding-top:15px">
+                <button class="btn btn-primary"  onclick="submit()"> Submit </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <div class="row text-center" style="padding-top:30px;" >
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-offset-1 col-sm-10 col-xs-12" style="background-color:#fff;padding-bottom:30px">
+        <h2>Your Feedback Submitted Successfully</h2>
+          <h3>Thank you for your valuable feedback</h3>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+  </div>
+  </div>
+
+  {% if useCDN %}
+  <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+  {% else %}
+  <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+  <script src="{% static 'js/jquery.cookie-1.4.1.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  {% endif %}
+
+  <script type="text/javascript">
+  function setCookie(cname, cvalue, exdays) {
+      var d = new Date();
+      d.setTime(d.getTime() + (exdays*24*60*60*1000));
+      var expires = "expires="+ d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    function getCookie(cname) {
+      var name = cname + "=";
+      var decodedCookie = decodeURIComponent(document.cookie);
+      var ca = decodedCookie.split(';');
+      for(var i = 0; i <ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0) == ' ') {
+              c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+              return c.substring(name.length, c.length);
+          }
+      }
+      return "";
+    }
+  // console.log(window.location.href,'aaaaaasssssssssssss');
+  // // key  = window.location.href.split('/')[1]
+  // key  = substring(window.location.href.lastIndexOf("/") + 1, window.location.href.length)
+  console.log('{{key}}','aaaaaaaaaa');
+  key = '{{key}}'
+
+  var csrftoken = getCookie("csrftoken")
+  function submit(){
+    var form = {
+      customerRating:0,
+      customerFeedback:document.getElementById('feedbackText').value,
+      key:key
+    }
+    var star1 = document.getElementById('star-1')
+    var star2 = document.getElementById('star-2')
+    var star3 = document.getElementById('star-3')
+    var star4 = document.getElementById('star-4')
+    var star5 = document.getElementById('star-5')
+
+    if (star1.checked) {
+      form.customerRating = 1
+    }
+    if (star2.checked) {
+      form.customerRating = 2
+    }
+    if (star3.checked) {
+      form.customerRating = 3
+    }
+    if (star4.checked) {
+      form.customerRating = 4
+    }
+    if (star5.checked) {
+      form.customerRating = 5
+    }
+
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById('alerts').innerHTML='<h2>Your Feedback Submitted Successfully</h2> <h3>Thank you for your valuable feedback</h3>'
+      }
+    };
+    xhttp.open('POST', '{{serverAddress}}/api/support/sendFeedBackRequest/', true);
+    xhttp.setRequestHeader('X-CSRFToken', csrftoken);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify(form));
+  };
+  </script>
+</body>
+
+</html>

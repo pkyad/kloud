@@ -1,0 +1,100 @@
+ <div class="container-fluid" style="padding:20px;" ng-controller="businessManagement.projects.invoice.view">
+   <div class="col-md-3" style="border-right:solid 2px #eeeeee;margin-bottom:3em;min-height:80vh">
+     <div class="row">
+       <div class="col-md-12">
+         <div class="row">
+           <div class="col-md-12 text-left">
+             <label> Project Title : </label> {{form.project.title}} <br />
+             <label> Service Name :</label> {{form.project.service.name}} <br />
+             <label>Closing Date : </label> {{form.project.date}} <br />
+           </div>
+         </div>
+         <div class="row">
+           <div class="col-md-12 text-center">
+             <label> Responsible Persons : </label>
+           </div>
+           <div class="col-md-12">
+             <div ng-repeat="r in form.project.responsible">
+               <div class="card container-fluid" style="padding-left:0px;position:relative;margin-top:10px">
+                 <div class="col-md-4" style="padding-top:5px;">
+                   <img ng-src="{{r | getDP}}" class="img-circle" alt="DP" height="50" width="50" />
+                 </div>
+                 <div class="col-md-8">
+                   {{r | getName}} <br>
+                   ID : <strong>{{r}}</strong>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+   <div class="col-md-9">
+     <table class="invoiceTable" style=" width: 100%;">
+       <thead>
+         <b>Purchase Order Details</b>
+       </thead>
+       <tbody>
+         <tr style="background-color: #eeeeee;height: 50px;">
+           <th>S.No</th>
+           <th>Part No</th>
+           <th>Products</th>
+           <th> Quantity</th>
+           <th>Price</th>
+           <th>Total</th>
+         </tr>
+         <tr ng-repeat="v in purchase  track by $index">
+           <td>{{$index + 1}}</td>
+           <td>{{v.products.part_no}}</td>
+           <td>{{v.products.description_1}}<span ng-if="v.products.description_2"> ({{v.products.description_2}})</span></td>
+           <td> {{v.quantity1}}</td>
+           <td>{{v.price.toFixed(2)}}</td>
+           <td>{{(v.quantity1*v.price).toFixed(2)}}</td>
+         </tr>
+         <tr>
+           <td></td>
+           <td></td>
+           <td></td>
+           <td></td>
+           <td>Total</td>
+           <td><b>{{purchaseSum.toFixed(2)}}</b< /td>
+         </tr>
+       </tbody>
+     </table>
+     <div class="row" style='margin-top:5em'>
+       <hr />
+       <div class="col-md-12">
+
+         <table class="invoiceTable" style=" width: 100%;" ng-if="form.materialIssue.length>0">
+           <tbody>
+             <tr style="background-color: #eeeeee;height: 50px;">
+               <th>Si.No</th>
+               <th>Product</th>
+               <th>Part No</th>
+               <th>Quantity</th>
+               <th>Stock value/unit</th>
+               <th>Stock value Consumed</th>
+             </tr>
+             <tr ng-repeat="m in form.materialIssue track by $index">
+               <td>{{$index + 1}}</td>
+               <td>{{m.product.description_1}}<span ng-if="m.product.description_2"> ({{m.product.description_2}})</span></td>
+               <td>{{m.product.part_no}}</td>
+               <td>{{m.qty}}</td>
+               <td>{{m.price.toFixed(2)}}</td>
+               <td>{{(m.qty*m.price).toFixed(2)}}</td>
+             </tr>
+             <tr>
+               <td></td>
+               <td></td>
+               <td></td>
+               <td></td>
+               <td>Total</td>
+               <td><b>{{materialSum.toFixed(2)}}</b< /td>
+             </tr>
+           </tbody>
+         </table>
+       </div>
+     </div>
+   </div>
+ </div>

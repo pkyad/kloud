@@ -1,0 +1,177 @@
+<style media="screen">
+  .modal-dialog{
+    width: 60%;
+    position: absolute;
+    top: 0px;
+    margin: 0;
+    margin-top: -20px;
+    margin-left: 20%;
+    border:none !important;
+  }
+
+  .modal-content{
+    border: none !important;
+    box-shadow:none !important;
+  }
+
+  .officeInput{
+    background:black;color:white;padding:25px;font-size:25px;border-radius:10px !important;border:none !important;
+  }
+
+  .officeForm label{
+    font-size:20px;
+    color:rgb(233, 233, 233);
+    font-weight:normal;
+  }
+
+  .officeInputWhite{
+    background:#F3F6FB;color:black;padding:25px;font-size:25px;border-radius:10px !important;border:none !important;
+  }
+  .duration{
+    margin-right:20px;
+    padding:20px;
+    padding-left:30px;
+    padding-right:30px;
+    background:#F3F6FB;
+    border-radius:10px;
+    font-size:18px;
+    cursor:pointer;
+  }
+  .activeDuration{
+    color:white;
+    background:#088F9D;
+  }
+
+  .datePickerDropdown .dropdown-toggle{
+    padding: 10px;
+    font-size: 23px;
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+    border-radius:10px !important;
+    width:100%;
+  }
+  .peopleTagInput .tag-item{
+    background: #088F9D !important;
+    color: white !important;
+    border: none !important;
+    padding-left:0px !important;
+    padding-right:0px !important;
+    /* box-shadow: 0px 0px 5px rgb(196, 196, 196) !important; */
+
+  }
+  .peopleTagInput input{
+    font-size:20px !important;
+    min-width:200px !important;
+    background:#F3F6FB !important;
+  }
+
+</style>
+
+<div class="container-fluid" style="padding:30px;padding-top:40px;">
+
+  <h2>Meeting</h2>
+
+  <div class= "container-fluid text-right" style="margin-top:40px;">
+
+      <img src="/static/images/icons8-time-80.png" style="margin-right: 40px;" alt="">
+
+
+
+      <span ng-click="data.duration = 30" class="duration {{data.duration== 30? 'activeDuration':''}}">30 Minutes</span>
+      <span ng-click="data.duration = 60" class="duration {{data.duration== 60? 'activeDuration':''}}">1 Hour</span>
+      <span ng-click="data.duration = 90" class="duration {{data.duration== 90? 'activeDuration':''}}">1 Hour 30 Minutes</span>
+      <span ng-click="data.duration = 120" class="duration {{data.duration== 120? 'activeDuration':''}}">2 Hours</span>
+      <span ng-click="data.duration = null" class="duration {{data.duration== null? 'activeDuration':''}}">All Day</span>
+  </div>
+
+
+  <div class="row padded10px" style="margin-top:20px;">
+    <div class="container-fluid">
+      <div class="form-group">
+        <label class="control-label" for="agenda"> Meeting Name </label>
+        <textarea type="text" rows="1"  value="" class="form-control officeInputWhite" required ng-model="data.text"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="row padded10px">
+    <div class= "form-group peopleTagInput">
+      <label class="control-label col-md-3" for="with" style="font-size:20px;">Participants</label>
+      <div class="col-md-9">
+        <tags-input ng-model="data.with" add-on-paste="true" add-From-Autocomplete-Only="true" display-property="email"  template="/static/ngTemplates/contactTagInputSelect.html" style="padding: 10px;background: #f3f6fb;border-radius: 10px;">
+          <auto-complete source="loadTags($query)" load-on-down-arrow="true" template="/static/ngTemplates/contactTagInput.html"></auto-complete>
+        </tags-input>
+      </div>
+    </div>
+  </div>
+
+  <div class="row datePickerDropdown">
+    <div class="container-fluid">
+      <div class= "form-group">
+        <label class="control-label col-sm-3" style="margin-top:15px;">Date and Time </label>
+        <div class="col-md-4">
+          <future-datepicker date="data.when"><future-datepicker>
+        </div>
+        <div style="font-size:45px;" class="col-md-1">
+          @
+        </div>
+        <div class="col-md-4">
+          <div class="row container-fluid">
+            <select class="form-control" name="" style="height: 58px;
+font-size: 20px;
+border-radius: 10px;">
+              <option value="">9:00 AM</option>
+              <option value="">9:30 AM</option>
+              <option value="">10:00 AM</option>
+              <option value="">10:30 AM</option>
+              <option value="">11:00 AM</option>
+              <option value="">11:30 AM</option>
+              <option value="">12:00 Noon</option>
+              <option value="">12:30 PM</option>
+              <option value="">1:00 PM</option>
+              <option value="">1:30 PM</option>
+              <option value="">2:00 PM</option>
+              <option value="">2:30 PM</option>
+              <option value="">3:00 PM</option>
+              <option value="">3:30 PM</option>
+              <option value="">4:00 PM</option>
+              <option value="">4:30 PM</option>
+              <option value="">5:00 PM</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- <div class="row padded10px">
+    <div class= "form-group">
+      <label class="control-label col-sm-3" for="where">Where :</label>
+      <div class="col-md-9">
+        <input type="text" class = "form-control officeInputWhite" placeholder="Where ?" ng-model = "data.venue">
+      </div>
+    </div>
+  </div> -->
+
+
+  <div class= "form-group container-fluid">
+      <button style="
+    background: black;
+    color: white;
+    border: none !important;
+    border-radius: 64px !important;
+    padding: 17px;
+    font-size: 16px;
+    z-index: 10;
+    padding-left: 30px;
+    padding-right: 30px;
+    cursor: pointer;font-size:20px;
+    margin-top:60px;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;" ng-click="saveMeeting()"  class="btn btn-primary pull-right">{{editMode ? 'Update Zoom Meeting':'Create Zoom Meeting'}}
+
+
+<img src="https://s3.amazonaws.com/images.hamlethub.com/hh20mediafolder/4752/202003/4C7sYLHU_400x400-1585010268.jpg" class="img img-rounded" style="width:50px;margin-left:20px;filter: drop-shadow(55px 22px 40px #000);" alt="">
+
+  </button>
+  </div>
+<div>

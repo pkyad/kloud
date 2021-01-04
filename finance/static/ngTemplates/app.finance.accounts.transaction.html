@@ -1,0 +1,58 @@
+<div class="modal-header bg-black text-center">
+  <h3 class="modal-title">Make New Transaction</h3>
+</div>
+
+<div class="modal-body">
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>To Account</label>
+          <input uib-typeahead="acc as getAccountName(acc) for acc in accountSearch($viewValue)" ng-model="form.toAcc" type="text" class="form-control" placeholder="Search By Account Number">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Amount</label>
+          <input type="number" class="form-control" ng-model="form.amount" min="1">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <strong ng-click="from.showMore=!from.showMore" style="cursor:pointer;color:#6c6ce4">Show More <i class="fa fa-{{from.showMore?'caret-up':'caret-down'}}"></i></strong>
+      </div>
+    </div>
+    <div class="row" ng-if="from.showMore" style="padding-top:15px">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>External Reference ID</label>
+          <input type="text" class="form-control" ng-model="form.externalReferenceID">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>External Confirmation ID</label>
+          <input type="text " class="form-control" ng-model="form.externalConfirmationID">
+        </div>
+      </div>
+      <!-- <div class="col-md-6">
+        <div class="form-group">
+          <label>API</label>
+          <input type="text " class="form-control" ng-model="form.api">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>API Call Params</label>
+          <input type="text " class="form-control" ng-model="form.apiCallParams">
+        </div>
+      </div> -->
+    </div>
+
+    <div class="col-md-12 text-center" style="padding-top:25px">
+      <button type="button" class="btn btn-success" mwl-confirm title="Transfer Money" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="transferMoney()" confirm-button-type="default" cancel-button-type="default">Transfer <i class="fa fa-share"></i></button>
+    </div>
+  </div>
+</div>

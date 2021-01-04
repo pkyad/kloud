@@ -1,0 +1,110 @@
+<style media="screen">
+  .navigationBtn , .navigationBtn:hover{
+    padding: 10px;
+    border:none !important;
+    border-radius:10px !important;
+  }
+
+  .contactList input ,.contactList button , .contactList .btn, .contactList .btn-primary{
+    border:none !important;
+  }
+
+  .contactList input, .contactList .form-control{
+    padding: 20px;
+    border-radius: 10px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  .text-dull{
+    color: #bbb;
+  }
+
+  .tableNew th{
+    padding:17px !important;
+  }
+
+  .tableNew {
+    border-radius: 1em;
+    overflow: hidden;
+  }
+
+  .contentTd{
+    padding:18px !important;
+  }
+
+  table, th, td{
+    border-color:#f2f2f2 !important;
+  }
+</style>
+
+<!-- <ui-view> -->
+  <div class="container-fluid" style="padding:40px;min-height:100vh;background:#FAFAFA;" ng-controller = "businessManagement.marketing.contactslist">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-4">
+        <div class="col-md-3 col-md-offset-4">
+          <div class="form-group">
+            <select class="form-control" ng-model="filter.typ" ng-change = "fetch()" style="padding: 15px;background: #F2F3F7;border-radius: 10px !important;border: none !important;height: 55px;">
+              <option value="all">All</option>
+              <option value="CustomPeriod">Custom Period</option>
+              <option value="Today">Today</option>
+              <option value="Yesterday">Yesterday</option>
+              <option value="ThisWeek">This Week</option>
+              <option value="LastWeek">Last Week</option>
+              <option value="ThisMonth">This Month</option>
+              <option value="LastMonth">Last Month</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="input-group newDatePic">
+            <input type="text" class="form-control" placeholder="Search..." ng-model="filter.searchTxt" ng-enter="fetch()">
+            <div class="input-group-btn">
+              <button class="btn btn-default pic" ng-click="fetch()" >
+                <i class="glyphicon glyphicon-search" ></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <div class="row" style="margin:10px;">
+      <table class="table table-hover tableNew">
+        <thead>
+          <tr style="background:#f2f2f2;padding:10px;">
+            <th>Lead ID</th>
+            <th>Name</th>
+            <th>Mobile Number</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th width="20%">Feedback</th>
+            <th>Source</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="contact in data" style="padding:10px;background:white;" ng-click="newContact($index)">
+            <td class="contentTd">{{contact.pk}}</td>
+            <td class="contentTd">{{contact.name}}</td>
+            <td class="contentTd">{{contact.mobile}}</td>
+            <td class="contentTd">{{contact.email}}</td>
+            <td class="contentTd">{{contact.address}}</td>
+            <td class="contentTd">{{contact.about}} <br>
+              <img ng-if="contact.creater.first_name" src="/static/images/icons8-customer-support-50.png" style="width:35px;" alt=""> {{contact.creater.first_name}} {{contact.creater.last_name}}
+            </td>
+            <td class="contentTd">{{contact.source}}</td>
+            <td class="contentTd">
+              <div class="btn-group btn-group-sm">
+                <button type="button" class="btn-assign" ng-click="assign($index)">
+                Assign Technician
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<!-- </ui-view> -->

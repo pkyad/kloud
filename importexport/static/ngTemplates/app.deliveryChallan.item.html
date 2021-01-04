@@ -1,0 +1,31 @@
+<div class="col-md-3" style="padding-bottom:20px;padding-left:10px;padding-right:10px;cursor:pointer">
+  <div class="container-fluid card" style="border: 2px solid #090a0a;" ng-click="rowActionClicked('explore')">
+    <div class="row text-center" style="height:6vh;">
+      <div class="col-md-12" style="position:relative;display:block;">
+        <div class="row" style="padding-left:10px;">
+          <h3>{{data.customername}}</h3>
+        </div>
+      </div>
+    </div>
+    <div class="row container-fluid" style="padding-top:20px;height:12vh;">
+      <div class="col-md-10" style="z-index: 1;">
+        <div class="row">
+          <div class="col-md-6">
+            <span style="font-size:15px;"><strong> Challan No: </strong></span>
+          </div>
+          <div class="col-md-6 text-left">
+            <span> {{data.challanNo}}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <span style="font-size:15px;"><strong>Challan Date: </strong></span>
+          </div>
+          <div class="col-md-6 text-left">
+            <span>{{data.challanDate}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

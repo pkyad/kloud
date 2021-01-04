@@ -1,0 +1,212 @@
+<div class="container-fluid" ng-controller="workforceManagement.performance.appraisal.explore">
+  <div class="col-md-3" style="padding:20px 5px;font-size:17px">
+    <div class="col-md-12 text-center text-muted" style="font-size:22px;padding-bottom:20px">
+      <strong>Performace Details</strong>
+    </div>
+  </div>
+  <div class="col-md-9" style="border-left:1px solid #eee;padding:20px 5px;">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="col-md-12 text-center text-muted" style="font-size:22px;padding-bottom:20px">
+          <strong>Employee Details</strong>
+        </div>
+        <strong style="font-size:18px">Designation Details</strong>
+        <ul>
+          <li>Reporting To : {{userDesignationData.reportingTo.first_name}} {{userDesignationData.reportingTo.last_name}}</li>
+          <li>HR Approver : {{userDesignationData.hrApprover.first_name}} {{userDesignationData.hrApprover.last_name}}</li>
+          <li>Primary Approver : {{userDesignationData.primaryApprover.first_name}} {{userDesignationData.primaryApprover.first_name}}</li>
+          <li>Secondary Approver : {{userDesignationData.secondaryApprover.first_name}} {{userDesignationData.secondaryApprover.first_name}}</li>
+          <li>Division : {{userDesignationData.division.name}}</li>
+          <li>Unit : {{userDesignationData.unit.name}}</li>
+          <li>Department : {{userDesignationData.department.dept_name}}</li>
+          <li>Role : {{userDesignationData.role.name}}</li>
+        </ul>
+        <strong style="font-size:18px">Payroll Details</strong>
+        <ul>
+          <li>HRA : {{userPayrollData.hra | number}}</li>
+          <li>Special Allowance : {{userPayrollData.special | number}}</li>
+          <li>LTA : {{userPayrollData.lta | number}}</li>
+          <li>Basic : {{userPayrollData.basic | number}}</li>
+          <li>Tax Slab : {{userPayrollData.taxSlab | number}}</li>
+          <li>AdHoc : {{userPayrollData.adHoc | number}}</li>
+          <li>PF Amount : {{userPayrollData.pfAmnt | number}}</li>
+          <li>Anual Leaves : {{userPayrollData.al}}</li>
+          <li>Medical Leaves : {{userPayrollData.ml}}</li>
+          <li>adHoc Leaves : {{userPayrollData.adHocLeaves}}</li>
+        </ul>
+      </div>
+
+      <div class="col-md-6" style="border-left:1px solid #eee;">
+        <div class="col-md-12 text-center text-muted" style="font-size:22px;padding-bottom:20px">
+          <strong>Appraisal Details</strong>
+        </div>
+        <div class="col-md-12" style="padding:0px;padding-bottom:15px;margin-bottom:15px;border-bottom:2px solid #eee">
+          <div class="col-md-4" style="padding-left:0px">
+            <div class="col-md-12" style="font-size:18px;padding:15px;0px;">
+              <strong>Employee</strong>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="col-md-10 text-right" style="padding:15px;0px;font-size:18px">
+              <strong>{{appraisalData.user | getName}} <span ng-if="appraisalData.empId" class="text-muted">(#{{appraisalData.empId}})</span></strong>
+            </div>
+            <div class="col-md-2">
+              <img ng-src="{{appraisalData.user | getDP}}" class="img img-circle" style="height:40px;width:40px;">
+            </div>
+
+          </div>
+          <div class="col-md-12 text-muted" style="font-size:18px;">
+            <strong>Expected Salary : </strong>{{appraisalData.userAmount | number}}<br>
+            <strong>Message : </strong>{{appraisalData.userCmt}}
+          </div>
+        </div>
+        <div class="col-md-12" style="padding:0px;padding-bottom:15px;margin-bottom:15px;border-bottom:2px solid #eee">
+          <div class="col-md-4" style="padding-left:0px">
+            <div class="col-md-12" style="font-size:18px;padding:15px;0px;">
+              <strong>Manager</strong>
+            </div>
+          </div>
+          <div class="col-md-8" ng-if="appraisalData.manager">
+            <div class="col-md-10 text-right" style="padding:15px;0px;font-size:18px">
+              <strong>{{appraisalData.manager | getName}}</strong>
+            </div>
+            <div class="col-md-2">
+              <img ng-src="{{appraisalData.manager | getDP}}" class="img img-circle" style="height:40px;width:40px;">
+            </div>
+          </div>
+          <div class="col-md-12 text-muted" style="font-size:18px;">
+            <strong>Approving Salary : </strong>{{appraisalData.managerAmt | number}}<br>
+            <strong>Message : </strong>{{appraisalData.managerCmt}}
+          </div>
+        </div>
+        <div class="col-md-12" style="padding:0px;">
+          <div class="col-md-4" style="padding-left:0px">
+            <div class="col-md-12" style="font-size:18px;padding:15px;0px;">
+              <strong>Super Manager</strong>
+            </div>
+          </div>
+          <div class="col-md-8" ng-if="appraisalData.superManager">
+            <div class="col-md-10 text-right" style="padding:15px;0px;font-size:18px">
+              <strong>{{appraisalData.superManager | getName}}</strong>
+            </div>
+            <div class="col-md-2">
+              <img ng-src="{{appraisalData.superManager | getDP}}" class="img img-circle" style="height:40px;width:40px;">
+            </div>
+          </div>
+          <div class="col-md-12 text-muted" style="font-size:18px">
+            <strong>Approving Salary : </strong>{{appraisalData.superManagerAmt | number}}<br>
+            <strong>Message : </strong>{{appraisalData.superManagerCmt}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row" ng-if="appraisalData.hr==me.pk">
+      <div class="col-md-12 text-center text-muted" style="font-size:22px;padding-bottom:20px">
+        <strong>HR Approving Details</strong>
+      </div>
+      <div class="col-md-12">
+        <div class="col-md-6">
+          <div class="col-md-12" style="padding:0px">
+            <strong style="font-size:18px">Appraisal Details</strong>
+            <div class="form-group">
+              <label>Approving Salary</label>
+              <input type="number" ng-model="appraisalData.finalAmount" class="form-control" placeholder="Enter Full Amount" ng-disabled="appraisalData.status=='Completed'">
+              <p class="help-block">Ex : 420000</p>
+            </div>
+            <div class="form-group">
+              <label>Message</label>
+              <textarea class="form-control" rows="6" cols="50" ng-model="appraisalData.hrCmt" placeholder="Write Some Thing Here.." ng-disabled="appraisalData.status=='Completed'"></textarea>
+            </div>
+          </div>
+          <div class="col-md-12" style="padding:0px">
+            <strong style="font-size:18px">Designation Details</strong>
+            <div class="form-group">
+              <label>Reporting To</label>
+              <input uib-typeahead="Reporting as Reporting.username for Reporting in Reporting($viewValue)" ng-model="userDesignationData.reportingTo" type="text" class="form-control" placeholder="Select division" ng-disabled="appraisalData.status=='Completed'">
+            </div>
+            <div class="form-group">
+              <label>HR Partner</label>
+              <input uib-typeahead="Reporting as Reporting.username for Reporting in Reporting($viewValue)" ng-model="userDesignationData.hrApprover" type="text" class="form-control" placeholder="Select division" ng-disabled="appraisalData.status=='Completed'">
+            </div>
+            <div class="form-group">
+              <label>Primary Approver</label>
+              <input uib-typeahead="Reporting as Reporting.username for Reporting in Reporting($viewValue)" ng-model="userDesignationData.primaryApprover" type="text" class="form-control" placeholder="Select Unit" ng-disabled="appraisalData.status=='Completed'">
+            </div>
+            <div class="form-group">
+              <label>Secondary Approver</label>
+              <input uib-typeahead="Reporting as Reporting.username for Reporting in Reporting($viewValue)" ng-model="userDesignationData.secondaryApprover" type="text" class="form-control" placeholder="Select department" ng-disabled="appraisalData.status=='Completed'">
+            </div>
+            <div class="form-group">
+              <label>Division</label>
+              <input uib-typeahead="div as div.name for div in divisionSearch($viewValue)" ng-model="userDesignationData.division" type="text" class="form-control" placeholder="Add division name" ng-disabled="appraisalData.status=='Completed'">
+            </div>
+            <div class="form-group">
+              <label>Unit</label>
+              <input uib-typeahead="units as units.name for units in unitSearch($viewValue)" ng-model="userDesignationData.unit" type="text" class="form-control" placeholder="Select units" ng-disabled="appraisalData.status=='Completed'">
+            </div>
+            <div class="form-group">
+              <label>Department</label>
+              <input uib-typeahead="department as department.dept_name for department in depSearch($viewValue)" ng-model="userDesignationData.department" type="text" class="form-control" placeholder="Select department" ng-disabled="appraisalData.status=='Completed'">
+            </div>
+            <div class="form-group">
+              <label>Roles</label>
+              <input uib-typeahead="div as div.name for div in roleSearch($viewValue)" ng-model="userDesignationData.role" type="text" class="form-control" placeholder="Add division name" ng-disabled="appraisalData.status=='Completed'">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <strong style="font-size:18px">Payroll Details</strong>
+          <div class="form-group">
+            <label>HRA</label>
+            <input type="tel" class="form-control" ng-model="userPayrollData.hra" required placeholder="HRA" ng-disabled="appraisalData.status=='Completed'">
+          </div>
+          <div class="form-group">
+            <label>Special Allowance</label>
+            <input type="tel" class="form-control" ng-model="userPayrollData.special" required placeholder="Special" ng-disabled="appraisalData.status=='Completed'" min="0">
+          </div>
+          <div class="form-group">
+            <label>LTA</label>
+            <input type="tel" class="form-control" ng-model="userPayrollData.lta" required placeholder="LTA" ng-disabled="appraisalData.status=='Completed'">
+          </div>
+          <div class="form-group">
+            <label>Basic</label>
+            <input type="tel" class="form-control" ng-model="userPayrollData.basic" required placeholder="Basic" ng-disabled="appraisalData.status=='Completed'">
+          </div>
+          <div class="form-group">
+            <label>Tax Slab</label>
+            <input type="tel" class="form-control" ng-model="userPayrollData.taxSlab" required placeholder="Tax Slab" ng-disabled="appraisalData.status=='Completed'">
+          </div>
+          <div class="form-group">
+            <label>AdHOC</label>
+            <input type="tel" class="form-control" ng-model="userPayrollData.adHoc" required placeholder="Ad-HOC" ng-disabled="appraisalData.status=='Completed'">
+          </div>
+          <div class="form-group">
+            <label>PF Amount</label>
+            <input type="tel" class="form-control" ng-model="userPayrollData.pfAmnt" required placeholder="PF Amount" ng-disabled="appraisalData.status=='Completed'">
+          </div>
+          <div class="form-group">
+            <h4>Leaves</h4>
+          </div>
+          <div class="form-group">
+            <label>Annual Leaves</label>
+            <input type="tel" class="form-control" ng-model="userPayrollData.al" required placeholder="AL" ng-disabled="appraisalData.status=='Completed'">
+          </div>
+          <div class="form-group">
+            <label>Medical Leaves</label>
+            <input type="tel" class="form-control" ng-model="userPayrollData.ml" required placeholder="ML" ng-disabled="appraisalData.status=='Completed'">
+          </div>
+          <div class="form-group">
+            <label>AdHOC Leaves</label>
+            <input type="tel" class="form-control" ng-model="userPayrollData.adHocLeaves" required placeholder="Ad-HOC Leaves" ng-disabled="appraisalData.status=='Completed'">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" ng-if="appraisalData.status!='Completed'&&appraisalData.hr==me.pk">
+      <div class="col-md-12 text-center">
+        <span class="btn btn-primary" mwl-confirm title="Finalise Appraisal" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="finaliseAppraisal()" confirm-button-type="default" cancel-button-type="default"><i class="fa fa-check-circle fa-lg"></i> Finalise The Appraisal Cycle</span>
+      </div>
+    </div>
+  </div>
+</div>

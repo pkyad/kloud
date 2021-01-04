@@ -1,0 +1,156 @@
+[{
+  "id" : 1,
+  "input" : "Hello",
+  "response" : "Good to see you here!",
+  "input_variation" : ["Hi", "Are you there?"],
+  "url": "",
+  "node": "False",
+  "successNext": "2"
+},{
+  "id" : 2,
+  "input" : "I am good",
+  "response" : "good to hear that",
+  "input_variation" : ["I am doing fine", "good", "thank you, I am good. What about you ?"],
+  "url":"",
+  "node": "False"
+},{
+  "id" : 3,
+  "input" : "I am",
+  "response" : "Hi {{node}}, Nice to meet you",
+  "input_variation" : ["my node is"],
+  "url":"",
+  "node": "False"
+},{
+  "id" : 4,
+  "input" : "{{mobile}}",
+  "response" : "Thank you",
+  "input_variation" : ["call me at", "it is"],
+  "url":"",
+  "node": "False"
+},{
+  "id" : 5,
+  "input" : "{{email}}",
+  "response" : "Thank you",
+  "input_variation" : ["mail me at {{email}}", "it is {{email}}"],
+  "url":"",
+  "node": "False"
+},{
+  "id" : 6,
+  "input" : "{{date}}",
+  "response" : "Thanks for the detail provided",
+  "input_variation" : ["dd/mm/yyyy", "dd month"],
+  "url":"",
+  "node": "False"
+},{
+  "id" : 7,
+  "input" : "I need to know",
+  "response" : "What can I help you with today? Thanks for the query, our team will contact you shortly",
+  "input_variation" : ["I want to know about", "Show me", "{{product1}}"],
+  "url":"",
+  "node": "True"
+},{
+  "id" : 8,
+  "input" : "",
+  "response" : "Can't find what you are looking for",
+  "input_variation" : ["", ""],
+  "url":"https://essgi.net/",
+  "node": "False"
+
+},{
+  "id" : 9,
+  "input" : "APC is a UPS or a stablizer?",
+  "response" : "It is a UPS",
+  "input_variation" : ["What is APC", ""],
+  "url": "https://essgi.net/upsnbatteries.html",
+  "node": "False"
+},{
+  "id" : 10,
+  "input" : "Can I connect power cord extension to the UPS?",
+  "response" : "You can connect extension",
+  "input_variation" : ["", ""],
+  "url": "",
+  "node": "False"
+},{
+  "id" : 11,
+  "input" : "what are the computers and laptops you have?",
+  "response" : "",
+  "input_variation" : ["", ""],
+  "url": "https://essgi.net/Computersnlaptops.html",
+  "node": "False"
+},{
+  "id" : 12,
+  "input" : "what are the computers and laptops you have?",
+  "response" : "",
+  "input_variation" : ["", ""],
+  "url": "https://essgi.net/Computersnlaptops.html",
+  "node": "False"
+},{
+  "id" : 13,
+  "input" : "what are the printers and scanners you have?",
+  "response" : "",
+  "input_variation" : ["I want computer accessories", "wiFi router", "pendrive", "headphone", "canon", "keyboard"],
+  "url": "https://essgi.net/Computeraccessories.html",
+  "node": "False"
+},{
+  "id" : 14,
+  "input" : "what is the difference between ups and battery?",
+  "response" : "",
+  "input_variation" : ["", ""],
+  "url": "https://essgi.net/upsnbatteries.html",
+  "node": "False"
+},{
+  "id" : 15,
+  "input" : "smartphones",
+  "response" : "",
+  "input_variation" : ["tablets", ""],
+  "url": "https://essgi.net/smartphonesntabs.html",
+  "node": "False"
+},{
+  "id" : 16,
+  "input" : "solar inverter",
+  "response" : "",
+  "input_variation" : ["solar hybrid power plants", "rooftop solar plant", "green energy"],
+  "url": "https://essgi.net/solarrooftop.html",
+  "node": "False"
+},{
+  "id" : 17,
+  "input" : "computer repair",
+  "response" : "",
+  "input_variation" : ["installation", "not working"],
+  "url": "https://essgi.net/support.html",
+  "node": "False"
+},{
+  "id" : 18,
+  "input" : "ups repair",
+  "response" : "",
+  "input_variation" : ["battery repair", "ups not working"],
+  "url": "https://essgi.net/apcupssupport.html",
+  "node": "False"
+},{
+  "id" : 19,
+  "input" : "service",
+  "response" : "",
+  "input_variation" : ["request service"],
+  "url": "https://essgi.net/raise-issue.html",
+  "node": "False"
+},{
+  "id" : 20,
+  "input" : "service center",
+  "response" : "",
+  "input_variation" : ["hp", "Dell", "Lenovo", "Samsung"],
+  "url": "https://essgi.net/asc.html",
+  "node": "False"
+},{
+  "id" : 21,
+  "input" : "canon warranty",
+  "response" : "",
+  "input_variation" : [""],
+  "url": "https://service.canon.co.in/service-edge/custRegistration.do"
+},{
+  "id" : 22,
+  "input" : "UPS warranty",
+  "response" : "",
+  "input_variation" : [""],
+  "url": "https://essgi.net/sib.html"
+}
+]

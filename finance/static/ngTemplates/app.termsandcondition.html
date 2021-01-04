@@ -1,0 +1,70 @@
+<div class="row">
+  <div class="col-md-4">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Title</label>
+            <input type="text" class="form-control" ng-model="form.title">
+          </div>
+          <div class="form-group">
+            <label>Heading</label>
+            <input type="text" class="form-control" ng-model="form.heading">
+          </div>
+          <div class="form-group">
+            <label>Version</label>
+            <input type="text" class="form-control" ng-model="form.version">
+          </div>
+          <div class="form-group">
+            <label>Body</label>
+            <div class="input-group">
+              <input ng-model="form.body" type="text" class="form-control">
+              <span ng-click="add()" class="input-group-addon btn btn-primary"><i class="fa fa-plus"></i></span>
+            </div>
+          </div>
+          <ol>
+            <li style="padding:10px" ng-repeat="i in form.addedPoints track by $index"> {{i}} <i style="margin-left:20px;" ng-click="deletePoint($index)" class="fa fa-trash"></i> <i style="margin-left:20px;" ng-click="moveUp($index)" class="fa fa-arrow-up"></i> <i style="margin-left:20px;" ng-click="moveDown($index)" class="fa fa-arrow-down"></i>              </li>
+          </ol>
+          <button class="btn btn-primary" ng-click="save()"> Save</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+<div class="col-md-8">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6" ng-repeat="d in allData">
+        <div class="row card" style="padding:10px;margin-bottom:15px;margin-right:15px;border-left:3px solid var(--themeMain)" ng-click="edit($index)">
+          <div class="col-md-10">
+            <div class="row">
+              <div class="col-md-11">
+                {{d.title}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-11">
+                <strong>{{d.heading}}</strong>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <b> V : </b>
+              </div>
+              <div class="col-md-6">
+                {{d.version}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <i class="fa fa-trash fa-2x" ng-click="$event.stopPropagation()" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="delete($index)" confirm-button-type="danger" cancel-button-type="default"
+              style="color:red;cursor:pointer]"> </i> <br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</div>

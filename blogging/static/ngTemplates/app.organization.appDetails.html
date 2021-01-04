@@ -1,0 +1,294 @@
+<style media="screen">
+  .table>thead>tr>th {
+    border: 2px solid #ddd;
+  }
+
+  .file_upload {
+    opacity: 0.0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    -moz-opacity: 0.0;
+    -khtml-opacity: 0.0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+<div class="container-fluid">
+  <div class="col-md-10 col-md-offset-1" style="padding-top:50px;">
+
+    <!-- <h1>{{data}}</h1> -->
+    <div class="row">
+      <div class="col-md-1">
+        <div class="form-group">
+          <label style="padding-right:35px;">Icon:</label>
+          <div class="row">
+            <div class="col-md-4">
+              <img src="{{data.icon}}" id="imgPreview" alt="" style="width:80px;height:70px;margin-top:5px;">
+            </div>
+            <!-- <div class="col-md-4 text-center">
+              <div style=";background:#f3f3f3;color:ffffff;border-radius:15px;padding-top:25px;padding-bottom:20px;height:75px">
+                <i class="fa fa-plus" style="background-color:transparent;color:black;box-shadow:none;padding:0px;"></i>
+                <input type="file" file-model="data.icon" class="file_upload" multiple />
+              </div>
+
+            </div> -->
+          </div>
+
+        </div>
+
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Display Name</label>
+          <input type="text" class="form-control websiteInput" ng-model="data.displayName">
+        </div>
+
+      </div>
+      <div class="col-md-1">
+        <div class="checkbox">
+          <label><input type="checkbox" value="" ng-model="data.windows">Windows</label>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="checkbox">
+          <label><input type="checkbox" value="" ng-model="data.android">Android</label>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="checkbox">
+          <label><input type="checkbox" value="" ng-model="data.ios">IOS</label>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="checkbox">
+          <label><input type="checkbox" value="" ng-model="data.mac">MAC</label>
+        </div>
+      </div>
+      <!-- <div class="col-md-4">
+        <div class="form-group">
+          <label>Select Page </label>
+          <input type="text" class="form-control websiteInput" ng-model="data.webpage" placeholder="Search by the page title" uib-typeahead="page as page.title   for page in Pages($viewValue)">
+        </div>
+
+      </div> -->
+
+    </div>
+    <div class="row" style="margin:0px;margin-bottom:30px;">
+      <textarea name="name" class="form-control websiteInput" ng-model="data.description" rows="6"></textarea>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Rating 5 (in percentage)</label>
+          <input type="text" class="form-control websiteInput" placeholder="Enter the value in percentage"  ng-model="data.rating_five">
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Rating 4 (in percentage)</label>
+          <input type="text" class="form-control websiteInput"  placeholder="Enter the value in percentage" ng-model="data.rating_four">
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Rating 3 (in percentage)</label>
+          <input type="text" class="form-control websiteInput"  placeholder="Enter the value in percentage" ng-model="data.rating_three">
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Rating 2 (in percentage)</label>
+          <input type="text" class="form-control websiteInput"  placeholder="Enter the value in percentage" ng-model="data.rating_two">
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Rating 1 (in percentage)</label>
+          <input type="text" class="form-control websiteInput"  placeholder="Enter the value in percentage" ng-model="data.rating_one">
+        </div>
+      </div>
+      <div class="col-md-2">
+        <br>
+        <button type="submit" class="btn newBtn btn-block" ng-click="saveApp()" style="margin-top:5px;">Save</button>
+      </div>
+    </div>
+
+
+
+    <div class="row" style="margin-top:70px;">
+      <div class="col-md-6">
+        <h4> <b>Settings </b></h4>
+
+      </div>
+      <div class="col-md-2  pull-right">
+        <button type="button" name="button" class="btn defaultBtn btn-block text-center" ng-click="createAppsettings()"><i class="fa fa-plus" style="background-color:transparent;color:black;box-shadow:none;padding:0px;"></i></button>
+      </div>
+    </div>
+    <div class="row" style="margin:20px 0px;">
+      <table class="table table-bordered">
+        <thead>
+          <th class="text-center" style="width:50px;">S.NO</th>
+          <th class="text-center">Heading</th>
+          <th class="text-center">Name</th>
+          <th class="text-center">State</th>
+          <!-- <th colspan="2"></th> -->
+
+        </thead>
+        <tbody>
+          <tr ng-repeat="k in appsettings track by $index">
+            <td class="text-center">{{$index+1}}</td>
+            <td class="text-center">{{k.heading}}</td>
+            <td class="text-center">{{k.name}}</td>
+            <td class="text-center">{{k.state}}
+              <div class="pull-right">
+                <i class="fa fa-pencil" style="padding-right:25px;" ng-click="createAppsettings(k)"></i>
+                <i class="fa fa-trash" ng-click="delSettings($index)"></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="row" style="margin-top:70px;">
+      <div class="col-md-6">
+          <h4> <b>Menu Items </b></h4>
+
+      </div>
+      <div class="col-md-2  pull-right">
+        <button type="button" name="button" class="btn defaultBtn btn-block text-center" ng-click="createmenuItems()"><i class="fa fa-plus" style="background-color:transparent;color:black;box-shadow:none;padding:0px;"></i></button>
+      </div>
+    </div>
+    <div class="row" style="margin:20px 0px;">
+      <table class="table table-bordered">
+        <thead>
+          <th class="text-center" style="width:50px;">S.NO</th>
+          <th class="text-center">Icon</th>
+          <th class="text-center">Name</th>
+          <th class="text-center">State</th>
+          <!-- <th colspan="2"></th> -->
+
+        </thead>
+        <tbody>
+          <tr ng-repeat="k in menuitems track by $index">
+            <td class="text-center">{{$index+1}}</td>
+            <td class="text-center">{{k.icon}}</td>
+            <td class="text-center">{{k.name}}</td>
+            <td class="text-center">{{k.state}}
+              <div class="pull-right">
+                <i class="fa fa-pencil" style="padding-right:25px;" ng-click="createmenuItems(k)"></i>
+                <i class="fa fa-trash" ng-click="delmenuItem($index)"></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="row" style="margin-top:70px;">
+      <div class="col-md-6">
+          <h4> <b>Application Features </b></h4>
+
+      </div>
+      <div class="col-md-2  pull-right">
+        <button type="button" name="button" class="btn defaultBtn btn-block text-center" ng-click="createAppFeature()"><i class="fa fa-plus" style="background-color:transparent;color:black;box-shadow:none;padding:0px;"></i></button>
+      </div>
+    </div>
+    <div class="row" style="margin:20px 0px;">
+      <table class="table table-bordered">
+        <thead>
+          <th class="text-center" style="width:50px;">S.NO</th>
+          <th class="text-center">Name</th>
+          <th class="text-center">Enabled</th>
+          <!-- <th colspan="2"></th> -->
+
+        </thead>
+        <tbody>
+          <tr ng-repeat="k in appFeatures track by $index">
+            <td class="text-center">{{$index+1}}</td>
+            <td class="text-center">{{k.name}}</td>
+            <td class="text-center">
+
+               <span class="label label-success" ng-if="k.enabled">Enabled</span>
+               <span class="label label-danger" ng-if="!k.enabled">Disabled</span>
+            </td>
+            <td class="text-center">
+              <div class="pull-right">
+                <i class="fa fa-pencil" style="padding-right:25px;" ng-click="createAppFeature(k)"></i>
+                <i class="fa fa-trash" ng-click="deleteFeature($index)"></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row" style="margin:0px;margin-top:70px;">
+      <div class="row" style="margin:0px;">
+          <h4> <b>Application Media </b></h4>
+
+      </div><br>
+      <div class="row">
+        <div class="col-md-2" ng-repeat="k in mediaForm.medialist track by $index">
+          <span ng-click="delMedia($index)"><i class="fa fa-times" style="position: absolute;z-index: 99;
+right: 10px;top: -10%;padding: 5px;background:white;border-radius: 50%;"></i></span>
+          <div class="" ng-if="k.typ =='image'" style="background-image:url('{{k.attachment}}');height:100px;margin-bottom:10px;">
+
+          </div>
+          <div class="" ng-if="k.typ =='video'" style="background-image:url('/static/images/video.png');height:100px;margin-bottom:10px;background-size: cover;background-repeat: no-repeat;background-position: center;">
+
+          </div>
+        </div>
+        <div class="col-md-2 text-center">
+          <div style="background:#f3f3f3;color:ffffff;border-radius:15px;padding:40px;height:100px">
+            <i class="fa fa-plus" style="background-color:transparent;color:black;box-shadow:none;padding:0px;"></i>
+            <input type="file" file-model="mediaForm.attachment" onchange="angular.element(this).scope().fileupload(this.files)" class="file_upload" multiple />
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="row" style="margin-top:70px;">
+      <div class="col-md-6">
+          <h4> <b>Feedback </b></h4>
+
+      </div>
+      <div class="col-md-2  pull-right">
+        <button type="button" name="button" class="btn defaultBtn btn-block text-center" ng-click="giveFeedback()"><i class="fa fa-plus" style="background-color:transparent;color:black;box-shadow:none;padding:0px;"></i></button>
+      </div>
+    </div>
+    <div class="row" style="margin:20px 0px;">
+      <table class="table table-bordered">
+        <thead>
+          <th class="text-center" style="width:50px;">S.NO</th>
+          <th class="text-center">Name</th>
+          <th class="text-center">Rating</th>
+          <th class="text-center" colspan="2">Given Feedback</th>
+          <!-- <th colspan="2"></th> -->
+
+        </thead>
+        <tbody>
+          <tr ng-repeat="k in data.feedback track by $index">
+            <td class="text-center">{{$index+1}}</td>
+            <td class="text-center">{{k.name}}</td>
+            <td class="text-center">{{k.star}}</td>
+            <td class="text-center">{{k.text}}</td>
+            <td class="text-center" style="width:90px;">
+              <div class="pull-right">
+                <i class="fa fa-pencil" style="padding-right:25px;" ng-click="giveFeedback(k)"></i>
+                <i class="fa fa-trash" ng-click="delFeedback($index)"></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

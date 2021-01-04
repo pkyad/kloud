@@ -1,0 +1,142 @@
+<div ng-controller="businessManagement.clientRelationships.customer.explore" style="padding-top:20px;">
+  <div class="col-md-3" style="border-right:solid 2px #eeeeee;">
+    <div class="row text-center">
+      <h3>{{customerData.name}}</h3>
+    </div>
+    <div class="row">
+
+      <div class="row">
+        <div class="col-md-4 text-right">
+          <strong>GTIN:</strong>
+        </div>
+        <div class="col-md-8">
+          <span>{{customerData.tin}}</span>
+        </div>
+      </div>
+      <div class="row" ng-if="customerData.cin">
+        <div class="col-md-4 text-right">
+          <strong>CIN:</strong>
+        </div>
+        <div class="col-md-8">
+          <span>{{customerData.cin}}</span>
+        </div>
+      </div>
+      <div class="row" ng-if="customerData.mobile">
+        <div class="col-md-4 text-right">
+          <strong>MOB:</strong>
+        </div>
+        <div class="col-md-8">
+          <span class="text-muted">{{customerData.mobile}}</span>
+        </div>
+      </div>
+      <div class="row" ng-if="customerData.address">
+        <div class="col-md-4 text-right">
+          <strong>Address :</strong>
+        </div>
+        <div class="col-md-8">
+          <span class="text-muted">{{customerData.address.street}}</span> <br>
+          <span class="text-muted">{{customerData.address.city}} , {{customerData.address.pincode}} </span> <br>
+          <span class="text-muted">{{customerData.address.state}}, {{customerData.address.country}} </span> <br>
+        </div>
+      </div>
+
+
+    </div>
+    <hr>
+    <div class="row">
+      <div class="container-fluid col-md-12" ng-repeat="c in contactItems" style="margin-bottom:20px;">
+
+        <div class="card">
+          <div class="row" style="border-bottom: 1px solid #dedede;margin:0px;" >
+
+            <div class="col-md-10" style="position:relative;display:block;">
+              <div class="row" style="padding-left:15px;">
+                <h4>{{c.name}}</h4>
+                <span class="text-muted" style="font-size:15px;">{{c.designation}}</span>
+              </div>
+            </div>
+
+            <div class="col-md-2" style="padding:10px;">
+              <img style="width: 40px;" class="img img-circle" ng-src="{{c | getCRMDP}}">
+            </div>
+          </div>
+          <div class="row container-fluid" style="padding-top:20px;height:70px;width: 320px;">
+            <div class="col-md-12" style="z-index: 1;">
+              <span ng-if="c.mobile != null"><strong><i style="width:30px;" class="fa fa-mobile"></i> </strong>{{c.mobile}}</span> <br>
+              <span ng-if="c.email != null"><strong><i style="width:30px;" class="fa fa-envelope"></i> </strong>{{c.email}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9">
+
+    <div class="row">
+      <div class="row">
+        <div class="col-md-3">
+          <canvas id="doughnut" class="chart chart-doughnut" chart-data="[data.paidAmount, data.pendingAmount, data.overDueAmount]" chart-labels="['Paid Amount', 'Pending Amount', 'Overdue Amount']">
+          </canvas>
+        </div>
+        <div class="col-md-2 text-success text-center">
+          Paid
+          <h3> <i class="fa fa-inr"></i> {{data.paidAmount | number}} </h3>
+        </div>
+        <div class="col-md-2 text-warning text-center">
+          Pending
+          <h3> <i class="fa fa-inr"></i> {{data.pendingAmount | number}} </h3>
+        </div>
+        <div class="col-md-2 text-danger text-center">
+          Overdue
+          <h3> <i class="fa fa-inr"></i> {{data.overDueAmount | number}} </h3>
+        </div>
+        <div class="col-md-3 text-primary text-center">
+          Total
+          <h3> <i class="fa fa-inr"></i> {{data.paidAmount + data.pendingAmount + data.overDueAmount | number}} </h3>
+        </div>
+      </div>
+      <hr>
+      <label style="margin-left:30px;">Active Deals</label> <br>
+      <div class="row">
+        <div class="container-fluid " style="padding-left:30px;padding-right:30px;">
+          <div class="col-md-4" ng-repeat="d in data.deals" style="padding:15px;" ng-click="$emit('exploreRelation' , d);">
+            <div class="container-fluid relationDealCard">
+              <div class="row" style="margin:0px;">
+                <span style="font-size:18px;"><strong># {{d.pk}} : </strong>  {{d.name}}</span>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="text-right col-md-5">
+                  <strong>Owner : </strong>
+                </div>
+                <div class="text-left col-md-7">
+                  <img ng-src="{{d.user | getDP}}" class="img img-rounded" style="width:30px;height:30px;"> <span>{{d.user | getName}}</span>
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="text-right col-md-5">
+                  <strong>Contact : </strong>
+                </div>
+                <div class="text-left col-md-7">
+                  <img ng-src="{{d.contacts[0] | getCRMDP}}" class="img img-rounded" style="width:30px;height:30px;"> <span>{{d.contacts[0].name}}</span>
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="text-right col-md-5">
+                  <strong>Value : </strong>
+                </div>
+                <div class="text-left col-md-7">
+                  <i class="fa fa-{{d.currency | lowercase}}" style="margin-right:20px;"></i>{{d.value}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>

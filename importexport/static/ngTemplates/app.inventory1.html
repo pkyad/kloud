@@ -1,0 +1,286 @@
+
+    <div class="container-fluid contactList" style="background:#FAFAFA;min-height:100vh;">
+      <div class="row" style="background:rgb(18, 46, 99);padding:15px;padding-top:20px;padding-bottom:20px;">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-3">
+          <ul class="nav navbar-nav navbar-left">
+            <li style="padding-bottom:1.5vh;margin-top:5px;">
+              <strong style="margin-left:-10px;color:white;font-size:20px;">BIND</strong>
+            </li>
+            <li style="margin-right:100px;margin-top:5px;">
+              <switch ng-model="formToggle.toggleMain"></switch>
+            </li>
+            <li style="padding-bottom:1.5vh;margin-top:5px;">
+              <strong style="margin-left:-90px;color:white;font-size:20px;">Trading</strong>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-8">
+
+          <div class="col-md-2 col-md-offset-2">
+            <button ng-if="formToggle" type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="new()">New</button>
+            <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="download()">Stock Check</button>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group" style="background:#ffffff;border-radius:10px;">
+              <input ng-if="!modeToggle" uib-typeahead="product as product.productPartno for product in productSearch($viewValue)" ng-model="text.searchText" type="text" class="form-control" placeholder="Search by product" ng-enter="enterFun()"
+                style="height:42.5px;float:none" type="text" class="form-control" style="border:none !important;background:#ffffff;">
+              <input type='text' style="background:#ffffff;border-radius:10px;" ng-if="modeToggle" ng-model='searchmaterial.search' class="form-control" placeholder="Search with Commission Number " ng-enter="enterFunmaterial()"
+                style="height:42.5px;float:none" style="border:none !important;background:#ffffff;" />
+              <div class="input-group-btn">
+                <button class="btn btn-default" type="submit" ng-click="fetchData()" style="border:none !important;background:#ffffff;">
+                  <i class="glyphicon glyphicon-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="prev()">Prev</button>
+          </div>
+          <div class="col-md-2">
+            <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="next()">Next</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="background:rgb(18, 46, 99);color:white;padding-bottom:20px;padding:30px;">
+      </div>
+      <div class="shaddowed card bg-white" style="min-height:93.7vh;overflow: hidden">
+        <div class="row">
+          <div class="col-md-3" style="padding-top:20px">
+            <strong style="margin:0 13px 0 20px">Inventory</strong>
+            <switch ng-model="modeToggle" class="neutral"></switch>
+            <strong style="margin-left:13px">Material Issued</strong>
+
+          </div>
+          <div class="col-md-8  text-left" ng-if="!modeToggle" style="padding-top:20px">
+            <div class="container-fluid">
+              <div class="input-group">
+                &nbsp;&nbsp;&nbsp;
+                <span class="input-group-addon" ng-click="reset()" style="cursor:pointer; background-color:#fff;">Reset</span>
+                <span class="input-group-addon" ng-click="getList();" style="cursor:pointer; background-color:#fff;border:1px solid #fff;color:#286090"> <i class="fa fa-shopping-cart fa-2x"></i>
+                  {{cart.length}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-7 text-left" ng-if="modeToggle" style="padding-top:20px">
+            <div class="container-fluid">
+              <div class="input-group">
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+        <div class="row" ng-if="modeToggle">
+          <div class="col-md-4 col-md-offset-4" style="margin-top:25px">
+            <div class="form-group">
+              <div class="input-group">
+                <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="searchmaterial.dt" is-open="status.opened" ng-change="enterFunmaterial()" />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="status.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <h2 style="margin-top:25px">{{totSum.toFixed(2)| number}}</h2>
+          </div>
+        </div>
+        <div class="row" style="margin-top:20px;" ng-if="!modeToggle">
+          <div class="col-md-8 " style="padding-left:30px">
+          </div>
+          <div class="col-md-4  text-right" style="padding-right:30px;">
+            <h2 style="margin:0px"> Total : {{total.toFixed(2)| number}} </h2>
+          </div>
+          <div class="col-md-12">
+            <div class="container-fluid" style="margin-top:15px;" ng-repeat="p in products">
+              <div class="card" style="padding:10px;" ng-if="p.totalqty>0">
+                <div class="row container-fluid" ng-click="toggle(p.productPk,$index)" style="cursor:pointer;height:5vh;padding:10px">
+                  <div class="col-md-12 text-left">
+                    <div class="col-md-2">
+                      <span style="font-size:12px"><strong> Part No :
+                        </strong>{{p.productPartno}} </span>
+                    </div>
+                    <div class="col-md-2">
+                      <span style="font-size:12px"><strong> Description :
+                        </strong>{{p.productDesc}} </span>
+                    </div>
+                    <div class="col-md-2">
+                      <span style="font-size:12px"><strong> Quantity :
+                        </strong>{{p.totalqty}} </span>
+                    </div>
+                    <div class="col-md-2">
+                      <span style="font-size:12px"><strong> Price :
+                        </strong>{{p.totalprice.toFixed(2)| number}} </span>
+                    </div>
+                    <div class="col-md-2">
+                      <span style="font-size:12px"><strong> Total :
+                        </strong>{{p.totalVal.toFixed(2)| number}} </span>
+                    </div>
+                    <div class="col-md-2">
+                      <button class="btn btn-primary" ng-if="p.totalqty>0&&!p.addedCart" style="font-size:12px" ng-click="addToCart(p.productPk,$index);$event.stopPropagation();">Add to Cart
+                      </button>
+                      <button class="btn btn-default" ng-if="p.totalqty>0&&p.addedCart" style="font-size:12px">Added to Cart </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="row container-fluid" ng-if="p.open">
+                  <div class="container-fluid">
+                    <hr>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="row">
+                        <div class="col-md-2">
+                          <span style="font-size:14px"><strong> Detail:
+                            </strong></span><br /><br />
+                          <span style="font-size:14px"><strong> Weight:
+                            </strong></span><br /><br />
+                          <span style="font-size:14px"><strong> Price:
+                            </strong></span><br />
+                        </div>
+                        <div class="col-md-10">
+                          <span style="font-size:14px">{{p.productDesc2}}</span><br /><br />
+                          <span style="font-size:14px">{{p.weight}}</span><br /><br />
+                          <span style="font-size:14px">{{p.price}} </span><br />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-8" ng-if="p.data.length>0 && p.totalqty>0">
+                      <table class="table table-striped" style="margin-top:20px;">
+                        <th class="text-center">
+                          Comm nr
+                        </th>
+                        <th class="text-center">
+                          Quantity
+                        </th>
+                        <th class="text-center">
+                          Price
+                        </th>
+                        <th class="text-center">
+                          Total
+                        </th>
+                        <th class="text-center">
+                          Po Ref
+                        </th>
+                        <tr ng-repeat="f in p.data" ng-if="f.qty>0">
+                          <td class="text-center">
+                            <span>{{f.commnr}}</span>
+                          </td>
+                          <td class="text-center">
+                            <span>{{f.qty}}</span>
+                          </td>
+                          <td class="text-center">
+                            <span>{{f.rate.toFixed(2)| number}}</span>
+                          </td>
+                          <td class="text-center">
+                            <span>{{(f.rate * f.qty).toFixed(2)| number }}</span>
+                          </td>
+                          <td class="text-center">
+                            <span>{{f.po_no }}</span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="margin:5px 20px 0 20px;">
+          <div class="row" style="margin-top:20px;">
+            <div class="col-md-10 col-md-offset-1">
+              <div ng-if="modeToggle" class="container-fluid" style="margin-top:15px;" ng-repeat="m in materialIssue">
+                <div class="card" style="padding:10px;">
+                  <div class="row container-fluid" ng-click="toggleMaterial(m.pk,$index)" style="cursor:pointer;height:5vh;padding:10px">
+                    <div class="col-md-12 text-left">
+                      <div class="col-md-3">
+                        <span><strong># {{m.pk}}</strong></span>
+                        <span style="font-size:12px;margin-left:20px"><strong>Project Title :
+                          </strong>{{m.project.title}}</span>
+                      </div>
+                      <div class="col-md-2">
+                        <span style="font-size:12px"><strong> Enginner:
+                          </strong> {{m.user.first_name}}</span>
+                      </div>
+                      <div class="col-md-2">
+                        <span style="font-size:12px"><strong> Total:
+                          </strong>{{sum[$index].toFixed(2)}}</span>
+                      </div>
+                      <div class="col-md-2">
+                        <span><a class="btn btn-primary" style="cursor:pointer;" target="_blank" href="/api/importexport/materialIssued/?value={{m.pk}}">Material Isuue <i class="fa fa-download" ng-click="$event.stopPropagation();"></i></a></span>
+                      </div>
+                      <div class="col-md-1">
+                        <button type="button" class="btn btn-danger btn-sm" ng-click="$event.stopPropagation();" mwl-confirm title="Delete" message="Are you sure?" data-placement="bottom" confirm-text="Yes <i class='fa fa-check'></i>"
+                          cancel-text="No" on-confirm="cancelMaterial(m.pk);" confirm-button-type="default" cancel-button-type="default"> Cancel <i class="fa fa-close"></i> </button>
+                      </div>
+                      <div class="col-md-1">
+                        <button type="button" class="btn btn-default" ng-click="createDC(m.pk);$event.stopPropagation();"> &nbsp; Delivery Challan &nbsp; <i class="glyphicon glyphicon-plus"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row container-fluid" ng-if="m.open">
+                    <div class="container-fluid">
+                      <hr>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <span style="font-size:14px"><strong> Comm nr:
+                            </strong></span><br /><br />
+                          <span style="font-size:14px"><strong> Po Ref:
+                            </strong></span><br /><br />
+                          <span style="font-size:14px"><strong> Customer:
+                            </strong></span><br /><br />
+                          <span style="font-size:14px"><strong> Date of issue:
+                            </strong></span><br />
+                        </div>
+                        <div class="col-md-8">
+                          <span style="font-size:14px">{{m.project.comm_nr}}</span><br /><br />
+                          <span style="font-size:14px">{{m.project.title}}</span><br /><br />
+                          <span style="font-size:14px">{{m.project.service.name}}</span><br /><br />
+                          <span style="font-size:14px">{{m.created | date : "dd.MM.y"}} </span><br />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-8">
+                      <table class="table table-striped" style="margin-top:20px;">
+                        <th class="text-center">
+                          Part No
+                        </th>
+                        <th class="text-center">
+                          Quantity
+                        </th>
+                        <th class="text-center">
+                          Stock value/unit
+                        </th>
+                        <th class="text-center">
+                          Stock value Consumed
+                        </th>
+                        <tr ng-repeat="f in m.materialIssue">
+                          <td class="text-center">
+                            <span>{{f.product.part_no}}</span>
+                          </td>
+                          <td class="text-center">
+                            <span>{{f.qty}}</span>
+                          </td>
+                          <td class="text-center">
+                            <span>{{f.price.toFixed(2)}}</span>
+                          </td>
+                          <td class="text-center">
+                            <span ng-init="itemTotal = (f.price * f.qty).toFixed(2);">{{itemTotal}}</span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

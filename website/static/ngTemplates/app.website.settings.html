@@ -1,0 +1,148 @@
+<style media="screen">
+  .box {
+    background:
+    white;
+    padding: 35px 15px;
+    font-weight: 400;
+    color:
+    #000000;
+    border-radius: 23px;
+    box-shadow: 0px 0px 10px #ccc;
+    height: inherit;
+  }
+</style>
+<div class="row bg-blue text-center" style="padding:30px;">
+  <span style="font-size:20px;">Your website preview</span>
+</div>
+<div class="row">
+  <iframe src="/renderheaderfooter/" width="100%" frameborder="0" style="height:70vh;"></iframe>
+</div>
+<div class="container-fluid">
+
+  <div class="">
+    <div class=" col-md-11 col-md-offset-1" style="margin-top:50px;margin-bottom:50px;">
+
+      <div class="row" ng-if="!me.pk">
+        <div class="col-md-2">
+          <label for="" ng-if="!form.headerTemplate.pk">Header </label>
+          <button type="button" name="button" class="btn btn-primary" ng-if="form.headerTemplate.pk" ng-click="changeHeader()">Change Header</button>
+        </div>
+        <div class="col-md-6">
+          <div class="row" style="margin:0px;">
+            <div class="row" style="margin:0px;border:1px solid  black;padding:20px 0px;"  ng-if="!form.headerTemplate.pk">
+              <div class="col-md-8">
+                <h3   style="margin:0px;">No Header </h3>
+
+              </div>
+              <div class="col-md-4">
+                <button type="button" class="btn btn-primary btn-block" name="button" ng-click="selectHeader()">Select Header</button>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="row" ng-if="!me.pk">
+        <div class="col-md-2">
+          <label for="" ng-if="!form.footerTemplate.pk">Footer</label>
+          <button type="button" name="button" class="btn btn-primary" ng-if="form.footerTemplate.pk" ng-click="changeFooter()">Change Footer</button>
+
+        </div>
+        <div class="col-md-6">
+          <div class="row" style="margin:0px;border:1px solid  black;padding:20px 0px;" ng-if="!form.footerTemplate.pk">
+            <div class="col-md-8">
+              <h3   style="margin:0px;">No Footer </h3>
+
+            </div>
+            <div class="col-md-4">
+              <button type="button" class="btn btn-primary btn-block" name="button" ng-click="selectFooter()">Select Footer</button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="row" ng-if="me.pk" style="margin:20px 0px;">
+        <div class="col-md-6">
+          <div class="col-md-4">
+            <button type="button" class="btn defaultBtn btn-block" name="button" ng-click="selectHeader()">Select Header</button>
+
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="col-md-4 pull-right" style="padding:0px;">
+            <button type="button" class="btn defaultBtn btn-block" name="button" ng-click="selectFooter()">Select Footer</button>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-2">
+          <label for="">OG Image</label>
+
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="file" name="" value="" file-model="form.defaultOgImage">
+          </div>
+          <img src="{{form.defaultOgImage}}" alt="" style="height:300px;width:100%;margin-bottom:20px;" >
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label for="">Title</label>
+
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="text" name="" value="" class="form-control websiteInput" ng-model="form.defaultTitle">
+          </div>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label for="">Description</label>
+
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <textarea name="name" rows="8" cols="80" class="form-control websiteInput" ng-model="form.defaultDescription" style="resize:none;"></textarea>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-md-8 text-right">
+        <button type="button" class="btn newBtn" name="button" ng-click="save()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="row" style="margin:0px;margin-top:100px !important;">
+    <div class="col-md-12" ng-repeat="k in headerandfooters track by $index">
+      <div class="box" >
+        <div class="row" style="margin:0px;" ng-click="gotoHeaderandFooter(k.pk)">
+          <div class="col-md-9">
+            <h4>Title:{{k.defaultTitle}}</h4>
+            <h4>Description:{{k.defaultDescription}}</h4>
+
+          </div>
+          <div class="col-md-3 text-right" style="padding-left:0px;">
+            <img src="{{k.defaultOgImage}}" alt="" style="height:60px;">
+          </div>
+        </div>
+        <div class="row text-right" style="margin:0px;">
+          <i class="fa fa-trash" style="font-size:20px;"ng-click="delElement($index)"></i>
+        </div>
+      </div>
+
+    </div>
+  </div> -->
+
+
+</div>

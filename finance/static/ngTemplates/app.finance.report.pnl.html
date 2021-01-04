@@ -1,0 +1,143 @@
+<style media="screen">
+  th{
+    border-top:0px solid transparent !important;
+    color:black;
+
+  }
+  td{
+    border-top:0px solid transparent !important;
+    text-align:right !important;
+    color:black;
+    /*  */
+  }
+</style>
+
+<div class="container-fluid">
+  <div class="container-fluid" style="padding-left:0px;padding-right:0px;">
+    <div class="form-group col-md-4" style="padding-left:0px;">
+      <label for="sel1">Financial Year</label>
+      <select class="form-control" ng-model="selectedYear" ng-options="p for p in allYears">
+      </select>
+      <!-- <select class="form-control" name="">
+        <option value="2019-20">2019-20</option>
+        <option value="2020-21">2020-21</option>
+        <option value="2021-22">2021-22</option>
+        <option value="2022-23">2022-23</option>
+      </select> -->
+
+    </div>
+    <div class="form-group col-md-4">
+      <label for="sel1">Period</label>
+      <select class="form-control" name="" ng-model="select.month">
+        <option value="April">April</option>
+        <option value="May">May</option>
+        <option value="June">June</option>
+        <option value="July">July</option>
+        <option value="August">August</option>
+        <option value="September">September</option>
+        <option value="October">October</option>
+        <option value="November">November</option>
+        <option  value="December">December</option>
+        <option value="January">January</option>
+        <option value="February">February</option>
+        <option value="March">March</option>
+        <option value="Quarter 1 - April-June">Quarter 1 - April-June</option>
+        <option value="Quarter 2 - July-September">Quarter 2 - July-September</option>
+        <option value="Quarter 3 - October-December">Quarter 3 - October-December</option>
+        <option value="Quarter 4 - January-March">Quarter 4 - January-March</option>
+        <option value="Current FY">Current FY</option>
+      </select>
+
+    </div>
+    <div class="col-md-4 text-right" style="padding:0px;padding-top:25px;padding-right:0px !important;">
+      <div class="btn-group btn-group" >
+        <span class="btn btn-primary" ng-click="fetchproandLoss(selectedYear,select.month)"><i class="fa fa-refresh"></i> Fetch Data</span>
+        <a href="/api/finance/profitlossspdf/" target="_blank"><span class="btn btn-default"><i class="fa fa-download"></i> Download</span></a>
+      </div>
+    </div>
+  </div>
+  <!-- <img src="/static/images/pnlstatement.png" alt=""> -->
+  <div class="container-fluid" style="padding:30px;border:1px solid black;margin-top:30px;">
+    <div class="text-center">
+      <h2 style="font-weight:600;color:black;">{{proLossData.compName}}</h2>
+      <h2 style="font-weight:600;color:black">Profit & Loss </h2>
+      <h3 style="font-weight:600;color:black;">{{proLossData.FYStart |date:'MMMM yyyy'}} through {{proLossData.FYend |date:'MMMM yyyy'}} </h3>
+      <h4 style="text-align:right;font-weight:600;color:black;padding-top:20px;text-decoration:underline"> {{proLossData.FYStart |date:"MMM yy"}} - {{proLossData.FYend |date:'MMM yy'}} </h4>
+    </div>
+
+    <table class="table table-hover" style="border-top:none">
+        <tr>
+          <th style="font-weight:600">Ordinary Income/Expense</th>
+        </tr>
+        <tr>
+          <th style="padding-left:60px;font-weight:600">Income </th>
+        </tr>
+        <tr ng-repeat ="Inc in proLossData.income">
+          <th style="padding-left:90px;font-weight:600">{{Inc.title }}</th>
+          <td style="">{{Inc.balance }}</td>
+        </tr>
+
+        <tr>
+          <th  style="padding-left:60px;"> Total Income </th>
+          <td style="border-top:1px solid black !important;">{{proLossData.totalIncome}}</td>
+        </tr>
+        <tr>
+          <th style="padding-left:60px;">Cost of Goods Sold</th>
+
+        </tr>
+        <tr ng-repeat ="cog in proLossData.COGS">
+          <th style="padding-left:90px;font-weight:600">{{cog.title}}</th>
+          <td style=""> {{cog.balance}}</td>
+        </tr>
+        <tr>
+          <th style="padding-left:60px;font-weight:600">Total COGS </th>
+            <td style="border-top:1px solid black !important;border-bottom:1px solid black !important;"> {{proLossData.totalCOGS}}</td>
+        </tr>
+        <tr>
+          <th style="padding-left:20px;">Gross Profit </th>
+          <td >{{proLossData.grossProfit}}</td>
+        </tr>
+        <tr>
+          <th  style="padding-left:60px;font-weight:600"> Expense </th>
+        </tr>
+        <tr ng-repeat="exp in proLossData.expenses">
+          <th style="padding-left:90px;font-weight:600"> {{exp.title}}</th>
+          <td>{{exp.balance}}</td>
+        </tr>
+
+        <tr>
+          <th style="padding-left:60px;font-weight:600"> Total Expense</th>
+          <td style="border-top:1px solid black !important;border-bottom:1px solid black;">{{proLossData.totalExp}}</td>
+        </tr>
+        <tr>
+          <th style="color:black;font-weight:600">Net Ordinary Income</th>
+          <td>{{proLossData.NetordIncome}}</td>
+        </tr>
+        <tr>
+          <th>Other Income/Expense</th>
+        </tr>
+        <tr>
+          <th style="padding-left:25px;">Other Income </th>
+        </tr>
+        <tr ng-repeat="OI in proLossData.otherIncome">
+          <th style="padding-left:60px;"> {{OI.title}}</th>
+          <td>{{OI.balance}}</td>
+        </tr>
+
+        <tr>
+          <th style="padding-left:25px;">Total Other Income</th>
+          <td style="border-top:1px solid black !important;border-bottom:1px solid black;">{{proLossData.totalOtherInc}}</td>
+        </tr>
+        <tr>
+          <th >Net Other Income </th>
+          <td style="border-top:1px solid black !important;border-bottom:1px solid black;">{{proLossData.NetOtherInc}}</td>
+        </tr>
+        <tr>
+          <th style="font-weight:600;font-weight:600">Net Income</th>
+          <td style="font-weight:600;border-bottom:2px double black;">{{proLossData.netIncome}}</td>
+        </tr>
+    </table>
+
+  </div>
+
+</div>

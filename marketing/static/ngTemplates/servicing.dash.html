@@ -1,0 +1,107 @@
+
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-offset-10 col-md-2">
+        <div class="form-group">
+          <select class="form-control" ng-model="daysCount" ng-change="getAllData()">
+            <option value="7">7 Days</option>
+            <option value="15">15 Days</option>
+            <option value="3">3 Months</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="square-box">
+      <div class="text-center header">
+        <h4 style="color:#000000">New Service Visits</h4>
+      </div>
+      <h3 class="text-center">{{dashboardData.newCount}}</h3>
+      <!-- <div >
+          <canvas id="line-chart" height="66"></canvas>
+        </div> -->
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="square-box">
+      <div class="text-center header">
+        <h4 style="color:#000000">Completed Service Visits</h4>
+      </div>
+      <h3 class="text-center">{{dashboardData.completedCount}}</h3>
+      <!-- <div >
+          <canvas id="line-chart" height="66"></canvas>
+        </div> -->
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="square-box">
+      <div class="text-center header">
+        <h4 style="color:#000000">Posponed Service Visits</h4>
+      </div>
+      <h3 class="text-center">{{dashboardData.postponedCount}}</h3>
+      <!-- <div >
+          <canvas id="line-chart" height="66"></canvas>
+        </div> -->
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="square-box">
+      <div class="text-center header">
+        <h4 style="color:#000000">Cancelled Service Visits</h4>
+      </div>
+      <h3 class="text-center">{{dashboardData.postponedCount}}</h3>
+      <!-- <div >
+          <canvas id="line-chart" height="66"></canvas>
+        </div> -->
+    </div>
+  </div>
+
+  <div class="col-md-6" style="margin-top:20px">
+    <div class="box">
+      <div class="col-md-9">
+        <h3 class="text-left" style="padding-top:1em;display: inline-block">&#8377;</h3>
+        <span style="font-size: 60px;font-weight: bold;">{{dashboardData.invoiceTotal | number : 2}}</span>
+        <p style="color:#ccc;font-size: 40px;font-weight: bold;margin:-20px 0 0 10px;">Invoice Amount</p>
+      </div>
+      <div class="col-md-3" style="margin-top:20px;">
+        <div class="text-center header">
+          <h4 style="color:#000000">Ongoing</h4>
+        </div>
+        <h3 class="text-center" style="color:#000000">{{dashboardData.ongoingCount}}</h3>
+        <!-- <div class="caret1 text-center"><span class="carettext">15<span class="subtext" style="font-weight: bold;">.13%</span></span></div> -->
+      </div>
+      <!-- <h3 style="color:#3FB4F9;position:absolute; bottom:10px;">95%</h3>
+        <div style="background-color:#ccc;position:absolute; bottom:30px;right:10px;">
+          <h4 style="padding:5px;">&#8377;50</h4>
+        </div>
+        <div style="position:absolute; bottom:-20px;width: 100%;z-index:10px;">
+          <div class="progress" style="border-radius: 0;height:0.8em;">
+            <div class="progress-bar" role="progressbar" style="width: 95%;color:#3FB4F9;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div> -->
+    </div>
+  </div>
+
+  <div class="col-md-3" style="margin-top:20px;">
+    <div class="square-box">
+      <div class="text-center header">
+        <h4 style="color:#000000">Total Contacts</h4>
+      </div>
+      <h3 class="text-center">{{dashboardData.customerCount}}</h3>
+      <!-- <div class="caret1 text-center"><span class="carettext">15<span class="subtext" style="font-weight: bold;">.13%</span></span></div> -->
+    </div>
+  </div>
+
+  <div class="col-md-3" style="margin-top:20px;">
+    <div class="square-box">
+      <div class="text-center header">
+        <h4 style="color:#000000">Total Service Visits</h4>
+      </div>
+      <h3 class="text-center">{{dashboardData.visitCount}}</h3>
+      <!-- <canvas id="myChart"  height='70em' style="margin-top: -20px;"> -->
+    </div>
+  </div>

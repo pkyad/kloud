@@ -1,0 +1,8 @@
+<div class="col-md-3 " ng-controller="businessManagement.LMS.forumcomment.item">
+  <div class="container-fluid card" style="padding-bottom:10px;margin-bottom:15px;padding-top:20px;">
+    <label>Created By : </label> {{data.user.username}} <br>
+    <label>Text : </label> {{data.txt}} <br>
+    <label>Verified: </label><span style="margin-left:1em;">No</span> <switch ng-model=" data.verified" class="green" style="margin:1em 0.5em 0 0.5em;"></switch><span style="margin:1em 1em;">Yes</span> <br> <br>
+    <i class="fa fa-trash pull-right fa-lg" style="cursor:pointer;" ng-click="delete()"></i>
+  </div>
+</div>

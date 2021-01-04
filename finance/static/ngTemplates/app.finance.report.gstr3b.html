@@ -1,0 +1,393 @@
+<style media="screen">
+  .gstlefT {
+    text-align: left !important;
+  }
+
+  .textCen {
+    text-align: center !important;
+  }
+</style>
+
+<div class="container-fluid">
+  <div class="container-fluid" style="padding-left:0px;padding-right:0px;">
+    <div class="form-group col-md-3">
+      <label for="sel1">Financial Year</label>
+
+      <select class="form-control" name="" ng-model="financialYear">
+        <option value="2019-20">2019-20</option>
+        <option value="2020-21">2020-21</option>
+        <option value="2021-22">2021-22</option>
+        <option value="2022-23">2022-23</option>
+      </select>
+
+    </div>
+    <div class="form-group col-md-3">
+      <label for="sel1">Period</label>
+      <select class="form-control" name="" ng-model="quarter">
+        <option value="Quarter 1 - April-June">Quarter 1 - April-June</option>
+        <option value="Quarter 2 - July-September">Quarter 2 - July-September</option>
+        <option value="Quarter 3 - October-December">Quarter 3 - October-December</option>
+        <option value="Quarter 4 - January-March">Quarter 4 - January-March</option>
+      </select>
+
+    </div>
+    <!-- <p>{{quarter}}{{financialYear}}</p> -->
+    <div class="form-group col-md-3">
+      <label for="sel1">Units</label>
+      <select class="form-control" name="" ng-model="selectUnit" ng-options="unit.name for unit in unitsData">
+
+      </select>
+    </div>
+    <div class="col-md-3" style="padding:0px;padding-top:25px">
+      <div class="btn-group btn-group">
+        <span class="btn btn-primary" ng-click="fetchgstr(selectUnit,financialYear,quarter)"><i class="fa fa-refresh"></i> Fetch Data</span>
+        <!-- <a href="/api/finance/gstCalculation/?stDate={{dateForm.stDate.toJSON().split('T')[0]}}&edDate={{dateForm.edDate.toJSON().split('T')[0]}}&download" target="_blank"><span class="btn btn-default"><i class="fa fa-download"></i>
+            Download</span></a> -->
+        <a href="/api/finance/gstr3bPdf/?unit={{selectUnit.pk}}&FinY={{financialYear}}&Quarter={{quarter}}" target="_blank"><span class="btn btn-default"><i class="fa fa-download"></i>
+            Download</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- border:1px solid black; -->
+  <div class="container-fluid" style="margin-top:50px;">
+    <h3 style="text-align:center">FORM GSTR-3B</h3>
+    <div class="col-lg-4 pull-right" style="padding-right:0px;padding-top:30px;">
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <th>Year</th>
+            <!-- <td>{{gstrData.FinY}}</td> -->
+            <td ng-repeat="y in gstrData.FinY track by $index" style="text-align:center !important; font-weight:600">{{y}}</td>
+            <!-- <td></td>
+          <td></td>
+          <td></td> -->
+          </tr>
+          <tr>
+            <th>Month</th>
+            <td style="border-right:none;font-weight:600;text-align:center !important" colspan="4">{{gstrData.Month}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <th>1.</th>
+          <th>GSTIN</th>
+          <!-- <td colspan="15" ></td> -->
+          <td ng-repeat="k in gstrData.gstin track by $index" style="text-align:center !important;font-weight:600;">{{k}}</td>
+
+        </tr>
+        <tr>
+          <th>2.</th>
+          <th>Legal name of the registered person</th>
+          <td style="border-right:none;text-align:left !important;font-weight:600" colspan="15">{{gstrData.unitName}}</td>
+        </tr>
+
+
+
+      </tbody>
+    </table>
+    <!-- <p>{{gstrData.Point1}}</p> -->
+    <table class="table table-bordered">
+      <caption style="font-weight:600;color:black">3.1 Details of Outward Supplies and inward supplies liable to reverse charge</caption>
+      <br>
+      <tbody>
+        <tr style="background-color:#f0f3f9;">
+          <td style="text-align:center !important">Nature of Supplies</td>
+          <td style="text-align:center !important">Total Taxable Value</td>
+          <td style="text-align:center !important">Integrated Tax</td>
+          <td style="text-align:center !important">Central Tax</td>
+          <td style="text-align:center !important">State/UT Tax</td>
+          <td style="text-align:center !important">Cess</td>
+        </tr>
+        <tr style="text-align:center;background-color:#2e5497;color:white;font-weight:600">
+          <td style="text-align:center !important;color:white">1</td>
+          <td style="text-align:center !important;color:white">2</td>
+          <td style="text-align:center !important;color:white">3</td>
+          <td style="text-align:center !important;color:white">4</td>
+          <td style="text-align:center !important;color:white">5</td>
+          <td style="text-align:center !important;color:white">6</td>
+        </tr>
+        <tr ng-repeat="point in gstrData.Point1">
+          <td style="text-align:left !important" class="gstlefT">{{point.heading}}</td>
+          <td class="gstlefT">{{point.TotalTaxableValue}}</td>
+          <td class="gstlefT">{{point.IntegratedTax}}</td>
+          <td class="gstlefT">{{point.CentralTax}}</td>
+          <td class="gstlefT">
+            <span ng-if="point.State/UTTax">
+                {{point.State/UTTax}}
+            </span>
+          </td>
+          <td class="gstlefT">{{point.cess}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="table table-bordered" style="margin-top:30px;">
+      <caption style="font-weight:600;color:black">3.2 Of the supplies shown in 3.1(a) above,details of inter-State supplies made to unregistered persons, composition taxable persons and UIN holders</caption>
+      <br>
+      <tbody>
+        <tr style="background-color:#f0f3f9">
+          <td></td>
+          <td style="text-align:center !important;">Place of Supply<br> (State/UT)</td>
+          <td style="text-align:center !important;">Total Taxable value</td>
+          <td style="text-align:center !important;">Amount of Itengrated Tax</td>
+        </tr>
+        <tr style="text-align:center;background-color:#2f75b5;color:white;font-weight:600">
+          <td style="text-align:center !important;color:white">1</td>
+          <td style="text-align:center !important;color:white">2</td>
+          <td style="text-align:center !important;color:white">3</td>
+          <td style="text-align:center !important;color:white">4</td>
+
+        </tr>
+        <tr ng-repeat="pointT in gstrData.Point2">
+          <td style="text-align:center !important;">{{pointT.heading}}</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+
+      </tbody>
+    </table>
+    <table class="table table-bordered">
+      <caption style="font-weight:600;color:black">4. Eligible ITC</caption>
+      <br>
+      <tbody>
+        <tr style="background-color:#fff3eb;">
+          <td style="text-align:center !important">Details</td>
+          <td style="text-align:center !important">Integrated Tax</td>
+          <td style="text-align:center !important">Central Tax</td>
+          <td style="text-align:center !important">State/UT Tax</td>
+          <td style="text-align:center !important">Cess</td>
+        </tr>
+        <tr style="text-align:center;background-color:#c35a27;color:white;font-weight:600">
+          <td style="text-align:center !important;color:white">1</td>
+          <td style="text-align:center !important;color:white">2</td>
+          <td style="text-align:center !important;color:white">3</td>
+          <td style="text-align:center !important;color:white">4</td>
+          <td style="text-align:center !important;color:white">5</td>
+        </tr>
+        <tr>
+          <th>(A) ITC Available (whether in full or part)</th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+
+        </tr>
+        <tr ng-repeat="itc in gstrData.point31">
+
+          <td class="gstlefT" style="padding-left:30px !important;">{{itc.Details}}</td>
+          <td>{{itc.IntegratedTax}}</td>
+          <td>{{itc.CentralTax}}</td>
+          <td>
+            <span ng-if="itc.State/UTTax">
+                {{itc.State/UTTax}}
+           </span>
+
+          </td>
+          <td>{{itc.Cess}}</td>
+        </tr>
+
+        <tr>
+          <th>(B) ITC Revesrsed</th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr ng-repeat="itcT in gstrData.point32">
+          <td class="gstlefT" style="padding-left:30px !important;">{{itcT.Details}}</td>
+          <td>{{itcT.IntegratedTax}}</td>
+          <td>{{itcT.CentralTax}}</td>
+          <td>
+            <span ng-if="itcT.State/UTTax">
+                {{itcT.State/UTTax}}
+           </span>
+          </td>
+          <td>{{itcT.Cess}}</td>
+        </tr>
+
+        <tr>
+          <th>(C) Net ITC Available (A)-(B)</th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>(D) Ineligible ITC</th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr ng-repeat="itcD in gstrData.point34">
+          <td class="gstlefT" style="padding-left:30px !important;">{{itcD.Details}}</td>
+          <td>{{itcD.IntegratedTax}}</td>
+          <td>{{itcD.CentralTax}}</td>
+          <td>
+            <span ng-if="itcD.State/UTTax">
+             {{itcD.State/UTTax}}
+           </span>
+          </td>
+          <td>{{itcD.Cess}}</td>
+        </tr>
+
+      </tbody>
+    </table>
+    <table class="table table-bordered">
+      <caption style="font-weight:600;color:black;">5. Values of exempt,nil-rated and non-GST inward supplies</caption>
+      <br>
+      <tbody>
+        <tr style="background-color:#fff3eb;">
+          <td style="text-align:center !important">Nature of supplies</td>
+          <td style="text-align:center !important">Inter-State supplies</td>
+          <td style="text-align:center !important">Intra-State supplies</td>
+
+        </tr>
+        <tr style="text-align:center;background-color:#c35a27;color:white;font-weight:600">
+          <td style="text-align:center !important;color:white">1</td>
+          <td style="text-align:center !important;color:white">2</td>
+          <td style="text-align:center !important;color:white">3</td>
+
+        </tr>
+        <tr ng-repeat=" pointf in gstrData.point4">
+          <td style="text-align:left !important;">{{pointf.Natureofsupplies}}</td>
+          <td>{{pointf.Inter-Statesupplies}}</td>
+          <td>{{pointf.Inter-Intra-Statesupplies}}</td>
+        </tr>
+
+      </tbody>
+    </table>
+    <table class="table table-bordered">
+      <caption style="font-weight:600;color:black">6.1 Payment of tax</caption>
+      <br>
+      <tbody>
+        <tr style="background-color:#FAFAFA">
+          <td class="textCen">Description</td>
+          <td class="textCen">Tax payable</td>
+          <td colspan="4" class="textCen">Paid though ITC</td>
+          <td class="textCen">Tax paid TDS/TCS</td>
+          <td class="textCen">Tax/cess paid in cash</td>
+          <td class="textCen">Interest</td>
+          <td class="textCen">Late Fee</td>
+        </tr>
+        <tr style="background-color:#c8cbcc">
+          <td></td>
+          <td></td>
+          <td>Integrated Tax</td>
+          <td>Central Tax</td>
+          <td>State/UT Tax</td>
+          <td>Cess</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr style="background-color:#7c7e81">
+          <td style="text-align:center !important;color:white;font-weight:600">1</td>
+          <td style="text-align:center !important;color:white;font-weight:600">2</td>
+          <td style="text-align:center !important;color:white;font-weight:600">3</td>
+          <td style="text-align:center !important;color:white;font-weight:600">4</td>
+          <td style="text-align:center !important;color:white;font-weight:600">5</td>
+          <td style="text-align:center !important;color:white;font-weight:600">6</td>
+          <td style="text-align:center !important;color:white;font-weight:600">7</td>
+          <td style="text-align:center !important;color:white;font-weight:600">8</td>
+          <td style="text-align:center !important;color:white;font-weight:600">9</td>
+          <td style="text-align:center !important;color:white;font-weight:600">10</td>
+        </tr>
+        <tr ng-repeat="pointsix in gstrData.Point5">
+          <td>{{pointsix.Description}}</td>
+          <td>{{pointsix.Taxpayable}}</td>
+          <td>{{pointsix.IntegratedTax}}</td>
+          <td>{{pointsix.CentralTax}}</td>
+          <td>
+            <span ng-if="pointsix.State/UTTax"> {{pointsix.State/UTTax}}</span>
+          </td>
+          <td>{{pointsix.Cess}}</td>
+          <td style="background-color:#808285">
+            <span ng-if="pointsix.TaxpaidTDS/TCS">
+                {{pointsix.TaxpaidTDS/TCS}}
+              </span>
+          </td>
+          <td>
+            <span ng-if="pointsix.Tax/cesspaidincash">
+             {{pointsix.Tax/cesspaidincash}}
+           </span>
+          </td>
+          <td>{{pointsix.Interest}}</td>
+          <td>{{pointsix.LateFee}}</td>
+        </tr>
+        <!-- <tr>
+         <td>Central Tax</td>
+         <td></td>
+         <td></td>
+         <td></td>
+            <td style="background-color:black"></td>
+         <td></td>
+            <td style="background-color:#808285"></td>
+         <td></td>
+         <td></td>
+         <td></td>
+       </tr>
+       <tr>
+         <td>State/UT Tax</td>
+         <td></td>
+         <td></td>
+            <td style="background-color:black"></td>
+         <td></td>
+         <td></td>
+            <td style="background-color:#808285"></td>
+         <td></td>
+         <td></td>
+         <td></td>
+       </tr>
+       <tr>
+         <td>Cess</td>
+         <td></td>
+           <td style="background-color:black"></td>
+            <td style="background-color:black"></td>
+         <td style="background-color:black"></td>
+         <td></td>
+         <td style="background-color:#808285"></td>
+         <td></td>
+         <td></td>
+         <td></td>
+       </tr> -->
+      </tbody>
+    </table>
+
+    <table class="table table-bordered">
+      <caption style="font-weight:600;color:black">6.2 TDS/TCS Credit</caption>
+      <br>
+      <tbody styl="margin-top:30px;">
+        <tr style="background-color:#eafbdc;">
+          <td class="textCen">Details</td>
+          <td class="textCen">Integrated Tax</td>
+          <td class="textCen">Central Tax</td>
+          <td class="textCen">State/UT Tax</td>
+        </tr>
+        <tr style="background-color:#54813b;">
+          <td class="textCen" style="font-weight:600;color:white">1</td>
+          <td class="textCen" style="font-weight:600;color:white">2</td>
+          <td class="textCen" style="font-weight:600;color:white">3</td>
+          <td class="textCen" style="font-weight:600;color:white">4</td>
+        </tr>
+        <tr ng-repeat="pointsTwo in gstrData.Point6">
+          <td style="text-align:left !important;">{{pointsTwo.Details}}</td>
+          <td style="text-align:left !important;background-color:#808285">{{pointsTwo.IntegratedTax}}</td>
+          <td style="text-align:left !important;background-color:#808285">{{pointsTwo.CentralTax}}</td>
+          <td style="text-align:left !important;background-color:#808285">
+            <span ng-if="pointsTwo.State/UTTax">
+             {{pointsTwo.State/UTTax}}
+
+           </span></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>

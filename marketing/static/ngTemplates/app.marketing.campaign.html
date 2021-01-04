@@ -1,0 +1,290 @@
+<style media="screen">
+  .menuCol {
+    width: 9.8%;
+  }
+
+  .appCol {
+    width: 90.2%;
+  }
+  .navigationBtn , .navigationBtn:hover{
+    padding: 10px;
+    border:none !important;
+    border-radius:10px !important;
+  }
+   input , button , .btn, .btn-primary{
+    border:none !important;
+  }
+  input, .form-control{
+    padding: 20px;
+    border-radius: 23px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  /* Tooltip container */
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+  }
+
+  /* Tooltip text */
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+  }
+
+  /* Show the tooltip text when you mouse over the tooltip container */
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+
+  .tooltip .tooltiptext::after {
+  content: " ";
+  position: absolute;
+  bottom: 100%;  /* At the top of the tooltip */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent black transparent;
+}
+
+</style>
+<div class="container-fluid" style="padding:40px;background:#FAFAFA;min-height:100vh;" ng-if="!teamlead">
+  <br>
+  <br>
+  <div class="row"  style="margin-top:15px;">
+    <!-- <div class="col-md-2" >
+      <div class="row text-center">
+        <div class="col-md-12" style="box-shadow: 5px 10px 20px#e3e3e3;min-height: 120px;padding: 30px;background:white;">
+          <h3> Today's Targets </h3>
+          <h3> {{todaycampaigns.success_target}} / {{todaycampaigns.today_target}} </h3>
+        </div>
+    </div>
+    <div class="row text-center">
+      <div class="col-md-12" style="box-shadow: 5px 10px 20px#e3e3e3;min-height: 120px;padding: 30px;background:white;margin-top:15px">
+        <h3> Commits </h3>
+        <h3> {{todaycampaigns.commits_count}} / {{todaycampaigns.total_commits_count}} </h3>
+      </div>
+  </div>
+  <div class="row" ng-click="$state.go('businessManagement.marketing.level' , {'id':'firstLevel'})">
+    <div class="col-md-12" style="box-shadow: 5px 10px 20px#e3e3e3;min-height: 120px;padding: 30px;background:white;margin-top:15px">
+      <h3> Level 1 <span class="pull-right" style="padding:5px 15px 5px 15px;border-radius:25px;background:green;color:#ffffff;cursor:pointer"> Start </span> </h3>
+      <h4> {{todaycampaigns.level2Obj.length}} </h4>
+    </div>
+  </div>
+  <div class="row" ng-click="$state.go('businessManagement.marketing.level', {'id':'secondLevel'})">
+    <div class="col-md-12" style="box-shadow: 5px 10px 20px#e3e3e3;min-height: 120px;padding: 30px;background:white;margin-top:15px">
+      <h3> Level 2  <span class="pull-right" style="padding:5px 15px 5px 15px;border-radius:25px;background:green;color:#ffffff;cursor:pointer"> Start </span></h3>
+      <h4>   {{todaycampaigns.level2Obj.length}} </h4>
+    </div>
+  </div>
+  </div> -->
+  <div class="col-md-12">
+  <div class="row">
+    <div class="col-md-1">
+    </div>
+
+    <div class="col-md-12">
+      <div class="col-md-5">
+        <div class="input-group" style="background:#ffffff;border-radius:10px;">
+          <input type="text" class="form-control" ng-model="searchForm.searchValue" placeholder="Search" ng-enter="getallCampaigns()" style="border:none !important;background:#ffffff;">
+          <div class="input-group-btn">
+            <button class="btn btn-default" type="submit" ng-click="getallCampaigns()" style="border:none !important;background:#ffffff;">
+              <i class="glyphicon glyphicon-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="campPrevious()">Prev</button>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="campNext()">Next</button>
+
+      </div>
+      <div class="col-md-2">
+        <!-- <button type="button" ng-click="bulkUpload()" type="button" class="navigationBtn btn btn-primary btn-block " name="button">
+         Upload
+       </button> -->
+       <button type="button"  type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.marketing.contacts')">
+        Create Campaign
+      </button>
+      </div>
+      <!-- <div class="col-md-1" style="cursor: pointer;" >
+        <img ng-click="downloadDailyCallReport(me)" src="/static/images/download-from-cloud.png" style="width:40px;" >
+        <p class="text-center" style="font-size:12px;">Daily Report</p>
+      </div>
+      <div class="col-md-1" style="cursor: pointer;" >
+        <img ng-click="createNotification(me,'dataRequest')" src="/static/images/icons8-data-provider-50.png" style="width:40px;" >
+        <p class="text-center" style="font-size:12px;">Request Data</p>
+      </div> -->
+      <div class="col-md-1">
+        <img ng-click="showNotifications(me)" src="/static/images/icons8-notification-50.png"  style="width:35px;margin-right:30px;" class="pull-right">
+          <div style="color:#fff;background:red;border-radius: 25px;position: relative;right: -39px;top: 15px;height: 25px;width: 25px;text-align: center;padding-top: 4px;"> {{notificationsLength}} </div>
+      </div>
+
+    </div>
+  </div>
+
+    <div class="row" style="margin-top:15px">
+    <div class="col-md-3" style="padding-bottom:10px;padding-left:10px;padding-right:10px;cursor:pointer" ng-repeat="data in campaigns track by $index  " >
+      <div class="container-fluid" style="padding:15px 5px;background:white;border:none;border-radius:10px;" ng-click="viewCammpaign(data)">
+        <div class="row">
+          <div class="col-md-8" style="padding-left:30px;">
+            <h5>{{data.name}}</h5>
+          </div>
+          <div class="col-md-2" >
+            <span style="padding:5px;background:{{data.isHigh?'red':'orange'}};color:#ffffff;border-radius:25px"> {{data.isHigh? 'Urgent' : 'Normal'}} </span>
+          </div>
+          <!-- <div class="col-md-3">
+            <img src="/static/images/editpencil.png" style="width:70%;" ng-click="editMarketing(data);$event.stopPropagation()">
+          </div> -->
+        </div>
+        <div class="row" style="padding:0px 15px;height:20px" ng-if="data.typ == 'call'">
+          <div class="col-md-10">
+            <label>Total : </label> {{data.itemCount}} <br>
+            <label>Called : </label> {{data.inProcess}} <br>
+            <label>Interested : </label> {{data.intersted}} <br>
+            <label>Data Type : </label> {{data.isSales?'Sales' : 'Services'}} <br>
+          </div>
+        </div>
+        <!-- <div class="row" style="padding:0px 15px;height:20px" ng-if="data.typ == 'email'">
+          <div class="col-md-9">
+            <label>Total : </label> {{data.mailStats.total}} <br>
+            <label>Emails Sent : </label> {{data.mailStats.sentPercent | number : 2}} % <br>
+            <label>Opened : </label> {{data.mailStats.openedPercent | number : 2}} % <br>
+          </div>
+          <div class="col-md-3">
+            <img src="/static/images/emailCampaign.png" style="width:100%;" >
+          </div>
+        </div> -->
+      </div>
+    </div>
+    </div>
+  </div>
+  </div>
+</div>
+<div class="container-fluid" style="padding:40px;background:#FAFAFA;min-height:100vh;" ng-if="teamlead">
+  <!-- <generic-Table data="data.tableData" config-Obj="{{Config}}" callback-Fn="tableAction"></generic-Table> -->
+  <div class="row"  style="margin-top:15px;">
+  <div class="col-md-12">
+  <div class="row">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-1">
+      <button type="button" ng-click="bulkUpload()" type="button" class="navigationBtn btn btn-primary btn-block " name="button">
+       Upload
+     </button>
+
+    </div>
+    <div class="col-md-9">
+      <div class="col-md-3">
+        <!-- <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search" ng-model="searchForm.searchValue"ng-enter="getallCampaigns()" >
+          <div class="input-group-btn">
+            <button class="btn btn-default" ng-click="getallCampaigns()" style="border-top-right-radius:23px !important;border-bottom-right-radius:23px !important;padding: 10px;padding-right:20px;">
+              <i class="glyphicon glyphicon-search" ></i>
+            </button>
+          </div>
+        </div> -->
+        <div class="input-group" style="background:#ffffff;border-radius:10px;">
+          <input type="text" class="form-control" ng-model="searchForm.searchValue" placeholder="Search" ng-enter="getallCampaigns()" style="border:none !important;background:#ffffff;">
+          <div class="input-group-btn">
+            <button class="btn btn-default" type="submit" ng-click="getallCampaigns()" style="border:none !important;background:#ffffff;">
+              <i class="glyphicon glyphicon-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="campPrevious()">Prev</button>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="campNext()">Next</button>
+
+      </div>
+      <div class="col-md-3">
+        <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.marketing.contacts')" style="background:rgb(14, 67, 136);color:white;">Create Campaign</button>
+      </div>
+    </div>
+    <div class="col-md-1">
+      <img ng-click="showNotifications(me)" src="/static/images/icons8-notification-50.png"  style="width:35px;margin-right:30px;" class="pull-right">
+      <div style="color:#fff;background:red;border-radius: 25px;position: relative;right: -62px;top: 15px;height: 25px;width: 25px;text-align: center;padding-top: 4px;"> {{notificationsLength}} </div>
+    </div>
+    <!-- <div class="col-md-1">
+      <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.marketing.firstLevel')">First Level</button>
+    </div>
+    <div class="col-md-1">
+      <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.marketing.secondLevel')">Second Level</button>
+    </div> -->
+  </div>
+
+    <div class="row" style="margin-top:15px">
+    <div class="col-md-4" style="padding-bottom:10px;padding-left:10px;padding-right:10px;cursor:pointer" ng-repeat="data in campaigns track by $index  " ng-click="showDetails($index)" >
+      <div class="container-fluid" style="padding:15px 5px;background:white;border:none;border-radius:10px;" >
+        <div class="row">
+          <div class="col-md-9" style="padding-left:30px;">
+            <h4>{{data.name}}</h4>
+          </div>
+          <div class="col-md-3">
+            <!-- <i class="fa fa-pencil fa-lg" ng-click="editMarketing(data);$event.stopPropagation()"></i> -->
+            <img src="/static/images/editpencil.png" style="width:70%;" ng-click="editMarketing(data);$event.stopPropagation()">
+          </div>
+        </div>
+        <!-- <hr> -->
+        <div class="row" style="padding:0px 15px;height:20px">
+          <div class="col-md-12">
+            <label>Total : </label> {{data.totalTask.total}} <br>
+            <label>Assigned : </label> {{data.totalTask.assigned}} <br>
+            <label>Remaining : </label> {{data.totalTask.balance}} <br>
+            <!-- <label>Called : </label> {{data.inProcess}} <br>
+            <label>Interested : </label> {{data.intersted}} <br> -->
+          </div>
+        </div>
+        <div class="row" style="padding:0px 15px;height:20px">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <select class="form-control darkInput" ng-model="data.user" ng-options="a.first_name + ' ' + a.last_name  for a in teamMembers" style="height: 56px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;background:#d7d7d7;padding:15px" ng-click="$event.stopPropagation()">
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group" >
+                  <input type="text" class="form-control" ng-model="data.count" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:5px;font-size:20px;background:#d7d7d7" ng-click="$event.stopPropagation()">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <img src="/static/images/icons8-save-48.png" style="width:70%;padding-top:15px" ng-click="saveTask($index);$event.stopPropagation()">
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="row" style="padding:0px 15px;height:20px" ng-if="data.typ == 'email'">
+          <div class="col-md-9">
+            <label>Total : </label> {{data.mailStats.total}} <br>
+            <label>Emails Sent : </label> {{data.mailStats.sentPercent | number : 2}} % <br>
+            <label>Opened : </label> {{data.mailStats.openedPercent | number : 2}} % <br>
+          </div>
+          <div class="col-md-3">
+            <img src="/static/images/emailCampaign.png" style="width:100%;" >
+          </div>
+        </div> -->
+      </div>
+    </div>
+    </div>
+  </div>
+  </div>
+</div>

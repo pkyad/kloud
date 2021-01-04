@@ -1,0 +1,493 @@
+<style media="screen">
+
+  /* .modal{
+    width: 600px;
+    border-right:solid 2px #d6d6d6;
+  } */
+
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+    background:white;
+    border:solid 1px #eee;
+    padding:3px;
+    border-radius:0px !important;
+  }
+
+  textarea{
+    resize:none;
+  }
+
+  .modal-content{
+    scrollbar-width:thin;
+  }
+  .intentName{
+    border: solid 1px white;
+  }
+  .intentName:hover , .intentName:focus{
+    border:solid 1px #eee;
+  }
+
+</style>
+
+<div class="modal-header" style="padding-left:30px;padding-top:10px;position:fixed;left:0px;top:0px;width:600px;z-index:10;background:white;border-right:solid 2px #d6d6d6">
+
+  <div class="row" >
+    <div class="col-md-2">
+      <img ng-src="{{block.icon}}" ng-if="block.icon" alt="" style="width:80%;">
+      <img src="/static/images/user-intent.png" ng-if="!block.icon" alt="" style="width:80%;">
+    </div>
+    <div class="col-md-6" style="">
+      <input type="text" class="intentName" style="font-size: 17px;background: white;width: 100%;" ng-model="block.name" >
+      <p class="text-muted" contenteditable ng-model="block.description"></p>
+    </div>
+    <div class="col-md-2" style="padding:0px;margin-top:28px;">
+      <span style="color:green;" ng-if="saving == false ">  <img style="width: 25px;" src="/static/images/double-check.png" alt=""> Saved </span>
+    </div>
+    <div class="col-md-2" style="padding:0px;margin-top:20px;">
+
+      <button type="button" class="btn btn-default" style="{{saving ? 'color:green;':''}}" ng-click="save()">
+        <i ng-if="saving" class="fa fa-spinner fa-spin"></i>  {{saving ? 'Saving': 'Save'}}
+      </button>
+      <button style="position: fixed;top: 23px;left: 600px;padding: 17px;border-radius: 0px;border-top-right-radius: 20px;border-bottom-right-radius: 20px;font-size: 17px;background:#d6d6d6;" type="button" ng-click="close()" class="btn-sm btn "> <i class="fa fa-times"></i> </button>
+    </div>
+  </div>
+
+</div>
+<div class="modal-body" style="margin-top:80px;">
+  <div class="row text-center" style="color:white;background:#4c70af;padding:10px;margin-top:-15px;" ng-if="['getName' , 'getEmail' , 'getMobile' , 'getDate', 'getInput' , 'getFile' , 'giveChoices'].indexOf(block.blockType ) != -1">
+    Save Result as <input type="text" name="" value="" ng-model="block.context_key" style="background: #6d8bbf;padding: 10px;border: none;border-radius:5px;margin-left:20px;">
+  </div>
+
+  <div class="dropdown" ng-if="block.blockType == 'getInput'" style="margin-top:10px;">
+   <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Examples
+   <span class="caret"></span></button>
+   <ul class="dropdown-menu">
+     <li><a href="" ng-click="autoFill('orderid')" >6 Digit Order ID</a></li>
+     <li><a href="" ng-click="autoFill('aadhar')" >12 Digit Aadhar Card Number</a></li>
+     <li><a href="" ng-click="autoFill('ssn')" >Social Security Number</a></li>
+     <li><a href="" ng-click="autoFill('account')" >10 Digit Bank Account Number</a></li>
+     <li><a href="" ng-click="autoFill('date')" >Date and time</a></li>
+     <li><a href="" ng-click="autoFill('pan')" >PAN Card Number</a></li>
+     <li><a href="" ng-click="autoFill('money')" >Money</a></li>
+     <li><a href="" ng-click="autoFill('percentage')" >Percentage</a></li>
+     <li><a href="" ng-click="autoFill('location')" >Location</a></li>
+     <li><a href="" ng-click="autoFill('mapping')" >Mapping</a></li>
+   </ul>
+ </div>
+
+
+  <div class="row" style="margin-top:20px;" ng-if="block.parent == null && block.type != 'FAQ'">
+
+    <div style="padding-left:30px;" class="col-md-7 col-md-offset-3">
+      <div class="row">
+        <div class="container-fluid" style="border:solid 1px #eee; border-radius:20px;padding:5px;">
+          <div class="row" ng-repeat="i in data.node_variations_vatiations" style="border-bottom:solid 1px #eee;;margin:0px;padding:10px;" ng-init="i.hover = false;" ng-mouseenter="i.hover = true;" ng-mouseleave="i.hover = false;">
+            {{i.txt}} <i class="fa fa-trash pull-right" style="cursor:pointer;color:#969696;" ng-click="deleteInputVariation(i, $index)" ng-if="i.hover"></i>
+          </div>
+
+          <div class="row" style="margin:0px;">
+            <textarea ng-model="form.inputVariation" rows="2" cols="80" class="form-control bubbleInput" ng-enter="addInputVariation()" placeholder="Add..."></textarea>
+          </div>
+
+        </div>
+      </div>
+      <div class="row text-muted text-right" style="color:#c3c3c3;margin-top:10px;margin-bottom:20px;">
+        Message that users will send to invoke this intent
+      </div>
+    </div>
+
+    <div class="col-md-2 text-right">
+      <img class="img img-square" src="/static/images/woman5-512.png" alt="" style="width:80%;">
+    </div>
+
+  </div>
+
+  <div class="row" style="margin-top:20px;" ng-if=" ['runPython', 'addCondition' , 'giveChoices' ].indexOf(block.blockType) == -1">
+    <div class="col-md-2">
+      <img class="img img-square" src="/static/images/vector-robotics-flat-11.png" alt="" style="width:80%;">
+    </div>
+    <div style="padding-left:30px;" class="col-md-7">
+      <div class="row">
+        <div class="container-fluid" style="border:solid 1px #eee; border-radius:20px;padding:5px;">
+          <textarea ng-model="data.auto_response" rows="2" cols="80" class="form-control bubbleInput"></textarea>
+        </div>
+      </div>
+      <div class="row text-muted" style="margin-left:20px;color:#c3c3c3;">
+        What the bot says..
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:20px;" ng-if="block.blockType == 'askForPermission'">
+    <div style="padding-left:30px;" class="col-md-7 col-md-offset-3">
+      <div class="row">
+        <div class="container-fluid" style="border:solid 1px #eee; border-radius:20px;padding:5px;">
+          <div class="row" ng-repeat="i in data.input_vatiations" style="border-bottom:solid 1px #eee;;margin:0px;padding:10px;" ng-init="i.hover = false;" ng-mouseenter="i.hover = true;" ng-mouseleave="i.hover = false;">
+            {{i.txt}} <i class="fa fa-trash pull-right" style="cursor:pointer;color:#969696;" ng-click="deleteAffirmVariation(i , $index)" ng-if="i.hover"></i>
+          </div>
+
+          <div class="row" style="margin:0px;">
+            <textarea ng-model="form.affirmVariation" rows="2" cols="80" class="form-control bubbleInput" ng-enter="addAffirmVariation()" placeholder="Add..."></textarea>
+          </div>
+
+        </div>
+      </div>
+      <div class="row text-muted text-right" style="color:#c3c3c3;margin-top:10px;margin-bottom:20px;">
+        The user says "Yes" by saying any of these
+      </div>
+    </div>
+
+    <div class="col-md-2 text-right">
+      <img class="img img-square" src="/static/images/woman5-512.png" alt="" style="width:80%;">
+      <img class="img img-square" src="/static/images/done.png" alt="" style="width:40%;position:absolute;bottom:-20px;right:10px;">
+    </div>
+
+  </div>
+
+  <div class="row" style="margin-top:20px;" ng-if="block.blockType == 'askForPermission'">
+    <div style="padding-left:30px;" class="col-md-7 col-md-offset-3">
+      <div class="row">
+        <div class="container-fluid" style="border:solid 1px #eee; border-radius:20px;padding:5px;">
+          <div class="row" ng-repeat="i in data.startover_vatiations" style="border-bottom:solid 1px #eee;;margin:0px;padding:10px;" ng-init="i.hover = false;" ng-mouseenter="i.hover = true;" ng-mouseleave="i.hover = false;">
+            {{i.txt}} <i class="fa fa-trash pull-right" style="cursor:pointer;color:#969696;" ng-click="deleteStartOverVariation(i , $index)" ng-if="i.hover"></i>
+          </div>
+
+          <div class="row" style="margin:0px;">
+            <textarea ng-model="form.startOverVariation" rows="2" cols="80" class="form-control bubbleInput" ng-enter="addStartOverVariation()" placeholder="Add..."></textarea>
+          </div>
+
+        </div>
+      </div>
+      <div class="row text-muted text-right" style="color:#c3c3c3;margin-top:10px;margin-bottom:20px;">
+        The user says "Start Over" by saying any of these
+      </div>
+    </div>
+
+    <div class="col-md-2 text-right">
+      <img class="img img-square" src="/static/images/woman5-512.png" alt="" style="width:80%;">
+      <img class="img img-square" src="/static/images/Flat_restart_icon.svg.png" alt="" style="width:40%;position:absolute;bottom:-20px;right:10px;">
+    </div>
+
+  </div>
+
+  <div class="row" style="margin-top:20px;" ng-if="block.blockType == 'askForPermission'">
+
+    <div style="padding-left:30px;" class="col-md-7 col-md-offset-3">
+      <div class="row">
+        <div class="container-fluid" style="border:solid 1px #eee; border-radius:20px;padding:5px;">
+          <div class="row" ng-repeat="i in data.action_intent_vatiations" style="border-bottom:solid 1px #eee;;margin:0px;padding:10px;" ng-init="i.hover = false;" ng-mouseenter="i.hover = true;" ng-mouseleave="i.hover = false;">
+            {{i.txt}} <i class="fa fa-trash pull-right" style="cursor:pointer;color:#969696;" ng-click="deleteActionInputVariation(i , $index)" ng-if="i.hover"></i>
+          </div>
+
+          <div class="row" style="margin:0px;">
+            <textarea ng-model="form.actionVariation" rows="2" cols="80" class="form-control bubbleInput" ng-enter="addActionInputVariation()" placeholder="Add..."></textarea>
+          </div>
+
+        </div>
+      </div>
+      <div class="row text-muted text-right" style="color:#c3c3c3;margin-top:10px;margin-bottom:20px;">
+        The user says "No" by saying any of these
+      </div>
+    </div>
+
+    <div class="col-md-2 text-right">
+      <img class="img img-square" src="/static/images/warning-shield-icon-11-256.png" alt="" style="width:40%;position:absolute;bottom:-20px;right:10px;">
+      <img class="img img-square" src="/static/images/woman5-512.png" alt="" style="width:80%;">
+    </div>
+
+  </div>
+
+
+  <div class="row" style="margin-top:20px;" ng-if="block.blockType == 'addCondition'">
+    <div class="container-fluid">
+
+      <p class="help-block">
+        Enter a python expression like ctx['variable_name'] and if this equates to Case any case then the conversation will go the specific direction
+      </p>
+
+
+      <div class="row" style="margin:0px;">
+        <div class="col-md-3 text-center" style="background:#4c70af;color:white;height:40px;padding:10px;">
+          Switch Expression
+        </div>
+        <div class="col-md-9" style="padding:0px;">
+          <input type="text" ng-model="data.auto_response" class="form-control" style="border-left:none;border-radius:0px;height:40px;border:solid 1px #eee;">
+        </div>
+      </div>
+
+      <div class="row" style="margin:0px;margin-top:20px;" ng-repeat="conn in data.connections">
+        <div class="col-md-3 text-center" style="background:#eee;height:40px;padding:10px;">
+          Case {{$index + 1}}
+        </div>
+        <div class="col-md-9" style="padding:0px;">
+          <input type="text" ng-model="conn.condition" ng-blur="saveOptions(conn, $index)" class="form-control" style="border-left:none;border-radius:0px;height:40px;border:solid 1px #eee;">
+        </div>
+      </div>
+
+      <div class="row" style="margin:0px;margin-top:20px;">
+        <div class="col-md-3 text-center" style="background:#eee;height:40px;padding:10px;" ng-click="addOptions(true)">
+          Add <i class="fa fa-plus"></i>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="row" style="margin-top:20px;" ng-if="block.blockType == 'giveChoices'">
+
+    <div class="col-md-2">
+      <img class="img img-square" src="/static/images/vector-robotics-flat-11.png" alt="" style="width:80%;">
+    </div>
+
+    <div style="padding-left:30px;" class="col-md-7">
+      <div class="row">
+        <div class="container-fluid" style="border:solid 1px #eee; border-radius:20px;padding:5px;">
+
+          <div class="row" style="border-bottom:solid 1px #eee;;margin:0px;padding:10px;">
+            <textarea ng-model="data.auto_response" rows="2" cols="80" class="form-control bubbleInput"></textarea>
+          </div>
+
+          <div class="row" ng-repeat="i in data.connections" style="border-bottom:solid 1px #eee;;margin:0px;padding:10px;" ng-init="i.hover = false;" ng-mouseenter="i.hover = true;" ng-mouseleave="i.hover =false;">
+            <span style="color:#a1a1a1;margin-right:20px;">{{$index +1}}.</span>
+
+
+            <input type="text" ng-model="i.condition" style="background: white;width: 244px;" class="bubbleInput" ng-blur="saveOptions(i, $index)" placeholder="Add condition">
+
+            <i class="fa fa-trash pull-right text-muted" ng-if="i.hover" ng-click="deleteOption(i, $index)"></i>
+
+          </div>
+
+          <div class="row" style="margin:0px;">
+            <textarea ng-model="form.optionTxt" rows="2" cols="80" class="form-control bubbleInput" ng-enter="addOptions()" placeholder="Add..."></textarea>
+          </div>
+
+        </div>
+      </div>
+      <div class="row text-muted" style="margin-left:20px;color:#c3c3c3;margin-top:10px;margin-bottom:20px;">
+        Options to select from
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <div class="row" style="margin-top:20px;margin-bottom:20px;" ng-if="block.blockType == 'invokeUiPath'">
+    <div class="container-fluid">
+      <label>and adds a Job in the below queue</label>
+    </div>
+
+
+    <div class="row" style="margin:0px;">
+      <div class="row" style="margin:0px;">
+        <div class="col-md-2 text-right">
+          <img src="/static/images/process.png" alt="" style="width:60%;">
+        </div>
+        <div class="col-md-9">
+          <div class="form-group" >
+            <label>Queue</label>
+            <select class="form-control" ng-model="data.uipathQueue" ng-change="resetProcessAndRobot()">
+              <option value="{{queue.Name}}" ng-repeat="queue in uipathData.queues">{{queue.Name}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row text-center" style="padding:30px;">
+      <h3>OR</h3>
+    </div>
+
+    <div class="container-fluid">
+      <label>and Invoke a process on a robot</label>
+    </div>
+
+    <div class="row" style="margin:0px;">
+      <div class="row" style="margin:0px;">
+        <div class="col-md-2 text-right">
+          <img src="/static/images/process.png" alt="" style="width:60%;">
+        </div>
+        <div class="col-md-9">
+          <div class="form-group" >
+            <label>Process</label>
+            <select class="form-control" ng-model="data.uipathProcess" ng-change="resetUiPathQueue()">
+              <option value="{{process.Id}}" ng-repeat="process in uipathData.processes">{{process.Id}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin:0px;">
+      <div class="col-md-2 text-right">
+        <img src="/static/images/robot.png" alt="" style="width:60%;">
+      </div>
+      <div class="col-md-9">
+        <div class="form-group" >
+          <label>Robot</label>
+          <select class="form-control" ng-model="data.uipathRobot" ng-change="resetUiPathQueue()">
+            <option value="{{$index}}" ng-repeat="robot in uipathData.robots">{{robot.Name}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <div class="row" style="margin-top:20px;" ng-if="['getName' , 'getEmail' , 'getMobile' , 'getDate' , 'getInput' ].indexOf(block.blockType ) != -1">
+
+    <div style="padding-left:30px;" class="col-md-7 col-md-offset-3">
+      <div class="row">
+        <div class="container-fluid" style="border:solid 1px #eee; border-radius:20px;padding:5px;">
+          <textarea ng-model="data.exampleInput" rows="2" cols="80" class="form-control bubbleInput"></textarea>
+        </div>
+      </div>
+      <div class="row text-muted text-right" style="margin-left:20px;color:#c3c3c3;">
+        An Example of what the user might say
+      </div>
+    </div>
+
+    <div class="col-md-2 text-right">
+      <img class="img img-square" src="/static/images/woman5-512.png" alt="" style="width:80%;">
+    </div>
+
+  </div>
+
+  <!-- getFile -->
+
+  <div class="row" style="margin-top:20px;" ng-if="['getFile'].indexOf(block.blockType ) != -1">
+
+    <div style="padding-left:30px;" class="col-md-7 col-md-offset-3">
+      <div class="row">
+        <div class="container-fluid" style="border:solid 1px #eee; border-radius:20px;padding:5px;">
+          <img src="/static/images/file_icon.png" style="width:50%;" alt="">
+        </div>
+      </div>
+      <div class="row text-muted text-right" style="margin-left:20px;color:#c3c3c3;">
+        An Example of what the user might say
+      </div>
+    </div>
+
+    <div class="col-md-2 text-right">
+      <img class="img img-square" src="/static/images/woman5-512.png" alt="" style="width:80%;">
+    </div>
+
+  </div>
+
+  <div class="row" style="margin-top:10px;" ng-if="['getInput' ].indexOf(block.blockType ) != -1">
+    <div class="container-fluid" style="padding:5px;background:#546c77;color:white;">
+      <label style="padding-top: 3px;">Processing Code (python)</label>
+      <!-- <button type="button" class="btn btn-default pull-right btn-sm" style="background:black;color:white;border:none;" ng-click="testCode()">
+        <i class="fa fa-play"></i> Test Run
+      </button> -->
+    </div>
+    <div id="aceEditor3" style="width:100%;min-height:40vh;"></div>
+  </div>
+
+  <!-- <div class="row" style="background:rgb(0, 0, 0)" ng-if="['getInput' ].indexOf(block.blockType ) != -1">
+    <div class="row" style="margin:0px;color:rgb(142, 142, 142);height:40vh;overflow:auto;">
+      <div ng-repeat="log in logs track by $index" style="white-space: pre-wrap">{{log}}<br></div>
+    </div>
+  </div> -->
+
+
+
+
+
+  <div class="row" style="margin-top:50px;" ng-if="['getName' , 'getEmail' , 'getMobile' , 'getDate', 'getInput', 'getFile'].indexOf(block.blockType ) != -1">
+    <div class="col-md-2" style="position:relative;">
+      <img class="img img-square" src="/static/images/done.png" alt="" style="width:40%;position:absolute;bottom:-20px;right:0%;">
+
+      <img class="img img-square" src="/static/images/vector-robotics-flat-11.png" alt="" style="width:80%;">
+
+    </div>
+    <div style="padding-left:30px;" class="col-md-7">
+      <div class="row">
+        <div class="container-fluid" style="border:solid 1px #7ac142; border-radius:20px;padding:5px;">
+          <textarea ng-model="data.nodeResponse" rows="2" cols="80" class="form-control bubbleInput"></textarea>
+        </div>
+      </div>
+      <div class="row text-success" style="margin-left:20px;">
+        On Success
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:50px;" ng-if="['getName' , 'getEmail' , 'getMobile' , 'getDate', 'getInput', 'getFile'].indexOf(block.blockType ) != -1">
+    <div class="col-md-2" style="position:relative;">
+      <img class="img img-square" src="/static/images/warning-shield-icon-11-256.png" alt="" style="width:40%;position:absolute;bottom:-20px;right:0%;">
+
+      <img class="img img-square" src="/static/images/vector-robotics-flat-11.png" alt="" style="width:80%;">
+
+    </div>
+    <div style="padding-left:30px;" class="col-md-7">
+      <div class="row">
+        <div class="container-fluid" style="border:solid 1px orange; border-radius:20px;padding:5px;">
+          <textarea ng-model="data.failResponse" rows="2" cols="80" class="form-control bubbleInput"></textarea>
+        </div>
+      </div>
+      <div class="row text-danger" style="margin-left:20px;color:orange;">
+        On Error
+      </div>
+      <div class="row" style="margin-left:20px;">
+        Ask again this <select style="width:70px;margin-left:10px;margin-right:10px;" ng-model="data.retry" name="">
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+        </select>
+        times
+      </div>
+    </div>
+  </div>
+
+  <div class="row text-center"  style="margin-top:30px;" ng-if="['getName' , 'getEmail' , 'getMobile' , 'getDate' , 'getFile' , 'getInput'].indexOf(block.blockType ) != -1">
+    <div class="col-md-6" >
+      <switch ng-model="data.unique" class="neutral"></switch><span style="margin-left:10px;">Unique</span>
+    </div>
+    <div class="col-md-6" ng-if="['getEmail' , 'getMobile'].indexOf(block.blockType ) != -1">
+      <switch ng-model="data.verify" class="neutral" ng-change="initiate()"></switch><span style="margin-left:10px;" >Verify</span>
+    </div>
+  </div>
+
+
+  <div class="row" style="margin-top:40px;" ng-if="['getEmail' , 'getMobile'].indexOf(block.blockType ) != -1 && data.verify">
+    <div class="container-fluid">
+      <label>OTP Sending logic (python)</label>
+    </div>
+    <div id="aceEditor" style="width:100%;min-height:30vh;"></div>
+  </div>
+
+  <!-- <div class="row" style="margin-top:40px;" ng-if="['getEmail' , 'getMobile'].indexOf(block.blockType ) != -1 && data.verify">
+    <div class="container-fluid">
+      <label>Validation Code (python)</label>
+    </div>
+    <div id="aceEditor2" style="width:100%;min-height:30vh;"></div>
+  </div> -->
+
+  <div class="row" style="margin-top:10px;" ng-if="['runPython' ].indexOf(block.blockType ) != -1">
+    <div class="container-fluid">
+      <label>Python Code</label>
+    </div>
+    <div id="aceEditor3" style="width:100%;min-height:30vh;"></div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>

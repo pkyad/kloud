@@ -1,0 +1,222 @@
+<style>
+  .scroll {
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+
+  .scroll::-webkit-scrollbar {
+    display: none;
+    /* Safari and Chrome */
+  }
+  /* .dropdown-menu{
+    width:100%
+  } */
+  th{
+    border:none!important
+  }
+  table{
+    width:100%
+  }
+
+</style>
+<div>
+  <div class="container-fluid scroll" style="padding-top:30px;background: #FAFAFA;min-height:100vh">
+    <div class="row">
+      <div class="col-md-offset-1 col-md-8">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <h3 ng-if="mode=='new'">Create a new Invoice (Accounts Payable)</h3>
+            <h3 ng-if="mode=='edit'">Edit Invoice</h3>
+          </div>
+        </div>
+        <div class="row" style="margin-top:30px">
+
+          <div class="col-md-6">
+            <label> Company </label>
+            <div class="input-group">
+              <input type="text " class="form-control" ng-model="form.vendor" uib-typeahead="n as n.name for n in companySearch($viewValue)" placeholder="Select or Add Company"
+                style="padding: 29px;border: none; border-top-left-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;    border-bottom-left-radius: 10px;">
+              <span class="input-group-btn">
+                <button type="button" ng-click="createVendorService()" class="btn btn-default" style="padding: 15px;border: none;border-bottom-right-radius: 10px !important;border-top-right-radius: 10px !important;"><i
+                    class="fa fa-{{form.vendor.pk? 'pencil':'plus'}} fa-2x"></i></button>
+              </span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+                <label> Invoice Number </label>
+              <input type="text" class="form-control" ng-model="form.invNo"  placeholder="Invoice Number" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;">
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label> Person Name </label>
+              <input type="text" class="form-control" ng-model="form.personName" placeholder="Add Person Name" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label> Mobile Number </label>
+              <input type="text" class="form-control" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label>Delivery Date </label>
+            <div class="input-group">
+              <!-- <label> Delivery Date </label> -->
+              <input type="text" class="form-control" ng-model="form.deliveryDate" placeholder="Delivery Date"
+                style="padding: 29px;border: none; border-top-left-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;    border-bottom-left-radius: 10px;" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy"
+                is-open="statusStart.opened" ng-init="today">
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="statusStart.opened = true;" style="padding: 18px;border: none;border-bottom-right-radius: 10px !important;border-top-right-radius: 10px !important;"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label>Payment Due Date </label>
+            <div class="input-group">
+              <!-- <label> Payment Due Date </label> -->
+              <input type="text" class="form-control" ng-model="form.paymentDueDate" placeholder="Payment Due Date"
+                style="padding: 29px;border: none; border-top-left-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;    border-bottom-left-radius: 10px;" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" is-open="statusPay.opened"
+                ng-init="today">
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="statusPay.opened = true;" style="padding: 18px;border: none;border-bottom-right-radius: 10px !important;border-top-right-radius: 10px !important;"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+
+
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label> Expense Category</label>
+              <select class="form-control " ng-model="form.account" style="height: 50px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;" ng-options="a.title for a in allAccount">
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label> Cost Center </label>
+              <select class="form-control " ng-model="form.costcenter" ng-options="cost.name for cost in allCostCenter" style="height: 50px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;">
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Note </label>
+                <textarea name="name" ng-model="form.note" style="padding: 29px;border: none; border-top-left-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;    border-bottom-left-radius: 10px;"  class="form-control" rows="2" placeholder="Note"></textarea>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="row" ng-if="otherBankAcc">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Bank Account Number </label>
+              <input type="text" class="form-control" ng-model="form.accNo"  placeholder="Bank Account Number" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label> Bank Account Holder Name  </label>
+              <input type="text" class="form-control" ng-model="form.bankName"  placeholder="Bank Account Number" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label> Bank IFSC  </label>
+              <input type="text" class="form-control" ng-model="form.ifsc"  placeholder="Bank Account Number" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;">
+            </div>
+          </div>
+        </div> -->
+        <div class="row" style="padding-top:20px;padding-bottom:30px;margin-bottom:30px" >
+          <div class="col-md-12" style="padding:0px;">
+            <table class="invoiceTable" style=" width: 100%;">
+              <tbody>
+                <tr style="background-color: black;height: 75px;color:#ffffff">
+                  <th>S.No</th>
+                  <th>Product Name</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>HSN/SAC Code</th>
+                  <th>Tax (%)</th>
+                  <th>Sub Total</th>
+                  <th></th>
+                </tr>
+                <tr ng-repeat="v in form.products track by $index">
+                  <td>{{$index + 1}}</td>
+                  <td><input type="text" class="form-control-pos text-center" ng-model="v.product" uib-typeahead="p as p.product for p in productSearch($viewValue)"></td>
+                  <td><input type="text" class="form-control-pos text-center" ng-model="v.price"></td>
+                  <td><input type="text" class="form-control-pos text-center" ng-model="v.receivedQty"></td>
+                  <td><input type="text" class="form-control-pos text-center" ng-model="v.hsn" uib-typeahead="meta as meta.code for meta in productMetaSearch($viewValue)"></td>
+                  <td><input type="text" class="form-control-pos text-center" ng-model="v.tax"></td>
+                  <td><input type="text" class="form-control-pos text-center" ng-model="v.total"></td>
+                  <td><button type="button" class="btn btn-danger btn-sm"  ng-click="deleteData(v.pk , $index)"> <i class="fa fa-trash fa-2x"></i> </button></td>
+                </tr>
+                <tr class="text-left" ng-click="addTableRow($index)">
+                  <td style="border:none" class="text-left"><span style="background-color:white;border:none;" ><i class="fa fa-plus fa-2x" style="cursor:pointer"></i></span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row fixedActionStrip" style="padding-top:15px;background:transparent!important">
+          <div class="col-md-offset-10 col-md-1 ">
+              <button type="button" class="btn btn-primary btn-block cutebuttonplain" style="background:rgb(14, 67, 136);color:white;" ng-click="saveInvoice()">Save</button>
+          </div>
+          <div class="col-md-1">
+              <button ng-if="mode=='new'" type="button" class="btn btn-default btn-block cutebuttonplain" style="background:#461482;color:white;" ng-click="refresh()">Refresh</button>
+          </div>
+        </div>
+      </div>
+      <div class=" col-md-3">
+        <div class="row" ng-show="form.vendor.pk" style="margin-top:11vh">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-3">
+                <i class="fa fa-info fa-3x" style="color:#9c9c9c"></i>
+              </div>
+              <div class="col-md-9">
+                <h4> {{form.personName}} </h4>
+                <h4> {{form.phone}} </h4>
+                <h4> {{form.email}} </h4>
+                <h4> {{form.gstIn}} </h4>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <i class="fa fa-map-marker fa-3x" style="color:#9c9c9c"></i>
+              </div>
+              <div class="col-md-9">
+                <h4> {{form.address}} </h4>
+                <h4> {{form.city}}, {{form.state}}</h4>
+                <h4> {{form.country}} - {{form.pincode}} </h4>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <i class="fa fa-university fa-3x" style="color:#9c9c9c"></i>
+              </div>
+              <div class="col-md-9">
+                <h4> {{form.bankName}} </h4>
+                <h4> {{form.accNo}}</h4>
+                <h4> {{form.ifsc}} </h4>
+                <!-- <h4 ng-click="otherBankAcc=true"> Other Bank Account </h4> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

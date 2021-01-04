@@ -1,0 +1,49 @@
+<style media="screen">
+  th , td {
+    padding:20px !important;
+  }
+</style>
+
+<div class="row" style="margin:15px;padding-top:50px">
+
+  <div class="col-md-12">
+    <div class="row" style="margin:0px;">
+      <div class="col-md-6">
+        <h3>Company Policy Documents</h3>
+        <p>Your employees can see these documents any time on the KloudERP portal or mobile app. You can upload documents like Leave policy , Advance money for any project and other SOP ( standard operating procedure ) document</p>
+      </div>
+      <div class="col-md-6">
+        <button type="button" class="btn btn-primary pull-right" ng-click="openFile()" name="button" style="background: rgb(35, 22, 84);border: none !important;padding-right: 25px !important;border-radius: 20px !important;font-size: 18px;color: white;padding-left: 20px;">Upload a new Company Policy Document</button>
+        <!-- <label>Upload a new file</label> -->
+          <input style="display:none;" id="filePicker" type="file" file-model="form.documentFile" >
+      </div>
+    </div>
+    <div class="row" style="margin:0px;margin-top:30px;">
+      <table class="table table-hover">
+        <thead style="background: #eee;">
+          <tr>
+            <th>Name</th>
+            <th style="width: 135px;">Upload Date</th>
+            <th style="width: 335px;">Description</th>
+            <th style="width: 135px;">File</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="k in allDocs" ng-click="editDocument($index)">
+            <td>{{k.name}}</td>
+            <td style="width: 135px;">{{k.created | date}}</td>
+            <td style="width: 335px;">{{k.description}}</td>
+            <td style="width: 135px;cursor:pointer;"><a ng-click="downloadFile(k.documentFile);$event.stopPropagation();"><img src="/static/images/download-from-cloud.png" style="width:25px;margin-right:10px;" >download</a></td>
+            <td >
+              <button class="btn btn-danger" style="margin-left:20px;border:none !important;" ng-click="$event.stopPropagation();"  mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No"
+                on-confirm="deleteDocument($index);$event.stopPropagation();" confirm-button-type="default" cancel-button-type="default">delete</button>
+             </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>

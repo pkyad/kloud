@@ -1,0 +1,56 @@
+<div class="modal-body">
+  <div class="row" style="padding-bottom:15px">
+    <div class="col-md-3">
+      Project
+      <input uib-typeahead="p as getFullProjectName(p) for p in projectSearch($viewValue)" ng-model="form.project" type="text" class="form-control">
+    </div>
+    <div class="col-md-3">
+      Engineer
+      <input uib-typeahead="p as p.first_name for p in userSearch($viewValue)" ng-model="form.responsible" type="text" class="form-control">
+    </div>
+    <div class="col-md-6 text-right">
+      <span class="btn btn-default" ng-click="close()"><i class="fa fa-close"></i></span>
+    </div>
+  </div>
+  <div class="row">
+    <table class="invoiceTable" style=" width: 100%;">
+      <tbody>
+        <tr style="background-color: #eeeeee;height: 96px;">
+          <th>Si.No</th>
+          <th>Part No</th>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th></th>
+        </tr>
+        <tr ng-repeat="v in productsOrdered track by $index">
+          <td style="background-color:{{v.prodQty<=v.total_quantity?'':'#d94738'}}">{{$index + 1}}</td>
+          <td><input ng-model="v.part_no" uib-typeahead="product as product.part_no for product in change($viewValue) " type="text" class="form-control-pos text-center"></td>
+          <!-- <td>{{v.part_no}}</td> -->
+          <td>{{v.description_1}}</td>
+          <td><input type="number" step=1 class="form-control-pos" ng-model="v.prodQty" ng-init="v.prodQty=1"></td>
+          <td>
+            <button type="button" class="btn btn-danger btn-sm" ng-click="delete($index)"> <i class="fa fa-trash"></i> </button>
+          </td>
+        </tr>
+        <tr ng-if="showButton">
+          <td><button style="background-color:white;border:none;" ng-click="addTableRow($index)"><i class="fa fa-plus" style="cursor:pointer"></i></button></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+  <div class="row" ng-if="productsOrdered.length>0&&showSave">
+    <div class="col-md-12" style="padding-top:20px">
+      <span style="font-size:20px;color:#71d97b">If any product marked as red is not in stock and cannot be ordered, please delete it before ordering </span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9">
+      <button type="button" class="btn btn-success pull-right" ng-if="showSave" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="save()" confirm-button-type="primary"
+        cancel-button-type="default" style="margin:35px;">Submit</button>
+    </div>
+    <div class="col-md-3" style="padding-top:33px">
+      <span><a class="btn btn-primary" ng-if="values" style="cursor:pointer;" target="_blank" href="/api/importexport/materialIssued/?value={{values}}"> Material Issue <i class="fa fa-download" style="font-size:1;margin-left:1em"></i></a></span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,65 @@
+<div class="container-fluid">
+
+  <div class="col-md-8 col-md-offset-2">
+    <h3>Cost Centers</h3>
+    <p>Cost centers helps you understand how you are are spending your money</p>
+    <div class="row" ng-repeat="cc in costData" style="margin:0px;" >
+      <div class="row">
+        <div class="col-md-11">
+          <input type="text" class="form-control" style="margin-top:20px;font-weight: bold;background: #081752;color: white;padding: 20px;border-radius: 76px;border:none;font-size: 20px;
+text-transform: capitalize;" ng-model="cc.name" ng-model-options="{debounce:1000}" ng-change="update(cc.name , cc.pk)">
+        </div>
+        <div class="col-md-1" style="padding-top:30px;">
+          <i mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="delete(cc.pk)" confirm-button-type="danger" cancel-button-type="default" class="fa fa-trash fa-lg" ></i>
+        </div>
+      </div>
+      <div style="padding-left:30px;margin:0px;" class="row" ng-repeat="ccc in cc.children">
+          <div class="row">
+            <div class="col-md-11">
+              <input type="text" class="form-control" style="margin-top:10px;border-radius: 200px;
+border: none;
+background: #e6e6e6;
+padding: 20px;" ng-model="ccc.name" ng-model-options="{debounce:1000}" ng-change="update(ccc.name , ccc.pk)">
+            </div>
+            <div class="col-md-1" style="padding-top:20px;">
+              <i mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="delete(ccc.pk)" confirm-button-type="danger" cancel-button-type="default" class="fa fa-trash fa-lg" ></i>
+            </div>
+          </div>
+      </div>
+      <div style="padding-left:30px;margin:0px;" class="row" >
+        <div class="row">
+          <div class="col-md-11">
+            <input placeholder="Add new sub cost center ( press ENTER to save)" type="text" ng-enter="createCC(cc.newName , cc.pk, $index)" class="form-control" style="margin-top:10px;border-radius: 200px;
+border: none;
+background: #e6e6e6;
+padding: 20px;" ng-model="cc.newName">
+          </div>
+          <div class="col-md-1" style="padding-top:20px;">
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-11">
+        <input style="margin-top:10px;font-weight: bold;border-radius: 200px;
+    border: none;
+    background: #e6e6e6;
+    padding: 20px;font-size: 20px;
+text-transform: capitalize;" placeholder="Add a cost center ( press ENTER to save)" type="text" class="form-control" ng-model="form.name" ng-enter="createCC(form.name)">
+      </div>
+      <div class="col-md-1">
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+</div>

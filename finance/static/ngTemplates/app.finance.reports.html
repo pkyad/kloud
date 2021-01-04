@@ -1,0 +1,49 @@
+<style media="screen">
+  .taskMenuItem:hover{
+    background:white;
+    cursor:pointer;
+  }
+  .activeMenuItem{
+    background: white;
+  }
+</style>
+<div class="">
+
+  <div class="col-md-2" style="background:#FAFAFA;height:100vh;padding:0px;padding-left:10px;overflow:hidden;position: fixed;">
+
+    <div class="row taskMenuItem {{$state.is('businessManagement.reports.compliance') ? 'activeMenuItem':''}}" style="padding:15px;" ng-click="$state.go('businessManagement.reports.compliance')">
+
+      <div class="container-fluid">
+        Filings / Returns Status
+      </div>
+    </div>
+
+    <div class="row taskMenuItem {{$state.is('businessManagement.reports.gst3b') ? 'activeMenuItem':''}}" style="padding:15px;" ng-click="$state.go('businessManagement.reports.gst3b')">
+
+      <div class="container-fluid">
+        GST-3B
+      </div>
+    </div>
+    <div class="row taskMenuItem {{$state.is('businessManagement.reports.pnl') ? 'activeMenuItem':''}}" style="padding:15px;" ng-click="$state.go('businessManagement.reports.pnl')">
+
+      <div class="container-fluid">
+        Profit and Loss Statement
+      </div>
+    </div>
+    <div class="row taskMenuItem {{$state.is('businessManagement.reports.cashflow') ? 'activeMenuItem':''}}" style="padding:15px;" ng-click="$state.go('businessManagement.reports.cashflow')">
+      <div class="container-fluid">
+        Cashflow Statement
+      </div>
+    </div>
+    <div class="row taskMenuItem {{$state.is('businessManagement.reports.balancesheet') ? 'activeMenuItem':''}}" style="padding:15px;" ng-click="$state.go('businessManagement.reports.balancesheet')">
+      <div class="container-fluid">
+        Balancesheet
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-md-10"  style="position:fixed;right:0px;width: 72%;height:100vh;overflow:auto;padding:40px;">
+    <ui-view></ui-view>
+  </div>
+</div>

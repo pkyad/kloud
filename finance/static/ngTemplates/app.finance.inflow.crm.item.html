@@ -1,0 +1,43 @@
+
+<div class="col-md-12" style="padding:0px;">
+  <div class="" style="padding:10px;border-left:4px solid #ef342d;">
+    <div class="row" ng-if="$parent.$parent.$first">
+      <div class="col-md-2" style="padding-right:0px">
+        <i class="fa fa-file-text-o"></i> <strong> Id</strong>
+      </div>
+      <div class="col-md-2">
+        <strong>Dated</strong>
+      </div>
+      <div class="col-md-2" style="padding-right:0px">
+        <strong>Total Value</strong>
+      </div>
+      <div class="col-md-2">
+        <strong>Grand Total</strong>
+      </div>
+      <div class="col-md-2">
+        <strong>Total Tax</strong>
+      </div>
+      <hr>
+    </div>
+
+    <div class="row">
+      <div class="col-md-2" style="padding-right:0px">
+        CRM_{{data.pk}}
+      </div>
+      <div class="col-md-2">
+        {{data.recievedDate | date :"dd-MMM-yyyy"}}
+      </div>
+      <div class="col-md-2" style="padding-right:0px">
+        {{data.value | number}}
+      </div>
+      <div class="col-md-2">
+        {{data.grandTotal | number}}
+      </div>
+      <div class="col-md-2">
+        {{data.totalTax | number}}
+      </div>
+
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,76 @@
+.carets:before {
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 30px solid #008001;
+}
+
+.carets-down:before {
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 30px solid #008001;
+}
+
+.firstrow {
+  border: 1px solid #706961;
+  border-radius: 10px;
+  margin: 1em 0 0 3em;
+  width: 30%;
+  position: relative;
+  min-height: 200px;
+}
+
+.firstrow p {
+  font-weight: `700;
+  font-size: 30px;
+  color: #706961;
+  margin-top: -15px;
+  text-align: center;
+}
+
+.carets span {
+  color: #008001;
+  font-size: 30px;
+  font-weight: `600;
+  margin-left: 30px;
+}
+
+.carets-down span {
+  color: #008001;
+  font-size: 30px;
+  font-weight: `600;
+  margin-left: 30px;
+}
+
+.line {
+  margin-bottom: 20px;
+}
+
+.line::after {
+  content: "60 Days Trend";
+  clear: both;
+}
+
+.header {
+  background-color: #F1F1F1;
+  width: 106.9%;
+  height: 25px;
+  text-align: center;
+  border-radius: 10px 10px 0px 0;
+  margin-left: -15px;
+  margin-bottom: 20px;
+}
+
+.header p {
+  padding-top: 3px;
+  font-size: 15px;
+  margin: 0;
+  color: black;
+}

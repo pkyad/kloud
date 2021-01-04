@@ -1,0 +1,66 @@
+<div class="container-fluid">
+  <div class="row"  style="background:#0E1C2C;padding:15px;box-shadow: 0px 15px 18px rgba(157, 157, 157, 0.94) !important;">
+    <div class="col-md-12" >
+      <div class="col-md-12">
+        <div class="col-md-1" style="margin-top:15px">
+          <img onclick="window.history.back();" src="/static/images/icons8-left-48.png" style="width: 60px;" alt="">
+        </div>
+        <div class="col-md-4">
+          <div class="input-group" style="border : none !important;border-radius:10px !important;background:#1E334C !important;padding:10px;padding-top:10px;padding-bottom:5px;margin-top:15px">
+            <input type="text" class="form-control searchInpSales ng-pristine ng-valid ng-empty ng-touched" placeholder="Search" ng-model="search" style="background:#1E334C !important;border : none !important;color:white;" ng-enter="getallCheckins()">
+            <div class="input-group-btn">
+              <button class="btn btn-default" style="background:#1E334C !important;border : none !important;color:white;" type="submit" ng-click="getallCheckins()">
+                <i class="glyphicon glyphicon-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1" style="margin-top:15px">
+          <button type="button" style="border : none !important;border-radius:10px !important;background:#1E334C;color:white;padding:13px;padding-left:15px;padding-right:15px;" class="btn btn-sm btn-primary btn-block" ng-click="prev()">Prev</button>
+        </div>
+        <div class="col-md-1" style="margin-top:15px">
+          <button type="button" style="border : none !important;border-radius:10px !important;background:#1E334C;color:white;padding:13px;padding-left:15px;padding-right:15px;" class="btn btn-sm btn-primary btn-block" ng-click="next()">Next</button>
+        </div>
+        <div class="col-md-5" style="color:#ffffff">
+          <p>Product : {{inventoryData.name}}</p>
+          <p>SKU : {{inventoryData.sku}}</p>
+          <p>Selling Price : {{inventoryData.rate}}</p>
+        </div>
+
+      </div>
+  </div>
+</div>
+<div class="container-fluid" style="padding:0px;padding-bottom:100px;" >
+
+  <div class="row" style="background:#1E334C;padding:15px;color:white;">
+    <div class="col-md-2 col-md-offset-1" style="font-size:17px;">Serial Number</div>
+    <div class="col-md-1" style="font-size:17px;">Price</div>
+    <div class="col-md-4" style="font-size:17px;">Issued To</div>
+    <div class="col-md-2" style="font-size:17px;">Comments</div>
+    <div class="col-md-2" style="font-size:17px;" ></div>
+  </div>
+
+  <div class="row" style="padding:15px;border-bottom:1px solid #eee;" ng-repeat="i in infoForm.checkinData" ng-click="editCheckin(i)">
+    <div class="col-md-2 col-md-offset-1" style="font-size:17px;">
+      <h4>{{i.serialNo}}</h4>
+    </div>
+    <div class="col-md-1" style="font-size:17px;">
+       {{i.price}}
+    </div>
+    <div class="col-md-4" style="font-size:22px;">
+      <span style="font-size:22px;"> {{i.to.first_name}}  {{i.to.last_name}}  </span><br/><br/>
+      <img ng-if="i.to.pk" src="/static/images/icons8-email-96.png" style="width: 20px;" ><span ng-if="i.to.pk" > {{i.to.email}} </span><br/><br/>
+      <img ng-if="i.to.pk" src="/static/images/icons8-dialing-number-100.png" style="width: 25px;"><span ng-if="i.to.pk" > {{i.to.profile.mobile}} </span><br/>
+    </div>
+
+
+    <div class="col-md-2" style="font-size:17px;">
+      {{i.returnComment}}
+    </div>
+    <div class="col-md-2 text-right" style="font-size:17px;padding-right:30px;" >
+
+        <a href="/api/assets/createChekinIndividual/?id={{i.pk}}"><img src="/static/images/icons8-print-64.png" style="width:30px;border: none !important;margin-left:20px;"></a>
+    </div>
+  </div>
+</div>
+</div>

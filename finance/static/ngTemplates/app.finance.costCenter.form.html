@@ -1,0 +1,42 @@
+<div class="modal-header bg-black text-center">
+  <h3 class="modal-title" ng-if="mode == 'edit'">Edit Cost Center Of : <strong>{{form.name}}</strong></h3>
+  <h3 class="modal-title" ng-if="mode == 'new'">Create A New Cost Center</h3>
+</div>
+
+<div class="modal-body">
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Head</label>
+          <input uib-typeahead="u as getuserName(u) for u in userSearch($viewValue)" ng-model="form.head" type="text" class="form-control" placeholder="Search By username">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Account</label>
+          <input uib-typeahead="acc as acc.title for acc in accountSearch($viewValue)" ng-model="form.account" type="text" class="form-control" placeholder="Search By Account Number">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" class="form-control" ng-model="form.name">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Code</label>
+          <input type="text " class="form-control" ng-model="form.code">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12 text-center">
+      <button type="button" class="btn btn-primary" ng-click="savecCenter()">Save</button>
+    </div>
+  </div>
+</div>

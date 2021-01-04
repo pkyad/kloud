@@ -1,0 +1,65 @@
+<div class="" style="height:93vh;position:relative;">
+  <div class="container-fluid" style="padding:0px;">
+    <breadcrumb></breadcrumb>
+
+    <div class="container-fluid">
+      <div class="col-md-3">
+        <div class="container-fluid" style="border:1px solid #d6d6d6;height:40vh;">
+          <div class="">
+            <h4 class="">Employee Type</h4>
+          </div>
+          <h3>{{totalTime}}</h3><span>Total</span>
+          <canvas id="pie-chart"></canvas>
+          </canvas>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="container-fluid" style="border:1px solid #d6d6d6;height:40vh;margin:0px;padding:0px;border-radius:5px;">
+          <div class="" style="width:100%;margin:0px;padding:0px;height:30px;">
+            <span style="font-size:1.2em;padding:10px;">Remote Office Overview</span>
+          </div>
+          <div class="col-md-6">
+            <h3>876</h3><span>Total Employees</span>
+          </div>
+          <div class="col-md-6">
+            <h3>67.73%</h3><span>% of Headquaters</span>
+          </div>
+            <canvas id="remote-bar-chart"style="padding:20px;"height="230">
+            </canvas>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="container-fluid" style="border:1px solid #d6d6d6;height:40vh;width:35vw;">
+          <h4>Headcount by Department</h4>
+          <canvas id="headcount-chart-horizontal" width="800" height="450"></canvas>
+
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid" style="margin-top:6vh;">
+      <div class="col-md-4">
+        <div class="container-fluid" style="border:1px solid #d6d6d6;height:40vh;">
+          <div class="">
+            <h4 class="">Employee Tenure</h4>
+          </div>
+          <canvas id="tenure-doughnut-chart" class=""></canvas>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="container-fluid" style="border:1px solid #d6d6d6;height:40vh;">
+          <h4>Employee Growth</h4>
+          <canvas id="growth-mixed-chart"style="padding:20px;"height="180"></canvas>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="container-fluid" style="border:1px solid #d6d6d6;height:40vh;">
+          <h4>Expenses</h4>
+          <canvas id="expense-mixed-chart"style="padding:20px;"height="180"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

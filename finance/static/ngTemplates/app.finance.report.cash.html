@@ -1,0 +1,116 @@
+<style media="screen">
+  .tabText{
+    text-align:left !important;
+    padding-left:25px !important;
+    font-size:16px;
+  }
+  .tabamount{
+    text-align:right !important;
+    font-size:16px;
+  }
+
+</style>
+
+<div class="container-fluid" >
+  <div class="container-fluid" style="padding-left:0px;padding-right:0px;">
+    <div class="form-group col-md-8" style="padding-left:0px">
+      <label for="sel1">Financial Year</label>
+      <select class="form-control" ng-model="selectedYear" ng-options="p for p in allYears">
+      </select>
+
+    </div>
+    <div class="col-md-4 text-right" style="padding:0px;padding-top:25px">
+      <div class="btn-group btn-group">
+        <span class="btn btn-primary" ng-click="fetchCashFlow(selectedYear)"><i class="fa fa-refresh"></i> Fetch Data</span>
+          <a href="/api/finance/cashFlowpdf/" target="_blank"><span class="btn btn-default"><i class="fa fa-download"></i> Download</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- <img src="/static/images/cashflow.png" alt=""> -->
+
+  <div class="container-fluid" style="padding:25px;margin-bottom:30px;margin-top:30px;border:1px solid black">
+    <div class="text-center">
+
+      <h3 style="font-weight:600;color:black" ng-if="cashflowData.compName">{{cashflowData.compName}}</h3>
+      <h3 style="font-weight:600;color:black" ng-if="!cashflowData.compName">Company</h3>
+      <h3 style="font-weight:600;color:black">Statement of Cash Flows</h3>
+      <h3 style="font-weight:600;color:black;" ng-if="cashflowData.period">For the Year Ended {{cashflowData.period}}</h3>
+      <h3 style="font-weight:600;color:black;" ng-if="!cashflowData.period">For the Year Ended March 31, {{currentYear}}</h3>
+
+    </div>
+    <div class="" style="margin-top:30px;">
+      <table class="table table-hover" style=";">
+        <tbody>
+          <tr>
+            <th style="font-size:18px;">Cash Flow from Operating Activities </th>
+            <th></th>
+          </tr>
+          <p></p>
+          <tr ng-repeat = "IA in cashflowData.CFOA.cfoaList">
+            <td  class="tabText">{{IA.title}}</td>
+            <td class="tabamount">{{IA.balance}}</td>
+          </tr>
+
+          <tr>
+            <td  class="tabText" style="padding-left:50px !important;text-align:left !important;">Cash provided (used) in operating activities </td>
+            <td style="border-top:1px solid black !important;border-bottom:1px solid black;">{{cashflowData.CFOA.totalCofa}}</td>
+          </tr>
+
+
+        </tbody>
+      </table>
+      <table style=";" class="table table-hover">
+        <tbody>
+          <tr>
+            <th style="font-size:18px;">Cash Flow from Investing Activities</th>
+            <th></th>
+          </tr>
+          <tr ng-repeat = "FA in cashflowData.CFIA.cfiaList">
+            <td  class="tabText">{{FA.title}}</td>
+            <td class="tabamount">{{FA.balance}}</td>
+          </tr>
+
+          <tr>
+            <td style="padding-left:50px; !important;font-size:16px;text-align:left !important;">Cash provided (used) by Investing activities</td>
+            <td class="tabamount" style="border-top:1px solid black !important;border-bottom:1px solid black;">{{cashflowData.CFIA.totalCfia}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="table table-hover">
+        <tbody>
+          <tr>
+            <th style="font-size:18px;">Cash Flow from Financing Activities</th>
+            <th></th>
+          </tr>
+          <tr ng-repeat = "FAA in cashflowData.CFFA.cffaList">
+            <td  class="tabText">{{FAA.title}}</td>
+            <td class="tabamount">{{FAA.balance}}</td>
+          </tr>
+
+          <tr>
+            <td class="tabText" style="padding-left:50px !important;text-align:left !important;">Cash provided (used) by financing activites</td>
+            <td class="tabamount" style="border-top:1px solid black !important;border-bottom:1px solid black;">{{ cashflowData.CFFA.totalCffa}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <table style=";" class="table table-hover">
+        <tbody>
+          <tr>
+            <td style="text-align:left !important;font-size:16px" >Net increase in cash</td>
+            <td class="tabamount">{{ cashflowData.Netincome}}</td>
+          </tr>
+          <tr>
+            <td style="text-align:left !important;font-size:16px" >Cash at the beginning of the year</td>
+            <td class="tabamount">{{ cashflowData.startYear}}</td>
+          </tr>
+          <tr>
+            <td style="text-align:left !important;font-size:16px"  >Cash at the end of the year</td>
+            <td class="tabamount" style="border-left:0px solid black;border-right:0px solid black;border-style:double !important">{{ cashflowData.endYear}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

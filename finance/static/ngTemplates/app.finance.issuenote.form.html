@@ -1,0 +1,86 @@
+<h3 style="margin-left:15px;">Issue Note</h3>
+<hr>
+<div ng-controller="businessManagement.finance.issuenote.form">
+
+<div class="col-md-6">
+  <div ng-if="newform">
+    <div class="form-group">
+      <label>Manager:</label>
+      <input type="text" class="form-control" ng-model="issuenote.manager" uib-typeahead="i as i.username for i in userSearch($viewValue)" placeholder="Search By Name">
+    </div>
+    <div class="form-group">
+      <label>From_Store:</label>
+      <input type="text" class="form-control" ng-model="issuenote.from_store" uib-typeahead="s as s.location for s in storeSearch($viewValue)" placeholder="Search By Location">
+    </div>
+    <div class="form-group">
+      <label>To_Store:</label>
+      <input type="text" class="form-control" ng-model="issuenote.to_store" uib-typeahead="s as s.location for s in storeSearch($viewValue)" placeholder="Search By Location">
+    </div>
+    <div class="form-group">
+      <label>Invoice_number:</label>
+      <input type="text" class="form-control" ng-model="issuenote.invoice_number">
+    </div>
+    <div class="form-group">
+      <label>Vehicle_number:</label>
+      <input type="text" class="form-control" ng-model="issuenote.vehicle_number">
+    </div>
+    <div class="form-group">
+      <label>Driver_number: </label>
+      <input type="text" class="form-control" ng-model="issuenote.driver_number">
+    </div>
+    <!-- <div class="form-group">
+      <label>Status: </label>
+      <select class="form-control" ng-model="issuenote.status">
+        <option value="created">Created</option>
+        <option value="in_transit">In-transit</option>
+        <option value="delivered">Delivered</option>
+        <option value="checked">Checked</option>
+      </select>
+    </div> -->
+    <!-- <div class="form-group">
+      <label>Delivered_date: </label>
+      <input type="text" class="form-control" ng-model="issuenote.delivered_date">
+    </div>
+    <div class="form-group">
+      <label>Checked_date: </label>
+      <input type="text" class="form-control" ng-model="issuenote.checked_date">
+    </div>
+    <div class="form-group">
+      <label>Departed_date: </label>
+      <input type="text" class="form-control" ng-model="issuenote.departed_date">
+    </div> -->
+    <button type="button" class="btn btn-primary" ng-click="save()">Save</button>
+  </div>
+</div>
+
+<div class="col-md-12">
+  <div ng-if="detailform">
+    <div class="col-md-6">
+      <button class="btn btn-default pull-right" ng-click="addInventory()"> <i class="fa fa-plus" ></i> New </button>
+      <div class="row" style="padding:10px;">
+        <div class="invoiceTable">
+          <table class="table">
+            <thead>
+              <tr style="height: 30px;border-top:1px solid #ddd;background-color: #eeeeee;">
+                <th style="width:5%">S.No</th>
+                <th style="width:5%">Product</th>
+                <th style="width:5%">Quantity Sent</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="i in issuenote track by $index">
+                <td style="width:10%">{{$index + 1}}</td>
+                <td style="width:10%">{{i.product}}</td>
+                <td style="width:10%">{{i.quantity_sent}}</td>
+                <td style="width:20%">
+                  <button type="button"<i class="fa fa-pencil"></i> </button>
+                  <button type="button"<i class="fa fa-save"></i> </button>
+                  <button type="button"<i class="fa fa-trash"></i> </button>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

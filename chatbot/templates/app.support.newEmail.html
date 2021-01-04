@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>[SUBJECT]</title>
+
+</head>
+
+
+<body cz-shortcut-listen="true">
+  <table style="background-color:#E9E9E9;border-collapse:collapse;margin:0;padding:0;font-family:'Open Sans',Verdana, Arial, Helvetica,sans-serif;" width="100%" height="100%" cellspacing="0" cellpadding="20" border="0" align="center">
+    <tbody>
+      <tr>
+        <td valign="top" align="center">
+          <table style="border-collapse:collapse;max-width:600px" width="100%" cellspacing="0" cellpadding="0" border="0" align="center">
+            <tbody>
+              <tr>
+                <td style="width:100%; padding: 20px 0;font-family:'Open Sans',Verdana, Arial, Helvetica,s ans-serif; font-size: 22px; color: #000;" valign="top" align="center"> {{companyName}} </td>
+              </tr>
+              <tr>
+                <td style="background: #fff; padding: 40px; text-align: center; border-radius: 10px;"><strong>Chat on {{started | date:"M d, Y"}} <br>
+at {{started | date:"H:i a"}} (UTC Time)</strong>
+                  <p style="font-family:'Open Sans',Verdana, Arial, Helvetica,sans-serif; font-size: 15px; color: #000; text-align: left; line-height: 25px; margin:0 0 0 15px;padding:0;"><br></p>
+                  <table style="font-size: 13px; text-align:start;">
+                    <tbody>
+                      <tr>
+                        <td valign="top" nowrap=""><i>[{{started | date:"H:i a"}}]</i></td>
+                        <td><i>Intro Message</i>:<br> {{introMessage | safe}}</td>
+                      </tr>
+
+                      {% for a in allChats %}
+                      {% if a.message != None %}
+                        {% if a.sentByAgent %}
+                        <tr>
+                          <td valign="top" nowrap=""><i>[{{a.created | date:"H:i a"}}]</i></td>
+                          <td><i>EpsilonAI</i>:<br> <p style="word-wrap: break-word !important; white-space: pre-wrap;margin:0px "> {{a.message}} </a> </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                          <td valign="top" nowrap=""><i>[{{a.created | date:"H:i a"}}]</i></td>
+                          <td><i>{{a.uid}}</i>:<br> <p style="word-wrap: break-word !important; white-space: pre-wrap;margin:0px ">{{a.message}}</p> </td>
+                        </tr>
+                        {% endif %}
+                      {% elif a.attachment != None %}
+                        {% if a.sentByAgent %}
+                        <tr>
+                          <td valign="top" nowrap=""><i>[{{a.created | date:"H:i a"}}]</i></td>
+                          <td><i>EpsilonAI</i>:<br>  <a href="{{a.attachment}}" target="_blank">{{a.attachment}}</a> </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                          <td valign="top" nowrap=""><i>[{{a.created | date:"H:i a"}}]</i></td>
+                          <td><i>{{a.uid}}</i>:<br> <a href="{{a.attachment}}" target="_blank">{{a.attachment}}</a> </td>
+                        </tr>
+                        {% endif %}
+                      {% endif %}
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                  <hr>
+                  <p style="font-size: 13px;" align="left">Please visit the <a href="">portal</a> for complete details.<br><br> Regrads,
+                    <br> EpsilonAI <a href="">BrandLabs</a></p>
+                </td>
+              </tr>
+            </tbody>
+          </table><br><br><br><br></td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+
+
+
+</html>

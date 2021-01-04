@@ -1,0 +1,37 @@
+<div class="modal-body" style="">
+<div class="container-fluid">
+  <div class="row">
+    <strong>Email :</strong> {{data.email}}{{contact.email}}  <span ng-repeat="c in deal.contacts"> <span ng-if="!$first"> , </span> {{c.name}} ({{c.email}})</span>
+
+    <button type="button" class="btn btn-primary pull-right" ng-click="sendEmail()">
+      Send
+    </button>
+
+  </div>
+  <div class="row">
+    <users-Field data="form.cc" url="/api/HR/userSearch/" col="4" label="CC"></users-Field>
+  </div>
+  <div class="row">
+    <div class="form-group">
+      <label>Subject</label>
+      <input type="text " class="form-control" ng-model="form.emailSubject">
+    </div>
+  </div>
+
+
+  <div class="row">
+    <textarea ui-tinymce="tinymceOptions" ng-model="form.emailBody"></textarea>
+  </div>
+
+  <div class="row" style="margin-top:10px;">
+    <div ng-repeat="f in form.added" class="col-md-6">
+      <div class="container-fluid bg-blue" style="padding-right:0px;padding-top:5px;margin-bottom:5px">
+        <i class="fa {{f.filename | fileTypeIcon}} fa-lg" style="margin-right:15px;"></i> {{f.filename}}
+        <button type="button" ng-click="removeMailAttachment($index)" class="btn btn-primary btn-sm pull-right">
+          <i class="fa fa-minus"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

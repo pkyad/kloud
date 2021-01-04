@@ -1,0 +1,25 @@
+<div class="modal-body" style="background: #F3F3F3;padding: 40px;">
+<div class="row">
+  <div class="col-md-12">
+    <h3>Download</h3>
+      <div class="input-group">
+        <input type="text" class="form-control" ng-model="form.fromDate" placeholder="From Date" style="padding: 29px;border: none; border-top-left-radius: 10px;margin-top:15px;margin-bottom:15px;font-size:20px;    border-bottom-left-radius: 10px;" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" is-open="statusStart.opened" ng-init="today">
+        <span class="input-group-btn" >
+          <button type="button" class="btn btn-default" ng-click="statusStart.opened = true;" style="padding: 18px;border: none;border-bottom-right-radius: 10px !important;border-top-right-radius: 10px !important;"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+    </div>
+    <div class="input-group">
+      <input type="text" class="form-control" ng-model="form.toDate" placeholder="To Date" style="padding: 29px;border: none; border-top-left-radius: 10px;margin-top:15px;margin-bottom:15px;font-size:20px;    border-bottom-left-radius: 10px;" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" is-open="statusEnd.opened" ng-init="today">
+      <span class="input-group-btn" >
+        <button type="button" class="btn btn-default" ng-click="statusEnd.opened = true;" style="padding: 18px;border: none;border-bottom-right-radius: 10px !important;border-top-right-radius: 10px !important;"><i class="glyphicon glyphicon-calendar"></i></button>
+      </span>
+  </div>
+    <select class="form-control" ng-model="form.selectedUser" ng-options="p.first_name + ' ' + p.last_name for p in users" style="border: none; border-radius: 10px;margin-top:15px;margin-bottom:15px;font-size: 22px;height: 55px;">
+    </select>
+    <button class="btn btn-primary" ng-click="downloadSheet()" style="background: #461482;color: white;border: none !important;border-radius: 64px !important;padding: 17px;width: 112px;font-size: 16px;"> Download </div>
+  </div>
+</div>
+</div>
+
+
+  <!-- <input type="text" class="form-control" ng-model="form.notes" placeholder="Add Title" style="padding: 29px;border: none;border-radius: 10px;margin-top:30px;margin-bottom:30px;font-size:20px;" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" is-open="statusStart.opened" ng-init="today"> -->

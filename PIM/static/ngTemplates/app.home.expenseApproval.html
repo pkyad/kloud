@@ -1,0 +1,66 @@
+<div class="container-fluid" style="padding:15px;background:#FAFAFA;">
+  <div class="row">
+    <div class="col-md-3 col-md-2">
+      <div class="form-group">
+        <label>From : </label>
+        <div class="input-group">
+          <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.frm" is-open="status.opened" ng-change="reload()" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="status.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>To : </label>
+        <div class="input-group">
+          <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.to" is-open="status.openedTo" ng-change="reload()" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="status.openedTo = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="form-group">
+        <label>Stage</label>
+        <select class="form-control ng-pristine ng-valid ng-not-empty ng-touched" ng-model="form.stage"  ng-change="reload()">
+          <option value="submitted">Submitted</option>
+          <option value="approved">Approved</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-2" style="margin-top:22px">
+      <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="download()"><i class="fa fa-download "></i> Download</button>
+    </div>
+  </div>
+  <br>
+  <br>
+  <div class="row" style="margin:10px;">
+    <table class="table table-hover tableNew">
+      <thead>
+        <tr style="background:#f2f2f2;padding:10px;">
+          <th>#Id</th>
+          <th>Created</th>
+          <th>User</th>
+          <th>Title</th>
+          <th>Stage</th>
+          <th>Amount</th>
+          <th>View</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="d in data" style="padding:10px;background:white;">
+          <td class="contentTd">{{d.pk}}</td>
+          <td class="contentTd">{{d.created.split('T')[0]}}</td>
+          <td class="contentTd">{{d.user|getName}}</td>
+          <td class="contentTd">{{d.notes}}</td>
+          <td class="contentTd">{{d.stage}}</td>
+          <td class="contentTd">{{d.totAmount}}</td>
+          <td class="contentTd" ng-click="$state.go('home.approveExpenseClaims',{'id':d.pk})"><i class="fa fa-eye fa-2x" ></i></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

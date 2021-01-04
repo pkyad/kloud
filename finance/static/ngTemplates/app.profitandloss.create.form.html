@@ -1,0 +1,187 @@
+<style>
+.itag {
+  display: none;
+}
+
+.show_options:hover .itag {
+  display: block;
+}
+</style>
+<div class="container-fluid" style="padding:20px;">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2" style="border:1px solid black;padding:15px">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <h2> <strong> Profit & Loss </strong> </h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-9">
+          <h5> Ordinary incomeExpenses</h5>
+        </div>
+        <div class="col-md-3">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-9" style="padding-left:30px">
+          <h5 > Income </h5>
+        </div>
+        <div class="col-md-3">
+        </div>
+      </div>
+      <div class="row" ng-repeat="i in data.income">
+        <div class="col-md-9 show_options" style="padding-left:60px" >
+          <h5 ng-if="!i.is_edit" > {{i.title}} <i   ng-if="!i.is_lock" class="fa fa-pencil pull-right itag"  style="cursor:pointer" ng-click="i.is_edit=true"></i> <i   ng-if="!i.is_lock" class="fa fa-trash pull-right itag"  style="cursor:pointer" ng-click="delete(i.pk)"></i></h5>
+          <input ng-if="i.is_edit" type="text" class="form-control" ng-enter="saveData('income',i.title,i.pk)" ng-model="i.title">
+        </div>
+        <div class="col-md-3 text-right">
+        </div>
+      </div>
+      <div class="row" style="padding-top:5px" >
+        <div class="col-md-9" style="padding-left:60px">
+          <div class="form-group">
+            <input type="text" class="form-control" ng-enter="saveData('income',form.income)" ng-model="form.income">
+          </div>
+        </div>
+        <div class="col-md-3 text-right" >
+        </div>
+      </div>
+      <div class="row" >
+        <div class="col-md-9" style="padding-left:30px">
+          <h5>Total Income</h5>
+        </div>
+        <div class="col-md-3 text-right" >
+        </div>
+      </div>
+      <div class="row" >
+        <div class="col-md-9" style="padding-left:30px">
+          <h5>Cost Of Goods Sold</h5>
+        </div>
+        <div class="col-md-3 text-right" >
+        </div>
+      </div>
+      <div class="row" ng-repeat="i in data.sale">
+        <div class="col-md-9 show_options" style="padding-left:60px" >
+          <h5 ng-if="!i.is_edit" > {{i.title}} <i  ng-if="!i.is_lock" class="fa fa-pencil pull-right itag"  style="cursor:pointer" ng-click="i.is_edit=true"></i> <i  ng-if="!i.is_lock" class="fa fa-trash pull-right itag"  style="cursor:pointer" ng-click="delete(i.pk)"></i></h5>
+          <input ng-if="i.is_edit" type="text" class="form-control" ng-enter="saveData('sale',i.title,i.pk)" ng-model="i.title">
+        </div>
+        <div class="col-md-3 text-right" >
+        </div>
+      </div>
+      <div class="row" style="padding-top:5px">
+        <div class="col-md-9" style="padding-left:60px">
+          <div class="form-group">
+            <input type="text" class="form-control"   ng-enter="saveData('sale',form.sales)" ng-model="form.sales">
+          </div>
+        </div>
+        <div class="col-md-3 text-right" >
+        </div>
+      </div>
+      <div class="row" >
+        <div class="col-md-9" style="padding-left:30px">
+          <h5>Total Cost</h5>
+        </div>
+        <div class="col-md-3 text-right" >
+        </div>
+      </div>
+      <div class="row" >
+        <div class="col-md-9" >
+          <h5>Gross Profit</h5>
+        </div>
+        <div class="col-md-3 text-right" >
+        </div>
+      </div>
+      <div class="row" >
+        <div class="col-md-9" style="padding-left:30px">
+          <h5>Expenses</h5>
+        </div>
+        <div class="col-md-3 text-right" >
+        </div>
+      </div>
+      <div class="row" ng-repeat="i in data.expense" >
+        <div class="col-md-9 show_options" style="padding-left:60px" >
+          <h5 ng-if="!i.is_edit" > {{i.title}} <i  ng-if="!i.is_lock" class="fa fa-pencil pull-right itag"  style="cursor:pointer" ng-click="i.is_edit=true"></i> <i  ng-if="!i.is_lock" class="fa fa-trash pull-right itag"  style="cursor:pointer" ng-click="delete(i.pk)"></i></h5>
+          <input ng-if="i.is_edit" type="text" class="form-control" ng-enter="saveData('expense',i.title,i.pk)" ng-model="i.title">
+        </div>
+        <div class="col-md-3 text-right" >
+        </div>
+      </div>
+      <div class="row" style="padding-top:5px">
+        <div class="col-md-9" style="padding-left:60px">
+          <div class="form-group">
+            <input type="text" class="form-control" ng-enter="saveData('expense',form.expenses)" ng-model="form.expenses">
+          </div>
+        </div>
+        <div class="col-md-3 text-right" >
+        </div>
+      </div>
+      <div class="row" >
+        <div class="col-md-9" style="padding-left:30px">
+          <h5>Total Expenses</h5>
+        </div>
+        <div class="col-md-3 text-right" >
+        </div>
+      </div>
+      <div class="row" >
+        <div class="col-md-9">
+          <h5>Net Ordinary Income</h5>
+        </div>
+        <div class="col-md-3 text-right" >
+        </div>
+      </div>
+      <div class="row" >
+        <div class="col-md-9">
+          <h5>Other Income Expenses</h5>
+        </div>
+        <div class="col-md-3 text-right" >
+        </div>
+      </div>
+      <div class="row" style="padding-left:30px">
+        <div class="col-md-9">
+          <h5>Other Income</h5>
+        </div>
+        <div class="col-md-3 text-right" >
+        </div>
+      </div>
+      <div class="row"  ng-repeat="i in data.otherIncome" >
+        <div class="col-md-9 show_options" style="padding-left:60px" >
+          <h5 ng-if="!i.is_edit" > {{i.title}} <i  ng-if="!i.is_lock" class="fa fa-pencil pull-right itag"  style="cursor:pointer" ng-click="i.is_edit=true"></i> <i  ng-if="!i.is_lock" class="fa fa-trash pull-right itag"  style="cursor:pointer" ng-click="delete(i.pk)"></i></h5>
+          <input ng-if="i.is_edit" type="text" class="form-control" ng-enter="saveData('otherIncome',i.title,i.pk)" ng-model="i.title">
+        </div>
+        <div class="col-md-3 text-right" >
+        </div>
+      </div>
+      <div class="row" style="padding-top:5px">
+        <div class="col-md-9" style="padding-left:60px">
+          <div class="form-group">
+            <input type="text" class="form-control" ng-enter="saveData('otherIncome',form.otherIncome)" ng-model="form.otherIncome">
+          </div>
+        </div>
+        <div class="col-md-3 text-right" >
+        </div>
+      </div>
+      <div class="row" style="padding-left:30px">
+        <div class="col-md-9">
+          <h5>Total Other Income</h5>
+        </div>
+        <div class="col-md-3 text-right" >
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-9">
+          <h5>Net Other Income</h5>
+        </div>
+        <div class="col-md-3 text-right" >
+        </div>
+      </div>
+      <div class="row" style="padding-left:0px">
+        <div class="col-md-9" style="padding-left:0px">
+          <h5>Net Income</h5>
+        </div>
+        <div class="col-md-3 text-right" >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

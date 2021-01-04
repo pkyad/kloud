@@ -1,0 +1,55 @@
+<div class="col-md-6" style="margin-top:30px;">
+  <div class="container-fluid">
+    <!-- <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-2 text-center" style="margin-left:8.3333%">
+          <img src="/static/images/advan.png">
+          <br>
+          Advance
+          <br>
+          <input ng-model="form.typ" name="type{{form.pk}}" type="radio" ng-value="'advance'">
+        </div>
+        <div class="col-md-2 pull-right text-center">
+          <img src="/static/images/loan.png">
+          <br>
+          Loan
+          <br>
+          <input ng-model="form.typ" name="type{{form.pk}}" type="radio" ng-value="'loan'">
+        </div>
+      </div>
+    </div> -->
+    <h2> Create Advance </h2>
+    <div class="form-group">
+      <label>User</label>
+      <input type="text" class="form-control" ng-model="form.user" uib-typeahead="user as user.username for user in userSearch($viewValue)" placeholder="Search For user">
+    </div>
+    <div class="form-group">
+      <label>Reason</label>
+      <textarea type="text" class="form-control" ng-model="form.reason" placeholder="Specify Reason for loan or advance" rows=6 style="resize:none;"> </textarea>
+    </div>
+    <div class="row">
+      <div class="col-md-5" ng-if="form.typ != 'loan'">
+        <label>Date of Return</label>
+        <div class="input-group">
+          <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.returnDate" is-open="status.opened" ng-init="form.returnDate=today"/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="status.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </div>
+      </div>
+      <div class="col-md-5 {{form.typ != 'loan'? 'col-md-offset-1':''}}">
+        <div class="form-group">
+          <label>Document</label>
+          <input type="file" file-model="form.document">
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Amount</label>
+      <input type="number" class="form-control" ng-model="form.amount" placeholder="">
+    </div>
+  </div>
+  <button type="button" class="btn btn-primary" ng-click="save()">
+    Save
+  </button>
+</div>

@@ -1,0 +1,54 @@
+<div class="modal-header">
+  <div class="col-md-11">
+  <h3>Add Bank Details</h3>
+</div>
+<div class="col-md-1" style="padding-top:10px">
+  <button class="btn btn-primary" ng-click="close()"><i class="fa fa-close"></i></button>
+</div>
+</div>
+<div class="modal-body">
+
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Bank Account Number</label>
+          <input type="password" class="form-control" ng-model="data.accNo">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Re-Enter Bank Account Number</label>
+          <input type="text" class="form-control" ng-model="data.reaccNo">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Bank IFSC Code</label>
+          <input type="password" class="form-control" ng-model="data.ifsc">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Re-Enter Bank IFSC Code</label>
+          <input type="text" class="form-control" ng-model="data.reifsc">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Bank Name</label>
+          <input type="text" class="form-control" ng-model="data.bankName" typeahead="bank as bank for bank in bankList | filter:$viewValue">
+        </div>
+      </div>
+      <div class="col-md-6 text-right" style="padding-top:30px">
+        <div class="form-group">
+          <button type="button" class="btn btn-primary" ng-click="saveBankDetails()"> Save</button>
+        </div>
+      </div>
+    </div>
+
+</div>

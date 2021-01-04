@@ -1,0 +1,111 @@
+<div class="container-fluid scroll" style="padding-top:30px;background: #FAFAFA;min-height:100vh">
+  <div class="row">
+    <div class="col-md-offset-2 col-md-8">
+      <div class="row"  style="padding-bottom:30px;">
+        <div class="col-md-12 text-center">
+            <h3 ng-if="mode=='new'">Create  new Vendor</h3>
+            <h3 ng-if="mode=='edit'">Edit Vendor Profile</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <div class="form-group" ng-if="mode=='new'">
+            <div class="{{(showCreateCompanyBtn || companyExist) && !showCompanyForm ? 'input-group':''}}">
+              <input uib-typeahead="company as company.name for company in companySearch($viewValue)" ng-model="form.service" type="text" class="form-control" placeholder="Search company using name or create" style="padding: 29px;border: none; border-top-left-radius: 10px;margin-top:15px;margin-bottom:15px;font-size:20px;    border-bottom-left-radius: 10px;">
+              <span class="input-group-btn">
+                <button type="button" ng-click="openCreateService()" ng-if="(showCreateCompanyBtn || companyExist) && !showCompanyForm" class="btn btn-default" style="padding: 15px;border: none;border-bottom-right-radius: 10px !important;border-top-right-radius: 10px !important;"><i
+                    class="fa fa-{{!companyExist ? 'plus':'pencil'}} fa-2x"></i></button>
+              </span>
+            </div>
+            <p ng-if="showCreateCompanyBtn && !companyExist" class="help-block text-left">No company with this name exist!. Click <span class="badge">new</span> to create.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <label>Contact Person</label>
+          <input ng-model="form.contactPerson" type="text" class="form-control" placeholder="Contact Person name" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;">
+        </div>
+        <div class="col-md-4">
+          <label>Mobile Number</label>
+          <input type="text " class="form-control" ng-model="form.mobile" placeholder="Mobile Number" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;">
+        </div>
+        <div class="col-md-4">
+          <label>Email</label>
+          <input type="text " class="form-control" ng-model="form.email" placeholder="Email" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label>Payment Term</label>
+          <input ng-model="form.paymentTerm" type="text" class="form-control" placeholder="Payment Term" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;">
+        </div>
+        <div class="col-md-6" style="margin-top:30px">
+          <label>Contract Doc.</label>
+          <input type="file" file-model="form.contentDocs">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+            <label>Bank Name</label>
+          <input ng-model="form.bankName" type="text" class="form-control" placeholder="Bank Name" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;">
+        </div>
+        <div class="col-md-4">
+          <label>Account Number</label>
+          <input ng-model="form.accountNumber" type="text" class="form-control" placeholder="Account Number" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;">
+        </div>
+        <div class="col-md-4">
+          <label>IFSC Code</label>
+          <input  ng-model="form.ifscCode" type="text" class="form-control"  placeholder="IFSC Code" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;">
+        </div>
+      </div>
+    <div ng-if="mode == 'edit'">
+      <div class="row">
+        <div class="col-md-12">
+          <label>Address</label>
+          <input placeholder="Street" type="text " class="form-control" ng-model="form.service.address.street" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:5px;font-size:20px;">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <input placeholder="City" type="text " class="form-control" ng-model="form.service.address.city" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;">
+        </div>
+        <div class="col-md-6">
+          <input placeholder="State" type="text " class="form-control" ng-model="form.service.address.state" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <input placeholder="Pincode" type="text " class="form-control" ng-model="form.service.address.pincode" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;">
+        </div>
+        <div class="col-md-6">
+          <input placeholder="Country" type="text " class="form-control" ng-model="form.service.address.country" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+            <label>PAN</label>
+          <input  type="text " class="form-control" ng-model="form.service.cin" placeholder="PAN" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;">
+        </div>
+        <div class="col-md-6">
+          <label>GST</label>
+          <input type="text " class="form-control" ng-model="form.service.tin" placeholder="GST" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;">
+        </div>
+      </div>
+    </div>
+    <div class="row text-right" style="margin-right: 30px!important;">
+      <div class="col-md-1 pull-right" ng-if="mode=='new'">
+        <button type="button" class="btn btn-default"   ng-click="resetForm()" style="background:#461482;color:white;border: none !important;border-radius: 64px !important;padding: 17px;padding-right: 17px;padding-left: 17px;right: 59px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18pxrgba(157, 157, 157, 0.94) !important;padding-right: 30px;padding-left: 30px;">
+          Reset
+        </button>
+      </div>
+      <div class="col-md-1 pull-right" ng-if="mode=='new'">
+        <button type="button" class="btn btn-primary cutebuttonplain" style="background:rgb(14, 67, 136);color:white;height: 57px!important;"  ng-click="createVendor()">Save</button>
+      </div>
+    </div>
+    <div class="col-md-1 pull-right" ng-if="mode=='edit'" style="margin-right: 15px;">
+      <button type="button"  class="btn btn-primary cutebuttonplain" style="background:rgb(14, 67, 136);color:white;height: 57px!important;" ng-click="updateVendor()">Update</button>
+    </div>
+    </div>
+  </div>
+</div>

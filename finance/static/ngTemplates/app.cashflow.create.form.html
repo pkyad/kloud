@@ -1,0 +1,118 @@
+<style media="screen">
+  .tabText{
+    text-align:left !important;
+    padding-left:25px !important;
+    font-size:16px;
+  }
+  .tabamount{
+    text-align:right !important;
+    font-size:16px;
+  }
+  .table > tbody > tr > td{
+    border-top: none!important;
+  }
+  .itag {
+    display: none;
+  }
+
+  .show_options:hover .itag {
+    display: block;
+  }
+</style>
+
+<div class="row" style="margin-top:30px;" >
+  <div class="col-lg-8 col-lg-offset-2" style="padding:25px;margin-bottom:30px;margin-top:30px;border:1px solid black">
+    <div class="text-center">
+
+      <h3 style="font-weight:600;color:black">Statement of Cash Flows</h3>
+
+    </div>
+    <div class="" style="margin-top:30px;">
+      <table class="table" style="">
+        <tbody>
+          <tr>
+            <th style="font-size:18px;">Cash Flow from Operating Activities </th>
+            <th></th>
+          </tr>
+          <tr ng-repeat = "i in data.operating">
+            <td  class="tabText show_options">
+               <h5 ng-if="!i.is_edit" > {{i.title}} <i ng-if="!i.is_lock"  class="fa fa-pencil pull-right itag"  style="cursor:pointer" ng-click="i.is_edit=true"></i> <i ng-if="!i.is_lock"  class="fa fa-trash pull-right itag"  style="cursor:pointer" ng-click="delete(i.pk)"></i></h5>
+              <input ng-if="i.is_edit" type="text" class="form-control" ng-enter="saveData('income',i.title,i.pk)" ng-model="i.title"></td>
+          </tr>
+          <tr>
+            <td  class="tabText">
+              <div class="form-group">
+                <input type="text" class="form-control"   ng-enter="saveData('operating',form.operating)" ng-model="form.operating">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td  class="tabText" style="padding-left:50px !important;text-align:left !important;">Cash provided (used) in operating activities </td>
+          </tr>
+
+
+        </tbody>
+      </table>
+      <table style="" class="table">
+        <tbody>
+          <tr>
+            <th style="font-size:18px;">Cash Flow from Investing Activities</th>
+            <th></th>
+          </tr>
+          <tr ng-repeat = "i in data.investing">
+            <td  class="tabText show_options">
+               <h5 ng-if="!i.is_edit" > {{i.title}} <i ng-if="!i.is_lock"  class="fa fa-pencil pull-right itag"  style="cursor:pointer" ng-click="i.is_edit=true"></i> <i ng-if="!i.is_lock"  class="fa fa-trash pull-right itag"  style="cursor:pointer" ng-click="delete(i.pk)"></i></h5>
+              <input ng-if="i.is_edit" type="text" class="form-control" ng-enter="saveData('income',i.title,i.pk)" ng-model="i.title"></td>
+          </tr>
+          <tr>
+            <td  class="tabText">
+              <div class="form-group">
+                <input type="text" class="form-control"   ng-enter="saveData('investing',form.investing)" ng-model="form.investing">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-left:50px; !important;font-size:16px;text-align:left !important;">Cash provided (used) by Investing activities</td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="table">
+        <tbody>
+          <tr>
+            <th style="font-size:18px;">Cash Flow from Financing Activities</th>
+            <th></th>
+          </tr>
+          <tr ng-repeat = "i in data.finance">
+            <td  class="tabText show_options">
+               <h5 ng-if="!i.is_edit" > {{i.title}} <i ng-if="!i.is_lock"  class="fa fa-pencil pull-right itag"  style="cursor:pointer" ng-click="i.is_edit=true"></i> <i ng-if="!i.is_lock"  class="fa fa-trash pull-right itag"  style="cursor:pointer" ng-click="delete(i.pk)"></i></h5>
+              <input ng-if="i.is_edit" type="text" class="form-control" ng-enter="saveData('income',i.title,i.pk)" ng-model="i.title"></td>
+          </tr>
+          <tr>
+            <td  class="tabText">
+              <div class="form-group">
+                <input type="text" class="form-control"   ng-enter="saveData('financing',form.financing)" ng-model="form.financing">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="tabText" style="padding-left:50px !important;text-align:left !important;">Cash provided (used) by financing activites</td>
+          </tr>
+        </tbody>
+      </table>
+      <table style=";" class="table">
+        <tbody>
+          <tr>
+            <td style="text-align:left !important;font-size:16px" >Net increase in cash</td>
+          </tr>
+          <tr>
+            <td style="text-align:left !important;font-size:16px" >Cash at the beginning of the year</td>
+          </tr>
+          <tr>
+            <td style="text-align:left !important;font-size:16px"  >Cash at the end of the year</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

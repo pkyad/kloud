@@ -1,0 +1,513 @@
+
+  .appCard {
+    margin-bottom: 30px;
+  }
+
+  #page2Column1 #appicon1 {
+    font-size: 180px;
+    padding: 30px 15px;
+    color: white;
+  }
+
+  #page2Column1 #appicon2 {
+    width: 100%;
+  }
+
+  #page2bgImage #divText {
+    padding: 60px 30px;
+
+  }
+
+  #page2bgImage #divText span {
+    font-size: 60px;
+    line-height: 2;
+  }
+
+  #page2bgImage #title {
+    font-size: 40px;
+    line-height: 2;
+  }
+
+  #page2bgImage #description {
+    font-size: 20px;
+    line-height: 2;
+  }
+
+  #page2bgImage {
+    background: url('/static/images/app.png');
+    height: 500px;
+    border-radius: 20px;
+    box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;
+    color: white;
+  }
+
+  #Boxes {
+    padding: 0px;
+    margin-bottom: 70px
+  }
+
+  #Boxes .box {
+    margin-bottom: 20px;
+  }
+
+  #Boxes .secondbox {
+    background-color: #C4C4C4;
+    height: 100px;
+    margin: 0px;
+    margin-top: 10px;
+
+  }
+
+  #btns {
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+
+  #btns .newBtn {
+    background-color: white;
+    border: 1px solid #3C3C3C;
+    border-radius: 30px;
+    color: #818181;
+    font-size: 30px;
+    font-weight: 400;
+
+  }
+
+  #btns .blueBtn {
+    background-color: #20287D;
+    border: 1px solid #20287D;
+    border-radius: 30px;
+    color: white;
+    font-size: 30px;
+    font-weight: 400;
+
+  }
+
+  #navbar {
+    padding: 30px 0px;
+  }
+
+  #navbar #text img {
+    padding-right: 20px;
+  }
+
+  #navbar #text {
+    color: #1A2763;
+    font-weight: 700;
+    font-size: 25px;
+  }
+
+  #navbar #text:hover {
+    color: #1A2763;
+    font-weight: 700;
+    font-size: 25px;
+    text-decoration: none
+  }
+
+  #navbar #signup {
+    background-color: #f37535;
+    border: none;
+    color: white;
+    border-radius: 30px;
+    font-size: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  #navbar #login {
+    color: #1A2763;
+    font-size: 25px;
+    padding: 5px 30px;
+    height: 46px;
+    padding-top: 10px;
+  }
+
+  #navbar #login:hover {
+    background-color: transparent
+  }
+
+  #fAppdescription1 {
+    /* padding:30px */
+  }
+
+  #fAppdescription1 p {
+    line-height: 4;
+    font-size: 20px;
+    color: white;
+  }
+
+  #fAppdescription1 h4 {
+    font-size: 30px;
+    color: white;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  #fAppdescription1 .fa-star {
+    color: #ffb300;
+    font-size: 20px;
+    padding-right: 3px;
+  }
+
+  #fAppdescription1 .fa-star-o {
+    color: white;
+    font-size: 20px;
+    padding-right: 3px;
+  }
+
+  #fAppdescription2 {
+    /* padding:30px */
+  }
+
+  #fAppdescription2 p {
+    line-height: 4;
+    font-size: 20px;
+    color: black;
+  }
+
+  #fAppdescription2 h4 {
+    font-size: 30px;
+    color: black;
+    font-weight: 700;
+    /* line-height: 2; */
+  }
+
+  #fAppdescription2 .fa-star {
+    color: #ffb300;
+    font-size: 20px;
+    padding-right: 3px;
+  }
+
+  #fAppdescription2 .fa-star-o {
+    color: white;
+    font-size: 20px;
+    padding-right: 3px;
+  }
+
+  .row1 {
+    background: url(https://media.istockphoto.com/vectors/colorful-abstract-background-design-template-modern-pattern-vector-vector-id873488790?b=1&k=6&m=873488790&s=612x612&w=0&h=0dnmY7tAH7hWW3xZHYRR3pse-kGB09SZ55EcQpJfo08=);
+    height: 270px;
+    padding: 35px 15px;
+    font-weight: 400;
+    color: #000000;
+    border-radius: 23px;
+    box-shadow: 0px 8px 418px rgba(157, 157, 157, 0.94) !important;
+  }
+
+  .row2 {
+    background: url('https://lh3.googleusercontent.com/proxy/pGK-bY2Bjvz5db0otu3VmDeikYHrSYmfdmOTfFGGtae-Jhj5tsUM8IjP1gZXdjRQpIPB1wnNzCyNbTI3mD-bbF1PI9bNRwP9LYmS-Mkb54ZXwiBlcxZfmC6C');
+    height: 270px;
+    padding: 35px 15px;
+    font-weight: 400;
+    color: #000000;
+    border-radius: 23px;
+    box-shadow: 0px 8px 418px rgba(157, 157, 157, 0.94) !important;
+  }
+
+  .row3 {
+    background: white;
+    height: 270px;
+    padding: 35px 15px;
+    font-weight: 400;
+    color: #000000;
+    border-radius: 23px;
+    box-shadow: 0px 8px 418px rgba(157, 157, 157, 0.94) !important;
+  }
+
+  .row1 img {
+    width: 100%;
+    height: 150px;
+  }
+
+  .row1 .icons {
+    font-size: 180px;
+    color: white;
+  }
+
+
+  .row1 h4 {
+    font-size: 30px;
+    color: white;
+    font-weight: 700;
+    margin: 0px;
+  }
+
+  .row2 h4 {
+    font-size: 30px;
+    color: black;
+    font-weight: 700;
+    margin: 0px;
+  }
+
+  .row3 h4 {
+    font-size: 30px;
+    color: black;
+    font-weight: 700;
+    margin: 0px;
+  }
+
+  .row1 p {
+    font-size: 18px;
+    color: white;
+    line-height: 1.5;
+    height: 50px;
+  }
+
+  .row2 p {
+    font-size: 18px;
+    color: black;
+    line-height: 1.5;
+    height: 50px;
+
+  }
+
+  .row3 p {
+    font-size: 18px;
+    color: black;
+    line-height: 1.5;
+    height: 50px;
+  }
+
+  .row1 .fa-star {
+    color: #ffb300;
+  }
+
+  .row2 .fa-star {
+    color: #ffb300;
+  }
+
+  .row3 .fa-star {
+    color: #ffb300;
+  }
+
+  #page2bgImage {
+    margin-bottom: 30px;
+  }
+
+  #page2Column1 #columnBox1 {
+    height: 230px;
+    border-radius: 20px;
+    box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;
+    background: #0F2027;
+    padding: 20px;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #2C5364, #203A43, #0F2027);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  }
+
+  #page2Column1 #columnBox2 {
+    margin-top: 30px;
+    height: 230px;
+    border-radius: 20px;
+    box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;
+    background: #abbaab;
+    padding: 20px;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #ffffff, #abbaab);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #ffffff, #abbaab);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
+
+  }
+
+  .apps {
+    height: 180px;
+    background-size: contain !important;background-position:top !important;
+  }
+
+  .appImg {
+    height: 150px;
+    background-size: contain !important;
+    background-position:top !important;
+  }
+
+  @media only screen and (min-device-width : 320px) and (max-device-width : 600px) {
+
+    #Boxes .secondbox {
+      margin-bottom: 20px;
+    }
+
+    #btns .newBtn {
+      margin-bottom: 15px;
+    }
+
+    #btns .blueBtn {
+      margin-bottom: 15px;
+    }
+
+    #navbar ul {
+      display: flex;
+    }
+
+    #page2Column1 #columnBox1 {
+      height: 300px;
+    }
+
+    #page2Column1 #columnBox2 {
+      height: 300px;
+      margin-bottom: 20px;
+    }
+
+    #fAppdescription1 {
+      padding: 0px 15px;
+    }
+
+    #fAppdescription1 h4 {
+      line-height: initial
+    }
+
+    #fAppdescription1 p {
+      line-height: initial
+    }
+
+    #fAppdescription2 {
+      padding: 0px 15px;
+    }
+
+    #fAppdescription2 h4 {
+      line-height: initial
+    }
+
+    #fAppdescription2 p {
+      line-height: initial
+    }
+
+    #page2bgImage {
+      height: 380px;
+    }
+
+    #page2bgImage #divText {
+      padding: 5px;
+    }
+
+    .row3 {
+      height: 350px;
+      padding: 20px 15px;
+    }
+
+    .row1 {
+      height: 350px;
+      padding: 20px 15px;
+    }
+
+    .row2 {
+      height: 350px;
+      padding: 20px 15px;
+    }
+
+    .row1 h4 {
+      padding-top: 7px;
+
+    }
+
+    .row2 h4 {
+      padding-top: 7px;
+
+    }
+
+    .row3 h4 {
+      padding-top: 7px;
+
+    }
+
+    .row1 p {
+      height: 30px;
+    }
+
+    .row2 p {
+      height: 30px;
+      padding-top: 7px;
+    }
+
+    .row3 p {
+      height: 30px;
+      padding-top: 7px;
+    }
+  }
+
+  @media screen and (min-width: 1200px) and (max-width: 1600px) and (-webkit-min-device-pixel-ratio: 1) {
+    #page2bgImage {
+      height: 400px;
+    }
+
+    #page2bgImage #divText {
+      padding: 30px;
+    }
+
+    #page2Column1 #columnBox1 {
+      height: 190px;
+      padding: 5px;
+    }
+
+    #page2Column1 #columnBox2 {
+      height: 190px;
+      padding: 5px;
+      margin-top: 20px;
+    }
+
+    .row1 {
+      height: 190px;
+      padding: 20px 0px;
+    }
+
+    .row2 {
+      height: 190px;
+      padding: 20px 0px;
+    }
+
+    .row3 {
+      height: 190px;
+      padding: 20px 0px;
+    }
+
+    .row1 h4 {
+      font-size: 20px;
+    }
+
+    .row1 p {
+      font-size: 14px;
+    }
+
+    .row2 h4 {
+      font-size: 20px;
+    }
+
+    .row2 p {
+      font-size: 14px;
+    }
+
+    .row3 h4 {
+      font-size: 20px;
+    }
+
+    .row3 p {
+      font-size: 14px;
+    }
+
+    .apps {
+      height: 180px;
+      background-size: contain !important;
+      background-position: top !important;
+    }
+
+    .appImg {
+      height: 80px;
+      background-size: contain !important;
+      background-position: top !important;
+    }
+    #page2bgImage #divText span{
+      font-size:50px;
+    }
+    ##fAppdescription1 h4{
+      font-size:25px;
+
+    }
+    #fAppdescription2 h4{
+      font-size:25px;
+    }
+  }

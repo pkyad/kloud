@@ -1,0 +1,29 @@
+<li><i class="fa fa-check-square-o bg-black"></i>
+  <div class="timeline-item" >
+    <span class="time" style="margin-right:10px;"><i class="fa fa-clock-o"></i> {{data.created | timeAgo}} ago</span>
+    <h3 class="timeline-header" style="height:41px;">
+      <img style="position:relative; float:left; top:-10px;left:-10px;" src="/static/images/img_avatar_card.png" height="40px" width="40px"/>
+      {{data.user | getName}}
+
+    </h3>
+    <div class="timeline-body">
+      {{data.text}}
+    </div>
+    <div class="timeline-footer" style="padding-bottom:0px;">
+
+      <div class="row" ng-repeat="comment in [1,5]" style="margin:10px;">
+        <div class="col-md-3 text-right">
+          <img src="{{1 | getDP}}" style="width:50px;height:50px;">
+        </div>
+        <div class="col-md-9" style="border-bottom:2px solid #eeeeee">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+        </div>
+      </div>
+
+      <div class="row" style="padding:10px;">
+        <input type="text" class="form-control" name="" value="">
+      </div>
+
+    </div>
+  </div>
+</li>

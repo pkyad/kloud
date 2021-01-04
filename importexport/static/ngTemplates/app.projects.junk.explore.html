@@ -1,0 +1,512 @@
+<div class="container-fluid" style="padding:20px;" ng-controller="businessManagement.importexport.projects.junk.explore">
+  <div class="col-md-3" style="border-right:solid 2px #eeeeee;margin-bottom:3em;min-height:80vh">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row" style="padding-top:10px">
+              <div class="col-md-5 text-center">
+                <label> Project Title : </label>
+              </div>
+              <div class="col-md-7 text-center">
+                <span> {{form.title}}</span>
+              </div>
+            </div>
+            <div class="row" style="padding-top:10px">
+              <div class="col-md-5 text-center">
+                <label> Customer Name : </label>
+              </div>
+              <div class="col-md-7 text-center">
+                <span> {{form.service.name}}</span>
+              </div>
+            </div>
+            <div class="row" style="padding-top:10px">
+              <div class="col-md-5 text-center">
+                <label> Closing Date : </label>
+              </div>
+              <div class="col-md-7 text-center">
+                <span> {{form.date}}</span>
+              </div>
+            </div>
+            <div class="row" style="padding-top:10px">
+              <div class="col-md-5 text-center">
+                <label> Machine Model : </label>
+              </div>
+              <div class="col-md-7 text-center">
+                <span> {{form.machinemodel}}</span>
+              </div>
+            </div>
+            <div class="row" style="padding-top:10px">
+              <div class="col-md-5 text-center">
+                <label> Comm Nr : </label>
+              </div>
+              <div class="col-md-7 text-center">
+                <span> {{form.comm_nr}}</span>
+              </div>
+            </div>
+            <div class="row" style="padding-top:10px">
+              <div class="col-md-5 text-center">
+                <label> Quote Ref : </label>
+              </div>
+              <div class="col-md-7 text-center">
+                <span> {{form.quote_ref}}</span>
+              </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+              <div class="col-md-5 text-center">
+                <label> Enquiry Ref : </label>
+              </div>
+              <div class="col-md-7 text-center">
+                <span> {{form.enquiry_ref}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" ng-if="form.responsible.length>0">
+          <div class="col-md-12 text-center">
+            <label> Responsible Persons : </label>
+          </div>
+          <div class="col-md-12">
+            <div ng-repeat="r in form.responsible">
+              <div class="card container-fluid" style="padding-left:0px;position:relative;margin-top:10px">
+                <div class="col-md-4" style="padding-top:5px;">
+                  <img ng-src="{{r | getDP}}" class="img-circle" alt="DP" height="50" width="50" />
+                </div>
+                <div class="col-md-8">
+                  {{r | getName}} <br>
+                  ID : <strong>{{r}}</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="padding-top:20px">
+          <div class="col-md-5 text-center">
+            <label> Revision : </label>
+          </div>
+          <div class="col-md-7 text-center">
+            <span> {{form.revision}}</span>
+          </div>
+
+        </div>
+        <div class="row" style="padding-top:20px">
+          <div class="col-md-5 text-center">
+            <label> Currency Type : </label>
+          </div>
+          <div class="col-md-7 text-center">
+            <span> {{form.currency}}</span>
+          </div>
+
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> PO Number : </label>
+          </div>
+          <div class="col-md-7 text-center">
+            <span> {{form.poNumber}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> PO Date : </label>
+          </div>
+          <div class="col-md-7 text-center">
+            <span> {{form.poDate}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> Quotation Number : </label>
+          </div>
+          <div class="col-md-7 text-center">
+            <span> {{form.quoteRefNumber}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> Quotation Date : </label>
+          </div>
+          <div class="col-md-7 text-center">
+            <span> {{form.quoteDate}}</span>
+          </div>
+        </div>
+
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> Invoice Number : </label>
+          </div>
+          <div class="col-md-7 text-center">
+            <span> {{form.invoiceNumber}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> BOE Number : </label>
+          </div>
+          <div class="col-md-7 text-center">
+            <span> {{form.boeRefNumber}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> Quotation Validity: </label>
+          </div>
+          <div class="col-md-7 text-center">
+            <span> {{form.quoteValidity}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> INCO Terms (Quotation): </label>
+          </div>
+          <div class="col-md-7 text-center">
+            <span> {{form.terms}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> INCO Terms (PO): </label>
+          </div>
+          <div class="col-md-7 text-center">
+            <span> {{form.termspo}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> Delivery : </label>
+          </div>
+          <div class="col-md-7 text-center">
+            <span> {{form.delivery}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px" ng-if="options">
+          <div class="col-md-12 text-center">
+            <label> Payment Terms (Quotation) : </label>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="form-control text-center" ng-model="form.paymentTerms" placeholder="Payment Terms (Quotation)" ng-change="paymentSave()">
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px" ng-if="options">
+          <div class="col-md-12 text-center">
+            <label> Payment Terms (PO) : </label>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="form-control text-center" ng-model="form.paymentTerms1" placeholder="Payment Terms (PO)" ng-change="paymentSavePO()">
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> Shipment mode : </label>
+          </div>
+          <div class="col-md-7 text-center">
+            <span> {{form.shipmentMode}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> Other Special Instruction : </label>
+          </div>
+          <div class="col-md-7 text-center">
+            <span> {{form.shipmentDetails}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> Notes (Quotation) : </label>
+          </div>
+          <div class="col-md-7 text-center">
+            <span> {{form.quoteNotes}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> Notes (PO) : </label>
+          </div>
+          <div class="col-md-7 text-center">
+            <span> {{form.poNotes}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> Net Weight : </label>
+          </div>
+          <div class="col-md-7 text-center">
+            <span> {{form.weightValue}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> Ex Rate : </label>
+          </div>
+          <div class="col-md-7 text-center">
+            <span> {{form.exRate}}</span>
+          </div>
+        </div>
+        <div class="row" style="padding-top:10px">
+          <div class="col-md-5 text-center">
+            <label> Profit Margin : </label>
+          </div>
+          <div class="col-md-7 text-center">
+            <span> {{form.profitMargin}}</span>
+          </div>
+        </div>
+        <div class="row text-center" style="padding-top:10px">
+          <div class="btn-group">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-12 text-center" ng-if="form.poNumber.length>0||form.projects.length>0||form.data.length>0">
+                    <span><a class="btn btn-primary" target="_blank" href="/api/importexport/POSlip/?project={{form.pk}}&poNumber={{form.poNumber}}&revision={{form.revision}}}&typ=CHF" style="min-width:50px"><i class="fa fa-download"></i> Download PO
+                        in CHF </a></span>
+                  </div>
+                </div><br>
+                <div class="row" ng-if="form.poNumber.length>0||form.projects.length>0||form.data.length>0">
+                  <div class="col-md-12 text-center">
+                    <span><a class="btn btn-primary" target="_blank" href="/api/importexport/landingDetail/?project={{form.pk}}" style="min-width:50px"><i class="fa fa-download"></i> Download landing Details </a></span>
+                  </div>
+                </div><br>
+                <!-- <span ng-if="form.poNumber==null||form.poNumber.length==0" class="btn btn-primary" ng-click="showFlashError()"><i class="fa fa-download"></i> Download PO </span><br><br> -->
+                <div class="row" ng-if="form.quoteRefNumber.length>0||form.projects.length>0||form.data.length>0">
+                  <div class="col-md-12 text-center">
+                    <span><a class="btn btn-primary" target="_blank" href="/api/importexport/quotation/?project={{form.pk}}&exRate={{form.exRate}}&typ=CHF" style="min-width:50px"><i class="fa fa-download"></i>
+                        Download Quotation In CHF </a></span>
+                  </div>
+                </div><br>
+                <div class="row" ng-if="form.quoteRefNumber.length>0||form.projects.length>0||form.data.length>0">
+                  <div class="col-md-12 text-center">
+                    <span><a class="btn btn-primary" target="_blank" href="/api/importexport/quotation/?project={{form.pk}}&exRate={{form.exRate}}&typ=INR" style="min-width:50px"><i class="fa fa-download"></i>
+                        Download Quotation In INR </a> </span>
+                  </div>
+                </div><br>
+                <div class="row" ng-if="form.quoteRefNumber.length>0||form.projects.length>0||form.data.length>0">
+                  <span><a class="btn btn-primary" target="_blank" href="/api/importexport/quotation/?project={{form.pk}}&exRate={{form.exRate}}&typ=Invoice" style="min-width:50px"><i class="fa fa-download"></i>
+                      Download Invoice </a> </span>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 text-center" style="padding-top:20px">
+                    <span><a class="btn btn-primary" target="_blank" href="/api/importexport/grn/?project={{form.pk}}"> <i class="fa fa-download"></i> Goods Received Note </a></span>
+                  </div>
+                </div>
+                <div class="row" ng-if="materialIssue.length>0">
+                  <div class="col-md-12 text-center" style="padding-top:20px">
+                    <span><a class="btn btn-primary" style="cursor:pointer;" target="_blank" href="/api/importexport/materialIssued/?projectPk={{form.pk}}"> <i class="fa fa-download" style="font-size:1;margin-left:1em"></i> Material Issued Note
+                      </a></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <wizard steps="projectSteps.steps" editable="false" active="form.selectedStatus" error="false"></wizard>
+    <hr>
+    <table class="invoiceTable" style=" width: 100%;">
+      <thead>
+        <b>Purchase Order Details</b>
+      </thead>
+      <tbody>
+        <tr style="background-color: #eeeeee;height: 50px;">
+          <th>S.No</th>
+          <th>Part No</th>
+          <th>Products</th>
+          <th>HSN</th>
+          <th> Quantity</th>
+          <th>Price</th>
+          <th>Total</th>
+        </tr>
+        <tr ng-repeat="v in projects  track by $index">
+          <td>{{$index + 1}}</td>
+          <td>{{v.products.part_no}}</td>
+          <td>{{v.products.description_1}}<span ng-if="v.products.description_2"> ({{v.products.description_2}})</span></td>
+          <td>{{v.customs_no}}</td>
+          <td> {{v.quantity1}}</td>
+          <td>{{v.price.toFixed(2) | number}}</td>
+          <td>{{(v.quantity1*v.price).toFixed(2) | number}}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>Total</td>
+          <td><b>{{purchaseSum.toFixed(2)}}</b></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="row" style='margin-top:5em' ng-if="materialIssue.length>0">
+      <hr />
+      <div class="col-md-12">
+        <table class="invoiceTable" style=" width: 100%;">
+          <thead>
+            <b>Material Issue Details</b>
+          </thead>
+          <tbody>
+            <tr style="background-color: #eeeeee;height: 50px;">
+              <th>Si.No</th>
+              <th>Product</th>
+              <th>Part No</th>
+              <th>Quantity</th>
+              <th>Stock value/unit</th>
+              <th>Stock value Consumed</th>
+            </tr>
+            <tr ng-repeat="m in materialIssue track by $index">
+              <td>{{$index + 1}}</td>
+              <td>{{m.product.description_1}}<span ng-if="m.product.description_2"> ({{m.product.description_2}})</span></td>
+              <td>{{m.product.part_no}}</td>
+              <td>{{m.qty}}</td>
+              <td>{{m.price.toFixed(2) | number}}</td>
+              <td>{{(m.qty*m.price).toFixed(2) | number}}</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>Total</td>
+              <td><b>{{materialSum.toFixed(2)}}</b></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <hr />
+    <div class="col-md-12">
+      <div class="row" style="padding-top:20px">
+        <div class="col-md-4 text-center">
+        </div>
+        <div class="col-md-3 text-center">
+          <label>Ex Works Value In CHF</label>
+        </div>
+        <div class="col-md-3 text-center">
+          <label>Value In INR</label>
+        </div>
+        <div class="col-md-2 text-center">
+          <label>Factor</label>
+        </div>
+      </div>
+      <div class="row" style="padding-top:20px;border-bottom:1px solid #eeeeee">
+        <div class="col-md-4 text-center">
+          <label> Ex Work Price: </label>
+        </div>
+        <div class="col-md-3 text-center">
+          <span>{{(form.invoiceValue).toFixed(2)}}</span>
+        </div>
+        <div class="col-md-3 text-center">
+          <span> {{((form.invoiceValue * form.exRate)).toFixed(2) | number}}</span>
+        </div>
+      </div>
+      <div class="row" style="padding-top:10px;border-bottom:1px solid #eeeeee">
+        <div class="col-md-4 text-center">
+          <label> Packing: </label>
+        </div>
+        <div class="col-md-3 text-center">
+          <span>{{form.packing | number}}</span>
+        </div>
+        <div class="col-md-3 text-center">
+          <span> {{(form.packing * form.exRate).toFixed(2) | number}}</span>
+        </div>
+        <div class="col-md-2 text-center">
+          <span> {{(form.packing *100/ form.invoiceValue).toFixed(2)}} %</span>
+        </div>
+      </div>
+      <div class="row" style="padding-top:10px;border-bottom:1px solid #eeeeee">
+        <div class="col-md-4 text-center">
+          <label> Insurance: </label>
+        </div>
+        <div class="col-md-3 text-center">
+          <span>{{form.insurance | number}}</span>
+        </div>
+        <div class="col-md-3 text-center">
+          <span> {{(form.insurance * form.exRate).toFixed(2) | number}}</span>
+        </div>
+        <div class="col-md-2 text-center">
+          <span> {{(form.insurance*100/ form.invoiceValue).toFixed(2)}}% </span>
+        </div>
+      </div>
+      <div class="row" style="padding-top:10px;border-bottom:1px solid #eeeeee">
+        <div class="col-md-4 text-center">
+          <label> Freight: </label>
+        </div>
+        <div class="col-md-3 text-center">
+          <span>{{form.freight | number}}</span>
+        </div>
+        <div class="col-md-3 text-center">
+          <span> {{(form.freight * form.exRate).toFixed(2) | number}}</span>
+        </div>
+        <div class="col-md-2 text-center">
+          <span> {{(form.freight*100/ form.invoiceValue).toFixed(2)}} %</span>
+        </div>
+      </div>
+      <div class="row" style="padding-top:10px;border-bottom:1px solid #eeeeee">
+        <div class="col-md-4 text-center">
+          <label> Assessable Value: </label>
+        </div>
+        <div class="col-md-3 text-center">
+        </div>
+        <div class="col-md-3 text-center">
+          <!-- <span>{{(form.invoiceValue*form.exRate*(100+form.assessableValueFraction)/100).toFixed(2)}}</span> -->
+        </div>
+        <div class="col-md-2 text-center">
+          <span>{{form.assessableValue | number}} %</span>
+        </div>
+      </div>
+      <div class="row" style="padding-top:10px;border-bottom:1px solid #eeeeee">
+        <div class="col-md-4 text-center">
+          <label> GST: </label>
+        </div>
+        <div class="col-md-3 text-center">
+        </div>
+        <div class="col-md-3 text-center">
+        </div>
+        <div class="col-md-2 text-center">
+          <span> 18% </span>
+        </div>
+      </div>
+      <div class="row" style="padding-top:10px;border-bottom:1px solid #eeeeee">
+        <div class="col-md-4 text-center">
+          <label> GST: </label>
+        </div>
+        <div class="col-md-3 text-center">
+        </div>
+        <div class="col-md-3 text-center">
+        </div>
+        <div class="col-md-2 text-center">
+          <span> 28% </span>
+        </div>
+      </div>
+      <div class="row" style="padding-top:10px;border-bottom:1px solid #eeeeee">
+        <div class="col-md-4 text-center">
+          <label> Clearing Charges 1: </label>
+        </div>
+        <div class="col-md-3 text-center">
+        </div>
+        <div class="col-md-3 text-center">
+          <span>{{form.clearingCharges1 | number}}</span>
+        </div>
+        <div class="col-md-2 text-center">
+          <span> {{(form.clearingCharges1*100/(form.invoiceValue* form.exRate)).toFixed(2) | number}} %</span>
+        </div>
+      </div>
+      <div class="row" style="padding-top:10px;border-bottom:1px solid #eeeeee">
+        <div class="col-md-4 text-center">
+          <label> Clearing Charges 2: </label>
+        </div>
+        <div class="col-md-3 text-center">
+        </div>
+        <div class="col-md-3 text-center">
+          <span>{{form.clearingCharges2 | number}}</span>
+        </div>
+        <div class="col-md-2 text-center">
+          <span> {{(form.clearingCharges2*100/(form.invoiceValue * form.exRate)).toFixed(2) | number}} %</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

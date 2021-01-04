@@ -1,0 +1,27 @@
+from django.conf.urls import include, url
+
+urlpatterns = [
+    url(r'^HR/', include('HR.urls')),
+    url(r'^ERP/', include('ERP.urls')),
+    url(r'^mail/', include('mail.urls')),
+    url(r'^PIM/', include('PIM.urls')),
+    url(r'^git/', include('gitweb.urls')),
+    url(r'^projects/', include('projects.urls')),
+    url(r'^taskBoard/', include('taskBoard.urls')),
+    url(r'^finance/', include('finance.urls')),
+    url(r'^clientRelationships/', include('clientRelationships.urls')),
+    url(r'^organization/', include('organization.urls')),
+    url(r'^recruitment/', include('recruitment.urls')),
+    url(r'^payroll/', include('payroll.urls')),
+    url(r'^assets/', include('assets.urls')),
+    url(r'^performance/', include('performance.urls')),
+    url(r'^marketing/', include('marketing.urls')),
+    url(r'^employees/', include('employees.urls')),
+    url(r'^website/', include('website.urls')),
+    url(r'^importexport/', include('importexport.urls')),
+    url(r'^hospitalManagement/', include('hospitalManagement.urls')),
+    url(r'^LMS/', include('LMS.urls')),
+    url(r'^forum/', include('forum.urls')),
+    url(r'^blogging/', include('blogging.urls')),
+    url(r'^chatbot/', include('chatbot.urls')),
+]

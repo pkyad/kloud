@@ -1,0 +1,63 @@
+<style media="screen">
+  .box {
+    background: white;
+    padding: 10px;
+    font-weight: 400;
+    color: #000000;
+    box-shadow: 0px 0px 10px #ccc;
+    /* height: 150px; */
+  }
+  .websiteInput {
+    background:
+      #F2F3F7;
+    color:
+      #555;
+    border-radius: 25px !important;
+    padding: 10px 20px;
+    border: none !important;
+    margin-top: 10px;
+    height: 45px;
+  }
+  .newBtn {
+    border: none !important;
+    border-radius: 10px !important;
+
+    padding: 15px;
+
+    font-size: 16px;
+    background: #E01B22;
+    color:  white !important;
+  }
+  .defaultBtn {
+    border: none !important;
+    border-radius: 10px !important;
+
+    padding: 15px;
+
+    font-size: 16px;
+    background: #F2F3F7;
+    color:  black !important;
+  }
+</style>
+
+<div class="container-fluid">
+  <div class="row text-center" style="margin:0px;">
+    <h3>Categories </h3>
+  </div>
+  <div class="col-md-12" style="margin-top:50px;">
+    <div class="row" style="margin:0px;">
+      <div class="col-md-2">
+          <div class="box text-center" ng-click="addCategory()" style="padding:60px 30px;height:180px;">
+            <span><i class="fa fa-plus" style="background:transparent;color:black;font-size:35px;box-shadow:none;"></i></span>
+          </div>
+      </div>
+      <div class="col-md-2" ng-repeat="a in allCategories" ng-click="$state.go('businessManagement.product',{'id' : a.pk})">
+          <div class="box text-center" style="padding:60px 30px;height:180px;">
+            <span>{{a.name}}</span>
+            <i style="position:absolute;bottom:10px;right:10px" class="fa fa-pencil" ng-click="addCategory($index);$event.stopPropagation()"></i>
+            <i style="position:absolute;bottom:10px;left:10px" class="fa fa-trash" ng-click="$event.stopPropagation()" mwl-confirm title="Delete" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="deleteCategory($index)" confirm-button-type="default" cancel-button-type="default"></i>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

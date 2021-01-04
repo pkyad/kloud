@@ -1,0 +1,161 @@
+<div id="head" class="container-fluid">
+  <div class="brow" class="row">
+    <div id="body" class="col-md-12 text-center">
+      <h1 style="font-weight:200"><strong>BRUDERER PRESSES INDIA PVT LTD</strong></h1>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <table class="table table-striped">
+        <tbody ng-repeat="p in products">
+          <tr>
+            <td align='left'>
+              <button class="btn btn-success" type="button" ng-click="changeState()" name="button"><i class="fa fa-backward"></i> back</button>
+            </td>
+            <td></td>
+            <td>
+            <button type="button" class="btn btn-success" ng-click="closeForm(p.pk)" name="button" ng-if="me.is_staff&&p.closedBy==null">Close</button>
+                <button type="button" ng-if="p.pk&&p.status=='Open'&&me.is_staff&&p.closedBy!=null"" class="btn btn-success" mwl-confirm title="Send for approval" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No"
+                  on-confirm="sentForApproval(p.pk)" confirm-button-type="success" cancel-button-type="default">Send for approval</button>
+                <button type="button" ng-if="p.status=='Sent for closing approval'&&me.is_staff" class="btn btn-success" mwl-confirm title="Approve Complaint" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>"
+                  cancel-text="No" on-confirm="complaintApproval(p.pk)" confirm-button-type="success" cancel-button-type="default">Approve</button>
+                <button type="button" ng-if="p.status=='Sent for closing approval'&&me.is_staff" class="btn btn-success" mwl-confirm title="Reject Complaint" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>"
+                  cancel-text="No" on-confirm="complaintRejection(p.pk)" confirm-button-type="success" cancel-button-type="default">Reject</button></td>
+            <td align='right'>
+              <a href="/api/importexport/complaintPdf/?pk={{p.pk}}"><button class="btn btn-success" name="button">Download PDF <i class="fa fa-download"></i></button></a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4><b>Complaint Id : </b></h4>
+            </td>
+            <td align="left">
+              <h4>{{p.pk}}</h4>
+            </td>
+            <td>
+              <h4><b>Complaint Registered On :</b></h4>
+            </td>
+            <td align="left">
+              <h4>{{p.date | getDate}}</h4>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4> <b>Customer :</b></h4>
+            </td>
+            <td align="left">
+              <h4>{{p.customer.personName}}</h4>
+            </td>
+            <td>
+              <h4><b>Customer Representative :</b></h4>
+            </td>
+            <td align="left">
+              <h4>{{p.contact}}</h4>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4> <b>Complaint Referance :</b></h4>
+            </td>
+            <td align="left">
+              <h4>{{p.complaintRef}}</h4>
+            </td>
+            <td>
+              <h4><b>Machine :</b></h4>
+            </td>
+            <td align="left">
+              <h4>{{p.machine}}</h4>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4><b>Complaint Type :</b></h4>
+            </td>
+            <td align="left">
+              <h4>{{p.complaintType}}</h4>
+            </td>
+            <td>
+              <h4><b>Whether Machine running :</b></h4>
+            </td>
+            <td align="left">
+              <h4>{{p.machineRunning}}</h4>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4><b>Complaint Registered By ;</b></h4>
+            </td>
+            <td align="left">
+              <h4>{{p.registeredBy.first_name}}</h4>
+            </td>
+            <td>
+              <h4><b>Complaint Closed By :</b></h4>
+            </td>
+            <td align="left">
+              <h4>{{p.closedBy.first_name}}</h4>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4><b>Refurbished by BIND :</b></h4>
+            </td>
+            <td align="left">
+              <h4>{{p.RefurbishedBind}}</h4>
+            </td>
+            <td>
+              <h4><b>Service Report number :</b></h4>
+            </td>
+            <td align="left">
+              <h4>{{p.serviceReportNo}}</h4>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4><b>Error Code :</b></h4>
+            </td>
+            <td align="left">
+              <h4>{{p.errorCode}}</h4>
+            </td>
+            <td>
+              <h4><b>Close Approved :</b></h4>
+            </td>
+            <td align="left">
+              <h4>{{p.is_CloseApproved}}</h4>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4><b>Complaint Closed On :</b></h4>
+            </td>
+            <td align="left">
+              <h4>{{p.closedDate}}</h4>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4><b>Nature of Complaint :</b></h4>
+            </td>
+            <td align="left">
+              <h4>{{p.attr1}}</h4>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4><b>Interim action :</b></h4>{{p.pk}}
+            </td>
+            <td align="left">
+              <h4>{{p.attr2}}</h4>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4> <b>Disposition :</b></h4>{{p.pk}}
+            </td>
+            <td align="left">
+              <h4>{{p.attr3}}</h4>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

@@ -1,0 +1,40 @@
+<div class="row" style="margin-top:20px;margin-bottom:20px;">
+  <div class="col-md-3">
+    <div class="input-group" style="background:#FAFAFA;border-radius:10px;padding:5px;">
+      <input type="text" class="form-control" ng-model="searchForm.search" placeholder="Search with Account Number" ng-change="allAccounts()" style="border:none !important;background:#FAFAFA;">
+      <div class="input-group-btn">
+        <button class="btn btn-default" type="submit" ng-click="allAccounts()" style="border:none !important;background:#FAFAFA;">
+          <i class="glyphicon glyphicon-search"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="">
+  <table class="table table-hover pad10">
+    <thead>
+      <tr style="">
+        <th></th>
+        <th style="border-bottom: 1px solid #ddd !important;">Name</th>
+        <th style="border-bottom: 1px solid #ddd !important;">Account Number</th>
+        <th class="textCen" style="text-align:center !important;border:1px solid #ddd">Closing Balance</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="acc in accountData" ng-click="$state.go('businessManagement.accountsView',{'id':acc.pk})">
+        <td>{{$index+1}}</td>
+        <td style="font-size:23px;">{{acc.title}} </td>
+        <td><span ng-if="!acc.personal">{{acc.number}}</span> <span ng-if="acc.personal">Petty Cash</span> </td>
+
+        <td ng-click="viewAcc(acc)" style="text-align:center !important;border: 1px solid #ddd !important;font-size:23px;">
+          {{acc.balance}}</td>
+      </tr>
+      <tr style="border-bottom:1px solid #ddd !important">
+        <td class="textCen"></td>
+        <td class="textCen"></td>
+        <th style="text-align:right !important"> Grand Total</th>
+        <th style="text-align:center !important;border: 1px solid #ddd !important;font-size:23px;"> {{total}}</th>
+      </tr>
+    </tbody>
+  </table>
+</div>

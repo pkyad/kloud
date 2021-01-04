@@ -1,0 +1,62 @@
+<div class="modal-body">
+
+    <div class="form-group">
+      <label>Owner</label>
+      <input uib-typeahead="user as user.username for user in userSearch($viewValue)" ng-model="form.user" type="text" class="form-control" placeholder="Select owner">
+    </div>
+    <div class="form-group">
+      <label>Valuation</label>
+          <div class="input-group">
+            <div class="input-group-btn">
+              <div class="btn-group">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                     <span>{{form.currency}} {{form.currency!= null && form.currency!= '' ? '': 'Currency'}}</span>
+                     <span class="caret"></span>
+                 </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li ng-click="setCurrency('INR')"><a href="">INR</a></li>
+                  <li ng-click="setCurrency('USD')"><a href="">USD</a></li>
+                </ul>
+              </div>
+            </div>
+            <input type="search" ng-model="form.value" class="form-control" />
+          </div>
+        </div>
+    <div class="form-group">
+      <label>Billing Type</label>
+      <select class="form-control" ng-model="form.billingType">
+        <option value="fixed">Fixed</option>
+        <option value="monthly">Monthly</option>
+        <option value="hourly">Hourly</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Requirements</label>
+      <textarea ui-tinymce="tinymceOptions" ng-model="form.requirements"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Rate</label>
+      <input type="text" class="form-control" ng-model="form.rate">
+    </div>
+    <div class="form-group">
+      <label>GSTIN</label>
+      <input type="text" class="form-control" ng-model="form.tin">
+    </div>
+    <label>Closing Date</label>
+    <div class="input-group">
+      <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.closeDate" is-open="status.opened" />
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="status.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+      </span>
+      
+    </div>
+
+    <label></label>
+    <div class="form-group">
+      <div class="btn-group">
+      <button class="btn btn-default" type="button" ng-click="reset()"> reset</button>
+      <button class="btn btn-primary" type="button" ng-click="save()" >save </button>
+      </div>
+      </div>
+    </div>
+</div>

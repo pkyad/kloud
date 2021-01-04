@@ -1,0 +1,194 @@
+<style media="screen">.menuCol{width:9.8%;}.appCol{width:90.2%;}</style>
+<div class="container-fluid"style="margin-top:30px;">
+  <div class="col-md-4">
+    <div class="container-fluid" ng-show="now">
+      <div class="text-center">
+        <span> <b>{{form.date | date:'d-MMM-y'}}</b> </span>
+      </div>
+      <div class="form-group">
+        <label>Contact</label>
+        <input type="text" class="form-control" ng-model="form.contact" uib-typeahead="contact as contact.name for contact in contactSearch($viewValue)" placeholder="Search a User">
+      </div>
+      <div class="form-group">
+        <label>PinCode</label>
+        <div class="input-group">
+          <input ng-model="form.pincode" type="text" class="form-control" placeholder="">
+          <span class="input-group-btn">
+            <button class="btn btn-primary" type="button" ng-click="searchPin()">
+              Search
+            </button>
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Time Slot</label>
+        <select class="form-control" ng-model="form.timeslot">
+          <option hidden disabled selected value></option>
+          <option value="1 AM">1 AM</option>
+          <option value="2 AM">2 AM</option>
+          <option value="3 AM">3 AM</option>
+          <option value="4 AM">4 AM</option>
+          <option value="5 AM">5 AM</option>
+          <option value="6 AM">6 AM</option>
+          <option value="7 AM">7 AM</option>
+          <option value="8 AM">8 AM</option>
+          <option value="9 AM">9 AM</option>
+          <option value="10 AM">10 AM</option>
+          <option value="11 AM">11 AM</option>
+          <option value="12 AM">12 AM</option>
+          <option value="13 PM">13 PM</option>
+          <option value="14 PM">14 PM</option>
+          <option value="15 PM">15 PM</option>
+          <option value="16 PM">16 PM</option>
+          <option value="17 PM">17 PM</option>
+          <option value="18 PM">18 PM</option>
+          <option value="19 PM">19 PM</option>
+          <option value="20 PM">20 PM</option>
+          <option value="21 PM">21 PM</option>
+          <option value="22 PM">22 PM</option>
+          <option value="23 PM">23 PM</option>
+          <option value="24 PM">24 PM</option>
+        </select>
+      </div>
+      <button type="button" class="btn btn-primary" ng-click="saveContact()">
+        save
+      </button>
+    </div>
+    <div class="" ng-show="now" ng-if="tourStop.length>0">
+      <div class="row">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="container-fluid" style="padding:20px;position:relative;min-height:100px;">
+              <div class="text-center" style="cursor:pointer;">
+                <div class="row">
+                  <i class="fa fa-home fa-3x text-muted"></i> Station
+                </div> <br>
+                <i class="fa fa-arrow-down fa-2x" style="color:#c1bfbf;"></i> <br>
+              </div>
+            </div>
+          </div>
+          <div class="row" ng-repeat="s in tourStop" ng-click="showDetail($index,s.pk)">
+            <div class="container-fluid" style="padding:20px;position:relative;min-height:300px;{{selected == $index? 'background:#eeeeee;':''}}">
+              <div class="text-center" style="cursor:pointer;">
+                <div class="row">
+                  <div class="col-md-5 text-right">
+                    <i class="fa fa-user"></i>
+                  </div>
+                  <div class="col-md-7 text-left">
+                    {{s.contact.name}}
+                  </div>
+                </div> <br>
+                <div class="row">
+                  <div class="col-md-5 text-right">
+                    <i class="fa fa-phone"></i>
+                  </div>
+                  <div class="col-md-7 text-left">
+                    {{s.contact.mobile}}
+                  </div>
+                </div> <br>
+                <div class="row">
+                  <div class="col-md-5 text-right">
+                    <i class="fa fa-mobile-phone"></i>
+                  </div>
+                  <div class="col-md-7 text-left">
+                    {{s.contact.email}}
+                  </div>
+                </div><br>
+                <div class="row">
+                  <div class="col-md-5 text-right">
+                    <i class="fa fa-clock-o"></i>
+                  </div>
+                  <div class="col-md-7 text-left">
+                    {{s.timeslot}}
+                  </div>
+                </div><br>
+                <i class="fa fa-arrow-down fa-2x" style="color:#c1bfbf;"></i> <br>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="container-fluid" style="padding:20px;position:relative;min-height:100px;">
+              <div class="text-center" style="cursor:pointer;">
+                <div class="row">
+                  <i class="fa fa-home fa-3x text-muted"></i> Station
+                </div> <br>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8" style="border-left:1px solid #c7c7c7;">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label>User</label>
+        <input type="text" class="form-control" ng-model="form.user" uib-typeahead="user as user.username for user in userSearch($viewValue)" placeholder="Search a User">
+      </div>
+    </div>
+    <div ng-show="showForm">
+      <div class="col-md-4">
+        <div class="form-group">
+          <input type="text" class="" show-weeks="false" uib-datepicker="dd-MMMM-yyyy" ng-model="form.date" is-open="quote.opened" ng-init="form.date = today">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>TA</label>
+          <input type="number" class="form-control" ng-model="form.ta" ng-disabled="form.status=='approved'">
+        </div>
+        <div class="form-group">
+          <label>DA</label>
+          <input type="number" class="form-control" ng-model="form.da" ng-disabled="form.status=='approved'">
+        </div>
+        <!-- <div class="form-group">
+          <label>Amount</label>
+          <input type="number" class="form-control" ng-model="form.amount">
+        </div> -->
+        <div class="form-group">
+         <label>Attachment</label>
+         <input type="file" file-model="form.attachment" ng-disabled="form.status=='approved'">
+       </div>
+      </div>
+      <button type="button" class="btn btn-default" ng-click="update()" ng-hide="form.status=='approved'">
+        save
+      </button>
+      <button type="button" class="btn btn-success pull-right" ng-hide="form.status == 'sent_for_approval' || form.status=='approved'" ng-click="approval()">
+        Send for approval
+      </button>
+    </div>
+    <div class="container-fluid" ng-if='showcmnt'>
+      <div class="row">
+      <div class="col-md-6">
+        <label>Images Before</label>
+        <media-Field data="data.before" url="/api/projects/media/"></media-Field>
+      </div>
+      <div class="col-md-6">
+          <label>Images After</label>
+        <media-Field data="data.after" url="/api/projects/media/"></media-Field>
+      </div>
+    </div>
+      <div class="form-group">
+        <label>Comment</label>
+        <textarea name="name" rows="5" cols="80" class="form-control" style="resize:none;" ng-model="form.comments"></textarea>
+      </div>
+      <button type="button" class="btn btn-primary" ng-click="saveComment()">
+        save
+      </button>
+      <button type="button" class="btn btn-primary pull-right" ng-click="AddInvoice()">
+        Invoice
+      </button>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- <div class="form-group">
+ <label>Attachment</label>
+ <input type="file" file-model="form.audioFile">
+</div>
+
+<button type="button" class="btn btn-primary" ng-click="audioFile()">
+  save
+</button> -->

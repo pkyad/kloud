@@ -1,0 +1,170 @@
+<style>
+.centerMarker{
+  position:absolute;
+  /*url of the marker*/
+  background:url(http://maps.gstatic.com/mapfiles/markers2/marker.png) no-repeat;
+  /*center the marker*/
+  top:50%;left:50%;
+
+  z-index:1;
+  /*fix offset when needed*/
+  margin-left:-10px;
+  margin-top:-34px;
+  /*size of the image*/
+  height:34px;
+  width:20px;
+
+  cursor:pointer;
+}
+
+
+
+.modal-content{
+  background : #F2F3F7;
+}
+
+
+
+</style>
+
+
+
+<div class="modal-body" style="background:#F2F3F7;">
+
+
+  <!-- <button style="background: #461482;color: white;position: fixed;bottom: 20px;border: none !important;border-radius: 64px !important;padding: 17px;width: 112px;right: 59px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;" class="btn btn-primary pull-right" ng-click="saveContact()">  Save </button>
+
+  <button style="background:rgb(237, 2, 2);color: white;position: fixed;bottom: 20px;border: none !important;border-radius: 64px !important;padding: 17px;width: 112px;right: 259px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;" class="btn btn-primary pull-right" ng-click="close()">  Cancel </button> -->
+
+  <div class= "row" >
+    <div class="col-md-6">
+      <h3 style="margin-left: 29px;margin-bottom: 37px;">Add a new lead</h3>
+    </div>
+    <div class="col-md-6">
+      <button style="background: #461482;color: white;bottom: 20px;border: none !important;border-radius: 64px !important;padding: 17px;width: 112px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;" class="btn btn-primary pull-right" ng-click="saveContact()">  Save </button>
+
+      <button style="background:rgb(237, 2, 2);color: white;bottom: 20px;border: none !important;border-radius: 64px !important;padding: 17px;width: 112px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;margin-right:30px" class="btn btn-primary pull-right" ng-click="close()">  Cancel </button>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row" style="margin:0px;">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" class="form-control whiteInputField" ng-model="form.name" autocomplete="new-password">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="text" class="form-control whiteInputField" ng-model="form.mobile" ng-change="checkContact()" autocomplete="new-password">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" class="form-control whiteInputField" ng-model="form.email" autocomplete="new-password">
+        </div>
+      </div>
+      <!-- <div class="col-md-6">
+        <div class="form-group">
+          <label>Referrer</label>
+          <select class="form-control" ng-model="form.source" style="height: 55px;border-radius: 10px;border: none !important;" >
+            <option value="Sample">Sample</option>
+          </select>
+        </div>
+      </div> -->
+      <div class="col-md-12" ng-if="material_inward=='True'">
+        <div class="form-group">
+          <label>Company Name</label>
+          <input type="text" class="form-control whiteInputField" ng-model="form.companyName" autocomplete="new-password">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Preferred Date</label>
+          <div class="input-group newDatePicWhite">
+            <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.date" is-open="status.opened" />
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default pic" ng-click="status.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Preffered Time Slot</label>
+          <select class="form-control" ng-model="form.slot" style="height: 55px;border-radius: 10px;border: none !important;">
+            <option hidden disabled selected value></option>
+            <option value="9 AM">9 AM</option>
+            <option value="10 AM">10 AM</option>
+            <option value="11 AM">11 AM</option>
+            <option value="12 AM">12 AM</option>
+            <option value="1 PM">1 PM</option>
+            <option value="2 PM">2 PM</option>
+            <option value="3 PM">3 PM</option>
+            <option value="4 PM">4 PM</option>
+            <option value="5 PM">5 PM</option>
+            <option value="6 PM">6 PM</option>
+            <option value="7 PM">7 PM</option>
+            <option value="8 PM">8 PM</option>
+            <option value="9 PM">9 PM</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Warranty Status</label>
+          <select class="form-control" ng-model="form.warrantyStatus" style="height: 55px;border-radius: 10px;border: none !important;">
+            <option hidden disabled selected value></option>
+            <option value="OEM Warranty">OEM Warranty</option>
+            <option value="AMC">AMC</option>
+            <option value="Out Of Warranty">Out Of Warranty</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Product</label>
+          <input uib-typeahead="product as product.name for product in productSearch($viewValue)" ng-model="form.product" type="text" class="form-control whiteInputField" placeholder="">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Serial No.</label>
+          <input type="text" class="form-control whiteInputField" ng-model="form.serialNo" autocomplete="new-password">
+        </div>
+      </div>
+      <div class="col-md-12" >
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea name="name" ng-model="form.about"  class="form-control whiteInputField" rows="4" cols="80"></textarea>
+        </div>
+      </div>
+      <div class="col-md-6" >
+        <div class="form-group">
+          <label>Pincode</label>
+          <input type="text" class="form-control whiteInputField" ng-model="form.pinCode">
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="margin:15px;margin-bottom:100px;">
+      <label>Address</label>
+      <input places-auto-complete
+        ng-model="form.addrs"
+        component-restrictions="{country:'in'}"
+        types="{{types}}"
+        strict-bounds="true"
+        on-place-changed="placeChanged()" class="form-control whiteInputField" />
+
+      <map ng-if="form.addrs" center="{{locations}}" style="display: block;width: auto;height: 300px;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;overflow: hidden;"   zoom="12">
+        <marker  position="{{locations}}" centered="true" draggable="true" on-dragend="getCurrentLocation($event)" ></marker>
+      </map>
+    </div>
+
+
+
+  </div>
+</div>

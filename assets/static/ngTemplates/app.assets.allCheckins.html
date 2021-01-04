@@ -1,0 +1,125 @@
+<style media="screen">
+
+  .searchInpSales::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: white;
+    opacity: 1; /* Firefox */
+  }
+
+</style>
+
+<div class="row">
+  <ui-view>
+    <div class="col-md-12">
+      <div class="row" style="padding-left:15px;background:#FCFDFF;">
+        <div class="col-md-12">
+          <div class="col-md-3">
+            <div class="col-md-3" style="padding-top:20px;">
+              <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
+            </div>
+            <div class="col-md-9" style="padding:0px;">
+              <h2>Inventory</h2>
+            </div>
+
+            <div class="col-md-offset-3">
+
+              <div class="container-fluid" style="padding:0px;padding-bottom:15px" ng-if="me.is_superuser">
+                <span style="color:rgb(138, 138, 138);">Warehouse</span>
+                <select class="form-control" ng-model="filters.warehouse" style="background: #E8E8E8;border-radius: 10px;height: 43px;color: black;border: none !important;" ng-click="getallCheckins()" ng-options="a.name for a in warehouseList">
+                </select>
+              </div>
+              <div class="container-fluid" style="padding:0px;padding-bottom:15px" ng-if="!me.is_superuser">
+                <span style="color:rgb(138, 138, 138);">Warehouse</span>
+                <p style="background: #E8E8E8;border-radius: 10px;height: 43px;color: black;border: none !important;padding-top:10px;padding-left:10px"> {{warehouses.name}} </p>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="col-md-3 text-center">
+            <h1> <i class="fa fa-inr" style="color:rgb(168, 168, 168)"></i> {{grandTotal|number}} </h1>
+
+            <span>Total Inventory Value</span>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row"  style="margin-top:15px;background:#0E1C2C;padding:15px;box-shadow: 0px 15px 18px rgba(157, 157, 157, 0.94) !important;">
+      <div class="col-md-12" style="padding-top:15px">
+        <div class="col-md-7">
+          <div class="col-md-5">
+            <div class="input-group" style="border : none !important;border-radius:10px !important;background:#1E334C !important;padding:10px;padding-top:5px;padding-bottom:5px;">
+              <input type="text" class="form-control searchInpSales ng-pristine ng-valid ng-empty ng-touched" placeholder="Search" ng-model="filters.search" style="background:#1E334C !important;border : none !important;color:white;">
+              <div class="input-group-btn">
+                <button class="btn btn-default" style="background:#1E334C !important;border : none !important;color:white;" type="submit" ng-click="getallCheckins()">
+                  <i class="glyphicon glyphicon-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <button type="button" style="border : none !important;border-radius:10px !important;background:#1E334C;color:white;padding:13px;padding-left:15px;padding-right:15px;" class="btn btn-sm btn-primary btn-block" ng-click="prev()">Prev</button>
+          </div>
+          <div class="col-md-2">
+            <button type="button" style="border : none !important;border-radius:10px !important;background:#1E334C;color:white;padding:13px;padding-left:15px;padding-right:15px;" class="btn btn-sm btn-primary btn-block" ng-click="next()">Next</button>
+          </div>
+
+          <div class="col-md-3">
+            <button ng-if="me.designation.unit.master" type="button" style="border : none !important;border-radius:10px !important;background:#1E334C;color:white;padding:13px;padding-left:15px;padding-right:15px;" class="btn btn-sm btn-primary btn-block" ng-click="checkInFun()">Add Inventory Items</button>
+          </div>
+
+          <div class="col-md-1">
+            <i class="fa fa-refresh" style="font-size:27px;cursor:pointer;padding-top:7px;" ng-click="InventoryRefresh()"></i>
+          </div>
+
+        </div>
+
+        <div class="col-md-1">
+        </div>
+
+
+
+        <div class="col-md-2 pull-right">
+          <button type="button" class="btn-block" style="border : none !important;border-radius:10px !important;background:#E63D74;color:white;padding:13px;padding-left:15px;padding-right:15px;" ng-click="checkInFun()">
+            Checkin
+          </button>
+        </div>
+      </div>
+    </div>
+
+      <div class="container-fluid" style="padding:0px;padding-bottom:100px;" >
+        <div class="row" style="background:#1E334C;padding:15px;color:white;">
+          <div class="col-md-3 col-md-offset-1" style="font-size:17px;">Name</div>
+          <div class="col-md-2" style="font-size:17px;">Product SKU</div>
+          <div class="col-md-1" style="font-size:17px;">Value</div>
+          <div class="col-md-4 col-md-offset-1" style="font-size:17px;">Details</div>
+        </div>
+
+        <div class="row" style="padding:15px;border-bottom:1px solid #eee;cursor:pointer;" ng-repeat="i in checkinsList" ng-click="checkinAssignModal(i)">
+          <div class="col-md-3 col-md-offset-1" style="font-size:17px;">
+            <span style="font-size:22px;"> {{i.name}}  </span><br>
+            <span style="font-size:16px;"> Date : {{i.manufacturedOn}}  </span><br>
+            <span style="font-size:16px;"> Warranty Till : {{i.warrantyTill}}  </span>
+          </div>
+          <div class="col-md-2" style="font-size:17px;">
+            <h4>Serial No : {{i.serialNo}}</h4>
+            <h5>PO Number : {{i.poNumber}}</h5>
+          </div>
+          <div class="col-md-1" style="font-size:17px;">
+             {{i.price}}
+          </div>
+          <div class="col-md-4 col-md-offset-1" style="font-size:17px;">
+            <h5>Approved By : {{i.approvedBy.username}}</h5>
+            <h5>Assigned To : {{i.to ? i.to.username : i.personName}}</h5>
+            <h5>Email : {{i.to ? i.to.email : i.email}}</h5>
+            <h5>Phone : {{i.to ? i.to.mobile : i.phone}}</h5>
+            <h5>Address : {{i.to ? i.to.localAddressStreet : i.address}}</h5>
+          </div>
+          <div class="col-md-2" style="font-size:17px;">
+            <span style="font-size:22px;"> {{i.totalCheckinQty}}  </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ui-view>
+</div>

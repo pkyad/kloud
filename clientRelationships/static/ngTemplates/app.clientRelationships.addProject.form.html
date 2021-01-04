@@ -1,0 +1,59 @@
+<div class="modal-header text-right">
+  <i class="fa fa-close fa-2x" ng-click="close()"></i>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-12">
+      <label> Are you Sure you mark it is Won? </label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <input type="checkbox" name="name" ng-model="select">
+      <span style="position: relative;top:-2px;left:5px;">Add as Project<span>
+    </div>
+  </div>
+  <div ng-if="select">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" class="form-control" ng-model="deal.name">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Compay</label>
+          <input type="text" class="form-control" ng-model="deal.company.name" disabled>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label>Due Date</label>
+        <div class="input-group">
+          <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="deal.dueDate" is-open="status1.opened" disabled />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="status1.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <label>Description</label>
+        <textarea class="form-control" rows="8" ng-model="deal.requirements"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <users-Field data="deal.team" url="/api/HR/userSearch/" col="6" label="team"></users-Field>
+      </div>
+    </div>
+    <div class="row text-right" style="padding-top:15px">
+      <div class="col-md-12">
+        <button class="btn btn-primary" ng-click="saveProject()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

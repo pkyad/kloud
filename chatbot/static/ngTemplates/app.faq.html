@@ -1,0 +1,149 @@
+<style media="screen">
+  .inputVar:hover, .inputVar:focus{
+    border: 1px solid #eee;
+  }
+  .inputVar{
+    border:1px solid white;
+    transition : none;
+    resize: none;
+  }
+  .plusIcon{
+    background: #005173;
+    padding: 9px;
+    border-radius: 85px;
+    position: absolute;
+    top: 80px;
+    right: 180px;
+    color: white;
+    padding-left: 13px;
+    padding-right: 13px;
+    cursor:pointer;
+  }
+
+</style>
+
+
+<div class="row" style="padding:30px;padding-top:80px;">
+  <div class="row" style="position: fixed;width: 97%;top: 0px;right: 0px;padding: 10px;background: #ecf0f7;z-index:1;">
+    <div class="col-md-3 text-right" style="font-size: 17px;">
+      Frequently Asked Questions
+    </div>
+    <div class="col-md-5" >
+      <div class="input-group">
+        <input type="text" class="form-control pull-right" ng-enter="fetchFAQs()" ng-model="searchText" placeholder="Search by either the question or answer ...">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-info" ng-click="fetchFAQs()" style="width:150px">
+              Search <i style="margin-left:15px;" class="fa fa-search"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-md-4">
+      <button ng-click="prev()" type="button" class="btn btn-primary" style="width:135px;border-radius:10px">Previous</button>
+      <button ng-click="next()" type="button" ng-disabled="FAQMaster.length != 15" class="btn btn-primary" style="width:135px;border-radius:10px">Next</button>
+      <button ng-click="upload()" type="button" class="btn btn-primary" style="width:160px;border-radius:10px">Bulk Upload <i style="margin-left:10px;" class="fa fa-upload"></i> </button>
+    </div>
+
+
+
+  </div>
+
+  <div class="plusIcon" ng-click="showForm = true;" >
+    <i class="fa fa-plus fa-2x"></i>
+  </div>
+
+
+
+  <div class="container-fluid">
+
+
+
+    <div class="row" style="margin-top:10px;">
+      <div class="col-md-8 col-md-offset-2">
+
+
+        <div class="row">
+          <div class="container-fluid" style="margin-bottom:5px;padding:15px;color:#b4b5b9">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-5">
+              User's Question
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-5">
+              Bot's Response
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row" ng-if="showForm">
+          <div class="container-fluid" style="margin-bottom:10px;padding:15px;background:#f1f1f1;">
+            <div class="col-md-1">
+              <img class="img img-square" src="/static/images/woman5-512.png" alt="" style="width:80%;">
+            </div>
+            <div class="col-md-5">
+              <input type="text" ng-model="input.txt" class="form-control inputVar" ng-repeat="input in form.input_vatiations" ng-blur="saveInput(input , -1 , $index)" ng-enter="saveInput(input , -1, $index)" style="margin-bottom:10px;{{$first? 'font-weight:bold;':''}}">
+              <input type="text" ng-model="form.newInput" class="form-control inputVar" placeholder="Add new question ...( press Enter to save ) " ng-enter="addNewInput(-1)">
+            </div>
+            <div class="col-md-1">
+              <img class="img img-square" src="/static/images/vector-robotics-flat-11.png" alt="" style="width:80%;">
+            </div>
+            <div class="col-md-5">
+
+              <i class="fa fa-quote-left fa-lg" style="color:#f5f7fa;margin-left:-20px;"></i> <br>
+
+              <textarea placeholder="Enter bot's response ..." rows="4" class="form-control inputVar" ng-model="form.response"></textarea> <br>
+
+              <i class="fa fa-quote-right fa-lg pull-right" style="color:#f5f7fa;"></i> <br>
+            </div>
+            <div class="col-md-12">
+              <button type="button" class="btn btn-success" ng-click="createNew()">
+                Save
+              </button>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="row text-center" ng-if="showWelcome" style="margin-top:20px;">
+          <p>Make your bot answer most frequently asked question by creating the knowledge map here.</p> <br> <p>The left side is where you will enter a list of similar questions that the user might ask and on the right you can enter the bot's reply for all those questions. </p>
+        </div>
+
+
+
+        <div class="row" ng-repeat="faq in FAQMaster">
+          <div class="container-fluid" style="margin-bottom:10px;padding:15px;background:white;">
+            <div class="col-md-1">
+              <img class="img img-square" src="/static/images/woman5-512.png" alt="" style="width:80%;">
+            </div>
+            <div class="col-md-5">
+              <input type="text" ng-model="input.txt" class="form-control inputVar" ng-repeat="input in faq.input_vatiations" ng-blur="saveInput(input, $parent.$index)" ng-enter="saveInput(input , $parent.$index)" style="margin-bottom:10px;{{$first? 'font-weight:bold;':''}}">
+              <input type="text" ng-enter="addNewInput($index)" ng-model="faq.newInput" class="form-control inputVar" placeholder="Add new question ... ( press Enter to save )">
+            </div>
+            <div class="col-md-1">
+              <img class="img img-square" src="/static/images/vector-robotics-flat-11.png" alt="" style="width:80%;">
+            </div>
+            <div class="col-md-5">
+              <i class="fa fa-trash pull-right" style="color:#a4a4a4;" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="deleteFaq($index)" confirm-button-type="default" cancel-button-type="default"></i>
+
+              <br>
+              <i class="fa fa-quote-left fa-lg" style="color:#f5f7fa;margin-left:-20px;"></i> <br>
+
+              <textarea ng-blur="saveFaq(faq)"  ng-model="faq.response" rows="4" class="form-control inputVar" ></textarea> <br>
+
+              <i class="fa fa-quote-right fa-lg pull-right" style="color:#f5f7fa;"></i> <br>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+    </div>
+
+  </div>
+</div>

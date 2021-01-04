@@ -1,0 +1,278 @@
+<style>
+  th{
+    border-right : 1px solid #d9d9d9
+  }
+  td{
+    border-right : 1px solid #d9d9d9
+  }
+</style>
+<div class="container-fluid" ng-if="!account.personal" >
+  <div class="row">
+
+    <div class="col-md-4" style="left:0px;background:#FAFAFA;height:100vh;">
+      <div class="row">
+        <div class="col-md-2 text-right" style="padding-top:20px;">
+          <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
+        </div>
+        <div class="col-md-10 ">
+          <h3 class="text-muted" style="margin-left:15px;">{{account.title}}</h3>
+        </div>
+      </div>
+      <div class="row text-center">
+        <img src="https://www.brandmusiq.com/wp-content/uploads/2018/06/7-indusind-logo-1024x727.png" style="width:222px;" alt="">
+
+
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 text-right" style="padding-top: 20px;padding-right:0px;">
+          Balance <img src="/static/images/icons8-rupee-24.png" style="width:40px;" alt="">
+        </div>
+        <div class="col-md-8">
+          <h2>{{account.balance}}</h2>
+        </div>
+      </div>
+
+
+       <br> <br>
+
+      <div class="row">
+        <div class="col-md-4 text-right" style="padding-top:20px;">
+        <img src="/static/images/icons8-card-verification-value-64.png" style="width:30px;margin-right:20px;" alt="">  <strong>Number</strong>
+        </div>
+        <div class="col-md-8">
+          <h3>{{account.number}}</h3>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 text-right" style="padding-top:20px;">
+        <img src="/static/images/icons8-bank-building-80.png" style="width:30px;margin-right:20px;" alt="">  <strong>IFSC</strong>
+        </div>
+        <div class="col-md-8">
+          <h3>{{account.ifsc}}</h3>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 text-right" style="padding-top:30px;">
+        <img src="/static/images/icons8-address-64.png" style="width:30px;margin-right:20px;" alt="">  <strong>Address</strong>
+        </div>
+        <div class="col-md-8" style="padding-top:20px;">
+          <h4>{{account.bankAddress}}</h4>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:30px;">
+        <div class="col-md-4 text-right" style="padding-top:20px;">
+        <img src="/static/images/icons8-user-male-64.png" style="width:30px;margin-right:20px;" alt="">  <strong>Contact Person</strong>
+        </div>
+        <div class="col-md-8" style="padding-top:20px;">
+          {{account.contactPerson.pk | getName}} <br><img ng-src="{{account.contactPerson.pk | getDP}}" class="img-circle" width="50"/>
+        </div>
+      </div>
+
+
+
+
+
+        <!-- <users-Field data="account.authorizedSignaturies" url="/api/HR/userSearch/" col="6" label="Authorized Signatories " view-Only="true"></users-Field> -->
+
+      <div class="container-fluid" style="margin-top:30px;">
+        <span>Authorized Signaturies</span> <br> <br>
+        <div class = "col-md-6" ng-repeat="i in account.authorizedSignaturies " style="padding:15px;background:white;border-radius:10px;">  {{i |getName}} </div>
+      </div>
+    </div>
+    <div class="col-md-8" style="right:0px;height:100vh;overflow:auto;">
+      <div class="row" style="margin-top:30px;margin-bottom:30px;">
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-2">
+          <div class="container-fluid" style="background:#FAFAFA;border-radius:20px;padding:10px;padding-left:20px;">
+            Upload <img src="/static/images/icons8-upload-to-cloud-50.png" style="width:30px;margin-left:15px;" ng-click="uploadTransc()">
+          </div>
+        </div>
+        <div class="col-md-1 text-center" style="padding:0px;">
+          <div class="container-fluid" style="background:#FAFAFA;border-radius:20px;padding:10px;padding-left:20px;padding-right:20px;">
+            <img src="/static/images/download-from-cloud.png" style="width:30px;" ng-click="filter('download')">
+          </div>
+        </div>
+
+        <div class="col-md-3" >
+          <div class="container-fluid" style="background:#FAFAFA;border-radius:20px;padding:7px;padding-left:20px;">
+            <span style="font-weight:bold;font-size:18px;"> Year </span>
+            <select class="" ng-model="select.year" ng-options="p for p in years" ng-change="fetchData()" style="background:#FAFAFA;border:none;text-align:right;width:70%;">
+            </select>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="container-fluid" style="background:#FAFAFA;border-radius:20px;padding:7px;padding-left:20px;">
+            <span style="font-weight:bold;font-size:18px;"> Month </span>
+            <select class="" ng-model="select.month" ng-options=" m.month for m in monthsAccounts" ng-change="fetchData()" style="background:#FAFAFA;border:none;text-align:right;width:60%;">
+            </select>
+          </div>
+        </div>
+      </div>
+        <div class="row">
+          <div class="col-md-9 text-right">
+            <h3 style="color:#eee;">Opening Balance</h3>
+          </div>
+          <div class="col-md-3">
+            <h2>{{summary.opening}}</h2>
+          </div>
+        </div>
+        <div class="row" style="margin:0px;border-top:solid 2px #eee;">
+          <table class="table table-striped pad10" >
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Details</th>
+                <!-- <th scope="col">Ref.</th> -->
+                <th scope="col">Debit</th>
+                <th scope="col">Credit</th>
+                <th scope="col" style="">Balance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="t in transactionData">
+                <th scope="row">{{t.created | date}}</th>
+                <td>
+
+                <span >{{t.narration}} - {{t.externalReferenceID}}</span>
+              </td>
+              <td style="font-size:18px;">{{t.type=='debit'?t.debit:'0'}}</td>
+              <td style="font-size:18px;">{{t.type=='credit'?t.credit:'0'}}</td>
+              <td style="font-size:18px;" >{{t.balance}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row">
+        <div class="col-md-9 text-right">
+          <h3 style="color:#eee;">Closing Balance</h3>
+        </div>
+        <div class="col-md-3">
+          <h2>{{summary.closing}}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid" ng-if="account.personal" style="">
+  <div class="col-md-2" style="padding-top:30px;">
+    <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
+  </div>
+  <div class="row" style="background:#DBDBDB;padding:30px;">
+    <div class="col-md-8 " style="min-height:100vh;padding-top:0px;padding-bottom:40px;">
+      <div class="row" style="height:100px;background:url(/static/images/paperBindTop.jpeg);background-size: contain;">
+
+      </div>
+
+      <div class="row" style="height:100vh;background:#EDEDED;box-shadow: 0px 60px 18px rgba(157, 157, 157, 0.94) !important;">
+
+        <div class="row" style="padding:30px;">
+          <div class="col-md-4">
+              <span for="sel1">Financial Year</span>
+              <!-- <select class="" name="" style="margin-left:20px;background:#EDEDED;border:none !important;font-size:25px;">
+                <option value="2019-20">2019-20</option>
+                <option value="2020-21">2020-21</option>
+                <option value="2021-22">2021-22</option>
+                <option value="2022-23">2022-23</option>
+              </select> -->
+              <select class="" ng-model="select.year" ng-options="p for p in years" ng-change="pettyCashaccounts()" style="margin-left:20px;background:#EDEDED;border:none !important;font-size:25px;">
+              </select>
+          </div>
+          <div class="col-md-1 text-right" style="padding:10px;">
+            <span for="sel1">Period</span>
+          </div>
+          <div class="col-md-3">
+              <select class="" ng-model="select.month" ng-options="month for month in monthsPetty" style="background:#EDEDED;border:none !important;font-size:25px;" ng-change="pettyCashaccounts()"></select>
+          </div>
+          <div class="col-md-4 text-right">
+            <a href="/api/finance/PettyCashAccpdf/?id={{account.pk}}&month={{select.month}}&year={{select.year}}" style="padding:8px 18px;margin-bottom:20px;" ><img src="/static/images/icons8-print-64.png" style="width:30px;" ng-click="filter('download')"></a>
+          </div>
+
+        </div>
+
+
+        <div class="row" style="padding:30px;">
+          <div class="col-lg-12">
+            <h4>Name: Petty Cash Journal</h4>
+            <!-- <h4>Owner: {{account.contactPerson.first_name}} {{account.contactPerson.last_name}}</h4> -->
+            <div class="row">
+              <div class="col-lg-12 text-right">
+
+
+              </div>
+            </div>
+
+            <!-- <p>{{account}}</p> -->
+            <div class="invoiceTable">
+
+              <table class="table">
+                <thead>
+                  <tr style="height: 50px;border-top:1px solid #ddd;background-color: black;color:white">
+                    <!-- <th ><i class="fa fa-refresh" style="cursor:pointer;"></i></th> -->
+                    <th >Date</th>
+                    <th >Description</th>
+                    <th >Amount</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border:1px solid #ddd;height: 40px;">
+                    <td></td>
+                    <th>Starting Cash in Hand</th>
+                    <td>{{account.balance}}</td>
+                  </tr>
+                  <tr ng-repeat="pacc in pettycashacntData" style="border:1px solid #ddd;height: 40px;">
+                    <!-- <td>{{$index+1}}</td> -->
+                    <td>{{pacc.created | date}}</td>
+                    <td>{{pacc.description}}</td>
+                    <td>{{pacc.creditAmount}}</td>
+                  </tr>
+                  <tr  style="border:1px solid #ddd;height: 40px;">
+                    <!-- <td>{{$index+1}}</td> -->
+                    <td>
+                      <!-- <select class="form-control" ng-model="form.type" ng-change=changeType()>
+                        <option value="credit">Credit</option>
+                        <option value="debit">Debit</option>
+                      </select> -->
+                     </td>
+                    <td>
+                      <input  type="text" class="form-control" ng-model="form.description" placeholder="Description" >
+                      </td>
+                    <td>
+                       <!-- <input ng-if="form.type=='debit'" type="text" class="form-control" ng-model="form.amount" placeholder="Debit Amount" > -->
+                        <input type="text" class="form-control" ng-model="form.creditAmount" placeholder="Credit Amount" ng-enter="save()">
+                     </td>
+                  </tr>
+                  <tr>
+                    <th>Voucher Totals</th>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <th>Cash on Hand Total</th>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+</div>

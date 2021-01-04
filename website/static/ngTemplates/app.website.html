@@ -1,0 +1,218 @@
+<style media="screen">
+  .box {
+    background: white;
+    height: 270px;
+    padding: 35px 15px;
+    font-weight: 400;
+    color: #000000;
+    border-radius: 23px;
+    box-shadow: 0px 0px 10px #ccc;
+  }
+
+  .box .fa-plus {
+    font-size: 50px;
+    font-weight: 700;
+    color: black;
+    padding: 80px;
+    text-align: center
+  }
+
+  .viewBox {
+    box-shadow: 0px 0px 10px #ccc;
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+
+  .fixedNavTabs .nav-tabs {
+    width: 100% !important;
+  }
+
+  .menuItems {
+    padding: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-right: solid 4px #F2F3F7;
+    padding-bottom: 15px;
+    padding-top: 15px;
+  }
+
+  .menuItems:hover {
+    background: #fbfbfb;
+    border-right: solid 4px red !important;
+  }
+
+  .activeMenu {
+    border-right: solid 4px red !important;
+    background: #fbfbfb !important;
+  }
+
+  .square-box {
+    padding-top: 15px;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: #e3e3e3;
+    height: 15em;
+  }
+
+  .websiteInput {
+    background:
+      #F2F3F7;
+    color:
+      #555;
+    border-radius: 25px !important;
+    padding: 10px 20px;
+    border: none !important;
+    margin-top: 10px;
+    height: 45px;
+  }
+
+
+
+  .box .header {
+    text-align: center;
+    padding: 3px 0px;
+    color: white;
+    display: block;
+    background: #e3e3e3 none repeat scroll 0% 0%;
+  }
+
+  .square-box::after {
+    content: "";
+    display: block;
+    padding-top: 30%;
+  }
+
+  .square-box h3 {
+    font-size: 50px;
+    font-weight: bold;
+    margin: 0px 0px 0px;
+    margin-left: 10px;
+    white-space: nowrap;
+    padding: 10px;
+    color: #000000;
+  }
+
+  .square-box .header {
+    text-align: center;
+    padding: 3px 0px;
+    color: white;
+    display: block;
+    background: #e3e3e3 none repeat scroll 0% 0%;
+  }
+
+  /* .bottom {
+    position: absolute;
+    bottom: 0px;
+  } */
+
+  .caret1:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 110px;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 30px solid #8FC564;
+  }
+
+  .caret2:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 110px;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 30px solid #E3524F;
+  }
+
+  .caret3:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 110px;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 30px solid #8FC564;
+  }
+
+  .carettext {
+    font-size: 50px;
+    font-weight: bold;
+    margin: 0px 0px 0px;
+    color: rgb(141, 195, 110);
+    position: absolute;
+    bottom: 40px;
+    left: 3em;
+  }
+
+  .newBtn {
+    border: none !important;
+    border-radius: 10px !important;
+
+    padding: 15px;
+
+    font-size: 16px;
+    background: #E01B22;
+    color:  white !important;
+  }
+  .defaultBtn {
+    border: none !important;
+    border-radius: 10px !important;
+
+    padding: 15px;
+
+    font-size: 16px;
+    background: #F2F3F7;
+    color:  black !important;
+  }
+
+  .subtext {
+    font-size: 30px;
+
+  }
+</style>
+
+<div class="col-md-2" style="margin:0px;margin-bottom:15px;background:#F2F3F7;height:100vh;overflow:auto;position: fixed;
+z-index: 9;
+">
+
+
+
+  <div class="row" style="margin-top:20px;">
+    <div class="col-md-12">
+      <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:20px;">
+    <div class="col-md-12 text-center">
+      <img ng-src="{{logo}}" class="img" alt="" width="100px">
+    </div>
+  </div>
+
+  <div style="margin-top:30px;" class="row menuItems {{$state.is('businessManagement.website.pages')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.website.pages')">
+    <strong> Pages </strong>
+  </div>
+  <div class="row menuItems {{$state.is('businessManagement.website.blogs')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.website.blogs')">
+    <strong> Blogs </strong>
+  </div>
+  <div class="row menuItems {{$state.is('businessManagement.website.settings')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.website.settings')">
+    <strong> Settings </strong>
+  </div>
+
+  <button type="button" class="btn defaultBtn  btn-block" style="background-color:white;position: absolute;width: 88%;bottom: 90px;"
+    ng-click="createPage()">
+    Create New Page <img src="/static/images/icons8-plus-48.png" style="width:25px;margin-left:10px;" alt="">
+  </button>
+  <button type="button" class="btn btn-default  btn-block" style="border : none !important;border-radius:10px !important;position: absolute;bottom: 20px;padding:15px;width: 88%;left: 15px;font-size:16px;background:#E01B22;color:white;"
+    ng-click="$state.go('businessManagement.website.createblog')">
+    Create New Blog <img src="/static/images/icons8-plus-48.png" style="width:25px;margin-left:10px;" alt="">
+  </button>
+
+
+</div>
+<ui-view class="col-md-10 col-md-offset-2" style="right:0px;height:100vh;overflow:auto;"></ui-view>

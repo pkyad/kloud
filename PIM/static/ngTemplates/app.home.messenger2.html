@@ -1,0 +1,301 @@
+<style media="screen">
+  .taskMenuItem:hover{
+    background:white;
+    cursor:pointer;
+  }
+  .taskTicker{
+    border-radius: 20px;width: 30px;height: 30px;
+    border: solid 1px #c4c4c4;
+    cursor:pointer;
+    padding: 6px;
+  }
+  .taskTicker:hover , .completedTask{
+    border: solid 1px rgb(59, 179, 36);
+    background: rgb(59, 179, 36);
+    color:white;
+  }
+  .newTaskTicker{
+    border: solid 1px rgb(59, 179, 36);
+    padding: 2px;border-radius: 20px;width: 30px;height: 30px;
+    border: solid 1px #c4c4c4;
+    cursor:pointer;
+  }
+  .taskTickerBlue{
+    padding: 2px;border-radius: 20px;width: 30px;height: 30px;
+    border: solid 1px rgb(42, 60, 136);
+    cursor:pointer;
+    background: rgb(42, 60, 136);
+    color:white;
+  }
+  .todoAdd {
+    border:none;
+  }
+  .datePill{
+    border: solid 1px #eee;
+    padding: 6px;
+    border-radius: 100px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #9d9d9d;
+    cursor:pointer;
+  }
+  .taskDatePicker .btn{
+    border:none;
+  }
+  .timeLabel {
+    color:orange;font-size:13px;margin-left:15px;
+    border-radius:100px !important;padding-left:15px;padding-right:15px;
+    background:rgb(255, 251, 243);
+    border:none;
+  }
+
+  .timeLabel:hover{
+    background:orange !important;
+    color:white !important;
+    cursor:pointer;
+
+  }
+
+
+  .projectLabel{
+    padding:8px;color:rgb(42, 60, 136);font-size:13px;margin-left:15px;
+    border-radius:100px !important;padding-left:15px;padding-right:15px;
+    background:rgb(239, 246, 251);
+  }
+
+  .projectLabel:hover{
+    background:rgb(42, 60, 136) !important;
+    color:white !important;
+    cursor:pointer;
+  }
+  .fileLabel{
+    padding:8px;color:grey;font-size:13px;margin-left:15px;
+    border-radius:100px !important;padding-left:15px;padding-right:15px;
+    background:rgb(247, 247, 247);
+  }
+  .fileLabel:hover{
+    background:grey !important;
+    color:white !important;
+    cursor:pointer;
+  }
+  .addLabel{
+    padding:0px;border:solid 3px grey;border-radius:30px;color:grey;padding-left:10px;padding-right:10px;font-size:13px;margin-left:15px;height:30px;
+  }
+  .activeMenuItem{
+    background: white;
+  }
+
+  .user-search .list-group-item.active{
+    color:white;
+  }
+
+
+</style>
+
+<div class="row">
+
+  <div class="col-md-3 " style="padding:1rem;background:#fff;height:100vh;padding:0px;padding-left:10px;overflow:hidden;position: fixed;">
+
+    <div class=" contact-search" style=" width:82%;margin-bottom:2rem;margin-top:1rem;margin-left: 5%;" >
+      <i class="fa fa-search fa-2x ico" style="position:absolute;left:34px;top:20px;color: #777;font-size: 20px;"></i>
+      <input class="searchInp"  type="text" ng-enter="getUsers()" ng-model="form.searchTxt" placeholder="Search..." style="border:none;padding:1rem 4rem ; border-radius:20px;width:100%;margin-left:-7px">
+    </div>
+    <div class="" style="overflow-y:scroll;overflow-x:hidden;background: white;">
+      <div class=" row contact userMenuItem {{ $state.is('home.messenger.explore') && $state.params.id == u.pk   ? 'activeUserItem':''}}"  ng-click="$state.go('home.messenger.explore' , {id : u.pk})" style="padding:15px;margin:0px;" ng-repeat="u in users">
+        <div class="col-md-2 text-right" style="padding:0px;">
+          <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
+          <div class="" style="clip-path:circle(50%);background:#2edd2e;width:15px;height:15px;position: absolute;bottom: -5px;right: -5px;"></div>
+        </div>
+        <div class="col-md-10" style="font-size: 1vw;">
+          {{u.first_name}} {{u.last_name}}
+        </div>
+        <div class="col-md-10" style="font-size: 0.8vw;">
+          {{u.msg}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ui-view></ui-view>
+
+</div>
+
+<style media="screen">
+.contact_search{
+  width: 90%;
+  height: 50%;
+  margin: auto;
+  border:1px solid #f4f4f4;
+  border-radius:6px;
+  font-size:1vw;
+}
+
+.chat-top-img{
+  max-width: 100%;
+  clip-path: circle(50%);
+}
+.chat{
+  background-color: #FAFAFA;
+  border: 1px solid #f4f4f4;
+  width: 25.9%;
+}
+.send-btn{
+  border: none;
+  background-color: #fff;
+}
+.chat-page{
+  width: fit-content;
+}
+.chat-input{
+  bottom: 17px;
+    position: fixed;
+    background-color: #fff;
+    width: 42.5%;
+    height: 60px;
+    left: 35.3%;
+    border-radius: 10px;
+    box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;
+
+}
+.chat-box{
+  position: relative;
+  background-color:#FFF;
+  border-left:0.5px solid #f4f4f4;
+
+
+}
+.sent-text{
+  background-color:#1A233B;
+  color: white;
+  padding: 1rem ;
+  font-size:14px;
+  font-weight: lighter;
+  max-width: 80%;
+  line-height: 1.5vw;
+  border-radius: 8px;
+}
+.recived-text{
+  background-color:#fff;
+  color: #000;
+  padding:1rem;
+  font-size: 14px;
+  font-weight: lighter;
+  max-width: 80%;
+  line-height: 1.5vw;
+  border-radius: 6px;
+}
+
+.img-recived{
+  border-radius: 6px;
+  background-color: #fff;
+}
+.img-sent{
+  border-radius: 6px;
+  background-color: #1A233B;
+}
+
+
+.file-card{
+  border-radius: 6px;
+}
+.file-recived{
+  background-color: #fff;
+}
+.file-sent{
+  background-color: #1A233B;
+}
+
+*{
+padding: 0;
+margin:0;
+}
+
+h1{
+margin: 0 !important;
+}
+.text-left{
+text-align: left;
+}
+.text-right{
+text-align: right;
+}
+.chat-dropdown a{
+  list-style: none;
+  color: #000;
+  text-decoration: none !important
+}
+
+/* margin */
+
+.m-right-2{
+margin-right:0.50rem !important;
+}
+.m-left-2{
+margin-left:0.50rem !important;
+}
+.m-bottom-2{
+margin-bottom:0.50rem !important;
+}
+.m-top-3{
+margin-top: 1rem !important;
+}
+.m-left-3{
+margin-left:1rem !important;
+}
+
+.m-right-4{
+margin-right:1.50rem !important;
+}
+.m-left-4{
+margin-left:1.50rem !important;
+}
+.m-top-5{
+margin-top: 3rem !important;
+}
+.m-right-5{
+margin-right:3rem !important;
+}
+.m-bottom-5{
+margin-bottom:3rem !important;
+}
+.margin-auto{
+margin: auto;
+}
+.margin-l-auto{
+margin-left: auto !important;
+}
+.margin-r-auto{
+margin-right: auto !important;
+}
+.margin-y-auto{
+margin-top: auto;
+margin-bottom: auto;
+}
+.userMenuItem:hover{
+  background: #F3F6FB;
+  cursor:pointer;
+}
+.userMenuItem{
+  background: #fff
+}
+.activeUserItem{
+  background: #F3F6FB
+}
+
+/* padding */
+
+.padding-2{
+padding:0.50rem !important;
+}
+
+.padding-x-2{
+padding-left: 0.5rem !important;
+padding-right: 0.5rem !important;
+}
+@media (min-width:1900px) {
+  .ico{
+    left:40px !important;
+  }
+}
+
+</style>

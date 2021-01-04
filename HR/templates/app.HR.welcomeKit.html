@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" charset="utf-8">
+  <style type="text/css">
+    /* CLIENT-SPECIFIC STYLES */
+    body,
+    table,
+    td,
+    a {
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+
+    table,
+    td {
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+    }
+
+    img {
+      -ms-interpolation-mode: bicubic;
+    }
+
+    /* RESET STYLES */
+    img {
+      border: 0;
+      height: auto;
+      line-height: 100%;
+      outline: none;
+      text-decoration: none;
+    }
+
+    table {
+      border-collapse: collapse !important;
+    }
+
+    body {
+      height: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100% !important;
+    }
+
+    /* iOS BLUE LINKS */
+    a[x-apple-data-detectors] {
+      color: inherit !important;
+      text-decoration: none !important;
+      font-size: inherit !important;
+      font-family: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+    }
+
+    /* MEDIA QUERIES */
+    @media screen and (max-width: 480px) {
+      .mobile-hide {
+        display: none !important;
+      }
+
+      .mobile-center {
+        text-align: center !important;
+      }
+    }
+
+    /* ANDROID CENTER FIX */
+    div[style*="margin: 16px 0;"] {
+      margin: 0 !important;
+    }
+  </style>
+
+<body style="margin: 0 !important; padding: 0 !important;">
+  <div style="width:800px;border:thin solid #000000;font-family:'Times New Roman',serif;font-size:12px">
+    <img src="{{brandLogo}}" alt="header" title="header" style="display:block" moz-do-not-send="true" width="800" >
+    <div style="width:100%; padding:10px 0px; text-align:center; color:#fff; font-size:15px; font-weight:700; background-color:{{themeColor}}"> WELCOME ! </div>
+    <div style="margin:45px 45px 20px 65px;color:#007ec4">
+      <p>Dear {{firstName}} {{lastName}} ,</p>
+
+      <div style="font-size:40px;font-weight:600;text-align: center !important"> Your account has been created on the ERP. Click the below link to login to your account! </div>
+    </div>
+
+    <div style="margin:30px;text-align: center !important">
+      <h1> <span style="border:1px solid black;padding:10px;border-radius:10px"> <a href="{{loginUrl}}" style="color:#faa25a;text-decoration:none">  Setup Now</a> </span> </h1>
+    </div>
+
+  </div>
+</body>
+
+</html>

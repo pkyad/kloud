@@ -1,0 +1,14 @@
+<div class="modal-header">
+  <h4 class="text-center">{{version.title}}</h4>
+</div>
+<div class="modal-body">
+  <div class="row" style="padding:20px;">
+    <div ng-bind-html="version.text">
+    </div>
+  </div>
+</div>
+<div class="container-fluid text-center" style="padding-bottom:15px;">
+  <button type="button" class="btn btn-success text-center" ng-click="close()">
+    Close
+  </button>
+</div>

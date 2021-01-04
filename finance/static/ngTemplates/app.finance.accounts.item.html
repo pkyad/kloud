@@ -1,0 +1,36 @@
+<div class="col-md-6" style="padding-bottom:10px;padding-left:10px;padding-right:10px;" ng-controller="businessManagement.finance.accounts.item">
+  <div class="card" style="padding:10px;border-radius:20px">
+    <div class="row" ng-click="rowActionClicked('accountBrowser')" style="cursor:pointer">
+      <div class="col-md-2" ng-if="!data.personal">
+        <img ng-src="{{getBankIcon(data.bank)}}" class="img-circle pull-right" width="60"/>
+      </div>
+      <div class="col-md-2" ng-if="data.personal">
+        <img ng-src="/static/images/pettyAccount.jpeg" class="img-circle pull-right" width="60"/>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-6" style="padding-left:0px">
+            <strong style="font-size:20px;">{{data.contactPerson.pk | getName}}</strong>
+          </div>
+          <div class="col-md-6 text-right" ng-if="data.personal">
+            <strong style="font-size:18px;color:#b1afaf">(Petty Account)</strong>
+          </div>
+        </div>
+        <div class="row">
+          <span style="font-size:20px;" class="text-muted"><strong>Bank Name : </strong> {{data.bank}}</span>
+        </div>
+        <div class="row">
+          <span style="font-size:18px;" class="text-muted"><strong>Account : </strong> {{data.number}}</span>
+        </div>
+        <div class="row">
+          <span style="font-size:18px;" class="text-muted"><strong>IFSC : </strong> {{data.ifsc}}</span>
+        </div>
+      </div>
+      <div class="col-md-4 text-right">
+        <h2 style="color:#b1afaf"> <i class="fa fa-inr"></i> {{data.balance | number}} </h2>
+      </div>
+    </div>
+    <i class="fa fa-pencil fa-2x text-primary" ng-click="rowActionClicked('edit')" style="position:absolute;right:20px;bottom:20px;cursor:pointer;">
+    </i>
+  </div>
+</div>

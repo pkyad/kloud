@@ -1,0 +1,32 @@
+
+<div class="container-fluid" style="margin-top:15px;">
+  <div class="row">
+  <div class=" col-md-4" style="position:relative;">
+    <input type="text" class="form-control" placeholder="Search with name" style="background:black;color:white;border-radius:10px;padding:23px; border:none !important;" ng-model="search.searchValue" ng-enter="getEmployees()">
+    <button style="position: absolute;top: 7px;right: 25px;background: black;border: none !important;color: white;" class="btn btn-default" type="submit" ng-click="getEmployees()">
+      <i class="glyphicon glyphicon-search"></i>
+    </button>
+  </div>
+
+  <div class="col-md-2">
+    <button type="button" class="btn btn-primary btn-block" style="background:#393C45;color:white;border-radius:10px !important;padding:12px; border:none !important;" ng-click="previous()">Prev</button>
+  </div>
+  <div class="col-md-2">
+    <button type="button" class="btn btn-primary btn-block" style="background:#393C45;color:white;border-radius:10px !important;padding:12px; border:none !important;" ng-click="next()">Next</button>
+  </div>
+  </div>
+    <div class="row" style="margin-top:15px">
+      <div class="col-md-12">
+      <div class="row" ng-repeat="k in employees" style="margin-bottom:30px;background:#393C45;border-radius:20px;padding:15px;">
+        <div class="col-md-1">
+          <img class="img img-circle pull-left" style="width:60px;" src="/static/images/userIcon.png">
+        </div>
+        <div class="col-md-11">
+          <h2 style="margin-top:0px;">{{k.user.first_name}} {{k.user.last_name}}</h2>
+          <img src="/static/images/icons8-email-96.png" style="width: 25px;margin-left:5px;margin-right:5px;"> {{k.user.email}} <br> <br>
+          <img src="/static/images/icons8-dialing-number-100.png" style="width: 35px;"> {{k.user.profile.mobile}}
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>

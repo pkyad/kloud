@@ -1,0 +1,136 @@
+<!-- <breadcrumb></breadcrumb> -->
+<div class="container-fluid fixedNavTabs">
+
+  <div class="row" style="margin-top:20px" ng-if="userAccounts.length>0">
+    <div class="col-md-5">
+      <div class="card" style="padding:10px;border-radius:20px;margin-bottom:15px;cursor:pointer;border:2px solid {{form.accountIdx==$index?'blue':'aliceblue'}}" ng-repeat="acc in userAccounts" ng-click="form.accountIdx=$index">
+        <div class="row">
+          <div class="col-md-2">
+            <img ng-src="/static/images/pettyAccount.jpeg" class="img-circle pull-right" width="60" />
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <strong style="font-size:20px;">{{acc.contactPerson.pk | getName}}</strong>
+            </div>
+            <div class="row">
+              <span style="font-size:20px;" class="text-muted"><strong>Bank Name : </strong> {{acc.bank}}</span>
+            </div>
+            <div class="row">
+              <span style="font-size:18px;" class="text-muted"><strong>Account : </strong> {{acc.number}}</span>
+            </div>
+          </div>
+          <div class="col-md-4 text-right">
+            <h2 style="color:#b1afaf"> <i class="fa fa-inr"></i> {{acc.balance | number}} </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-7" style="padding:0px 20px">
+      <div class="row" style="padding:0px 70px">
+        <div class="col-md-12 text-center" style="padding-bottom:15px">
+          <strong style="font-size:18px">Create Expense Record</strong>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Title</label>
+              <input uib-typeahead="head as head.title for head in titleSearch($viewValue)" ng-model="form.heading" type="text" class="form-control" placeholder="Search By Some Title">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Amount</label>
+              <input type="number" class="form-control" ng-model="form.amount" min="1">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Expense Data</label>
+              <div class="input-group">
+                <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.dated" is-open="status.opened" disabled/>
+                <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="status.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label>Project</label>
+              <div class="{{form.newProject?'input-group':''}}">
+                <input uib-typeahead="prj as prj.title for prj in projectSearch($viewValue)" ng-model="form.project" type="text" class="form-control" placeholder="Search By Project Title">
+                <span ng-click="openProjectPopup()" ng-if="form.newProject" class="input-group-addon btn btn-primary" >New <i class="fa fa-plus-circle"></i></span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2 text-center" style="padding-top:24px">
+            <h5> OR </h5>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label>Cost Center</label>
+
+                <input uib-typeahead="cost as cost.name for cost in costCenterSearch($viewValue)" ng-model="form.costCenter" type="text" class="form-control" placeholder="Search By Project Title">
+
+              </div>
+            </div>
+          </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Attachment</label>
+              <input type="file" file-model="form.attachment">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Description</label>
+              <textarea name="name" ng-model="form.description" class="form-control" rows="3" placeholder="Description For The Expense"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <button type="button" class="btn btn-success" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="createRecord()" confirm-button-type="default" cancel-button-type="default">Create</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" ng-if="userAccounts.length>0">
+    <hr>
+    <div class="row" style="padding:25px 15px">
+      <div class="col-md-6" ng-repeat="exp in expData">
+        <div class="card" style="padding:0px 10px;border-radius:20px;margin-bottom:20px;cursor:pointer;background-color:{{exp.colorCode}}" ng-click="openExpenseDetails($index)">
+          <div class="row">
+            <div class="col-md-8">
+              <h2><i class="fa fa-globe"></i> {{exp.title}}</h2>
+            </div>
+            <div class="col-md-4 text-right" style="padding:10px;padding-left:0px;font-size:25px">
+              <span><i class="fa fa-briefcase"></i> {{exp.budget | number}}</span><br>
+              <span style="color:#ec6464"><i class="fa fa-inr fa-lg"></i> {{exp.totalCost | number}}</span><br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row " >
+      <div class="col-md-12 text-center" ng-show="showMore">
+        <span class="btn btn-primary" ng-click="getExpenseData()">Load More</span>
+      </div>
+    </div>
+  </div>
+  <div class="row " style="margin:20px 0px">
+    <div class="col-md-12 text-center" ng-if="userAccounts.length==0">
+      <span class="text-muted" style="font-size:40px;">No Accounts For You</span>
+    </div>
+  </div>
+
+
+</div>

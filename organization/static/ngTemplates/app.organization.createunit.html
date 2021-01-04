@@ -1,0 +1,199 @@
+<style media="screen">
+  .modal-dialog{
+    width: 60%;
+    position: absolute;
+    top: 0px;
+    margin: 0;
+    margin-top: -20px;
+    margin-left: 20%;
+    border:none !important;
+  }
+
+  .modal-content{
+    border: none !important;
+    box-shadow:none !important;
+  }
+
+  .officeInput{
+    background:black;color:white;padding:25px;font-size:25px;border-radius:10px !important;border:none !important;
+  }
+
+  .officeForm label{
+    font-size:20px;
+    color:rgb(233, 233, 233);
+    font-weight:normal;
+  }
+
+  .officeInputWhite{
+    background:#F3F6FB;color:black;padding:25px;font-size:25px;border-radius:10px !important;border:none !important;
+  }
+
+</style>
+
+<div class="modal-body " >
+
+  <div class="row officeForm" style="background:#4A4D53;padding:20px;padding-top:60px;">
+    <h2 class="modal-title" style="color:white;margin-left:10px;margin-bottom:20px; "  >Office</h2>
+
+    <div class="col-md-3 text-center">
+      <div style="width: 200px;height: 200px;background: rgb(51, 51, 51);border-radius: 45px;padding:40px;">
+        <img src="/static/images/icons8-office-96.png" style="width:100%;" alt="">
+      </div>
+
+    </div>
+    <div class="col-md-9">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control officeInput" ng-model="form.name" >
+      </div>
+
+      <div class="form-group">
+        <label>GSTIN</label>
+        <input type="text " class="form-control officeInput" ng-model="form.gstin" >
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="container-fluid" style="margin-top:30px;" ng-init="form.showMore = false;">
+
+
+    <div class="form-group">
+      <label>Address</label>
+      <input type="text " class="form-control officeInputWhite" ng-model="form.address" >
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Pincode</label>
+          <input type="text" class="form-control officeInputWhite" ng-model="form.pincode"  uib-typeahead="pin as pin.pincode for pin in pinSearch($viewValue)">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Code/ID</label>
+          <input type="text" class="form-control officeInputWhite" ng-model="form.areaCode" >
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="text " class="form-control officeInputWhite" ng-model="form.email" >
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Mobile</label>
+          <input type="text" class="form-control officeInputWhite" ng-model="form.mobile"
+        </div>
+      </div>
+    </div>
+
+
+    <span  ng-if="!form.showMore" ng-click="form.showMore = true;" style="cursor:pointer;">More</span>
+
+
+    <div ng-if="form.showMore" >
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Enable Warehouse Inventory ?</label>
+            <input type="checkbox" ng-model="form.warehouse">
+          </div>
+        </div>
+        <div class="col-md-6" ng-if="form.warehouse">
+          <div class="form-group">
+            <label>Is Master Store?</label>
+            <input type="checkbox" ng-model="form.master">
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+      <div class="col-md-2" style="padding-top:20px;">
+        <div style="width: 150px;height: 150px;background: #F3F6FB;border-radius: 45px;padding:40px;">
+          <img src="/static/images/icons8-bank-cards-256.png" style="width:100%;" alt="">
+        </div>
+      </div>
+      <div class="col-md-10">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Bank Name</label>
+              <input type="text" class="form-control officeInputWhite" ng-model="form.bankName" >
+            </div>
+
+
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Bank Account Number</label>
+              <input type="text" class="form-control officeInputWhite" ng-model="form.bankAccNumber" >
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Bank Branch</label>
+              <input type="text" class="form-control officeInputWhite" ng-model="form.bankBranch" >
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>IFSC Code</label>
+              <input type="text" class="form-control officeInputWhite" ng-model="form.ifsc" >
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>SWIFT Code</label>
+              <input type="text" class="form-control officeInputWhite" ng-model="form.swift" >
+            </div>
+          </div>
+        </div>
+
+
+
+        <!-- <div class="form-group">
+          <label>Parent</label>
+          <input uib-typeahead="units as units.name for units in unitsSearch($viewValue)" ng-model="form.parent" type="text" class="form-control" placeholder="Select units">
+        </div> -->
+
+        <!-- <div class="form-group">
+          <label>L1</label>
+          <input type="text " class="form-control officeInputWhite" ng-model="form.l1" >
+        </div>
+
+        <div class="form-group">
+          <label>L2</label>
+          <input type="text " class="form-control officeInputWhite" ng-model="form.l2" >
+        </div> -->
+      </div>
+
+
+
+    </div>
+
+
+
+  </div>
+
+  <div class="btn-group pull-right">
+    <button type="button" class="btn btn-primary pull-right cutebuttonplain" style="background:rgb(13, 45, 88);color:white;" ng-click="save()">Save</button>
+  </div>
+
+</div>

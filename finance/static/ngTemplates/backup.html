@@ -1,0 +1,106 @@
+<div >
+  <div class="container-fluid" ng-if="mode=='new'">
+    <h3>Create a new Vendor Form</h3>
+  </div>
+  <div class="container-fluid" ng-if="mode=='edit'">
+    <h3>Edit {{form.service.name}} Profile</h3>
+  </div>
+  <div class="col-md-6" style="padding-top:20px;">
+    <div class="form-group" ng-if="mode=='new'">
+      <label>Company</label>
+      <div class="{{(showCreateCompanyBtn || companyExist) && !showCompanyForm ? 'input-group':''}}">
+        <input uib-typeahead="company as company.name for company in companySearch($viewValue)" ng-model="form.service" type="text" class="form-control" placeholder="Search using name">
+        <span ng-click="openCreateService()" ng-if="(showCreateCompanyBtn || companyExist) && !showCompanyForm" class="input-group-addon btn btn-primary"><i class="fa fa-{{!companyExist ? 'plus':'pencil'}}"></i> {{ !companyExist?  'New':'Update'}}</span>
+      </div>
+      <p ng-if="showCreateCompanyBtn && !companyExist" class="help-block">No company with this name exist!. Click <span class="badge">new</span> to create.</p>
+    </div>
+    <div class="form-group">
+      <label>Contact Person</label>
+      <input ng-model="form.contactPerson" type="text" class="form-control" placeholder="Contact Person name">
+    </div>
+    <div class="form-group">
+      <label>Mobile</label>
+      <input type="text " class="form-control" ng-model="form.mobile">
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="text " class="form-control" ng-model="form.email">
+    </div>
+    <div class="form-group">
+      <label>Payment Term</label>
+      <input ng-model="form.paymentTerm" type="number" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Contract Doc.</label>
+      <input type="file" file-model="form.contentDocs">
+      <!-- <a href="form.contentDocs" ng-if="form.pk">{{form.contentDocs}}</a> -->
+    </div>
+    <div class="form-group">
+      <label>Bank Name</label>
+      <input ng-model="form.bankName" type="text" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Account Number</label>
+      <input ng-model="form.accountNumber" type="number" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>IFSC Code</label>
+      <input ng-model="form.ifscCode" type="text" class="form-control">
+    </div>
+    <div class="btn-group fixedActionStrip" ng-if="mode=='new'">
+      <button type="button" class="btn btn-default" ng-click="resetForm()">
+        Reset
+      </button>
+      <button type="button" class="btn btn-primary " ng-click="createVendor()">Save</button>
+    </div>
+  </div>
+  <div class="col-md-6" ng-if="mode=='edit'">
+    <div class="form-group">
+      <label>Address</label>
+      <input placeholder="Street" type="text " class="form-control" ng-model="form.service.address.street">
+      <div class="row" style="margin-top:5px;">
+        <div class=" col-md-6">
+          <input placeholder="City" type="text " class="form-control" ng-model="form.service.address.city">
+        </div>
+        <div class="col-md-6">
+          <input placeholder="State" type="text " class="form-control" ng-model="form.service.address.state">
+        </div>
+      </div>
+      <div class="row" style="margin-top:5px;">
+        <div class=" col-md-6">
+          <input placeholder="pincode" type="text " class="form-control" ng-model="form.service.address.pincode">
+        </div>
+        <div class="col-md-6">
+          <input placeholder="Country" type="text " class="form-control" ng-model="form.service.address.country">
+        </div>
+      </div>
+    </div>
+    <!-- <div class="form-group">
+      <label>Telephone</label>
+      <input type="text " class="form-control" ng-model="form.service.telephone">
+    </div> -->
+    <div class="form-group">
+      <label>PAN</label>
+      <input type="text " class="form-control" ng-model="form.service.cin">
+    </div>
+    <div class="form-group">
+      <label>GSTIN</label>
+      <input type="text " class="form-control" ng-model="form.service.tin">
+    </div>
+    <!-- <div class="form-group">
+      <label>Logo</label>
+      <input type="text " class="form-control" ng-model="form.service.logo">
+    </div>
+    <div class="form-group">
+      <label>web</label>
+      <input type="text " class="form-control" ng-model="form.service.web">
+    </div> -->
+    <!-- <button type="button" class="btn btn-primary pull-right col-md-3 pull-right" ng-click="createCompany()">Save company details</button> -->
+    <button type="button" class="btn btn-primary pull-right" ng-click="updateVendor()">Update</button>
+  </div>
+  <!-- <div class="btn-group pull-right">
+    <button ng-if="mode=='new'" type="button" class="btn btn-default" ng-click="resetForm()">
+      Reset
+    </button>
+  </div> -->
+</div>

@@ -1,0 +1,69 @@
+<li><i class="fa fa-phone bg-purple"></i>
+  <div class="timeline-item" >
+    <span class="time" style="margin-right:10px;"><i class="fa fa-clock-o"></i> {{data.created | timeAgo}} ago</span>
+    <h3 class="timeline-header" style="height:41px;">
+      <img style="position:relative; float:left; top:-10px;left:-10px;" ng-src="{{data.user | getDP}}" height="40px" width="40px"/>
+      {{data.user | getName}}
+
+    </h3>
+    <div class="timeline-body">
+      <div class="container-fluid" style="overflow:hidden;position:relative;">
+          <div class="row" ng-if="data.duration>0">
+            <label>Duration :</label>  <span>{{data.duration}} Mins</span> <br>
+          </div>
+          <div class="row" ng-if="data.notes.length>0">
+            <label>Notes :</label> <br>
+            <div style="padding-left:50px;" ng-bind-html="data.notesHtml"></div>
+          </div>
+          <div class="row" ng-if="data.contacts.length>0">
+            <label>External :</label> <br>
+            <div style="padding-left:50px;">
+              <div ng-repeat="c in data.contacts" class="col-md-6"  style="cursor:pointer;" ng-click="$emit('getContact', {contact: c});">
+                <div class="container-fluid card" style="padding:0px;margin-bottom:10px;">
+                  <div class="col-md-3" style="padding:0px;">
+                    <img style="width: 50px;height:50px;" class="img img-rounded" ng-src="{{c | getCRMDP}}">
+                  </div>
+                  <div class="col-md-9" style="padding-top:3px;">
+                    <span>{{c.name}}</span>
+                    <br> <span class="text-muted">{{c.designation}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" ng-if="data.internalUsers.length>0">
+            <label>Internal :</label> <br>
+            <div style="padding-left:50px;">
+              <div ng-repeat="c in data.internalUsers" class="col-md-6" >
+                <div class="container-fluid card" style="padding:0px;margin-bottom:10px;">
+                  <div class="col-md-3" style="padding:0px;">
+                    <img style="width: 50px;height:50px;" class="img img-rounded" ng-src="{{c | getDP}}">
+                  </div>
+                  <div class="col-md-9" style="padding-top:3px;">
+                    <span>{{c | getName}}</span>
+                    <br> <strong>ID : </strong> <span class="text-muted">{{c}}</span>
+                  </div>
+                </div>
+              </div>
+          </div>
+          </div>
+      </div>
+    </div>
+    <!-- <div class="timeline-footer" >
+      <a style="text-decoration: none;" href="" ng-click="openPost('right', true , {data: data , onDelete: onDelete})">
+        {{data.likes.length==0? '':data.likes.length}} {{data.likes.length<=1? 'Like':'likes'}} <i class="fa fa-thumbs-o-up"></i>
+      </a>
+      <a href="" ng-click="openPost('right', true , {data: data , onDelete: onDelete})">
+        {{data.comments.length==0? '' :data.comments.length}} {{data.comments.length<=1? 'Comment':'Comments'}} <i class="fa fa-comment-o"></i>
+      </a>
+      <span class="pull-right" ng-if="data.attachment!=null" style="margin-left:10px;">
+        <a ng-href="{{data.attachment}}"><i class="fa fa-link"></i></a>
+      </span>
+      <div class="pull-right" style="display:inline;">
+        <div ng-repeat = "user in data.tagged" class="postTags">
+          {{user | getName:'short'}}
+        </div>
+      </div>
+    </div> -->
+  </div>
+</li>

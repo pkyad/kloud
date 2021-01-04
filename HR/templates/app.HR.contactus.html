@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block header %}
+
+{% include 'app.HR.header.html'%}
+
+{% endblock %}
+
+{% block specific_css%}
+<style media="screen">
+  .navbar{
+    margin-bottom:0px !important;
+  }
+</style>
+{% endblock %}
+{% block content %}
+
+<contactus-view></contactus-view>
+
+
+{% endblock %}
+{% block footer %}
+
+{% include 'app.HR.pagefooter.html'%}
+
+{% endblock %}

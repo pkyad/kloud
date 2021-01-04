@@ -1,0 +1,29 @@
+<div class="container-fluid" style="padding-bottom:15px;">
+  <div class="text-center">
+    <h3>Upload Notes</h3>
+    <hr>
+  </div>
+  <div class="form-group">
+    <label>Title</label>
+    <input type="text" class="form-control" ng-model="form.title" placeholder="">
+  </div>
+  <div class="form-group">
+    <label>Description </label>
+    <textarea type="text" class="form-control" rows="5" ng-model="form.description" placeholder="" style="resize:none;"></textarea>
+  </div>
+  <div class="form-group">
+    <label>URL</label>
+    <input type="text" class="form-control" ng-model="form.urlSuffix" placeholder="" ng-disabled="form.pk">
+  </div>
+  <div class="form-group">
+    <label>Image</label>
+    <input type="file" file-model="form.image">
+  </div>
+  <div class="form-group"ng-if="form.pk && form.image">
+    <label>{{form.image?'Previous Image':''}}</label>
+    <p>{{form.image}}</p>
+  </div>
+  <div class="form-group">
+    <button type="button" class="btn btn-primary pull-right" ng-click="saveNote()">{{form.pk?'Update':'Save'}}</button>
+  </div>
+</div>

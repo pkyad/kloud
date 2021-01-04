@@ -1,0 +1,60 @@
+<div class="col-md-6" style="padding-bottom:20px;padding-left:10px;padding-right:10px;">
+  <div class="container-fluid card" style="padding:15px 5px;height:235px;border-radius:25px 25px 0px">
+    <div class="row" style="font-size:18px">
+      <div class="col-md-12">
+        <div class="col-md-4" style="padding-right:0px">
+          <i class="fa fa-user"></i> {{data.name}}
+        </div>
+        <div class="col-md-5" style="padding-right:0px">
+          <i class="fa fa-envelope-o"></i> {{data.emailId}}
+        </div>
+        <div class="col-md-3" style="padding-right:0px">
+          <i class="fa fa-mobile-phone"></i> {{data.mobileNumber}}
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-12" style="padding-right:5px">
+        <div class="col-md-6">
+          <strong>Job Level :</strong> {{data.jobLevel}}
+        </div>
+        <div class="col-md-6">
+          <strong>Company :</strong> {{data.company}}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12" style="padding-right:5px">
+        <div class="col-md-6">
+          <strong>Country :</strong> {{data.country}}
+        </div>
+        <div class="col-md-6">
+          <strong>Company Category :</strong> {{data.companyCategory}}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12" style="padding-right:5px">
+        <div class="col-md-6">
+          <strong>Requirements :</strong> {{data.requirements}}
+        </div>
+        <div class="col-md-6">
+          <strong>Company Expertise :</strong> {{data.companyExpertise}}
+        </div>
+      </div>
+    </div>
+    <div class="row" style="position:absolute;bottom:17px;right:2px">
+      <div class="col-md-12">
+        <div class="btn-group btn-sm pull-right">
+          <button type="button" class="btn btn-danger" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="rowActionClicked('delete')" confirm-button-type="default" cancel-button-type="default">
+            <i class="fa fa-trash-o"></i> Delete
+          </button>
+          <button type="button" class="btn btn-primary" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="rowActionClicked('move')" confirm-button-type="default" cancel-button-type="default">
+            <i class="fa fa-share"></i> Convert To Contact
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,90 @@
+<style media="screen">
+  .activeClass{
+    padding: 10px 10px;
+    background-color:#f1f2f7ff;
+    /* border:0.5px solid #ccc; */
+  }
+  .defaultClass{
+    padding: 10px 10px;
+    background-color:white;
+    /* border:0.5px solid #ccc; */
+  }
+  .elementCard:hover{
+    background : #eee;
+  }
+</style>
+
+<div class="container-fluid">
+  <div class="row" style="margin:0px;padding:20px 0px;">
+    <div class="col-md-3">
+      <div class="row">
+        <div class="input-group">
+          <input type="text" class="form-control" ng-model="form.search" placeholder="Search by name" ng-enter= "getTemplates()">
+          <!-- <input type="text" class="form-control" ng-model="form.search" placeholder="Search" > -->
+          <div class="input-group-btn">
+            <button class="btn btn-default" type="submit" ng-click="getTemplates()">
+              <i class="glyphicon glyphicon-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="" style="cursor:pointer">
+        <div class="row {{form.selectSection =='Image List'?'activeClass':'defaultClass'}}" ng-click="form.selectSection='Image List';">
+          <h4>Image List</h4>
+        </div>
+        <div class="row {{form.selectSection =='Introduction'?'activeClass':'defaultClass'}}"
+      ng-click="form.selectSection='Introduction';">
+          <h4>Introduction </h4>
+        </div>
+        <!-- <div class="row {{form.selectSection =='Header'?'activeClass':'defaultClass'}}"
+      ng-click="form.selectSection='Header'">
+          <h4>Header </h4>
+        </div>
+        <div class="row {{form.selectSection =='Footer'?'activeClass':'defaultClass'}}"
+      ng-click="form.selectSection='Footer'">
+          <h4>Footer </h4>
+        </div> -->
+        <div class="row {{form.selectSection =='Widgets'?'activeClass':'defaultClass'}}"
+      ng-click="form.selectSection='Widgets';getTemplates()">
+          <h4>Widgets </h4>
+        </div>
+        <div class="row {{form.selectSection =='Others'?'activeClass':'defaultClass'}}"
+      ng-click="form.selectSection='Others';getTemplates()">
+          <h4>Others </h4>
+        </div>
+
+        <div class="row {{form.selectSection =='Testimonials'?'activeClass':'defaultClass'}}" ng-click="form.selectSection='Testimonials'">
+          <h4>Testimonials</h4>
+        </div>
+        <div class="row {{form.selectSection =='Contact Us'?'activeClass':'defaultClass'}}" ng-click="form.selectSection='Contact Us'">
+          <h4>Contact Us</h4>
+        </div>
+        <div class="row {{form.selectSection =='Info Section'?'activeClass':'defaultClass'}}" ng-click="form.selectSection='Info Section'">
+          <h4>Info Section</h4>
+        </div>
+
+
+      </div>
+    </div>
+    <div class="col-md-9">
+
+      <div class="row elementCard" ng-repeat="element in elements" style="margin:0px;margin-bottom:20px;padding:20px;{{form.selectedIndex == $index ? 'background:#eee;': ''}}" ng-click="form.selectedIndex = $index;">
+        <div class="col-md-8">
+          <h4>{{element.name}}</h4>
+          <img src="{{element.sampleImg}}" style="max-height:100px;" alt="">
+        </div>
+        <div class="col-md-4">
+          <h4>{{element.name}}</h4>
+          <img src="{{element.mobilePreview}}" style="max-height:100px;" alt="">
+        </div>
+      </div>
+
+      <div class="row pull-right" style="margin:20px 0px;" ng-if="!show">
+        <button type="button"  class="btn btn-primary" name="button" ng-click="save()">Save</button>
+      </div>
+
+
+    </div>
+  </div>
+</div>

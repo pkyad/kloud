@@ -1,0 +1,51 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="col-md-4">
+      <h4 class="modal-title" id="">Contacts</h4>
+    </div>
+    <div class="col-md-6">
+      <div class="input-group">
+        <input ng-enter="fetch()" type="text" class="form-control" ng-model="searchTxt" placeholder="Search ...">
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="prev()">Prev</button>
+        </span>
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="next()">Next</button>
+        </span>
+      </div>
+
+    </div>
+    <div class="col-md-2">
+      <button type="button" class="close" ng-click="close()">&times;</button>
+    </div>
+  </div>
+  <div class="modal-body">
+    <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Mobile</th>
+        <th>Email</th>
+        <th>Company</th>
+        <th>Country</th>
+        <th>Website</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="d in data">
+        <td>{{d.name}}</td>
+        <td>{{d.mobile}}</td>
+        <td><a href="mailto:{{d.email}}">{{d.email}}</a></td>
+        <td>{{d.companyName}}</td>
+        <td>{{d.country}}</td>
+        <td><a target="_blank" href="{{d.website}}">{{d.website}}</a></td>
+        <td> <button type="button" class="btn btn-danger btn-sm" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No"
+          on-confirm="delete($index)" confirm-button-type="default" cancel-button-type="default">
+          <i class="fa fa-trash"></i>
+        </button> </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+<style media="screen">
+.template_title{
+  background:#000000;
+  padding-top:15px;
+  padding-bottom:15px;
+  margin-bottom:15px;
+  margin-left:15px;
+  margin-right:15px;
+  border-radius:25px;
+  color:#ffffff;
+  cursor:pointer
+}
+
+.template_title:hover{
+  background:#6b6b6b;
+  padding-top:15px;
+  padding-bottom:15px;
+  margin-bottom:15px;
+  margin-left:15px;
+  margin-right:15px;
+  border-radius:25px;
+  color:#ffffff;
+  cursor:pointer
+}
+
+
+</style>
+<div class="modal-body" style="background:#edf0ee">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row template_title" ng-repeat="t in termsConditions"  ng-click="selectedTemplate(t)">
+        <div class="col-md-12 " >
+          {{t.heading}}
+          <div>
+        </div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+
+{% block specific_css %}
+  <style media="screen">
+    body{
+      overflow-x:hidden;
+      font-family:'Roboto'
+    }
+    #page3bgImage{
+      background:url('/static/images/page3bgImage.png') no-repeat left;
+      background-size:50%;
+      height:600px;
+    }
+    #page3bgImage2{
+      background: linear-gradient(to bottom,transparent 40%,#F2707E 10%);
+      /* height:300px; */
+      border-bottom-left-radius:30px;
+      border-bottom-right-radius:30px;
+      margin-top: 150px;
+      margin-bottom: 50px;
+      padding-bottom: 90px;
+    }
+    #page3text{
+      color:#F16679
+    }
+    #page3text h1{
+      font-size:40px;
+      font-weight:700;
+    }
+    #page3text p{
+      font-size:30px;
+      font-weight:400;
+      margin-top:50px;
+      text-align:left
+    }
+    #page3text button{
+      border:1px solid #F16679;
+      font-size:22px;
+      font-weight:400;
+      background-color:white;
+      border-radius:30px;
+      padding:6px 20px;
+      margin-top:50px;
+    }
+    #testimonials{
+      margin-bottom:80px;
+    }
+    #testimonials #quote{
+      background:url('/static/images/quote.svg') no-repeat left;
+      background-size: contain;
+      height: 49px;
+      margin-top:45px;
+    }
+    #testimonials #testimonialBgimg{
+      background:url('/static/images/testimonials.svg') no-repeat center;
+      background-size:contain;
+      height:532px;
+    }
+    #testimonials #prevNextbtns{
+      margin-top:380px;
+    }
+    #testimonials #prev{
+      height:50px;
+      border-radius:25px;
+      border:2px solid #E8E8E8;
+      background-color:white;
+      color:#818181;
+      font-size:20px;
+      font-weight:400
+    }
+    #testimonials #next{
+      height:50px;
+      border-radius:25px;
+      border:2px solid #FF7981;
+      background-color:#FF7981;
+      color:white;
+      font-weight:400;
+      font-size:20px;
+    }
+    #testimonials h1{
+      font-size:48px;
+      font-weight:400;
+      color:#3c3c3c;
+      line-height:56px;
+      margin-bottom:150px;
+    }
+    #bgImg4 #box1{
+      background:white;box-shadow:10px 20px 100px rgba(0,103,184,0.25);border-radius:42px;height:550px;
+    }
+    #bgImg4 #box2{
+      background:white;box-shadow:10px 20px 100px rgba(0,103,184,0.25);border-radius:42px;height:720px;margin-top:-80px;
+    }
+    #bgImg4 #box3{
+      background:white;box-shadow:10px 20px 100px rgba(0,103,184,0.25);border-radius:42px;height:550px;
+    }
+     @media only screen and (min-device-width : 320px) and (max-device-width : 600px) {
+       #page3bgImage{
+         background-size:cover;
+
+       }
+       #page3text p{
+         text-align:center !important;
+       }
+       #page3text button{
+         margin-top: 80px;
+         width: 100%;
+       }
+       .no_padding{
+         padding:0px;
+       }
+         #bgImg4 #box1{
+           margin-right:15px;
+           border-radius: 21px;
+
+           height: 300px;
+         }
+         #bgImg4 #box2{
+           margin-right:15px;
+           height: 450px;
+           border-radius: 21px;
+           margin-top: -80px;
+         }
+         #bgImg4 #box3{
+           border-radius: 21px;
+
+           height: 300px;
+         }
+         #testimonials h1{
+           margin-bottom:50px;
+         }
+         #testimonials #testimonialBgimg{
+           height:360px;
+         }
+         #testimonials #prevNextbtns{
+           margin-top:30px;
+         }
+         #testimonials #prev{
+           margin-bottom:20px;
+         }
+     }
+  </style>
+{% endblock %}
+
+
+{% block content %}
+<div class="container-fluid" id="page3bgImage">
+  <div class="col-md-10 col-md-offset-1" style="padding:30px 0px;">
+    <img src="/static/images/zigmasmall.svg" alt="" >
+  </div>
+  <div class="col-md-3 col-md-offset-8 text-center" id="page3text">
+    <h1>APP</h1>
+    <p>The best App,<br>smooth and streamlined interface</p>
+    <button type="button" name="button" class="btn"> Read More</button>
+  </div>
+
+</div>
+<div class="container-fluid" id="page3bgImage2">
+
+  <div class="col-md-10 col-md-offset-2 col-xs-12 no_padding" id="bgImg4">
+    <div class="col-md-10 col-md-offset-1 no_padding">
+      <div class="col-md-3 col-xs-4 no_padding">
+        <div class="" id="box1" >
+
+        </div>
+
+      </div>
+      <div class="col-md-4 col-xs-4 no_padding">
+        <div class="" id="box2">
+
+        </div>
+      </div>
+      <div class="col-md-3 col-xs-4 no_padding">
+        <div class="" id="box3">
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="container-fluid" id="testimonials" >
+
+  <div class="col-md-10 col-md-offset-1">
+    <div class="row text-center">
+      <h1>Testimonials</h1>
+
+    </div>
+    <div class="col-md-5" id="testimonialBgimg">
+
+    </div>
+    <div class="col-md-7 ">
+      <div class="row" style="margin:0px;">
+        <div class="col-md-2" id="quote">
+
+        </div>
+
+      </div>
+      <div class="row" id="prevNextbtns">
+        <div class="col-md-2 no_padding">
+          <button type="button" name="button" id="prev" class="btn btn-block">Prev</button>
+        </div>
+        <div class="col-md-2 no_padding">
+          <button type="button" name="button" id="next" class="btn btn-block">Next</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+
+{% include 'app.HR.pagefooter.html'%}
+
+{% endblock %}

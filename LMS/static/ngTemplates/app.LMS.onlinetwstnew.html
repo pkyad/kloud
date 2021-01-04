@@ -1,0 +1,55 @@
+<style media="screen">
+#one{
+  margin:60px 60px 60px 60px
+}
+#two{
+  padding:20px 20px 20px 20px
+}
+.zoom {
+  /* padding: 20px; */
+
+  transition: transform .2s; /* Animation */
+
+}
+
+.zoom:hover {
+  transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  cursor:pointer;
+  background-color:#E8E8E8;
+}
+</style>
+<div id="one" class="row">
+    <div  class="col-md-4">
+      <div ng-click="statechange()" class="zoom card">
+        <div id="two" class="card-body">
+          <h2 class="card-title"><b>Multiple choice questions</b></h2>
+            <h5 class="card-text">Single or multiple choice questions.</h5>
+            <!-- <button  type="button" class="btn btn-primary ntn-large" name="button">New</button> -->
+          <p class="card-text"><small class="text-muted"></small></p>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-4">
+      <div ng-click="statechange1()" class="zoom card">
+        <div id="two" class="card-body">
+          <h2 class="card-title"><b>Subjective Questions</b></h2>
+          <h5 class="card-text"> candidates are expected to explain their answer.</h5>
+          <!-- <button  type="button" class="btn btn-primary ntn-large" name="button">New</button> -->
+          <p class="card-text"><small class="text-muted"></small></p>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-4">
+      <div ng-click="statechange2()" class="zoom card">
+        <div id="two" class="card-body">
+          <h2 class="card-title"><b>File Uplaod</b></h2>
+          <h5 class="card-text">File to be uploaded</h5>
+          <!-- <button  type="button" class="btn btn-primary ntn-large" name="button">New</button> -->
+          <p class="card-text"><small class="text-muted"></small></p>
+        </div>
+      </div>
+
+    </div>
+</div>

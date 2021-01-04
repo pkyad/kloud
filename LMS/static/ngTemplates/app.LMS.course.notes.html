@@ -1,0 +1,23 @@
+<div>
+  <div class="" style="margin-bottom:10px;">
+    <div class="container-fluid">
+      <span class="pull-right text-muted" style="padding-top:10px;">{{item.created | timeAgo}}</span>
+      <div ng-click="noteInfo($index)">
+        <h3>{{item.title}}</h3>
+        <hr>
+        <div class="container-fluid" style="overflow:hidden;height:80px;">
+          <p>{{item.description}}</p>
+        </div>
+      </div>
+      <div class="">
+        <a href="">
+          <h5>{{item.urlSuffix}}</h5>
+        </a>
+        <i class="fa fa-pencil" ng-click="addNotes($index)" aria-hidden="true" style="cursor:pointer;" ng-if="showAddBtn"></i>
+        <i class="fa fa-trash" mwl-confirm title="Confirm" message="Are you sure you want to delete this?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="deleteNote($index,item.pk)" confirm-button-type="danger"
+          cancel-button-type="default" aria-hidden="true" style="cursor:pointer;padding-left:15px;" ng-if="showAddBtn"></i>
+        <i class="fa fa-plus-square pull-right" ng-click="noteSection($index)" aria-hidden="true" style="cursor:pointer;" ng-if="showAddBtn"></i>
+      </div>
+    </div>
+  </div>
+</div>

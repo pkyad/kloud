@@ -1,0 +1,41 @@
+{% load replacetags %}
+{% autoescape on %}
+\documentclass{exam}
+\usepackage[0.5pt,a4paper,bindingoffset=0 cm, left=1.2cm, right=1.2cm, top=1.5cm, bottom=1.5cm, footskip=0.5cm]{geometry}
+\usepackage[ddmmyyyy]{datetime}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{amsmath,amssymb}
+\usepackage{multicol}
+\pagestyle{headandfoot}
+\runningheader{24Tutors.com}{ }{ }
+\runningheadrule
+\begin{document}
+\renewcommand{\dateseparator}{-}
+\begin{center}
+{\LARGE {{title}} }\par
+\end{center}
+{\Large Author :  {{author}} }\par
+\hspace {0.2cm} \small {{desc}}\par
+\vspace{0.7cm}
+
+\begin{questions}
+{% for q in ques %}
+\question \small {{q.ques}}\par
+  {% for data in q.quesParts.all %}
+    {% if data.mode == 'text' %} \choice \footnotesize {{data.txt}}
+    {% else %} \choice \includegraphics[width=0.2\textwidth]{{data.image.path|replacetags}}
+    {% endif %}
+  {% endfor %}
+  {% if q.solutionParts.all %}
+  \large Solutions :\par
+    {% for data in q.solutionParts.all %}
+      {% if data.mode == 'text' %} \choice \footnotesize {{data.txt}}
+      {% else %} \choice \includegraphics[width=0.2\textwidth]{{data.image.path|replacetags}}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endfor %}
+\end{questions}
+\end{document}
+{% endautoescape %}

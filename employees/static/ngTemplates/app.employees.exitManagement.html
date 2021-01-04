@@ -1,0 +1,153 @@
+<style>
+  #exit {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  #exit td,
+  #exit th {
+    border: 1px solid #bccad0;
+    padding: 8px;
+  }
+
+  #exit tr:nth-child(even) {
+    background-color: #fff;
+  }
+
+  #exit tr:hover {
+    background-color: #fff;
+  }
+
+  #exit th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #005173;
+    color: white;
+  }
+
+  #exit td {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    text-align: center;
+  }
+
+  #check {
+    cursor: pointer;
+  }
+
+  .file_upload {
+    opacity: 0.0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    -moz-opacity: 0.0;
+    -khtml-opacity: 0.0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+<div class="container-fluid" style="margin-top:15px;">
+  <div class="row">
+  <div class="col-md-6" style="position:relative;">
+    <input type="text" class="form-control" placeholder="Search with name" style="background:black;color:white;border-radius:10px;padding:23px; border:none !important;" ng-model="search.searchValue" ng-enter="getEmployees()">
+    <button style="position: absolute;top: 7px;right: 25px;background: black;border: none !important;color: white;" class="btn btn-default" type="submit" ng-click="getEmployees()">
+      <i class="glyphicon glyphicon-search"></i>
+    </button>
+  </div>
+
+  <div class="col-md-2">
+    <button type="button" class="btn btn-primary btn-block" style="background:#393C45;color:white;border-radius:10px !important;padding:12px; border:none !important;" ng-click="previous()">Prev</button>
+  </div>
+  <div class="col-md-2">
+    <button type="button" class="btn btn-primary btn-block" style="background:#393C45;color:white;border-radius:10px !important;padding:12px; border:none !important;" ng-click="next()">Next</button>
+  </div>
+  <div class="col-md-2 " >
+    <button type="button" class="btn btn-default btn-block" ng-click="selectEmp()"  style="background:#393C45;color:white;border-radius:10px !important;padding:12px; border:none !important;">
+      <i class="fa fa-plus"></i> Add
+    </button>
+  </div>
+  </div>
+    <div class="row" style="margin-top:15px">
+      <div class="col-md-12">
+      <div class="row" ng-repeat="k in employees" style="margin-bottom:30px;background:#393C45;border-radius:20px;padding:15px;">
+        <div class="col-md-1">
+          <img class="img img-circle pull-left" style="width:60px;" src="/static/images/userIcon.png">
+        </div>
+        <div class="col-md-4">
+          <h2 style="margin-top:0px;">{{k.user.first_name}} {{k.user.last_name}}</h2>
+          <img src="/static/images/icons8-email-96.png" style="width: 25px;margin-left:5px;margin-right:5px;"> {{k.user.email}} <br> <br>
+          <img src="/static/images/icons8-dialing-number-100.png" style="width: 35px;"> {{k.user.profile.mobile}}
+        </div>
+        <div class="col-md-3">
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <div style="background:#000000;color:#ffffff;border-radius:15px;padding:10px;" ng-click="selectedFile('resignation',$index)">
+                <!-- <i class="fa fa-plus" style="background-color:transparent;color:black;box-shadow:none;padding:0px;"></i> -->
+                <i class="fa fa-plus"></i>  Resignation Letter
+                <input type="file" file-model="k.resignation" onchange="angular.element(this).scope().fileupload(this.files)" class="file_upload" multiple />
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <div class="col-md-12 text-center">
+              <div style="background:#000000;color:#ffffff;border-radius:15px;padding:10px;" ng-click="selectedFile('finalSettlement' , $index)">
+                <!-- <i class="fa fa-plus" style="background-color:transparent;color:black;box-shadow:none;padding:0px;"></i> -->
+                <i class="fa fa-plus"></i>  Final Settlement Doc
+                <input type="file" file-model="k.finalSettlment" onchange="angular.element(this).scope().fileupload(this.files)" class="file_upload" multiple />
+              </div>
+            </div>
+          </div>
+          <div class="row"  style="margin-top:10px">
+            <div class="col-md-12 text-center">
+              <div style="background:#000000;color:#ffffff;border-radius:15px;padding:10px;" ng-click="selectedFile('notice' , $index)">
+                <!-- <i class="fa fa-plus" style="background-color:transparent;color:black;box-shadow:none;padding:0px;"></i> -->
+                <i class="fa fa-plus"></i>  Notice Period Doc
+                <input type="file" file-model="k.notice" onchange="angular.element(this).scope().fileupload(this.files)" class="file_upload" multiple />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1">
+          <div class="row">
+            <div class="col-md-12 text-center">
+                <a  ng-if="k.resignation" href="{{k.resignation}}" target="_blank"><img src="/static/images/appdownload.png"  style="width:30px"/> </a>
+            </div>
+          </div>
+          <div class="row" style="margin-top:20px">
+            <div class="col-md-12 text-center">
+              <a  ng-if="k.finalSettlment" href="{{k.finalSettlment}}" target="_blank"><img src="/static/images/appdownload.png"  style="width:30px"/></a>
+            </div>
+          </div>
+          <div class="row"  style="margin-top:20px">
+            <div class="col-md-12 text-center">
+            <a  ng-if="k.notice" href="{{k.notice}}" target="_blank"><img src="/static/images/appdownload.png"  style="width:30px"/></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <div style="background:#E01B22;color:#ffffff;border-radius:15px;padding:10px;cursor:pointer"  mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="exitEmployee($index)"
+                confirm-button-type="primary" cancel-button-type="default" >
+                  Exit Employee
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <div style="color:#ffffff;border-radius:15px;padding:10px;" >
+                  <p>Last Working day</p>
+                  <p>{{k.lastWorkingDate | date}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>

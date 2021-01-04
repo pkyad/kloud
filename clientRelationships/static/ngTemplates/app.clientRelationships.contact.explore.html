@@ -1,0 +1,313 @@
+<div class="container-fluid">
+  <div class="row" style="background:#2980b9;margin-bottom:15px" ng-if="!editIcon">
+    <div class="col-md-12" style="padding:10px;color:#ffffff">
+      <i class="fa  fa-arrow-circle-o-left  fa-2x" ng-click="close()"></i>
+    </div>
+  </div>
+  <div class="row">
+
+      <div class="col-md-3" style="border-right:solid 2px #eeeeee;min-height:82vh;position:relative;padding-top:20px;width:22%">
+
+        <div style="position:absolute; top:10px;left:10px;cursor:pointer;" class="text-muted" ng-click="editContact()" ng-if="editIcon">
+          <i class="fa fa-pencil fa-2x"></i>
+        </div>
+
+        <div class="row text-center">
+          <img ng-src="{{contact | getCRMDP}}" class="img img-circle" style="width:100px;">
+        </div>
+        <div class="row text-center">
+          <h4>{{contact.name}}</h4>
+          <span>{{contact.designation}}</span> <br>
+          <span class="text-muted">{{contact.company.name}}</span>
+        </div>
+        <div ng-if="contact.mobile != null || contact.email != null || contact.facebook != null || contact.linkedin != null || contact.mobileSecondary != null || contact.emailSecondary != null" class="row" style="margin-top:50px;overflow:hidden;position:relative;min-height:70px;width:100%;">
+          <i class="fa fa-address-book-o" style="font-size:260px;color:#f7fbfc; transform: rotate(30deg)"></i>
+          <div class="container-fluid" style="position:absolute;top:0px;">
+            <div ng-if="contact.mobile != null || contact.email != null || contact.facebook != null || contact.linkedin != null">
+              <label class="text-muted">Primary</label>
+              <br>
+              <span ng-if="contact.mobile != null"><strong><i style="width:30px;" class="fa fa-mobile"></i> </strong>{{contact.mobile}}</span> <br>
+              <span ng-if="contact.email != null"><strong><i style="width:30px;" class="fa fa-envelope-o"></i> </strong><a href="mailto:{{contact.email}}?Subject=Hello%20again&body=Hi," target="_top">{{contact.email}}</a></span> <br>
+              <span ng-if="contact.facebook != null"><strong><i style="width:30px;" class="fa fa-facebook"></i> </strong> <a href="{{contact.facebook}}" target = "_blank">{{contact.facebook.substring(0,25)}}</a></span> <br>
+              <span ng-if="contact.linkedin != null"><strong><i style="width:30px;" class="fa fa-linkedin"></i> </strong><a href="{{contact.linkedin}}" target = "_blank">{{contact.linkedin.substring(0,25)}}</a></span> <br>
+            </div>
+
+            <br>
+            <br>
+            <div ng-if="contact.mobileSecondary != null || contact.emailSecondary != null">
+              <label class="text-muted">Secondary</label> <br>
+              <span ng-if="contact.mobileSecondary != null"><strong><i style="width:30px;" class="fa fa-mobile"></i> </strong>{{contact.mobileSecondary}}</span> <br>
+              <span ng-if="contact.emailSecondary != null"><strong><i style="width:30px;" class="fa fa-envelope-o"></i> </strong>{{contact.emailSecondary}}</span>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row" >
+          <div class="col-md-9">
+            <button type="button" class="btn btn-default btn-block" style="border-radius:20px !important;background-image: linear-gradient(to right,#f08621 0%,#ef1f22 25%,#d41e50 50%,#86398e 75%,#0351a4 100%);;color:white;" ng-click="createQuote()">
+              Create A Quote
+            </button>
+          </div>
+
+          <div class="col-md-3">
+            <button type="button" class="btn btn-default btn-block" style="border-radius:20px !important;background:#0351a4;color:white;" ng-click="call()">
+              <i class="fa fa-phone"></i>
+            </button>
+          </div>
+
+        </div>
+
+        <div ng-if="!(contact.mobile != null || contact.email != null || contact.facebook != null || contact.linkedin != null || contact.mobileSecondary != null || contact.emailSecondary != null)" class="text-center" style="margin-top:40px;margin-bottom:40px;">
+          <h4 class="text-muted"> No contact details found</h4>
+        </div>
+
+
+
+        <div class="row" style="position:relative;min-height:250px;" ng-if="contact.company == null">
+          <i class="fa fa-building-o" style="font-size:260px;color:#fcf7f7;margin-left:80px;margin-top:140px;"></i>
+          <div class="container-fluid" style="position:absolute;top:0px;width:100%;">
+            <!-- <label class="text-muted"> <i class="fa fa-building-o" style="width:20px;"></i> Organisation</label> -->
+            <br>
+            <div class="row" style="margin-top:10px;">
+              <div class="col-md-2">
+                <i class="fa fa-map-marker fa-3x pull-right" style="color:#8faec2;"></i>
+              </div>
+              <div class="col-md-10">
+                <span>{{contact.street}}</span> <br>
+                <span>{{contact.city}}</span> <br>
+                <span>{{contact.state}}</span> <br>
+                <span>{{contact.pincode}}</span> <br>
+                <span>{{contact.country}}</span> <br>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="container-fluid">
+            <div class="row" style="position:relative;">
+              <h5 class="text-muted">SMS</h5>
+              <textarea style="margin-bottom:20px;" class="form-control" rows="4" cols="80"></textarea>
+              <button type="button" class="btn btn-primary">
+                Send
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="container-fluid">
+            <div class="row" style="position:relative;margin-top:150px;">
+              <button type="button" class="btn btn-default" mwl-confirm title="Confirm" message="Deleting this contact will delete all the quote linked to this. Are you sure you want to delete?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" placement="top"
+                on-confirm="deleteContact()" confirm-button-type="danger" cancel-button-type="default">
+                <i class="fa fa-trash"> </i> Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-7" style="min-height:82vh;border-right:solid 2px #eeeeee;width:56%;">
+
+        <tabs-Strip tabs="tabsView" active="local.activeTab"></tabs-Strip>
+
+        <div ng-if="local.activeTab == 0" class="row" style="margin:5px;">
+          <comment-Input text="noteEditor.text" doc="noteEditor.doc" save-Note="saveNote"></comment-Input>
+          <!-- /input-group -->
+          <input type="file" file-model="noteEditor.doc" style="display:None;" id="noteEditorFile">
+        </div>
+        <div class="row animated fadeIn">
+          <div ng-if="local.activeTab == 0" class="container-fluid">
+            <div class="text-center text-muted" ng-if="timelineItems.length == 0" style="padding-top:50px;">
+              No activity log found!
+            </div>
+            <div class="col-md-10 col-md-offset-2" style="padding-top:40px;padding-right:0px;">
+              <ul class="timeline timeline-inverse">
+                <div ng-repeat="feed in timelineItems">
+                  <div ng-if="feed.newMonth || $first" style="position:absolute; margin-left:-130px;">
+                    <span ng-if="!$first" class="badge badge-pill bg-yellow" style="font-size:15px;">{{feed.created | date:'MMM-yy'}}</span>
+                    <span ng-if="$first" class="badge badge-pill bg-yellow" style="font-size:15px;">{{feed.created |timeAgo}} Ago</span>
+                  </div>
+                  <crm-Note ng-if="feed.typ == 'note'" data="feed"></crm-Note>
+                  <crm-Call ng-if="feed.typ == 'call'" data="feed"></crm-Call>
+                  <crm-Meeting ng-if="feed.typ == 'meeting'" data="feed"></crm-Meeting>
+                  <crm-Mail ng-if="feed.typ == 'mail' && feed.data.length >0" data="feed"></crm-Mail>
+                  <crm-Todo ng-if="feed.typ == 'todo'" data="feed"></crm-Todo>
+                </div>
+              </ul>
+            </div>
+
+            <nav>
+              <ul class="pager">
+                <li class="previous {{pageNo == 0? 'disabled':''}}"><a href="" ng-click="prevPage()"><span aria-hidden="true">&larr;</span> Prev</a></li>
+                <li class="next {{disableNext? 'disabled':''}}"><a href="" ng-click="nextPage()">Next <span aria-hidden="true">&rarr;</span></a></li>
+              </ul>
+            </nav>
+
+          </div>
+
+          <div ng-if="local.activeTab == 1">
+            <div class="container-fluid">
+              <h3 class="text-muted">Log an activity</h3>
+            </div>
+            <div class="container-fluid" style="padding-left:0px;padding-right:0px;">
+              <div class="col-md-3" style="padding-top:40px;">
+                <div class="form-group">
+                  <label>Type</label>
+                  <select class="form-control" ng-model="logger.activityType">
+                <option value="Email">Email</option>
+                <option value="Meeting">Meeting</option>
+                <option value="Call">Call</option>
+              </select>
+                </div>
+              </div>
+              <div class="col-md-9" style="padding:20px;border-left:solid 1px #eeeeee;">
+                <div class="form-group">
+                  <label class="control-label col-sm-3" style="margin-top:35px;padding:0px;">When</label>
+                  <div class="col-md-5">
+                    <div class="input-group" style="margin-top:35px;">
+                      <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="logger.when" is-open="status.opened" />
+                      <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="status.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+                  </span>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="row container-fluid">
+                      <uib-timepicker ng-model="logger.when" hour-step="1" minute-step="30" show-meridian="true"></uib-timepicker>
+                    </div>
+                  </div>
+                </div>
+
+                <users-Field data="logger.internalUsers" url="/api/HR/userSearch/" col="4" label="Internal People"></users-Field>
+
+                <clients-Field data="logger.withinCRMUsers" url="/api/clientRelationships/contactLite/" col="4" label="Within CRM"></clients-Field>
+
+                <div ng-if="logger.activityType == 'Email'">
+                  <div class="form-group">
+                    <label>Subject</label>
+                    <input type="text" ng-model="logger.subject" class="form-control">
+                  </div>
+                </div>
+                <div ng-if="logger.activityType == 'Call'">
+                  <div class="form-group">
+                    <label>Duration</label>
+                    <input type="number" ng-model="logger.duration" class="form-control">
+                  </div>
+                </div>
+                <div ng-if="logger.activityType == 'Meeting'">
+                  <div class="form-group">
+                    <label>Duration</label>
+                    <input type="number" ng-model="logger.duration" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label>Place</label>
+                    <input type="text" ng-model="logger.location" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Comment</label>
+                  <textarea ui-tinymce="tinymceOptions" ng-model="logger.comment"></textarea>
+                </div>
+                <button type="button" class="btn btn-primary" ng-click="saveActivityLog()">Save</button>
+              </div>
+            </div>
+          </div>
+
+          <div ng-if="local.activeTab == 2">
+            <div class="container-fluid" style="margin-top:20px;">
+              <div class="row">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Value</th>
+                      <!-- <th>Items</th> -->
+                      <th>Updated</th>
+                      <th style="width:16%;">Status</th>
+                      <th style="width:30%;"></th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr ng-repeat="c in contracts">
+                      <td>{{c.pk}}</td>
+                      <td><i class="fa fa-{{deal.currency | lowercase}}" style="margin-right:20px;"></i>{{c.value}}</td>
+                      <!-- <td>{{c.data.length}}</td> -->
+                      <td>{{c.created | timeAgo}}</td>
+                      <td>{{c.status | humanize}} <br>
+                        <span ng-if="c.status == 'billed'"> <strong>Due Date</strong> <br> {{c.dueDate | date : 'dd-MMM-yyyy'}}</span>
+                      </td>
+                      <td>
+                        <div class="btn-group btn-group-sm pull-right">
+                          <a ng-if="c.status != 'cancelled'" href="/api/clientRelationships/downloadInvoice/?contract={{c.pk}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+                          <button ng-if="c.status != 'cancelled' && c.status != 'billed' && c.status != 'recieved'" type="button" class="btn btn-default" ng-click="editQuote($index)">
+                        <i class="fa fa-pencil"></i>
+                      </button>
+                          <button type="button" class="btn btn-info" ng-click="sendNotification($index)" ng-if="['billed', 'dueElapsed'].indexOf(c.status) != -1">
+                        <i class="fa fa-envelope-o"></i>
+                      </button>
+                          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        Change status <span class="caret"></span></button>
+                          <ul class="dropdown-menu" role="menu">
+                            <li><a href="" ng-click="changeStatus('quoted', $index)">Quoted</a></li>
+                            <li><a href="" ng-click="changeStatus('approved', $index)">Approved</a></li>
+                            <li><a href="" ng-click="changeStatus('billed', $index)">Billed</a></li>
+                            <li><a href="" ng-click="changeStatus('received', $index)">Received</a></li>
+                            <li><a href="" ng-click="changeStatus('inProgress', $index)">In Progress</a></li>
+                            <li><a href="" ng-click="changeStatus('lost', $index)">Lost</a></li>
+                            <li><a href="" ng-click="changeStatus('cancelled', $index)">Cancelled</a></li>
+                            <li><a href="" ng-click="changeStatus('dueElapsed', $index)">Due Elapsed</a></li>
+                          </ul>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+
+                </table>
+                <div class="text-center" ng-if="deal.contracts.length == 0" style="margin-top:50px;">
+                  <span>No data!</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2" style="width:22%;">
+        <div class="row" style="position:relative;min-height:250px;" ng-if="contact.company != null">
+          <i class="fa fa-building-o" style="font-size:260px;color:#fcf7f7;margin-left:80px;margin-top:140px;"></i>
+          <div class="container-fluid" style="position:absolute;top:0px;width:100%;">
+            <label class="text-muted"> <i class="fa fa-building-o" style="width:20px;"></i> Organisation</label>
+            <br>
+            <h5 style="margin-left:22px;">{{contact.company.name}}</h5> <br>
+            <div class="row" style="margin-top:10px;" ng-if="contact.company.address != null">
+              <div class="col-md-2">
+                <i class="fa fa-map-marker fa-3x pull-right" style="color:#8faec2;"></i>
+              </div>
+              <div class="col-md-10">
+                <span>{{contact.company.address.street}}</span> <br>
+                <span>{{contact.company.address.city}}</span> <br>
+                <span>{{contact.company.address.state}}</span> <br>
+                <span>{{contact.company.address.pincode}}</span> <br>
+                <span>{{contact.company.address.country}}</span> <br>
+              </div>
+            </div>
+            <div class="row" style="margin-top:20px;" ng-if="coworkers.length>0">
+              <div class="container-fluid">
+                <label class="text-muted">In Network</label> <br>
+                <div ng-repeat="c in coworkers" class="row" style="margin-top:10px;cursor:pointer;" ng-if="c.pk != contact.pk" ng-click="exploreContact(c)">
+                  <div class="col-md-3">
+                    <img style="width: 50px;height:50px;" class="img img-rounded" ng-src="{{c | getCRMDP}}">
+                  </div>
+                  <div class="col-md-9" style="padding-top:3px;">
+                    <span>{{c.name}}</span>
+                    <br> <span class="text-muted">{{c.designation}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </div>
+</div>

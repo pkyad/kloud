@@ -1,0 +1,25 @@
+<style media="screen">
+  .modal-content{
+    border:none;
+  }
+</style>
+
+
+<div class="modal-content" style="background:#2E3035;border:none;">
+  <div class="container-fluid" style="padding:30px;">
+    <h4 style="margin-bottom:30px;">You are {{form.pk ? 'updating a':'uploading a new'}} Company Policy Document, Enter a name of this document and click "Save" button</h4>
+    <div class="form-group">
+      <label style="color:white;">Name</label>
+      <input id="documentName" type="text" class="form-control" ng-model="form.name" placeholder="example : {{sampleNames[sampleNameIndex]}}" style="background: black;
+border: none;
+color: white;
+border-radius: 10px;
+padding: 20px;font-size:20px;" ng-enter="saveDocument()">
+    </div>
+    <div class="form-group">
+      <label style="color:white;">Description <span style="color:#606060;">(optional)</span></label>
+        <textarea style="background: black;border: none;color: white;border-radius: 10px;padding: 20px;" class="form-control" rows="8" ng-model="form.description"></textarea>
+    </div>
+    <button style="background: #50d674;border: none !important;padding-right: 25px !important;border-radius: 20px !important;font-size: 18px;color: white;padding-left: 20px;" type="button" class="btn btn-primary pull-right" ng-click="saveDocument()"> {{form.pk ? 'Update' : 'Save'}}</button>
+  </div>
+</div>

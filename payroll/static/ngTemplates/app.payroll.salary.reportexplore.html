@@ -1,0 +1,57 @@
+<!-- <div class="col-md-4 " style="padding:10px" ng-repeat="a in reportData">
+  <div class="card" style="padding:10px;min-height:150px;">
+      <span class="pull-left" style="font-size:20px">{{a.user |  getName}}</span>
+      <div class="pull-right">
+        <span style="color:green;" ng-if="a.deffered == false"><i class="fa fa-circle" aria-hidden="true"></i></span>
+        <span style="color:red;" ng-if="a.deffered == true"><i class="fa fa-circle" aria-hidden="true"></i></span>
+      </div><br><br><br><br>
+      <div class="pull-right">
+        <a style="cursor:pointer;" target="_blank" href="/api/payroll/getPayslip?payslip={{a.user}}"><i class="fa fa-download fa-3x text-right" ></i></a>
+      </div>
+  </div>
+</div> -->
+<div class="col-md-12 " style="padding:10px">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Amount</th>
+        <th>TDS</th>
+        <th>Total</th>
+        <th ng-if="data.status=='approved'">Download</th>
+        <th ng-if="data.status=='submitted'">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="a in data.payslips" ng-if="data.status=='approved'">
+        <td style="width:22.5%">{{a.user.pk |  getName}}</td>
+        <td style="width:22.5%">{{a.amount}}</td>
+        <td style="width:22.5%">{{a.tds}}</td>
+        <td style="width:22.5%">{{a.totalPayable}}</td>
+        <td>
+          <div class="btn-group btn-group-sm">
+            <a style="cursor:pointer;" target="_blank" href="/api/payroll/getPayslip/?payslip={{a.user.pk}}&report={{data.pk}}"><i class="fa fa-download fa-3x text-right"></i></a>&nbsp;
+          </div>
+        </td>
+      </tr>
+
+      <tr ng-repeat="a in data.payslips" ng-if="data.status=='submitted'" ng-mouseover="open = true" ng-mouseleave="open = false">
+        <td style="width:22.5%">{{a.user.pk |  getName}}</td>
+        <td ng-if="!edit[$index]" style="width:22.5%">{{a.amount}}</td>
+        <td ng-if="!edit[$index]" style="width:22.5%">{{a.tds}}</td>
+        <td ng-if="!edit[$index]" style="width:22.5%">{{a.totalPayable}}</td>
+        <td ng-if="!edit[$index]">
+          <div ng-show="open">
+            <a style="cursor:pointer;" ng-click="editIndividualData($index)" ng-if="data.status=='submitted'"><i class="fa fa-pencil fa-2x"></i></a>
+          </div>
+        </td>
+        <td ng-if="edit[$index]" style="width:22.5%"> <input class="form-control-pos" ng-change="calculate(a.amount,a.tds,$index)" ng-model="a.amount"></td>
+        <td ng-if="edit[$index]" style="width:22.5%"> <input class="form-control-pos" ng-change="calculate(a.amount,a.tds,$index)" ng-model="a.tds"></td>
+        <td ng-if="edit[$index]" style="width:22.5%"> <input class="form-control-pos" ng-model="a.totalPayable" ng-disabled="true"></td>
+        <td ng-if="edit[$index]" style="width:22.5%">
+          <a style="cursor:pointer;" ng-click="saveIndividualData(a.pk,a.amount,a.tds,a.totalPayable,$index)" ng-if="data.status=='submitted'"><i class="fa fa-floppy-o fa-2x"></i></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

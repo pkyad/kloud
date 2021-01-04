@@ -1,0 +1,29 @@
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label> Name </label>
+              <input type="text" class="form-control websiteInput" ng-model="form.name" placeholder='Category Name' required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label> Select Theme color </label>
+          </div>
+          <div class="col-md-1" ng-repeat="s in colors">
+            <div style="height:25px;width:25px;border-radius:50%;background:{{s}};{{form.theme_color==s?'border:3px solid #e0e0e0':''}}" ng-click="form.theme_color=s"> </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-offset-10 col-md-2" style="padding-top:25px">
+            <button type="button" class="btn newBtn" ng-click="save()">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

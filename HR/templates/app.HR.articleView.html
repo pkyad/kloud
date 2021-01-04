@@ -1,0 +1,217 @@
+
+{% extends 'base.html' %}
+
+{% block header %}
+
+{% include 'app.HR.header.html'%}
+
+{% endblock%}
+
+{% block content %}
+<div style="margin-bottom:50px" style="width:100%;">
+
+  <div style="wdth:100%;">
+    <div  class="article_div">
+
+      {% if intro.img %}
+      <div class="article_img" style="background-image:url('{{intro.img.url}}')">
+
+      </div>
+      {% else %}
+
+      <div class=" article_img" style="background-image:url('/static/img/bg.jpeg');">
+
+      </div>
+      {% endif %}
+
+      <div class="article_title"style=" ">
+      <!-- <div class="text-center"> -->
+
+        <p style="color:white">{{article.created}}</p>
+
+        <p class="blogDetailsTitle">{{article.title}}</p>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container-fluid blogContent">
+    <div class="col-md-8 col-md-offset-2 allMargins ">
+      <div class="  col-md-8 art_padding">
+        <div style="padding-top: 20px;padding-bottom: 30px;">
+          <div class="container-fluid" style="padding:0px">
+            <div class="row">
+              <div class="col-lg-12 textView ">
+                {{intro.content |safe}}
+
+              </div>
+              <div class="col-lg-12 textView ">
+                {% if i.img %}
+                <img src="/media/{{i.img}}" alt="" style="max-width:100%;">
+                <!-- <div class="article_img" style="background-image:url('{{i.img.url}}')">
+
+                </div> -->
+                {% else %}
+                {% endif %}
+
+              </div>
+            </div>
+          </div>
+        </div>
+        {% for i in restsec %}
+        <div style="padding-top: 20px;padding-bottom: 30px;">
+          <div class="container-fluid" style="padding:0px">
+            <div class="row">
+              <div class="col-lg-12 textView ">
+                {{i.content |safe}}
+
+              </div>
+              <div class="col-lg-12 textView ">
+                {% if i.img %}
+                <img src="/media/{{i.img}}" alt="" style="max-width:100%;">
+                <!-- <div class="article_img" style="background-image:url('{{i.img.url}}')">
+
+                </div> -->
+                {% else %}
+                {% endif %}
+
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        {% verbatim %}
+          <div ng-controller="controller.comment.blog">
+            <div class="row" style="margin:0px;">
+              <h3 class="blog_common">comments</h3>
+              <div class=" col-lg-12 comment_sect" style="border:1px solid #c9c9c9;border-radius:14px;padding:25px;margin-bottom:20px;">
+                <div class="">
+                  <textarea name="name" rows="{{showField?6:1}}" cols="80" style="background-color:white;border:none;height:100%;resize: none;width:100%" placeholder="write your comment" ng-model="data.txt" ng-click="showField=true"></textarea>
+
+                </div>
+                <div class="row " style="margin:0px">
+                  <div class="col-lg-3 art_padding"  style="margin-right:20px;">
+                    <input class=" " type="text" name="" value="" placeholder="full name" style="border:none;padding:15px;background-color:#ECECEC;border-bottom:1px solid rgba(0, 0, 0, 0.2);font-size:16px;border-radius:6px 6px 0px 0px;" ng-model="data.name" ng-if="showField">
+
+                  </div>
+                  <div class="col-lg-3  art_padding art_inp " >
+                    <input type="text" name="" value="" placeholder="email id" style="border:none;padding:15px;background-color:#ECECEC;border-bottom:1px solid rgba(0, 0, 0, 0.2);font-size:16px;border-radius:6px 6px 0px 0px; "   ng-model="data.email" ng-if="showField">
+
+                  </div>
+
+                </div>
+                <div class="row" style="margin:0px;">
+                  <p ng-if="error.length>0" style="color:#cb311f"> {{error}} </p>
+                  <p ng-if="success.length>0" style="color:#037c16"> {{success}} </p>
+
+                  <button type="button" class="sendUpdates" name="button" style="border:none;" ng-click="addComment()" ng-if="showField">submit comment</button>
+                </div>
+
+              </div>
+            </div>
+            <div class="row" style="margin:0px;margin-bottom:20px;" ng-repeat="cm in commentSent track by $index">
+              <div class="col-lg-12" style="border:1px solid #c9c9c9;padding:25px;border-radius:14px;">
+                <p style="  font-family: 'OpenSans';font-size: 16px;font-weight: normal;font-style: normal;font-stretch: normal;line-height: 1.75;letter-spacing: 0.5px;color: rgba(0, 0, 0, 0.67);">{{cm.name}}</p>
+                <p style="font-family: 'OpenSans';font-size: 14px;font-weight: normal;font-style: normal;font-stretch: normal;line-height: normal;letter-spacing: 0.44px;color: rgba(0, 0, 0, 0.38);">{{cm.created |date}}</p>
+                <p style="  font-family: 'OpenSans';font-size: 16px;font-weight: normal;font-style: normal;font-stretch: normal;line-height: 1.75;letter-spacing: 0.5px;color: rgba(0, 0, 0, 0.67);">{{cm.txt}}</p>
+              </div>
+            </div>
+          </div>
+        {% endverbatim %}
+
+        {% for c in comments%}
+        <div class="row" style="margin-left:0px;margin-right:0px;margin-bottom:20px;">
+          <div class="" style="border:1px solid #c9c9c9;padding:25px;border-radius:14px;">
+            <p style="  font-family: 'Open Sans',sans-serif;font-size: 16px;font-weight: normal;font-style: normal;font-stretch: normal;line-height: 1.75;letter-spacing: 0.5px;color: rgba(0, 0, 0, 0.67);">{{c.name}}</p>
+            <p style="font-family: 'Open Sans',sans-serif;font-size: 14px;font-weight: normal;font-style: normal;font-stretch: normal;line-height: normal;letter-spacing: 0.44px;color: rgba(0, 0, 0, 0.38);">{{c.created }}</p>
+            <p style="  font-family: 'Open Sans',sans-serif;font-size: 16px;font-weight: normal;font-style: normal;font-stretch: normal;line-height: 1.75;letter-spacing: 0.5px;color: rgba(0, 0, 0, 0.67);">{{c.txt}}</p>
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+
+      <div class="col-md-4  art_padding art_updates" >
+        <div class="sec2Right">
+          <!-- <div class="blog_updates" style="border-top:1px solid #ccc;border-bottom:1px solid #ccc;padding:20px;">
+            <div class="row" style="margin:0px;">
+              <div class="col-lg-3 col-xs-3 ">
+                  <i class="fa fa-linkedin" aria-hidden="true" style="font-size:25px"></i>
+              </div>
+              <div class="col-lg-3 col-xs-3">
+                  <i class="fa fa-facebook" aria-hidden="true" style="font-size:25px"></i>
+              </div>
+              <div class="col-lg-3 col-xs-3">
+                  <i class="fa fa-twitter" aria-hidden="true" style="font-size:25px;"></i>
+              </div>
+              <div class="col-lg-3 ol-xs-3">
+                  <i class="fa fa-youtube" aria-hidden="true" style="font-size:25px;"></i>
+              </div>
+            </div>
+
+          </div> -->
+          <input type="text" name="" value="{{article.pk}}" id="article" placeholder="full name" style="display:none">
+          {% verbatim%}
+          <div class="blog_sub" style="margin-top:20px;" ng-controller="controller.uipath-go-compoments">
+            <h4 style="text-transform:uppercase;font-weight:bold;font-size:16px;">subscribe to newsletter</h4>
+            <!-- <div class="row">
+              <div class="col-lg-12 col-xs-12">
+                <div class="" style="color:#bf0000" ng-if="errorMsg.length>0" >
+                  <span > * {{errorMsg}} </span>
+                </div>
+                <div class="" style="color:#02ba3a" ng-if="successMsg.length>0">
+                  <span >  {{successMsg}} </span>
+                </div>
+              </div>
+
+            </div> -->
+            <div class="form-group" style="margin-top:20px;">
+              <label for="inputlg" style="font-weight:normal">Email*</label>
+              <input class="form-control input-lg" id="bloginput" type="email" ng-model="data.email" style="border:none;background-color:#f1f2f7ff;font-weight:normal;width:100%;border-radius:30px;height:50px;padding:20px;">
+            </div>
+            <button type="submit" class="btn btn-default btn_subscribe" ng-click="subscribeData()">Subscribe</button>
+
+          </div>
+          {% endverbatim %}
+
+
+          <div class="bottomLine"  >
+            <div class="textHeading">
+              <h4>Most Recent Posts</h4>
+            </div>
+            <div class="radomblogs">
+              {% for i in randPks%}
+              <div style="border-top:1px solid #ccc" >
+                <h4 style="font-size:14px; font-weight:bold; cursor:pointer;"><a href="/blogs/{{i.articleUrl}}" class="blog_update">{{i.title}}</a> </h4>
+              </div>
+              {% endfor%}
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+
+</div>
+<div class="row" style="margin:0px;background-image:url('/static/img/constellation-bg.png');background-repeat: no-repeat;background-size: cover;min-height: 200px;background-position: center;background-color:#080738">
+  <div class="col-md-12 text-center" style="color:#fff;padding:20px">
+    <h2>Experience a better learning platform</h2><br>
+    <a type="button" class="btn btn-default redbtn" ng-click="schedule()">Get a free demo</a>
+  </div>
+</div>
+
+</div>
+  {% endblock %}
+
+
+{% block footer %}
+
+{% include 'app.HR.pagefooter.html'%}
+
+{% endblock%}

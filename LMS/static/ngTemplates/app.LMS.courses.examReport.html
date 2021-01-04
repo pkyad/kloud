@@ -1,0 +1,53 @@
+<div class="container-fluid" ng-controller="businessManagement.LMS.examReport" style="margin-top:30px;">
+  <div class=""ng-if="students.length == 0">
+    <h3 class="text-center"> No Students Enrolled... </h3>
+  </div>
+  <div class="" ng-if="students.length > 0">
+    <div class="col-md-3" ng-repeat="stu in students" style="margin-bottom:17px;">
+      <div class="container-fluid card" style="border-radius:10px;background:#F7F8F9;">
+        <span class="text-muted pull-right" style="padding-top:10px;"><b>#{{stu.user}}</b> </span>
+        <div class="text-center" style="padding-top:15px;">
+          <img src="{{stu.user | getDP}}" width="80px" height="80px" style="border-radius:50%;">
+        </div>
+        <h4 class="text-center"><b>{{stu.user | getName}}</b></h4>
+        <div class="row" style="border-top:1px solid #ddd;border-bottom:1px solid #ddd;">
+          <div class="col-md-4 text-center" style="padding:10px;border-right:1px solid #ddd;color:#71cce7">
+            <i class="fa fa-pie-chart fa-2x" aria-hidden="true" ng-click="showMore('report',stu.user)"></i>
+          </div>
+          <div class="col-md-4 text-center" style="padding:10px;color:#f5bf78;border-left:1px solid #ddd;border-right:1px solid #ddd;">
+            <i class="fa fa-id-card-o fa-2x" aria-hidden="true" ng-click="showMore('info',stu.user)"></i>
+          </div>
+          <div class="col-md-4 text-center" style="padding:10px;border-left:1px solid #ddd;color:#9cf29c">
+            <i class="fa fa-file-o fa-2x" aria-hidden="true" ng-click="showMore('resume',stu.user)"></i>
+          </div>
+        </div>
+        <div class="row text-center">
+          <div class="">
+            <h4>Academic Average </h4>
+            <div class="row text-left" style="padding:10px 50px;">
+              <label>Last Test</label>
+              <span class="pull-right" style="">25% </span>
+              <div class="" style="width:100%;height:14px;background-color:#bebebe;max-width:100%;border-radius:7px;">
+                <div class="" style="width:25%;height:14px;background-color:#32db29;max-width:100%;border-radius:7px;">
+                </div>
+              </div>
+            </div>
+            <div class="row text-left" style="padding:10px 50px;">
+              <label>Last Assignment</label>
+              <span class="pull-right" style="">55% </span>
+              <div class="" style="width:100%;height:14px;background-color:#bebebe;max-width:100%;border-radius:7px;">
+                <div class="" style="width:55%;height:14px;background-color:#6ec9fc;max-width:100%;border-radius:7px;">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="" style="padding:10px;">
+            <label>Subjects</label>
+            <canvas id="pie" class="chart chart-pie" chart-data="stu.data" chart-labels="labels" chart-options="options" chart-colours="colors">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

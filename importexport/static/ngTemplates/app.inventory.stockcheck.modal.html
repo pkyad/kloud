@@ -1,0 +1,31 @@
+<div class="modal-header">
+  <h3 class='text-center'>Stock Check</h3>
+</div>
+<div class="modal-body">
+  <table class="table table-striped" style="margin-top:20px;">
+    <th class="text-center">
+      Part No
+    </th>
+    <th class="text-center">
+      Description
+    </th>
+    <th class="text-center">
+      Quantity
+    </th>
+    <tr ng-repeat="s in stockdata">
+      <td class="text-center">
+        <span>{{s.productPartno}}</span>
+      </td>
+      <td class="text-center">
+        <span>{{s.productDesc}}</span>
+      </td>
+      <td class="text-center">
+        <span>{{s.totalqty}}</span>
+      </td>
+    </tr>
+  </table>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="prev()" style="cursor:pointer;"><i class="fa fa-arrow-left"></i>Prev</button>
+  <button class="btn btn-primary" ng-click="next()" style="cursor:pointer;">Next <i class="fa fa-arrow-right"></i></button>
+</div>

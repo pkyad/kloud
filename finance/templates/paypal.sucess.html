@@ -1,0 +1,48 @@
+{% extends "base.html" %} {% load staticfiles %} {% block specific_head %}
+<title>CIOC</title>
+{% endblock %} {% block specific_css %}
+<style media="screen">
+  .align{
+    position:absolute;
+    left:48%;
+  }
+
+</style>
+
+<style media="screen and (max-width:768px)">
+  .align{
+    position:absolute;
+    left:40%;
+  }
+  .size{
+    font-size:20px;
+  }
+ </style>
+{% endblock %}
+{% block content %}
+
+
+<div class="container-fluid" style="background-color: #f2f2f2;height:100vh;">
+
+  <div class=" text-center" style="margin-top:25vh">
+    <div class="col-md-12 text-center " style="position:relative">
+      <div class="align" style="width:60px;height:60px;background-color: #007DC6;border-radius:50%;"><i class="fa fa-check" aria-hidden="true" style="margin-top:25%;font-size:30px;color:#fff"></i>
+      </div>
+    </div>
+    <div class="col-md-12" style="margin-top:6em;">
+      <h1 class="size" style="color:#007DC6">Your Payment {{amnt}} was Sucessful...</h1>
+      <p class="lead" ><strong>Thank you </strong>for your Purchase.</p>
+    </div>
+    <div class="col-md-12" style="margin-top:3em;">
+      <p class="">
+        <a href="http://192.168.0.111:8000/products"><button type="button" style="background-color:#007DC6;padding:0.3em 2em;border-radius:20px;color: #fff;border:1px solid #007DC6;font-size: 18px;opacity:0.8;">
+          <b>Continue to Shopping</b>
+        </button></a>
+      </p>
+    </div>
+
+
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,10 @@
+<div class="col-md-3" style="padding:8px;" ng-if="data.status=='approved'|| data.status=='sent_for_approval'" >
+  <div class="container-fluid card" style="{{data.status == 'approved'? 'background:#d4f6c6;':'background:#c6e8f6;'}}"ng-click="rowActionClicked('tour')">
+    <div class="container-fluid"style="padding:10px;">
+      <span><b>Date : {{data.date}}</b></span> <span class="pull-right">Planned by : <b>{{data.user.username}}</b> </span>
+      <br>
+      <span>Ta : {{data.ta}}</span><br>
+      <span>Da : {{data.da}}</span><br>
+    </div>
+  </div>
+</div>

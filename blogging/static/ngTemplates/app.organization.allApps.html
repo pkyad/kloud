@@ -1,0 +1,53 @@
+<style>
+  .file_upload {
+    opacity: 0.0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    -moz-opacity: 0.0;
+    -khtml-opacity: 0.0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+<div class="container-fluid">
+  <div class="row" style="padding: 30px 0px;  margin: 20px 0px;background:rgb(18, 46, 99)">
+    <!-- <div class="col-md-6">
+
+    </div> -->
+    <div class="col-md-offset-5 col-md-1 text-right">
+      <!-- <div>
+        <img src="/static/images/upload.png" style="width:30px">
+      </div> -->
+      <div>
+        <img src="/static/images/upload.png" style="width:30px">
+        <input type="file" file-model="form.attachment" class="file_upload" multiple onchange="angular.element(this).scope().fileupload(this.files)"/>
+      </div>
+    </div>
+      <div class="col-md-4">
+
+        <div class="input-group" >
+          <input type="text" class="form-control websiteInput" ng-model="searchForm.search" placeholder="Search" ng-enter="fetch()" style="border-top-right-radius:0px !important;border-bottom-right-radius:0px !important;margin-top:0px;height:55px;" >
+          <div class="input-group-btn">
+            <button class="btn btn-default" type="submit" ng-click="fetch()"  style="padding:6px 20px;height:55px;border:0px;border-top-right-radius: 25px !important;    border-bottom-right-radius: 25px !important;outline:none;background-color:#F2F3F7;">
+              <i class="glyphicon glyphicon-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <button type="button" class=" btn defaultBtn btn-block " name="button" ng-click="prev()" >Prev</button>
+      </div>
+      <div class="col-md-1">
+        <button type="button" class=" btn defaultBtn btn-block " name="button" ng-click="next()" >Next</button>
+
+      </div>
+  </div>
+  <div ng-repeat="app in apps" ng-click="$state.go('businessManagement.KloudERP.appDetails' , {id : app.pk})" class="container-fluid" style="padding:20px;border:solid 1px #eee;margin-bottom:20px;">
+    <h3 style=margin:0px>{{app.displayName}} <a ng-click="$event.stopPropagation();" href="/api/ERP/downloadBundle/?id={{app.pk}}"  target="_blank" class="pull-right"><img style="width:30px" src="/static/images/appdownload.png"></a></h3>
+  </div>
+</div>

@@ -1,0 +1,111 @@
+<div class="col-md-3" style="padding-bottom:20px;padding-left:10px;padding-right:10px;"  ng-controller="businessManagement.finance.reconciliation.explore">
+
+  <style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+  div.scrollmenu {
+  overflow-x: scroll; /* Hide horizontal scrollbar */
+  overflow-y: scroll;
+  white-space: nowrap;
+  width:1610px;
+  height:750px;
+}
+
+#mymain {
+  visibility :{{loading?'visible':'hidden'}};
+}
+  </style>
+  <div class="conatiner" style="resize: both;">
+  <div class="row">
+<div class="col-md-12">
+    <div class="col-md-6">
+    <h4>Reconciliation Table</h4>
+  </div>
+  <div class="col-md-6">
+  <label class="btn btn-primary" style="background-color: #00b9f1;border-color: #00b9f1;margin-top:2px;">
+Paytm<input type="file" style="display: none;" name="File Upload" id="txtFileUpload">
+</label>
+</div>
+</div>
+</div>
+<div class="loader"></div>
+<div class="row" id="mymain">
+<div class="scrollmenu">
+  <table >
+    <tr style="font-size:15px;">
+      <th>Restaurant</th>
+      <th>Foodcourt</th>
+      <th>Order Accepted Time</th>
+      <th>Order Id</th>
+      <th>Token No</th>
+      <th>Status</th>
+      <th>Paid</th>
+      <th>Order Type</th>
+      <th>Value</th>
+      <th>Paid Amount</th>
+      <th>Payment Status</th>
+      <th>Order Paid Time</th>
+      <th>Payment Gateway</th>
+      <th>Prepaid</th>
+      <th>No of Items</th>
+      <th>Channel</th>
+      <th>Payment 1 Amount</th>
+      <th>Payment 1 Paid Time</th>
+      <th>Payment 1 Gateway</th>
+      <th>Payment 1 Type</th>
+      <th>Payment 1 externalTxnID</th>
+      <th>payments</th>
+      <th>Payment 2 Amount</th>
+      <th>Restaurant</th>
+      <th>Payment 2 Paid Time</th>
+      <th>Payment 2 Gateway</th>
+      <th>Payment 2 Type</th>
+      <th>Payment 2 externalTxnID</th>
+    </tr>
+    <tr ng-repeat="data in data" style="font-size:14px;background-color:{{data.paytmMatching?'#00b9f1':''}};">
+      <td>{{data.restaurant}}</td>
+      <td>{{data.foodcourt}}</td>
+      <td>{{data.orderaccepted}}</td>
+      <td>{{data.orderid}}</td>
+      <td>{{data.tokenno}}</td>
+      <td>{{data.status}}</td>
+      <td>{{data.paid}}</td>
+      <td>{{data.ordertype}}</td>
+      <td>{{data.value}}</td>
+      <td>{{data.paidamount}}</td>
+      <td>{{data.paymentstatus}}</td>
+      <td>{{data.orderpaidtime}}</td>
+      <td>{{data.paymentgateway}}</td>
+      <td>{{data.prepaid}}</td>
+      <td>{{data.noofitems}}</td>
+      <td>{{data.channel}}</td>
+      <td>{{data.payment1amount}}</td>
+      <td>{{data.payment1paidtime}}</td>
+      <td>{{data.payment1gateway}}</td>
+      <td>{{data.payment1type}}</td>
+      <td>{{data.payment1externaltxnid}}</td>
+      <td>{{data.payments}}</td>
+      <td>{{data.payment2amount}}</td>
+      <td>{{data.payment2paidtime}}</td>
+      <td>{{data.payment2gateway}}</td>
+      <td>{{data.payment2type}}</td>
+      <td>{{data.payment2externaltxnid}}</td>
+    </tr>
+  </table>
+</div>
+</div>
+  </div>
+</div>

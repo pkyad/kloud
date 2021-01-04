@@ -1,0 +1,143 @@
+<style media="screen">
+
+  #page9bgImg{
+    background-image:url('/static/images/page9bgImg.png');
+    height: 620px;
+    margin-bottom:100px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    margin-bottom: 250px
+
+  }
+
+  #page9bgImg #twoDivs{
+    margin-top:50px;
+  }
+  #page9bgImg #twoDivs span{
+    font-size:50px;
+    font-weight:700;
+    line-height:58.59px;
+    color:white;
+;
+  }
+  #page9bgImg #twoDivs p{
+    font-size:40px;
+    font-weight:300;
+    line-height:58.59px;
+    color:white;
+;
+  }
+  #page9bgImg #twoDivs button{
+    background:white;
+    color:#6136C9;
+    border:2px solid  white;
+
+    font-size:22px;
+    font-weight:400;
+    line-height:25px;
+
+    margin-top:50px;
+    height:50px;
+    border-radius:50px;
+  }
+  #page9bgImg img{
+    padding:30px 0px;
+  }
+
+
+
+#page9bgImg #columnBgimg{
+background-image: url('/static/images/page9mobile.png');
+
+background-position: center;
+
+height: 780px;
+
+background-repeat:no-repeat;
+background-size: 210% 150%;
+}
+#page9bgImg #faLeft{
+padding:10px;
+background-color:#4A1389;
+width: 40px;
+height: 40px;
+color:white;
+font-size: 20px;
+border-radius: 50%;
+}
+
+#page9bgImg #faRight{
+padding:10px;
+background-color:#4A1389;
+width: 40px;
+height: 40px;
+color:white;
+font-size: 20px;
+border-radius: 50%;
+}
+#page9bgImg #columnBgimg span {
+position: absolute;
+right: 170px;
+bottom: 30%;
+
+}
+@media only screen and (min-device-width : 320px) and (max-device-width : 600px) {
+#downloadDiv{
+  height:580px;
+}
+#page9bgImg #columnBgimg span {
+  position: absolute;
+  right: 10px;
+  bottom: 40%;
+
+}
+
+#page9bgImg #page9Div1{
+  background-image:none;
+}
+#page9bgImg #columnBgimg{
+  background-image: url('/static/images/page9mobile.png');
+
+  background-position: center;
+
+  height: 500px;
+
+  background-size: cover;
+  background-repeat:no-repeat;
+}
+
+}
+</style>
+
+
+  <div class="container-fluid no_padding" id="page9bgImg">
+    <div class="col-md-10 col-md-offset-1" id="page9Div1">
+      <!-- <div ><div class="content">text</div></div> -->
+      <div >
+        <div >
+        <img src="/static/images/zigmasmall.svg" alt="" >
+        </div>
+        <div class="row" >
+          <div class="col-md-6" id="twoDivs">
+            <span>APP Name</span>
+            <p>Descriptions</p>
+            <div class="col-md-4 no_padding">
+              <button type="button" class="btn btn-block" name="button">Read More</button>
+
+            </div>
+          </div>
+          <div class="col-md-6 text-center" id="columnBgimg">
+            <div class="" >
+              <span>
+                <i class="fa fa-caret-left" id="faLeft" aria-hidden="true"></i>
+                <i class="fa fa-caret-right" id="faRight" aria-hidden="true"></i>
+
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>

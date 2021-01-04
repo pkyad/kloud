@@ -1,0 +1,16 @@
+<div class="row ng-scope" style="background:#fff;padding:60px 0px ;" >
+    <div class="col-md-offset-1 col-md-10">
+      <div style="border: solid 1px #e8e8e8;box-shadow: 0 1px 5px rgba(0,0,0,.1);position: relative;">
+        <div style="position: relative;overflow: hidden;width: 100%;height:100%;padding:10px;padding-left:20px;padding-right:20px;">
+          <ng-owl-carousel class="owl-theme" owl-items="partners.items" owl-properties="viewPartnersProperties" owl-ready="ready($api)">
+
+            <div ng-repeat="a in partners.items" >
+              <img src="{{a.image}}" style="height:140px;width:80%"alt="{{a.altText}}">
+
+
+            </div>
+          </ng-owl-carousel>
+        </div>
+      </div>
+    </div>
+  </div>

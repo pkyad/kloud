@@ -1,0 +1,22 @@
+
+<div class="container-fluid"style="padding-bottom:15px;">
+  <h3 class="text-center">Add Homework</h3>
+  <hr>
+  <div class="form-group">
+    <label>Paper </label>
+    <input type="text" class="form-control" ng-model="form.paper" uib-typeahead="paper as getPaper(paper) for paper in paperSearch($viewValue)" placeholder="Search for a Paper and Select">
+  </div>
+  <div >
+    <label>Comment </label>
+    <textarea type="text"  rows="5" ng-model="form.comment" placeholder="Add a Comment" style="resize:none;"></textarea>
+  </div>
+  <div class="input-group">
+    <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.date" is-open="end.opened" />
+    <span class="input-group-btn">
+    <button type="button" class="btn1 " ng-click="end.opened = true;"><i class="glyphicon glyphicon-calendar" ng-init="today"></i></button>
+  </span>
+  </div>
+  <div style="margin-top:20px;" class="form-group">
+    <button type="button" class="btn"  ng-click="saveHomework()">Save</button>
+  </div>
+</div>

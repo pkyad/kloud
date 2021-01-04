@@ -1,0 +1,36 @@
+<div class="row" style="margin-top:20px;margin-left:10px">
+  <div class="col-md-11">
+    <h2 align="center"><b>Section </b></h2>
+    <hr>
+    <div class="row">
+      <div class="form-group">
+        <label>Title</label>
+        <input ng-model="Sectionform.title" type="text" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Short Url</label>
+        <input ng-model="Sectionform.shortUrl" type="text" class="form-control" ng-disabled="editmode == true">
+      </div>
+      <div class="form-group">
+        <label>SEO Title</label>
+        <input ng-model="Sectionform.seoTitle" type="text" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea ng-model="Sectionform.description" type="text" class="textarea" rows="5" style="resize:none;"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <button type="button" class="btn1 btn-primary" ng-click="saveSection()" ng-if="editmode == false ">
+        Save
+      </button>
+      <button type="button" class="btn1 btn-primary" ng-click="saveSection()" ng-if="editmode == true ">
+        Update
+      </button>
+      <button type="button" class="btn1 btn-default pull-right" ng-click="cancelSection()">
+        Cancel
+      </button>
+    </div>
+    <br>
+  </div>
+</div>

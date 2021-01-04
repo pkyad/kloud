@@ -1,0 +1,13 @@
+<div class="container-fluid {{ !data.seen  ?  'unreadEmail' : 'emailStrip'}}  {{data.selected || viewing ? 'selectedEmail' : ''}}" >
+  <div class="row">
+    <div class="container-fluid" style="border-radius:10px;padding:20px;position:relative;padding-top:30px;">
+        <!-- <input  type="checkbox" name="name" ng-model="data.selected"> -->
+      <i style="position: absolute;top:8px;right:11px;" class="fa fa-star{{data.starred ? '' : '-o'}}" ng-click="flagMail(index , 'Flagged')"></i>
+      <img class="img-circle" ng-src="{{data.originator | getDP}}"  alt="My image" style="width:50px;position: relative; left:0px;top:4px;"/>
+      <div class="col-md-10 pull-right" style="padding:0px;padding-top:9px;" ng-click="gotoMail(index)">
+        <span>{{data.sender | emailAddress}}</span> {{data.count | decorateCount}}<small style="position:absolute;right:0px;" class="pull-right">{{data.date | timeAgo}} </small>
+        <br> <span style="font-size:22px;">{{data.subject | limitTo:35}}</span>
+      </div>
+    </div>
+  </div>
+</div>

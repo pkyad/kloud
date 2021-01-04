@@ -1,0 +1,37 @@
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+</head>
+<body>
+  <form action={{responseURL}} method="POST">
+       <script
+           src={{ action }}
+           data-key="{{key}}"
+           data-currency="INR"
+           data-amount="{{amount}}"
+           data-name="{{brand}}"
+           data-callback_url="{{callback_url}}"
+           data-redirect="{{redirect}}"
+           data-order_id="{{razorpay_order_id}}"
+           data-method.netbanking="{{netbanking}}"
+           data-method.card="{{card}}"
+           data-method.wallet="{{wallet}}"
+           data-method.upi="{{upi}}"
+           data-method.emi="{{emi}}"
+           data-description="Purchase"
+           data-image="{{logo}}"
+           data-theme.color="{{themeColor}}"
+           data-notes.shopping_order_id="{{orderid}}"
+           data-description="Ecommerce Purchase"
+           data-prefill.name="{{cust_name}}"
+           data-prefill.contact="{{mobile}}"
+           data-prefill.email="{{email}}">
+       </script>
+   </form>
+   <script type="text/javascript">
+     var paynow = document.getElementsByClassName("razorpay-payment-button")[0]
+     paynow.hidden = true;
+     paynow.click();
+   </script>
+</body>
+</html>

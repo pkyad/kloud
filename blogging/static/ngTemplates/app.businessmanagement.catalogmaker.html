@@ -1,0 +1,106 @@
+<style media="screen">
+  .box {
+    background: white;
+    padding: 10px;
+    font-weight: 400;
+    color: #000000;
+    box-shadow: 0px 0px 10px #ccc;
+    /* height: 150px; */
+  }
+  .websiteInput {
+    background:
+      #F2F3F7;
+    color:
+      #555;
+    border-radius: 25px !important;
+    padding: 10px 20px;
+    border: none !important;
+    margin-top: 10px;
+    height: 45px;
+  }
+  .newBtn {
+    border: none !important;
+    border-radius: 10px !important;
+
+    padding: 15px;
+
+    font-size: 16px;
+    background: #E01B22;
+    color:  white !important;
+  }
+  .defaultBtn {
+    border: none !important;
+    border-radius: 10px !important;
+
+    padding: 15px;
+
+    font-size: 16px;
+    background: #F2F3F7;
+    color:  black !important;
+  }
+</style>
+
+<div class="container-fluid">
+  <div class="row text-center" style="margin:0px;">
+    <h3>Catalog Maker</h3>
+  </div>
+  <div class="col-md-12" style="margin-top:50px;">
+    <div class="row" style="margin:0px;">
+      <div class="col-md-4">
+        <div class="row" style="margin:0px;">
+          <div class="form-group">
+            <span style="position:absolute;right: 25px;padding: 15px;font-size: 18px;" ng-click="getAll()">
+               <i class="fa fa-search"></i></span>
+            <input type="text" class="form-control websiteInput" placeholder="Search" ng-model="search" ng-enter="getPages()" style="height:55px;">
+
+          </div>
+        </div>
+        <br><br>
+        <div class="row" style="height:70vh">
+          <div class="col-md-6">
+            <div class="box text-center" ng-click="addInventory()" style="padding:60px 30px;height:180px;">
+              <span><i class="fa fa-plus" style="background:transparent;color:black;font-size:35px;box-shadow:none;"></i></span>
+            </div>
+
+          </div>
+          <div class="col-md-6" ng-repeat="k in inventoryData track by $index">
+            <div class="box ">
+              <p style="height:30px;"><b>Title:</b> {{k.name}}</p>
+              <p><b>Selling Price :</b> {{k.rate}}</p>
+              <p><b>MRP :</b> {{k.mrp}}</p>
+              <!-- <p><b>Tax Rate(%) :</b> {{k.productMeta.taxRate}}</p>
+              <p><b>Tax Code :</b> {{k.productMeta.code}}</p> -->
+              <p style="display:flex"><b>Avaliable for sale</b>   <switch ng-model="i.sellable" ng-change="toggleSellable(k.sellable , k.pk)" class="green" style="margin-bottom: -12px;margin-left: 40px;"></switch></p>
+
+              <div class="row">
+                <hr style="margin:5px;">
+                <div class="col-md-6">
+                  <i class="fa fa-trash" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="deleteData($index)" confirm-button-type="danger"
+                    cancel-button-type="default" style="cursor:pointer;"></i>
+                </div>
+                <div class="col-md-6 text-right">
+                  <i class="fa fa-pencil" ng-click="postData($index)"></i>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+        <div class="row" style="margin:0px">
+
+          <button class="btn defaultBtn " ng-click="prevInventory()" style="margin-right:10px">  Prev </button>
+          <button class="btn defaultBtn pull-right" ng-click="nextInventory()"> Next </button>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="col-md-2 pull-right" style="margin-bottom:20px;">
+          <a href="/api/finance/ProductsCatalog/?id={{category}}" type="button" class="btn newBtn btn-block" >Download </a>
+        </div>
+        <iframe id="catalog" src="{{dataURL}}" id="catalog"width="100%" style="height:90vh" frameBorder="0"></iframe>
+      </div>
+    </div>
+  </div>
+</div>

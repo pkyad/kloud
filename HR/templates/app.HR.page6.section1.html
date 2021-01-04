@@ -1,0 +1,133 @@
+
+  <style media="screen">
+    body{
+      overflow-x:hidden;
+    }
+
+
+
+    #page6bgImg{
+      background-image:url('/static/images/page6bgImg.png');
+      height: 700px;
+      background-size: 100% 95%;
+      background-repeat: no-repeat;
+    }
+    .no_padding{
+      padding:0px;
+    }
+    #page6Div1{
+      padding:30px 15px;
+    }
+    #page6bgImg #text{
+      font-size:32px;
+      font-weight:700;
+      line-height:37.5px;
+      color:white;
+    }
+    #page6bgImg img{
+      padding-right:20px;
+    }
+    #page6bgImg #twoDivs{
+      margin-top:70px;
+    }
+    #page6bgImg #twoDivs span{
+      font-size:50px;
+      font-weight:700;
+      line-height:58.59px;
+      color:white;
+    }
+    #page6bgImg #twoDivs p{
+      font-size:40px;
+      font-weight:300;
+      line-height:58.59px;
+      color:white;
+    }
+    #page6bgImg #twoDivs button{
+      background:transparent;
+      border:1px solid white;
+      font-size:22px;
+      font-weight:400;
+      line-height:25px;
+      color:white;
+      margin-top:50px;
+      height:50px;
+      border-radius:50px;
+    }
+
+
+    #page6bgImg #columnBorder{
+      border-bottom:10px solid #eee;
+      padding: 0px 50px;;
+    }
+    #page6bgImg #colBorder{
+      border-bottom:10px solid #ccc;
+      position: absolute;
+bottom: -4%;
+height: 50px;
+width: 100%;
+left: 0%;
+border-bottom-left-radius: 10px;
+border-bottom-right-radius: 10px;
+    }
+  #page6bgImg   #secondColumn{
+    background-color:white;border-radius:20px;height:500px;
+border-bottom-left-radius: 0px;
+border-bottom-right-radius: 0px;
+box-shadow: 0px 0px 10px 0px #ccc;
+  }
+    @media only screen and (min-device-width : 320px) and (max-device-width : 600px) {
+      .no_paddingg{
+        padding:0px;
+      }
+      #page6bgImg{
+        height:100%;
+        background-size:100% 150%;
+      }
+      #page6bgImg #text{
+        font-size:30px;
+      }
+      #page6bgImg #twoDivs{
+        text-align:center;
+        margin-top:35px;
+      }
+      #page6bgImg #columnBorder{
+        padding:0px 15px;
+        margin-top:50px;
+      }
+      #page6bgImg #secondColumn{
+        height:240px;
+      }
+
+    }
+  </style>
+
+
+
+<div class="container-fluid no_padding">
+  <div class="col-md-12 no_padding" id="page6bgImg">
+      <div class="col-md-10 col-md-offset-1" id="page6Div1">
+        <div >
+          <p  id="text"  ><img src="/static/images/zigmasmall.svg" alt="" >Kloud ERP App Store</p>
+        </div>
+        <div class="row" >
+          <div class="col-md-5" id="twoDivs">
+            <span>APP Name</span>
+            <p>Descriptions</p>
+            <div class="col-md-4 no_padding">
+              <button type="button" class="btn btn-block" name="button">Read More</button>
+
+            </div>
+          </div>
+          <div class="col-md-7" id='columnBorder'>
+            <div class="" id="colBorder">
+
+            </div>
+            <div class="col-md-12" id="secondColumn"style="">
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+  </div>
+  </div>

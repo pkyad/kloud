@@ -1,0 +1,22 @@
+
+<div class="container-fluid">
+  <uib-tabset>
+    <uib-tab active="searchTabActive">
+      <uib-tab-heading>
+      ForumThread <i class="fa fa-commenting" aria-hidden="true"></i>
+      </uib-tab-heading>
+      <div class="container-fluid">
+        <generic-Table data="data.tableData" config-Obj="{{config}}"></generic-Table>
+      </div>
+    </uib-tab>
+      <uib-tab>
+          <uib-tab-heading>
+            ForumComment
+            <i class="fa fa-comments" aria-hidden="true"></i>
+          </uib-tab-heading>
+          <div class="container-fluid">
+            <generic-Table data="data.tableData1" config-Obj="{{config1}}" ></generic-Table>
+          </div>
+      </uib-tab>
+  </uib-tabset>
+</div>

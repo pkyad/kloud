@@ -1,0 +1,229 @@
+<style>
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+  
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+  
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+  
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+  
+    input:checked + .slider {
+      background-color: #2196F3;
+    }
+  
+    input:focus + .slider {
+      box-shadow: 0 0 1px #2196F3;
+    }
+  
+    input:checked + .slider:before {
+      -webkit-transform: translateX(26px);
+      -ms-transform: translateX(26px);
+      transform: translateX(26px);
+    }
+  
+    /* Rounded sliders */
+    .slider.round {
+      border-radius: 34px;
+    }
+  
+    .slider.round:before {
+      border-radius: 50%;
+    }
+  </style>
+  
+  <div class="container-fluid "  style="overflow-x:hidden;padding-bottom: 25px;">
+  
+    <div class="row">
+      <div class="container-fluid">
+        <h4> Integrations </h4>
+      </div>
+    </div>
+  
+    <div class="row">
+  
+      <div class="col-md-4">
+        <div style="border-right:none !important;height: 130px;margin-top: 27px;" class="col-md-5 cardIntegration bg-white">
+          <div class="col-md-6 col-md-offset-3" style="padding-top:13px">
+            <img src="/static/images/Facebook_Messenger.png" style="width: 84%;">
+          </div>
+          <div class="col-md-12 text-center" style="padding-top:13px">
+            Facebok Messenger
+          </div>
+        </div>
+        <div class="col-md-7 cardIntegration text-center intentCard text-center" style="height: 187px;" ng-click="openMessengerSettings()">
+          <i class="fa fa-plus fa-4x" style="margin-top: 63px;"></i>
+        </div>
+      </div>
+  
+      <div class="col-md-4">
+        <div style="border-right:none !important;height: 130px;margin-top: 27px;" class="col-md-5 cardIntegration bg-white">
+          <div class="col-md-6 col-md-offset-3" style="padding-top:13px">
+            <img src="/static/images/whatsapp.png" style="width: 100%;">
+          </div>
+          <div class="col-md-12 text-center" style="padding-top:13px">
+            Whatsapp
+          </div>
+        </div>
+        <div class="col-md-7 cardIntegration text-center intentCard" style="height: 187px;" ng-click="openWhatsappSettings()">
+          <i class="fa fa-plus fa-4x" style="margin-top: 63px;"></i>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div style="border-right:none !important;height: 130px;margin-top: 27px;" class="col-md-5 cardIntegration bg-white">
+          <div class="col-md-8 col-md-offset-2" style="padding-top:13px">
+            <img src="/static/images/uipath-logo.svg" style="width: 100%;">
+          </div>
+          <div class="col-md-12 text-center" style="padding-top:13px">
+            RPA
+          </div>
+        </div>
+        <div class="col-md-7 cardIntegration text-center intentCard" style="height: 187px;" ng-click="openUIPathSettings()">
+          <i class="fa fa-plus fa-4x zoomOnHover" style="margin-top: 63px;"></i>
+        </div>
+      </div>
+  
+  
+    </div>
+    <div class="row" style="margin-top:20px;">
+      <div class="col-md-4">
+        <div style="border-right:none !important;height: 130px;margin-top: 27px;" class="col-md-5 cardIntegration bg-white">
+          <div class="col-md-6 col-md-offset-3" style="padding-top:13px">
+            <img src="/static/images/website.png" style="width: 100%;">
+          </div>
+          <div class="col-md-12 text-center" style="padding-top:13px">
+            Website
+          </div>
+        </div>
+        <div class="col-md-7 cardIntegration text-center intentCard" style="height: 187px;" ng-click="openWebSettings()">
+          <i class="fa fa-plus fa-4x zoomOnHover" style="margin-top: 63px;"></i>
+        </div>
+      </div>
+  
+      <div class="col-md-4">
+        <div style="border-right:none !important;height: 130px;margin-top: 27px;" class="col-md-5 cardIntegration bg-white">
+          <div class="col-md-10 col-md-offset-1" style="padding-top:13px">
+            <img src="/static/images/slack.png" style="width: 100%;">
+          </div>
+          <div class="col-md-12 text-center" style="padding-top:13px">
+            Slack
+          </div>
+        </div>
+        <div class="col-md-7 cardIntegration text-center intentCard" style="height: 187px;padding-top: 65px;">
+          <span style="font-size:2em">Coming soon</span>
+        </div>
+      </div>
+  
+  
+  
+  
+      <div class="col-md-4">
+        <div style="border-right:none !important;height: 130px;margin-top: 27px;" class="col-md-5 cardIntegration bg-white">
+          <div class="col-md-6 col-md-offset-3" style="padding-top:13px">
+            <img src="/static/images/ios.png" style="width: 100%;">
+          </div>
+          <div class="col-md-12 text-center" style="padding-top:13px">
+            iOS SDK
+          </div>
+        </div>
+        <div class="col-md-7 cardIntegration text-center intentCard" style="height: 187px;">
+          <label class="switch" style="margin-top: 63px;" >
+          <input type="checkbox" ng-model="form.ios_sdk_enabled" ng-change="changeStatus('ios')">
+          <span class="slider round"></span>
+        </label><br/>
+        <a ng-if="form.ios_sdk_enabled" href="#" target="_blank" > Instructions </a>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row" style="margin-top:20px;">
+      <div class="col-md-4">
+        <div style="border-right:none !important;height: 130px;margin-top: 27px;" class="col-md-5 cardIntegration bg-white">
+          <div class="col-md-10 col-md-offset-1" style="padding-top:13px">
+            <img src="/static/images/react.png" style="width: 100%;">
+          </div>
+          <div class="col-md-12 text-center" style="padding-top:13px">
+            React Native SDK
+          </div>
+        </div>
+        <div class="col-md-7 cardIntegration text-center intentCard" style="height: 187px;">
+          <label class="switch" style="margin-top: 63px;">
+          <input type="checkbox" ng-model="form.react_sdk_enabled" ng-change="changeStatus('react')">
+          <span class="slider round"></span>
+        </label><br/>
+        <a ng-if="form.react_sdk_enabled" href="#" target="_blank" > Instructions </a>
+        </div>
+      </div>
+  
+      <div class="col-md-4">
+        <div style="border-right:none !important;height: 130px;margin-top: 27px;" class="col-md-5 cardIntegration bg-white">
+          <div class="col-md-6 col-md-offset-3" style="padding-top:13px">
+            <img src="/static/images/restapi.png" style="width: 100%;">
+          </div>
+          <div class="col-md-12 text-center" style="padding-top:13px">
+            REST
+          </div>
+        </div>
+        <div class="col-md-7 cardIntegration text-center intentCard" style="height: 187px;">
+          <label class="switch" style="margin-top: 63px;">
+          <input type="checkbox" ng-model="form.rest_sdk_enabled" ng-change="changeStatus('rest')">
+          <span class="slider round"></span>
+        </label><br/>
+        <a ng-if="form.rest_sdk_enabled" href="#" target="_blank" > Instructions </a>
+        </div>
+      </div>
+  
+      <div class="col-md-4">
+        <div style="border-right:none !important;height: 130px;margin-top: 27px;" class="col-md-5 cardIntegration bg-white">
+          <div class="col-md-6 col-md-offset-3" style="padding-top:13px">
+            <img src="/static/images/android-sdk-icon.png" style="width: 100%;">
+          </div>
+          <div class="col-md-12 text-center" style="padding-top:13px">
+            Android SDK
+          </div>
+        </div>
+        <div class="col-md-7 cardIntegration text-center intentCard" style="height: 187px;">
+          <label class="switch" style="margin-top: 63px;">
+          <input type="checkbox"  ng-model="form.android_sdk_enabled" ng-change="changeStatus('android')">
+          <span class="slider round"></span>
+        </label><br/>
+        <a ng-if="form.android_sdk_enabled" href="#" target="_blank" > Instructions </a>
+        </div>
+      </div>
+  
+  
+    </div>
+  
+  
+  
+  
+  </div>
+  

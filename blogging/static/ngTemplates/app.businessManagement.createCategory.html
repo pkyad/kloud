@@ -1,0 +1,64 @@
+<style media="screen">
+  .cm_margin{
+    margin:0px;
+  }
+</style>
+
+
+<div class="container-fluid" style="padding:40px;">
+  <div class="row text-center">
+    <h3><b>Create</b></h3>
+    <!-- <h3><b>Edit</b></h3> -->
+  </div><br>
+  <div class="row cm_margin">
+    <div class="form-group">
+      <label >Name :</label>
+      <input type="text" class="form-control websiteInput" ng-model="form.name" >
+    </div>
+  </div><br>
+  <div class="row cm_margin">
+    <div class="form-group">
+      <label >Title :</label>
+      <input type="text" class="form-control websiteInput" ng-model="form.title" >
+    </div>
+  </div><br>
+  <div class="row cm_margin">
+    <div class="form-group">
+      <label >Type :</label>
+      <select class="form-control websiteInput" name="" ng-model="form.typ">
+        <option value="Treatments">Treatments</option>
+        <option value="Patient Care">Patient Care</option>
+        <option value="None">None</option>
+      </select>
+    </div>
+  </div><br>
+  <div class="row cm_margin">
+    <div class="form-group">
+      <label >Data :</label>
+      <textarea name="name" class="form-control websiteInput" rows="8" cols="80" ng-model="form.data" style="resize:none;" ></textarea>
+    </div>
+  </div><br>
+  <div class="row ">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label >Banner Image :</label>
+        <input type="file" file-model="form.banner" >
+        <img src="{{form.banner}}" ng-if="form.banner" id="banner" alt="" style="width:120px;height:100px;margin-top:20px">
+      </div>
+
+    </div>
+    <div class="col-md-6">
+      <div class="row cm_margin">
+        <div class="form-group">
+          <label >Image :</label>
+          <input type="file"  file-model="form.img">
+          <img src="{{form.img}}" ng-if="form.banner" id="image" alt="" style="width:120px;height:100px;margin-top:20px;">
+        </div>
+      </div>
+    </div>
+  </div><br>
+
+  <div class="row cm_margin">
+    <button type="button" name="button" class="btn btn-primary" ng-click="save()">Save</button>
+  </div>
+</div>

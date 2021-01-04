@@ -1,0 +1,56 @@
+<div class="modal-header bg-blue text-center">
+  <h3 class="modal-title">{{projForm.pk?'Update':'Add'}} Project Details</h3>
+</div>
+
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" class="form-control" ng-model="projForm.title">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Budget</label>
+          <input type="number" class="form-control" ng-model="projForm.budget" min="0">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Due Date</label>
+          <div class="input-group">
+            <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="projForm.dueDate" is-open="manufacturedOn.opened" ng-init="today" disabled/>
+            <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="manufacturedOn.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>Description</label>
+          <textarea name="name" ng-model="projForm.description" class="form-control" rows="8" placeholder="Description For The Project"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="row" ng-if="projForm.pk==null">
+      <div class="col-md-12 text-center">
+        <button type="button" class="btn btn-success" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="createProject()" confirm-button-type="default" cancel-button-type="default">Create Project</button>
+      </div>
+    </div>
+    <div class="row" ng-if="projForm.pk">
+      <div class="col-md-6">
+        <span class="btn btn-success" ng-click="updateProject()">Update</span>
+      </div>
+      <div class="col-md-6 text-right">
+        <span class="btn btn-danger" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="closeProject()" confirm-button-type="default" cancel-button-type="default">Close Project</span>
+      </div>
+    </div>
+  </div>
+</div>

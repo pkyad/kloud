@@ -1,0 +1,8 @@
+<ul class="list-group " style="width:250px;">
+    <li mentio-menu-item="person" ng-repeat="person in items" class="list-group-item">
+        <img class="img img-circle" ng-if="person.profile.displayPicture" ng-src="{{person.profile.displayPicture}}" onerror="this.src= '/static/images/userIcon.png'" style="width:30px">
+        <img class="img img-circle" ng-if="!person.profile.displayPicture" src="/static/images/userIcon.png" style="width:30px">
+        <span style="margin-left:20px;" >{{person.first_name}} {{person.last_name}}</span>
+        <!-- <em class="text-muted" ng-bind="person.bio | words:5"></em> -->
+    </li>
+</ul>

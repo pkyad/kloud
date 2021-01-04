@@ -1,0 +1,22 @@
+<div class="col-md-3" style="padding:8px;">
+  <div class="container-fluid card" ng-click="rowActionClicked('deboardInfo')" style="{{emp.user.payroll.deboarded ? 'background:#e06060;':''}}">
+    <div class="container-fluid" style="padding:10px;">
+      <div class="col-md-12">
+        <span><b>Date : </b> {{data.created | date: 'dd-MMM-yyyy'}}{{emp.user.payroll}}</span> <span class="pull-right" style="text-transform:capitalize;"> <b>{{data.user.pk | getName}}</b> </span>
+        <hr>
+      </div>
+      <div class="col-md-10">
+        <span><b>Manager : </b> {{data.manager | getName}}</span><br>
+      </div>
+      <div class="col-md-2">
+        <i class="fa fa-{{data.managersApproval == false ? 'exclamation-triangle':'check-circle'}}" style="{{data.managersApproval == false ? 'color:#f1aa4c;':'color:#5acf37;'}}"></i>
+      </div>
+      <div class="col-md-10">
+        <span><b>Super Manager : </b> {{data.superManager | getName}}</span><br>
+      </div>
+      <div class="col-md-2">
+        <i class="fa fa-{{data.superManagerApproval == false ? 'exclamation-triangle':'check-circle'}}" style="{{data.superManagerApproval == false ? 'color:#f1aa4c;':'color:#5acf37;'}}"></i>
+      </div>
+    </div>
+  </div>
+</div>

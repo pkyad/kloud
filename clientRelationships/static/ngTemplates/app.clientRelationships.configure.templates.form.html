@@ -1,0 +1,49 @@
+<div class="modal-header text-center">
+  <h3>Template</h3>
+</div>
+<div class="modal-body">
+  <div class="col-md-12">
+    <div class="form-group">
+      <label>Subject</label>
+      <input type="text " class="form-control" ng-model="form.title" placeholder="Title">
+    </div>
+
+    <!-- <div class="form-group">
+        <label>Description</label>
+        <textarea class="form-control" rows="4" ng-model="form.description" placeholder="Description"></textarea>
+      </div> -->
+
+    <div class="form-group">
+      <label>Template</label>
+      <textarea ui-tinymce="tinymceOptions" ng-model="form.template"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Private ? </label>
+      <input type="checkbox" ng-model="form.creator">
+    </div>
+    <div class="form-group">
+      <label>Files</label>
+      <div class="input-group">
+        <input type="text" class="form-control" uib-typeahead="f as f.title for f in fileSearch($viewValue)" ng-model="form.fileSelected" type="text" class="form-control" placeholder="Select Files">
+        <span class="input-group-btn">
+            <button type="button" class="btn btn-primary" ng-click="addFile()"> Add File</button>
+          </span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4" ng-repeat="s in form.files track by $index">
+        <div class="card" style="padding:10px;">
+          <span style="margin:15px 0px 15px 15px">   {{s.title}} </span>
+          <i class="fa fa-close pull-right" ng-click="deleteFile(s.pk,$index)"></i>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<div class="modal-footer" style="border-top:0px solid transparent">
+  <div class="pull-right">
+    <button type="button" class="btn btn-primary pull-right" ng-click="saveTemplate()">Save</button>
+  </div>
+</div>

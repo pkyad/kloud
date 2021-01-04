@@ -1,0 +1,70 @@
+<!-- <div ng-controller="businessManagement.finance.vendor.explore" style="padding-top:20px;"> -->
+<div  style="padding-top:20px;">
+  <div class="col-md-3" style="border-right:solid 2px #eeeeee;">
+    <div class="row" style="margin-left:10px">
+      <h3>{{tab.data.service.name}}</h3>
+    </div>
+    <div class="row">
+      <div class="row">
+        <div class="col-md-4 text-center">
+          <strong>OWNER:</strong>
+        </div>
+        <div class="col-md-8">
+          <span>{{tab.data.contactPerson}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 text-center">
+          <strong><i style="width:30px;" class="fa fa-mobile"></i></strong>
+        </div>
+        <div class="col-md-8">
+          <span>{{tab.data.mobile}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 text-center">
+          <strong><i style="width:30px;" class="fa fa-envelope"></i></strong>
+        </div>
+        <div class="col-md-8">
+          <span>{{tab.data.email}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <table class="invoiceTable" style=" width: 100%;">
+      <tbody>
+        <tr style="background-color: #eeeeee;height: 96px;">
+          <th>S.No</th>
+          <th>Particular</th>
+          <th>Rate</th>
+          <th></th>
+          <tr ng-repeat="v in vendorServiceData">
+            <td>{{$index + 1}}</td>
+            <td>{{v.particular}}</td>
+            <td>{{v.rate}}</td>
+            <td><button type="button" class="btn btn-danger btn-sm" ng-click="deleteData(v.pk , $index)"> <i class="fa fa-trash"></i> </button></td>
+          </tr>
+          <tr ng-repeat="item in items">
+            <td width="20%">{{$index + 1 + vendorServiceData.length}}</td>
+            <td width="40%"><input  ng-model="item.particular" type="text" class="form-control-pos"></td>
+            <td width="30%">
+              <input type="number"class="form-control-pos" ng-model="item.rate">
+            </td>
+            <td width="20%">
+              <button type="button" class="btn btn-danger btn-sm" ng-click="deleteTable($index)"> <i class="fa fa-trash"></i> </button>
+            </td>
+          </tr>
+          <tr>
+            <td width="20%"><button style="background-color:white;border:none;" ng-click="addTableRow()"><i class="fa fa-plus" style="cursor:pointer"></i></button></td>
+          </tr>
+        </tr>
+      </tbody>
+    </table>
+    <div class="row">
+      <div class="col-md-12">
+        <button type="button" class="btn btn-success pull-right" ng-click="save()" style="margin-right:55px;">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

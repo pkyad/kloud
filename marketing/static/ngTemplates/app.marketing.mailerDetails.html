@@ -1,0 +1,82 @@
+<style>
+th, td {
+  text-align : center
+}
+</style>
+<br>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2">
+      <div class="input-group" style="width:0%">
+        <input type="file" name="" value="" file-model="form.dataFile">
+      </div>
+      <div style="margin-top:10px;"><a href="/static/mailerSample.xlsx">Download Sample File</a></div>
+    </div>
+
+    <div class="col-md-2">
+      <select class="form-control" ng-model="form.template" ng-options="a for a in templatesList">
+      </select>
+    </div>
+
+    <div class="col-md-1 input-group-btn">
+      <button class="btn btn-primary" type="submit" ng-click="uploadEmailList()">Upload Mail Format</button>
+    </div>
+
+    <div class="col-md-2 col-md-offset-4">
+      <div class="input-group" style="width:0%">
+        <input type="file" name="" value="" file-model="form.templateFile">
+      </div>
+    </div>
+
+    <div class="input-group-btn">
+      <button class="btn btn-primary" type="submit" ng-click="uploadTemplate()">Upload Template</button>
+    </div>
+  </div>
+
+  <br>
+
+  <div class="row" style="padding-top:50px;">
+    <div class = "col-md-6">
+      <div class="container-fluid" style="border:1px solid #d6d6d6;height:49vh;">
+        <canvas id="campaign-track-chart"style="padding:10px;"height="170"></canvas>
+      </div>
+    </div>
+    <div class="col-md-2 col-md-offset-2">
+      <p>Total Campaign : {{campaignCount}}</p>
+      <br>
+      <p>Total Email Sent : {{sentCount}}</p>
+    </div>
+    <div class="col-md-2">
+      <p>Total Email Opened : {{opensCount}}</p>
+      <br>
+      <p>Total Email Read : {{readCount}}</p>
+    </div>
+  </div>
+
+  <!-- <div class="row">
+    <div class="col-md-12">
+      <div class="row" style="background:#e2e2e2;padding-top:15px;padding-bottom:15px">
+        <div class="col-md-11">Template</div>
+        <div class="col-md-1">Action</div>
+      </div>
+      <div class="row detailsHover" ng-repeat="a in templatesList" style="border-bottom:1px solid #dfdfdf;">
+        <div class="col-md-12" style="cursor:pointer;padding-top:15px;padding-bottom:15px;">
+          <div class="row">
+            <div class="col-md-11">{{a}}</div>
+            <div class="col-md-1"><i class="fa fa-trash"></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<br>
+  <div class="row">
+    <div class="col-md-offset-5 col-md-1">
+      <button type="button" class="btn btn-sm btn-primary btn-block" ng-click="prev()">Prev</button>
+    </div>
+    <div class="col-md-1">
+      <button type="button" class="btn btn-sm btn-primary btn-block " ng-click="next()">Next</button>
+    </div>
+  </div> -->
+
+</div>

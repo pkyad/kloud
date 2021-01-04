@@ -1,0 +1,101 @@
+<div class="container-fluid">
+  <div class="row" style="background:#2980b9">
+    <div class="col-md-12" style="padding:10px;color:#ffffff">
+      <i class="fa  fa-arrow-circle-o-left  fa-2x" ng-click="close()"></i>
+      <a href="/api/clientRelationships/leagalAgreementDoc/?aggrement={{form.pk}}" class="btn" target="_blank" style="color:#ffffff;float:right"><i class="fa  fa-download  fa-2x"></i></a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row" style="margin:20px">
+        <div class="col-md-12" style="padding:15px">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Title</label>
+                <input type="text" class="form-control" ng-model="form.title">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Witness 1</label>
+                <input type="text" class="form-control" ng-model="form.witness1">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Witness 2</label>
+                <input type="text" class="form-control" ng-model="form.witness2">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <label>Effective Date Start</label>
+              <div class="input-group">
+                <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.effectiveDate" is-open="statusStart.opened" ng-init="today" />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="statusStart.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label>Effective Date End</label>
+              <div class="input-group">
+                <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.effectiveDateEnd" is-open="statusDue.opened" ng-init="today" />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="statusDue.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </div>
+            </div>
+            <div class="col-md-1 text-left" style="padding-top:25px">
+              <button class="btn btn-danger" ng-if="!form.signed" ng-click="signed()"> Signed ? </button>
+              <button class="btn btn-success" ng-if="form.signed"> Signed <i class="fa fa-tick"></i> </button>
+            </div>
+            <div class="col-md-1 text-left" style="padding-top:25px">
+              <button class="btn btn-primary" ng-click="submitForm()"> Submit </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="margin:20px 0px 20px 20px;height: 70vh;overflow: auto;">
+        <div class="col-md-12">
+          <div class="row" ng-repeat="t in termsData" style="padding-bottom:15px">
+            <span ng-if="t.typ=='point'"> <strong> <i class="fa  fa-circle " ></i></strong> </span>
+            <span ng-if="t.typ=='para'"><strong> <i class="fa  fa-pinterest-p " ></i></strong>   </span>
+            <span>{{t.content}}</span>
+          </div>
+          </div>
+      </div>
+      <!-- <div class="row" style="margin:20px;border:1px solid #2980b9;">
+        <div class="col-md-12" style="padding:15px">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Content </label>
+                  <textarea class="form-control" rows="8" ng-model="aggrement.content"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8">
+              <div class="form-group">
+                <label>Type</label>
+                <select class="form-control" ng-model="typ">
+                  <option value="para">Para</option>
+                  <option value="point">Point</option>
+                  <option value="table">Table</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4 text-right" style="padding-top:25px">
+              <button class="btn btn-primary" style="width:100%"> <i class="fa fa-plus"></i> Add </button>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>

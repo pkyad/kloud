@@ -1,0 +1,89 @@
+<div id="dashboard" style="padding-top:10px;">
+    <div class="container-fluid fixedNavTabs" style="border-right:solid 2px #eeeeee;">
+
+      <button type="button" ng-click="openTimeSheet()" class="btn btn-default">
+        Submit Time Sheet
+      </button>
+
+      <uib-tabset>
+
+        <uib-tab >
+          <uib-tab-heading >
+            ToDO
+            <i class="fa fa-bug"></i>
+          </uib-tab-heading>
+          <div class="container-fluid">
+            <div ng-include="'/static/ngTemplates/app.todo.html'">
+
+            </div>
+
+
+          </div>
+        </uib-tab >
+
+        <uib-tab >
+          <uib-tab-heading ng-click="forceRefetch()">
+            Bug Tracker
+            <i class="fa fa-bug"></i>
+          </uib-tab-heading>
+          <div class="container-fluid">
+
+            <div class="col-md-12 " style="margin-bottom:10px;" ng-repeat="i in task">
+              <div class="card" style="padding:10px;min-height:150px;" ng-if="i.status != 'resolved'">
+                <span ng-if="i.file != null" class="pull-right"><i class="fa fa-paperclip"></i></span>
+                <h4>{{i.title}}</h4>
+                <div class="dropdown pull-right" ng-if="i.status != 'resolved'">
+                  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                    {{i.status}} <span class="caret"></span></button>
+                  <ul class="dropdown-menu">
+                    <li ng-if="i.status == 'created' " ng-click="setStatus(i.pk , 'inprogress');i.status = 'inprogress'"> <a>In Progress</a> </li>
+                    <li ng-if="i.status == 'created' || i.status == 'inprogress'|| i.status == 'stuck'" ng-click="setStatus(i.pk, 'resolved');i.status = 'resolved'"><a>Resolve</a></li>
+                    <li ng-if="i.status != 'stuck' && i.status != 'resolved' " ng-click="setStatus(i.pk ,'stuck');i.status = 'stuck'"><a>Stuck</a></li>
+                  </ul>
+                </div>
+                <small>Closing date : {{i.tentresdt}}</small>
+                <div>
+                  Priority :
+                  <label class="text text-success" ng-if="i.priority=='low'">{{i.priority}}</label>
+                  <label class="text text-warning" ng-if="i.priority=='medium'">{{i.priority}}</label>
+                  <label class="text text-danger" ng-if="i.priority=='high'">{{i.priority}}</label>
+                </div>
+                <div>
+                  Description : {{i.description}}
+                </div>
+                <div>
+                  <hr>
+                  <strong>Project :</strong> {{i.project.title}} <br>
+                </div>
+                <i class="fa fa-info-circle fa-2x" ng-click="details(i.pk)" style="position:absolute;right:20px;bottom:10px;cursor:pointer;"></i>
+              </div>
+            </div>
+
+
+
+          </div>
+        </uib-tab>
+
+
+        <uib-tab>
+          <uib-tab-heading ng-click="forceRefetch()">
+            Tasks
+            <i class="fa fa-check-square-o"></i>
+          </uib-tab-heading>
+          <div class="container-fluid">
+            <generic-Table data="data.tableData" config-Obj="{{tasksConfig}}" callback-Fn="tableAction"></generic-Table>
+          </div>
+        </uib-tab>
+        <uib-tab ng-repeat="tab in tabs" active="tab.active" disable="tab.disabled">
+          <uib-tab-heading>
+            {{tab.title}}
+            <i ng-if="tab.cancel" class="fa fa-close" ng-click="closeTab($index);"></i>
+          </uib-tab-heading>
+          <div ng-if="tab.app == 'taskBrowser'">
+            <div ng-include="'/static/ngTemplates/app.taskBoard.explore.html'"></div>
+          </div>
+        </uib-tab>
+      </uib-tabset>
+    </div>
+
+</div>

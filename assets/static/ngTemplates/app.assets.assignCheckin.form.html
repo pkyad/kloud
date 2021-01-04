@@ -1,0 +1,38 @@
+<div class="container-fluid">
+  <i class= "fa fa-times fa-2x pull-right" ng-click="close()" style="padding:20px;cursor:pointer;"></i>
+  <div style="padding:20px;">
+    <h4 style="font-weight:600">Item : {{item.serialNo}} - {{item.name}}</h4>
+    <br>
+    <div class="form-group">
+      <label>Approved By</label>
+      <input type="text" class="form-control" ng-model="form.approvedBy" uib-typeahead="user as user.username for user in userSearch($viewValue)" placeholder="Search and Select Approved User" >
+    </div>
+    <br>
+    <br>
+    <div class="form-group">
+      <label>Assign To</label>
+      <input type="text" class="form-control" ng-model="form.to" uib-typeahead="user as user.username for user in userSearch($viewValue)" placeholder="Search and Select To User" >
+    </div>
+    <br>
+    <h4 class="text-center">OR</h4>
+    <div class="form-group">
+      <label>Name</label>
+      <input class="form-control" type="text" ng-model="form.personName">
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input class="form-control" type="text" ng-model="form.email">
+    </div>
+    <div class="form-group">
+      <label>Phone</label>
+      <input class="form-control" type="text" ng-model="form.phone" maxlength="10">
+    </div>
+    <div class="form-group">
+      <label>Address</label>
+      <textarea name="name" style="width:100%" ng-model="form.address"></textarea>
+    </div>
+    <div class="text-center">
+      <button type="button" class="btn btn-primary" name="button" ng-click="save()">Save</button>
+    </div>
+  </div>
+</div>

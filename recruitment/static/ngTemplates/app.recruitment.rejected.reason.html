@@ -1,0 +1,20 @@
+<div class="container-fluid"style="padding-bottom:15px;">
+  <h4>Choose Reason For Rejection</h4>
+  <hr>
+  <div class="form-group">
+    <label>Reason</label>
+    <select class="form-control" ng-model="form.rejectReason">
+      <option value="Techical">Techical</option>
+      <option value="Salary">Salary</option>
+      <option value="Experience">Experience</option>
+      <option value="HR">HR</option>
+      <option value="Others">Others</option>
+    </select>
+  </div>
+  <div class="pull-right">
+    <button type="button" class="btn btn-danger" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>"
+      cancel-text="No" on-confirm="reject()" confirm-button-type="danger" cancel-button-type="default"><i class="fa fa-tick"></i>
+      Reject
+    </button>
+  </div>
+</div>

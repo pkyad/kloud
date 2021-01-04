@@ -1,0 +1,17 @@
+<div class="col-md-3 " style="padding-bottom:20px;padding-left:10px;padding-right:10px;">
+
+  <div class="container-fluid card" style="padding-bottom:10px;">
+    <div ng-click="rowActionClicked('details')">
+      {{data.ques}} <br>
+      <label>Title :</label>{{data.title}} <br>
+      <label>Registration Type :</label>{{data.enrollmentStatus | humanize}} <br>
+      <div class="container-fluid" style="overflow:hidden;height:64px;">
+        <p>{{data.description}}</p>
+      </div>
+    </div>
+    <div class="row"style="padding:5px 15px;">
+      <i class="fa fa-users " style="cursor:pointer;" ng-click="rowActionClicked('report')"></i>
+      <i class="fa fa-pencil pull-right" style="cursor:pointer;" ng-click="rowActionClicked('edit')"></i>
+    </div>
+  </div>
+</div>

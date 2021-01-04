@@ -1,0 +1,498 @@
+<style media="screen">
+  #red-doughnut {
+
+    position: absolute;
+    left: -30%;
+    /* z-index: 999999999999999999999999999999 */
+  }
+
+  #blue-doughnut {
+
+    position: absolute;
+    left: 30%;
+
+  }
+
+  .progress {
+    height: 35px !important;
+    margin-top: 10px !important;
+    background-color: #e6e6e6 !important;
+    border-radius: 0px !important;
+
+  }
+
+
+
+  /* #line-bluechart{
+    width:215px !important
+  } */
+  /* #green-doughnut{
+
+    position:absolute;
+    z-index:999999999999999999999999999999
+
+  } */
+</style>
+
+<div ng-controller="businessManagement.finance.purchasedashboard">
+  <div class="row" style="background-color:whitesmoke;padding:10px">
+    <div class="col-lg-5">
+      <div class="row" style="display:flex">
+        <canvas id="red-doughnut" height='100px' style="cursor:pointer;"></canvas>
+
+        <canvas id="green-doughnut" height='100px' style="cursor:pointer;"></canvas>
+        <canvas id="blue-doughnut" height='100px' style="cursor:pointer;"></canvas>
+
+
+      </div>
+    </div>
+    <div class="col-lg-3" style="">
+      <div class="row" style="padding:15px;background-color:#eee;border-radius:30px;">
+        <div class="col-lg-4">
+          <div class="" style="height:30px;width:30px;background-color:#d0bc0bd1;border-radius:50%;padding:3px;">
+            <i class="fa fa-star" aria-hidden="true" style="font-size:25px;color:white"></i>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <h5>8</h5>
+        </div>
+        <div class="col-lg-4 text-center">
+          <h5>Gold Partner</h5>
+        </div>
+      </div>
+      <div class="row" style="padding:15px;background-color:#eee;border-radius:30px;margin-top:20px">
+        <div class="col-lg-4">
+          <div class="" style="height:30px;width:30px;background-color:#bebcaed1;border-radius:50%;padding:3px;">
+            <i class="fa fa-star" aria-hidden="true" style="font-size:25px;color:white"></i>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <h5>55</h5>
+        </div>
+        <div class="col-lg-4 text-center">
+          <h5>Silver Partner</h5>
+        </div>
+      </div>
+      <div class="row" style="padding:15px;background-color:#eee;border-radius:30px;margin-top:20px">
+        <div class="col-lg-4">
+          <div class="" style="height:30px;width:30px;background-color:#825c17d1;border-radius:50%;padding:3px;">
+            <i class="fa fa-star" aria-hidden="true" style="font-size:25px;color:white"></i>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <h5>100</h5>
+        </div>
+        <div class="col-lg-4 text-center">
+          <h5>Bronze Partner</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4" style="">
+      <div class="row" style="padding-top:10px;background-color:#eee;border-radius:30px;">
+        <div class="col-lg-3">
+          <h5>Total Spending</h5>
+        </div>
+        <div class="col-lg-2">
+          <h5>2113.507</h5>
+        </div>
+        <div class="col-lg-7">
+          <canvas id="line-bluechart" height='60'></canvas>
+        </div>
+
+      </div>
+      <div class="row" style="padding-top:10px;background-color:#eee;border-radius:30px;margin-top:20px;">
+        <div class="col-lg-3">
+          <h5>Savings</h5>
+        </div>
+        <div class="col-lg-2">
+          <h5>96.788</h5>
+        </div>
+        <div class="col-lg-7">
+          <canvas id="line-greenchart" height='60'></canvas>
+        </div>
+
+      </div>
+      <div class="row" style="padding-top:10px;background-color:#eee;border-radius:30px;margin-top:20px">
+        <div class="col-lg-3">
+          <h5>Foregone Savings</h5>
+        </div>
+        <div class="col-lg-2">
+          <h5>2113.507</h5>
+        </div>
+        <div class="col-lg-7">
+          <canvas id="line-redchart" height='60'></canvas>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="row" style="margin-top:20px;margin-bottom:100px;">
+    <div class="col-lg-6" style="background-color:#FAFAFA;margin-top:10px">
+      <h4 style="text-transform:uppercase;text-align:center;padding-top:20px;">rate of compliance by suppliers category </h4>
+      <div class="row" style="margin:0px;margin-top:15px;">
+        <div class="col-lg-3 text-left">
+          <p>category & top supplier</p>
+        </div>
+        <div class="col-lg-2 text-center">
+          <p>Suppliers</p>
+        </div>
+        <div class="col-lg-7 text-center">
+          <p>Share of managed suppliers</p>
+        </div>
+      </div>
+      <div class="row" style="margin:0px;margin-top:15px" ng-click="totalCustomers()">
+        <div class="col-lg-3 text-left">
+          <h4 >Category 1</h4>
+          <p>sup001</p>
+        </div>
+        <div class="col-lg-2 text-center">
+          <h4>610</h4>
+        </div>
+        <div class="col-lg-7">
+          <!-- <canvas id="supplier-one" height='60'></canvas> -->
+          <!-- <canvas id="progressbar"></canvas> -->
+          <div class="progress">
+            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width:75%;padding:10px;">
+              75%
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="margin:0px;margin-top:5px" ng-click="totalCustomers()">
+        <div class="col-lg-3 text-left">
+          <h5>Category 2</h5>
+          <p>sup002</p>
+        </div>
+        <div class="col-lg-2 text-center">
+          <h4>15</h4>
+        </div>
+        <div class="col-lg-7">
+          <!-- <canvas id="supplier-one" height='60'></canvas> -->
+          <div class="progress">
+            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%;padding:10px;">
+              70%
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="margin:0px;margin-top:5px" ng-click="totalCustomers()">
+        <div class="col-lg-3 text-left">
+          <h5>Category 3</h5>
+          <p>sup003</p>
+        </div>
+        <div class="col-lg-2 text-center">
+          <h4>105</h4>
+        </div>
+        <div class="col-lg-7">
+          <!-- <canvas id="supplier-one" height='60'></canvas> -->
+          <div class="progress">
+            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="47" aria-valuemin="0" aria-valuemax="100" style="width:47%;padding:10px;">
+              47%
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="margin:0px;margin-top:5px" ng-click="totalCustomers()">
+        <div class="col-lg-3 text-left">
+          <h5>Category 4</h5>
+          <p>sup004</p>
+        </div>
+        <div class="col-lg-2 text-center">
+          <h4>20</h4>
+        </div>
+        <div class="col-lg-7">
+          <!-- <canvas id="supplier-one" height='60'></canvas> -->
+          <div class="progress">
+            <div class="progress-bar " role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:74%;padding:10px;background-color:#6c154d !important;">
+              74%
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="margin:0px;margin-top:5px" ng-click="totalCustomers()">
+        <div class="col-lg-3 text-left">
+          <h5>Category 5</h5>
+          <p>sup005</p>
+        </div>
+        <div class="col-lg-2 text-center">
+          <h4>29</h4>
+        </div>
+        <div class="col-lg-7">
+          <!-- <canvas id="supplier-one" height='60'></canvas> -->
+          <div class="progress">
+            <div class="progress-bar progress-bar-danger " role="progressbar" aria-valuenow="9" aria-valuemin="0" aria-valuemax="100" style="width:9%;padding:10px;">
+              9%
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="margin:0px;margin-top:5px" ng-click="totalCustomers()">
+        <div class="col-lg-3 text-left">
+          <h5>Category 6</h5>
+          <p>sup006</p>
+        </div>
+        <div class="col-lg-2 text-center">
+          <h4>25</h4>
+        </div>
+        <div class="col-lg-7">
+
+          <div class="progress">
+            <div class="progress-bar  " role="progressbar" aria-valuenow="9" aria-valuemin="0" aria-valuemax="100" style="width:33%;padding:10px;background-color:#e6e20a !important;">
+              33%
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="" style="background-color:#FAFAFA;padding-bottom:105px">
+        <h4 style="text-transform:uppercase;text-align:center;padding-top:20px;margin-bottom:50px;">Avg. procurement cycle time (in days) </h4>
+
+        <div class="" style="background-color:#EEEEEE;padding:5px;margin:10px;margin-top:70px;width:90%;"> </div>
+        <div class="avgpoint" style="background-color:#EEEEEE;height:30px;margin:10px;width:30px;border-radius:50%;padding:10px;position:absolute;top:18%;left:1%;">
+          <div class="" style="background-color:green;height:10px;width:10px;border-radius:50%;margin-bottom:30px">
+
+          </div>
+          <h4 style="padding-top:20px">Order<br> Placement</h4>
+        </div>
+        <div class="avgpoint" style="background-color:#EEEEEE;height:30px;margin:10px;width:30px;border-radius:50%;padding:10px;position:absolute;top:18%;left:20%;">
+          <div class="" style="background-color:green;height:10px;width:10px;border-radius:50%;margin-bottom:30px">
+
+          </div>
+          <h4 style="padding-top:20px">Confirmation</h4>
+        </div>
+        <div class="avgpoint" style="background-color:#EEEEEE;height:30px;margin:10px;width:30px;border-radius:50%;padding:10px;position:absolute;top:18%;left:42%;">
+          <div class="" style="background-color:green;height:10px;width:10px;border-radius:50%;margin-bottom:30px">
+
+          </div>
+          <h4 style="padding-top:20px">Delivery</h4>
+        </div>
+        <div class="avgpoint" style="background-color:#EEEEEE;height:30px;margin:10px;width:30px;border-radius:50%;padding:10px;position:absolute;top:18%;left:85%;">
+          <div class="" style="background-color:green;height:10px;width:10px;border-radius:50%;margin-bottom:30px">
+
+          </div>
+          <h4 style="padding-top:20px">Invoicing</h4>
+        </div>
+        <div class="avgpoint" style="background-color:#EEEEEE;height:30px;margin:10px;width:30px;border-radius:50%;padding:10px;position:absolute;top:18%;left:65%;">
+          <div class="" style="background-color:green;height:10px;width:10px;border-radius:50%;margin-bottom:30px">
+
+          </div>
+          <h4 style="padding-top:20px">Payment</h4>
+        </div>
+        <div class="text-center" style="background-color:#EEEEEE;height:80px;margin:10px;width:80px;border-radius:50%;padding:10px;position:absolute;top:13%;left:7%;">
+          <h3>0.9d</h3>
+        </div>
+        <div class="text-center" style="background-color:#EEEEEE;height:80px;margin:10px;width:80px;border-radius:50%;padding:10px;position:absolute;top:13%;left:28%;">
+          <h3>5.2d</h3>
+        </div>
+        <div class="text-center" style="background-color:#EEEEEE;height:80px;margin:10px;width:80px;border-radius:50%;padding:10px;position:absolute;top:13%;left:50%;">
+          <h3>1.3d</h3>
+        </div>
+        <div class="text-center" style="background-color:#EEEEEE;height:80px;margin:10px;width:80px;border-radius:50%;padding:10px;position:absolute;top:13%;left:72%;">
+          <h3>10.4d</h3>
+        </div>
+        <!-- <div class="row" style="margin:0px;margin-top:20px;">
+            <div class="col-lg-3">
+              <p>Order Placement</p>
+            </div>
+          </div> -->
+
+      </div>
+      <div class="" style="background-color:#FAFAFA;margin-top:20px">
+        <h4 style="text-transform:uppercase;text-align:center;padding-top:20px;">Avg. procurement cycle time (supplier classification) </h4>
+
+        <div class="row" style="margin:0px;margin-top:20px">
+          <div class="col-lg-6">
+            <p>No.of Suppliers</p>
+            <canvas id="supplier-one" </canvas> </div> <div class="col-lg-4 pull-right">
+              <p>% of Suppliers</p>
+              <div class="row" style="margin:0px">
+                <div style="background-color:#eee;border-radius:30px;padding:5px;">
+                  <div class="row" style="margin:0px;">
+                    <div class="col-lg-1" style="background-color:green;height:30px;border-radius:50%;">
+
+                    </div>
+                    <div class="col-lg-5" style="">
+                      <p style="margin:0px;">Short</p>
+                    </div>
+                    <div class="col-lg-5" style="">
+                      <h4 style="margin:0px;text-align:center">16%</h4>
+                      <!-- <p>16%</p> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" style="margin:0px;margin-top:20px;">
+                <div style="background-color:#eee;border-radius:30px;padding:5px;">
+                  <div class="row" style="margin:0px;">
+                    <div class="col-lg-1" style="background-color:#3e95cd;height:30px;border-radius:50%;">
+
+                    </div>
+                    <div class="col-lg-5" style="">
+                      <p style="margin:0px;">Medium</p>
+                    </div>
+                    <div class="col-lg-5" style="">
+                      <h4 style="margin:0px;text-align:center">48%</h4>
+                      <!-- <p>16%</p> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" style="margin:0px;margin-top:20px;">
+                <div style="background-color:#eee;border-radius:30px;padding:5px;">
+                  <div class="row" style="margin:0px;">
+                    <div class="col-lg-1" style="background-color:#d9534f;height:30px;border-radius:50%;">
+
+                    </div>
+                    <div class="col-lg-5" style="">
+                      <p style="margin:0px;">Long</p>
+                    </div>
+                    <div class="col-lg-5" style="">
+                      <h4 style="margin:0px;text-align:center">36%</h4>
+                      <!-- <p>16%</p> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row" style="margin:0px;margin-top:30px;padding-bottom:100px">
+    <div class="col-lg-3">
+      <div class="" style="background-color:white;box-shadow:0px 0px 80px #ccc">
+        <div class="row" style="padding:20px">
+          <div class="col-lg-4 text-center">
+            <i class="fa fa-exclamation-triangle" aria-hidden="true" style="font-size:55px;color:#5cb85c"></i>
+
+          </div>
+          <div class="col-lg-8 text-center">
+            <h2 style="margin:0px;">1,9 % </h2>
+            <p style="font-size:20px;color:#ccc">Defect Rate</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="" style="background-color:white;box-shadow:0px 0px 80px #ccc">
+        <div class="row" style="padding:20px">
+          <div class="col-lg-4 text-center">
+            <i class="fa fa-clock-o" aria-hidden="true" style="font-size:55px;color:#5cb85c"></i>
+
+          </div>
+          <div class="col-lg-8 text-center">
+            <h2 style="margin:0px;">85,3 % </h2>
+            <p style="font-size:20px;color:#ccc">On-Time Suppliers</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="" style="background-color:white;box-shadow:0px 0px 80px #ccc">
+        <div class="row" style="padding:20px">
+          <div class="col-lg-4 text-center">
+            <i class="fa fa-user" aria-hidden="true" style="font-size:55px;color:#5cb85c"></i>
+
+          </div>
+          <div class="col-lg-8 text-center">
+            <h2 style="margin:0px;">93,5 % </h2>
+            <p style="font-size:20px;color:#ccc">Supplier Avaliability</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="" style="background-color:white;box-shadow:0px 0px 80px #ccc">
+        <div class="row" style="padding:20px">
+          <div class="col-lg-4 text-center">
+            <i class="fa fa-calendar" aria-hidden="true" style="font-size:55px;color:#5cb85c"></i>
+
+          </div>
+          <div class="col-lg-8 text-center">
+            <h2 style="margin:0px;">15,0 </h2>
+            <p style="font-size:20px;color:#ccc">Lead Time(days)</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row" style="padding-bottom:100px;">
+    <div class="col-lg-4">
+      <div class=" " style="background-color:white;box-shadow:0px 0px 80px #ccc">
+        <div class="" style="padding:20px;">
+          <h3 style="text-align:center;margin:0px;margin-bottom:30px;">Supplier Defect Rate</h3>
+
+          <canvas id="defectrate" height="70"></canvas>
+          <div class="row">
+            <div class="col-lg-6">
+              <ul class="square">
+                <li style="list-style:square">Defect Rate <span></span></li>
+              </ul>
+
+            </div>
+            <div class="col-lg-6">
+              <ul style="">
+                <li style="text-align:right">Defect Rate <span>
+                    <=</span>2.5 </li> </ul> </div> </div> </div> </div> </div> <div class="col-lg-4">
+                      <div class=" " style="background-color:white;box-shadow:0px 0px 80px #ccc">
+                        <div class="" style="padding:20px;">
+                          <h3 style="text-align:center;margin:0px;margin-bottom:30px;">Supplier Avaliability</h3>
+
+                          <canvas id="supplier" height="70"></canvas>
+                          <div class="row">
+                            <div class="col-lg-6">
+                              <ul>
+                                <li style="list-style:square">Supplier Avaliability <span></span></li>
+                              </ul>
+
+                            </div>
+                            <div class="col-lg-6">
+                              <ul style="">
+                                <li style="text-align:right">Supplier Avaliability <span>
+                                    < </span>90% </li> </ul> </div> </div> </div> </div> </div> <div class="col-lg-4">
+                                      <div class=" " style="background-color:white;box-shadow:0px 0px 80px #ccc">
+                                        <div class="" style="padding:20px;">
+                                          <h3 style="text-align:center;margin:0px;margin-bottom:30px;">Lead Time (In Days)</h3>
+
+                                          <canvas id="leadtime" height="70"></canvas>
+                                          <div class="row">
+                                            <div class="col-lg-6">
+                                              <ul>
+                                                <li style="list-style:square">Lead Time <span></span></li>
+                                              </ul>
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                              <ul style="">
+                                                <li style="text-align:right"> Lead Time <span> > </span> 16 </li>
+                                              </ul>
+
+                                            </div>
+                                          </div>
+
+                                        </div>
+                                      </div>
+                            </div>
+                          </div>
+                          <div class="row" style="padding-bottom:100px;margin:0px;">
+                            <div class="col-lg-6" style="background-color:whitesmoke;padding-bottom:30px;">
+                              <h4 style="text-align:center;padding-top:30px;">Supplier Defect Rate & Defect Type</h4>
+                              <canvas id="supplierdefect"></canvas>
+                            </div>
+                            <div class="col-lg-6" style="background-color:whitesmoke;padding-bottom:30px;">
+                              <h4 style="text-align:center;padding-top:30px;">Delivery Time</h4>
+                              <canvas id="Deltime"></canvas>
+                            </div>
+                          </div>
+
+
+                        </div>

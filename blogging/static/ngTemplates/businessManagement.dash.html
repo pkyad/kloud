@@ -1,0 +1,200 @@
+<style media="screen">
+  .jobList .success {
+    background: #c8e6c9;
+  }
+
+  .jobList .error {
+    background: #ffcdd2;
+  }
+
+  .jobList .running,
+  .jobList .paused,
+  .jobList .pending {
+    background: white;
+  }
+
+  .flex-container {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+
+  .flex-container>div {
+
+    width: 95%;
+    min-height: 10vh;
+    margin: 10px;
+    line-height: 75px;
+    font-size: 30px;
+
+  }
+
+  .text {
+    font-weight: bold;
+    padding: 25px 0 0 25px;
+  }
+
+  .subtext {
+    font-weight: bold;
+    padding: 15px;
+  }
+
+  .vcenter {
+    padding-top: 10px;
+  }
+
+  .charDonut {
+    position: relative;
+  }
+
+  .chartTitle {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 36%;
+    text-align: center;
+    font-size: 2em;
+  }
+</style>
+
+<div class="" style="min-height:93vh;display:none;">
+  <!-- <breadcrumb></breadcrumb> -->
+  <div class="row">
+
+    <div class="col-md-3">
+      <div style="background-color:#107F8C;margin: -10px 10px 10px 10px;width: 95%;min-height: 25vh;color:#fff;">
+        <h3 class="text">Lead Conversion Ratio</h3>
+        <h2 style="padding-left: 25px;">17:1</h2>
+        <h4 style="padding:25px;">Unqualified leads turned into customers</h4>
+      </div>
+    </div>
+
+    <div class="col-md-9">
+      <div style="background-color:white;margin: 10px;width: 97%;min-height: 25vh;">
+        <canvas id="bar" class="chart chart-bar" chart-data="bardata" chart-labels="barlabels" height='55px'>
+        </canvas>
+        <span>Converted leads-last 30 days</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class='row'>
+
+    <div class="col-md-3" style="color:#fff;font-weight: bold;">
+      <div class="flex-container">
+        <div style="background-color:#15807E;">
+          <div class="col-md-6 text-left vcenter">
+            <span>Leads</span>
+          </div>
+          <div class="col-md-6 text-right vcenter">
+            <span>2.013</span>
+          </div>
+        </div>
+        <div style="background-color:#199487;">
+          <div class="col-md-6 text-left vcenter">
+            <span>Opportunities</span>
+          </div>
+          <div class="col-md-6 text-right vcenter">
+            <span>643</span>
+          </div>
+        </div>
+        <div style="background-color:#1DA381;">
+          <div class="col-md-6 text-left vcenter">
+            <span>Negotiation</span>
+          </div>
+          <div class="col-md-6 text-right vcenter">
+            <span>501</span>
+          </div>
+        </div>
+        <div style="background-color:#50B88E;">
+          <div class="col-md-6 text-left vcenter">
+            <span>Propasals</span>
+          </div>
+          <div class="col-md-6 text-right vcenter">
+            <span>295</span>
+          </div>
+        </div>
+        <div style="background-color:#78DAA9;">
+          <div class="col-md-6 text-left vcenter">
+            <span>Wins</span>
+          </div>
+          <div class="col-md-6 text-right vcenter">
+            <span>134</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="flex-container">
+        <div style="min-height:28vh;position: relative;">
+          <div style="position: absolute;left: 0;right: 0;bottom: 30%;text-align: center;font-size: 1em;">
+            70%
+          </div>
+          <canvas id="myChart" height='100em' style="margin-top: 20px;">
+          </canvas>
+          <div style="background-color: #197dcf;height:30px;width:68%;margin-left:3em;position:absolute;margin-top:20px;" class="text-center">
+            <p style="font-size: 0.5em;color:#fff;line-height: 30px;font-weight:bold;">Lead-to-Opportunity Ratio</p>
+          </div>
+        </div>
+        <div style="min-height:28vh;position: relative;">
+          <div style="position: absolute;left: 0;right: 0;bottom: 30%;text-align: center;font-size: 1em;">
+            30%
+          </div>
+          <canvas id="myChart1" height='100em' style="margin-top: 20px;">
+          </canvas>
+          <div style="background-color: #db8f36;height:30px;width:68%;margin-left:3em;position:absolute;margin-top:20px;" class="text-center">
+            <p style="font-size: 0.5em;color:#fff;line-height: 30px;font-weight:bold;">Opportunity-to-win Ratio</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-5">
+      <div class="flex-container">
+        <div style="min-height:18vh;">
+          <div class="col-md-6 text-left" style="color:#000;font-size:20px;line-height: 30px;">
+            <span>Daniels</span><br />
+            <span style="color:#9EA1A7;">Sales Manager1</span>
+          </div>
+          <div class="col-md-6 text-right" style="color:#000;font-size:20px;line-height: 30px;">
+            <span style="padding-right: 60px;">3%</span><br />
+            <span style="color:#9EA1A7;">Conversion Rate</span>
+          </div>
+          <div>
+            <canvas id="line-chart" height="40"></canvas>
+          </div>
+        </div>
+        <div style="min-height:18vh;">
+          <div class="col-md-6 text-left" style="color:#000;font-size:20px;line-height: 30px;">
+            <span>Anna</span><br />
+            <span style="color:#9EA1A7;">Sales Manager2</span>
+          </div>
+          <div class="col-md-6 text-right" style="color:#000;font-size:20px;line-height: 30px;">
+            <span style="padding-right: 60px;">11%</span><br />
+            <span style="color:#9EA1A7;">Conversion Rate</span>
+          </div>
+          <div>
+            <canvas id="line-chart1" height="40"></canvas>
+          </div>
+        </div>
+        <div style="min-height:18vh;">
+          <div class="col-md-6 text-left" style="color:#000;font-size:20px;line-height: 30px;">
+            <span>Max</span><br />
+            <span style="color:#9EA1A7;">Sales Manager3</span>
+          </div>
+          <div class="col-md-6 text-right" style="color:#000;font-size:20px;line-height: 30px;">
+            <span style="padding-right: 60px;">7%</span><br />
+            <span style="color:#9EA1A7;">Conversion Rate</span>
+          </div>
+          <div>
+            <canvas id="line-chart2" height="40"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

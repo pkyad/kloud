@@ -1,0 +1,167 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta name="viewport" content="initial-scale=1">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+    <style media="screen">
+      .logo_image {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+      }
+      .inp, .inp:hover , .inp:focus , .inp:active{
+        border:none;
+        box-shadow:none;
+        resize:none;
+      }
+      .rightBubble{
+        border-top-right-radius:0px !important;
+      }
+      .leftBubble{
+        border-top-left-radius:0px !important;
+      }
+
+      .fadeBubble.ng-enter {
+        transition:0.5s linear all;
+        opacity:0;
+      }
+      .fadeBubble.ng-enter.ng-enter-active {
+        opacity:1;
+      }
+      .fadeBubble.ng-leave {
+        transition:0.5s linear all;
+        opacity:1;
+      }
+      .fadeBubble.ng-leave.ng-leave-active {
+        opacity:0;
+      }
+
+      .sendBtn.ng-enter {
+        transition:0.5s ease all;
+        transform : scale(0)
+        opacity:0;
+      }
+      .sendBtn.message.ng-enter-prepare {
+        opacity:0;
+        transform : scale(0)
+      }
+      .sendBtn.ng-enter.ng-enter-active {
+        transform : scale(1)
+        opacity:1;
+      }
+      .sendBtn.ng-leave {
+        transition:0.5s ease all;
+        transform : scale(1)
+        opacity:1;
+      }
+      .sendBtn.ng-leave.ng-leave-active {
+        opacity:0;
+        transform : scale(0)
+      }
+
+
+
+    </style>
+
+
+  </head>
+
+  <body style="" class="container-fluid"  ng-app="app" ng-controller="main">
+    {% verbatim %}
+
+    <div class="row" style="background:linear-gradient(135deg, #65799b 0%,#5e2563 100%);padding:20px;height:90px;">
+
+
+      <div class="col-xs-1" style="padding:0px;">
+        <img src="/static/images/icons8-left-48.png" style="width:30px;" alt="">
+      </div>
+      <div class="col-xs-3">
+
+        <img class="logo_image" src="https://support.cioc.in/static/images/img_avatar_card.png" alt="">
+      </div>
+
+
+      <div class="col-xs-7" style="color:white;padding:0px;">
+        <span style="font-size:20px;">EpsilonAI Bot</span> <br>
+        <span>Online</span>
+      </div>
+      <div class="col-xs-1">
+
+      </div>
+
+
+    </div>
+
+    <div class="row" style="padding:0px;height:515px;overflow:auto;background:#F3F6FB" id="mainScroll">
+      <div ng-repeat="msg in data.messages" class="fadeBubble">
+        <div class="row" style="padding:20px;margin:0px;" >
+          <!-- msg.uid == data.uid -->
+          <div class="col-xs-10  {{ $odd ? 'pull-right rightBubble':'leftBubble'}}" style="background:{{ $odd ? '#FAFAFA':'#657699;color:white;'}};border-radius:20px;padding:10px;margin-top:10px;width:max-content;word-wrap: break-word;max-width: 100%;">
+            {{msg.message}} <br ng-if="msg.attachment && msg.message">
+
+            <img ng-if="msg.attachment && msg.fileType!='pdf'" ng-src="{{msg.attachment}}" width="200px" style="margin-top:10px;border-radius:20px;" class="img img-rounded">
+
+            <div class="file-sent" ng-if="msg.attachment &&  msg.fileType=='pdf'" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
+                <div style="display:flex;width:100%;" class="file-card padding-2 ">
+                <img src="/static/images/icons8-pdf-96.png" alt="" width="40" height="40" class="img img-rounded">
+                  <p class="" style="color:white;font-size:12px;margin:10px;">{{msg.fileName}}</p>
+                  <a href="{{msg.attachment}}" class="pull-right" target="_blank" >
+                    <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z" fill="#fff">
+                        </path>
+                    </svg>
+                  </a>
+                </div>
+
+              </div>
+
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="padding:10px;height:90px;border-top:solid 1px #eee;">
+      <div class="col-xs-10" style="padding:0px;">
+        <textarea name="name" ng-model="data.txt" class="form-control inp"  rows="2" cols="80" placeholder="Send a message..."></textarea>
+      </div>
+      <div class="col-xs-2 text-center" style="padding:0px;">
+        <div style="height:40px;">
+          <button ng-if="data.txt.length > 0" ng-click="send()" type="button" class="sendBtn btn btn-default" style="background:linear-gradient(135deg, #F5515F 0%,#A1051D 100%);border:none;border-radius:20px;color:white;">
+            Send
+          </button>
+        </div>
+        <img src="/static/images/icons8-attach-32.png" style="width:30px;">
+
+
+      </div>
+
+
+    </div>
+
+
+
+    {% endverbatim %}
+
+
+
+
+    <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/jquery.cookie-1.4.1.min.js' %}"></script>
+    <script src="{% static 'js/angular.min.js' %}"></script>
+    <script src="{% static 'js/angular-animate.min.js' %}"></script>
+    <script src="{% static 'js/externalChat.js' %}"></script>
+
+
+
+  </body>
+</html>

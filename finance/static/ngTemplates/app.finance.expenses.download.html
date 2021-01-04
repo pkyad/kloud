@@ -1,0 +1,25 @@
+<div class="modal-body">
+  <div class = "row">
+    <div class="col-md-5">
+      <p>From Date</p>
+      <div class="input-group">
+        <input type="text" class="form-control" ng-model="filter.fromDate" placeholder="From Date" style="padding: 29px;border: none; border-top-left-radius: 10px;margin-top:15px;margin-bottom:15px;font-size:20px;border-bottom-left-radius: 10px;background:#f6f6f6" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" is-open="statusStart.opened" ng-init="today">
+        <span class="input-group-btn" >
+          <button type="button" class="btn btn-default" ng-click="statusStart.opened = true;" style="padding: 18px;border: none;border-bottom-right-radius: 10px !important;border-top-right-radius: 10px !important;"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+    </div>
+    </div>
+    <div class="col-md-5">
+      <p>To Date</p>
+      <div class="input-group">
+        <input type="text" class="form-control" ng-model="filter.toDate" placeholder="To Date" style="padding: 29px;border: none; border-top-left-radius: 10px;margin-top:15px;margin-bottom:15px;font-size:20px;border-bottom-left-radius: 10px;background:#f6f6f6" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" is-open="statusStart1.opened" ng-init="today">
+        <span class="input-group-btn" >
+          <button type="button" class="btn btn-default" ng-click="statusStart1.opened = true;" style="padding: 18px;border: none;border-bottom-right-radius: 10px !important;border-top-right-radius: 10px !important;"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+    </div>
+    </div>
+    <div class="col-md-2" style="padding-top:42px">
+      <img ng-click="download()" src="/static/images/downloadexcel.png" style="height:50px;" alt="">
+    </div>
+  </div>
+</div>

@@ -1,0 +1,74 @@
+<div class="modal-header bg-blue">
+  <div class="container-fluid" style="font-size:20px">
+    <div class="col-md-2">
+      <i class="fa fa-arrow-circle-o-left fa-lg" ng-click="cancel()" style="cursor:pointer;"></i>
+    </div>
+    <div class="col-md-4 col-md-offset-3">
+      <span>
+        {{slotData[0].dated | date : 'dd-MMM-yyyy'}}
+        <i class="fa fa-clock-o fa-lg"></i>
+      </span>
+    </div>
+  </div>
+</div>
+<div class="row" style="padding:10px;display:block;box-sizing:border-box;">
+  <div class="container-fluid" style="padding:40px;">
+    <div class="row" ng-repeat="slot in slotData" style="border:1px solid #b3b3b3;padding-bottom:15px;margin-bottom:15px">
+      <div class="col-md-12 well" style="font-size:18px;padding:10px 5px">
+        <div class="col-md-2">
+          <strong>Slot : </strong>{{slot.slot}}
+        </div>
+        <div class="col-md-3">
+          <strong>Name : </strong>{{slot.name}}
+        </div>
+        <div class="col-md-4">
+          <strong>Email : </strong>{{slot.emailId}}
+        </div>
+        <div class="col-md-2">
+          <!-- <strong>Demo Status : </strong> -->
+          <select class="form-control" ng-model="slot.status">
+            <option value="Created">Created</option>
+            <option value="Assigned">Assigned</option>
+            <option value="Completed">Completed</option>
+            <option value="Differ">Differ</option>
+          </select>
+        </div>
+        <div class="col-md-1 btn btn-success" ng-click="saveSchedule(slot)">
+          Save
+        </div>
+      </div>
+      <div class="col-md-12" style="padding-top:15px">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Organizer</label>
+            <input type="text" class="form-control" ng-model="slot.organizer" uib-typeahead="user as user.username for user in userSearch($viewValue)" placeholder="Search By Username">
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="form-group">
+            <label>Participants</label>
+            <div class="input-group">
+              <input type="text" class="form-control" ng-model="slot.participantName" uib-typeahead="user as user.username for user in userSearch($viewValue)" placeholder="Search By Username">
+              <span class="input-group-btn">
+              <button type="button" class="btn btn-primary" ng-click="addParticipant($index)">Add <i class="fa fa-plus"></i></button>
+            </span>
+            </div>
+          </div>
+          <div class="card col-md-6" ng-repeat="p in slot.participants" style="font-size:17px;margin-bottom:5px;padding:0px;border-radius:20px">
+            <div class="row">
+              <div class="col-md-4" style="padding:0px 16px">
+                <img ng-src="{{p.pk | getDP}}" class="img img-circle" style="width:40px;height:40px;" alt="">
+              </div>
+              <div class="col-md-5" style="padding-top:10px">
+                {{p.username}}
+              </div>
+              <div class="col-md-3 " style="padding-top:10px;padding-right:25px">
+                <i class="fa fa-trash-o fa-lg pull-right" style="cursor:pointer;color:#c35c5c" ng-click="slot.participants.splice($index,1);slot.participantsPksList.splice($index,1)"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

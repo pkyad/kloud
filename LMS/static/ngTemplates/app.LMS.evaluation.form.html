@@ -1,0 +1,177 @@
+<style media="screen">
+  #noinput{
+    width: 100%;
+    height:45px;
+    padding: 7px 15px;
+    margin: 5px 0;
+    background-color:#F8F8F8;
+    display: inline-block;
+    border: 2px solid #ccc;
+    border-radius: 20px;
+    box-sizing: border-box;
+  }
+</style>
+<div class="container-fluid" ng-controller="businessManagement.LMS.evaluation.form">
+  <div class="row" style="margin-top:20px;">
+    <div ng-if="!activePatientsForm.pk" class="col-md-12">
+
+      <span style="font-size: 180%; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp<b>New Paper</b></span>
+      <hr>
+    </div>
+    <div ng-if="activePatientsForm.pk" class="col-md-12">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img id="back" onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
+      <span style="font-size: 180%; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Update Paper</b></span>
+      <hr>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <h4 ng-if="mode=='new'">Create Question Paper</h4>
+    <h4 ng-if="mode=='edit'">Update Question Paper</h4>
+    <div class="row">
+      <!-- <div class="col-md-12">
+        <div class="form-group">
+          <label>Group Name</label>
+          <div class="{{(form.group.length>0||form.group.pk) ? 'input-group':''}}">
+            <input uib-typeahead="pg as pg.title for pg in paperGroupSearch($viewValue)" ng-model="form.group" type="text" class="form-control" placeholder="Search Using Tilte">
+            <span ng-click="openPaperGroup()" ng-if="(form.group.length>0||form.group.pk)" class="input-group-addon btn btn-primary"><i class="glyphicon glyphicon-{{form.group.pk ? 'pencil':'plus'}}"></i> {{form.group.pk ? 'Update':'New'}}</span>
+          </div>
+        </div>
+      </div> -->
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label style="margin-top:20px;">QuestionPaper Title</label>
+          <div class="row" style="margin-top:10px;">
+            <div class="col-md-12 text-center">
+              <input type="text" class="form-control" ng-model="form.name">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label style="margin-top:20px;">Set Time( In mins )</label>
+          <div class="row" style="margin-top:10px;">
+            <div class="col-md-12 text-center">
+              <input type="number" id="noinput" ng-model="form.timelimit">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <label style="margin-top:20px;">QuestionPaper Description</label>
+        <div class="row" style="margin-top:10px;">
+          <div class="col-md-12 text-center">
+``            <textarea ng-model="form.description" name="name" rows="8" cols="80"></textarea>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-4 text-center">
+            <img src="/static/images/lms_easy.png" style="width:80px;height:80px;" class="img img-circle"> <br> <span>Easy</span> <br>
+            <input type="radio" name="level" value="easy" ng-model="form.level" ng-selected>
+          </div>
+          <div class="col-md-4 text-center">
+            <img src="/static/images/lms_moderate.png" style="width:80px;height:80px;" class="img img-circle"> <br><span>Moderate</span> <br>
+            <input type="radio" name="level" value="moderate" ng-model="form.level">
+          </div>
+          <div class="col-md-4 text-center">
+            <img src="/static/images/lms_difficult.png" style="width:80px;height:80px;" class="img img-circle"> <br><span>Difficult</span> <br>
+            <input type="radio" name="level" value="difficult" ng-model="form.level">
+          </div>
+        </div>
+      </div> -->
+    </div>
+    <!-- <div class="form-group">
+      <label style="margin-top:20px;margin-left:20px">Select The Type</label>
+      <br><br>
+      <div class="row">
+        <div class="col-md-4 text-center">
+          <img src="https://img.icons8.com/nolan/64/open-book.png" style="height:50px;height:50px;" class="img img-circle"/>
+
+          <br>
+          Book
+          <br>
+          <input ng-model="form.typ" name="type{{form.pk}}" type="radio" ng-value="'book'">
+        </div>
+      </div>
+    </div> -->
+
+
+    <!-- <div class="row" ng-if="form.typ == 'book'">
+      <div class="col-md-6">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Book</label>
+            <input type="text" class="form-control" ng-model="form.book" uib-typeahead="book as book.title for book in bookSearch($viewValue)">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Section</label>
+            <input type="text" class="form-control" ng-model="form.section" uib-typeahead="section as section.title for section in sectionSearch($viewValue)">
+          </div>
+        </div>
+    </div>
+    <div class="row" ng-repeat="q in questions">
+      <div class="container-fluid" ng-init="q.selected = false;">
+        <div class="well well-sm">
+          <input type="checkbox" ng-model="q.selected" style="margin-right:20px;">
+          <span mathjax-bind="q.ques.ques"></span>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary" ng-click="add()" ng-show="questions.length">Add To QuestionPaper</button>
+
+  </div> -->
+  <!-- <div class="col-md-6" ng-show="selectedquestions.length">
+    <label class="text-muted">
+      <h4>Question Paper</h4>
+    </label>
+    <div ng-repeat="y in selectedquestions">
+      <div class="well well-sm">
+        <div class="col-md-10">
+          <div class="form-group">
+            <span mathjax-bind="y.ques.ques"></span>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="from-group">
+            <button class="btn btn-sm btn-danger" ng-click="delete($index)">Delete</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Marks :</label>
+              <input type="number" style="width:80%" class="form-control" ng-model="y.marks">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Negative Marks :</label>
+              <input class="form-control" type="float" style="width:80%" ng-model="y.negativeMarks">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>optional :</label><br>
+              <input type="checkbox" ng-model="y.optional">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button ng-if="!form.pk" class="btn1 btn-primary" ng-click="save()">Save</button>
+    <button ng-if="form.pk" class="btn1 btn-primary" ng-click="save()">Update</button>
+  </div> -->
+  <button ng-if="!form.pk" class="btn1 btn-primary" ng-click="save()">Save</button>
+  <button ng-if="form.pk" class="btn1 btn-primary" ng-click="editinPaper()">Update</button>
+
+
+</div>

@@ -1,0 +1,48 @@
+.jobList .success{
+  background: #c8e6c9;
+}
+
+.jobList .error{
+  background: #ffcdd2;
+}
+
+.jobList .running , .jobList .paused, .jobList .pending{
+  background: white;
+}
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.flex-container > div {
+
+  width: 95%;
+  min-height: 10vh;
+  margin: 10px;
+  line-height: 75px;
+  font-size: 30px;
+
+}
+.text{
+  font-weight: bold;
+  padding: 25px 0 0 25px;
+}
+.subtext{
+  font-weight: bold;
+  padding: 15px;
+}
+.vcenter{
+  padding-top: 10px;
+}
+.charDonut{
+  position: relative;
+}
+.chartTitle{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 36%;
+  text-align: center;
+  font-size: 2em;
+}

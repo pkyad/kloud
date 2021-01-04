@@ -1,0 +1,399 @@
+{% extends 'base.html' %}
+
+{% block specific_css %}
+  <style media="screen">
+    body{
+      overflow-x:hidden;
+      font-family:'Roboto'
+    }
+    #page5Div{
+      margin-bottom:100px;
+    }
+    #page5Div #page5text{
+      color:#20287D;
+
+    }
+    #page5Div #page5text h1{
+      font-size:40px;
+      font-weight:700;
+    }
+    #page5Div #page5text p{
+      font-size:30px;
+      font-weight:400;
+      margin-top:20px;
+      text-align:left
+    }
+    #page5Div #page5text button{
+      border:1px solid #20287D;
+      font-size:22px;
+      font-weight:400;
+      background-color:white;
+      border-radius:30px;
+      padding:6px 20px;
+      margin-top:20px;
+    }
+    #page5Div #bgImg1{
+      background:url('/static/images/page5bgImg.png') no-repeat center;
+      height: 670px;
+      background-position-y: bottom;
+    }
+    #secondRow{
+      margin:0px;
+
+
+    }
+    #secondRow span{
+      font-size:32px;
+      line-height:37.5px;
+      font-weight:700
+    }
+    #secondRow p{
+      font-size:22px;
+      line-height:37.5px;
+      font-weight:400
+    }
+    #secondRow button{
+    background-color:#0190F9;
+    height:72px;
+    border-radius:100px;
+    margin-top:20px;
+    }
+    #page5Div2{
+      margin-bottom:100px;
+    }
+    #page5Div2 #page5Div2bg {
+      background-color:#F3F8FC;
+      padding:100px 20px;
+      margin-top:80px;
+    }
+    #page5Div2 span{
+      color:#20287D;
+      font-size:48px;
+      font-weight:500;
+      line-height:56.25px;
+    }
+    #page5Div2 #quoteBox .fa-quote-left{
+      color:#000000;
+      font-size:60px;
+      font-weight:700;
+      text-align:center;
+      position:absolute;
+      top:-6%;
+      left:45%;
+    }
+    #page5Div2 #quoteBox .fa-quote-right{
+      color:#000000;
+      font-size:60px;
+      font-weight:700;
+      text-align:center;
+      position:absolute;
+      bottom:-10%;
+      left:45%;
+    }
+    #page5Div2 #Box{
+      background-color:white;
+      border-radius:30px;
+      height:400px;
+    }
+    #bgImg5{
+      background: url('/static/images/page5bgImg2.png') no-repeat left;
+      height: 655px;
+      background-size:contain;
+
+      background-position-y: top;
+    }
+    .no_padding{
+      padding:0px;
+    }
+    #bgImg5 #testimonials{
+      margin-bottom:80px;
+    }
+    #bgImg5 #testimonials #quote{
+      background:url('/static/images/quote.svg') no-repeat left;
+      background-size: contain;
+      height: 49px;
+      margin-top:45px;
+    }
+    #bgImg5 #testimonials #testimonialBgimg{
+      background:url('/static/images/testimonials.svg') no-repeat center;
+      background-size:contain;
+      height:532px;
+    }
+    #bgImg5 #testimonials #prevNextbtns{
+      margin-top:380px;
+    }
+    #bgImg5 #testimonials #prev{
+      height:50px;
+      border-radius:25px;
+      border:2px solid #E8E8E8;
+      background-color:white;
+      color:#818181;
+      font-size:20px;
+      font-weight:400
+    }
+    #bgImg5 #testimonials #next{
+      height:50px;
+      border-radius:25px;
+      border:2px solid #FF7981;
+      background-color:#FF7981;
+      color:white;
+      font-weight:400
+      font-size:20px;
+    }
+    #bgImg5 #testimonials h1{
+      font-size:48px;
+      font-weight:400;
+      color:#3c3c3c;
+      line-height:56px;
+      margin-top:150px;
+      margin-top:150px;
+    }
+    #bgImg5 #divMargin{
+      margin-top:150px;
+    }
+
+    #bgImg4{
+      background: url('/static/images/page5bgImg3.png'),url('/static/images/page5bgImg2.png');
+      background-position: right,left;
+      background-size: 15%;
+      background-position-y: top,bottom;
+      background-repeat: no-repeat;
+    }
+    #bgImg4 #commonDiv{
+      padding:30% 0px;
+    }
+    #bgImg4 #box1{
+      background:white;box-shadow:10px 20px 100px rgba(0,103,184,0.25);border-radius:42px;height:550px;
+    }
+    #bgImg4 #box2{
+      background:white;box-shadow:10px 20px 100px rgba(0,103,184,0.25);border-radius:42px;height:720px;margin-top:-80px;
+    }
+    #bgImg4 #box3{
+      background:white;box-shadow:10px 20px 100px rgba(0,103,184,0.25);border-radius:42px;height:550px;
+    }
+    #downloadDiv{
+      background-color:#0190F9;
+      border-top-left-radius:50px;
+      border-top-right-radius:50px;
+      height:500px;
+      margin-bottom:70px;
+    }
+    #downloadDiv #downloadBtn{
+      color:white;
+      border:2px solid white;
+      background-color:#0190F9;
+      height:60px;
+      border-radius:50px;
+      margin-top:20px;
+    }
+    #downloadDiv p{
+      font-size:50px;
+      font-weight:700;
+      line-height:58.59px;
+      color:white;
+      margin-top:100px;
+    }
+    #downloadBtn > i{
+      font-size:30px;
+    }
+    #downloadDiv #firstBox{
+      background:white;box-shadow:0px 0px 10px 0px #ccc;border-radius:42px;height:450px;z-index:999;
+      border-bottom-right-radius: 0px;
+      border-bottom-left-radius: 0px;
+      bottom:0px;
+      /* margin-top:50px; */
+
+    }
+    #downloadDiv #secondBox{
+      background:white;box-shadow:0px 0px 10px 0px #ccc;border-radius:42px;height:380px;
+      position: absolute;
+      right: 25%;
+      bottom: 0;
+      border-bottom-right-radius: 0px;
+      border-bottom-left-radius: 0px;
+    }
+    #downloadDiv #twoBoxes{
+      margin-top:50px;
+    }
+    @media only screen and (min-device-width : 320px) and (max-device-width : 600px) {
+      .no_paddingg{
+        padding:0px;
+      }
+      #page5Div #bgImg1{
+        height:340px;
+        background-size:cover;
+      }
+      #page5Div #page5text {
+        text-align:center !important;
+      }
+      #page5Div #page5text p {
+        text-align:center;
+      }
+      #page5Div #page5text button{
+        width:100%;
+      }
+      #page5Div2 #Box{
+        height:350px;
+      }
+      #page5Div2 #quoteBox .fa-quote-left{
+        top:-10%;
+      }
+      #page5Div2 #quoteBox .fa-quote-right{
+        bottom:-12%;
+
+      }
+      #bgImg4{
+        height:100%;
+        background-size:80%;
+        padding:200px 0px;
+        padding-top:0px;
+      }
+      #bgImg4 #commonDiv{
+        padding:0%;
+      }
+      #bgImg4 #box1{
+        margin-bottom:20px;
+        height:350px;
+      }
+      #bgImg4 #box2{
+        margin-top:0px;
+        margin-bottom:20px;
+        height:350px;
+      }
+      #bgImg4 #box3{
+        margin-bottom:20px;
+        height:350px;
+      }
+      #downloadDiv{
+        height:580px
+      }
+      #downloadDiv #twoBoxes {
+        margin-top:50px;
+      }
+      #downloadDiv p{
+        padding-top:30px;
+        font-size:30px;
+        margin-top:0px;
+      }
+      #downloadDiv #firstBox{
+        height:300px;
+        bottom:-3px;
+        /* margin-top:53px; */
+      }
+      #downloadDiv #secondBox{
+        height: 257px;
+        margin-left: 0%;
+        right: 0;
+        top: 46px;
+        /* margin-top: 25%; */
+        border-top-left-radius: 0px;
+      }
+    }
+
+  </style>
+{% endblock %}
+
+
+{% block content %}
+<div class="container-fluid no_padding">
+  <div class="col-md-10 col-md-offset-1" style="padding:30px 15px;">
+    <img src="/static/images/zigmasmall.svg" alt="" >
+  </div>
+
+  <div class="col-md-10 col-md-offset-1 " id="page5Div" >
+    <div class="row">
+      <div class="col-md-6 " id="page5text">
+        <h1>APP</h1>
+        <p>The best App,<br>smooth and streamlined interface</p>
+        <button type="button" name="button" class="btn"> Read More</button>
+
+      </div>
+      <div class="col-md-6" id="bgImg1">
+
+      </div>
+
+    </div>
+    <div class="row" id="secondRow">
+      <span>Manage your Office from your Pocket</span>
+      <p>Product delivery is faster than ever</p>
+      <div class="col-md-2 no_paddingg">
+        <button type="button" name="button" class="btn btn-block"> </button>
+
+      </div>
+    </div>
+  </div>
+  <div class="row" id="page5Div2" >
+    <div class="col-md-12 text-center">
+      <span>Testimonials</span>
+    </div>
+    <div class="col-md-12 text-center" id="page5Div2bg">
+      <div class="row" style="margin:0px;">
+        <div class="col-md-8">
+
+        </div>
+        <div class="col-md-3" id="quoteBox">
+          <i class="fa fa-quote-left" aria-hidden="true"></i>
+          <div class="" id="Box">
+
+          </div>
+          <i class="fa fa-quote-right" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="container-fluid no_padding" id="bgImg4">
+    <div class="col-md-10 col-md-offset-2" id="commonDiv">
+      <div class="col-md-3 ">
+        <div class="" id="box1" >
+
+        </div>
+
+      </div>
+      <div class="col-md-4 ">
+        <div class="" id="box2">
+
+        </div>
+      </div>
+      <div class="col-md-3 ">
+        <div class="" id="box3">
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+    <div class="container-fluid no_padding">
+      <div class="col-md-10 col-md-offset-1 " id="downloadDiv">
+        <div class="col-md-11 col-md-offset-1 no_paddingg" >
+          <div class="col-md-5 col-xs-12 text-left ">
+            <p>Download APP for your device</p>
+            <div class="col-md-6 no_paddingg">
+              <button type="button" name="button" class="btn btn-block" id="downloadBtn"><i class="fa fa-cloud-download" aria-hidden="true"></i></button>
+
+            </div>
+          </div>
+          <div class="col-md-6 col-md-offset-1 col-xs-12 no_paddingg" id="twoBoxes" >
+            <div class="col-md-5 col-xs-7" id="firstBox">
+
+            </div>
+            <div class="col-md-6 col-xs-5" id="secondBox">
+
+            </div>
+
+        </div>
+
+        </div>
+      </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+
+{% include 'app.HR.pagefooter.html'%}
+
+{% endblock %}

@@ -1,0 +1,562 @@
+<style media="screen">
+  .timeLabel {
+    color:orange;font-size:13px;margin-left:15px;
+    border-radius:100px !important;padding-left:15px;padding-right:15px;
+    background:rgb(255, 251, 243);
+    border:none;
+    padding:15px;
+    padding-left: 23px;
+    padding-right: 23px;
+  }
+  .timeLabel:hover{
+    background:orange !important;
+    color:white !important;
+    cursor:pointer;
+  }
+  .taskMenuItem:hover{
+    background:white;
+    cursor:pointer;
+  }
+  .fileCard{
+    border-radius:20px;
+    height:176px;
+    width:100%;
+    margin:20px;
+    background:linear-gradient(135deg, #fcdf8a 0%,#f38381 100%);
+    background-size: cover;background-position: center;position: relative;
+    padding: 30px;
+    padding-top: 48px;
+  }
+  .fileCardXl{
+    border-radius:20px;
+    background:#ad5efb;
+    width:100%;
+    height:100%;
+    margin:20px;
+    background-size: cover;background-position: center;position: relative;
+    padding:20px;
+    padding-top:300px;
+  }
+  .activeMenuItem{
+    background: white;
+  }
+
+
+
+</style>
+
+
+<div class="row">
+
+  <div class="col-md-2" style="background:#FAFAFA;height:100vh;padding:0px;padding-left:10px;overflow:hidden;position: fixed;">
+
+    <div class="row text-center" style="margin:46px;">
+
+      <div style="height:169px;width:100%;background:white;border-radius:30px;padding:20px;">
+        <div ng-click="$state.go('projectManagement.projects.details' , {id : project.pk})"  style="height:100%;width:100%;background-image:url('https://lh3.googleusercontent.com/proxy/qD41wv4ByLpPnpR9EBoyOw1yd0H6tuy-FBDxDBts2_yGmbhVhN0_fXvOM4q7sn-0CRPwueaiA64gILxtn9s_zgr8lnOFjtuZcivTubn6ToVAUMce3NdlT3D1rmhT');background-size: contain;">
+
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <div class="row taskMenuItem {{$state.is('projectManagement.projects.details.wiki') ? 'activeMenuItem':''}}" style="padding:15px;margin:0px;" ng-click="$state.go('projectManagement.projects.details.wiki' , {id : project.pk})">
+      <div class="col-md-3">
+        <img style="width:30px;" src="https://cdn.vsassets.io/ext/ms.vss-tfs-web/platform-content/Nav-Dashboard.S24hPDN9_BLImMxi.png">
+      </div>
+      <div class="col-md-9" style="padding-top:10px;">
+        Wiki
+      </div>
+    </div>
+    <div class="row taskMenuItem {{$state.is('projectManagement.projects.details.tasks') ? 'activeMenuItem':''}}" style="padding:15px;margin:0px;" ng-click="$state.go('projectManagement.projects.details.tasks' , {id : project.pk})">
+      <div class="col-md-3" style="color:rgb(29, 75, 130);">
+        <img style="width:30px;" src="https://cdn.vsassets.io/ext/ms.vss-work-web/common-content/Content/Nav-Plan.XB8qU6v7kvBk_Tcy.png">
+      </div>
+      <div class="col-md-9">
+        Tasks
+      </div>
+    </div>
+    <div class="row taskMenuItem {{$state.is('projectManagement.projects.details.repo') ? 'activeMenuItem':''}}" style="padding:15px;margin:0px;" ng-click="$state.go('projectManagement.projects.details.repo' , {id : project.pk})">
+      <div class="col-md-3" style="color:orange;">
+        <img style="width:30px;" src="https://cdn.vsassets.io/ext/ms.vss-code-web/common-content/Nav-Code.0tJczmQtl3hyKtlh.png">
+      </div>
+      <div class="col-md-9">
+        Repos
+      </div>
+    </div>
+    <div class="row taskMenuItem {{$state.is('projectManagement.projects.details.issues') ? 'activeMenuItem':''}}" style="padding:15px;margin:0px;" ng-click="$state.go('projectManagement.projects.details.issues' , {id : project.pk})">
+      <div class="col-md-3" style="color:rgb(167, 60, 209);">
+        <img style="width:30px;" src="https://dev.azure.com/yadavkumar/_static/_ext/ms.vss-test-web/common-content/Nav-Test.CLbC8LbdE5__mhtfT.png">
+      </div>
+      <div class="col-md-9">
+        Test Plans
+      </div>
+    </div>
+    <!-- <div class="row taskMenuItem {{form.open == 'backlogs' ? 'activeMenuItem':''}}" style="padding:15px;margin:0px;" ng-click="form.open = 'backlogs';form.heading = 'Backlogs';">
+      <div class="col-md-3" style="color:rgb(167, 60, 209);">
+        <img style="width:30px;" src="https://dev.azure.com/yadavkumar/_static/_ext/ms.vss-build-web/common-library/Nav-Launch.3tiJhd8JGiL0mrog.png">
+      </div>
+      <div class="col-md-9">
+        Status / Control Room
+      </div>
+    </div> -->
+  </div>
+
+
+</div>
+<div class="col-md-10" style="position:absolute;right:0px;">
+
+  <div class="row" style="padding:60px;padding-bottom:0px;">
+    <div class="col-md-1 text-right" style="padding-top: 15px;">
+      <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
+    </div>
+    <div class="col-md-11" style="padding-top:15px;">
+      <div class="row">
+        <span>
+          <span style="margin-top:10px;">
+            <span style="font-size: 34px;color: #bbb;">{{project.title}}</span>
+          </span>
+          <span class="timeLabel">{{project.dueDate | date: long}}</span>
+        </span>
+
+        <p style="margin-top:20px;" ng-if="!($state.is('projectManagement.projects.details.tasks') || $state.is('projectManagement.projects.details.issues') || $state.is('projectManagement.projects.details.wiki') || $state.is('projectManagement.projects.details.repo'))">{{project.description}}</p> <br>
+      </div>
+      <div class="row" ng-if="$state.is('projectManagement.projects.details.tasks')">
+        <h3 style="margin-bottom:40px;margin-top:30px;">Project Objectives</h3>
+
+        <div class="row card" style="margin-top:10px;padding:15px;margin:0px;margin-bottom:20px;" ng-repeat="obj in objectives">
+          <div class="col-md-1">
+            <div class="taskTicker {{subTask.status == 'complete'?  'completedTask':'' }}" >
+              <i class="fa fa-check"></i>
+            </div>
+          </div>
+          <div class="col-md-11">
+            {{obj.details}}
+          </div>
+        </div>
+        <div class="row" style="margin:0px;">
+          <textarea ng-enter="saveProjectObjective()" name="name" class="form-control" rows="2" ng-model="objectiveTxt" style="margin-top:10px" placeholder="Add new objectives"></textarea>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <ui-view>
+
+    <div class="row" style="padding:60px;padding-top:0px;">
+      <div class="col-md-1 text-right">
+
+      </div>
+      <div class="col-md-11" style="padding-top:15px;">
+
+        <div class="row">
+          <div class="row" style="margin:0px;">
+            <h3 class="text-muted">Team</h3>
+          </div>
+
+          <div class="row" style="margin:0px;">
+            <div class="row" ng-repeat="u in teamMembers" style="padding:10px;">
+              <div class="container-fluid" style="padding-top:15px;padding-left:20px;border:none;border-radius:20px;">
+                <div class="row">
+                  <div class="col-md-1 text-right">
+                    <img ng-src="{{u.user | getDP}}" class="img img-circle" width="40" height="40" />
+                  </div>
+                  <div class="col-md-2">
+                    <span style="font-size:17px;" class="text-muted">{{u.name}}</span> <br>
+                  </div>
+                  <div class="col-md-4">
+                    <span style="font-size:14px">Software Engineer</span> <br>
+                  </div>
+                  <div class="col-md-3">
+                    <span class="text-muted">{{u.tasksCount}} tasks pending.</span>
+                  </div>
+                  <div class="col-md-2 text-right">
+                    <span class="text-muted">3 Hours 30 Minutes</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" style="margin-right:-5px;">
+              <div class="col-md-3 col-md-offset-9 text-right" style="border-top:2px solid #eee;">
+                <span class="text-muted"><h4>3 Hours 30 Minutes</h4></span>
+              </div>
+            </div>
+
+
+
+          </div>
+
+          <div class="row" style="margin:0px;">
+            <h3 class="text-muted">Files</h3>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6" style="height:400px;">
+              <div class="fileCardXl" style="background-image: linear-gradient(45deg,#02050b,transparent), url(https://www.uipath.com/hubfs/why-robotic-process-automation-critical-right-now.jpg)">
+
+
+                <div class="row">
+                  <div class="col-md-2">
+                    <img src="https://img.icons8.com/fluent/96/microsoft-excel-2019.png" style="width:70px;" alt="">
+                  </div>
+                  <div class="col-md-10" style="color: white;font-size:17px;padding-top:10px;">
+                    Initial Project Proposal <br>
+                    <span style="font-size:14px;">3 MB</span>
+                  </div>
+                </div>
+
+
+
+
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="col-md-6" ng-repeat="file in [1,2,3,4]">
+                <div ng-if="file == 1" class="fileCard" style="background-image: linear-gradient(45deg,#02050b,transparent), url(https://www.uipath.com/hubfs/leverage-automation-for-business-continuity-new-normal.jpg)">
+
+
+
+
+
+                  <div class="row">
+                    <div class="row">
+                      <img src="https://img.icons8.com/fluent/96/microsoft-powerpoint-2019.png" style="width:70px;margin-left:10px;" alt="">
+                    </div>
+                    <div class="row" style="color: white;font-size:17px;padding-top:10px;margin:0px;">
+                      Initial Project Proposal <br>
+                    </div>
+                  </div>
+
+
+                </div>
+
+                <div ng-if="file == 3" class="fileCard" style="background:linear-gradient(135deg, #65799b 0%,#5e2563 100%);">
+
+
+
+
+
+                  <div class="row">
+                    <div class="row">
+                      <img src="https://img.icons8.com/fluent/96/pdf-2.png" style="width: 65px;margin-left: 10px;" alt="">
+                    </div>
+                    <div class="row" style="color: white;font-size:17px;padding-top:10px;margin:0px;">
+                      Initial Project Proposal <br>
+                    </div>
+                  </div>
+
+
+                </div>
+
+                <div ng-if="file == 4" class="fileCard" style="background:linear-gradient(180deg, #E3E3E3 0%,#5D6874 100%);">
+
+
+
+
+
+                  <div class="row">
+                    <div class="row">
+                      <img src="https://img.icons8.com/ultraviolet/2x/stack-of-photos.png" style="width:65px;margin-left:10px;" alt="">
+                    </div>
+                    <div class="row" style="color: white;font-size:17px;padding-top:10px;margin:0px;">
+                      Initial Project Proposal <br>
+                    </div>
+                  </div>
+
+
+                </div>
+
+
+
+
+                <div ng-if="file == 2" class="fileCard" style="background-image: linear-gradient(45deg,#02050b,transparent), url(https://www.uipath.com/hubfs/why-robotic-process-automation-critical-right-now.jpg)">
+
+
+
+
+
+                  <div class="row">
+                    <div class="row">
+                      <img src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
+                    </div>
+                    <div class="row" style="color: white;font-size:17px;padding-top:10px;margin:0px;">
+                      Initial Project Proposal <br>
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3 ">
+              <div class="fileCard" >
+                <div class="row">
+                  <div class="row">
+                    <img src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
+                  </div>
+                  <div class="row" style="color: white;font-size:17px;padding-top:10px;margin:0px;">
+                    Initial Project Proposal <br>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+        </div>
+      </div>
+
+
+
+    </div>
+
+
+
+  </ui-view>
+
+</div>
+
+
+
+
+<div style="position:relative; min-height:100vh;background:-moz-linear-gradient(bottom,rgba(255,0,0,0),rgb(250, 250, 250));top:0px;right:0px;padding:20px;padding-bottom:50px;display:none;" >
+
+
+  <div class="row" style="margin:0px;">
+    <span style="font-size:18px;">{{project.title}}</span>
+    <span class="timeLabel">{{project.dueDate | date: long}}</span> <br> <br>
+    <label></label> <span>{{project.description}}</span> <br>
+  </div>
+
+  <div class="row" style="margin-top:30px;">
+    <div class="col-md-3 text-right">
+      <h4><label>Team Members</label></h4>
+    </div>
+    <div class="col-md-3" ng-repeat="u in teamMembers" style="padding:10px;">
+      <div class="container-fluid card" style="padding-top:15px;padding-left:20px;border:none;border-radius:20px;">
+        <div class="row">
+          <div class="col-md-2">
+            <img ng-src="{{u.user | getDP}}" width="40" height="40" />
+          </div>
+          <div class="col-md-8">
+            {{u.name}}
+          </div>
+          <div class="col-md-2" style="font-size:20px;padding:0px;">
+            {{u.tasksCompletion ? u.tasksCompletion : 0 }} %
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-md-6">
+            <i class="fa fa-clock-o fa-lg"></i> {{u.time ? u.time : 0}} Hours
+          </div>
+          <div class="col-md-6">
+            <i class="fa fa-th"></i> {{u.tasksCount}} Pending
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="padding:20px;border-top:1px solid #eee;">
+
+    <div class="col-md-3 text-right" >
+      <h4><label>Key Objectives</label></h4>
+    </div>
+    <div class="col-md-9">
+      <div class="row card" style="margin-top:10px;padding:5px;" ng-repeat="obj in objectives">
+        {{obj.details}}
+      </div>
+      <div class="row" >
+        <textarea ng-enter="saveProjectObjective()" name="name" class="form-control" rows="2" ng-model="objectiveTxt" style="margin-top:10px" placeholder="Add new objectives"></textarea>
+      </div>
+    </div>
+  </div>
+  <!-- <div>
+    <div class="col-md-2" style="padding:0px;background: -moz-linear-gradient(bottom,rgba(255,0,0,0),rgba(212, 212, 212, 1));min-height:400px;margin:0px;">
+      <ul class="nav nav-center" style="width:100%;">
+        <li class="{{explore.mode == 'git' ? 'active':''}} text-center" ng-click="changeExploreMode('git')"><a href=""><i class="octicon octicon-repo-push mega-octicon"></i></a></li>
+        <li class="{{explore.mode == 'tasks' ? 'active':''}} text-center" ng-click="changeExploreMode('tasks')"><a href=""><i class="fa fa-check-square-o fa-2x"></i></a></li>
+        <li class="{{explore.mode == 'timeline' ? 'active':''}} text-center" ng-click="changeExploreMode('timeline')"><a href=""><i class="fa fa-commenting fa-2x"></i></a></li>
+        <li class="{{explore.mode == 'files' ? 'active':''}} text-center" ng-click="changeExploreMode('files')"><a href=""><i class="fa fa-files-o fa-2x"></i></a></li>
+        <li class="{{explore.mode == 'issues' ? 'active':''}} text-center" ng-click="changeExploreMode('issues')"><a href=""><i class="mega-octicon octicon-list-unordered"></i></a></li>
+        <li class="{{explore.mode == 'billing' ? 'active':''}} text-center" ng-click="changeExploreMode('billing')"><a href=""><i class="fa fa-usd fa-2x"></i></a></li>
+      </ul>
+    </div>
+  </div> -->
+
+  <div class="row" style="border-top:solid 1px #eee;padding-top:30px;">
+
+    <div class="col-md-3 text-right">
+      <h4><label class="text-muted">Billing</label></h4>
+    </div>
+
+    <div class="col-md-9">
+      <div class="row">
+
+        <div class="col-md-6">
+          User
+        </div>
+        <div class="col-md-3">
+          Tasks Count
+        </div>
+        <div class="col-md-3">
+          Time Spent
+        </div>
+      </div>
+      <hr>
+      <div>
+        <div class="row" ng-repeat="t in timesheetItems" style="padding-top:10px;padding-bottom:10px;">
+          <div class="col-md-6">
+            <div>{{t.first_name }} {{t.last_name}}</div>
+          </div>
+          <div class="col-md-3">
+            {{t.count}}
+          </div>
+          <div class="col-md-3">
+            {{t.time }} Minutes
+          </div>
+        </div>
+        <div class="col-md-3 pull-right" style="border-top: solid 2px #eeeeee;padding: 22px;font-size: 20px;">{{totalTime | number:2}} Hrs. </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+  <div class="row" style="border-top:solid 1px #eee;padding-top:30px;">
+
+    <div class="col-md-3 text-right">
+      <h4><label class="text-muted">Tasks</label></h4>
+    </div>
+
+    <div class="col-md-9">
+      <div class="row container-fluid">
+        <button type="button" class="btn btn-default pull-right" style="margin:10px;" ng-click="createTask()">
+          + Add
+        </button>
+      </div>
+      <div class="row hoverList" ng-repeat="t in project.tasks" style="padding-top:10px;padding-bottom:10px;" ng-click="openTask($index)">
+        <div class="col-md-1">
+          <i class="fa fa-check-circle-o fa-2x pull-right" style="color:{{ t.completion>70 ?'#569a23':'#d94f66'}};"></i>
+        </div>
+        <div class="col-md-5">
+          <span style="font-size:18px;">{{t.title}}</span>
+        </div>
+        <div class="col-md-2">
+          {{t.completion}}
+        </div>
+        <div class="col-md-2">
+          {{t.to | getName}}
+        </div>
+        <div class="col-md-2">
+          {{t.dueDate | timeAgo}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="border-top:solid 1px #eee;padding-top:30px;">
+
+    <div class="col-md-3 text-right">
+      <h4><label class="text-muted">Files</label></h4>
+    </div>
+    <div class="col-md-9">
+      <div class="row container-fluid">
+        <div style="margin:10px;" class="btn-group btn-group-sm pull-right">
+          <button type="button" class="btn btn-default" ng-click="updateFiles();explore.addFile = !explore.addFile;">
+            <i class="fa fa-{{explore.addFile? 'mail-reply':'plus'}}"></i> {{explore.addFile ? 'Back' : 'Edit'}}
+          </button>
+          <button type="button" class="btn btn-primary" ng-click="updateFiles()" ng-if="explore.addFile">
+            Save
+          </button>
+        </div>
+      </div>
+      <div ng-if="explore.addFile">
+        <media-Field data="project.files" url="/api/projects/media/"></media-Field>
+      </div>
+      <div ng-if="!explore.addFile">
+        <div class="row" style="padding:10px;border-bottom:#eee solid 2px;">
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-6">
+            <span class="text-primary">File Name</span>
+          </div>
+          <div class="col-md-3">
+            <span>Uploader</span>
+          </div>
+          <div class="col-md-2">
+            <span>When</span>
+          </div>
+        </div>
+        <div class="row" style="padding:10px;" ng-repeat="f in project.files">
+          <div class="col-md-1">
+            <i class="fa {{f.name | fileTypeIcon}} fa-3x"></i>
+          </div>
+          <div class="col-md-6">
+            <a ng-href="{{f.attachment}}" target="_blank">{{f.name}}</a>
+          </div>
+          <div class="col-md-3">
+            <span>{{f.user | getName}}</span>
+          </div>
+          <div class="col-md-2">
+            <span>{{f.created | timeAgo}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="border-top:solid 1px #eee;padding-top:30px;">
+
+    <div class="col-md-3 text-right">
+      <h4><label class="text-muted">Commits</label></h4>
+    </div>
+
+    <div class="col-md-9">
+      <div ng-repeat="r in project.repos" style="border-bottom:solid 3px #eee;padding-bottom:{{!(r.commitNotifications.length< r.commitCount)? '20px':'0px'}};">
+        <div class="row text-center">
+          <h4><span class="octicon octicon-repo"></span> {{r.name}}</h4>
+        </div>
+        <div ng-repeat="n in r.commitNotifications" class="row" style="padding-top:10px;">
+          <div class="row" style="padding:10px;border-bottom:#eee solid 2px;">
+            <div class="col-md-2" style="padding-right:40px;">
+            </div>
+          </div>
+          <div class="row">
+            <img ng-src="{{n.user | getDP}}" class="img-circle pull-right" width="50" />
+          </div>
+          <div class="row">
+            <span class="pull-right">{{n.user | getName}}</span>
+          </div>
+        </div>
+        <div class="col-md-10 commitNotification" ng-click="exploreNotification($parent.$index , $index)">
+          <span class="text-muted"> {{n.time |  date : 'hh:mm:a , dd MMM'}}</span><br><strong>[{{n.repo.name}} / {{n.branch}}] :</strong> 1 new commit <br>
+          <code>{{n.sha.substring(n.sha.length-10 , n.sha.length)}}</code> : {{n.message}}
+        </div>
+      </div>
+      <nav ng-if="r.commitNotifications.length< r.commitCount">
+        <ul class="pager">
+          <li ng-click="loadMore($index)"><a href="">More</a></li>
+        </ul>
+      </nav>
+
+    </div>
+  </div>
+
+
+</div>

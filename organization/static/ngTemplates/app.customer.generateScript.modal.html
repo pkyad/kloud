@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <h4 class="text-center">Details</h4>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label>Email</label>
+        <div class="input-group">
+          <input type="email" class="form-control" ng-model="emailAddress" placeholder="Please Enter Email ..."/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-success" ng-click="sendEmail()">Send &nbsp;<i class="fa fa-paper-plane-o"></i></button>
+          </span>
+        </div>
+      </div>
+      <h4>Please First Add This Script Tag To Your HTML</h4>
+      <code>{{src}}</code>
+
+      <hr>
+
+      <div class="row text-center">
+        <span>To try in our app please scan the below QR code in the app</span> <br>
+        <img ng-src="/genQRCode/?text={{qrcode}}" style="width:50%" alt="">
+      </div>
+    </div>
+  </div>
+</div>

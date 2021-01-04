@@ -1,0 +1,416 @@
+<style media="screen">
+  .timeLabel {
+    color:orange;font-size:13px;margin-left:15px;
+    border-radius:100px !important;padding-left:15px;padding-right:15px;
+    background:rgb(255, 251, 243);
+    border:none;
+  }
+
+  .timeLabel:hover{
+    background:orange !important;
+    color:white !important;
+    cursor:pointer;
+
+  }
+
+  .headingLabel {
+    color:green;font-size:13px;margin-left:15px;
+    border-radius:100px !important;padding-left:15px;padding-right:15px;
+    background:rgb(255, 251, 243);
+    border:none;
+  }
+
+
+  .projectLabel{
+    padding:8px;color:rgb(42, 60, 136);font-size:13px;margin-left:15px;
+    border-radius:100px !important;padding-left:15px;padding-right:15px;
+    background:rgb(239, 246, 251);
+  }
+
+  .projectLabel:hover{
+    background:rgb(42, 60, 136) !important;
+    color:white !important;
+    cursor:pointer;
+  }
+  .fileLabel{
+    padding:8px;color:grey;font-size:13px;margin-left:15px;
+    border-radius:100px !important;padding-left:15px;padding-right:15px;
+    background:rgb(247, 247, 247);
+  }
+  .fileLabel:hover{
+    background:grey !important;
+    color:white !important;
+    cursor:pointer;
+  }
+  .hilighted tr:hover{
+    border-right:#0E4388 solid 6px;
+  }
+  .hilighted tr{
+    border-right:white solid 6px;
+    cursor:pointer;
+  }
+  .mapPreview{
+    transition: all 0.3s ease-in-out
+  }
+  .mapPreview:hover{
+    box-shadow: 0px 8px 418px rgba(157, 157, 157, 0.94) !important;
+  }
+  .sendBtnMap:hover{
+    background:rgb(21, 123, 145) !important;
+    color:white !important;
+    cursor:pointer;
+  }
+
+</style>
+<div class="container-fluid">
+  <div class="row">
+
+      <div class="col-md-4" style="min-height:100vh;position:relative;padding:40px;background:#FAFAFA;">
+
+        <div style="position:absolute; top:10px;left:10px;cursor:pointer;" class="text-muted" ng-click="editContact()" ng-if="editIcon">
+          <i class="fa fa-pencil fa-2x"></i>
+        </div>
+
+        <div class="row">
+          <div class="col-md-1 text-right" style="padding-top: 15px;">
+            <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
+          </div>
+          <div class="col-md-2 col-md-offset-1">
+            <img ng-src="{{contact | getCRMDP}}" class="img img-circle" style="width:60px;" >
+          </div>
+          <div class="col-md-7">
+            <h3>{{contact.name}}</h3>
+            <span>{{contact.designation}}</span> <br>
+          </div>
+          <div class="col-md-1" style="padding-top:15px;">
+            <img src="https://icons-for-free.com/iconfiles/png/512/edit+document+edit+file+edited+editing+icon-1320191040211803620.png" style="width: 35px;" ng-click="$state.go('businessManagement.contacts.edit' , {id : contact.pk})">
+          </div>
+        </div>
+
+        <div ng-if="contact.mobile != null || contact.email != null || contact.facebook != null || contact.linkedin != null || contact.mobileSecondary != null || contact.emailSecondary != null" class="row" style="margin-top:50px;overflow:hidden;position:relative;width:100%;padding-left:70px;">
+          <div class="container-fluid">
+            <span ng-if="contact.mobile != null">
+              <strong> <img src="/static/images/icons8-dialing-number-100.png" style="width: 45px;"> </strong>
+              <span style="font-size:20px;letter-spacing: 2.5px;margin-left:10px;" ng-click="call()">{{contact.mobile}}</span>
+            </span> <br><br>
+            <span ng-if="contact.email != null"> <img src="/static/images/icons8-email-96.png" style="width: 35px;"> <a href="mailto:{{contact.email}}?Subject=Hello%20again&body=Hi," style="margin-left:20px;" target="_top">{{contact.email}}</a></span> <br> <br>
+          </div>
+        </div>
+
+        <div class="row" style="position:relative;min-height:70px;padding-left:70px;" ng-if="contact.company != null">
+          <div class="container-fluid" style="position:absolute;top:0px;width:100%;">
+            <div class="row" >
+              <div class="col-md-1">
+                <img src="/static/images/icons8-building-blocks-96.png" width="40" style="margin-right:10px;">
+              </div>
+              <div class="col-md-11" style="padding-top:10px;">
+                <p style="font-size:20px;word-wrap: break-word;word-break: break-all;margin-left:10px;">{{contact.company.name}}</p>
+              </div>
+            </div>
+            <div class="row" style="margin-top:10px;display:none;" ng-if="contact.company != null&&contact.company.address != null">
+              <div class="col-md-2">
+                <img src="/static/images/1200px-Google_Maps_icon.svg.png" style="width:50px;" alt="">
+              </div>
+              <div class="col-md-10">
+                <span>{{contact.company.address.street}}</span> <br>
+                <span>{{contact.company.address.city}}</span> <br>
+                <span>{{contact.company.address.state}}</span> <br>
+                <span>{{contact.company.address.pincode}}</span> <br>
+                <span>{{contact.company.address.country}}</span> <br>
+              </div>
+            </div>
+            <div class="row" style="margin-top:10px;display:none;" ng-if="contact.company==null || contact.company.address == null">
+              <div class="col-md-2">
+                <img src="/static/images/1200px-Google_Maps_icon.svg.png" style="width:50px;" alt="">
+              </div>
+              <div class="col-md-10">
+                <span>{{contact.street}}</span> <br>
+                <span>{{contact.city}}</span> <br>
+                <span>{{contact.state}}</span> <br>
+                <span>{{contact.pincode}}</span> <br>
+                <span>{{contact.country}}</span> <br>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mapPreview" style="display:block; width:auto; height:550px;position:relative;min-height:220px;border-radius:20px;background:white;padding:0px;overflow:hidden;padding-bottom:30px;margin-left:70px;" >
+          <map  class="" center="{{lat}},{{lon}}" zoom="12" id="googleMap">
+            <marker  icon="{{picture}}" position="{{lat}},{{lon}}" title="{{contact.company.name}}" scaledSize="[5, 5]"></marker>
+          </map>
+          <div class="container-fluid" style="padding:20px;background:white;">
+            <span>{{contact.company.name}}</span> <br>
+            <span>{{contact.company.address.street}}, {{contact.company.address.city}}</span> <br>
+            <span>{{contact.company.address.state}}</span> <br>
+            <span>{{contact.company.address.pincode}}</span> <br>
+            <span>{{contact.company.address.country}}</span> <br>
+            <!-- First Floor Ardente Office One Hoodi Circle, ITPL Main Rd
+            Bangalore
+            KARNATAKA
+            560048
+            India -->
+          </div>
+
+          <div class="col-md-8 col-md-offset-2 sendBtnMap mapPreview" style="border:solid 1px #fafafa; border-radius:920px;padding:15px;">
+
+            <div class="row " style="margin:0px;">
+              <div class="col-md-2 " style="background:url('/static/images/1200px-Google_Maps_icon.svg.png');background-size: contain;height:30px;background-repeat:no-repeat;" >
+              </div>
+              <div class="col-md-10">
+                Send Direction <br> To My Phone
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+        <!-- <div class="row" style="padding-left:70px;" >
+          <div class="container-fluid mapPreview" style="margin-top:10px;position:relative;min-height:220px;border-radius:20px;background:white;padding:0px;overflow:hidden;padding-bottom:30px;margin-left:70px;">
+            <img src="/static/images/map_sample.png" alt="" style="width:100%;">
+            <div class="container-fluid" style="padding:20px;background:white;">
+              <span>{{contact.company.name}}</span> <br>
+              <span>{{contact.company.address.street}}, {{contact.company.address.city}}</span> <br>
+              <span>{{contact.company.address.state}}</span> <br>
+              <span>{{contact.company.address.pincode}}</span> <br>
+              <span>{{contact.company.address.country}}</span> <br>
+
+            </div>
+            <div class="row" style="margin:0px;">
+              <div class="col-md-8 col-md-offset-2 text-center " >
+                <div class="container-fluid sendBtnMap mapPreview" style="border:solid 1px #fafafa; border-radius:920px;padding:15px;">
+
+                  <div class="row " style="margin:0px;">
+                    <div class="col-md-2 " style="background:url('/static/images/1200px-Google_Maps_icon.svg.png');background-size: contain;height:30px;background-repeat:no-repeat;" >
+                    </div>
+                    <div class="col-md-10">
+                      Send Direction <br> To My Phone
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+        </div> -->
+
+        <div class="row" style="margin-top:50px;" ng-if="coworkers.length>0">
+          <div class="col-md-10 col-md-offset-2">
+            <label class="text-muted">In Network</label> <br>
+            <div ng-repeat="c in coworkers" class="row" style="margin-top:30px;cursor:pointer;background:white;border-radius:20px;padding-top:15px;padding-bottom:15px;" ng-if="c.pk != contact.pk" ng-click="openContact(c)">
+              <div class="col-md-3">
+                <img style="width: 50px;height:50px;" class="img img-rounded" ng-src="{{c | getCRMDP}}">
+              </div>
+              <div class="col-md-9" style="padding:0px;padding-top:3px;">
+                <span style="font-size:16px;">{{c.name}}</span>
+                <br> <span class="text-muted">{{c.designation}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div ng-if="!(contact.mobile != null || contact.email != null || contact.facebook != null || contact.linkedin != null || contact.mobileSecondary != null || contact.emailSecondary != null)" class="text-center" style="margin-top:40px;margin-bottom:40px;">
+          <h4 class="text-muted"> No contact details found</h4>
+        </div>
+
+
+
+        <div class="row" style="position:relative;min-height:250px;" ng-if="contact.company == null">
+          <i class="fa fa-building-o" style="font-size:260px;color:#fcf7f7;margin-left:80px;margin-top:140px;"></i>
+          <div class="container-fluid" style="position:absolute;top:0px;width:100%;">
+            <!-- <label class="text-muted"> <i class="fa fa-building-o" style="width:20px;"></i> Organisation</label> -->
+            <br>
+            <div class="row" style="margin-top:10px;">
+              <div class="col-md-2">
+                <img src="/static/images/1200px-Google_Maps_icon.svg.png" style="width:50px;" alt="">
+              </div>
+              <div class="col-md-10">
+                <span>{{contact.street}}</span> <br>
+                <span>{{contact.city}}</span> <br>
+                <span>{{contact.state}}</span> <br>
+                <span>{{contact.pincode}}</span> <br>
+                <span>{{contact.country}}</span> <br>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="row"   style="margin-top:30px">
+          <div class="col-md-offset-1 col-md-10" ng-repeat="p in products" style="background:white;box-shadow:20px 20px 50px #eee, -30px -30px 60px #eee;padding:20px;min-height:100px;border-radius:20px;margin-bottom:20px;">
+            <h3>{{p.asset.name}}</h3>
+            {{p.addon.label}}
+          </div>
+        </div> -->
+      </div>
+      <div class="col-md-8" style="min-height:100vh;border-right:solid 2px #eeeeee;background:white;padding:50px">
+
+        <div class="row">
+          <div class="col-md-6">
+            <h3>Documents</h3>
+          </div>
+          <div class="col-md-3 pull-right">
+            <button type="button" class="btn btn-default btn-block gradientBtnBlue" ng-click="selectTemplate()">
+              Create Document
+            </button>
+          </div>
+        </div>
+
+        <div class="container-fluid" style="margin-top:20px;">
+          <div class="row">
+            <table class="table tableNew" style="overflow: unset;">
+              <thead>
+                <tr style="background:#f2f2f2;padding:10px;">
+                  <th>Title</th>
+                  <th>Value</th>
+                  <!-- <th>Items</th> -->
+                  <th>Updated</th>
+                  <th style="width:30%;">Status</th>
+                  <th style="width:20%;"></th>
+                </tr>
+              </thead>
+
+              <tbody class="hilighted" >
+                <tr ng-repeat="c in contracts">
+                  <td class="contentTd"  ng-click="editQuote(c)"><span  class="headingLabel" style="margin-left:0px !important;margin:13px;padding: 10px;padding-left: 15px;padding-right: 15px;"> {{c.heading}} </span>
+                  </td>
+                  <td class="contentTd"  ng-click="editQuote(c)">
+                    <span style="font-size:18px;">{{c.value | number}}</span>
+                    <i class="fa fa-inr"></i>
+                  </td>
+                  <!-- <td>{{c.data.length}}</td> -->
+                  <td class="contentTd"  ng-click="editQuote(c)">{{c.created | timeAgo}} ago, on {{c.created | date}}</td>
+                  <td class="contentTd" ng-click="editQuote(c)">
+                    <span ng-if="c.status == 'cancelled'" class="fileLabel" style="margin-left:0px !important;margin:13px;"> {{c.status | humanize}} </span>
+                    <span ng-if="c.status == 'approved'" class="timeLabel" style="margin-left:0px !important;margin:13px;padding: 10px;padding-left: 15px;padding-right: 15px;"> Sale Order Generated </span>
+                    <span ng-if="c.status == 'quoted'" class="projectLabel" style="margin-left:0px !important;margin:13px;padding: 10px;padding-left: 15px !important;padding-right: 15px !important;">{{c.status | humanize}} </span>
+
+                  </td>
+                  <td>
+                    <div class="btn-group btn-group-sm pull-right">
+                      <a ng-if="c.status != 'cancelled'" href="/api/clientRelationships/downloadInvoice/?contract={{c.pk}}" class="btnClear" target="_blank">
+
+                        <img src="/static/images/download.png" style="width:27px;" alt="">
+                      </a>
+
+                      <!-- <button type="button" class="btn btn-info" ng-click="sendNotification($index)" ng-if="['billed', 'dueElapsed'].indexOf(c.status) != -1">
+                    <i class="fa fa-envelope-o"></i>
+                  </button> -->
+                      <button type="button" class="dropdown-toggle btnClear" data-toggle="dropdown" style="border:none;padding:20px;background:white;" >
+                        <img src="{{c.status == 'quoted'?'https://i.ya-webdesign.com/images/three-dots-menu-png-15.png':''}}" style="width:20px;" alt="">
+                      </button>
+                      <ul class="dropdown-menu" role="menu" ng-if="c.status == 'quoted'">
+
+                        <!-- style="width:500px;height:100px;"
+                        <div class="col-md-6">
+                          ok
+                        </div>
+                        <div class="col-md-6">
+                          ok
+                        </div> -->
+                        <li><a style="padding:10px;" href="" ng-click="changeStatus('invoice', $index)">Convert to Invoice</a></li>
+                        <li><a style="padding:10px;" href="" ng-click="changeStatus('saleOrder', $index)">Convert to Sale Order</a></li>
+                        <li><a style="padding:10px;" href="" ng-click="changeStatus('performa', $index)">Convert to Performa</a></li>
+                        <li><a style="padding:10px;" href="" ng-click="changeStatus('cancelled', $index)">Cancelled</a></li>
+                      </ul>
+                    </div>
+                  </td>
+
+                </tr>
+
+              </tbody>
+
+            </table>
+            <div class="text-center" ng-if="deal.contracts.length == 0" style="margin-top:50px;">
+              <span>No data!</span>
+            </div>
+          </div>
+
+
+        <div class="row" style="margin-left:-30px;margin-right:-30px;">
+          <div class="col-md-6">
+            <h3>AMC Products </h3>
+            <!-- <a href="/api/clientRelationships/downloadAggrement/?contact={{contact.pk}}" style="border-radius:10px !important;background:rgb(204, 204, 204);color:black;border:none !important;margin-left:30px;" class="btn btn-primary" >
+              Download Agreement PDF Copy
+            </a> -->
+          </div>
+          <div class="col-md-6 text-right" style="padding-top: 20px;">
+            <button class="btn btn-primary" ng-click="addProduct()" style="background: black !important;color: white !important;border-radius: 40px !important;margin-left: -5px;border: none !important;padding: 5px;padding-left: 9px;padding-right: 9px;margin-right:20px;" > Add new product <img src="/static/images/icons8-plus-48.png" style="width:20px;"  > </button>
+          </div>
+        </div>
+
+
+          <div class="row">
+
+            <table class="table tableNew" style="overflow: unset;">
+              <thead>
+                <tr style="background:#f2f2f2;padding:10px;">
+                  <th>Product Name</th>
+                  <th>Age</th>
+                  <th>Product SKU</th>
+                  <th>Product SL</th>
+                </tr>
+              </thead>
+
+              <tbody class="hilighted">
+                <tr ng-repeat="p in products" ng-click="editAMCProduct(p)">
+                  <td class="contentTd" >{{p.inventory.name}}</td>
+                  <td class="contentTd"> {{p.qty}} </td>
+                  <td class="contentTd" > {{p.inventory.sku}}</td>
+                  <td class="contentTd">{{p.serialNo}}</td>
+                </tr>
+              </tbody>
+
+            </table>
+          </div>
+        </div>
+
+
+
+
+        <div class="row" style="margin:5px;">
+          <comment-Input text="noteEditor.text" doc="noteEditor.doc" save-Note="saveNote"></comment-Input>
+          <!-- /input-group -->
+          <input type="file" file-model="noteEditor.doc" style="display:None;" id="noteEditorFile">
+        </div>
+        <div class="row animated fadeIn">
+          <div class="container-fluid">
+            <div class="text-center text-muted" ng-if="timelineItems.length == 0" style="padding-top:50px;">
+              No activity log found!
+            </div>
+            <div class="col-md-10 col-md-offset-2" style="padding-top:40px;padding-right:0px;">
+              <ul class="timeline timeline-inverse">
+                <div ng-repeat="feed in timelineItems">
+                  <div ng-if="feed.newMonth || $first" style="position:absolute; margin-left:-130px;">
+                    <span ng-if="!$first" class="badge badge-pill bg-yellow" style="font-size:15px;">{{feed.created | date:'MMM-yy'}}</span>
+                    <span ng-if="$first" class="badge badge-pill bg-yellow" style="font-size:15px;">{{feed.created |timeAgo}} Ago</span>
+                  </div>
+                  <crm-Note ng-if="feed.typ == 'note'" data="feed"></crm-Note>
+                  <crm-Call ng-if="feed.typ == 'call'" data="feed"></crm-Call>
+                  <crm-Meeting ng-if="feed.typ == 'meeting'" data="feed"></crm-Meeting>
+                  <crm-Mail ng-if="feed.typ == 'mail' && feed.data.length >0" data="feed"></crm-Mail>
+                  <crm-Todo ng-if="feed.typ == 'todo'" data="feed"></crm-Todo>
+                </div>
+              </ul>
+            </div>
+
+            <nav>
+              <ul class="pager">
+                <li class="previous {{pageNo == 0? 'disabled':''}}"><a href="" ng-click="prevPage()"><span aria-hidden="true">&larr;</span> Prev</a></li>
+                <li class="next {{disableNext? 'disabled':''}}"><a href="" ng-click="nextPage()">Next <span aria-hidden="true">&rarr;</span></a></li>
+              </ul>
+            </nav>
+
+          </div>
+        </div>
+      </div>
+
+
+  </div>
+</div>

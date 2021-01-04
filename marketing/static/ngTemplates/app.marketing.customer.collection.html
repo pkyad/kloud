@@ -1,0 +1,63 @@
+<style media="screen">
+  .tableNew th{
+    padding:17px !important;
+  }
+
+  .tableNew {
+    border-radius: 1em;
+    overflow: hidden;
+  }
+</style>
+<div class="container-fluid" ng-controller="businessManagement.marketing.customer.details">
+
+  <div class="row" style="margin-top:15px;">
+    <div class="col-md-3 col-md-offset-2" style="padding:0px;">
+      <div class="form-inline">
+        <label for="">Technician</label>
+        <select class="form-control" ng-model="selctTech" ng-options="k.first_name+' '+k.last_name for k  in techniciandata" ng-change=getAllData() style="width:70%;padding:15px;background:#F2F3F7;border-radius:10px !important;border:none !important;height:55px;">
+        </select>
+      </div>
+    </div>
+
+    <div class="col-md-5 contactList">
+      <div class="input-group newDatePic">
+        <input type="text" class="form-control" placeholder="Search Phone" ng-model="search" ng-enter="getCompleteData()" >
+        <div class="input-group-btn">
+          <button class="btn btn-default pic" ng-click="getCompleteData()" >
+            <i class="glyphicon glyphicon-search" ></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-1">
+      <button type="button" class="btn btn-default btn-block" name="button" ng-click="prev()" style="padding:18px;background:#F2F3F7;border-radius:10px !important;border:none !important;"> Prev </button>
+    </div>
+    <div class="col-md-1">
+      <button type="button" class="btn btn-default btn-block" name="button" ng-click="next()" style="padding:18px;background:#F2F3F7;border-radius:10px !important;border:none !important;"> Next </button>
+    </div>
+  </div>
+
+
+  <table class="table table-hover tableNew" style="margin-top:15px;">
+    <thead>
+      <tr style="background:#f2f2f2;padding:10px;">
+        <th>Lead ID</th>
+        <th>Date</th>
+        <th>Customer Name</th>
+        <th>Technician</th>
+        <th>Total</th>
+        <th style="cursor:pointer">Invoice</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="a in completeassetsData" style="padding:10px;background:white;">
+        <td class="contentTd">{{a.contact.pk}}</td>
+        <td class="contentTd">{{a.tourplan.date}}</td>
+        <td class="contentTd">{{a.contact.name}} <br> {{a.contact.email}} {{a.contact.mobile}}</td>
+        <td class="contentTd">{{a.tourplan.user.first_name}} {{a.tourplan.user.last_name}}</td>
+        <td class="contentTd">{{a.invoice.total>0 ? a.invoice.total:0}}</td>
+        <td class="contentTd"><a href="/api/marketing/genInvoice/?invoice={{a.invoice.pk}}" type="button" name="button" class="btn btn-primary"> Download</a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

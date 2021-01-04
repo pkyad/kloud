@@ -1,0 +1,21 @@
+<div class="container-fluid">
+  <h3 class="text-center">Upload books here</h3>
+  <hr>
+  <div class="col-md-3" style="width:18%;">
+    <i class="fa fa-book fa-4x"></i>
+  </div>
+  <div class="col-md-7" style="padding:0px;padding-bottom:20px;">
+    <div class="form-group">
+      <input type="text" class="form-control" ng-model="form.book" uib-typeahead="book as book.title for book in bookSearch($viewValue)">
+      <p class="help-block">Browse a file to be attached</p>
+    </div>
+    <div class="checkbox-inline">
+      <label><input type="checkbox" ng-model="form.referencebook">ReferenceBook</label>
+    </div>
+  </div>
+  <div class="col-md-2" style="padding-top:30px;">
+    <button type="button" class="btn btn-primary" ng-click="saveBook()">
+      Save <i class="fa fa-floppy-o"></i>
+    </button>
+  </div>
+</div>

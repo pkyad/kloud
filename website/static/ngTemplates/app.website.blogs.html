@@ -1,0 +1,49 @@
+<div class="container-fluid">
+  <div class="row text-center">
+    <div class="col-md-10">
+      <h2>Blogs
+      </h2>
+
+    </div>
+    <div class="col-md-1" style="margin-top:20px;">
+      <button type="button" name="button" class="btn btn-primary btn-block" ng-click="Previous()">Prev</button>
+    </div>
+    <div class="col-md-1" style="margin-top:20px;">
+      <button type="button" name="button" class="btn btn-primary btn-block" ng-click="Next()">Next</button>
+    </div>
+  </div>
+
+  <div class="col-md-12" style="margin-top:50px;">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Blog ID</th>
+          <th>Title</th>
+          <th>Url</th>
+          <th>Category</th>
+          <th>Type</th>
+          <th>Author</th>
+          <th>Language</th>
+          <th>Updated</th>
+        </tr>
+
+      </thead>
+      <tbody>
+        <tr ng-repeat ="blog in blogs track by $index">
+          <td>{{$index+1}}</td>
+          <td>{{blog.pk}}</td>
+          <td>{{blog.title}}</td>
+          <td>{{blog.articleUrl}}</td>
+          <td>{{blog.category.name}}</td>
+          <td>{{blog.typ.name}}</td>
+          <td>{{blog.author.first_name}} {{blog.author.last_name}}</td>
+          <td><span ng-if="blog.lang=='hi'">Hindi</span><span ng-if="blog.lang=='en'">English</span></td>
+          <td>{{blog.updated | date:'dd MMM y H:MM'}}</td>
+        </tr>
+      </tbody>
+
+    </table>
+  </div>
+
+</div>

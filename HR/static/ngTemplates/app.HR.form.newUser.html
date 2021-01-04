@@ -1,0 +1,62 @@
+<style media="screen">
+  .darkInput{
+    background: black;
+    color: white;
+    border-radius: 10px;
+    padding: 23px;
+    border: none !important;
+    margin-top:10px;
+  }
+</style>
+
+<div class="col-md-2">
+  <img src="/static/images/icons8-left-48.png" onclick="window.history.back();" style="width:30px;" alt="">
+</div>
+<div class="col-md-8 ">
+
+  <h3 style="color:white;margin-bottom:30px;">Add a team member  </h3>
+
+  <!-- <div class="form-group" >
+    <label>Username</label>
+    <input type="text" class="form-control darkInput" ng-model="form.username" required  >
+  </div> -->
+  <div class="form-group">
+    <label>First Name</label>
+    <input type="text" class="form-control darkInput" ng-model="form.first_name" required >
+  </div>
+  <div class="form-group">
+    <label>Last Name</label>
+    <input type="text" class="form-control darkInput" ng-model="form.last_name" required >
+  </div>
+  <div class="form-group">
+    <label >Email</label>
+    <input type="text" class="form-control darkInput" ng-model="form.email" required >
+  </div>
+  <div class="form-group">
+    <label >Mobile</label>
+    <input type="text" class="form-control darkInput" ng-model="form.mobile" required >
+  </div>
+
+<div class="form-group" ng-if="!simpleMode">
+  <label>Role</label>
+  <!-- <input uib-typeahead="div as div.name for div in roleSearch($viewValue)" ng-model="form.role" type="text" class="form-control darkInput" placeholder="Add division name"> -->
+  <select class="form-control darkInput" ng-model="form.role"  ng-options="div.name for div in roles" style="margin-top:15px;padding:0px;height:45px;padding-left:15px">
+  </select>
+</div>
+<div class="form-group" ng-if="!simpleMode">
+  <label>Reporting To </label>
+  <!-- <input uib-typeahead="Reporting as Reporting.username for Reporting in Reporting($viewValue)" ng-model="form.reportingTo" type="text" class="form-control darkInput" placeholder="Select Reporting To"> -->
+
+  <select class="form-control darkInput" ng-model="form.reportingTo"  ng-options="Reporting.first_name + ' ' + Reporting.last_name for Reporting in reportingToUsers" style="margin-top:15px;padding:0px;height:45px;padding-left:15px">
+  </select>
+</div>
+<div class="form-group" ng-if="!simpleMode">
+  <label>Work Location</label>
+  <!-- <input uib-typeahead="units as units.name for units in unitSearch($viewValue)" ng-model="form.designation.unit" type="text" class="form-control darkInput" placeholder="Work Location"> -->
+  <select class="form-control darkInput" ng-model="form.unit"  ng-options="unit.name for unit in units" style="margin-top:15px;padding:0px;height:45px;padding-left:15px">
+  </select>
+</div>
+
+<button class="btn btn-default" ng-click="save()" style="background:#461482;color:white;border: none !important;border-radius: 64px !important;padding: 17px;padding-right: 17px;padding-left: 17px;right: 59px;font-size: 16px;z-index: 10;padding-right: 30px;padding-left: 30px">Create</button>
+<button ng-if="viewProfile" class="btn btn-default" ng-click="$state.go('workforceManagement.profile',{'id':userPk})" style="background:#461482;color:white;border: none !important;border-radius: 64px !important;padding: 17px;padding-right: 17px;padding-left: 17px;right: 59px;font-size: 16px;z-index: 10;padding-right: 30px;padding-left: 30px;margin-left:15px">View Profile</button>
+</div>

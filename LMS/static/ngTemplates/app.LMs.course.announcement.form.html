@@ -1,0 +1,186 @@
+<div class="container-fluid" style="padding-bottom:15px;">
+  <h1>Make an Announcement</h1>
+  <hr>
+  <div class="container-fluid">
+    <div class="col-md-2 text-center" style="margin-left:8.3333%">
+      <img src="/static/images/management.png" style="height:50px;height:50px;" class="img img-circle">
+      <br>
+      General {{form.pk}}
+      <br>
+      <input ng-model="form.typ" name="type{{form.pk}}" type="radio" ng-value="'general'">
+    </div>
+    <div class="col-md-2  text-center">
+      <img src="/static/images/quiz.png" style="height:50px;height:50px;" class="img img-circle">
+      <br>
+      Online Quiz
+      <br>
+      <input ng-model="form.typ" name="type{{form.pk}}" type="radio" ng-value="'quiz'">
+    </div>
+    <div class="col-md-2  text-center">
+      <img src="/static/images/book.png" style="height:50px;height:50px;" class="img img-circle">
+      <br>
+      Online Class
+      <br>
+      <input ng-model="form.typ" name="type{{form.pk}}" type="radio" ng-value="'onlineclass'">
+    </div>
+    <div class="col-md-2  text-center">
+      <img src="/static/images/presentation.png" style="height:50px;height:50px;" class="img img-circle">
+      <br>
+      offline Class
+      <br>
+      <input ng-model="form.typ" name="type{{form.pk}}" type="radio" ng-value="'class'">
+    </div>
+    <div class="col-md-2  text-center">
+      <img src="/static/images/quizoff.png" style="height:50px;height:50px;" class="img img-circle">
+      <br>
+      Offline Quiz
+      <br>
+      <input ng-model="form.typ" name="type{{form.pk}}" type="radio" ng-value="'offlinequiz'">
+    </div>
+  </div>
+
+  <div class="container-fluid" ng-if="form.typ == 'general'">
+    <div class="form-group">
+      <label>Notification Type</label>
+      <select ng-model="form.notificationType" class="form-control">
+        <option value="sms">SMS</option>
+        <option value="email">Email</option>
+        <option value="sms&email">SMS & Email</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Notification Message </label>
+      <textarea type="text" class="form-control" rows="5" ng-model="form.messageTxt" placeholder="" style="resize:none;"></textarea>
+    </div>
+  </div>
+
+
+  <div class="container-fluid" ng-if="form.typ != 'general'">
+    <div class="form-group">
+      <label>Notification Type</label>
+      <select ng-model="form.notificationType" class="form-control">
+        <option value="sms">SMS</option>
+        <option value="email">Email</option>
+        <option value="sms&email">SMS & Email</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Notification Message </label>
+      <textarea type="text" class="form-control" rows="5" ng-model="form.messageTxt" placeholder="" style="resize:none;"></textarea>
+    </div>
+    <div ng-if="form.typ == 'quiz'">
+      <div class="form-group">
+        <label> Paper</label>
+        <input type="text" value="" class="form-control" ng-model="form.paper" uib-typeahead="paper as getPaper(paper) for paper in paperSearch($viewValue)">
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Time</label>
+            <uib-timepicker ng-model="form.time" hour-step="1" minute-step="1" show-meridian="true"></uib-timepicker>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Paper Duedate</label>
+            <div class="input-group" style="margin-top:33px;">
+              <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.paperDueDate" is-open="status.opened" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="status.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div ng-if="form.typ == 'onlineclass'">
+      <div class="form-group">
+        <label> Meeting ID</label>
+        <input type="text" value="" class="form-control" ng-model="form.meetId">
+      </div>
+      <div class="form-group">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Time</label>
+            <uib-timepicker ng-model="form.time" hour-step="1" minute-step="1" show-meridian="true"></uib-timepicker>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Date</label>
+            <div class="input-group" style="margin-top:33px;">
+              <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.date" is-open="status.opened" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="status.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div ng-if="form.typ == 'class'">
+      <div class="form-group">
+        <label>Venue</label>
+        <textarea type="text" class="form-control" rows="2" ng-model="form.classVenue" placeholder="Enter a Venue for class" style="resize:none;"></textarea>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Time</label>
+            <uib-timepicker ng-model="form.classTime" hour-step="1" minute-step="1" show-meridian="true"></uib-timepicker>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Date</label>
+            <div class="input-group" style="margin-top:33px;">
+              <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.classDate" is-open="status.opened" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="status.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div ng-if="form.typ == 'offlinequiz'">
+      <div class="form-group">
+        <label>Venue</label>
+        <textarea type="text" class="form-control" rows="2" ng-model="form.quizVenue" placeholder="Enter a venue for Quiz" style="resize:none;"></textarea>
+      </div>
+      <div class="form-group">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Time</label>
+            <uib-timepicker ng-model="form.quizTime" hour-step="1" minute-step="1" show-meridian="true"></uib-timepicker>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Date</label>
+            <div class="input-group" style="margin-top:33px;">
+              <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.quizDate" is-open="status.opened" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="status.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="form-group">
+    <button type="button" class="btn btn-primary pull-right" ng-click="saveAnnouncement()">
+      save
+    </button>
+  </div>
+
+</div>

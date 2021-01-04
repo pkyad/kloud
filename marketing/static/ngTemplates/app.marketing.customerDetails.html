@@ -1,0 +1,162 @@
+<style>
+  .detailsHover :hover {
+    background: #f9f9f9
+  }
+</style>
+<div class="container-fluid" ng-controller="businessManagement.marketing.customer.details">
+  <div class="row" style="padding-bottom:15px;padding-top:30px;">
+    <div class="col-md-3 col-md-offset-2" style="padding:0px;">
+      <div class="form-inline">
+        <label for="">Technician</label>
+        <select class="form-control" ng-model="selctTech" ng-options="k.first_name+' '+k.last_name for k  in techniciandata" ng-change=getAllData() style="width:70%;padding:15px;background:#F2F3F7;border-radius:10px !important;border:none !important;height:55px;">
+        </select>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="input-group" style="padding:10px;background:#F2F3F7;border-radius:10px;">
+        <input type="text" class="form-control" ng-model="search" ng-change="getAllData()" placeholder="Search by Customer Phone" style="background:#F2F3F7 !important;border: none !important;">
+        <span class="input-group-btn">
+          <button style="background:#F2F3F7;border: none !important;" type="button" class="btn btn-default" ng-click="refresh()"><i class="fa fa-search "></i></button>
+        </span>
+
+      </div>
+
+
+
+    </div>
+
+    <div class="col-md-1">
+      <button type="button" class="btn btn-default btn-block" ng-click="prev()" style="padding:15px;background:#F2F3F7;border-radius:10px !important;border:none !important;">Prev</button>
+    </div>
+    <div class="col-md-1">
+      <button type="button" class="btn btn-default btn-block" ng-click="next()" style="padding:15px;background:#F2F3F7;border-radius:10px !important;border:none !important;">Next</button>
+    </div>
+
+
+    <!-- <div class="col-md-1">
+      <a ng-click="download()" type="button" class="btn btn-primary" style="padding:15px;padding-top:8px;padding-bottom:8px;background:#F2F3F7;border-radius:10px !important;border:none !important;"><img src="/static/images/download-from-cloud.png" style="width: 35px;" ng-click="filter('download')"></a>
+    </div> -->
+
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row" style="background:#FBFBFB;padding-top:15px;padding-bottom:15px;font-weight:bold;box-shadow: 0px 13px 13px rgba(225, 225, 225, 0.94) !important;margin-bottom:20px;">
+        <div class="col-md-1">TicketID</div>
+        <div class="col-md-5">Customer Name</div>
+        <div class="col-md-5">Technician , Date & Time</div>
+        <!-- <div class="col-md-1">Customer Email</div> -->
+        <div class="col-md-1" ng-click=sortData() style="cursor:pointer"></div>
+      </div>
+      <!-- <p>{{techdata}}</p> -->
+      <div class="row detailsHover" ng-repeat="a in assetsData" style="border-bottom:1px solid #dfdfdf;">
+        <div class="col-md-12" style="cursor:pointer;padding-top:15px;padding-bottom:15px;">
+          <div class="row"  ng-click="showAll($index)">
+            <div class="col-md-1">{{a.pk}}</div>
+            <div class="col-md-5"><h4>{{a.contact.name}}</h4>
+              {{a.contact.addrs}} {{a.contact.city}} {{a.contact.state}} {{a.contact.country}} - {{a.contact.areaCode}} <br>
+              <button type="button" class="btn btn-default" style="color:#2ECC71;border: none !important;background:#f1fdf6;border-radius:60px !important;" ng-click="call(a);$event.stopPropagation();">
+                <img src="/static/images/icons8-outgoing-call-30.png" style="width:25px;" alt=""> Call
+              </button> <span style="font-size:17px;margin-left:30px;">{{a.contact.mobile}} </span> <br> {{a.contact.about}}<br>
+              <div class="row" style="margin-top:15px">
+                <div class="col-md-3"  ng-if="a.expense.pk">
+                  <a href="/api/marketing/downloadExpenses/?id={{a.pk}}"><img src="/static/images/downloadExpenses.png" style="height:50px"> Expenses</a>
+                </div>
+                <div class="col-md-6">
+                  <a ng-if="a.contract" ng-click="$state.go('businessManagement.contacts.quote', { id : a.contact.contact_ref , contract :a.contract})"><img src="/static/images/quotation.png" style="height:50px"> Quotation </a>
+                  <a ng-if="!a.contract" ng-click="$state.go('businessManagement.contacts.contactQuote', { id : a.contact.contact_ref , tour:a.pk})"><img src="/static/images/quotation.png" style="height:50px"> Quotation </a>
+                </div>
+              </div>
+              </div>
+            <div class="col-md-5"> <h3>{{a.tourplan.date}} @  {{a.timeslot}}</h3>  <p style="color:{{a.remaining.split(' ')[0]<=0 || a.remaining<=0 ?'orange':'green'}}"> {{a.remaining}} Remaining </p>
+
+              <h3> <img src="/static/images/icons8-worker-100.png" width="35px">  {{a.tourplan.user.first_name}} {{a.tourplan.user.last_name}}</h3> <br> Status : {{a.techStatus}}
+            </div>
+
+
+            <div class="col-md-1 text-center" ng-if="showEdit==true">
+
+              <img src="https://icons-for-free.com/iconfiles/png/512/edit+document+edit+file+edited+editing+icon-1320191040211803620.png" style="width: 35px;" ng-click="assign($index)">
+
+
+              <!-- <div class="btn-group btn-group-sm ">
+                <button type="button" class="btn btn-default btn-sm" ng-click="assign($index);$event.stopPropagation();">
+                  <i class="fa fa-pencil"></i>
+                </button>
+                <button type="button" class="btn btn-default btn-sm" ng-click="newContact($index);$event.stopPropagation();">
+                  <i class="fa fa-user"></i>
+                </button>
+              </div>
+              <div ng-if="material_inward == 'True'" style="margin-top:5px">
+                <select class="form-control" ng-model="a.status" ng-change="changeStatus(a.status, a.pk);$event.stopPropagation();" ng-click="$event.stopPropagation();">
+                  <option value="assigned" >Assigned </option>
+                  <option value="ongoing" >Ongoing </option>
+                  <option value="postponed" >Postponed </option>
+                  <option value="completed" >Completed </option>
+                  <option value="cancelled" >Cancelled </option>
+                </select>
+
+              </div> -->
+            </div>
+          </div>
+
+          <div class="row" ng-if="$index==indx" style="padding-top:15px;padding-bottom:15px">
+            <div class="col-md-6">
+              <h4> Log</h4>
+              <div class="row" ng-repeat="s in a.logs track by $index">
+                <div class="col-md-12">
+                  <div class="card" style="padding:10px;margin-bottom:10px" ng-if="s.type == 'assigned' || s.type == 'text'">
+                    <i class="fa fa-info fa-2x"> </i> {{s.txt}}
+                    <div class="text-right"> {{ s.created| date }} {{ s.created| date : 'mediumTime'}} </div>
+                  </div>
+                  <div class="card" style="padding:10px;margin-bottom:10px" ng-if="s.type == 'Incoming' || s.type == 'Outgoing' || s.type == 'Missed' || s.type == 'Recording' || (s.type == 'routedCall' && s.fileUrl) ">
+                    <i class="fa fa-phone fa-2x" ng-if="s.type == 'Incoming' || s.type == 'Outgoing' || s.type == 'Missed'"> </i>
+                    <i class="fa fa-file-audio-o  fa-2x" ng-if="s.type == 'Recording'"> </i>
+                    <audio ng-if="s.type != 'routedCall'" ng-src="{{s.file}}" controls>
+                    </audio>
+                    <span ng-if="s.type == 'Incoming' || s.type == 'Outgoing' || s.type == 'Missed'"> - {{s.type}} </span>
+                    <span ng-if="s.type == 'routedCall'"> {{s.txt}}
+                      <br>
+                      <audio src="{{s.fileUrl}}" controls>
+                      </audio>
+                    </span>
+
+                    <div class="text-right"> {{ s.created| date }} {{ s.created| date : 'mediumTime'}} </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-6" ng-if="a.beforePic.length>0">
+                  <h4> Before Images</h4>
+                  <div class="row">
+                    <div class="col-md-6" ng-repeat="s in a.beforePic track by $index" style="margin-bottom:5px">
+                      <a href="{{s.attachment}}" target="_blank"> <img ng-src="{{s.attachment}}" class="img " style="height:100px;width:100%" alt=""> </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6" ng-if="a.afterPic.length>0">
+                  <h4> After Images </h4>
+                  <div class="row">
+                    <div class="col-md-6" ng-repeat="s in a.afterPic track by $index" style="margin-bottom:5px">
+                      <a href="{{s.attachment}}" target="_blank"> <img ng-src="{{s.attachment}}" class="img " style="height:100px;width:100%" alt=""> </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Comment : </label>
+                    <textarea type="text" class="form-control" ng-model="a.general_comment"></textarea>
+                  </div>
+                  <button class="btn btn-primary" ng-click="saveComment(a.pk,a.general_comment)"> Save </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

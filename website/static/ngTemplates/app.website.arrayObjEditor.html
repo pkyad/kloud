@@ -1,0 +1,35 @@
+<div class="modal-content">
+    <div class="container-fluid" ng-repeat="(key, value) in form">
+        <label class="text-muted">{{value.label}}</label>
+
+
+
+        <div ng-if="value.type == 'string'">
+          <input type="text" class="form-control" ng-model="value.string" >
+        </div>
+        <div ng-if="value.type == 'image'">
+            <div class="row">
+              <div class="col-md-4">
+                <!-- <label class="text-muted">File</label> -->
+                <input type="file"  file-model="value.fileObject" ng-change="uploadmediafile(value[key],key)"> <br>
+                <label class="text-muted">Alt Text</label>
+                <input type="text" class="form-control" ng-model="value.altText">
+              </div>
+              <div class="col-md-8">
+                Preview <br>
+                <img ng-src="{{value.imageUrl}}" style="width:100%;">
+              </div>
+            </div>
+        </div>
+        <div ng-if="value.type == 'switch'">
+            <input type="checkbox"  ng-model="value.switch">
+        </div>
+
+
+    </div>
+    <div class="container-fluid" style="margin-top:20px;margin-bottom: 20px;">
+        <button ng-click="add()" class="btn btn-primary" ng-if="idx == -1">Add</button>
+    </div>
+
+
+</div>

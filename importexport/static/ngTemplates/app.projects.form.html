@@ -1,0 +1,76 @@
+<div ng-controller="businessManagement.importexport.projects.form">
+  <div class="row" style="margin-top:20px;">
+    <div ng-if="!form.pk" class="col-md-12">
+
+      <span
+        style="font-size: 180%; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Create
+          a new Project Form</b></span>
+      <hr>
+    </div>
+    <div ng-if="form.pk" class="col-md-12">
+
+      <span
+        style="font-size: 180%; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Edit
+          Project </b></span>
+      <hr>
+    </div>
+  </div>
+  <div class="col-md-6" style="padding-top:20px;">
+    <div class="form-group">
+      <label>Vendor</label>
+      <div class="">
+        <input uib-typeahead="vendor as vendor.name for vendor in vendorSearch($viewValue)" ng-model="form.vendor" type="text" class="form-control" placeholder="Search using name">
+      </div>
+    </div>
+    <div class="form-group" ng-if="mode=='new' || mode=='edit'">
+      <label>Customer</label>
+      <div class="{{(showCreateCompanyBtn || companyExist) && !showCompanyForm ? 'input-group':''}}">
+        <input uib-typeahead="company as company.name for company in companySearch($viewValue)" ng-model="form.service" type="text" class="form-control" placeholder="Search using name">
+        <span ng-click="openCreateService(mode)" ng-if="(showCreateCompanyBtn || companyExist) && !showCompanyForm" class="input-group-addon btn btn-primary"><i class="glyphicon glyphicon-{{!companyExist ? 'plus':'pencil'}}"></i>
+          {{ !companyExist?  'New':'Update'}}</span>
+      </div>
+      <p ng-if="showCreateCompanyBtn && !companyExist" class="help-block">No company with this name exist!. Click <span class="badge">new</span> to create.</p>
+    </div>
+    <div class="form-group">
+      <label>Title</label>
+      <input ng-model="form.title" type="text" class="form-control" placeholder="Title">
+    </div>
+    <div class="form-group">
+
+      <users-Field data='form.responsible' url="/api/HR/userSearch/" col='6' label="Responsible">
+      </users-Field>
+    </div>
+    <div class="form-group">
+      <label> Tentative closing date </label>
+      <div class="input-group">
+        <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.date" is-open="statusDue.opened" ng-init="today" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="statusDue.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Machine Model</label>
+      <input ng-model="form.machinemodel" type="text" class="form-control" placeholder="Machine Model">
+    </div>
+    <div class="form-group">
+      <label>Comm Nr</label>
+      <input ng-model="form.comm_nr" type="text" class="form-control" placeholder="Comm Nr">
+    </div>
+    <div class="form-group">
+      <label>Quote Ref</label>
+      <input ng-model="form.quote_ref " type="text" class="form-control" placeholder="Quote Ref">
+    </div>
+    <div class="form-group">
+      <label>Enquiry Ref</label>
+      <input ng-model="form.enquiry_ref " type="text" class="form-control" placeholder="Enquiry Ref">
+    </div>
+    <div class="btn-group pull-right">
+      <button ng-if="mode=='new'" type="button" class="btn btn-default" ng-click="resetForm()">
+        Reset
+      </button>
+      <button ng-if="!form.pk" type="button" class="btn btn-primary pull-right" ng-click="createProjects()">Save</button>
+      <button ng-if="form.pk" type="button" class="btn btn-primary pull-right" ng-click="updateProjects()">Update</button>
+    </div>
+  </div>
+</div>

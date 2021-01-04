@@ -1,0 +1,216 @@
+<style media="screen">
+  .timeLabel {
+    border-radius: 100px !important;
+    color: orange;
+    background: rgb(255, 251, 243);
+    border: none;
+    padding: 20px;
+    font-size: 17px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+      }
+
+    .timeLabel:hover{
+      background:orange !important;
+      color:white !important;
+      cursor:pointer;
+    }
+
+    .timeLabelGreen {
+      border-radius: 100px !important;
+      color: green;
+      background: rgb(245, 253, 227);
+      border: none;
+      padding: 20px;
+      font-size: 17px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+        }
+
+    .timeLabelGreen:hover{
+      background:rgb(113, 186, 98) !important;
+      color:white !important;
+      cursor:pointer;
+    }
+
+    .timeLabelBlue {
+      border-radius: 100px !important;
+      color: blue;
+      background: rgb(215, 240, 247);
+      border: none;
+      padding: 20px;
+      font-size: 17px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+        }
+
+    .timeLabelBlue:hover{
+      background:#103F8D !important;
+      color:white !important;
+      cursor:pointer;
+    }
+
+
+
+</style>
+
+<div style="">
+  <div class="col-md-3" style="background:#FAFAFA;min-height:100vh;">
+    <div class="row" style="padding-top:30px;">
+      <div class="col-md-3">
+        <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
+
+      </div>
+      <div class="col-md-9">
+        <img src="/static/images/icons8-purchase-order-100.png" style="width:30px;" alt=""> <br><br><br>
+        <span ng-if="data.status=='submitted'" class="timeLabel">waiting for approval</span>
+        <span ng-if="data.status=='approved'" class="timeLabelGreen">Processed</span>
+        <h3 style="color:#696969;margin-top:50px;">Payroll Report</h3>
+      </div>
+    </div>
+
+
+    <div class="row" style="border-right:solid 2px #eeeeee;position:relative;">
+      <!-- <div class="row" style="position:relative;">
+        <i class="fa fa-user-o" style="font-size:260px;color:#fcf7f7;margin-left:80px;margin-top:140px;"></i>
+        <div class="container-fluid" style="position:absolute;top:0px;width:100%;">
+          <span class="text-muted" style="font-size:15px;"> <i class="fa fa-user-o" style="width:20px;"></i> Payroll for {{months[data.month]}}</span>
+          <div class="row" style="margin-top:10px;"> -->
+      <div class="col-md-9 col-md-offset-3">
+        <span style="font-size:25px"><strong>{{months[data.month]}} - {{data.year}}</strong></span><br><br><br>
+        <span style="font-size:20px"><strong>Total : </strong><span ng-if="data.total">{{data.total}}</span><span ng-if="!data.total" class="text-danger">NA</span></span><br><br>
+        <span style="font-size:20px"><strong>TDS : </strong> <span ng-if="data.totalTDS">{{data.totalTDS}}</span> <span ng-if="!data.totalTDS" class="text-danger">NA</span></span><br>
+        <!-- <span style="font-size:20px"><strong>Bank Transaction : </strong> <span  class="text-danger">NA</span></span><br> -->
+        <!-- <span style="font-size:20px"><strong>TDS Report : </strong><span  class="text-danger">NA</span></span><br>
+              <span style="font-size:20px"><strong>PF Report  : </strong> <span  class="text-danger">NA</span></span><br> -->
+        <br>
+      </div>
+    </div>
+
+
+    <button ng-if="data.status=='final'" type="button" class="btn btn-default " style="background: #103F8D;color: white;position: absolute;bottom: 93px;border : none !important;border-radius:10px !important;padding: 15px;width: 88%;" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="approve()" confirm-button-type="danger" cancel-button-type="default">
+      Pay
+    </button>
+    <button ng-if="data.status=='paid'" type="button" class="btn btn-default " style="background: #103F8D;color: white;position: absolute;bottom: 174px;border : none !important;border-radius:10px !important;padding: 15px;width: 88%;" ng-click="sendMail()">
+        Send Email <img src="/static/images/icons8-email-48.png" style="width: 25px;margin-left: 40px;" >
+    </button>
+
+
+    <!-- <a ng-if="data.status=='approved'" type="button" class="btn btn-default " style="background: #EAEAEA;color: black;position: absolute;bottom: 13px;border : none !important;border-radius:10px !important;padding: 15px;width: 88%;" target="_blank" href="/api/payroll/tdsReport?report={{data.pk}}">
+        Download TDS Report <img src="/static/images/download-from-cloud.png" style="width: 25px;margin-left: 40px;" >
+      </a> -->
+
+
+    <a ng-if="data.status=='paid'" type="button" class="btn btn-default " style="background: white;color: black;position: absolute;bottom: 93px;border : none !important;border-radius:10px !important;padding: 15px;width: 88%;" target="_blank" href="/api/payroll/pfReport?report={{data.pk}}">
+        Download Report <img src="/static/images/download-from-cloud.png" style="width: 25px;margin-left: 40px;" >
+      </a>
+
+  </div>
+
+
+  <div class="col-md-9">
+
+
+    <!-- <div class="col-md-2 text-left" style="margin-top: 21px;" ng-if="data.status=='approved'">
+      <div class="text-center">
+        <strong>Bank Transaction</strong></br />
+        <a style="cursor:pointer;" target="_blank" href="/api/payroll/payslipsReport?report={{data.pk}}"><i class="fa fa-download fa-3x text-right"></i></a>
+      </div>
+    </div> -->
+
+    <div class="container-fluid">
+      <!-- <div class="col-md-4 " style="padding:10px" ng-repeat="a in reportData">
+        <div class="card" style="padding:10px;min-height:150px;">
+            <span class="pull-left" style="font-size:20px">{{a.user |  getName}}</span>
+            <div class="pull-right">
+              <span style="color:green;" ng-if="a.deffered == false"><i class="fa fa-circle" aria-hidden="true"></i></span>
+              <span style="color:red;" ng-if="a.deffered == true"><i class="fa fa-circle" aria-hidden="true"></i></span>
+            </div><br><br><br><br>
+            <div class="pull-right">
+              <a style="cursor:pointer;" target="_blank" href="/api/payroll/getPayslip?payslip={{a.user}}"><i class="fa fa-download fa-3x text-right" ></i></a>
+            </div>
+        </div>
+      </div> -->
+      <div class="col-md-12 " style="padding:10px">
+        <table class="table table-striped pad10">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Fixed Earnings</th>
+              <th>Employee Deductions</th>
+              <th>Net Take Home</th>
+              <!-- <th>Employer Contribution</th> -->
+              <th>CTC</th>
+              <!-- <th>Amount</th> -->
+              <!-- <th>TDS</th> -->
+              <!-- <th>Total</th> -->
+              <th ng-if="data.status=='approved'">Download</th>
+              <!-- <th ng-if="data.status=='submitted'">Action</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="a in data.payslips" >
+              <td style="width:22.5%;padding:10px;">{{a.user.first_name}} {{a.user.last_name}}</td>
+              <td style="width:22.5%;padding:10px;">{{a.amount | number : 0}}</td>
+              <td style="width:22.5%;padding:10px;">{{a.miscellaneous | number : 0}}</td>
+              <td style="width:22.5%;padding:10px;">{{a.totalPayable | number : 0}}</td>
+              <!-- <td style="width:22.5%;padding:10px;">{{a.contribution | number : 0}}</td> -->
+              <td style="width:22.5%;padding:10px;">{{a.grandTotal | number : 0}}</td>
+              <!-- <td style="width:22.5%;padding:10px;">{{a.amount | number : 0}}</td> -->
+              <!-- <td style="width:22.5%;padding:10px;">{{a.tds | number : 0}}</td> -->
+              <!-- <td style="width:22.5%;padding:10px;">{{a.totalPayable | number : 0}}</td> -->
+              <td ng-if="data.status=='paid'">
+                <div class="btn-group btn-group-sm">
+                  <a style="cursor:pointer;" target="_blank" href="/api/payroll/getPayslip/?payslip={{a.user.pk}}&report={{data.pk}}"><img src="/static/images/download-from-cloud.png" style="width: 25px;" ></a>&nbsp;
+                </div>
+              </td>
+            </tr>
+
+            <!-- <tr ng-repeat="a in data.payslips" ng-if="data.status=='submitted'" ng-mouseover="open = true" ng-mouseleave="open = false">
+              <td style="width:22.5%">{{a.user.pk | getName}}</td>
+              <td ng-if="!edit[$index]" style="width:22.5%">{{a.amount}}</td>
+              <td ng-if="!edit[$index]" style="width:22.5%">{{a.tds}}</td>
+              <td ng-if="!edit[$index]" style="width:22.5%">{{a.totalPayable}}</td>
+              <td ng-if="!edit[$index]">
+                <div ng-show="open">
+                  <a style="cursor:pointer;" ng-click="editIndividualData($index)" ng-if="data.status=='submitted'"><i class="fa fa-pencil fa-2x"></i></a>
+                </div>
+              </td>
+              <td ng-if="edit[$index]" style="width:22.5%"> <input class="form-control-pos" ng-change="calculate(a.amount,a.tds,$index)" ng-model="a.amount"></td>
+              <td ng-if="edit[$index]" style="width:22.5%"> <input class="form-control-pos" ng-change="calculate(a.amount,a.tds,$index)" ng-model="a.tds"></td>
+              <td ng-if="edit[$index]" style="width:22.5%"> <input class="form-control-pos" ng-model="a.totalPayable" ng-disabled="true"></td>
+              <td ng-if="edit[$index]" style="width:22.5%">
+                <a style="cursor:pointer;" ng-click="saveIndividualData(a.pk,a.amount,a.tds,a.totalPayable,$index)" ng-if="data.status=='submitted'"><i class="fa fa-floppy-o fa-2x"></i></a>
+              </td>
+            </tr> -->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- <div class="row text-center" style="margin-bottom:100px;">
+    <div class="col-md-1" style="width: 31px;
+height: 296px;
+background: url('/static/images/paper_cut.png');
+margin-top: 467px;
+margin-left: 300px;
+background-size: contain;">
+
+    </div>
+    <div class="col-md-4" style="height: 296px;background:#EAEAEA;margin-top: 467px;">
+
+    </div>
+    <div class="col-md-1" style="width: 31px;
+height: 296px;
+background: url('/static/images/paper_cut_right.png');
+margin-top: 467px;
+background-size: contain;">
+
+    </div>
+  </div> -->
+
+
+</div>

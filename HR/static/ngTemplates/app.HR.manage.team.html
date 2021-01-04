@@ -1,0 +1,59 @@
+<div class="row" style="margin-bottom:20px;">
+  <div class="row">
+
+    <div class="col-md-offset-2 col-md-2">
+      <button type="button" class="btn btn-primary btn-block" style="background:#393C45;color:white;border-radius:10px !important;padding:12px; border:none !important;" ng-click="openCreateTeam()">New</button>
+    </div>
+    <div class=" col-md-4" style="position:relative;">
+      <input type="text" class="form-control" placeholder="Search with name" style="background:black;color:white;border-radius:10px;padding:23px; border:none !important;" ng-model="searchForm.searchValue" ng-enter="teamSearch()">
+      <button style="position: absolute;top: 7px;right: 25px;background: black;border: none !important;color: white;" class="btn btn-default" type="submit" ng-click="teamSearch()">
+        <i class="glyphicon glyphicon-search"></i>
+      </button>
+    </div>
+
+    <div class="col-md-2">
+      <button type="button" class="btn btn-primary btn-block" style="background:#393C45;color:white;border-radius:10px !important;padding:12px; border:none !important;" ng-click="previous()">Prev</button>
+    </div>
+    <div class="col-md-2">
+      <button type="button" class="btn btn-primary btn-block" style="background:#393C45;color:white;border-radius:10px !important;padding:12px; border:none !important;" ng-click="next()">Next</button>
+    </div>
+
+
+
+  </div>
+</div>
+<div class="row" ng-repeat="k in allTeams" style="margin-bottom:30px;background:#393C45;border-radius:20px;padding:15px;">
+  <div class="row">
+    <div class="col-md-1" >
+      <h3>{{k.pk}}</h3>
+    </div>
+    <div class="col-md-5" >
+      <h3>{{k.title}}</h3>
+    </div>
+    <div class="col-md-6 text-right" >
+      <img style="width: 50px;"  ng-src="/static/images/edit.png" ng-click="openCreateTeam($index)">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3" >
+      <h4> TeamLead : {{k.manager.first_name}} {{k.manager.last_name}} </h4>
+      <h3>Team Members </h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2 "  ng-repeat="u in k.members">
+      <!-- <h3>{{k.pk}}</h3> -->
+      <h4> {{u.user.first_name}} {{u.user.last_name}} <i class="fa fa-trash" ng-click="remove(u.user)"></i> </h4>
+    </div>
+    <div class="col-md-2 text-center" ng-init="u.indx=$index">
+      <div class="form-group ">
+        <div class="input-group">
+          <input  type="text" class="form-control"  ng-model="k.selectedMember"  style="padding: 10px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:5px;font-size:20px;border-top-right-radius: 0px !important;border-bottom-right-radius: 0px !important;" uib-typeahead="user as user.first_name + ' ' + user.last_name for user in userSearch($viewValue)"/>
+          <span class="input-group-btn" style="border-top-right-radius: 10px !important;border-bottom-right-radius: 10px !important;" ng-click="add(u.indx, k.selectedMember)">
+            <button type="button" class="btn btn-default" style="border-top-right-radius: 10px !important;border-bottom-right-radius: 10px !important;"><i class="fa fa-plus"></i></button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

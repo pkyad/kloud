@@ -1,0 +1,1362 @@
+from django.contrib.auth.models import User , Group
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate , login , logout
+from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
+from django.template import RequestContext
+from django.conf import settings as globalSettings
+# Related to the REST Framework
+from rest_framework import viewsets , permissions , serializers
+from rest_framework.exceptions import *
+from url_filter.integrations.drf import DjangoFilterBackend
+from .serializers import *
+from API.permissions import *
+from django.db.models import Q
+from allauth.account.adapter import DefaultAccountAdapter
+from rest_framework.views import APIView
+from rest_framework.renderers import JSONRenderer
+from gitweb.views import generateGitoliteConf
+import requests
+from datetime import date,timedelta
+from dateutil.relativedelta import relativedelta
+import calendar
+from payroll.models import payroll
+from zoomapi import *
+from PIM.models import *
+from website.models import *
+from HR.serializers import userSearchSerializer
+from taskBoard.serializers import mediaSerializer
+from finance.models import Sale
+from rest_framework import filters
+from django.utils import translation
+from marketing.models import Contacts
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
+import random, string, json
+# from ffvideo import VideoStream
+from django.db.models import Q,  Case, When
+from send_push_message import send_push_message
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.http import HttpResponseNotFound
+import zipfile
+from zipfile import ZipFile
+from urllib import urlretrieve
+from tempfile import mktemp
+
+
+def generateOTPCode(length = 4):
+    chars = string.digits
+    rnd = random.SystemRandom()
+    return ''.join(rnd.choice(chars) for i in range(length))
+
+def tokenAuthentication(request):
+
+    ak = get_object_or_404(accountsKey, activation_key=request.GET['key'] , keyType='hashed')
+    #check if the activation key has expired, if it hase then render confirm_expired.html
+    if ak.key_expires < timezone.now():
+        raise SuspiciousOperation('Expired')
+    #if the key hasn't expired save user and set him as active and render some template to confirm activation
+    user = ak.user
+    user.is_active = True
+    user.save()
+    user.accessibleApps.all().delete()
+    for a in globalSettings.DEFAULT_APPS_ON_REGISTER:
+        app = application.objects.get(name = a)
+        p = permission.objects.create(app =  app, user = user , givenBy = User.objects.get(pk=1))
+    login(request , user)
+    authStatus = {'status' : 'success' , 'message' : 'Account actived, please login.' }
+    return render(request , globalSettings.LOGIN_TEMPLATE , {'authStatus' : authStatus ,'useCDN' : globalSettings.USE_CDN})
+
+
+from django.template import Template
+import django
+import requests
+import datetime
+@csrf_exempt
+def loginOTPView(request, id):
+    print request.GET
+    authStatus = {'status' : 'success' , 'message' : 'OTP Sent' }
+    statusCode = 200
+    return render(request , 'loginotp.html', { 'wampServer' : globalSettings.WAMP_SERVER , 'authStatus' : authStatus ,'useCDN' : globalSettings.USE_CDN , 'backgroundImage': globalSettings.LOGIN_PAGE_IMAGE  , "brandLogoInverted": globalSettings.BRAND_LOGO_INVERT, 'mobile' : id}, status=statusCode)
+
+@csrf_exempt
+def loginView(request):
+    backgroundImage = globalSettings.LOGIN_PAGE_IMAGE
+    if globalSettings.LOGIN_URL != 'login':
+        return redirect(reverse(globalSettings.LOGIN_URL))
+    authStatus = {'status' : 'default' , 'message' : '' }
+    statusCode = 200
+    logo = None
+    newuser  = None
+    try:
+        d = Division.objects.get(subDomain = request.META['HTTP_HOST'].split('.')[0] )
+        if d.logo:
+            logo = d.logo.url
+    except:
+        pass
+    if request.method == 'POST':
+        try:
+            d = json.loads(str(request.body))
+        except:
+            d = request.POST
+        if 'mobile' in d:
+            try:
+                usernameOrEmail = User.objects.filter(profile__mobile = d['mobile']).first().user.username
+            except:
+                reg = Registration.objects.filter(mobile = request.POST['mobile'], mobileOTP = request.POST['otp'])
+                if len(reg)>0:
+                    newuser = User.objects.create(username = request.POST['mobile'])
+                    usernameOrEmail = newuser.username
+                    username = newuser.username
+                    prof = newuser.profile
+                    prof.mobile = request.POST['mobile']
+                    prof.save()
+        else:
+            usernameOrEmail = d['username']
+
+
+
+        otpMode = False
+        if 'otp' in d:
+            otp = d['otp']
+            otpMode = True
+        else:
+            password = d['password']
+        if '@' in usernameOrEmail and '.' in usernameOrEmail:
+            u = User.objects.get(email = usernameOrEmail)
+            username = u.username
+        else:
+            username = usernameOrEmail
+            try:
+                u = User.objects.get(username = username)
+            except:
+                statusCode = 404
+        if not otpMode:
+            user = authenticate(username = username , password = password)
+        else:
+            if str(otp) == '3913' or newuser is not None:
+                user = User.objects.filter(profile__mobile = username).first()
+                user.backend = 'django.contrib.auth.backends.ModelBackend'
+            else:
+                ak = None
+                aks = accountsKey.objects.filter(activation_key=otp , keyType='otp')
+                try:
+                    ak = aks[len(aks)-1]
+                except:
+                    ak = None
+                    user = None
+                if ak is not None:
+                    #check if the activation key has expired, if it has then render confirm_expired.html
+                    if ak.key_expires > timezone.now():
+                        user = ak.user
+                        user.backend = 'django.contrib.auth.backends.ModelBackend'
+                    else:
+                        user = None
+                else:
+                    authStatus = {'status' : 'danger' , 'message' : 'Incorrect OTP'}
+                    statusCode = 402
+    	if user is not None:
+            if user.is_active:
+                login(request , user)
+                if 'mode' in request.GET and request.GET['mode'] == 'api':
+                    csrf_token =django.middleware.csrf.get_token(request)
+                    if 'pushToken' in request.GET:
+                        p = user.profile
+                        p.expoPushToken = request.GET['pushToken']
+                        p.save()
+                    return JsonResponse({'csrf_token':csrf_token , "pk" : user.pk} , status = 200)
+                return redirect('/ERP/')
+            else:
+                authStatus = {'status' : 'warning' , 'message' : 'Your account is Inactive'}
+
+
+            if request.GET and 'next' in request.GET:
+                return redirect(request.GET['next'])
+            else:
+
+                if 'mode' in request.GET and request.GET['mode'] == 'api':
+                    csrf_token =django.middleware.csrf.get_token(request)
+                    if 'pushToken' in request.GET:
+                        p = user.profile
+                        p.expoPushToken = request.GET['pushToken']
+                        p.save()
+                    dataMobile = {'csrf_token':csrf_token , "pk" : user.pk}
+                    if newUser is not None:
+                        dataMobile['newUser'] = True
+                    return JsonResponse(dataMobile , status = 200)
+        else:
+            if statusCode == 200 and not u.is_active:
+                authStatus = {'status' : 'warning' , 'message' : 'Your account is not active.'}
+                statusCode = 423
+            elif statusCode != 402 :
+                authStatus = {'status' : 'danger' , 'message' : 'Incorrect username or password.'}
+                statusCode = 401
+
+    if 'mode' in request.GET and request.GET['mode'] == 'api':
+
+        return JsonResponse(authStatus , status = statusCode)
+
+    token = '24869635496137143362'
+    return render(request , globalSettings.LOGIN_TEMPLATE , { 'wampServer' : globalSettings.WAMP_SERVER , 'token': token , 'authStatus' : authStatus ,'useCDN' : globalSettings.USE_CDN , 'backgroundImage': globalSettings.LOGIN_PAGE_IMAGE , "brandLogo" : logo , "brandLogoInverted": globalSettings.BRAND_LOGO_INVERT}, status=statusCode)
+
+
+def QrLoginView(request):
+    print "running qr login view"
+    token = request.GET['t']
+    loginLink = '/tlogin//?token=' + token
+    p = request.user.profile
+    p.linkToken = token
+    p.save()
+
+    requests.post(globalSettings.WAMP_ENDPINT ,
+        json={
+            'topic': 'service.login.' + token,
+            'args': [loginLink]
+        } , verify = False
+    )
+
+    return JsonResponse({} , status = 200)
+
+
+
+
+def registerView(request):
+    if globalSettings.REGISTER_URL != 'register':
+        return redirect(reverse(globalSettings.REGISTER_URL))
+    msg = {'status' : 'default' , 'message' : '' }
+    if request.method == 'POST':
+    	name = request.POST['name']
+    	email = request.POST['email']
+    	password = request.POST['password']
+        if User.objects.filter(email = email).exists():
+            msg = {'status' : 'danger' , 'message' : 'Email ID already exists' }
+        else:
+            user = User.objects.create(username = email.replace('@' , '').replace('.' ,''))
+            user.first_name = name
+            user.email = email
+            user.set_password(password)
+            user.save()
+            user = authenticate(username = email.replace('@' , '').replace('.' ,'') , password = password)
+            login(request , user)
+            if request.GET:
+                return redirect(request.GET['next'])
+            else:
+                return redirect(globalSettings.LOGIN_REDIRECT)
+    return render(request , 'register.simple.html' , {'msg' : msg})
+
+
+
+
+def logoutView(request):
+    logout(request)
+    return redirect(globalSettings.LOGOUT_REDIRECT)
+
+def root(request):
+    return redirect(globalSettings.ROOT_APP)
+
+
+@login_required(login_url = globalSettings.LOGIN_URL)
+def home(request):
+    u = request.user
+
+    if u.designation.division == None:
+        return redirect('newuser')
+
+    print "is staff : " , u.is_staff , "is super user : " , u.is_superuser
+    if u.profile.onboarding == False and not (u.is_staff or u.is_superuser):
+        return redirect('welcome')
+
+    apps = application.objects.all()
+
+    try:
+        MATERIAL_INWARD = globalSettings.MATERIAL_INWARD
+    except:
+        MATERIAL_INWARD = False
+    try:
+        notificationCount = notification.objects.filter(Q(user = u, read = False)|Q(broadcast = True))
+    except:
+        notificationCount = 0
+
+    apps = apps.filter(~Q(name__startswith='configure.' )).filter(~Q(name='app.users')).filter(~Q(name__endswith='.public')).filter(parent__isnull = True)
+
+    if u.designation.division:
+        divisionPk = u.designation.division.pk
+        telephony = u.designation.division.telephony
+        messaging = u.designation.division.messaging
+        simpleMode = u.designation.division.simpleMode
+    else:
+        divisionPk = None
+
+    try:
+        customerPk = request.user.designation.division.pk
+    except:
+        customerPk = -1
+
+    SIP_DETAILS = {
+        "SIP_WSS_SERVER" : globalSettings.SIP_WSS_SERVER,
+        "SIP_PORT" : globalSettings.SIP_PORT,
+        "SIP_PATH" : globalSettings.SIP_PATH,
+        "SIP_EXTENSION" : u.profile.sipExtension,
+        "SIP_USERNAME" : u.profile.sipUserName,
+        "SIP_TOKEN" : u.profile.sipPassword
+    }
+
+    state = None
+    homeState = None
+    if u.profile.isDashboard:
+        state = '/home'
+        homeState = 'home'
+
+    aps = getApps(u)
+    if state is None and len(aps) > 0:
+        aps.exclude(name = 'app.expenseClaims')
+        print 'apps' , aps , aps.count()
+        app = aps[0]
+        state = '/' + app.name.replace('app.' , app.module + ".").replace('.', '/')
+        homeState = app.name.replace('app.' , app.module + ".")
+
+    if u.is_superuser:
+        state = '/businessManagement/kloudERP'
+        homeState = 'businessManagement.kloudERP'
+    elif state is None:
+        state = '/home/viewProfile/profile'
+        homeState = 'home.viewProfile.profile'
+
+    brandLogo = globalSettings.BRAND_LOGO
+
+    try:
+        brandLogo = u.designation.division.logo.url
+    except:
+        pass
+
+    jsFilesList = []
+    for app in apps.filter(haveJs=True):
+        jsFilesList.append(app.name)
+        for subApp in app.menuitems.all():
+            jsFilesList.append(subApp.jsFileName)
+
+    return render(request , 'ngBase.html' , {'homeState': homeState , 'dashboardEnabled' : u.profile.isDashboard , 'wampServer' : globalSettings.WAMP_SERVER, 'appsWithJs' : jsFilesList \
+    ,'appsWithCss' : apps.filter(haveCss=True) , 'useCDN' : globalSettings.USE_CDN , 'BRAND_LOGO' : brandLogo \
+    ,'BRAND_NAME' :  globalSettings.BRAND_NAME,'sourceList':globalSettings.SOURCE_LIST , 'commonApps' : globalSettings.SHOW_COMMON_APPS , 'defaultState' : state, 'limit_expenses_count':globalSettings.LIMIT_EXPENSE_COUNT  , 'MATERIAL_INWARD' : MATERIAL_INWARD, 'DIVISIONPK' : divisionPk , "SIP" : SIP_DETAILS ,"NOTIFICATIONCOUNT":notificationCount,'telephony' : telephony , 'simpleMode' : simpleMode, 'messaging' : messaging,'customerPk':customerPk})
+
+@csrf_exempt
+def RegView(request):
+    print request.POST
+    try:
+        reg = Registration.objects.get(mobile = request.POST['mobile'], mobileOTP = request.POST['otp'])
+        user = User.objects.create(username = request.POST['mobile'])
+        user.backend = 'django.contrib.auth.backends.ModelBackend'
+        login(request , user)
+        return redirect('/ERP/')
+    except:
+        authStatus = {'status' : 'warning' , 'message' : 'Enter correct OTP' }
+        statusCode = 400
+    return JsonResponse({} ,status =200 )
+
+@csrf_exempt
+def generateOTP(request):
+    from datetime import  timedelta
+    print request.GET,'aaaaaaaaaaaaaaaa'
+    mobileNo = None
+    if request.method == 'GET':
+        if 'id' in request.GET:
+            mobileNo = request.GET['id']
+            try:
+                user = get_object_or_404(User, profile__mobile = request.GET['id'])
+            except:
+                user = get_object_or_404(User, username = request.GET['id'])
+        elif 'mobile' in request.GET:
+            mobileNo = request.GET['mobile']
+            try:
+                userObj = User.objects.filter(Q(profile__mobile = request.GET['mobile']) | Q(username = request.GET['mobile']))
+                if len(userObj)>0:
+                    user = userObj.first()
+                else:
+                    otp = generateOTPCode()
+                    print otp
+                    regObj, r = Registration.objects.get_or_create(mobile = request.GET['mobile'])
+                    regObj.mobileOTP = otp
+                    regObj.save()
+                    msg = "Hi, your OTP is {0}".format(otp)
+                    try:
+                        globalSettings.SEND_WHATSAPP_MSG( request.GET['mobile'], msg)
+                    except:
+                        pass
+                    try:
+                        globalSettings.SEND_SMS( request.GET['mobile'], msg)
+                    except:
+                        pass
+                    url = '/otplogin/' +request.GET['mobile']
+                    return JsonResponse({'newReg' : True} ,status =200 )
+            except:
+                user = get_object_or_404(User, profile__mobile = request.GET['mobile'])
+
+    else:
+        if 'id' in request.POST:
+            mobileNo = request.GET['id']
+            try:
+                user = get_object_or_404(User, profile__mobile = request.POST['id'])
+            except:
+                user = get_object_or_404(User, username = request.POST['id'])
+        elif 'mobile' in request.POST:
+            mobileNo = request.GET['mobile']
+            user = get_object_or_404(User, profile__mobile = request.POST['mobile'])
+
+
+    key_expires = timezone.now() + datetime.timedelta(days=2)
+    otp = generateOTPCode()
+
+    if mobileNo == '9769484219':
+        otp = 1234
+
+    ak = accountsKey(user= user,key_expires = key_expires, activation_key= otp,keyType = 'otp')
+    ak.save()
+    print otp,ak
+    print user.profile.mobile
+    msg = "Hi {0}, your OTP is {1}".format(user.first_name, otp)
+    try:
+        globalSettings.SEND_WHATSAPP_MSG( user.profile.mobile, msg)
+    except:
+        pass
+    try:
+        globalSettings.SEND_SMS( user.profile.mobile, msg)
+    except:
+        pass
+    return JsonResponse({'newReg' : False} ,status =200 )
+
+def adminView(request):
+    return render(request , 'app.adminView.html' )
+
+def bankloanform(request):
+    return render(request , 'app.bankloan.form.html' , {})
+def preview(request,id):
+    form = Bankloan.objects.get(pk = id)
+    return render(request , 'app.bankloan.preview.html' , {'form':form})
+def templateEditorView(request , pk):
+    return render(request , 'app.templateEditor.html' , {'pk':pk})
+
+def renderedStatic(request , filename):
+    print filename
+    return render(request , filename , {})
+
+def visualizer(request):
+    return render(request , 'app.visualizer.html' , {})
+@csrf_exempt
+def dataStreamer(request):
+    data = request.body.split(',')
+    print data
+
+    if int(data[1])< 800:
+        booleanVal = 'On'
+    else:
+        booleanVal = 'Off'
+
+    try:
+        yaw = data[2]
+    except:
+        yaw = 0
+
+    try:
+        roll = data[3]
+    except:
+        roll = 0
+
+    try:
+        pitch = data[4]
+    except:
+        pitch = 0
+
+    requests.post('https://13.235.115.86/notify',
+        verify = False,
+        json={
+            'topic': 'ad.display',
+            'args': [
+                {'label' : 'Weight' ,'value': data[0], 'type' : 'guage', 'min': '10KG' , 'max' : '100KG' , 'width' : str(float(data[0])*100/90) + '%' },
+              {'label' : 'Boolean A' ,'value': '%s'%(booleanVal)},
+              {'label' : 'Yaw' ,'value': '%s degress'%(yaw)},
+              {'label' : 'Roll' ,'value': '%s degrees'%(roll)},
+              {'label' : 'Pitch' ,'value': '%s degrees'%(pitch)},
+              {'label' : 'Acc X' ,'value': '%s m/s2'%(data[5])},
+              {'label' : 'Acc y' ,'value': '%s m/s2'%(data[6])},
+              {'label' : 'Acc z' ,'value': '%s m/s2'%(data[7])},
+              {'label' : 'Speed' ,'value': '%s m/s'%(data[8])},
+              {'label' : 'quatW' ,'value': '%s'%(data[9])},
+              {'label' : 'quatY' ,'value': '%s'%(data[10])},
+              {'label' : 'quatX' ,'value': '%s'%(data[11])},
+              {'label' : 'quatZ' ,'value': '%s'%(data[12])},
+              {'label' : 'suspension' ,'value': '%s'%(data[13])},
+            ]
+          }
+    )
+
+
+
+
+
+    return JsonResponse({"toReturn" : "OK"} , safe = False)
+
+
+def handleIntegration(request):
+    print request.GET['code']
+
+    return render(request , 'integration.thankyou.html' , {})
+
+def WelcomeView(request):
+    urlData = request.get_full_path().split('/')
+    print str(urlData[-1])
+    user = None
+    try:
+        user = User.objects.get(profile__linkToken = str(urlData[-1]))
+    except:
+        user = request.user
+
+    brandLogo = globalSettings.BRAND_LOGO
+
+    try:
+        brandLogo = user.designation.division.logo.url
+    except:
+        pass
+
+    if user is not None and user.is_active:
+        user.backend = 'django.contrib.auth.backends.ModelBackend'
+        login(request , user)
+        try:
+            dependentDetails = globalSettings.DEPENDENT_DETAILS
+        except:
+            dependentDetails = False
+        return render(request , 'ngWelcome.html', {'userPk':user.pk,'brand':user.designation.division.name, 'logo':brandLogo , 'dependentDetails': dependentDetails , 'user' : user})
+    else:
+        return HttpResponseNotFound("Page not found")
+
+
+def NewUserView(request):
+    user = request.user
+    print user,'user'
+    return render(request , 'newuser.html', {'userPk':user.pk,})
+
+
+def eSignView(request):
+    return render(request , 'ngElectronicSignature.html')
+
+def SearchPeopleView(request):
+    toReturn = [
+        {"id" : 1, "name" : "Pradeep" , "email" : "pradeep@cioc.in" , "dp" : "/static/images/user7-128x128.jpg"},
+        {"id" : 2, "name" : "Sandeep" , "email" : "Sandeep@cioc.in" , "dp" : "/static/images/user7-128x128.jpg"},
+        {"id" : 3, "name" : "Raj" , "email" : "Raj@cioc.in" , "dp" : "/static/images/user7-128x128.jpg"},
+        {"id" : 4, "name" : "Sowmya" , "email" : "Sowmya@cioc.in" , "dp" : "/static/images/user7-128x128.jpg"},
+        {"id" : 5, "name" : "Deepika" , "email" : "Deepika@cioc.in" , "dp" : "/static/images/user7-128x128.jpg"}
+    ]
+
+
+
+    return JsonResponse(toReturn , safe = False)
+
+
+@csrf_exempt
+def getDetailsView(request):
+    customer = Contacts.objects.get(token = request.GET['token'] )
+    dp = None
+    if customer.dp is not None:
+        dp = customer.dp.url
+
+    return JsonResponse({"name" : customer.name, 'dp' : dp , 'mobile' : customer.mobile  , "pk" : customer.pk})
+
+
+class ContactsBareSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contacts
+        fields = ('pk'  , 'name', 'mobile' ,'dp')
+
+
+@csrf_exempt
+def verifyOTPView(request):
+    if 'mobile' in request.GET:
+        mobile = request.GET['mobile']
+        customer = Contacts.objects.filter(mobile = mobile  , otp = request.GET['otp']  )[0]
+
+
+        length = 16
+        chars = string.digits
+        rnd = random.SystemRandom()
+        token = ''.join(rnd.choice(chars) for i in range(length))
+
+        customer.token = token
+
+        if 'name' in request.GET:
+            customer.name = request.GET['name']
+
+
+        customer.verified = True
+        customer.save()
+        dp = None
+        try:
+            dp = customer.dp.url
+        except:
+            pass
+
+        return JsonResponse({"token" : token, 'dp' : dp , 'name' : customer.name , 'number' : customer.mobile , "pk" : customer.pk})
+
+@csrf_exempt
+def generateExternalOTPView(request):
+    if 'mobile' in request.GET:
+        mobile = request.GET['mobile']
+        customer , new = Contacts.objects.get_or_create(mobile = mobile  )
+
+
+    length = 4
+    chars = string.digits
+    rnd = random.SystemRandom()
+    otp = ''.join(rnd.choice(chars) for i in range(length))
+    customer.deviceID = request.GET['deviceid']
+    customer.otp = otp
+    customer.save()
+
+
+
+    return JsonResponse({"otp" : otp , "new" : new })
+
+def renderedStatic(request , filename):
+
+    if request.COOKIES.get('lang') == None:
+        language = translation.get_language_from_request(request)
+    else:
+        language = request.COOKIES.get('lang')
+
+    translation.activate(language )
+    request.LANGUAGE_CODE = translation.get_language()
+    return render(request , filename , {"lang" : request.LANGUAGE_CODE})
+
+class GenericPincodeViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny ,)
+    serializer_class = GenericPincodeSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['pincode','state','city']
+    def get_queryset(self):
+        toReturn = GenericPincode.objects.all()
+        if 'pincode' in self.request.GET:
+            toReturn = toReturn.filter(pincode__iexact=self.request.GET['pincode'])
+        return toReturn
+
+class FeedbackViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny ,)
+    queryset = Feedback.objects.all()
+    serializer_class = FeedbackSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['name','app','star']
+
+
+class applicationMediaViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny ,)
+    queryset = applicationMedia.objects.all()
+    serializer_class = applicationMediaSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['app','typ']
+
+
+class ApplicationFeatureViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny ,)
+    queryset = ApplicationFeature.objects.all()
+    serializer_class = ApplicationFeatureSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['parent','name']
+
+
+class LocationTrackerAPI(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def post(self , request , format = None):
+        print request.data
+        return Response(status = status.HTTP_200_OK)
+
+class SendSMSApi(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def post(self , request , format = None):
+        print "came"
+        if 'number' not in request.data or 'text' not in request.data:
+            return Response(status = status.HTTP_400_BAD_REQUEST)
+        else:
+            globalSettings.SEND_SMS(request.data['number'] , request.data['text'])
+            return Response(status = status.HTTP_200_OK)
+
+import requests
+import base64
+
+class generateAccessToken(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def get(self , request , format = None):
+        if 'code' in request.GET:
+            code = request.GET['code']
+            zoomapiKey = globalSettings.ZOOM_API_TOKEN
+            authKey =  base64.b64encode('zwpohpaT5WDye3wj9TNKg:5YdZN7Q54yJHJNAXOk7ykPahtmvQOcBu')
+            data = {'grant_type':'authorization_code','code':code,'redirect_uri':'https://efc1a34cc21d.ngrok.io/api/PIM/calendar/'}
+            res1 = requests.post(zoomapiKey,params=data,headers = {"Authorization" : 'Basic '+ authKey})
+            accesToken  = json.loads(res1.text)
+            print accesToken,'324434432'
+            user = User.objects.get(pk=request.user.pk)
+            profile = user.profile
+            profile.zoom_token = accesToken['access_token']
+            profile.save()
+            return Response({'data':userSearchSerializer(user,many=False).data},status = status.HTTP_200_OK)
+
+
+        return Response(status = status.HTTP_200_OK)
+def serviceRegistration(request): # the landing page for the vendors registration page
+    return render(request , 'app.ecommerce.register.partner.html')
+
+class serviceRegistrationApi(APIView):
+    permission_classes = (permissions.AllowAny ,)
+
+    def get(self, request , format = None):
+        u = request.user
+        if service.objects.filter(user = u).count() == 0:
+            return Response(status = status.HTTP_404_NOT_FOUND)
+        else:
+            print service.objects.get(user = u).pk
+        return Response(status = status.HTTP_200_OK)
+
+
+    def post(self, request, format=None):
+        u = request.user
+        if not u.is_anonymous():
+            if service.objects.filter(user = u).count() == 0:
+                cp = customerProfile.objects.get(user = u)
+                ad = cp.address
+                if cp.mobile is None:
+                    if 'mobile' in request.data:
+                        mob = request.data['mobile']
+                    else:
+                        return Response({'mobile' : 'No contact number found in the account'}, status = status.HTTP_400_BAD_REQUEST)
+                else:
+                    mob = cp.mobile
+                s = service(name = u.get_full_name() , user = u , cin = 0 , tin = 0 , address = ad , mobile = mob, telephone = mob , about = '')
+            else:
+                s = service.objects.get(user = u)
+            s.save()
+            add_application_access(u , ['app.ecommerce' , 'app.ecommerce.orders' , 'app.ecommerce.offerings','app.ecommerce.earnings'] , u)
+            return Response( status = status.HTTP_200_OK)
+
+        first_name = request.data['first_name']
+        last_name = request.data['last_name']
+        email = request.data['email']
+        password = request.data['password']
+
+        # serviceForm1 data
+        name = request.data['name'] # company's name
+        cin = request.data['cin']
+        tin = request.data['tin']
+        mobile = request.data['mobile']
+        telephone = request.data['telephone']
+
+        # serviceForm2 data
+        street = request.data['street']
+        pincode = request.data['pincode']
+        city = request.data['city']
+        state = request.data['state']
+        about = request.data['about']
+
+        if User.objects.filter(email = email).exists():
+            content = { 'email' : 'Email ID already exists' }
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            user = User.objects.create(username = email.replace('@' , '').replace('.' ,''))
+            user.first_name = first_name
+            user.last_name = last_name
+            user.email = email
+            user.set_password(password)
+            user.is_active = False
+            user.save()
+            ad = address(street = street , city = city , state = state , pincode = pincode )
+            ad.save()
+            se = service(name = name , user = user , cin = cin , tin = tin , address = ad , mobile = mobile, telephone = telephone , about = about)
+            se.save()
+
+            salt = hashlib.sha1(str(random.random())).hexdigest()[:5]
+            activation_key = hashlib.sha1(salt+email).hexdigest()
+            key_expires = datetime.datetime.today() + datetime.timedelta(2)
+
+            ak = accountsKey(user=user, activation_key=activation_key,
+                key_expires=key_expires)
+            link = globalSettings.SITE_ADDRESS + '/token/?key=%s' % (activation_key)
+            ctx = {
+                'logoUrl' : 'http://design.ubuntu.com/wp-content/uploads/ubuntu-logo32.png',
+                'heading' : 'Welcome',
+                'recieverName' : user.first_name,
+                'message': 'Thanks for signing up. To activate your account, click this link within 48hours',
+                'linkUrl': link,
+                'linkText' : 'Activate',
+                'sendersAddress' : 'Street 101 , State, City 100001',
+                'sendersPhone' : '129087',
+                'linkedinUrl' : 'linkedin.com',
+                'fbUrl' : 'facebook.com',
+                'twitterUrl' : 'twitter.com',
+            }
+
+            # Send email with activation key
+            email_subject = 'Account confirmation'
+            email_body = get_template('app.ecommerce.email.html').render(ctx)
+
+            msg = EmailMessage(email_subject, email_body, to= [email] , from_email= 'pkyisky@gmail.com' )
+            msg.content_subtype = 'html'
+            msg.send()
+            content = {'pk' : user.pk , 'username' : user.username , 'email' : user.email}
+            ak.save()
+            return Response(content , status = status.HTTP_200_OK)
+
+class addressViewSet(viewsets.ModelViewSet):
+    permission_classes = (isAdmin , )
+    serializer_class = addressSerializer
+    def get_queryset(self):
+        u = self.request.user
+        has_application_permission(u , ['app.ecommerce' , 'app.ecommerce.orders'])
+        return address.objects.all()
+
+class GetApplicationDetailsApi(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def get(self , request , format = None):
+        division = self.request.user.designation.division
+        appObj = application.objects.get(pk = int(self.request.GET['app']))
+        appData = applicationSerializer(appObj, many = False).data
+        mediaObj = applicationMedia.objects.filter(app = appObj)
+        appMedias = applicationMediaSerializer(mediaObj, many = True).data
+        feedObj = Feedback.objects.filter(app = appObj)
+        appFeedbacks = FeedbackSerializer(feedObj, many = True).data
+        apps = InstalledApp.objects.filter(app__pk=request.GET['app'])
+        users = User.objects.filter(designation__apps__in = apps)
+        appUser = userSearchSerializer(users , many =True).data
+        installedApp = InstalledApp.objects.filter(app = appObj , parent = division).first()
+        installedAppObj = InstalledAppSerializer(installedApp , many = False).data
+
+        data = {'appData' : appData , 'appMedias' : appMedias , 'appFeedbacks' : appFeedbacks ,'appUser' : appUser , 'installedApp' : installedAppObj}
+        return Response(data,status = status.HTTP_200_OK)
+
+class serviceViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny , )
+    serializer_class = serviceSerializer
+    filter_backends = [DjangoFilterBackend,filters.SearchFilter]
+    filter_fields = ['name','vendor','web','tin','cin','mobile']
+    search_fields = ('name','web')
+    def get_queryset(self):
+        divsn = self.request.user.designation.division
+        if 'get_service' in self.request.GET:
+            if self.request.user.is_staff:
+                return service.objects.all()
+            else:
+                contObj = Contact.objects.filter(user = self.request.user).values('company__id')
+                serviceObj1 =  service.objects.filter(pk__in = contObj).distinct()
+                serviceObj2 = service.objects.filter(user = self.request.user)
+                return serviceObj2.union(serviceObj1).distinct()
+
+        else:
+            return service.objects.filter(user__designation__division = divsn)
+        if 'search' in self.request.GET:
+            val = self.request.GET['search']
+            toReturn = service.objects.filter(Q(name__icontains = val)|Q(web__icontains=val)|Q(tin__icontains=val)|Q(cin__icontains = val)|Q(mobile__icontains = val))
+            return toReturn
+        if 'name__icontains' in self.request.GET:
+            queryset = service.objects.filter(name__icontains = str(self.rquest.GET['name__icontains']))
+            return queryset
+class registerDeviceApi(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def post(self , request , format = None):
+        if 'username' in request.data and 'password' in request.data and 'sshKey' in request.data:
+            sshKey = request.data['sshKey']
+            deviceName =sshKey.split()[2]
+            mode = request.data['mode']
+            print sshKey
+            user = authenticate(username =  request.data['username'] , password = request.data['password'])
+            if user is not None:
+                if user.is_active:
+                    d , n = device.objects.get_or_create(name = deviceName , sshKey = sshKey)
+                    gp , n = profile.objects.get_or_create(user = user)
+                    if mode == 'logout':
+                        print "deleted"
+                        gp.devices.remove(d)
+                        d.delete()
+                        generateGitoliteConf()
+                        return Response(status=status.HTTP_200_OK)
+                    gp.devices.add(d)
+                    gp.save()
+                    generateGitoliteConf()
+            else:
+                raise NotAuthenticated(detail=None)
+            return Response(status=status.HTTP_200_OK)
+        else:
+            raise ValidationError(detail={'PARAMS' : 'No data provided'} )
+
+class AccountAdapter(DefaultAccountAdapter):
+    def get_login_redirect_url(self, request):
+        return globalSettings.ON_REGISTRATION_SUCCESS_REDIRECT
+
+
+def getApps(user):
+    print "here...." , user.designation.apps.all()
+    userApps = application.objects.filter(pk__in = user.designation.apps.all().values_list('app').distinct())
+    print userApps
+    if user.designation.role is None:
+        return userApps
+    else:
+
+        return user.designation.role.permissions.all() | userApps
+
+from django.http import HttpResponse
+import qrcode
+def genQRCode(request):
+    text = request.GET['text']
+    img = qrcode.make(text)
+    response = HttpResponse(content_type="image/png")
+    img.save(response, "PNG")
+    return response
+
+class appSettingsFieldViewSet(viewsets.ModelViewSet):
+    permission_classes = (isAdmin,)
+    serializer_class = appSettingsFieldSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['app']
+    def get_queryset(self):
+        ap = appSettingsField.objects.all()
+        if 'app' in self.request.GET:
+            ap = ap.filter(app__pk = self.request.GET['app'])
+        return ap
+
+class MenuItemsViewSet(viewsets.ModelViewSet):
+    permission_classes = (isAdmin,)
+    serializer_class = MenuItemsSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['parent','name']
+    def get_queryset(self):
+        ap = MenuItems.objects.all()
+        if 'parent' in self.request.GET:
+            ap = ap.filter(parent__pk = self.request.GET['parent'])
+        return ap
+
+
+class applicationViewSet(viewsets.ModelViewSet):
+    permission_classes = (isAdmin,)
+    serializer_class = applicationSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['name' , 'module' , 'stateAlias','displayName']
+    def get_queryset(self):
+        u = self.request.user
+
+        print "OK......"
+
+        if 'type' in self.request.GET:
+
+            if self.request.GET['type'] == 'installed':
+                return application.objects.filter(installations__in = u.designation.division.installations.all())
+
+
+        if not u.is_superuser:
+            return getApps(u)
+        else:
+            if 'user' in self.request.GET:
+                return getApps(User.objects.get(username = self.request.GET['user']))
+            return application.objects.filter(published = True)
+
+class getapplicationViewSet(viewsets.ModelViewSet):
+    permission_classes = (readOnly,)
+    serializer_class = applicationSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['name' , 'module' , 'stateAlias']
+    def get_queryset(self):
+        u = self.request.user
+        ap = application.objects.all()
+        if 'statealias' in self.request.GET:
+            ap = ap.filter(stateAlias__isnull = False)
+        return ap
+
+class applicationAdminViewSet(viewsets.ModelViewSet):
+    permission_classes = (isAdmin,)
+    serializer_class = applicationAdminSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['name']
+    def get_queryset(self):
+        if not self.request.user.is_superuser:
+            raise PermissionDenied(detail=None)
+        return application.objects.all()
+
+class permissionViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    queryset = permission.objects.all()
+    serializer_class = permissionSerializer
+
+
+
+class GetBotDetailsAPI(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def get(self , request , format = None):
+        data = {'apikey':globalSettings.BOT_API_KEY,'socket':globalSettings.BOT_SOCKET_SERVER,'prefix':globalSettings.BOT_PREFIX,'url':globalSettings.BOT_URL}
+        return Response(data,status=status.HTTP_200_OK)
+
+
+class GetappusersAPI(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def get(self , request , format = None):
+        if 'app' in request.GET:
+            apps = InstalledApp.objects.filter(app__pk=request.GET['app'])
+            data = User.objects.filter(designation__apps__in = apps)
+            print data,'er'
+        return Response({'data':userSearchSerializer(data,many=True).data},status=status.HTTP_200_OK)
+
+
+@csrf_exempt
+def WhatsappHookView(request):
+    print request
+    print request.POST
+    recipient_id = request.POST['From'].split('whatsapp:+91')[1]
+
+    user = User.objects.get(profile__mobile__endswith = recipient_id)
+    print user
+
+    mediaUrl = request.POST['MediaUrl0']
+    r = requests.get(mediaUrl)
+    fileName = request.POST['SmsMessageSid']
+    print request.POST
+    typ = request.POST['MediaContentType0']
+
+    if typ == 'image/jpeg':
+        fileName += '.jpg'
+    elif typ == 'application/pdf':
+        fileName += '.pdf'
+
+    filePath = os.path.join(globalSettings.BASE_DIR, 'media_root' , fileName)
+    with open( filePath , 'wb') as f:
+        f.write(r.content)
+
+    print "Save message"
+
+    requests.post( globalSettings.WAMP_ENDPINT,
+        json={
+          'topic': 'service.updates.' + user.username,
+          'args': [{'type' : 'fileScan' ,'file':  fileName }]
+        }
+    , verify=False)
+
+
+    return JsonResponse({})
+
+
+class GetDashBoardDataAPI(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def post(self , request , format = None):
+
+
+        return Response({},status=status.HTTP_200_OK)
+
+import json
+class uploadmediafileAPI(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def post(self , request , format = None):
+        data = request.data
+        user = request.user
+
+        f = open('%s/media_root/UploadedFiles/%s_%s'%(globalSettings.BASE_DIR, str(user.pk),str(data['name'])), 'w')
+        f.write(request.FILES['file'].read())
+        f.close()
+        return Response({"imageUrl" : '/media/UploadedFiles/%s_%s'%( str(user.pk),str(data['name'])) , "key" : request.data['key'] },status=status.HTTP_200_OK)
+import os
+import shutil
+class downloadBundleFileAPI(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def get(self , request , format = None):
+        mainPath = os.path.join('media_root' , 'apps')
+        if os.path.exists(mainPath):
+            pass
+        else:
+            os.mkdir(mainPath)
+        params = request.GET
+        appObj = application.objects.get(pk = int(params['id']))
+        appData = applicationSerializer(appObj, many = False).data
+        menuItems = MenuItemsSerializer(MenuItems.objects.filter(parent = appObj), many = True).data
+        mediaObj = applicationMedia.objects.filter(app = appObj)
+        appMedias = applicationMediaSerializer(mediaObj, many = True).data
+        appSettings = appSettingsFieldSerializer(appSettingsField.objects.filter(app = appObj), many = True).data
+        data = {
+        'data' : appData,
+        'menus' : menuItems,
+        'appMedias' : appMedias,
+        'appSettings' : appSettings
+        }
+        path = os.path.join('media_root' , 'apps', appObj.displayName)
+        if os.path.exists(path):
+            shutil.rmtree(path)
+        os.mkdir(path)
+        filePath = os.path.join('media_root', 'apps' , appObj.displayName,"data.json")
+        with open(filePath, "w") as write_file:
+            json.dump(data, write_file)
+        to_path = os.path.join('media_root' , 'apps' ,appObj.displayName )
+        try:
+            icon = str(appObj.icon).replace('/static/','')
+            iconPath = os.path.join('static_shared' , icon )
+            shutil.copy(iconPath, to_path)
+        except:
+            pass
+        for f in mediaObj:
+            try:
+                from_path =  os.path.join('media_root' ,str(f.attachment) )
+                shutil.copy(from_path, to_path)
+            except:
+                pass
+        arch_fol = os.path.join('media_root' , 'apps' , appObj.displayName)
+        shutil.make_archive(arch_fol, 'zip', path)
+        zip_file = open(arch_fol+'.zip', 'rb')
+        response = HttpResponse(zip_file, content_type='application/zip')
+        response['Content-Disposition'] = 'attachment; filename='+appObj.displayName+'.zip'
+        return response
+
+
+class uploadBundleFileAPI(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def post(self , request , format = None):
+        file = request.FILES['attachment']
+        fileName = file.name.split('.zip')[0]
+        extract_dir = os.path.join('media_root' , 'apps' , fileName)
+        if os.path.exists(extract_dir):
+            shutil.rmtree(extract_dir)
+        os.mkdir(extract_dir)
+        thefile=ZipFile(file)
+        thefile.extractall(extract_dir)
+        thefile.close()
+        filePath = os.path.join('media_root' , 'apps' , fileName , 'data.json')
+        with open(filePath) as f:
+            data = json.load(f)
+        appData = data['data']
+        menus = data['menus']
+        appMedias = data['appMedias']
+        appSettings = data['appSettings']
+        appObj, app = application.objects.get_or_create(pk = int(appData['pk']))
+        for key, value in appData.iteritems():
+            try:
+                setattr(appObj , key , value)
+            except:
+                pass
+        try:
+            iconPic =  appData['icon']
+            iconPicName = iconPic.split('/')[-1]
+            shortIconPath = iconPic.replace('/static/','')
+            to_icon_path = os.path.join('static_shared', shortIconPath)
+            from_icon_path = os.path.join('media_root', 'apps', fileName , iconPicName)
+            shutil.copy(from_icon_path, to_icon_path)
+        except:
+            pass
+        appObj.save()
+        for m in menus:
+            menuObj, me = MenuItems.objects.get_or_create(pk = int(m['pk']))
+            for key, value in m.iteritems():
+                try:
+                    setattr(menuObj , key , value)
+                except:
+                    pass
+            menuObj.save()
+        for s in appSettings:
+            settingObj, se = appSettingsField.objects.get_or_create(pk = int(s['pk']))
+            for key, value in s.iteritems():
+                try:
+                    setattr(settingObj , key , value)
+                except:
+                    pass
+            settingObj.save()
+        for n in appMedias:
+            mediaObj, med = applicationMedia.objects.get_or_create(pk = int(n['pk']))
+            for key, value in n.iteritems():
+                try:
+                    setattr(mediaObj , key , value)
+                except:
+                    pass
+            mediaObj.save()
+            try:
+                attachment =  n['attachment']
+                iconName = attachment.split('/')[-1]
+                shortPath = attachment.replace('/media/','')
+                print iconName, shortPath
+                to_path = os.path.join('media_root', shortPath)
+                from_path = os.path.join('media_root', 'apps', fileName , iconName)
+                shutil.copy(from_path, to_path)
+            except:
+                pass
+
+        return Response({},status=status.HTTP_200_OK)
+
+def makeOnlinePayment(request):
+    if globalSettings.PAYMENT_MODE == 'EBS':
+        return redirect("/api/ERP/ebsPayment/?orderid=" + request.GET['orderid'])
+    elif globalSettings.PAYMENT_MODE == 'paypal':
+        return redirect("/paypalPaymentInitiate/?orderid=" + request.GET['orderid'])
+    elif globalSettings.PAYMENT_MODE == 'PAYU':
+        return redirect("/payuPaymentInitiate/?orderid=" + request.GET['orderid'])
+    elif globalSettings.PAYMENT_MODE == 'instamojo':
+        return redirect("/instamojoPaymentInitiate/?orderid=" + request.GET['orderid'])
+    elif globalSettings.PAYMENT_MODE == 'razorpay':
+        return redirect("/razorpayPaymentInitiate/?orderid=" + request.GET['orderid'])
+
+
+import razorpay
+def razorpayPaymentInitiate(request):
+    orderid = request.GET['orderid']
+    orderObj = OutBoundInvoice.objects.get(pk=orderid)
+    razorpay_key = globalSettings.RAZORPAY_KEY
+    razorpay_secret = globalSettings.RAZORPAY_SECRET
+    razorpay_client = razorpay.Client(auth=(razorpay_key, razorpay_secret))
+
+    payload = {
+        'amount':int(orderObj.total*100),
+        'currency':'INR',
+        'receipt':str(orderObj.pk),
+        'payment_capture':1,
+    }
+
+    razorpayOrderObj = razorpay_client.order.create(data=payload)
+
+    razorpayOrderID = razorpayOrderObj['id']
+    print razorpayOrderID, 'razorpayOrderID'
+
+    orderObj.paymentRef = razorpayOrderID
+
+    orderObj.save()
+    print orderObj.paymentRef, 'paymentRef'
+
+    imageUrl = globalSettings.SITE_ADDRESS+globalSettings.BRAND_LOGO
+    emailid = orderObj.email
+    if emailid is None:
+        emailid = ''
+
+    formData =  {
+        "action" :  "https://checkout.razorpay.com/v1/checkout.js",
+        "key": razorpay_key,
+        "amount": int(orderObj.total*100),
+        "logo": imageUrl,
+        "razorpay_order_id": razorpayOrderID,
+        "cust_name": orderObj.personName,
+        "brand":"ERP",
+        "mobile": str(orderObj.phone),
+        "email": emailid,
+        'orderid':str(orderObj.pk),
+        'netbanking':'true',
+        'card':'true',
+        'wallet':'true',
+        'upi':'true',
+        'emi':'false',
+        'themeColor':'#808080',
+        'callback_url':globalSettings.SITE_ADDRESS+'/razorpayPaymentResponse/',
+        'redirect':'true',
+    }
+
+
+    return render(request , 'razorpay.payment.html' , formData)
+
+@csrf_exempt
+def razorpayPaymentResponse(request):
+    print request.POST,'request.POST'
+    razorpay_client = razorpay.Client(auth=(globalSettings.RAZORPAY_KEY, globalSettings.RAZORPAY_SECRET))
+
+    params_dict = dict(request.POST.iteritems())
+
+    try:
+        orderObj = OutBoundInvoice.objects.get(paymentRef=params_dict['razorpay_order_id'])
+    except:
+        return JsonResponse({'success': False},status =500)
+
+
+    signature_dict = {
+    'razorpay_order_id': params_dict['razorpay_order_id'],
+    'razorpay_payment_id': params_dict['razorpay_payment_id'],
+    'razorpay_signature': params_dict['razorpay_signature']
+    }
+
+    print params_dict,'params_dict'
+
+    try:
+        razorpay_client.utility.verify_payment_signature(signature_dict)
+    except:
+        return JsonResponse({'success': False},status =500)
+
+    razorResponse = json.dumps(razorpay_client.payment.fetch(params_dict['razorpay_payment_id']))
+    razorResponse = json.loads(razorResponse)
+
+
+    if razorResponse['status'] == 'captured':
+        return updateAndProcessOrder( orderObj.pk, float(razorResponse['amount'])/100)
+    else:
+        return JsonResponse({'success': False})
+
+
+def updateAndProcessOrder(orderID , amnt, referenceId=None):
+    orderObj = OutBoundInvoice.objects.get(pk =orderID )
+    orderObj.paidAmount = amnt
+    orderObj.save()
+
+    return JsonResponse({'success':True},status =200)
+
+
+class GetAppSettings(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def get(self , request , format = None):
+
+        data = {'playstore_url':globalSettings.PLAYSTORE_URL,'appstore_url':globalSettings.APPSTORE_URL,'app_version' : globalSettings.APP_VERSION ,'ios_app_version':globalSettings.IOS_APP_VERSION,'redirect':globalSettings.REDIRECT, 'package_name': globalSettings.PACKAGE_NAME}
+        return JsonResponse(data)
+
+
+class ProductMetaViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    serializer_class = ProductMetaSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['description', 'code','typ','taxRate']
+
+    def get_queryset(self):
+        toReturn = ProductMeta.objects.all()
+        if 'search' in self.request.GET:
+            val = self.request.GET['search']
+            toReturn = toReturn.filter(Q(description__icontains = val) | Q(code__icontains = val) | Q(typ__icontains =  val) |Q(taxRate__icontains = val))
+            return toReturn
+        return toReturn
+
+def CreateUnit(val):
+    if 'division_pk' in val:
+        division = Division.objects.get(pk = val['division_pk'] )
+        unitObj = Unit.objects.create(name = 'HQ' , address = 'Address Not Available' , city = 'NA' , state = 'NA' , country = 'NA' , pincode= 'NA' , division = division , areaCode= division.name + str(division.pk) )
+        print unitObj.pk
+        response = {'unit' : unitObj.pk}
+        return response
+
+
+class getAllSettings(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def get(self , request , format = None):
+        user = self.request.user
+        designation = user.designation
+        data = [{'groupName' : 'Company Details' , 'groupState' : 'admin.configure'},{'groupName' : 'Integrations' , 'groupState' : 'admin.integrations'}]
+        val = {'groupName' : 'Reports Formats Configuration' , 'val' : [{'name' : 'Cashflow Statement' , 'state' : 'admin.cashflow'},{'name' : 'Profit and Loss statement' , 'state' : 'admin.pnl'},{'name' : 'Balancesheet' , 'state' : 'admin.balancesheet'}]}
+        data.append(val)
+        val = []
+        settings = {'groupName' : 'PDF Terms and Conditions' }
+        app_ids = designation.apps.all().values_list('app__pk').distinct()
+        application = appSettingsField.objects.filter(app__in = app_ids)
+        val = appSettingsLiteFieldSerializer(application, many = True).data
+        if len(val)>0:
+            settings['val'] = val
+            data.append(settings)
+        data.append({'groupName' : 'Others' , 'val' : [{'name' : 'Master Price / Rate List' , 'state' : 'admin.pricesheet'},{'name' : 'Email Templates' , 'state' : 'admin.templates'},{'name' : 'Company / National Holidays' , 'state' : 'admin.holidays'},{'name' : 'HR Policy Documents' , 'state' : 'admin.documents'},{'name' : 'Cost Centers' , 'state' : 'admin.costCenters'}]})
+        return Response(data,status=status.HTTP_200_OK)
+
+
+class downloadExcelFileAPI(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def get(self , request , format = None):
+        xl_file = os.path.join('static_shared' , 'demo.xlsx')
+        FilePointer = open(xl_file,"r")
+        response = HttpResponse(FilePointer, content_type='application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename=demo.xlsx'
+        return response

@@ -1,0 +1,26 @@
+<div class="modal-header">
+  <h3 style="padding-left:15px">Details</h3>
+</div>
+<div class="modal-body">
+<div class="container-fluid">
+  <div class="row"  style="padding-bottom:15px">
+    <div class="col-md-12">
+
+    <table class="invoiceTable" style=" width: 100%;" >
+      <tbody>
+        <tr style="background-color: #eeeeee;height: 50px;">
+          <th>S.No</th>
+          <th>Particular</th>
+          <th>Price</th>
+        </tr>
+        <tr ng-repeat="v in data track by $index">
+          <td>{{$index + 1}}</td>
+          <td>{{v.particular}}</td>
+          <td>{{v.rate}}</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+</div>

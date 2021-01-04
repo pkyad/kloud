@@ -1,0 +1,11 @@
+.charDonut{
+  position: relative;
+}
+.chartTitle{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 36%;
+  text-align: center;
+  font-size: 2em;
+}

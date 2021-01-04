@@ -1,0 +1,29 @@
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-12">
+      <h3>Campaign Details </h3>
+    </div>
+
+  <div class="row">
+    <div class="col-md-12">
+        <table class="table">
+          <thead>
+            <tr style="background:#000000;color:#ffffff" >
+              <th >Date</th>
+              <th >User</th>
+              <th >Size</th>
+              <th >Converted</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="b in getAllCamp"  style="padding-top:15px;">
+              <td>{{b.created | date}}</td>
+              <td>{{b.user}}</td>
+              <td>{{b.campCount}} </td>
+              <td>{{b.converted}}</td>
+            </tr>
+          </tbody>
+        </table>
+  </div>
+  </div>
+</div>

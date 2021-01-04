@@ -1,0 +1,606 @@
+<div class="container-fluid" ng-controller="workforceManagement.recruitment.onboarding.explore" style="margin-top:20px;">
+  <div class="row">
+    <div class="col-md-3" style="overflow:hidden;">
+      <h3 class="text-muted" style="color:#eeeeee;font-size:40px;">
+        <span ng-if="page == 1">Basic
+          <i class="fa fa-user fa-5x"></i>
+        </span>
+        <span ng-if="page == 2">Extra
+          <i class="fa fa-info fa-5x"></i>
+        </span>
+        <span ng-if="page == 3">Files
+          <i class="fa fa-files-o fa-5x"></i>
+        </span>
+      </h3>
+      <div class="container-fluid" style="padding-top:20px;">
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Name :</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.firstname}} {{candidate.lastname}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Email :</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.email}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Phone :</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.mobile}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Job Type :</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.job.jobtype}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Job :</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.job.role.name}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Department :</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.job.department.dept_name}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Date Of Joining:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.joiningDate}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Basic:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.basic}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>HRA:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.hra}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>LTA:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.lta}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Special Allowance:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.special}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Tax Slab:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.taxSlab}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>AdHOC:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.adHoc}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Annual Leaves:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.al}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Medical Leaves:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.ml}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>AdHOC Leaves:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.adHoc}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Medical Insurance Amount:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.amount}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Notice Period:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.notice}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Probation Period:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.probation}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Notice Period During Probation Period:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.probationNotice}}
+          </div>
+        </div>
+        <div class="row text-center" style="padding-top:15px">
+          <button class="btn btn-primary " mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-user'></i>" cancel-text="No" on-confirm="finalStage()" confirm-button-type="primary" cancel-button-type="default"
+            style="width:150px">Close Application</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <ul class="pager">
+        <li class="previous" ng-click="prev()"><a href="">&larr; Previous</a></li>
+        <li class="next" ng-click="next()"><a href="">Next &rarr;</a></li>
+      </ul>
+      <div ng-show="page==1">
+        <div class="form-group">
+          <label for="empID">Employee ID</label>
+          <input type="number" class="form-control" ng-model="form.empID" id="empID" placeholder="Employee ID">
+        </div>
+        <div class="form-group">
+          <label for="empID">Employement Type</label>
+          <select type="number" class="form-control" ng-model="form.empType" id="empID" placeholder="Employee ID">
+            <option value="full time">Full Time</option>
+            <option value="part time">Part Time</option>
+        </div>
+        <div class="form-group">
+          <label style="margin-right:20px;">Prefix</label>
+          <label class="radio-inline"><input type="radio" name="prefix{{pk}}" ng-model="form.prefix" ng-value="'Smt'">Miss.</label>
+          <label class="radio-inline"><input type="radio" name="prefix{{pk}}" ng-model="form.prefix" ng-value="'Shri'">Mr.</label>
+          <label class="radio-inline"><input type="radio" name="prefix{{pk}}" ng-model="form.prefix" ng-value="'Dr'">Dr</label>
+        </div>
+        <div class="form-group">
+          <label style="margin-top:20px;">Gender</label>
+          <div class="row">
+            <div class="col-md-6 text-center">
+              <img src="/static/images/img_avatar_card.png" style="height:50px;height:50px;" class="img img-circle">
+              <br> Male
+              <br>
+              <input ng-model="form.gender" name="gender{{pk}}" type="radio" name="" ng-value="'M'">
+            </div>
+            <div class="col-md-6 text-center">
+              <img src="/static/images/img_avatar_card2.png" style="height:50px;height:50px;" class="img img-circle">
+              <br> Female
+              <br>
+              <input ng-model="form.gender" name="gender{{pk}}" type="radio" name="" ng-value="'F'">
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label style="margin-right:20px;">Married ?</label>
+          <label class="radio-inline"><input type="radio" name="married{{pk}}" ng-model="form.married" ng-value="false">Single</label>
+          <label class="radio-inline"><input type="radio" name="married{{pk}}" ng-model="form.married" ng-value="true">Married</label>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Date of Birth</label>
+              <div class="input-group">
+                <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.dateOfBirth" is-open="status.DOBOpened" />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="status.DOBOpened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6" ng-if="form.married">
+            <div class="form-group">
+              <label>Date of Anniversary</label>
+              <div class="input-group">
+                <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.anivarsary" is-open="status.AVOpened" />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="status.AVOpened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container-fluid" style="padding:0px">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Local Address Street</label>
+                <input type="text" class="form-control" ng-model="form.localAddressStreet" placeholder="Local Address Street">
+              </div>
+              <div class="form-group">
+                <label>Local Address City</label>
+                <input type="text" class="form-control" ng-model="form.localAddressCity" placeholder="Local Address City">
+              </div>
+              <div class="form-group">
+                <label>Local Address Pin</label>
+                <input type="number" class="form-control" ng-model="form.localAddressPin" placeholder="Local Address Pin">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Local Address State</label>
+                <input type="text" class="form-control" ng-model="form.localAddressState" placeholder="Local Address State">
+              </div>
+              <div class="form-group">
+                <label>Local Address Country</label>
+                <input type="text" class="form-control" ng-model="form.localAddressCountry" placeholder="Local Address Country">
+              </div>
+            </div>
+          </div>
+          <div>
+            <label><input type="checkbox" value="checked" style="margin-top: -2px;" ng-model="form.sameAsLocal">&nbsp; Parmanent Address Same as Local Address</label>
+          </div>
+          <div class="row" ng-if="!form.sameAsLocal">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Permanent Address Street</label>
+                <input type="text" class="form-control" ng-model="form.permanentAddressStreet" placeholder="Permanent Address Street">
+              </div>
+              <div class="form-group">
+                <label>Permanent Address City</label>
+                <input type="text" class="form-control" ng-model="form.permanentAddressCity" placeholder="Permanent Address City">
+              </div>
+              <div class="form-group">
+                <label>Permanent Address Pin</label>
+                <input type="number" class="form-control" ng-model="form.permanentAddressPin" placeholder="Permanent Address Pin">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Permanent Address State</label>
+                <input type="text" class="form-control" ng-model="form.permanentAddressState" placeholder="Permanent Address State">
+              </div>
+              <div class="form-group">
+                <label>Permanent Address Country</label>
+                <input type="text" class="form-control" ng-model="form.permanentAddressCountry" placeholder="Permanent Address Country">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Blood Group</label>
+          <select class="form-control" ng-model="form.bloodGroup">
+            <option>A+</option>
+            <option>O+</option>
+            <option>B+</option>
+            <option>AB+</option>
+            <option>A-</option>
+            <option>O-</option>
+            <option>B-</option>
+            <option>A+</option>
+            <option>AB-</option>
+          </select>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Mobile</label>
+              <input type="text" class="form-control" ng-model="form.mobile" placeholder="Personal mobile">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Email</label>
+              <input class="form-control" type="email" ng-model="form.email">
+              <p class="help-text">All the payslips will be shared on this email ID</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Emergency Contact Name</label>
+              <input type="text" class="form-control" ng-model="form.emergencyName" placeholder="Emergency contact number">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Emergency Contact Number</label>
+              <input type="text" class="form-control" ng-model="form.emergencyNumber" placeholder="Emergency contact number">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-show="page==2">
+        <div class="form-group">
+          <label>Doctorate University</label>
+          <input type="text" class="form-control" ng-model="form.docUniversity" placeholder="">
+        </div>
+        <div class="form-group">
+          <label>Father's Name</label>
+          <input type="text" class="form-control" ng-model="form.fathersName" placeholder="">
+        </div>
+        <div class="form-group">
+          <label>Mother's Name</label>
+          <input type="text" class="form-control" ng-model="form.mothersName" placeholder="">
+        </div>
+        <div ng-if="form.married">
+          <div class="form-group">
+            <label ng-if="form.gender == 'M'">Wife's Name</label>
+            <label ng-if="form.gender == 'F'">Husbands's Name</label>
+            <input type="text" class="form-control" ng-model="form.wifesName" placeholder="">
+          </div>
+          <div class="form-group">
+            <label>Childrens names (Comma seperated values)</label>
+            <input type="text" class="form-control" ng-model="form.childCSV" placeholder="Enter child name seperated by a comma">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Note1</label>
+          <textarea type="text" rows="4" class="form-control" ng-model="form.note1" placeholder="note1"> </textarea>
+        </div>
+        <div class="form-group">
+          <label>Note2</label>
+          <textarea type="text" rows="4" class="form-control" ng-model="form.note2" placeholder="note2"> </textarea>
+        </div>
+        <div class="form-group">
+          <label>Note3</label>
+          <textarea type="text" rows="4" class="form-control" ng-model="form.note3" placeholder="note3"> </textarea>
+        </div>
+      </div>
+      <div ng-show="page==3">
+
+        <div class="row">
+          <div class="col-md-1">
+            <i class="fa {{form.displayPicture | fileTypeIcon}} fa-3x"></i>
+          </div>
+          <div class="col-md-5">
+            <a ng-href="{{form.displayPicture}}" target="_blank">{{form.displayPicture.split('/')[form.displayPicture.split('/').length-1] }}</a>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Display Picture:</label>
+              <input type="file" name="displayPicture" file-model="files.displayPicture">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-1">
+            <i class="fa {{form.TNCandBond | fileTypeIcon}} fa-3x"></i>
+          </div>
+          <div class="col-md-5">
+            <a ng-href="{{form.TNCandBond}}" target="_blank">{{form.TNCandBond.split('/')[form.TNCandBond.split('/').length-1] }}</a>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>TNC and Bond:</label>
+              <input type="file" name="TNCandBond" file-model="files.TNCandBond">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-1">
+            <i class="fa {{form.resume | fileTypeIcon}} fa-3x"></i>
+          </div>
+          <div class="col-md-5">
+            <a ng-href="{{form.resume}}" target="_blank">{{form.resume.split('/')[form.resume.split('/').length-1] }}</a>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Resume:</label>
+              <input type="file" name="resume" file-model="files.resume">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-1">
+            <i class="fa {{form.certificates | fileTypeIcon}} fa-3x"></i>
+          </div>
+          <div class="col-md-5">
+            <a ng-href="{{form.certificates}}" target="_blank">{{form.certificates.split('/')[form.certificates.split('/').length-1] }}</a>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Certificates:</label>
+              <input type="file" name="certificates" file-model="files.certificates">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-1">
+            <i class="fa {{form.transcripts | fileTypeIcon}} fa-3x"></i>
+          </div>
+          <div class="col-md-5">
+            <a ng-href="{{form.transcripts}}" target="_blank">{{form.transcripts.split('/')[form.transcripts.split('/').length-1] }}</a>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Transcripts:</label>
+              <input type="file" name="transcripts" file-model="files.transcripts">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-1">
+            <i class="fa {{form.otherDocs | fileTypeIcon}} fa-3x"></i>
+          </div>
+          <div class="col-md-5">
+            <a ng-href="{{form.otherDocs}}" target="_blank">{{form.otherDocs.split('/')[form.otherDocs.split('/').length-1] }}</a>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Other Docs:</label>
+              <input type="file" name="OtherDocs" file-model="files.otherDocs">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-1">
+            <i class="fa {{form.IDPhoto | fileTypeIcon}} fa-3x"></i>
+          </div>
+          <div class="col-md-5">
+            <a ng-href="{{form.IDPhoto}}" target="_blank">{{form.IDPhoto.split('/')[form.IDPhoto.split('/').length-1] }}</a>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Aadhar Card:</label>
+              <input type="file" name="IDPhoto" file-model="files.IDPhoto">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-1">
+            <i class="fa {{form.IDPhoto | fileTypeIcon}} fa-3x"></i>
+          </div>
+          <div class="col-md-5">
+            <a ng-href="{{form.IDPhoto}}" target="_blank">{{form.resignation.split('/')[form.resignation.split('/').length-1] }}</a>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Resignation:</label>
+              <input type="file" name="resignation" file-model="files.resignation">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-1">
+            <i class="fa {{form.vehicleRegistration | fileTypeIcon}} fa-3x"></i>
+          </div>
+          <div class="col-md-5">
+            <a ng-href="{{form.vehicleRegistration}}" target="_blank">{{form.vehicleRegistration.split('/')[form.vehicleRegistration.split('/').length-1] }}</a>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Vehicle Registration:</label>
+              <input type="file" name="vehicleRegistration" file-model="files.vehicleRegistration">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-1">
+            <i class="fa {{form.appointmentAcceptance | fileTypeIcon}} fa-3x"></i>
+          </div>
+          <div class="col-md-5">
+            <a ng-href="{{form.appointmentAcceptance}}" target="_blank">{{form.appointmentAcceptance.split('/')[form.appointmentAcceptance.split('/').length-1] }}</a>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Appointment Acceptance:</label>
+              <input type="file" name="appointmentAcceptance" file-model="files.appointmentAcceptance">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-1">
+            <i class="fa {{form.pan | fileTypeIcon}} fa-3x"></i>
+          </div>
+          <div class="col-md-5">
+            <a ng-href="{{form.pan}}" target="_blank">{{form.pan.split('/')[form.pan.split('/').length-1] }}</a>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>PAN:</label>
+              <input type="file" name="pan" file-model="files.pan">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-1">
+            <i class="fa {{form.drivingLicense | fileTypeIcon}} fa-3x"></i>
+          </div>
+          <div class="col-md-5">
+            <a ng-href="{{form.drivingLicense}}" target="_blank">{{form.drivingLicense.split('/')[form.drivingLicense.split('/').length-1] }}</a>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Driving License:</label>
+              <input type="file" name="drivingLicense" file-model="files.drivingLicense">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-1">
+            <i class="fa {{form.cheque | fileTypeIcon}} fa-3x"></i>
+          </div>
+          <div class="col-md-5">
+            <a ng-href="{{form.cheque}}" target="_blank">{{form.cheque.split('/')[form.cheque.split('/').length-1] }}</a>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Cheque:</label>
+              <input type="file" name="cheque" file-model="files.cheque">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-1">
+            <i class="fa {{form.passbook | fileTypeIcon}} fa-3x"></i>
+          </div>
+          <div class="col-md-5">
+            <a ng-href="{{form.passbook}}" target="_blank">{{form.passbook.split('/')[form.passbook.split('/').length-1] }}</a>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Passbook:</label>
+              <input type="file" name="passbook" file-model="files.passbook">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <button ng-click="save()" type="button" class="btn btn-primary">
+        Save
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,74 @@
+<div class="container-fluid"style="padding-bottom:15px;">
+  <h3 class="row text-center">Add Option</h3>
+  <hr>
+  <div class="form-group">
+    <label style="margin-top:20px;margin-left:20px">Select The Type</label>
+    <br><br>
+    <div class="row">
+      <div class="col-md-4 text-center">
+        <img src="https://img.icons8.com/color/48/000000/image.png" style="height:50px;height:50px;" class="img img-circle"/>
+
+        <br>
+        Image
+        <br>
+        <input ng-model="form.typ" name="type{{form.pk}}" type="radio" ng-value="'img'">
+      </div>
+      <div class="col-md-4 text-center">
+        <img src="https://img.icons8.com/fluent/48/000000/text.png" style="height:50px;height:50px;" class="img img-circle"/>
+        <br>
+        Text
+        <br>
+        <input ng-model="form.typ" name="type{{form.pk}}" type="radio" ng-value="'text'">
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row" ng-if="form.typ == 'img'">
+
+  <div class="col-md-12">
+    <ul class="nav navbar-nav navbar-left">
+
+      <li style="margin-top:5px;">
+        <switch ng-model="formToggle.toggleMain"></switch>
+      </li>
+      <li style="padding-bottom:1.5vh;margin-top:5px;">
+        <strong style="margin-left:10px;color:black;font-size:20px;">Answer</strong>
+      </li>
+    </ul>
+  </div>
+  <div style="margin-left:10px;" class="cl-md-12">
+    <label><h5><b>&nbsp;&nbsp;&nbsp;Select Image </b></h5> </label>
+    <input type="file" file-model="form.image" id="img" name="img" accept="image/*"><br>
+  </div>
+
+
+  </div>
+
+
+
+
+<div class="row" ng-if="form.typ == 'text'">
+
+<div class="col-md-12">
+  <ul class="nav navbar-nav navbar-left">
+
+    <li style="margin-top:5px;">
+      <switch ng-model="formToggle.toggleMain"></switch>
+    </li>
+    <li style="padding-bottom:1.5vh;margin-top:5px;">
+      <strong style="margin-left:10px;color:black;font-size:20px;">Answer</strong>
+    </li>
+  </ul>
+</div>
+<div style="margin-left:10px;" class="cl-md-12">
+  <label><h5><b>&nbsp;&nbsp;&nbsp;Option</b></h5> </label>
+  <input type="text" class="form-control" ng-model="form.paper"  placeholder=
+  "add option">
+</div>
+
+
+</div>
+<div style="margin-left:10px;margin-top:20px;" class="form-group">
+  <button type="button" class="btn1"  ng-click="saveHomework()">Save</button>
+</div>

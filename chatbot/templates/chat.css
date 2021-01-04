@@ -1,0 +1,700 @@
+newStyle.appendChild(document.createTextNode("\
+@font-face {\
+  font-family: 'Syrow';\
+  src:  url('/static/fonts/syrow/Syrow.eot') format('embedded-opentype'),\
+  url('/static/fonts/syrow/Syrow.ttf') format('truetype'),\
+  url('/static/fonts/syrow/Syrow.woff') format('woff'),\
+  url('/static/fonts/syrow/Syrow.svg') format('svg');\
+  font-weight: normal;\
+  font-style: normal;\
+}\
+@font-face {\
+  font-family: 'Syrow';\
+  src:  url('/static/fonts/syrow/Syrow.eot?7na8rs');\
+  src:  url('/static/fonts/syrow/Syrow.eot?7na8rs#iefix') format('embedded-opentype'),\
+    url('/static/fonts/syrow/Syrow.ttf?7na8rs') format('truetype'),\
+    url('/static/fonts/syrow/Syrow.woff?7na8rs') format('woff'),\
+    url('/static/fonts/syrow/Syrow.svg?7na8rs#Syrow') format('svg');\
+  font-weight: normal;\
+  font-style: normal;\
+}\
+  .SyrowFont {\
+  /* use !important to prevent issues with browser extensions that change fonts */\
+  font-family: 'Syrow' !important;\
+  speak: none;\
+  font-style: normal;\
+  font-weight: normal;\
+  font-variant: normal;\
+  text-transform: none;\
+  line-height: 1;\
+  /* Better Font Rendering =========== */\
+  -webkit-font-smoothing: antialiased;\
+  -moz-osx-font-smoothing: grayscale;\
+}\
+  .font-Syrow24hSupport:before {\
+  content: '\\61';\
+}\
+#first_msg p {\
+  font-size:inherit !important;\
+}\
+#chatSuggestionBar1 p{font-size:21px ! important;}\
+.font-SyrowMinus:before {\
+   content: '\\ea0b';\
+ }\
+ .font-SyrowDown:before {\
+    content: '\\ea43';\
+  }\
+ .font-SyrowLog-out:before {\
+    content: '\\e92b';\
+  }\
+ .font-SyrowPhone-call:before {\
+    content: '\\e93d';\
+  }\
+ .font-SyrowNavigation:before {\
+    content: '\\e93a';\
+  }\
+ .font-SyrowPaperclip:before {\
+    content: '\\e93b';\
+  }\
+  .font-SyrowChat:before {\
+  content: '\\62';\
+  }\
+  .font-SyrowAudioCall:before {\
+  content: '\\63';\
+  }\
+  .font-SyrowVideoCall:before {\
+  content: '\\64';\
+  }\
+  .font-SyrowCallBack:before {\
+  content: '\\65';\
+  }\
+.font-SyrowPhone1:before {\
+    content: '\\e93c';\
+  }\
+.font-SyrowVideo-off:before {\
+    content: '\\e972';\
+  }\
+  .font-SyrowPhone-call:before {\
+    content: '\\e93d';\
+  }\
+  .font-SyrowTicket:before {\
+  content: '\\66';\
+  }\
+.font-SyrowBar-chart-2:before {\
+  content: '\\e902';\
+  }\
+  .sy-circle {\
+  z-index: 987654321!important;\
+  position: fixed!important;\
+  width: 60px!important;\
+  height: 60px!important;\
+  border-radius: 50%!important;\
+  }\
+  .fa1 {\
+      display: inline-block;\
+      font: normal normal normal 14px/1 'FontAwesome' !important;\
+      font-size: inherit;\
+      text-rendering: auto;\
+      -webkit-font-smoothing: antialiased;\
+      -moz-osx-font-smoothing: grayscale;\
+    }\
+.fa-stack1 {\
+    position: relative;\
+    display: inline-block;\
+    width: 2em;\
+    height: 2em;\
+    line-height: 2em;\
+    vertical-align: middle;\
+  }\
+  .sy-md-1 {\
+    font-size: 40px !important;\
+  }\
+  .sy-md-2 {\
+    font-size: 34px !important;\
+  }\
+  .sy-ops {\
+    position: absolute;\
+    top: 0;\
+    bottom: 0;\
+    width: 100%;\
+    display: -webkit-box;\
+    display: -ms-flexbox;\
+    display: flex;\
+    -webkit-box-align: center;\
+    -ms-flex-align: center;\
+    align-items: center;\
+    -webkit-box-pack: center;\
+    -ms-flex-pack: center;\
+    justify-content: center;\
+    -webkit-transition: opacity .08s linear,-webkit-transform .16s linear;\
+    transition: opacity .08s linear,-webkit-transform .16s linear;\
+    transition: transform .16s linear,opacity .08s linear;\
+    transition: transform .16s linear,opacity .08s linear,-webkit-transform .16s linear;\
+  }\
+.changeOpacity{\
+  animation:changingOpacity 3s infinite;\
+}\
+  .sy-text {\
+  position: fixed;\
+  margin-top: 15px;\
+  border-radius: 17px;\
+  padding: 4px 8px;\
+  font-family: Verdana, Arial, sans-serif;\
+  font-size: 14px !important;\
+  display: inline-block;\
+  white-space: nowrap;\
+  max-width: 250px;\
+  overflow: hidden;\
+}\
+  .sy-text-left {\
+  left: 70px;\
+}\
+  .sy-text-right {\
+  right: 70px;\
+}\
+  .sy-firsttext-left {\
+  left: 90px;\
+}\
+  .sy-firsttext-right {\
+  right: 90px;\
+}\
+  .sy-text-Suggested {\
+    position: fixed;\
+    margin-top: 13px;\
+    border-radius: 15px 15px 0px;\
+    padding: 2px 8px 0px 0px;\
+    font-family: Verdana, Arial, sans-serif;\
+    font-size: 13px !important;\
+    max-width:300px;\
+    bottom:73px;\
+    animation:chatSuggestionBar 3s;\
+    margin-right: -10px;\
+  }\
+  .sy-circle a, .sy-circle a:visited, .sy-circle a:active, .sy-circle a:hover, .sy-circle a:link {\
+    text-decoration: none;\
+  }\
+  #sy-sub-icons .sy-circle, #sy-main-icon > .sy-text {\
+    display: none;\
+  }\
+  #singleService:hover > .sy-text-Suggested{ display:none !important}\
+    #sy-main-icon:hover > .sy-text, #sy-main-icon:active > .sy-text {\
+      display: inline-block;\
+  }\
+  #sy-main-icon:hover > .sy-text-Suggested, #sy-main-icon:active > .sy-text-Suggested {\
+  display: none !important;\
+  }\
+  "+ mainStr+"\
+    #sy-main-icon:hover > #sy-sub-icons > div:nth-of-type(1), #sy-main-icon:active > #sy-sub-icons > div:nth-of-type(1) { \
+    display: block;\
+    -webkit-animation: item-1 0.5s forwards; \
+    -ms-animation: item-1 0.5s forwards; \
+    -moz-animation: item-1 0.5s forwards;\
+  }\
+    #sy-main-icon:hover > #sy-sub-icons > div:nth-of-type(2), #sy-main-icon:active > #sy-sub-icons > div:nth-of-type(2) { \
+    display: block;\
+    -webkit-animation: item-2 0.5s forwards; \
+    -ms-animation: item-2 0.5s forwards;\
+    -moz-animation: item-2 0.5s forwards; \
+  }\
+  #sy-main-icon:hover > #sy-sub-icons > div:nth-of-type(3), #sy-main-icon:active > #sy-sub-icons > div:nth-of-type(3) {\
+    display: block;\
+    -webkit-animation: item-3 0.5s forwards; \
+    -ms-animation: item-3 0.5s forwards; \
+    -moz-animation: item-3 0.5s forwards; \
+  }\
+  #sy-main-icon:hover > #sy-sub-icons > div:nth-of-type(4), #sy-main-icon:active > #sy-sub-icons > div:nth-of-type(4) { \
+    display: block;\
+    -webkit-animation: item-4 0.5s forwards; \
+    -ms-animation: item-4 0.5s forwards; \
+    -moz-animation: item-4 0.5s forwards; \
+  }\
+  #sy-main-icon:hover > #sy-sub-icons > div:nth-of-type(5), #sy-main-icon:active > #sy-sub-icons > div:nth-of-type(5) { \
+    display: block;\
+    -webkit-animation: item-5 0.5s forwards; \
+    -ms-animation: item-5 0.5s forwards; \
+    -moz-animation: item-5 0.5s forwards; \
+  }\
+    div.stars {\
+    display: inline-block;\
+  }\
+  input.star { display: none; }\
+  label.star {\
+    float: right;\
+    padding: 8px;\
+    font-size: 32px !important;\
+    color: #fff;\
+    text-shadow: #ff720b 1px 0 1px;\
+    transition: all .5s;\
+  }\
+  input.star:checked ~ label.star:before {\
+    content: '\\2605';\
+    color: #ff720b;\
+    transition: all .25s;\
+  }\
+  .star1 {\
+    content: '\\2605';\
+    color: #ff720b;\
+  }\
+  input.star-5:checked ~ label.star:before {\
+    color: #ff720b;\
+    text-shadow: 0 0 20px #952;\
+  }\
+  input.star-1:checked ~ label.star:before { color: #ff720b; }\
+  label.star:before {\
+    content: '\\2605';\
+  }\
+  .messageOpacity{\
+    animation: msgDiv 1s ease;\
+  }\
+  @keyframes msgDiv{\
+    0%{\
+        opacity:0;\
+        }\
+    100%{\
+        opacity:1;\
+        }\
+    }\
+    .syrow_modal {\
+    display: none;\
+    position: fixed;\
+    z-index: 999999999;\
+    padding-top: 100px;\
+    left: 0;\
+    top: 0;\
+    width: 100%;\
+    height: 100%;\
+    overflow: auto;\
+    background-color: rgb(0,0,0);\
+    background-color: rgba(0,0,0,0.4);\
+  }\
+  .syrow_modal_content {\
+    background-color: #fefefe;\
+    margin: auto;\
+    padding: 20px;\
+    border: 1px solid #888;\
+    width: 60%;\
+    box-shadow:5px 10px 10px rgb(0,0,0,0.2);\
+    animation:modalBox 1s ease;\
+  }\
+  .close {\
+  color:  rgb(0,0,0);\
+  float: right;\
+  font-size: 28px !important;\
+  font-weight: bold;\
+}\
+  .first_animation {\
+  animation: first_animation 1s "+blinkCss+";\
+}\
+  .left-center {\
+        left: -55px;\
+        bottom: 45%;\
+        transform: rotate(90deg);\
+    }\
+  .right-center {\
+        right: -55px;\
+        bottom: 45%;\
+        transform: rotate(-90deg);\
+  }\
+  .left-bottom {\
+        left: 30px;\
+        bottom: 0%;\
+    }\
+  .right-bottom {\
+        right: 30px;\
+        bottom: 0%;\
+    }\
+  .chat_with_us {\
+  background-color: var(--windowColor);\
+  color:var(--fontAndIconColor);\
+  cursor:  pointer;\
+  display:  inline-block;\
+  position: fixed;\
+  padding:  10px 15px;\
+  border-radius: 5px;\
+  animation:changingOpacity 1s;\
+}\
+  .sy-circle-right {\
+    bottom: 20px;\
+    right: 25px;\
+  }\
+  .sy-circle-left {\
+    bottom: 20px;\
+    left: 25px;\
+  }\
+@keyframes modalBox{\
+  0%{\
+    transform:translateY(-200px);\
+    }\
+  70%{\
+    transform:translateY(20px);\
+    }\
+  100%{\
+        transform:translateY(0px);\
+    }\
+}\
+@keyframes first_animation{\
+  0%{\
+      transform:translateY(20px);\
+      opacity:0.5;\
+      }\
+  40%{\
+      transform:translateY(-120px);\
+      opacity:0.7;\
+      }\
+  90%{\
+      transform:translateY(10px);\
+      opacity:0.9;\
+      }\
+    100%{\
+          transform:translateY();\
+        opacity:1;\
+      }\
+  }\
+}\
+@keyframes changingOpacity{\
+  0%{\
+    opacity:0.1;\
+    }\
+  100%{\
+        opacity:1;\
+    }\
+}\
+@keyframes blink{\
+0%{\
+    box-shadow:0px 0px 0px var(--supportBubbleColor);\
+  }\
+  50%{\
+    box-shadow:2px 0px 30px var(--supportBubbleColor)\
+  }\
+  100%{\
+    box-shadow:0px 0px 0px var(--supportBubbleColor)\
+  }\
+}\
+@keyframes chatSuggestionBar{\
+  100%{\
+      transform:scale(1);\
+      opacity:1;\
+    }\
+}\
+.typingBox{\
+  display:none;z-index:11111111111111111111111111111;position:absolute;bottom:81px;font-size:13px !important;padding:3px;background-color:#f6f6f6;color:#000;border-radius: 0px 20px 20px 20px;left:0px;\
+}\
+@media only screen and (max-width: 600px) {\
+  .chatdiv-right {\
+        right: 0px;\
+    }\
+  .chatdiv-left {\
+        left: 0px;\
+    }\
+  .ChatBoxDiv{\
+    padding:0px;\
+    margin:0px;\
+    height: 100%;\
+    position: fixed;\
+    top:0px;\
+    font-family: 'Muli', sans-serif;\
+    right: 0px;\
+    min-width: 100%;\
+    color:black;\
+    z-index:9999999999999999999;\
+    border-radius:0px\
+  }\
+  .chatBox_header{\
+    border-radius:0px !important;\
+  }\
+  .chatBox_footer{\
+    border-radius:0px !important;\
+  }\
+  .closeIcon{\
+    display:block;\
+  }\
+  .closeIcon_box{\
+    display:block;\
+  }\
+  .close-support{\
+    display:none;\
+  }\
+}\
+@media only screen and (min-width: 600px) {\
+  .chatdiv-right {\
+        right: 30px;\
+    }\
+  .chatdiv-left {\
+        left: 30px;\
+  }\
+  .ChatBoxDiv{\
+    padding:0px;\
+    margin:0px;\
+    height: 70vh;\
+    position: fixed;\
+    bottom: 85px;\
+    font-family: 'Muli', sans-serif;\
+    min-width: 370px;\
+    border-radius:10px;\
+    box-shadow: 0px 0px 25px 5px rgba(0,0,0,0.2);\
+    z-index:9999999999999999999;\
+    color:black;\
+  }\
+  .closeIcon{\
+    display:none;\
+  }\
+  .closeIcon_box{\
+    display:none;\
+  }\
+  .close-support{\
+    display:block;\
+  }\
+}\
+.flex_container {\
+  display: flex;\
+  flex-wrap: nowrap;\
+}\
+.chatBox_content{\
+  padding:0px;\
+  margin:0px;\
+  position: absolute;\
+  top:81px;\
+  width:100%;\
+  bottom: 80px;\
+  background-color: white;\
+  overflow-x:hidden;\
+  overflow-y: auto;\
+  scrollbar-width: none;\
+}\
+.audio_section{\
+  display:none;\
+  height: 41px;\
+  background-color: var(--windowColor);\
+  padding:0px;\
+  margin:0px;\
+  position: absolute;\
+  top:80px;\
+  width:100%;\
+  border-bottom:1px solid #eee;\
+}\
+.video_section{\
+  display:none;\
+  height: 201px;\
+  background-color: var(--windowColor);\
+  padding:0px;\
+  margin:0px;\
+  position: absolute;\
+  top:80px;\
+  width:100%;\
+}\
+.chatBox_content .content_section{\
+  padding:0px;\
+  margin-top: 0px;\
+}\
+.chatBox_header{\
+  padding:0px;\
+  margin:0px;\
+  position: absolute;\
+  width:100%;\
+  min-height: 80px;\
+  background-image:linear-gradient(to right, var(--windowColor),var(--windowColor),var(--windowColor));\
+  color: rgba(255, 255, 255, 0.8);\
+  border-radius: 10px 10px 0 0;\
+}\
+.chatBox_header i{\
+   font-size:25px !important;\
+   color:var(--fontAndIconColor);\
+}\
+.chatBox_header > .logo_image{\
+  width: 70px;\
+  height:70px;\
+  border-radius: 50%;\
+  margin: 10px;\
+  padding: 10px;\
+  box-sizing:border-box;\
+}\
+.chatBox_header .chatBox_info{\
+  margin: 20px 10px;;\
+  width: 60%;\
+  padding:0px;\
+  color:var(--fontAndIconColor);\
+  text-align: initial !important;\
+}\
+.chatBox_header .chatBox_name{\
+  display: block;\
+  font-size: 15px !important;\
+  padding:0px;\
+  margin:0px;\
+}\
+.chatBox_header .chatBox_status{\
+  display: block;\
+  font-size: 10px !important;\
+  margin-top:5px;\
+  padding:0px;\
+}\
+.exitBtn, .closeIcon {\
+  margin: 15px 10px;\
+  padding-top: 10px;\
+  text-align: center;\
+  width: 50px;\
+  height:34px;\
+  transition: 0.5s;\
+  box-sizing:border-box;\
+}\
+.paperClip{\
+  font-size:25px !important;\
+  margin:15px 15px 0px 0px;\
+  color:#A0A0A0 !important;\
+}\
+.exitBtn:hover{\
+  transform: scale(1.1) ;\
+  cursor: pointer;\
+}\
+.closeIcon:hover{\
+  transform: scale(0.9) ;\
+  cursor: pointer;\
+}\
+.chatBox_footer{\
+  padding:0px;\
+  margin:0px;\
+  position: absolute;\
+  bottom:0px;\
+  width:100%;\
+  min-height: 80px;\
+  background-color: white;\
+  border-radius:"+footer_bor_rad_no_vid+";\
+}\
+.chatBox_footer  textarea {\
+  width: 77%;\
+  margin: 10px;\
+  font-size: 16px !important;\
+  resize:none;\
+  overflow: visible;\
+  border: none;\
+  padding:0px;\
+}\
+.chatBox_footer img {\
+  margin: 10px;\
+  width: 25px;\
+  height:25px;\
+  text-align: center;\
+  opacity: 0.6;\
+  transition: 0.5s;\
+  padding:0px;\
+}\
+.chatBox_footer  img:hover{\
+  opacity: 1;\
+  cursor: pointer;\
+}\
+.chatBox_footer .chatbox_branding{\
+  min-height: 15px;\
+  text-align: center;\
+  font-size: 10px !important;\
+  background-image:linear-gradient(to right, var(--windowColor),var(--windowColor),var(--windowColor));\
+  width: 100%;\
+  color: var(--fontAndIconColor);\
+  padding:0px;\
+  margin:0px;\
+}\
+.startNewChatBtn{\
+  text-align: center;\
+  padding-top:15px; \
+  background-color:#fff;\
+  color:var(--windowColor);\
+  cursor:pointer;\
+  width:100%;\
+  display:none;\
+}\
+.startNewChatBtn > span{\
+  font-size:14px !important;\
+  font-weight:bolder;\
+}\
+.confirmationDiv{\
+  clear: both; \
+  background-color:#eee; \
+  border-radius:5px; \
+  box-sizing:border-box; \
+  margin: 9px;\
+  animation: msgDiv 0.7s ease;\
+}\
+.confirmationSureText{\
+  color: var(--windowColor);\
+  font-size: 16px !important;\
+  font-weight: bold;\
+  text-align: center;\
+  padding: 15px;\
+  opacity:0.9;\
+}\
+.confirmationBtnDiv{\
+  text-align: center;\
+  padding: 15px;\
+}\
+.confirmationBtn{\
+  background-color: var(--supportBubbleColor);\
+  padding: 5px 10px;\
+  border: 1px solid #fff;\
+  width: 78px;\
+  margin: 0px 10px;\
+  color: #fff;\
+  font-weight: bold;\
+  border-radius: 5px;\
+  cursor:pointer;\
+}\
+#herere p {\
+  font-size:14px !important;\
+}\
+@keyframes moveInLeft{\
+  0%{\
+    opacity:0;\
+  }\
+  80%{\
+    opacity:1;\
+  }\
+  100%{\
+    opacity:1;\
+    transform:translateX(0px);\
+  }\
+}\
+@keyframes moveInDown{\
+  0%{\
+    opacity:1;\
+    transform:translateY(0px);\
+  }\
+  50%{\
+    opacity:0;\
+    transform:translateY(10px);\
+  }\
+  100%{\
+    opacity:0;\
+    transform:translateY(10px);\
+  }\
+}\
+@keyframes rotateAnti{\
+  0%{\
+    opacity:0;\
+    transform:rotate(45deg);\
+  }\
+  100%{\
+    opacity:1;\
+    transform:rotate(0deg);\
+  }\
+}\
+@keyframes rotateClock{\
+  0%{\
+    opacity:0;\
+    transform:rotate(0deg);\
+  }\
+  100%{\
+    opacity:1;\
+    transform:rotate(45deg);\
+  }\
+}\
+@keyframes moveInFront{\
+  0%{\
+    opacity:0;\
+    transform:scale(0);\
+  }\
+  80%{\
+    opacity:0.5;\
+  }\
+  100%{\
+    opacity:1;\
+    transform:scale(1);\
+  }\
+}\
+"));

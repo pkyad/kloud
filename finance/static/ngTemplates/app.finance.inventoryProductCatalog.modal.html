@@ -1,0 +1,91 @@
+<div class="modal-header">
+  <div class="col-md-11">
+    <h3>Add master product</h3>
+  </div>
+  <div class="col-md-1" style="padding-top:10px">
+    <button class="btn btn-primary" ng-click="close()"><i class="fa fa-close"></i></button>
+  </div>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Product</label>
+        <input type="text " class="form-control websiteInput" ng-model="form.name">
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>MRP</label>
+        <input type="text " class="form-control websiteInput" ng-model="form.mrp">
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Buying Price</label>
+        <input type="text " class="form-control websiteInput" ng-model="form.buyingPrice">
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Selling Price</label>
+        <input type="text " class="form-control websiteInput" ng-model="form.rate">
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Product SKU</label>
+      <input type="text" class="form-control websiteInput" ng-model="form.sku" >
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Tax Code</label>
+      <input type="text" class="form-control websiteInput" ng-model="form.taxCode" uib-typeahead="meta as meta.code for meta in productMetaSearch($viewValue)" typeahead-on-select="selectedMeta()">
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Tax Rate</label>
+      <input type="text" class="form-control websiteInput" ng-model="form.taxRate">
+      </div>
+    </div>
+    <!-- <div class="col-md-3">
+      <div class="form-group">
+        <label>Tax Description</label>
+      <input type="text" class="form-control websiteInput" ng-model="form.taxDescription">
+      </div>
+    </div> -->
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Description</label>
+      <textarea class="form-control websiteInput" rows="3" placeholder="Description" ng-model="form.richtxtDesc"></textarea>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Image1</label>
+        <input type="file" file-model="form.img1">
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Image2</label>
+        <input type="file" file-model="form.img2">
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Image3</label>
+        <input type="file" file-model="form.img3">
+      </div>
+    </div>
+
+
+
+    <div class="col-md-12" style="padding-top:25px">
+      <button type="button" class="btn newBtn" ng-click="saveInventory()">Save</button>
+    </div>
+  </div>
+</div>

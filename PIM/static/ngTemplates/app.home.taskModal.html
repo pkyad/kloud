@@ -1,0 +1,62 @@
+<div class="modal-header bg-blue">
+  <h3> Timesheet Details </h3>
+</div>
+<div class="modal-body">
+  <div class="row" style="margin-top:30px">
+    <div class="col-md-12">
+      <h3> Task </h3>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th></th>
+            <th ng-repeat = "w in data.weeks_data">{{w.day}} <br/> {{w.date}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat = "t in data.task_data">
+            <th >{{t.title}}</th>
+            <td >{{t.day == 'Monday'?t.total_time:'-'}}</td>
+            <td >{{t.day == 'Tuesday'?t.total_time:'-'}}</td>
+            <td >{{t.day == 'Wednesday'?t.total_time:'-'}}</td>
+            <td >{{t.day == 'Thursday'?t.total_time:'-'}}</td>
+            <td >{{t.day == 'Friday'?t.total_time:'-'}}</td>
+            <td >{{t.day == 'Saturday'?t.total_time:'-'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row" style="margin-top:30px">
+    <div class="col-md-12">
+        <h3> Project </h3>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th></th>
+            <th ng-repeat = "w in data.weeks_data">{{w.day}} <br/> {{w.date}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat = "p in data.project_data">
+            <th >{{p.title}}</th>
+            <td >{{p.day == 'Monday'?p.total_time:'-'}}</td>
+            <td >{{p.day == 'Tuesday'?p.total_time:'-'}}</td>
+            <td >{{p.day == 'Wednesday'?p.total_time:'-'}}</td>
+            <td >{{p.day == 'Thursday'?p.total_time:'-'}}</td>
+            <td >{{p.day == 'Friday'?p.total_time:'-'}}</td>
+            <td >{{p.day == 'Saturday'?p.total_time:'-'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row" style="margin-top:30px">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label >Comment:</label>
+          <textarea type="text" rows="3"  value="" class="form-control "  ng-model="form.comment"></textarea>
+      </div>
+      <button class="btn btn-primary" ng-click="save()"> Save </button>
+    </div>
+  </div>
+</div>

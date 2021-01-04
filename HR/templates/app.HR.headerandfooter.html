@@ -1,0 +1,42 @@
+{% extends 'base.html'%}
+
+
+{% block header %}
+  <div class="">
+
+    {% if header %}
+      {{header}}
+    {% else %}
+      <div class="text-center" >
+        <h3>No Header</h3>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
+
+
+
+{% block content %}
+  <div class="container-fluid" style="margin-bottom:50px">
+    <div class="col-md-10 col-md-offset-1">
+      <div class="container-fluid text-center" style="background-color:#f1f1f1;height:20vh;padding:30px;">
+        <span style="font-size:20px;">Website Content </span>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+
+
+{% block footer %}
+  <div class="">
+    {% if footer %}
+      {{footer}}
+    {% else %}
+    <div class="text-center">
+      <h3>No Footer</h3>
+    </div>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -1,0 +1,311 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Welcome</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" charset="utf-8">
+        <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" charset="utf-8">
+        <style>
+            .whiteInputField {
+                border-radius: 10px !important;
+                border: none !important;
+                padding: 25px;
+            }
+            .btnPreview{
+                background: #461482;
+                color: white;
+                bottom: 20px;
+                border: none !important;
+                border-radius: 64px !important;
+                padding: 17px;
+                width: 112px;
+                font-size: 16px;
+                z-index: 10;
+                box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;
+            }
+        </style>
+
+    </head>
+    <body ng-app="app" ng-controller="main" style="background:#f2f3f7">
+
+
+            <div class="col-md-6 col-md-offset-3">
+                <div class="row" style="padding-top:40px;">
+                    <div class="col-md-2" style="padding-top:40px;">
+                        <img src="{{logo}}" width="100px" >
+                    </div>
+                    <div class="col-md-6" style="padding-top:40px;">
+                        <h3>Hi, {{user.first_name}}</h3>
+                        <h4>Welcome to {{brand}}</h4>
+                    </div>
+        {% verbatim %}
+                    <div class="col-md-3 pull-right">
+                        <input type="file" style="display: none;" file-model="form.displayPicture" id="filePicker">
+                        <img src="{{form.displayPicture}}" ng-if="form.displayPicture" ng-click="filePicker()" width="100%" id="preview" style="min-height:200px;border-radius:20px;" >
+
+                        <div ng-if="!form.displayPicture" ng-click="filePicker()" style="width:100%;min-height:200px;border-radius:20px;background:white;padding-top:100px;" class="text-center">
+                            Click here to upload your Passport Size Photo
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:40px;">
+                    <div class="col-md-12">
+
+                      <p>Your account has been recently created. Before you can start using the platform please complete the below form.</p>
+
+
+
+                        <div class="form-group">
+                            <label>Local Address</label>
+                            <textarea class="form-control whiteInputField" ng-model="form.localAddressStreet" cols="30" rows="2"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Pincode</label>
+                            <input type="text" class="form-control whiteInputField" ng-model="form.localAddressPin" ng-change="checkContact()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:40px;">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Permanent Address</label>
+                            <textarea class="form-control whiteInputField" ng-model="form.permanentAddressStreet" cols="30" rows="2"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Pincode</label>
+                            <input type="text" class="form-control whiteInputField" ng-model="form.permanentAddressPin" ng-change="checkContact()">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row" style="margin-top:40px;">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>PAN</label>
+                            <input type="text" class="form-control whiteInputField" ng-model="form.pan">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Date Or Birth</label>
+                            <div class="input-group">
+                              <input type="text" class="form-control whiteInputField" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.dateOfBirth" is-open="status.Opened" />
+                              <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="status.Opened = true;" style="padding: 13px 12px!important;"><i class="glyphicon glyphicon-calendar"></i></button>
+                              </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Aadhar Number</label>
+                            <input type="text" class="form-control whiteInputField" ng-model="form.adhar" ng-change="checkContact()">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>PF UAN</label>
+                            <input type="text" class="form-control whiteInputField" ng-model="form.PFUan" >
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label style="margin-top:20px;">Gender</label>
+                            <div class="row">
+                              <div class="col-md-6 text-center">
+                                <img src="/static/images/img_avatar_card.png" style="height:50px;height:50px;" class="img img-circle">
+                                <br> Male
+                                <br>
+                                <input ng-model="form.gender" name="gender" type="radio" name="" value="M">
+                              </div>
+                              <div class="col-md-6 text-center">
+                                <img src="/static/images/img_avatar_card2.png" style="height:50px;height:50px;" class="img img-circle">
+                                <br> Female
+                                <br>
+                                <input ng-model="form.gender" name="gender" type="radio" name="" value="F">
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Blood Group</label>
+                            <select class="form-control whiteInputField" ng-model="form.bloodGroup" style="padding: 10px;height: 47px;">
+                              <option>A+</option>
+                              <option>O+</option>
+                              <option>B+</option>
+                              <option>AB+</option>
+                              <option>A-</option>
+                              <option>O-</option>
+                              <option>B-</option>
+                              <option>A+</option>
+                              <option>AB-</option>
+                            </select>
+                          </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label style="margin-right:20px;">Married ?</label>
+                            <label class="radio-inline"><input type="radio" name="married{{pk}}" ng-model="form.married" ng-value="false">Single</label>
+                            <label class="radio-inline"><input type="radio" name="married{{pk}}" ng-model="form.married" ng-value="true">Married</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6" ng-if="form.married">
+                        <div class="form-group">
+                          <label>Date of Anniversary</label>
+                          <div class="input-group">
+                            <input type="text" class="form-control whiteInputField" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.anivarsary" is-open="status.AVOpened" />
+                            <span class="input-group-btn">
+                              <button type="button" class="btn btn-default" ng-click="status.AVOpened = true;" style="padding: 13px 12px!important;"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+
+                <div class="row" style="margin-top:40px;">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Last Employer Name , Address and Contact Details</label>
+                            <textarea class="form-control whiteInputField" cols="30" rows="2" ng-model="form.note1"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:40px;">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>Emergency Contact Name</label>
+                        <input type="text" class="form-control whiteInputField" ng-model="form.emergencyName" placeholder="Emergency contact number">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>Emergency Contact Number</label>
+                        <input type="text" class="form-control whiteInputField" ng-model="form.emergencyNumber" placeholder="Emergency contact number">
+                      </div>
+                    </div>
+                  </div>
+
+
+                <div class="row" style="margin-top:40px;">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Account Number</label>
+                            <input type="text" class="form-control whiteInputField" ng-model="form.accountNumber" ng-change="checkContact()">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Re-Type Account Number</label>
+                            <input type="text" class="form-control whiteInputField" ng-model="form.reaccountNumber" ng-change="checkContact()">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Bank Name</label>
+                            <input type="text" class="form-control whiteInputField" ng-model="form.bankName" ng-change="checkContact()">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>IFSC Code</label>
+                            <input type="text" class="form-control whiteInputField" ng-model="form.ifscCode" ng-change="checkContact()">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row" style="margin-top:40px;" ng-if="dependentDetails == 'True'">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Dependents ( For Health Insurance ) </label>
+
+
+                            <table class="table">
+                                <thead>
+                                  <tr style="padding-top:20px;padding-bottom:20px;">
+                                    <th>Name</th>
+                                    <th>Date of Birth</th>
+                                    <th>Relationship</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr ng-repeat="dependent in form.dependents">
+                                    <td><input type="text" class="form-control whiteInputField" ng-model="dependent.name"></td>
+                                    <td>      <div class="input-group">
+                                            <input type="text" class="form-control whiteInputField" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="dependent.dob" is-open="status.AVOpened" />
+                                            <span class="input-group-btn">
+                                              <button type="button" class="btn btn-default" ng-click="status.AVOpened = true;" style="padding: 13px 12px!important;"><i class="glyphicon glyphicon-calendar"></i></button>
+                                            </span>
+                                          </div></td>
+                                    <td>
+                                        <select ng-model="dependent.relationship" class="form-control" style="border-radius: 10px !important;border: none !important;height: 49px;">
+                                            <option value="mother">Mother</option>
+                                            <option value="father">Father</option>
+                                            <option value="wife">Wife/Husband</option>
+                                            <option value="child">Child</option>
+                                        </select>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row text-center" style="margin-top:45px;margin-bottom:60px;">
+                  <p style="color:red" ng-if="msg.length>0">{{msg}} </p>
+                    <div class="container-fluid">
+                        <button ng-click="saveUserDetails(user.pk)" class="btnPreview">Save</button>
+                          <button ng-if="submitForm" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="submit()"
+                              confirm-button-type="default" cancel-button-type="default" class="btnPreview">Submit</button>
+                    </div>
+                </div>
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+        {% endverbatim %}
+        <script type="text/javascript">
+          var USER_PK = '{{userPk}}';
+          var logo = '{{logo}}';
+          var dependentDetails = '{{dependentDetails}}';
+        </script>
+
+
+        <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+        <script src="{% static 'js/jquery.cookie-1.4.1.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/angular.min.js' %}"></script>
+        <script src="{% static 'js/ui-bootstrap-tpls-0.14.3.min.js' %}"></script>
+        <script src="{% static 'js/angular-bootstrap-confirm.min.js' %}"></script>
+        <script src="{% static 'js/angular-ui-router.min.js' %}"></script>
+        <script src="{% static 'js/angular-sanitize.min.js' %}"></script>
+        <script src="{% static 'js/custom/ngWelcome.js' %}"></script>
+        <script src="{% static 'js/custom/directives.js' %}"></script>
+        <script src="{% static 'js/custom/directives.native.js' %}"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,170 @@
+<style>
+.th_data {
+  padding-top:30px !important;
+  padding-bottom:30px !important;
+  border-bottom:none !important;
+  margin-bottom:30px !important
+}
+.td_data {
+  padding-top:15px !important;
+  padding-bottom:15px !important;
+}
+input , button , .btn, .btn-primary{
+ border:none !important;
+ background: #FAFAFA;
+}
+input, {
+ padding: 20px;
+ border-radius: 23px;
+ border-top-right-radius: 0px;
+ border-bottom-right-radius: 0px;
+}
+
+
+
+.text-dull{
+ color: #bbb;
+}
+.navigationBtn , .navigationBtn:hover{
+  padding: 10px;
+  border:none !important;
+  background:white;
+  /* border-radius:23px !important; */
+  border-radius:10px !important;
+}
+.animatedControl{
+  background: #461482;
+color: white;
+border: none !important;
+border-radius: 64px !important;
+padding: 10px;
+right: 59px;
+font-size: 16px;
+z-index: 10;
+box-shadow: 0px 8px 18px rgba(244, 244, 244, 0.94) !important;
+width:50px;
+height:50px;
+cursor:pointer;
+}
+
+
+.activeAnimatedControl{
+  background: #461482;
+color: white;
+border: none !important;
+border-radius: 1364px !important;
+padding-top: 12px;
+right: 59px;
+font-size: 16px;
+z-index: 10;
+box-shadow: 0px 8px 18px rgba(244, 244, 244, 0.94) !important;
+padding-right: 15px;
+padding-left: 15px;
+width:800px;
+height:800px;
+position:fixed;
+top:-300px;left:0px;
+transition-property: width height top ;
+transition-duration: 0.8s;
+    transition-timing-function: ease;
+}
+
+/* ng-click="$state.go('businessManagement.accounting.vendor')" */
+</style>
+<div class="container-fluid" style="background:#FAFAFA;min-height:100vh;padding:30px;">
+  <div class="row" style="padding-left:60px;padding-right:60px;">
+    <div class="container-fluid">
+      <div class="row" style="margin:0px;margin-bottom:15px;">
+
+        <div style="height: 100vh;width: 100%;position: fixed;background: rgba(240, 240, 240, 0.53);z-index: 3;top: 0;left: 0;" ng-click="form.open = false;" ng-if="form.open">
+
+        </div>
+
+        <div class="col-md-1" style="padding:0px;padding-top:10px;">
+          <div ng-click="$state.go('businessManagement.accounting.invoice')" class=" {{!form.open ? 'animatedControl':'activeAnimatedControl'}}">
+            <img src="/static/images/icons8-plus-48.png" style="width:30px;" alt="">
+          </div>
+        </div>
+        <div class="col-md-11">
+          <h2 style="font-weight:600"> Expenses </h2>
+        </div>
+        <!-- <div class="col-md-2" style="padding:0px;">
+          <button ng-click="$state.go('businessManagement.accounting.vendor')"  class="btn btn-primary btn-block" style="background: white;color: #461482;border: none !important;border-radius: 64px !important;padding: 17px;right: 59px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(244, 244, 244, 0.94) !important;padding-right:30px;padding-left:30px;">Vendors List</button>
+        </div> -->
+
+        <div class="col-md-2" style="padding:0px;">
+        </div>
+      </div>
+      <div class="row" style="background:#ffffff;padding:20px;box-shadow: 0px 8px 18px rgba(236, 236, 236, 0.94) !important;margin:0px;">
+
+        <div class=" col-md-3">
+          <select class="form-control" ng-model="form.status" ng-change="purchaseOrders()" style="height: 60px;border-radius: 100px;">
+            <option value="all" >All</option>
+            <option value="invoice" >Invoice</option>
+            <option value="expenseSheet" >Expense Claims</option>
+          </select>
+        </div>
+        <div class="col-md-7 col-md-offset-1">
+          <!-- <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search" ng-model="form.search" style="background: #FAFAFA;padding:20px !important;border-top-left-radius:23px;border-bottom-left-radius:23px;" ng-enter="purchaseOrders()">
+            <div class="input-group-btn">
+              <button class="btn btn-default" style="border-top-right-radius:23px !important;border-bottom-right-radius:23px !important;padding: 10px;padding-right:20px;background: #FAFAFA;" ng-click="purchaseOrders()">
+                <i class="glyphicon glyphicon-search" ></i>
+              </button>
+            </div>
+          </div> -->
+          <div class="input-group" style="padding:10px;background: #FAFAFA;border-radius: 100px;padding-right: 30px;padding-left: 30px;">
+            <input type="text" class="form-control" ng-model="form.search" placeholder="Search  by company name or invoice number" ng-enter="purchaseOrders()" style="border:none !important;background:#FAFAFA;border-radius:23px;padding:20px;font-size: 16px;">
+            <div class="input-group-btn">
+              <button class="btn btn-default" type="submit" ng-click="purchaseOrders()" style="border:none !important;background:#FAFAFA;border-radius:23px !important;">
+                <i class="glyphicon glyphicon-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1 pull-right" style="padding:0px;">
+          <button type="button" class="btn btn-default btn-block" style="border : none !important;border-radius:100px !important;height: 60px;" ng-click="viewDownload()">
+        <img src="/static/images/download-from-cloud.png" style="width: 35px;">
+      </button>
+        </div>
+      </div>
+          <div class="row" style="padding-top:60px;">
+            <div class="col-md-12">
+              <table class="table table-hover" style="border: none;">
+                <thead style="background-color:#FAFAFA;border: none;">
+                  <tr style=" border-bottom: 10px solid white;background:white;">
+                    <th class="th_data " style="width:15%;">DATE</th>
+                    <th  class="th_data" >TYPE</th>
+                    <th  class="th_data" >Company/ Employee</th>
+                    <th  class="th_data" >AMOUNT</th>
+                    <!-- <th  class="th_data" >REMAINING BALANCE</th> -->
+                  </tr>
+                </thead>
+                <tbody style="margin-top:15px">
+                  <tr style="border-bottom:1px solid #d7d7d7;cursor:pointer"  ng-repeat="po in purchsedData.data" ng-click="goTo(po.typ, po.pk)">
+                    <td  class="td_data ">{{po.created | date}}</td>
+                    <td  class="td_data">
+                      <div class="text-center" ng-if="po.typ=='EXPENSE SHEET'"  style="border-radius:20px;width: 150px;padding-top: 5px;padding-bottom: 5px;background: #b9e3ff;color: #5f92b3">{{po.typ}}</div>
+                      <div class="text-center" ng-if="po.typ=='INVOICE'"  style="border-radius:20px;width: 150px;padding-top: 5px;padding-bottom: 5px;background: #ebffeb;color: green;">{{po.typ}}</div>
+                      <div class="text-center" ng-if="po.typ=='PURCHASE ORDER'"  style="border-radius:20px;width: 150px;padding-top: 5px;padding-bottom: 5px;background: #fff7e6;color: #f9a365;">{{po.typ}}</div>
+                    </td>
+                    <td class="td_data" style="font-size:20px;">
+                      <span ng-if="po.typ!='EXPENSE SHEET'">{{po.name}}</span>
+                      <span ng-if="po.typ=='EXPENSE SHEET'">{{po.user|getName}}</span>
+                    </td>
+                    <td  class="td_data">{{po.totalAmount }}</td>
+                    <!-- <td class="td_data"  style="font-size:20px;">{{po.paidAmount | number : 2}}</td> -->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <button class="btn btn-primary" ng-click="loadMore()" style="background: #461482;color: white;border: none !important;border-radius: 64px !important;padding: 17px;right: 59px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;padding-right:30px;padding-left:30px;"> Load More </button>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="modal-header">
+  Create A Product
+</div>
+<div class="modal-body">
+  <div class="row" style="padding:10px">
+    <div class="col-md-3">
+      <label>Product</label>
+      <input uib-typeahead="product as product.part_no for product in productSearch($viewValue)" ng-model="form.product" type="text" class="form-control">
+    </div>
+    <div class="col-md-3">
+      <label>Quantity</label>
+      <input ng-model="form.qty" type="text" class="form-control">
+    </div>
+    <div class="col-md-4">
+      <label>Project</label>
+      <input uib-typeahead="p as p.title for p in projectSearch($viewValue)" ng-model="form.project" type="text" class="form-control">
+    </div>
+    <div class="col-md-2" style="padding-top:25px">
+      <button type="button" class="btn btn-primary " ng-click="saveProduct()">Submit</button>
+    </div>
+  </div>
+</div>

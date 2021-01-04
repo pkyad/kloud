@@ -1,0 +1,209 @@
+<style media="screen">
+  .navigationBtn , .navigationBtn:hover{
+    padding: 10px;
+    border:none !important;
+    border-radius:10px !important;
+  }
+
+  .contactList input ,.contactList button , .contactList .btn, .contactList .btn-primary{
+    border:none !important;
+  }
+
+  .contactList input, .contactList .form-control{
+    padding: 20px;
+    border-radius: 23px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  .text-dull{
+    color: #bbb;
+  }
+
+  .tableNew th{
+    padding:17px !important;
+  }
+
+  .tableNew {
+    border-radius: 1em;
+    overflow: hidden;
+  }
+
+  .contentTd{
+    padding:18px !important;
+  }
+
+  table, th, td{
+    border-color:#f2f2f2 !important;
+  }
+
+
+
+</style>
+
+
+
+<!-- <ui-view> -->
+  <div class="container-fluid" style="padding:40px;min-height:100vh;background:#FAFAFA;" >
+    <div class="row">
+      <div class="col-md-2">
+        <!-- <div class="btn-group btn-group-md"> -->
+          <button type="button" class="btn-assign btn-block" ng-click="selected='callRecordings';fetchRecording();" style="margin-right:50px;{{selected == 'callRecordings'?'background:#461482;color:#ffffff':''}}" >
+            Call Recordings
+          </button>
+        </div>
+      <div class="col-md-1">
+        <!-- <div class="btn-group btn-group-md"> -->
+          <button type="button" class="btn-assign btn-block" ng-click="selected='approved';fetch();" style="margin-right:50px;{{selected == 'approved'?'background:#461482;color:#ffffff':''}}">
+            Approved
+          </button>
+        </div>
+          <div class="col-md-1">
+          <button type="button" class="btn-assign btn-block" ng-click="selected='rejected';fetch();$event.stopPropagation();" style=";{{selected == 'rejected'?'background:#461482;color:#ffffff':''}}">
+            Rejected
+          </button>
+        <!-- </div> -->
+      </div>
+      <div class="col-md-8">
+        <!-- <div class="col-md-2" style="padding-top:20px;">
+          <label>Added On : </label>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <div class="input-group newDatePic">
+              <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="filter.dt" is-open="status.opened" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default pic" ng-click="status.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </div>
+          </div>
+        </div> -->
+        <div class="col-md-6 contactList">
+          <div class="input-group" style="padding:10px;background:#F2F3F7;border-radius:10px;">
+            <input type="text" class="form-control" ng-model="form.searchValue" ng-change="fetch()" placeholder="Search..." style="background:#F2F3F7 !important;border: none !important;">
+            <span class="input-group-btn">
+              <button style="background:#F2F3F7;border: none !important;" type="button" class="btn btn-default" ng-click="fetch()"><i class="fa fa-search "></i></button>
+            </span>
+            <span class="input-group-btn">
+              <button style="background:#F2F3F7;border: none !important;" type="button" class="btn btn-default" ng-click="selected='';fetch()"><i class="fa fa-refresh "></i></button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <div class="row" style="margin:10px;" ng-if="!callRecordings">
+      <table class="table table-hover tableNew">
+        <thead>
+          <tr style="background:#f2f2f2;padding:10px;">
+            <th>Lead ID</th>
+            <th>Name</th>
+            <th width="20%">Feedback</th>
+            <th>Source</th>
+            <th width="17%"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="contact in data" style="padding:10px;background:white;">
+            <td class="contentTd">{{contact.pk}}</td>
+            <td class="contentTd"> <h4>{{contact.name}}</h4>
+              {{contact.addrs}} {{contact.city}} {{contact.state}} {{contact.country}} - {{contact.areaCode}} <br>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row" ng-repeat="a in contact.logs" style="border-bottom:1px solid #dfdfdf;" ng-init="a.playing = false;">
+                    <div class="col-md-4" ng-click="report(a , $index)" style="cursor:pointer;padding-top:15px;padding-bottom:15px;">
+                      <h3>{{a.created | date:'medium'}}</h3> {{a.userPk | getName}} {{a.userPk}} <br>  <h4>{{a.to}}</h4><br> <span>Watch time : {{a.playTime}}</span>
+                    </div>
+                    <div class="col-md-8">
+                      <div class="col-md-1 text-right" style="padding-top: 26px;">
+
+                        <img src="/static/images/icons8-circled-play-128.png" style="width: 74px;" ng-if="!a.playing" ng-click="play($parent.$index,$index);a.playing = true;" >
+                        <img src="/static/images/icons8-pause-button-64.png" style="width: 74px;" ng-if="a.playing" ng-click="pause($parent.$index,$index);a.playing = false;" >
+
+                      </div>
+                      <div class="col-md-11">
+                        <div id="waveform{{$index}}" ng-init="setupWave($parent.$index,$index , a.fileUrl , a.fileUrl2)"></div>
+
+                        <div id="waveform2{{$index}}" style="display:none;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </td>
+            <td class="contentTd">{{contact.about}}
+              <br> <img ng-if="contact.creater.first_name" src="/static/images/icons8-customer-support-50.png" style="width:35px;" alt=""> {{contact.creater.first_name}} {{contact.creater.last_name}}
+            </td>
+            <td class="contentTd">{{contact.source}}</td>
+            <td class="contentTd">
+              <div class="btn-group btn-group-md">
+                <button type="button" class="btn-assign"   mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="qcAction(contact.pk,'approve' , $index)" confirm-button-type="primary" cancel-button-type="default" ng-click="$event.stopPropagation()"style="">
+                  Approve
+                </button>
+                <button type="button" class="btn-assign" ng-click="$event.stopPropagation();"   mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="contact.showcomment='true'" confirm-button-type="danger" cancel-button-type="default" ng-click="$event.stopPropagation()" style="">
+                  Cancel
+                </button>
+              </div>
+              <div class="row" ng-if="contact.showcomment" style="padding-top:15px">
+                <div class="col-md-10">
+                <div class="form-group">
+                  <label>Comment</label>
+                  <textarea name="name"  class="form-control" ng-model="contact.comment" ></textarea>
+
+                </div>
+              </div>
+              <div class="col-md-2" style="margin-top:30px">
+                <i class="fa fa-floppy-o fa-2x" ng-click="send(contact.comment, $index, contact.pk)" > </i>
+              </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  <!-- </div> -->
+
+  <!-- <div class="container-fluid" style="padding-left:40px;padding-right:40px;" ng-if="callRecordings"  ng-controller="businessManagement.recordings" > -->
+    <!-- <div class="row" style="padding-bottom:15px;margin-top:20px;">
+      <div class="col-md-4 col-md-offset-4" style="position:relative;">
+        <input type="text" class="form-control" ng-model="searchForm.search" ng-enter="fetchData()" placeholder="Search by Customer Phone" style="border: none !important;      border-radius: 10px !important;   padding: 15px;      left: 15px;      font-size: 16px;background:#F2F3F7;height:55px;">
+        <button type="button" class="btn btn-default"  ng-click="fetchData()" style="position:absolute;top: 9px;right: 23px;border: none !important;background:#F2F3F7"><i class="fa fa-search "  ></i></button>
+      </div>
+
+      <div class="col-md-2">
+        <button style="border: none !important;      border-radius: 10px !important;   padding: 15px;      left: 15px;      font-size: 16px;background:#F2F3F7" type="button" class="btn btn-block" ng-click="prev()">Prev</button>
+
+      </div>
+      <div class="col-md-2">
+
+          <button type="button" class="btn btn-block" style="border: none !important;  border-radius: 10px !important;  padding: 15px;   left: 15px;  font-size: 16px;background:#F2F3F7" ng-click="next()">Next</button>
+
+      </div>
+
+    </div> -->
+    <div class="row" ng-if="callRecordings" ng-controller="businessManagement.recordings">
+      <div class="col-md-12">
+        <div class="row" ng-repeat="a in data.logs" style="border-bottom:1px solid #dfdfdf;" ng-init="a.playing = false;">
+          <div class="col-md-4" ng-click="report(a , $index)" style="cursor:pointer;padding-top:15px;padding-bottom:15px;">
+            <h3>{{a.created | date:'medium'}}</h3> {{a.userPk | getName}} {{a.userPk}} <br>  <h4>{{a.to}}</h4>
+          </div>
+          <div class="col-md-8">
+            <div class="col-md-1 text-right" style="padding-top: 26px;">
+
+              <img src="/static/images/icons8-circled-play-128.png" style="width: 74px;" ng-if="!a.playing" ng-click="play($index);a.playing = true;" >
+              <img src="/static/images/icons8-pause-button-64.png" style="width: 74px;" ng-if="a.playing" ng-click="pause($index);a.playing = false;" >
+
+            </div>
+            <div class="col-md-11">
+              <div id="waveform{{$index}}" ng-init="setupWave($index , a.fileUrl , a.fileUrl2)"></div>
+
+              <div id="waveform2{{$index}}" style="display:none;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- </ui-view> -->

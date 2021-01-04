@@ -1,0 +1,55 @@
+<div class="modal-header" style="border-bottom:solid 3px #8f9eb6;">
+  <div class="row">
+    <div class="col-md-9">
+      <h3>Web Settings</h3>
+    </div>
+    <div class="col-md-3">
+      <img src="/static/images/website.png" class="pull-right" style="height:60px;">
+    </div>
+  </div>
+</div>
+<div class="modal-body">
+
+
+
+
+  <div class="container-fluid">
+    <div class="form-group">
+      <label>URL</label>
+      <div class="input-group">
+        <input ng-model="form.url" placeholder="Example : example.com" type="text" class="form-control">
+        <div class="input-group-btn">
+          <button ng-click="save()" type="button" class="btn btn-primary">
+            Save
+          </button>
+        </div>
+      </div>
+      <p class="help-block">The domain / sub domain name on which the script will be installed</p>
+    </div>
+
+    <div class="form-group">
+      <label>Email integration instructions</label>
+      <div class="input-group">
+        <input type="email" class="form-control" ng-model="form.email" placeholder="Please Enter developer's email ..."/>
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-success" ng-click="sendEmail()">Send &nbsp;<i class="fa fa-paper-plane-o"></i></button>
+        </span>
+      </div>
+    </div>
+    <h4>Please First Add This Script Tag To Your HTML</h4>
+    <code>{{src}}</code>
+
+    <hr>
+
+    <div class="row text-center">
+      <span>To try in our app please scan the below QR code in the app</span> <br>
+      <img ng-src="/genQRCode/?text={{qrcode}}" style="width:50%" alt="">
+    </div>
+
+
+    <button ng-click="cancel()" type="button" class="btn btn-default pull-right">
+      Close
+    </button>
+  </div>
+
+</div>

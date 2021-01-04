@@ -1,0 +1,20 @@
+<div class="modal-header bg-black text-center">
+  <h3 class="modal-title">Add Money To Your Account</h3>
+</div>
+
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="col-md-12">
+      <span style="font-size:24px;" class="text-muted"><strong>Current Balance : </strong> {{accountData.balance | number}}</span>
+    </div>
+    <div class="col-md-12">
+      <div class="form-group">
+        <label>Amount</label>
+        <input type="number" class="form-control" ng-model="accountData.addAmount" min="1">
+      </div>
+    </div>
+    <div class="col-md-12">
+      <button type="button" class="btn btn-primary" mwl-confirm title="Add Money" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="addMoney()" confirm-button-type="default" cancel-button-type="default">Add</button>
+    </div>
+  </div>
+</div>

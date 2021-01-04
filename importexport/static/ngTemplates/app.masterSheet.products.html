@@ -1,0 +1,70 @@
+<div class="modal-header" ng-if="!updateFlag">
+  <div class="col-md-11">
+    <h3 class="text-center">Upload Products Sheet</h3>
+  </div>
+  <div class="col-md-1">
+    <button class="btn btn-primary" ng-click="$close('ok')"><i class="fa fa-close"></i></button>
+  </div>
+</div>
+<div class="modal-body" ng-if="!updateFlag">
+  <div ng-if="!upload">
+    <div class="form-group">
+      <label>Upload Sheet</label>
+      <input type="file" file-model="form.sheet">
+    </div>
+    <div class="btn btn-primary" ng-click="uploadSheet()">
+      Upload
+    </div>
+    <div ng-if="count" style="color:rgb(164, 221, 170)">
+      {{count}} products uploaded
+    </div>
+  </div>
+  <div ng-if="upload">
+    <div style="font-size:20px">
+      No of Products uploaded : {{appendCount}}
+    </div>
+    <div style="font-size:20px">
+      Total No Products : {{productCount}}
+    </div>
+  </div>
+</div>
+
+<div class="modal-header" ng-if="updateFlag">
+  <div class="col-md-11">
+    <h3 class="text-center">Update Products Sheet</h3>
+  </div>
+  <div class="col-md-1">
+    <button class="btn btn-primary" ng-click="$close('ok')"><i class="fa fa-close"></i></button>
+  </div>
+</div>
+<div class="modal-body" ng-if="updateFlag">
+  <div ng-if="!update">
+    <div class="form-group">
+      <label>Update Sheet</label>
+      <input type="file" file-model="form.sheet">
+    </div>
+    <div class="btn btn-primary" ng-click="updateSheet()">
+      Update
+    </div>
+    <div ng-if="count" style="color:rgb(164, 221, 170)">
+      {{count}} products updated
+    </div>
+  </div>
+  <div ng-if="update">
+    <div style="font-size:20px">
+      Total No Products : {{productCount}}
+    </div>
+    <div style="font-size:20px">
+      Updated Products in the Excel Sheet : {{appendCount}}
+    </div>
+    <div style="font-size:20px">
+      Not Updated Products in the Excel Sheet: {{notUpdated}}
+    </div>
+    <div style="font-size:20px">
+      Not Updated Products Part No(s) :
+      <ul>
+        <li ng-repeat="i in notUpdated_partNo track by $index">{{i}} </li>
+      </ul>
+    </div>
+  </div>
+</div>

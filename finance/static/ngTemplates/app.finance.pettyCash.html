@@ -1,0 +1,62 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row" style="margin-top:15px;padding-left:15px;padding-right:15px;background-color:#faf9f9">
+        <div class="col-md-2" ng-repeat="a in userAccounts" style="border:1px solid #d7d7d7;padding:5px;cursor:pointer;{{selectedIndx==$index?'background:#e0e0e0':''}}" ng-click="changeTable($index)">
+          <p>Name : {{a.title}} </p>
+          <p>Balanace : {{a.balance | number}} </p>
+        </div>
+      </div>
+      <div class="row" style="margin-top:15px">
+        <div class="col-md-12">
+          <div class="col-md-6">
+            <h4> Petty Cash Details </h4>
+          </div>
+          <div class="col-md-6 text-right">
+            <button class="btn btn-default">Topup </button>
+          </div>
+        </div>
+      </div>
+      <div class="row" ng-if="currentAccount">
+        <div class="col-md-12">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>S.No</th>
+                <th></th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Debit</th>
+                <th>Credit</th>
+                <th>Balance</th>
+                <!-- <th></th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="a in pettyCashData">
+                <td>{{$index+1}}</td>
+                <td><img ng-src="{{a.createdUser.profile.displayPicture}}" class="img-circle" width="40" /></td>
+                <td>{{a.createdUser.first_name}} {{a.createdUser.last_name}}</td>
+                <td>{{a.description}}</td>
+                <td>{{a.amount | number}}</td>
+                <td>{{a.creditAmount | number}}</td>
+                <td>{{a.balance | number}}</td>
+                <!-- <td ></td> -->
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><input type="text" class="form-control" ng-model="form.description" placeholder="Description"></td>
+                <td><input type="text" class="form-control" ng-model="form.amount" ng-change="calc('debit')" placeholder="Debit"></td>
+                <td><input type="text" class="form-control" ng-model="form.creditAmount" ng-change="calc('credit')" placeholder="Credit"></td>
+                <!-- <td ></td> -->
+                <td><i class="fa fa-floppy-o fa-2x" ng-click="save()"></i> </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

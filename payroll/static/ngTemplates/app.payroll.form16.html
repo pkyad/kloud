@@ -1,0 +1,70 @@
+<div class="container-fluid">
+  <div class="row" style="margin-top:15px">
+    <div class="col-md-1">
+      <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
+    </div>
+    <div class="col-md-7">
+      <h4 style="font-size:20px;">
+       FORM16
+      </h4>
+    </div>
+    <div class="col-md-2" >
+      <div class="container-fluid" style="background:#FAFAFA;border-radius:20px;padding:7px;padding-left:20px;">
+        <!-- <span style="font-weight:bold;font-size:18px;"> Year </span> -->
+        <select class="" ng-model="form.year" ng-options="p for p in years" style="background:#FAFAFA;border:none;text-align:right;width:70%;" ng-change="fetchAll()">
+        </select>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="container-fluid" style="background:#FAFAFA;border-radius:20px;padding:7px;padding-left:20px;">
+        <!-- <span style="font-weight:bold;font-size:18px;"> Month </span> -->
+        <select class="" ng-model="form.period" ng-options=" m for m in periods" style="background:#FAFAFA;border:none;text-align:right;width:60%;" ng-change="fetchAll()">
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top:15px">
+    <div class="col-md-offset-3 col-md-6"  style="background:#faf9f9;border-radius:20px;padding:7px;padding-left:20px;">
+        <div class="row">
+          <div class="col-md-5">
+            <div class="container-fluid" style="background:#FAFAFA;border-radius:20px;padding:7px;padding-left:20px;">
+              <select class="" ng-model="form.user" ng-options="p.first_name + ' ' + p.last_name for p in employees" ng-change="fetchData()" style="background:#FAFAFA;border:none;text-align:right;width:60%;">
+              </select>
+            </div>
+            </div>
+            <div class="col-md-4" style="margin-top:10px">
+                <input type="file" file-model="form.file">
+            </div>
+            <div class="col-md-3" style="margin-top:10px">
+                <button type="button" name="button" class="btn btn-default btn-block" style="border-radius:25px;border:none" ng-click="uploadFile()">UPLOAD</button>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top:15px">
+    <div class="col-md-offset-3 col-md-6"  >
+        <div class="row" style="background:#faf9f9;border-radius:20px;padding:7px">
+          <div class="col-md-5">
+              <h4> EMPLOYEE NAME </h4>
+            </div>
+            <div class="col-md-4" >
+                <h4> FORM </h4>
+            </div>
+            <div class="col-md-3" >
+                  <!-- <h4> ACTION </h4> -->
+            </div>
+        </div>
+        <div class="row" style="padding:7px" ng-repeat="a in allForms"  ng-click="editData($index)">
+          <div class="col-md-5">
+               {{a.user.first_name}} {{a.user.last_name}}
+            </div>
+            <div class="col-md-4" >
+                <a href="{{a.file}}" target="_blank"><img src="/static/images/download.png"  style="width:25px"/></a>
+            </div>
+            <div class="col-md-3" >
+                 <span  style="color:red"  mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="delete($index)" confirm-button-type="default" cancel-button-type="default" style="position:relative;top:30px;right:-15px;cursor:pointer;"> <img src="/static/images/icons8-remove-64.png"  style="width:30px"/></span>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

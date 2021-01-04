@@ -1,0 +1,73 @@
+
+  <style media="screen">
+    #bgImg2 #page4bgImg2{
+      background: url('/static/images/bgImage1.png') no-repeat left;
+      height: 700px;
+      background-size: contain;
+    }
+    #bgImg2 #OrangeBtn{
+      background:#FF7981;
+      border:2px solid #FF7981;
+      margin-top:20px;
+      font-size:20px;
+      color:white;
+      font-weight:400;
+      border-radius:30px;
+      height:50px;
+    }
+    #bgImg2 #heading2{
+      font-size:44px;
+      font-color:#3c3c3c;
+      font-weight:700;
+      line-height:51.56px;
+      margin-top:200px;
+    }
+    #bgImg2 #desc2{
+      font-size:30px;
+      font-color:#3c3c3c;
+      font-weight:400;
+      line-height:35.16px;
+    }
+    @media only screen and (min-device-width : 320px) and (max-device-width : 600px) {
+      body{
+        overflow-x:hidden;
+      }
+      .no_paddingg{
+        padding:0px;
+      }
+
+      #bgImg2{
+        background-image:none;
+        height:100%;
+
+      }
+      #bgImg2 #page4bgImg2{
+        background-position:right;
+        background-size:contain;
+
+      }
+      #bgImg2 #heading2{
+        margin-top:30px;
+      }
+    
+    }
+</style>
+
+
+
+  <div class="container-fluid" id="bgImg2">
+    <div class="col-md-10 col-md-offset-2" >
+      <div class="col-md-4 no_paddingg" id="page4bgImg2">
+
+      </div>
+      <div class="col-md-4 no_paddingg" >
+        <p id="heading2"> Fast and Effective.</p>
+        <p id="desc2">Let’s explore something new</p>
+        <div class="col-md-5" style="padding:0px;">
+          <button type="button" name="button" class="btn btn-block"id="OrangeBtn">Learn more</button>
+
+        </div>
+      </div>
+    </div>
+
+  </div>

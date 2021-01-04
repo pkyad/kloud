@@ -1,0 +1,265 @@
+
+
+<div class="container-fluid div_padding" style="">
+  <div class="">
+    <div class="col-md-8 col-md-offset-2 page_css" style="">
+      <div class="">
+        <div class="row">
+          <div class="col-md-2">
+            <div class="" style="background:url({{app.icon}}) no-repeat;background-size:contain;height:200px;background-position:top center">
+
+            </div>
+          </div>
+          <div class="col-md-10">
+            <h3 style="font-size:30px;">{{app.displayName}}  </h3>
+            <div class="col-md-8" style="padding:0px;">
+              <p>{{app.description}}</p>
+
+            </div>
+            <div class="hidden-xs">
+              <div class="row text-right" style="color:#8c8c8c;margin:0px;">
+                <i class="fa {{app.usersCount.appRating <=1  || app.usersCount.appRating>=1?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
+                <i class="fa {{ app.usersCount.appRating >1 || app.usersCount.appRating >=2 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
+                <i class="fa {{ app.usersCount.appRating >=3 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
+                <i class="fa {{ app.usersCount.appRating >=4 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
+                <i class="fa {{ app.usersCount.appRating ==5 ?'fa-star':'fa-star-o'}}" aria-hidden="true" style="padding-right:10px;"></i>{{users.length}}<i class="fa fa-user" aria-hidden="true" style="padding-left:10px;"></i>
+              </div>
+
+              <div class="row" style="margin-top:20px;">
+
+                <div class="col-md-2 pull-right">
+                  <button type="button" class="btn btn-success btn-block" name="button" ng-click="install()" ng-show="step=='notinstalled'">Install</button>
+                  <button type="button" class="btn btn-success btn-block" name="button"  ng-show="step=='installing'"> <i class="fa fa-spinner fa-spin"></i> </button>
+                    <button style="margin-top:0px" type="button" class="btn btn-success btn-block" name="button" ng-show="step=='installed'" ng-click="unInstall()">Uninstall </button>
+                </div>
+              <div class="col-md-2 pull-right" ng-show="step=='installed'">
+                <a type="button" class="btn btn-success btn-block" name="button" href="#/{{state}}">Open </a>
+              </div>
+              </div>
+            </div>
+            <div class="visible-xs">
+              <div class="row">
+                <div class="col-xs-8 " style="color:#8c8c8c;margin:0px;">
+                  <i class="fa {{app.usersCount.appRating <=1  || app.usersCount.appRating>=1?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
+                  <i class="fa {{ app.usersCount.appRating >1 || app.usersCount.appRating >=2 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
+                  <i class="fa {{ app.usersCount.appRating >=3 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
+                  <i class="fa {{ app.usersCount.appRating >=4 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
+                  <i class="fa {{ app.usersCount.appRating ==5 ?'fa-star':'fa-star-o'}}" aria-hidden="true" style="padding-right:10px;"></i>{{users.length}}<i class="fa fa-user" aria-hidden="true" style="padding-left:10px;"></i>
+                </div>
+                <div class="col-xs-4">
+                  <button type="button" class="btn btn-success btn-block" name="button" ng-click="install()" ng-show="step=='notinstalled'">Install</button>
+                  <button type="button" class="btn btn-success btn-block" name="button"  ng-show="step=='installing'"> <i class="fa fa-spinner fa-spin"></i> </button>
+                    <button type="button" class="btn btn-success btn-block" name="button" ng-show="step=='installed'">Installed </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="" ng-if="appMedia.length>0">
+          <div class="row">
+            <div class="col-md-3"  ng-repeat="i in appMedia.slice(0,4) track by $index">
+              <div class="" style="background-image:url({{i.attachment}});height:400px;background-size:cover;margin-bottom:10px;">
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="" ng-if="users.length>0">
+            <h4>USERS</h4>
+            <div class="row">
+              <div class="col-md-3" ng-repeat="k in users track by $index">
+                <div class="" style="box-shadow: 0px 0px 10px #ccc;padding: 15px;margin:10px 0px;">
+                  <h4>{{k.first_name}} {{k.last_name}}</h4>
+                  <p>{{k.username}}</p>
+                  <p>{{k.email}}</p>
+
+                </div>
+              </div>
+            </div>
+
+        </div>
+        <div  ng-if="app.windows || app.android || app.ios || app.mac">
+          <h4>Supported Devices</h4>
+          <div class="row">
+            <div class="col-md-2" ng-if="app.windows">
+              <div class="deviceBox text-center" style="box-shadow: 0px 0px 10px #ccc;padding: 15px;margin:10px 0px;">
+                <div class="" style="background-image:url('/static/images/windows.png');height:100px;background-size:contain;background-position:center;background-repeat: no-repeat;">
+
+
+                </div>
+                <p style="text-transform:uppercase;"><b>Windows</b></p>
+
+              </div>
+            </div>
+            <div class="col-md-2" ng-if="app.android">
+              <div class="text-center" style="box-shadow: 0px 0px 10px #ccc;padding: 15px;margin:10px 0px;">
+                <div class="" style="background-image:url('/static/images/android.png');height:100px;background-size:contain;background-position:center;background-repeat: no-repeat;">
+
+                </div>
+                <p><b>ANDROID</b></p>
+              </div>
+            </div>
+            <div class="col-md-2" ng-if="app.ios">
+              <div class="text-center" style="box-shadow: 0px 0px 10px #ccc;padding: 15px;margin:10px 0px;">
+                <div class="" style="background-image:url('/static/images/ios.jpg');height:100px;background-size:cover;background-position:center;background-repeat: no-repeat;">
+
+                </div>
+                <p><b>IOS</b></p>
+              </div>
+            </div>
+            <div class="col-md-2" ng-if="app.mac">
+              <div class="text-center" style="box-shadow: 0px 0px 10px #ccc;padding: 15px;margin:10px 0px;">
+                <div class="" style="background-image:url('/static/images/mac.jpg');height:100px;background-size:contain;background-position:center;background-repeat: no-repeat;">
+
+                </div>
+                <p><b>MAC</b></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <hr>
+        <div class="row">
+          <div class="col-md-6">
+            <h4>REVIEWS</h4>
+          </div>
+
+
+
+        </div>
+        <div class="row" style="margin-bottom:20px;">
+          <div class="col-md-3 review">
+            <h1 style="font-size:50px">{{app.usersCount.appRating}}</h1>
+
+            <div class="row" style="color:#8c8c8c;margin:0px;font-size:18px;">
+
+              <i class="fa {{app.usersCount.appRating <=1  || app.usersCount.appRating>=1?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
+              <i class="fa {{ app.usersCount.appRating >1 || app.usersCount.appRating >=2 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
+              <i class="fa {{ app.usersCount.appRating >=3 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
+              <i class="fa {{ app.usersCount.appRating >=4 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
+              <i class="fa {{ app.usersCount.appRating ==5 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
+
+            </div>
+
+            <div class="row" style="margin:0px;color:#8c8c8c;font-size:18px;" ng-if="app.usersCount.count>0">
+              <i class="fa fa-user" aria-hidden="true" style="padding-right:10px;"></i> <span >{{users.length}} total</span>
+            </div>
+          </div>
+          <div class="col-md-4">
+
+            <div class="row no_margin" style="display:flex" ng-if="app.rating_five>0">
+              <div class="" style="padding-right:15px">
+                <p style="padding:5px 0px;">5</p>
+              </div>
+              <div class="" style="width:{{app.rating_five}}%">
+                <div class="" style="background-color:#5cb85c;height:25px;margin:0px;margin-bottom:10px;">
+
+                </div>
+              </div>
+            </div>
+            <div class="row no_margin" style="display:flex" ng-if="app.rating_four>0">
+              <div class="" style="padding-right:15px">
+                <p style="padding:5px 0px;">4</p>
+              </div>
+              <div  style="width:{{app.rating_four}}%">
+                <div class="" style="background-color:#9ace6a;height:25px;margin-bottom:10px;">
+
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row no_margin" style="display:flex" ng-if="app.rating_three>0">
+              <div style="padding-right:15px">
+                <p style="padding:5px 0px;">3</p>
+              </div>
+              <div style="width:{{app.rating_three}}%">
+                <div class="" style="background-color:#ffcf02;height:25px;margin-bottom:10px;">
+
+                </div>
+              </div>
+            </div>
+
+            <div class="row no_margin"  style="display:flex" ng-if="app.rating_two>0">
+              <div style="padding-right:15px">
+                <p style="padding:5px 0px;">2</p>
+              </div>
+              <div style="width:{{app.rating_two}}%">
+                <div class="" style="background-color:#ffb234;height:25px;margin-bottom:10px;">
+
+                </div>
+              </div>
+
+            </div>
+            <div class="row no_margin"  style="display:flex" ng-if="app.rating_one>0">
+              <div style="padding-right:15px">
+                <p style="padding:5px 0px;">1</p>
+              </div>
+              <div style="width:{{app.rating_one}}%">
+                <div class="" style="background-color:#ff8b5a;height:25px;margin-bottom:10px;">
+
+                </div>
+              </div>
+            </div>
+
+
+
+
+
+
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="row" style="margin:0px;margin-bottom:20px;" ng-repeat ="k in app.feedback track by $index">
+            <div class="col-md-1">
+              <div class="comment_card" style="">
+
+              </div>
+            </div>
+            <div class="col-md-11 col-xs-12 no_padding">
+              <div class="row" style="margin:0px;">
+                <div class="col-md-10 col-xs-8">
+                  <h4>{{k.name}}</h4>
+                  <div class="row" style="margin:0px;">
+                    <!-- <i class="fa {{k.star <=1  || k.star==2 || k.star==3 ||  k.star==4 || k.star==5?'fa-star':'fa-star-o'}}" aria-hidden="true"></i> -->
+                    <i class="fa {{k.star <=1  || k.star>=1?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
+                    <i class="fa {{ k.star >1 || k.star >=2 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
+                    <i class="fa {{ k.star >=3 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
+                    <i class="fa {{ k.star >=4 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
+                    <i class="fa {{ k.star ==5 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i> {{k.created | date:'MMMM dd, y'}}
+
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row showText" style="margin: 15px;line-height:2">
+
+                <p  ng-if="!show" style="height:20px;overflow:hidden;">{{k.text}} </p><span ng-if="show">{{k.text}}</span>
+
+
+
+                <span class="badge" ng-click="show= !show" ng-show="!show" style="background:transparent;color:#ccc;
+                  border: 1px solid #ccc;padding: 5px;cursor:pointer;border-radius: 5px;">Full Review </span>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+</div>

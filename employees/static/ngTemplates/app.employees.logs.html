@@ -1,0 +1,18 @@
+<div class="" style="height:100vh;background:#FAFAFA;padding:40px;">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>App Name</th>
+        <th>Title</th>
+        <th style="width:20%;">Time Spent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="d in data">
+        <td>{{d.app}}</td>
+        <td>{{d.title}}</td>
+        <td>{{d.timeInSec/60 | number:0}}  Minutes</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

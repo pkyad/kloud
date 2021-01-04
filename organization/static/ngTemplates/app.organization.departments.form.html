@@ -1,0 +1,36 @@
+<div class="container-fluid" ng-controller="workforceManagement.organization.departments.form">
+  <div class="row">
+    <div class="col-md-12">
+      <h3 class="modal-title" ng-if="mode == 'edit'">Edit Department : <strong>{{form.dept_name}}</strong></h3>
+      <h3 class="modal-title" ng-if="mode == 'new'">Create a new Department</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+
+      <div class="form-group">
+        <label>Department name</label>
+        <input type="text" class="form-control" ng-model="form.dept_name" placeholder="enter department name">
+      </div>
+
+
+
+
+      <users-Field data="form.contacts" url="/api/HR/userSearch/" col="4" label="Contacts"></users-Field>
+
+
+
+      <br>
+
+      <!-- units -->
+      <div class="row" style="margin-top:20px;">
+        <div class="btn-group pull-right">
+          <button type="button" ng-if="!form.pk" class="btn btn-default" ng-click="resetForm()">
+                Reset
+              </button>
+          <button type="button" class="btn btn-primary pull-right" ng-click="save()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

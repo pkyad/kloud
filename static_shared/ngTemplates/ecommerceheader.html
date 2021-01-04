@@ -1,0 +1,162 @@
+<div class="row hidden-xs" id="hidemeinallpage" style="position: relative; display: block;">
+  <div class="row hidden-xs hidden-sm">
+    <div class="container-fluid newContainer ">
+      <div class="row  header_top2" style="margin-left:0px;margin-right:0px;">
+        <div class="col-md-4 col-xs-4 col-sm-3" style="margin:1.5% 0%;padding-left:20px;">
+
+          <div style="background: url('/static/images/xicon.png') no-repeat;background-size: contain;height:54px" class="ng-scope">
+          </div>
+
+
+
+
+
+        </div>
+        <div class="col-md-3 hidden-xs hidden-sm" style="margin:1.8% 0%;">
+          <div class="rounded_search">
+            <input type="text" name="" value="" placeholder="Search for amazing products" style="background-color:#F1F2F7;box-shadow:none;padding:9px 15px;border-radius:25px;width:99%;font-size:14px;border:2px solid #F1F2F7" />
+            <button type="button" name="button" style="background-color:var(--themeColor);border-radius:30px;border:none;padding: 10px 35px;position: absolute;right: 21px;"><i class="fa fa-search" aria-hidden="true" style="color:#fff;"></i> </button>
+
+          </div>
+        </div>
+        <div class="col-md-offset-1 col-md-2  col-xs-4 col-sm-3 add_cart1" " style="cursor:pointer;margin-top:0.5%;">
+
+        </div>
+        <div class=" col-md-2 col-xs-4 col-sm-3 add_cart1" style="margin-top:0.5%;">
+          <div class="row" style="cursor:pointer;margin:1% 0%;">
+            <div class="col-md-4 col-sm-4 col-xs-4"  style="padding:10px;">
+              <span><img src="/static/images/CartIconUnfill.png" style="width:60px"><span class="cart_count ng-binding" style="background: var(--themeColor);">0</span></span>
+            </div>
+            <div class="col-md-7 col-sm-8 col-xs-8 no-padding"  style="margin:10% 0%;">
+              <span> <strong class="hidden-xs" style="color:#000;"> Cart <br> </strong> </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-xs-12 hidden-md hidden-lg no-padding">
+      <div class="container" style="padding:20px 0 ">
+        <div class="row">
+          <div class="col-sm-4 col-xs-4">
+            <img class="img-responsive" style="cursor:pointer" src="/static/images/xicon.png">
+          </div>
+          <!-- ngIf: me.pk -->
+          <div class="col-sm-3 col-xs-3 ">
+            <span style="position:relative"><img class="mediaforcart" src="/static/images/CartIconUnfill.png" style="width:20px;height:20px"></span>
+            <span class="ng-binding" style="position:absolute;top:6px;right:44px;width:21px;height:21px;background-color:#0037ff;color:#fff;border-radius: 50%;text-align: center;">0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" style="position:relative;position:sticky;top: 0;z-index: 99;">
+  <div class="" id="newheader">
+    <div class="hidden-xs hidden-sm" style="box-shadow: 0 5px 40px rgba(0,0,0,.1);background: #fff;font-size: 18px;font-weight: 400;">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+
+            <div id="logoinnav" class="col-md-2" style="padding-right: 0px; background-image: url('/static/images/xicon.png'); background-position: right center; background-size: contain; background-repeat: no-repeat; height: 0px;">
+
+            </div>
+            <div class="col-md-2 dropdown1" style="padding:15px 25px;background:var(--themeColor);cursor:pointer;" ng-mouseenter="onEnter = true" ng-mouseleave="onEnter = false">
+              <div class="row">
+                <div class="col-md-12">
+                  <div style="color:#fff;padding-left:10px;">
+                    <div class="dropbtn" style="font-size:16px ;"><i class="fa fa-bars" style="font-size:20px;margin-right:15px;"></i><span style="margin-left:10px;">CATEGORIES </span> </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+            </div>
+            <div class="dropdown-content" ng-if="onEnter">
+              <div class="col-md-2" style="background-color:#ffffff;top: 100%;padding: 5px 20px;left: 16.65%;position: absolute;z-index: 9999;">
+                <ul class="list-unstyled" style="height:560px;overflow-y:auto">
+                  <li ng-repeat="(key,value) in categories"><a href="#">{{value}}</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-1 text-muted" style="padding-top:12px;padding-bottom:12px;padding-right:5px;padding-left:30px;">
+
+            </div>
+            <div class="col-md-3">
+              <div class="rounded_search" id="searchinnav" style="margin-top: 8px; display: none;">
+
+                <span style="float:right;width:100%;">
+                  <input type="text" name="" value="" placeholder="Search for amazing products" style="background-color:#F1F2F7;box-shadow:none;padding:9px 15px;border-radius:25px;width:99%;font-size:14px;border:2px solid #F1F2F7" />
+                  <button type="button" name="button" style="background-color:var(--themeColor);border-radius:30px;border:none;padding: 8px 35px;position: absolute;right: 21px;"><i class="fa fa-search" aria-hidden="true" style="color:#fff;"></i>
+                  </button>
+                </span>
+
+
+              </div>
+
+            </div>
+            <div class="col-md-2 text-muted " style="padding-top:12px;padding-bottom:12px">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="" style="margin-right:0px;font-size:0.98vw">
+                    <div class="">
+
+
+                    </div>
+                    <div class="" style="margin-right:15px;">
+                      <span ng-click="loginPage()" ng-if="!me.pk" style="cursor:pointer;float:right"> <img src="/static/images/LoginIcon.png" style="height:30px;font-size:0.98vw"> Login</span>
+                      <span ng-click="show=!show" ng-init="show=false" ng-if="me.pk" style="cursor:pointer;float:right"> <img src="/static/images/LoginIcon.png" style="height:30px;font-size:0.98vw"> {{me.first_name}} {{me.last_name}}
+
+                        <div class="dropdown-content " style="background-color:#ffffff;width:67%;top: 140%;
+                      padding: 0px 30px;left: 35%;position: absolute;z-index:9999" ng-if="show">
+
+                          <ul class="list-unstyled text-muted" id="horizontal" style="margin-bottom:0;text-align: left;font-size:16px;line-height:2">
+                            <li style="cursor:pointer">Accounts </li>
+                            <li style="cursor:pointer">Settings </li>
+                            <li style="cursor:pointer">Orders </li>
+                            <li style="cursor:pointer">Support </li>
+
+                            <li style="cursor:pointer">Logout </li>
+
+
+
+
+                          </ul>
+                        </div>
+                      </span>
+
+
+                    </div>
+
+
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-1 no-padding" style="margin-top:15px;">
+              <div class="row" id="wishicons" style="display: none; padding-right: 10px; cursor: pointer;">
+                <div class="col-md-6 no-padding ng-scope" ng-if="me.pk" >
+                        <img class="pull-left" src="/static/images/WishListIcon.png" style="width:30px"><span class="ng-binding">0</span>
+                      </div>
+                <div class="col-md-6 no-padding ng-binding" style="cursor:pointer">
+                  <img class="pull-left" src="/static/images/CartIconUnfill.png" style="width:30px;margin-left:10px;"><span>0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+
+
+
+</div>

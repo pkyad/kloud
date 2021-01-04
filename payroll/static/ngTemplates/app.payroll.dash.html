@@ -1,0 +1,110 @@
+<div class="" style="min-height:93vh;position:relative;">
+  <breadcrumb></breadcrumb>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="row" style="background-color:#2592D7;margin:2em;position:relative">
+        <div class=" text-center" style="width:30%;float:left;display:table;padding: 2em 0 2em;">
+          <span style=""><i class="fa fa-user" style="font-size:50px;color:#fff;display: table-cell;vertical-align: middle;"></i></span>
+        </div>
+        <div style="width:70%;float:left;padding: 2em 0 2em;z-index:9999">
+          <span class="text-center" style="font-size:20px;color:#fff;"><b>Active Employees</b></span><br />
+          <span style="font-size:20px;color:#fff;text-align: left"><b>{{employees }}</b></span><br />
+        </div>
+        <div style="position:absolute;right:5%;top:0;z-index:0"><i class="fa fa-user" style="font-size:8em;color:rgba(00, 00, 00, 0.1);"></i></div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="row" style="background-color:#ee535b;margin:2em;position:relative">
+        <div class=" text-center" style="width:30%;float:left;display:table;padding: 2em 0 2em;">
+          <span style=""><i class="fa fa-bolt" style="font-size:50px;color:#fff;display: table-cell;vertical-align: middle;"></i></span>
+        </div>
+        <div style="width:70%;float:left;padding: 2em 0 2em;">
+          <span class="text-center" style="font-size:20px;color:#fff;"><b>Last Payout</b></span><br />
+          <span style="font-size:20px;color:#fff;text-align: left"><b>INR {{payrollOut}}</b></span><br />
+        </div>
+        <div style="position:absolute;right:5%;top:0;z-index:0"><i class="fa fa-bolt" style="font-size:8em;color:rgba(00, 00, 00, 0.1);"></i></div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="row" style="background-color:#2da79a;margin:2em;position:relative">
+        <div class=" text-center" style="width:30%;float:left;display:table;padding: 2em 0 2em;">
+          <span style=""><i class="fa fa-check-square-o" style="font-size:50px;color:#fff;display: table-cell;vertical-align: middle;"></i></span>
+        </div>
+        <div style="width:70%;float:left;padding: 2em 0 2em;">
+          <span class="text-center" style="font-size:20px;color:#fff;"><b>Last Payroll Run</b></span><br />
+          <span style="font-size:20px;color:#fff;text-align: left"><b>{{payrollRunMon}} {{payrollRunYear}}</b></span><br />
+        </div>
+        <div style="position:absolute;right:5%;top:0;z-index:0"><i class="fa fa-check-square-o" style="font-size:8em;color:rgba(00, 00, 00, 0.1);"></i></div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="row" style="background-color:#f8ac25;margin:2em;position:relative">
+        <div class=" text-center" style="width:30%;float:left;display:table;padding: 2em 0 2em;">
+          <span style=""><i class="fa fa-user" style="font-size:50px;color:#fff;display: table-cell;vertical-align: middle;"></i></span>
+        </div>
+        <div style="width:70%;float:left;padding: 2em 0 2em;">
+          <span class="text-center" style="font-size:20px;color:#fff;"><b>Inactive Employees</b></span><br />
+          <span style="font-size:20px;color:#fff;text-align: left"><b>{{0}}</b></span><br />
+        </div>
+        <div style="position:absolute;right:5%;top:0;z-index:0"><i class="fa fa-user" style="font-size:8em;color:rgba(00, 00, 00, 0.1);"></i></div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 text-center">
+      <div style="margin:2em;">
+        <canvas id="sales-bar-chart"></canvas>
+      </div>
+    </div>
+    <div class="col-md-6 text-center">
+      <div style="margin:2em;">
+        <canvas id="downtime-doughnut-chart"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="row" style="background-color:#aa56ec;margin:2em;position:relative">
+        <div class=" text-center" style="width:30%;float:left;display:table;padding: 2em 0 2em;">
+          <span style=""><i class="fa fa-money" style="font-size:50px;color:#fff;display: table-cell;vertical-align: middle;"></i></span>
+        </div>
+        <div style="width:70%;float:left;padding: 2em 0 2em;">
+          <span class="text-center" style="font-size:20px;color:#fff;"><b>Advance Amount</b></span><br />
+          <div style="position:relative;">
+            <span style="font-size:20px;color:#fff;text-align: left;"><b>&#x20b9; {{adv.advamt}}</b></span><br />
+            <!--
+            <span style="font-size:20px;color:#eee;text-align: left;"><b>&#x20b9; {{adv.retadv}}</b> <span style="padding-left:15px;position:absolute;top:25px;right:30%;"><i class="fa fa-caret-down fa-2x"></i> </span> </span><br />
+            <span style="padding-left:15px;position:absolute;top:-10px;right:30%;"><i class="fa fa-caret-up fa-2x"></i> </span>
+              -->
+          </div>
+        </div>
+        <div style="position:absolute;right:5%;top:5px;z-index:0"><i class="fa fa-money" style="font-size:7em;color:rgba(00, 00, 00, 0.1);"></i></div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="row" style="background-color:#ec567a;margin:2em;position:relative">
+        <div class=" text-center" style="width:30%;float:left;display:table;padding: 2em 0 2em;">
+          <span style=""><i class="fa fa-university" style="font-size:50px;color:#fff;display: table-cell;vertical-align: middle;"></i></span>
+        </div>
+        <div style="width:70%;float:left;padding: 2em 0 2em;">
+          <span class="text-center" style="font-size:20px;color:#fff;"><b>Loan Amount</b></span><br />
+          <div style="position:relative;">
+            <span style="font-size:20px;color:#fff;text-align: left;"><b>&#x20b9; {{adv.loanamt}}</b></span><br />
+            <!--
+            <span style="font-size:20px;color:#eee;text-align: left;"><b>&#x20b9; {{adv.retloan}}</b> <span style="padding-left:15px;position:absolute;top:25px;right:30%;"><i class="fa fa-caret-down fa-2x"></i> </span> </span><br />
+            <span style="padding-left:15px;position:absolute;top:-10px;right:30%;"><i class="fa fa-caret-up fa-2x"></i> </span>
+            -->
+          </div>
+        </div>
+        <div style="position:absolute;right:5%;top:5px;z-index:0"><i class="fa fa-university" style="font-size:7em;color:rgba(00, 00, 00, 0.1);"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    
+  </div>
+
+
+
+</div>

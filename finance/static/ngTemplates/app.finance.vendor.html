@@ -1,0 +1,98 @@
+<style media="screen">
+  .navigationBtn , .navigationBtn:hover{
+    padding: 10px;
+    border:none !important;
+    border-radius:10px !important;
+  }
+   .contactList input ,.contactList button , .contactList .btn, .contactList .btn-primary{
+    border:none !important;
+  }
+  .contactList input, .contactList .form-control{
+    padding: 20px;
+    border-radius: 23px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  .text-dull{
+    color: #bbb;
+  }
+
+  .tableNew th{
+    padding:17px !important;
+  }
+
+  .tableNew {
+    border-radius: 1em;
+    overflow: hidden;
+  }
+
+  .contentTd{
+    padding:18px !important;
+  }
+
+  table, th, td{
+    border-color:#f2f2f2 !important;
+  }
+
+</style>
+<div class="container-fliud" style="background:#FAFAFA;min-height: 100vh;padding: 30px;">
+<div class="row">
+  <div class="col-md-offset-1 col-md-10">
+    <div class="row" sttyle="background:#ffffff;padding: 30px;margin-top: 15px;">
+      <div class="col-md-12">
+        <div class="row" style="margin-top:30px">
+          <div class="col-md-2">
+            <button ng-click="$state.go('businessManagement.newVendor')"  class="btn btn-primary btn-block" style="background: white;color: #461482;  border: none !important;border-radius: 64px !important;padding: 17px;right: 59px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(244, 244, 244, 0.94) !important;padding-right:30px;padding-left:30px;">New Vendor</button>
+          </div>
+          <div class="col-md-6">
+            <div class="input-group" style="padding:10px;background: white;border-radius: 100px;padding-right: 30px;padding-left: 30px;">
+              <input type="text" class="form-control" ng-model="searchForm.search" placeholder="Search  by name " ng-change="vendorListData()" style="border:none !important;background:white;border-radius:23px;padding:20px;font-size: 16px;">
+              <div class="input-group-btn">
+                <button class="btn btn-default" type="submit" ng-click="vendorListData()" style="border:none !important;background:white;border-radius:23px !important;">
+                  <i class="glyphicon glyphicon-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <button ng-click="vendorprev()"  class="btn btn-primary btn-block" style="background: white;color: #461482;  border: none !important;border-radius: 64px !important;padding: 17px;right: 59px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(244, 244, 244, 0.94) !important;padding-right:30px;padding-left:30px;">Previous</button>
+          </div>
+          <div class="col-md-2">
+            <button ng-click="vendornext()"  class="btn btn-primary btn-block" style="background: white;color: #461482;  border: none !important;border-radius: 64px !important;padding: 17px;right: 59px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(244, 244, 244, 0.94) !important;padding-right:30px;padding-left:30px;">Next</button>
+          </div>
+        </div>
+        <div class="row" style="margin-top:30px">
+          <div class="col-md-12">
+            <div class="row" style="margin:10px;">
+              <table class="table table-hover tableNew">
+                <thead>
+                  <tr style="background:#f2f2f2;padding:10px;">
+                    <th>S.No</th>
+                    <th>Service Name</th>
+                    <th>Contact Person</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <!-- <th>Balance</th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="a in vendorDList" ng-click="$state.go('businessManagement.editVendor',{'id':a.pk})" style="padding:10px;background:white;">
+                    <td class="contentTd">{{$index+1}}</td>
+                    <td class="contentTd">{{a.service.name}}</td>
+                    <td class="contentTd">{{a.contactPerson}}</td>
+                    <td class="contentTd">{{a.mobile}}</td>
+                    <td class="contentTd">{{a.email}}</td>
+                    <!-- <td class="contentTd">0</td> -->
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

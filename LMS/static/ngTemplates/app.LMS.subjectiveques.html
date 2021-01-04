@@ -1,0 +1,40 @@
+<div style="padding:30px 10px 10px 10px;" class="row">
+    <div style="font-size: 180%;" class="col-md-6 text-left">
+        <span > Subjective Questions</span>
+
+    </div>
+    <div class="col-md-6 text-right">
+           <button type="button" class="btn1 btn-primary" name="button"><i class="fa fa-upload"></i>Bulk Upload</button>
+
+    </div>
+</div>
+<hr>
+<div style="padding:10px 10px 10px 10px;" class="row">
+  <div class="col-md-3 form-group">
+  <label for="inputsm">Marks</label>
+  <input class="form-control" ng-model="form.marks" id="inputsm" type="text">  </div>
+    <!-- <div class="col-md-3 form-group">
+    <label for="inputsm">Score</label>
+
+  </div> -->
+  <!-- <div class="col-md-3 form-group">
+  <label for="inputsm">Recommanded Time</label>
+  <input class="form-control" ng-model="form.time" id="inputsm" type="text">
+</div> -->
+</div>
+<div style="padding:10px 10px 10px 10px;" class="form-group">
+  <label>Problem description</label>
+  <textarea ng-model="form.ques" ui-tinymce="tinymceOptions" ng-model="form.template"></textarea>
+</div>
+
+<hr>
+
+<div style="padding:10px 10px 10px 10px;" class="row">
+  <div class="col-md-6 text-left">
+       <!-- <button type="button"   name="button">Save question</button> -->
+  </div>
+  <div class="col-md-6 text-right">
+       <button type="button" ng-click="saveSubjective()" class="btn1 btn-primary btn-lg" name="button">Save & add another</button>
+  </div>
+
+</div>

@@ -1,0 +1,48 @@
+<div class="modal-header" style="padding-top:30px;">
+  <div class="row">
+    <div class="container-fluid">
+      <span class="projectLabel" style="margin:0px;">EpsilonAI</span> <future-datepicker date="task.dueDate" cls="'pull-right taskDatePicker'"></future-datepicker>
+    </div>
+  </div>
+  <h4 style="margin-top:30px;">{{task.title}}</h4>
+</div>
+<div class="modal-body" style="padding-top:0px;">
+  <div class="row bg-blue" style="padding-left:20px;">
+    <h5>Files</h5>
+  </div>
+
+  <div class="row" ng-repeat="file in task.files" style="margin-top:25px;">
+    <div class="col-md-2 text-right">
+      <i class="fa fa-file fa-3x"></i>
+    </div>
+    <div class="col-md-10">
+      {{file.name}} <br>
+      <div class="row">
+        <div class="col-md-6">
+          <span class="text-muted">{{file.created | timeAgo}}</span>
+        </div>
+        <div class="col-md-6 text-muted">
+          <i class="fa fa-trash fa-lg pull-right" ng-click="deleteFile($index)"></i>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <div class="row text-center" style="padding:30px;">
+    <button type="button" class="btn btn-default " style="border:none;border-radius:200px !important;padding-left:15px;padding-right:15px;" onclick="document.getElementById('newTaskFilesModal').click()">
+      <svg style="margin-bottom: -7px;" width="25" height="25" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="nonzero" d="M12.796 8.796l-4.325 4.325a2.162 2.162 0 0 0 3.058 3.058l6.825-6.825a3.328 3.328 0 0 0-4.708-4.708l-8.175 8.175a4.495 4.495 0 0 0 6.358 6.358l5.675-5.675a.5.5 0 0 0-.708-.708l-5.675 5.675A3.495 3.495 0 1 1 6.18 13.53l8.175-8.175a2.328 2.328 0 1 1 3.292 3.292l-6.825 6.825A1.162 1.162 0 0 1 9.18 13.83l4.325-4.325a.5.5 0 0 0-.708-.708z"></path></svg> <span> Attach Files  </span>
+    </button>
+
+    <input id="newTaskFilesModal" style="display:None" type="file" multiple files-model="form.files">
+
+  </div>
+
+
+
+</div>
+<div class="modal-footer">
+  <button mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No"
+    on-confirm="deleteTask()" confirm-button-type="default" cancel-button-type="default"  type="button" class="btn btn-danger pull-left" >Delete Task</button>
+</div>

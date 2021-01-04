@@ -1,0 +1,52 @@
+<div class="modal-body">
+  <input type="text" class="form-control" ng-model="query" placeholder="Search template by title" >
+  <div class="row" style="margin-top:20px;">
+    <div class="container-fluid">
+
+      <div class="panel-group" ng-repeat="t in templates" >
+        <div class="panel panel-default" ng-init="open = false;">
+          <div class="panel-heading container-fluid"  ng-click="open = !open">
+            <div class="row">
+              <div class="col-md-8">
+                <h4 class="panel-title">
+                  <a>
+                    {{t.title}}
+                  </a>
+                </h4>
+                <p>{{t.description}}</p>
+              </div>
+              <div class="col-md-3">
+                <label>{{t.files.length}}  Files</label> <br>
+                <span ng-repeat="f in t.files">{{f.fileName}} <br></span>
+              </div>
+              <div class="col-md-1">
+                <button type="button" ng-click="selectTemplate(t);$event.stopPropagation()" class="btn btn-default">
+                  Use
+                </button>
+              </div>
+            </div>
+          </div>
+          <div ng-if="open" class="panel-collapse collapse in" >
+            <div ng-bind-html="t.htmltemplate" class="panel-body">
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+
+    </div>
+    <div class="row text-center">
+      <button type="button" class="btn btn-default">
+        Prev
+      </button>
+      <button type="button" class="btn btn-default">
+        Next
+      </button>
+    </div>
+  </div>
+
+
+
+</div>

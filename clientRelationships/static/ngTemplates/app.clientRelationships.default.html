@@ -1,0 +1,239 @@
+<style media="screen">
+  .menuCol {
+    width: 9.8%;
+  }
+
+  .appCol {
+    width: 90.2%;
+  }
+  /* .crmDashboard input , .crmDashboard select {
+    border:none !important;
+  } */
+
+  .tableNew th{
+    padding:17px !important;
+  }
+
+  .tableNew {
+    border-radius: 1em;
+    overflow: hidden;
+    box-shadow: 0px -12px 10px rgba(0, 0, 0, 0.1);
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  .contentTd{
+    padding:18px !important;
+  }
+
+  .filterBtn{
+    color:#1E334C;
+    border : none !important;
+  }
+  .filterBtn:hover, .filterBtn:focus{
+    background:white;
+    border : none !important;
+    color:#1E334C;
+  }
+  .searchInp{
+    border-radius: 45px !important;
+    box-shadow: 10px 8px 23px rgba(0, 0, 0, 0.1) !important;
+    border: none;
+    padding: 20px;
+    padding-left:50px;
+    padding-top:25px;
+    padding-bottom:23px;
+  }
+
+  .datepickerInput .input-group{
+    border-radius: 45px !important;
+    box-shadow: 10px 8px 23px rgba(0, 0, 0, 0.1) !important;
+    border: none;
+    padding:10px;
+  }
+  /* .datepickerInput select{
+    border-radius: 45px !important;
+    box-shadow: 10px 8px 23px rgba(0, 0, 0, 0.1) !important;
+    border: none;
+    padding:10px;
+  } */
+  .datepickerInput input{
+    border:none !important;
+  }
+  .datepickerInput .btn{
+    border:none !important;
+  }
+  .datepickerInput label{
+    margin-left:20px;
+  }
+
+</style>
+
+<div style="background:#F2F2F2 !important;padding:0px;" class="container-fluid">
+  <!-- <breadcrumb></breadcrumb> -->
+    <div class="col-md-7" style="padding-right:0px;min-height:100vh;">
+      <div class="row" style="padding:15px;background:#F2F2F2;">
+
+        <div class="col-md-8" style="margin-top:20px;position:relative;">
+          <i class="fa fa-search fa-2x" style="position:absolute;left:29px;top:10px;color: #f2f2f2;font-size: 26px;"></i>
+
+          <input id="contactSearchEdit" uib-typeahead="p as p.name for p in customerSearch($viewValue)" class="form-control searchInp" ng-model="customer" placeholder="Search..." typeahead-template-url="/static/ngTemplates/contact.search.html"></input>
+        </div>
+        <div class="col-md-1 text-center" style="margin-top:20px">
+          <img style="width: 39px;" src="/static/images/icons8-trello-50.png"  ng-click="$state.go('businessManagement.CRM.opportunities')">
+        </div>
+        <div class="col-md-1 text-center" style="margin-top:20px">
+          <img style="width: 39px;" src="/static/images/settings-sliders-adjust_copy-512.png"  ng-click="showfilter = !showfilter">
+        </div>
+        <div class="col-md-1 text-center" style="margin-top:20px">
+          <img src="/static/images/download-from-cloud.png" style="width:100%;" ng-click="filter('download')">
+        </div>
+        <div class="col-md-1 text-center" style="margin-top:20px">
+          <button class="btn btn-primary  " style="background: #E01B22 !important;color: white !important;border-radius: 40px !important;margin-left: -5px;border: none !important;padding: 8px;padding-left: 9px;padding-right: 9px;" ng-click="$state.go('businessManagement.contacts.new')"> <img src="/static/images/icons8-plus-48.png" style="width:30px;" alt=""> </button>
+        </div>
+      </div>
+
+      <div class="row" style="margin:0px;margin-top:20px;background:#F2F2F2;" ng-init="showfilter = false" ng-if="showfilter">
+        <div class="col-md-4">
+          <div class="form-group datepickerInput">
+            <label>From</label>
+            <div class="input-group">
+              <input ng-change="filter()" type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="filterData.frm" is-open="statusDue.opened" ng-init="today" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="statusDue.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group datepickerInput">
+            <label>To</label>
+            <div class="input-group">
+              <input ng-change="filter()" type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="filterData.to" is-open="statusDue.openedto" ng-init="today" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="statusDue.openedto = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class=" datepickerInput" >
+            <label>Quotation Type</label>
+          <div class="input-group" style="width: 100%!important;">
+            <select ng-change="filter()" class="form-control journalBtn" ng-model="filterData.tandc" ng-options="p.heading for p in allTermsandCon" ng-change="filterData()" style="font-size:20px;border: transparent;">
+            </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row" style="background: white;padding-bottom:0px;padding-top:30px;background:#F2F2F2;">
+        <table class="table tableNew" style="overflow:unset !important;background:white;">
+          <thead>
+            <tr style="background:#f2f2f2;padding:10px;">
+              <th scope="col" ng-click="orderByField='pk'; reverseSort = !reverseSort" style="cursor:pointer">#</th>
+              <th scope="col" ng-click="orderByField='date'; reverseSort = !reverseSort" style="cursor:pointer">Date</th>
+              <th scope="col" ng-click="orderByField='customer'; reverseSort = !reverseSort" style="cursor:pointer">Customer</th>
+              <th scope="col" ng-click="orderByField='date'; reverseSort = !reverseSort" style="cursor:pointer">Lead Owner</th>
+                <th scope="col" ng-click="orderByField='date'; reverseSort = !reverseSort" style="cursor:pointer">Quotation Type</th>
+              <th scope="col" ng-click="orderByField='value'; reverseSort = !reverseSort" style="cursor:pointer">Value</th>
+              <th class="text-center"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="d in clrHomeData.quotedQuote |orderBy:orderByField:reverseSort " >
+              <td class="contentTd" ng-click="openInvoice(d)">{{d.pk}}</td>
+              <td class="contentTd" ng-click="openInvoice(d)">
+                <h4>{{d.created | timeAgo}} <span style="color:rgb(195, 195, 195);margin-left:10px;font-size:13px;">Ago</span>  </h4>
+                {{d.created | date}}</td>
+              <td class="contentTd" ng-click="$state.go('businessManagement.contacts.delatils', { id : d.contact__pk})" style="cursor:pointer"> <h4>{{d.contact__name}} </h4> <span>{{d.contact__company__name}}</span></td>
+              <td class="contentTd" ng-click="$state.go('businessManagement.contacts.delatils', { id : d.contact__pk})" style="cursor:pointer"> <h4>{{d.user__pk|getName}} </h4> </td>
+                <td class="contentTd" ng-click="$state.go('businessManagement.contacts.delatils', { id : d.contact__pk})" style="cursor:pointer"> <h4>{{d.termsAndCondition__heading}} </h4> </td>
+              <td class="contentTd" style="background:linear-gradient(30deg, rgba(255, 255, 255, 0.77), rgb(251, 251, 251)), url(/static/images/inr.jpg);background-repeat: no-repeat;background-size:contain;backdrop-filter: blur(8px);background-position:right;" ng-click="openInvoice(d)">  <h3 style="color:#888484;">{{d.value | number}}</h3></td>
+              <td class="text-center">
+                <div class="col-md-6" style="padding-top:20px;">
+                  <a href="/api/clientRelationships/downloadInvoice/?contract={{d.pk}}" target="_blank"><img src="/static/images/download.png" style="width:27px;" alt=""></a>
+                </div>
+                <div class="col-md-6" style="padding-top:20px;">
+                  <div class="dropdown">
+                    <span class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding:0px">
+                     <img src="https://i.ya-webdesign.com/images/three-dots-menu-png-15.png" style="width:20px;" alt="">
+                    </span>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a style="padding:10px;" href="" ng-click="changeStatus('invoice', $index)">Convert to Invoice</a></li>
+                      <li><a style="padding:10px;" href="" ng-click="changeStatus('saleOrder', $index)">Convert to Sale Order</a></li>
+                      <li><a style="padding:10px;" href="" ng-click="changeStatus('performa', $index)">Convert to Performa</a></li>
+                      <li><a style="padding:10px;" href="" ng-click="changeStatus('cancelled', $index)">Cancelled</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+    <div class="col-md-5" style="min-height:100vh;background:#0E1C2C;padding-bottom:100px;">
+      <div class="container-fluid" style="border-radius:15px;min-height:460px;padding:20px;">
+
+        <div class="row" style="margin-bottom:55px;color:white;margin:0px;">
+          <h3>Team Progress ( Last 7 Days )</h3>
+        </div>
+
+        <canvas id="line" class="chart chart-line" chart-data="chartData.data"
+        chart-labels="chartData.labels" chart-series="chartData.series" chart-options="options" >
+        </canvas>
+
+        <div class="row" style="margin-top:20px;padding:30px;">
+          <div class="col-md-1 col-md-offset-1" style="background:#dcdcdc;height:15px;">
+          </div>
+          <div class="col-md-4" style="color:#768491;">
+            Contacts
+          </div>
+          <div class="col-md-1" style="background:#a5c2d0;height:15px;">
+          </div>
+          <div class="col-md-5" style="color:#768491;">
+            Quotations
+          </div>
+        </div>
+
+        <div class="row" style="color:white;padding:50px;">
+          <div class="col-md-6">
+            <h3> {{clrHomeData.contact_count}}</h3>
+            <p style="color:#757E8D;">Contacts</p>
+          </div>
+
+          <div class="col-md-6">
+            <h3><i class="fa fa-{{currSymbol}}"></i>{{currSymbol == 'aud' ? 'AUD' :''}} {{clrHomeData.approvedAmount | number}}</h3>
+            <p style="color:#757E8D;">New relationships</p>
+          </div>
+
+        </div>
+
+        <div class="row" style="margin-bottom:55px;color:white;margin:0px;">
+          <h3>Team</h3>
+        </div>
+        <div class="row" style="margin:0px;margin-top:20px;">
+          <div class="row" ng-repeat="member in form.teamData" style="margin-bottom:10px;">
+            <div class="col-md-5">
+              <div class="col-md-4">
+                <img ng-src="{{member.dp}}" onerror="this.src = '/static/images/userIcon.png'" src="/static/images/userIcon.png"  style="width:30px;height:30px;" class="img img-circle pull-right">
+              </div>
+              <div class="col-md-8" style="padding:0px;padding-top:10px;color:white">
+                {{member.name}}
+              </div>
+            </div>
+            <div class="col-md-6" style="position:relative;">
+              <div style="height:20px;width:{{member.percent}}%;position:absolute;left:0px;background:#1E334C;">
+              </div> <span style="position:absolute;left:{{member.percent}}%;margin-left: 10px;color:white;">{{member.count}}</span>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+</div>

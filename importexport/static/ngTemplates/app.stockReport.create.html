@@ -1,0 +1,55 @@
+<div class="modal-header">
+  <div class="row">
+    <div class="col-md-12">
+      <button class="btn btn-primary pull-right" ng-click="close()"><i class="fa fa-close fa-lg"></i></button>
+    </div>
+  </div>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-12">
+      <button ng-if="count==0" class="btn btn-primary" ng-click="saveReport()"> Start A Report </button>
+    </div>
+  </div>
+  <div class="row" style="padding:10px" ng-if="count>0||products.length>0">
+    <div class="col-md-4">
+      <label>Product</label>
+      <input uib-typeahead="product as product.part_no for product in productSearch($viewValue)" ng-model="form.product" type="text" class="form-control">
+    </div>
+    <div class="col-md-3">
+      <label>Quantity</label>
+      <input ng-model="form.qty" type="text" class="form-control">
+    </div>
+    <div class="col-md-2" style="padding-top:25px">
+      <button type="button" class="btn btn-primary " ng-click="addProduct()">Add</button>
+    </div>
+    <div class="col-md-3" style="padding-top:25px">
+      <span ng-if="count>0"><a class="btn btn-primary" target="_blank" href="/api/importexport/stockSheet?value={{data.pk}}&created={{data.created}}&flag={{flag}}" style="min-width:50px"><i class="fa fa-download"></i> Download</a> </span>
+    </div>
+  </div>
+  <div class="row" style="padding:10px" ng-if="products.length>0">
+    <div class="col-md-12">
+      <table class="invoiceTable" style=" width: 100%;">
+        <tbody>
+          <tr style="background-color: #eeeeee;height: 40px;">
+            <th>Si.No</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th></th>
+          </tr>
+          <tr ng-repeat="v in products track by $index">
+            <td>{{$index + 1}}</td>
+            <td>{{v.product.part_no}}</td>
+            <td>{{v.qty}}</td>
+            <td><button type="button" class="btn btn-danger btn-sm" ng-click="deleteData($index)"> <i class="fa fa-trash"></i> </button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row" style="padding:10px" ng-if="products.length>0">
+    <div class="col-md-12">
+      <button type="button" class="btn btn-primary " ng-click="saveAll()">Save</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+<style media="screen">
+#back{
+cursor:pointer;
+}
+</style>
+<div class="container-fluid">
+  <breadcrumb></breadcrumb>
+<div class="row" style="margin-top:20px;">
+  <div ng-if="doctorForm.pk" class="col-md-12">
+    <img id="back" onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">  <span style="font-size: 180%; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Update details</b></span>
+    </div>
+
+
+  <div ng-if="!doctorForm.pk" class="col-md-12">
+    <img id="back" onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
+    <span style="font-size: 180%; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>New  Doctor</b></span>
+  </div>
+</div>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <!-- <div class="row text-center" ng-if="doctorForm.pk">
+        <h2>Edit Doctor Details</h2>
+      </div> -->
+      <div class="row">
+        <div class="form-group">
+          <label>Doctor Name</label>
+          <div class="form-group">
+            <input class="form-control" type="text" name="" value="" ng-model="doctorForm.name">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <label>Department</label>
+          <div class="form-group">
+            <input class="form-control" type="text" name="" value="" ng-model="doctorForm.department">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <label>Qualification</label>
+          <div class="form-group">
+            <input class="form-control" type="text" name="" value="" ng-model="doctorForm.education">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <label>Mobile Number</label>
+          <div class="form-group">
+            <input class="form-control" type="text" name="" value="" ng-model="doctorForm.mobile">
+          </div>
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="form-group">
+          <button type="submit" ng-if="!doctorForm.pk" class="btn btn-primary" ng-click="saveDoctor()">Save</button>
+        </div>
+        <div class="form-group">
+          <button type="submit" ng-if="doctorForm.pk" class="btn btn-primary" ng-click="editDoctor()">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

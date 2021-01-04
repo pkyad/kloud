@@ -1,0 +1,35 @@
+<div class="container-fluid">
+
+  <div class="row" style="padding: 30px 0px;
+margin: 20px 0px;background:rgb(18, 46, 99)">
+    <div class="col-md-5">
+
+    </div>
+    <div class="col-md-1">
+      <button type="button" class=" btn defaultBtn btn-block " name="button" ng-click="createTemplate()" ><i class="fa fa-plus" style="background:transparent;color:black;box-shadow:none;margin:0px;padding:0px"></i></button>
+    </div>
+      <div class="col-md-4">
+
+        <div class="input-group" >
+          <input type="text" class="form-control websiteInput" ng-model="searchForm.searchValue" placeholder="Search" ng-enter="fetchTemplates()"  style="border-top-right-radius:0px !important;border-bottom-right-radius:0px !important;margin-top:0px;height:55px;">
+          <div class="input-group-btn">
+            <button class="btn btn-default" type="submit" ng-click="fetchTemplates()" style="padding:6px 20px;height:55px;border:0px;    border-top-right-radius: 25px !important;    border-bottom-right-radius: 25px !important;outline:none;background-color:#F2F3F7;">
+              <i class="glyphicon glyphicon-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <button type="button" class=" btn defaultBtn btn-block " name="button" ng-click="prev()" >Prev</button>
+      </div>
+      <div class="col-md-1">
+        <button type="button" class=" btn defaultBtn btn-block " name="button" ng-click="next()">Next</button>
+
+      </div>
+  </div>
+
+  <div ng-repeat="template in templates"  class="container-fluid" style="padding:20px;border:solid 1px #eee;margin-bottom:20px;">
+    <h3 style="margin:0px;"> <a href="/templateEditor/{{template.pk}}/" style="color:
+black;text-decoration: none !important;" target="_blank">{{template.name}}</a></h3>
+  </div>
+</div>

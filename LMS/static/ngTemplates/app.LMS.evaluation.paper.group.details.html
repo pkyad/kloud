@@ -1,0 +1,19 @@
+<div class="container-fluid"style="padding-top:20px;">
+  <div class="row" style="margin-top:20px;">
+    <div  class="col-md-12">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img id="back" onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
+      <span style="font-size: 180%; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Details</b></span>
+      <hr>
+    </div>
+  </div>
+  <div class="col-md-3"ng-repeat="p in paper">
+      <div class="container-fluid card" style="padding-bottom:10px;margin-bottom:15px;padding-top:20px;">
+        <label>Paper : </label> {{p.name}} <br>
+        <label>Active : </label> {{p.active}} <br>
+        <label>Created By : </label> {{p.user | getName}} <br>
+        <label>Date : </label> {{p.updated}} <br> <br>
+        <label>{{p.questions.length}} </label> Questions<br> <br>
+        <i class="fa fa-pencil fa-lg pull-right" style="cursor:pointer;" ng-click="$state.go('businessManagement.LMS.editPapergorup',{'id':p.pk})"></i>
+      </div>
+  </div>
+</div>

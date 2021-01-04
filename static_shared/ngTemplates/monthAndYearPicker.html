@@ -1,0 +1,25 @@
+<style media="screen">
+  .greyBGOnHover:hover{
+    background:rgb(235, 235, 235);
+    cursor:pointer;
+  }
+</style>
+
+<div class="container-fluid" style="padding:0px;">
+
+  <div class="row" style="background:red;padding:20px;margin:0px;">
+    <div ng-click="prev()" class="col-md-2">
+      <img src="/static/images/icons8-left-24.png" style="width:24px;" alt="">
+    </div>
+    <div style="color:white;" class="col-md-8 text-center">
+      {{year}}
+    </div>
+    <div ng-click="next()" class="col-md-2">
+      <img src="/static/images/icons8-right-24.png" style="width:24px;" alt="">
+    </div>
+  </div>
+  <div  ng-click="create(month)" class="row text-center greyBGOnHover" ng-repeat="month in months track by $index" style="padding:15px;margin:0px;">
+    {{month}}
+  </div>
+
+</div>

@@ -1,0 +1,99 @@
+<div ng-controller="workforceManagement.employees.tourPlan.info">
+  <div class="container-fluid" style="margin-top:20px;">
+    <div class="col-md-2" style="padding-top:15px;">
+      <span><b>Date :</b> </span><span><b>{{toData.date}}</b> </span><br>
+    </div>
+    <div class="col-md-2" style="border-left:1px solid #eee;padding-top:15px;">
+      <span><b>Ta :</b> </span><span><b>{{toData.ta}}</b> </span> <br>
+      <span><b>Da :</b> </span><span><b>{{toData.da}}</b> </span>
+    </div>
+    <div class="col-md-4">
+      <label>Amount</label>
+      <input ng-disabled="toData.status == 'approved'" type="number" class="form-control" ng-model="toData.amount">
+    </div>
+    <div class="col-md-2" style="padding-top:25px;" ng-if="toData.status != 'approved'" ng-hide="approvebtn">
+      <button type="button" class="btn btn-success" ng-click="approve('approved')">
+        Approve
+      </button>
+      <button type="button" class="btn btn-danger" ng-click="approve('rejected')">
+        Reject
+      </button>
+    </div>
+  </div>
+  <hr>
+  <div class="row main_row">
+
+
+    <div class="col-md-1">
+      <div class="row text-center" style="padding-top:65px;">
+        <i class="fa fa-home fa-3x text-muted"></i> Station
+      </div>
+    </div>
+    <div class="col-md-1 text-center" style="padding-top:65px;">
+      <i class="fa fa-arrow-right fa-2x" style="color:#c1bfbf;"></i>
+    </div>
+    <div class="col-md-9">
+      <div class="container-fluid">
+        <div class="col-md-4" ng-repeat="s in tourStop">
+          <div class="col-md-11" style="padding:20px;position:relative;min-height:250px;">
+            <div class="text-center">
+              <div class="row">
+                <div class="col-md-5 text-right">
+                  <i class="fa fa-user"></i>
+                </div>
+                <div class="col-md-7 text-left">
+                  {{s.contact.name}}
+                </div>
+              </div> <br>
+              <div class="row">
+                <div class="col-md-5 text-right">
+                  <i class="fa fa-phone"></i>
+                </div>
+                <div class="col-md-7 text-left">
+                  {{s.contact.mobile}}
+                </div>
+              </div> <br>
+              <div class="row">
+                <div class="col-md-5 text-right">
+                  <i class="fa fa-mobile-phone"></i>
+                </div>
+                <div class="col-md-7 text-left">
+                  {{s.contact.email}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-md-5 text-right">
+                  <i class="fa fa-clock-o"></i>
+                </div>
+                <div class="col-md-7 text-left">
+                  {{s.timeslot == null ? 'No Time slot Added' : s.timeslot}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-md-5 text-right">
+                  <i class="fa fa-comment"></i>
+                </div>
+                <div class="col-md-7 text-left">
+                  {{s.comments == null ? 'No comment': s.comments}}
+                </div>
+              </div><br>
+            </div>
+          </div>
+          <div class="col-md-1 text-center" style="padding-top:65px;">
+            <i class="fa fa-arrow-right fa-2x" style="color:#c1bfbf;"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-1">
+      <div class="row text-center" style="padding-top:65px;">
+        <i class="fa fa-home fa-3x text-muted"></i> Station
+      </div>
+    </div>
+
+
+  </div>
+
+
+</div>

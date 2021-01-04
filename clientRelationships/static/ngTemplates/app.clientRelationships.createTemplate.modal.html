@@ -1,0 +1,55 @@
+<div class="modal-body" style="background:#e6e6e6">
+  <div class="row">
+    <div class="col-md-12">
+      <h4> ADD NEW FORMAT </h4>
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" class="form-control" ng-model="form.name" style="border-radius:10px!important;background:#ffffff;border:none">
+      </div>
+          <div class="form-group">
+            <label>Version </label>
+            <div class="form-group">
+              <label class="radio-inline"><input type="radio" name="V1" ng-model="form.version" ng-value="'V1'">Version 1 </label>
+              <label class="radio-inline"><input type="radio" name="V2" ng-model="form.version" ng-value="'V2'">Version 2</label>
+              <label class="radio-inline"><input type="radio" name="V3" ng-model="form.version" ng-value="'V3'">Version 3</label>
+            </div>
+          </div>
+          <!-- <div class="form-group">
+            <label>Field1</label>
+              <input ng-model="form.extraFieldOne" type="text" class="form-control" style="border-radius:10px!important;background:#ffffff;border:none">
+          </div>
+          <div class="form-group">
+            <label>Field2</label>
+              <input ng-model="form.extraFieldTwo" type="text" class="form-control" style="border-radius:10px!important;background:#ffffff;border:none">
+          </div>
+          <div class="form-group">
+            <label>Theme Color</label><br/>
+              <input ng-model="form.themeColor" type="color" >
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea class="form-control" ng-model="form.message" style="border-radius:10px!important;background:#ffffff;border:none"></textarea>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" ng-model="form.isGst">
+              <span>Tax?</span>
+          </div>
+          <div class="form-group">
+            <label>Pamphlet</label>
+            <input type="file" file-model="form.companyPamphlet" >
+          </div>
+          <div class="form-group">
+            <label>Body</label>
+            <div class="input-group">
+              <input ng-model="form.body" type="text" class="form-control" style="border-radius:10px!important;background:#ffffff;border:none" >
+              <span ng-click="add()" class="input-group-addon btn btn-primary" style="border-radius:10px!important;background:#ffffff;border:none"><i class="fa fa-plus"></i></span>
+            </div>
+          </div>
+          <ol>
+            <li style="padding:10px" ng-repeat="i in form.addedPoints track by $index"> {{i}} <i style="margin-left:20px;" ng-click="deletePoint($index)" class="fa fa-trash"></i> <i style="margin-left:20px;" ng-click="moveUp($index)"
+                class="fa fa-arrow-up"></i> <i style="margin-left:20px;" ng-click="moveDown($index)" class="fa fa-arrow-down"></i></li>
+          </ol> -->
+          <button class="btn btn-primary" ng-click="save()"> Save</button>
+    </div>
+  </div>
+</div>

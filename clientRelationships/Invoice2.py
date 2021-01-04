@@ -1,0 +1,634 @@
+from django.contrib.auth.models import User, Group
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
+from django.template import RequestContext
+from django.conf import settings as globalSettings
+# Related to the REST Framework
+from rest_framework import viewsets, permissions, serializers
+from rest_framework.exceptions import *
+from url_filter.integrations.drf import DjangoFilterBackend
+from .serializers import *
+from API.permissions import *
+from django.db.models import Q, F
+from django.http import HttpResponse
+from allauth.account.adapter import DefaultAccountAdapter
+from rest_framework.views import APIView
+from rest_framework.renderers import JSONRenderer
+from ERP.models import service, appSettingsField,address
+from HR.models import profile
+# Create your views here.
+from reportlab import *
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import cm, mm
+from reportlab.lib import colors, utils
+from reportlab.platypus import Paragraph, Table, TableStyle, Image, Frame, Spacer, PageBreak, BaseDocTemplate, PageTemplate, SimpleDocTemplate, Flowable
+from PIL import Image
+from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet, TA_CENTER
+from reportlab.graphics import barcode, renderPDF
+from reportlab.graphics.shapes import *
+from reportlab.graphics.barcode.qr import QrCodeWidget
+import datetime
+import calendar as pythonCal
+import json
+import pytz
+import requests
+from django.template.loader import render_to_string, get_template
+from django.core.mail import send_mail, EmailMessage
+from django.db.models import Sum, Count
+from dateutil.relativedelta import relativedelta
+from PIM.models import calendar
+# from organization.models import  Responsibility
+from excel_response import ExcelResponse
+from django.db.models.functions import Concat
+from django.db.models import Value
+import xlsxwriter
+from clientRelationships.serializers import ContractSerializer,ContactSerializer,DealLiteSerializer
+from projects.models import project,Issues, ProjectObjective
+from projects.serializers import IssueSerializer
+from finance.models import Sale,SalesQty
+from finance.serializers import SaleSerializer,SalesQtySerializer
+from mail.models import mailAttachment
+from ERP.models import GenericPincode
+from rest_framework import filters
+from django.http import JsonResponse
+from svglib.svglib import svg2rlg
+from reportlab.lib.units import inch, cm
+
+themeColor = '#1e73be'
+
+styles = getSampleStyleSheet()
+styleN = styles['Normal']
+styleH = styles['Heading1']
+
+
+class FullPageImage(Flowable):
+    def __init__(self, img):
+        Flowable.__init__(self)
+        self.image = img
+
+    def draw(self):
+        img = utils.ImageReader(self.image)
+        iw, ih = img.getSize()
+        aspect = ih / float(iw)
+        width, self.height = PAGE_SIZE
+        width -= 3.5 * cm
+        self.canv.drawImage(os.path.join(BASE_DIR, self.image), -1 * MARGIN_SIZE +
+                            1.5 * cm, -1 * self.height + 5 * cm, width, aspect * width)
+
+
+class expanseReportHead(Flowable):
+
+    def __init__(self, request, contract):
+        Flowable.__init__(self)
+        self.req = request
+        self.contract = contract
+    #----------------------------------------------------------------------
+
+    def draw(self):
+        """
+        draw the floable
+        """
+        now = datetime.datetime.now(pytz.timezone('Asia/Kolkata'))
+        if self.contract.status in ['quoted']:
+            docTitle = 'QUOTATION'
+        else:
+            docTitle = 'TAX INVOICE'
+        # if(self.contract.deal):
+        #     id = self.contract.deal.pk
+        # elif(self.contract.contact):
+        #     id = self.contract.contact.pk
+        # else:
+        id = self.contract.pk
+        # offset = application.objects.get(name='app.clientRelationships').settings.filter(name='CRM_offset').value
+        offset = globalSettings.CRM_OFFSET
+        id = id - offset
+        docId = globalSettings.INVOICE_NUMBER_PREFIX + str(id)
+        self.contract.identifier = docId
+        self.contract.save()
+        docID = '%s' % (docId)
+        utc_time = self.contract.created
+        tz = pytz.timezone( 'Asia/Kolkata')
+        utc_time =utc_time.replace(tzinfo=pytz.UTC) #replace method
+        indian_time=utc_time.astimezone(tz)        #astimezone method
+        datecreated = str(indian_time.strftime("%d-%B-%Y - %H:%M %S"))
+        try:
+            passKey = '%s%s' % (str(self.req.user.date_joined.year),self.req.user.pk)  # also the user ID
+            pSrc = '''
+            <font size=9>
+            <strong>On:</strong> %s<br/>
+            <strong>#:</strong> %s<br/><br/>
+            </font>
+            ''' % ( datecreated, docID)
+        except:
+            pSrc = '''
+            <strong>On:</strong> %s<br/>
+            <strong>Document ID:</strong> %s<br/><br/>
+            </font>
+            ''' % ( datecreated, docID)
+
+        story = []
+        head = Paragraph(pSrc, styleN)
+        head.wrapOn(self.canv, 200 * mm, 50 * mm)
+        head.drawOn(self.canv, 0 * mm, -10 * mm)
+
+
+def addPageNumber(canvas, doc):
+    """
+    Add the page number
+    """
+    print doc.contract
+    now = datetime.datetime.now(pytz.timezone('Asia/Kolkata'))
+    if(doc.contract.deal):
+        id = doc.contract.deal.pk
+    elif(doc.contract.contact):
+        id = doc.contract.contact.pk
+    else:
+        id = doc.contract.pk
+    docID = '%s%s%s' % (id, now.year, doc.contract.pk)
+    try:
+        passKey = '%s%s' % (str(doc.request.user.date_joined.year),doc.request.user.pk)  # also the user ID
+    except:
+        passKey = docID
+    d = Drawing(60, 60)
+    renderPDF.draw(d, canvas, 180 * mm, 270 * mm)
+    pass
+
+
+class PageNumCanvas(canvas.Canvas):
+
+    #----------------------------------------------------------------------
+    def __init__(self, *args, **kwargs):
+        """Constructor"""
+        canvas.Canvas.__init__(self, *args, **kwargs)
+        print "dir : ---------", dir(self)
+
+        self.contract =  args[0].contract
+        # print "contractId : " , contractId
+        self.pages = []
+
+    #----------------------------------------------------------------------
+    def showPage(self):
+        """
+        On a page break, add information to the list
+        """
+        self.pages.append(dict(self.__dict__))
+        self._startPage()
+
+    #----------------------------------------------------------------------
+    def save(self):
+        """
+        Add the page number to each page (page x of y)
+        """
+        page_count = len(self.pages)
+
+        for page in self.pages:
+            self.__dict__.update(page)
+            # self.draw_page_number(page_count)
+            self.drawLetterHeadFooter()
+            canvas.Canvas.showPage(self)
+
+        canvas.Canvas.save(self)
+
+    #----------------------------------------------------------------------
+    def draw_page_number(self, page_count):
+        """
+        Add the page number
+        """
+
+        text = "<font size='8'>Page #%s of %s</font>" % (
+            self._pageNumber, page_count)
+        p = Paragraph(text, styleN)
+        p.wrapOn(self, 50 * mm, 10 * mm)
+        p.drawOn(self, 100 * mm, 10 * mm)
+
+    def drawLetterHeadFooter(self):
+        if self.contract.termsAndCondition.themeColor is not None:
+            themeColor = self.contract.termsAndCondition.themeColor
+        settingsFields = application.objects.get(name='app.CRM').settings.all()
+        self.setStrokeColor(str(themeColor))
+        self.setFillColor(str(themeColor))
+        self.rect(0, 0, 1500, 5, fill=True)
+        d = Drawing(100,100)
+        d.add(Rect(0,68,1500,3, fillColor=colors.HexColor(str(themeColor)),strokeWidth=0))
+        renderPDF.draw(d, self, 1 * mm, self._pagesize[1] - 25 * mm)
+
+from num2words import num2words
+
+
+def genInvoice(response, contract, request):
+    story = []
+    MARGIN_SIZE = 8 * mm
+    PAGE_SIZE = A4
+    if contract.termsAndCondition.themeColor is not None:
+        themeColor = contract.termsAndCondition.themeColor
+    pdf_doc = SimpleDocTemplate(response, pagesize=PAGE_SIZE,
+                                leftMargin=MARGIN_SIZE, rightMargin=MARGIN_SIZE,
+                                topMargin=0, bottomMargin=3 * MARGIN_SIZE)
+
+    pdf_doc.contract = contract
+    pdf_doc.request = request
+
+    tableHeaderStyle = styles['Normal'].clone('tableHeaderStyle')
+    tableHeaderStyle.textColor = colors.white
+    tableHeaderStyle.fontSize = 7
+
+    pHeadDetails = Paragraph('<strong>Details of Products & Services</strong>', tableHeaderStyle)
+    pHeadTaxCode = Paragraph('<strong>HSN/<br/>SAC</strong>', tableHeaderStyle)
+    pHeadQty = Paragraph('<strong>Qty</strong>', tableHeaderStyle)
+    pHeadPrice = Paragraph('<strong>Rate</strong>', tableHeaderStyle)
+    pHeadTotal = Paragraph('<strong>Total</strong>', tableHeaderStyle)
+    pHeadTax = Paragraph('<strong>IGST </strong>', tableHeaderStyle)
+    pHeadcgst = Paragraph('<strong>CGST </strong>', tableHeaderStyle)
+    pHeadsgst = Paragraph('<strong>SGST </strong>', tableHeaderStyle)
+    pHeadSubTotal = Paragraph('<strong>Sub Total</strong>', tableHeaderStyle)
+
+    if contract.deal!= None:
+        tin = contract.deal.company.tin
+    elif contract.contact!=None and contract.contact.company != None:
+        tin = contract.contact.company.tin
+    else:
+        tin = '29'
+
+    try:
+        stateCode = tin[:2]
+    except:
+        stateCode = '29'
+
+    if stateCode == '29':
+        data = [[pHeadDetails, pHeadTaxCode, pHeadPrice,
+                 pHeadQty, pHeadTotal, pHeadcgst, pHeadsgst, pHeadSubTotal]]
+    else:
+        data = [[pHeadDetails, pHeadTaxCode, pHeadPrice,
+             pHeadQty, pHeadTotal, pHeadTax, pHeadSubTotal]]
+
+    totalQuant = 0
+    totalTax = 0
+    grandTotal = 0
+    tableBodyStyle = styles['Normal'].clone('tableBodyStyle')
+    tableBodyStyle.fontSize = 7
+
+    for i in json.loads(contract.data):
+        print i
+        pDescSrc = i['desc']
+        totalQuant += int(i['quantity'])
+        totalTax += i['totalTax']
+        grandTotal += i['subtotal']
+
+        if 'saleType' in i:
+            pBodyProd = Paragraph(i['saleType'], tableBodyStyle)
+        else:
+            pBodyProd = Paragraph('Service', tableBodyStyle)
+
+        pBodyTitle = Paragraph(pDescSrc, tableBodyStyle)
+        pBodyQty = Paragraph(str(i['quantity']), tableBodyStyle)
+        pBodyPrice = Paragraph(str(i['rate']), tableBodyStyle)
+        if 'taxCode' in i:
+            taxCode = '%s(%s %%)' % (i['taxCode'], i['tax'])
+        else:
+            taxCode = ''
+
+        pBodyTaxCode = Paragraph(taxCode, tableBodyStyle)
+        pBodyTax = Paragraph(str(i['totalTax']), tableBodyStyle)
+
+        sgst = i['totalTax']/2
+        pBodycgst = Paragraph(str(round(sgst,2)), tableBodyStyle)
+        pBodysgst = Paragraph(str(round(sgst,2)), tableBodyStyle)
+        totalRate = int(i['quantity']) * float(i['rate'])
+        pBodyTotal = Paragraph(str(totalRate), tableBodyStyle)
+        pBodySubTotal = Paragraph(str(round(i['subtotal'],2)), tableBodyStyle)
+
+        if stateCode == '29':
+            data.append([ pBodyTitle, pBodyTaxCode, pBodyPrice,
+                     pBodyQty, pBodyTotal, pBodycgst, pBodysgst, pBodySubTotal])
+        else:
+            data.append([ pBodyTitle, pBodyTaxCode, pBodyPrice,
+                     pBodyQty, pBodyTotal, pBodyTax, pBodySubTotal])
+
+    contract.grandTotal = grandTotal
+    contract.totalTax = totalTax
+    contract.save()
+    discoubtedPrice =0
+    discount = 0
+    discoubtedPrice = grandTotal - discount
+    discountText = 'Discount'
+    if round(discount) == 0:
+        discountText = ''
+        discount = ''
+
+
+    tableGrandStyle = tableHeaderStyle.clone('tableGrandStyle')
+    tableGrandStyle.fontSize = 10
+    wordData =  num2words(round(discoubtedPrice,2), lang='en_IN')
+    if stateCode == '29':
+        totalTax1 = totalTax/2
+        try:
+            discoubtedPrice = str(round(discoubtedPrice,2))
+        except :
+            discoubtedPrice =  str(round(discoubtedPrice,2))
+        data += [[ '', '', '', '', '',Paragraph(str(totalTax1), tableBodyStyle), Paragraph(str(totalTax1), tableBodyStyle), Paragraph(str(grandTotal), tableBodyStyle)],
+                [ '', '', '', '', '',  Paragraph(discountText, tableBodyStyle),'', Paragraph(str(discount), tableBodyStyle)],
+                [ '', '', '', '', '',  Paragraph('Grand Total (INR)', tableHeaderStyle), '', Paragraph(discoubtedPrice, tableGrandStyle)]]
+    else:
+        try:
+            discoubtedPrice = str(round(discoubtedPrice,2)).split('.')[0]
+        except :
+            discoubtedPrice =  str(float(discoubtedPrice,2))
+        data += [[ '', '', '', '', '', Paragraph(str(totalTax), tableBodyStyle), Paragraph(str(grandTotal), tableBodyStyle)],
+                [ '', '', '', '',  Paragraph(discountText, tableBodyStyle), '', Paragraph(str(discount), tableBodyStyle)],
+                [ '', '', '', '',  Paragraph('Grand Total (INR)', tableHeaderStyle), '', Paragraph(discoubtedPrice, tableGrandStyle)]]
+    t = Table(data)
+
+    if stateCode == '29':
+        ts = TableStyle([('ALIGN', (1, 1), (-3, -3), 'RIGHT'),
+                         ('VALIGN', (0, 1), (-1, -3), 'TOP'),
+                         ('VALIGN', (0, -2), (-1, -2), 'TOP'),
+                         ('VALIGN', (0, -1), (-1, -1), 'TOP'),
+                         ('SPAN', (-3, -1), (-2, -1)),
+                         ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+                         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor(str(themeColor))),
+                         ('LINEABOVE', (0, 0), (-1, 0), 0.25,colors.HexColor(str(themeColor))),
+                         ('LINEABOVE', (0, 1), (-1, 1), 0.25, colors.HexColor(str(themeColor))),
+                         # ('BACKGROUND', (-3, -2), (-1, -2), colors.HexColor('#eeeeee')),
+                         ('BACKGROUND', (-3, -1), (-1, -1), colors.HexColor(str(themeColor))),
+                         # ('LINEABOVE', (-3, -2), (-1, -2), 0.25, colors.gray),
+                         ('LINEABOVE', (0, -1), (-1, -1), 0.25, colors.gray),
+                         # ('LINEBELOW',(0,-1),(-1,-1),0.25,colors.gray),
+                         ])
+    else:
+        ts = TableStyle([('ALIGN', (1, 1), (-3, -3), 'RIGHT'),
+                         ('VALIGN', (0, 1), (-1, -3), 'TOP'),
+                         ('VALIGN', (0, -2), (-1, -2), 'TOP'),
+                         ('VALIGN', (0, -1), (-1, -1), 'TOP'),
+                         ('SPAN', (-3, -1), (-2, -1)),
+                         ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+                         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor(str(themeColor))),
+                         ('LINEABOVE', (0, 0), (-1, 0), 0.25, colors.HexColor(str(themeColor))),
+                         ('LINEABOVE', (0, 1), (-1, 1), 0.25, colors.HexColor(str(themeColor))),
+                         # ('BACKGROUND', (-2, -2), (-1, -2), colors.HexColor('#eeeeee')),
+                         ('BACKGROUND', (-3, -1), (-1, -1), colors.HexColor(str(themeColor))),
+                         # ('LINEABOVE', (-2, -2), (-1, -2), 0.25, colors.gray),
+                         ('LINEABOVE', (0, -1), (-1, -1), 0.25, colors.gray),
+                         # ('LINEBELOW',(0,-1),(-1,-1),0.25,colors.gray),
+                         ])
+    t.setStyle(ts)
+    if stateCode == '29':
+        t._argW[0] = 6 * cm
+        t._argW[1] = 2.4 * cm
+        t._argW[2] = 2 * cm
+        t._argW[3] = 1.2 * cm
+        t._argW[4] = 2 * cm
+        t._argW[5] = 1.6 * cm
+        t._argW[6] = 2.0 * cm
+        t._argW[7] = 2.0 * cm
+    else:
+        t._argW[0] = 6.5 * cm
+        t._argW[1] = 2.4 * cm
+        t._argW[2] = 2 * cm
+        t._argW[3] = 1.2 * cm
+        t._argW[4] = 2 * cm
+        t._argW[5] = 1.6 * cm
+        t._argW[6] = 2.2 * cm
+
+
+    # story = []
+    # story.append(Spacer(2, 1 * cm))
+    # if contract.status in ['billed', 'approved', 'recieved']:
+    #     headerFilePath = globalSettings.INVOICE_HEADER
+    # else:
+    #     headerFilePath = globalSettings.QUOTE_HEADER
+    # drawing = svg2rlg(os.path.join(globalSettings.BASE_DIR,
+    #                                'static_shared', 'images', headerFilePath))
+    # sx = sy = 0.5
+    # if drawing.width>3000:
+    #     sx = sy = 0.16
+    # drawing.width, drawing.height = drawing.minWidth() * sx, drawing.height * sy
+    # drawing.scale(sx, sy)
+    # story.append(drawing)
+    divsn = request.user.designation.division
+    unt  = request.user.designation.unit
+    tableheaderparaStyle = ParagraphStyle('parrafos',fontSize = 16, fontName="Times-Roman", textColor = 'black', leading = 10)
+    from reportlab.platypus import Image
+    imagePath = os.path.join(globalSettings.MEDIA_ROOT , str(divsn.logo))
+    f = open(imagePath, 'rb')
+    ima = Image(f)
+    ima.drawHeight = 0.8*inch
+    ima.drawWidth = 1*inch
+    ima.hAlign = 'CENTER'
+    imageTable = [[ima]]
+    tabHeaderImage = Table(imageTable)
+    toHeading1  =  Paragraph("<para align='left'><strong>%s</strong></para>"%(divsn.name ), tableheaderparaStyle)
+    toHeading2  = Paragraph( "<para align='left'><font size='7'>%s,%s - %s</font></para>"%(unt.address , unt.city ,unt.pincode  ) , tableheaderparaStyle)
+    toHeading3  =  Paragraph("<para align='left'><font size='7'><strong>Tel : </strong>%s<br/><strong>e-mail : </strong>%s</font></para>"%(unt.mobile, unt.email ), tableheaderparaStyle)
+    toHeading5  =  Paragraph("<para align='left'><font size='7'><strong>GST/UIN : </strong>%s <br/><strong>State Name : </strong>%s, Code: %s<br/> <strong>Company's PAN : </strong>%s</font></para>"%(unt.gstin, unt.state, stateCode, divsn.pan ), tableheaderparaStyle)
+    tableHeading = [[toHeading1 ]]
+    tableHeading1 = [[toHeading2 ]]
+    tableHeading2 = [[toHeading3 , toHeading5]]
+    tabHeader = Table(tableHeading ,colWidths=[6*inch])
+    tabHeader1 = Table(tableHeading1 ,colWidths=[6*inch])
+    tabHeader2 = Table(tableHeading2 ,colWidths=[1.5*inch, 2*inch])
+    deatailTable = [[tabHeader],[tabHeader1],[tabHeader2]]
+    tabHeaderall = Table(deatailTable )
+    hedaerdata = [[tabHeaderImage,'',tabHeaderall]]
+    header = Table(hedaerdata,colWidths=[1*inch,1*inch,5*inch])
+    story.append(header)
+
+
+
+
+    expHead = expanseReportHead(request, contract)
+    try:
+        if len(contract.termsAndCondition.heading)>0:
+            p = ParagraphStyle('parrafos',alignment = TA_CENTER,fontSize = 16, fontName="Times-Roman")
+            title = "<strong>%s</strong>"%(contract.termsAndCondition.heading)
+            dataHead = [[Paragraph(title, p)]]
+            tHead = Table(dataHead)
+            tsHead = TableStyle([('ALIGN',(0,0),(-1,-1),'CENTER'),('VALIGN',(0,0),(-1,-1),'MIDDLE')])
+            tHead.setStyle(tsHead)
+            # tHead._argW[0] = 8 * cm
+            story.append(tHead)
+            # story.append(Paragraph(contract.termsAndCondition.heading, styleH))
+    except:
+        if len(contract.heading)>0:
+            p = ParagraphStyle('parrafos',alignment = TA_CENTER,fontSize = 16, fontName="Times-Roman")
+            title = "<strong>%s</strong>"%(contract.heading)
+            dataHead = [[Paragraph(title, p)]]
+            tHead = Table(dataHead)
+            tsHead = TableStyle([('ALIGN',(0,0),(-1,-1),'CENTER'),('VALIGN',(0,0),(-1,-1),'MIDDLE')])
+            tHead.setStyle(tsHead)
+            # tHead._argW[0] = 8 * cm
+            story.append(tHead)
+
+    story.append(Spacer(2.5, 1 * cm))
+    story.append(expHead)
+    story.append(Spacer(2.5, 0.75 * cm))
+    adrs = None
+    if contract.deal!=None:
+        adrs = contract.deal.company.address
+    elif contract.contact.company != None:
+        adrs = contract.contact.company.address
+    # elif contract.contact!=None:
+    #     print contract.contact.street,'llllllllllllllllllllllllllhhhhhhhhhhhhhh'
+    #     adrs['street'] = contract.contact.street
+    #     adrs['city']= contract.contact.city
+    #     # adrs.state = contract.contact.state
+    #     # adrs.pincode = contract.contact.pincode
+    #     # adrs.country = contract.contact.country
+
+
+    if contract.contact!=None and adrs is None:
+        adrsStreet = contract.contact.street
+        adrsCity= contract.contact.city
+        adrsState= contract.contact.state
+        adrsPincode = contract.contact.pincode
+        adrsCountry = contract.contact.country
+    elif adrs is None:
+        adrsStreet = ""
+        adrsCity = ""
+        adrsState = ""
+        adrsPincode = ""
+        adrsCountry = ""
+    else:
+        adrsStreet = adrs.street
+        adrsCity = adrs.city
+        adrsState = adrs.state
+        adrsPincode = adrs.pincode
+        adrsCountry = adrs.country
+
+    ph = 'NA'
+    if adrsStreet == None:
+        adrsStreet = ''
+    if adrsCity == None:
+        adrsCity = ''
+    if adrsState == None:
+        adrsState = ''
+    if adrsPincode == None:
+        adrsPincode = ''
+    if adrsCountry == None:
+        adrsCountry = ''
+
+    # contract.deal.contacts.all()[0].name, contract.deal.company.name
+
+    if contract.deal!=None:
+        try:
+            name=contract.deal.contacts.all()[0].name
+        except:
+            name=''
+        companyName=contract.deal.company.name
+        if contract.deal.company.mobile == None:
+            ph = 'NA'
+        else:
+            ph = contract.deal.company.mobile
+    elif contract.contact!=None:
+        name = contract.contact.name
+        if contract.contact.mobile == None:
+            ph = 'NA'
+        else:
+            ph = contract.contact.mobile
+        if contract.contact.company!= None:
+            companyName=contract.contact.company.name
+        else:
+            companyName = ''
+
+    else:
+        name = ''
+        companyName =''
+    if contract.contact != None:
+        name=contract.contact.name
+
+    if tin==None or len(tin)<4:
+        tin = 'NA'
+
+    summryParaSrc = """
+
+    <font size='9'>
+    %s<br/>
+    %s<br/>
+    %s<br/>
+    %s , %s , %s<br/>
+    <strong>GSTIN:</strong>%s<br/><br/>
+    <strong>Kind Attention:</strong>%s (Mobile # %s)<br/>
+    </font>
+    """ % (companyName, adrsStreet , adrsCity , adrsState , adrsPincode , adrsCountry , tin, name, ph)
+
+    dataDetails = [[Paragraph(summryParaSrc, tableBodyStyle)]]
+    tDetails = Table(dataDetails)
+    tsDetails = TableStyle([('ALIGN', (1, 1), (-3, -3), 'RIGHT'),
+                     ('VALIGN', (0, 1), (-1, -3), 'TOP'),
+                     ('VALIGN', (0, -2), (-1, -2), 'TOP'),
+                     ('VALIGN', (0, -1), (-1, -1), 'TOP'),
+                     ('SPAN', (-3, -1), (-2, -1)),])
+    tDetails.setStyle(tsDetails)
+    tDetails._argW[0] = 19.5 * cm
+
+    summryParaSrc1 = """
+
+    <font size='9'>
+    <strong>Amount Payable (in words) :</strong><br/>
+    %s<br/>
+    </font>
+    """ % (wordData)
+
+    story.append(tDetails)
+    story.append(t)
+    story.append(Spacer(2.5, 0.5 * cm))
+    if globalSettings.CRM_SEPERATE_TAX_DETAILS:
+        story.append(Paragraph(summryParaSrc1, styleN))
+        story.append(Spacer(2.5, 0.5 * cm))
+
+
+
+
+    if contract.status in ['billed', 'approved', 'recieved']:
+        summryParaSrc = "<font size='9'><strong>REGULATORY DETAILS:</strong></font> <br/>         <font size='9'>         <strong>CIN :</strong> %s<br/>         <strong>GSTIN :</strong> %s<br/>         <strong>PAN :</strong> %s<br/> <br/>        </font>"%( divsn.cin , unt.gstin , divsn.pan)
+
+
+        story.append(Paragraph(summryParaSrc, styleN))
+
+        summryParaSrc = "<font size='9'><strong>BANK DETAILS:</strong></font> <br/>         <font size='9'>         <strong>Name :</strong> %s<br/>         <strong>Bank :</strong> %s<br/>         <strong>IFSC :</strong> %s<br/>         <strong>Branch :</strong> %s<br/>         <strong>Account :</strong> %s<br/> <strong>SWIFT Code :</strong> %s<br/> <br/> </font>"%(divsn.name , unt.bankName , unt.ifsc , unt.bankBranch , unt.bankAccNumber , unt.swift)
+
+        story.append(Paragraph(summryParaSrc, styleN))
+    bullts = ""
+    tncBody = None
+    tncPara = "<font size='9'><strong>Terms and Conditions:</strong></font>"
+
+    story.append(Paragraph(tncPara, styleN))
+    if contract.termsAndCondition is not None and contract.termsAndCondition.body is not None:
+        tncBody = contract.termsAndCondition.body
+
+    if tncBody is None:
+        for i , cond in enumerate(contract.termsAndConditionTxts.split('||')):
+            bullts += "<strong>%s.</strong> %s <br/>"%(i+1 , cond)
+        story.append(Paragraph(bullts, styleN))
+    else:
+        for i , cond in enumerate(tncBody.split('||')):
+            bullts += "<strong>%s.</strong> %s <br/>"%(i+1 , cond)
+        story.append(Paragraph(bullts, styleN))
+
+    print "bullts" , bullts
+
+    if contract.termsAndCondition.message is not None:
+
+        para11 = '''
+        <para align="left">
+        <font size=9>
+        %s
+        </font>
+        </para>
+        '''% (contract.termsAndCondition.message)
+
+        story.append(Spacer(2.5, 0.5 * cm))
+        story.append(Paragraph(para11, styleN))
+
+    genBy = '''
+    <font size=9>
+    <br/><br/><strong>Generated by:</strong> %s
+    </font>
+    ''' % ( '%s %s' % (request.user.first_name, request.user.last_name) )
+
+    story.append(Paragraph(genBy, styleN))
+
+    pdf_doc.build(story, onFirstPage=addPageNumber,
+                  onLaterPages=addPageNumber, canvasmaker=PageNumCanvas)

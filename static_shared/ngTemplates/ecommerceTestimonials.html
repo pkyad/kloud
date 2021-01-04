@@ -1,0 +1,63 @@
+<div class="container-fluid " style="background:#fff;padding:60px 0px ;">
+  <div class="row text-center">
+    <h3>{{testimonials.heading}}</h3>
+    <br><br>
+  </div>
+  <ng-owl-carousel class="owl-theme" owl-items="testimonials.items" owl-properties="testimonialProperties" owl-ready="ready($api)">
+
+    <div class="" ng-repeat="l in testimonials.items track by $index">
+      <div class="" style="border:1px solid #eee;border-radius:15px;padding:10px 20px;text-align:left;background:#fff;height:280px;color:#000;">
+
+        <div class="row">
+          <div class="col-md-7 col-xs-7">
+            <h5>
+              <p class="">{{l.fullname}}</p>
+            </h5>
+          </div>
+          <div class="col-md-5 col-xs-5 text-right">
+            <p style="color:#bbb6b6;margin-bottom:0px;font-size:12px;padding-top:15px" class=""></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 col-xs-2">
+            <i class="fa fa-quote-left fa-3x" style="color:#e7e7e7"></i>
+          </div>
+          <div class="col-md-10 col-xs-10">
+            <p class="">{{l.comment}}</p>
+          </div>
+        </div>
+
+        <div class="row" style="position: absolute;top:210px;width:100%">
+          <div class="col-md-offset-1 col-md-10 col-xs-12">
+            <div class="row">
+              <div class="col-md-2 col-xs-2">
+                <img alt="" style="height: 35px;width: 35px;border-radius: 50%;" src="{{l.image}}">
+              </div>
+              <div class="col-md-10 col-xs-10">
+                <p style="margin-bottom:0px" class="">{{l.company}}</p>
+                <div class="row">
+                  <div class="col-md-12 col-xs-12 feedstars1 " style="padding-right:0px;">
+
+                    <span class="fa {{l.rating == 1 || l.rating == 2 || l.rating == 3 || l.rating ==4 || l.rating==5?'fa-star':'fa-star-o'}}"
+                      style="{{l.rating == 1 || l.rating == 2 || l.rating == 3 || l.rating ==4 || l.rating==5?'color:var(--themeColor)':''}}"></span>
+                    <span class="fa {{l.rating == 2 || l.rating == 3 || l.rating ==4 || l.rating==5?'fa-star':'fa-star-o'}}" style="{{l.rating == 2 || l.rating == 3 || l.rating ==4 || l.rating==5?'color:var(--themeColor)':''}}"></span>
+                    <span class="fa {{l.rating == 3 || l.rating ==4 || l.rating==5?'fa-star':'fa-star-o'}}" style="{{l.rating == 3 || l.rating ==4 || l.rating==5?'color:var(--themeColor)':''}}"></span>
+                    <span class="fa {{l.rating ==4 || l.rating==5?'fa-star':'fa-star-o'}}" style="{{l.rating ==4 || l.rating==5?'color:var(--themeColor)':''}}"></span>
+                    <span class="fa {{l.rating ==5 ?'fa-star':'fa-star-o'}}" style="{{l.rating==5?'color:var(--themeColor)':''}}"></span>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </ng-owl-carousel>
+
+</div>

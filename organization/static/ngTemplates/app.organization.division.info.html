@@ -1,0 +1,216 @@
+<style media="screen">
+  .greyInput{
+    background: #F3F6FB;
+    color: black;
+    padding: 25px;
+    font-size: 25px;
+    border-radius: 10px !important;
+    border: none !important;
+  }
+</style>
+
+<ui-view>
+<div style="min-height:100vh;">
+
+  <div class="container-fluid" style="padding-bottom:30px;padding-top:20px;">
+
+    <div class="row" style="padding-left:40px;">
+      <h2>Your Startup Details</h2>
+    </div>
+
+
+    <div class="row" style="padding:20px;padding-top:0px;">
+      <div class="col-md-3" style="padding-top:130px;">
+        <span style="font-size:18px;color:#777777;"> <img src="/static/images/icons8-website-64.png" style="width:30px;margin-right:10px;" alt=""> Logo</span>
+      </div>
+      <div class="col-md-4" style="padding-top:130px;">
+        <span>
+          <input type="file" file-model="division.logoFile" id="filePicker">
+        </span>
+      </div>
+      <div class="col-md-5">
+        <img ng-src="{{division.logo}}" onclick="document.getElementById('filePicker').click()" style="width:150px;min-height:100px;" onerror="this.src='/static/images/no_tour_image.jpg'" src="/static/images/no_tour_image.jpg">
+      </div>
+    </div>
+
+    <div class="row" style="padding:20px;">
+
+      <div class="col-md-3">
+        <span style="font-size:18px;color:#777777;"> <img src="/static/images/icons8-website-64.png" style="width:30px;margin-right:10px;" alt=""> Company Name</span>
+      </div>
+      <div class="col-md-9">
+        <span>
+          <input type="text" ng-model="division.name" class="form-control greyInput" ng-change="save()">
+        </span>
+      </div>
+    </div>
+
+
+
+    <div class="row" style="padding:20px;">
+
+      <div class="col-md-3">
+        <span style="font-size:18px;color:#777777;"> <img src="/static/images/icons8-website-64.png" style="width:30px;margin-right:10px;" alt=""> Website</span>
+      </div>
+      <div class="col-md-9">
+        <span>
+          <input type="text" ng-model="division.website" class="form-control greyInput" ng-change="save()">
+        </span>
+      </div>
+    </div>
+
+    <div class="row" style="padding:20px;">
+
+      <div class="col-md-3">
+        <span style="font-size:18px;color:#777777;">  <img src="/static/images/icons8-accounting-64.png" style="width:30px;margin-right:10px;" alt=""> PAN</span>
+      </div>
+      <div class="col-md-9">
+        <span>
+          <input type="text" ng-model="division.pan" class="form-control greyInput" ng-change="save()">
+        </span>
+      </div>
+
+
+
+    </div>
+
+
+
+    <div ng-if="division.simpleMode">
+      <div class="row" style="padding:20px;">
+        <div class="col-md-3">
+          <span style="font-size:18px;color:#777777;">  <img src="/static/images/icons8-id-verified-80.png" style="width:30px;margin-right:10px;" alt=""> UPI </span>
+        </div>
+
+        <div class="col-md-9">
+          <input type="text" class="form-control greyInput" ng-model="division.upi" placeholder="Example : your_mobile_number@paytm" ng-change="save()">
+        </div>
+      </div>
+
+      <div class="row" style="padding:20px;">
+        <div class="col-md-3">
+          <span style="font-size:18px;color:#777777;">  <img src="/static/images/icons8-id-verified-80.png" style="width:30px;margin-right:10px;" alt=""> GSTIN </span>
+        </div>
+
+        <div class="col-md-9">
+          <input type="text" class="form-control greyInput" ng-model="unitsData[0].gstin" placeholder="Example : 29AAXXXXXXX" ng-change="saveUnit()">
+        </div>
+      </div>
+
+
+      <div class="row" style="padding:20px;">
+        <div class="col-md-3">
+          <span style="font-size:18px;color:#777777;">  <img src="/static/images/icons8-id-verified-80.png" style="width:30px;margin-right:10px;" alt=""> Office Address </span>
+        </div>
+
+        <div class="col-md-9">
+          <input type="text" class="form-control greyInput" ng-model="unitsData[0].address" ng-change="saveUnit()">
+        </div>
+      </div>
+
+      <div class="row" style="padding:20px;" >
+        <div class="col-md-3">
+          <span style="font-size:18px;color:#777777;">  <img src="/static/images/icons8-id-verified-80.png" style="width:30px;margin-right:10px;" alt=""> Pincode </span>
+        </div>
+
+        <div class="col-md-9">
+          <input type="text" class="form-control greyInput" ng-model="unitsData[0].pincode" typeahead-on-select="saveUnit()"  uib-typeahead="pin as pin.pincode for pin in pinSearch($viewValue)">
+          <br>
+          {{unitsData[0].city}}, {{unitsData[0].state}}, India
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="row">
+      <div class="col-md-9 col-md-offset-3">
+        <button type="button" ng-click="save()" class="btn btn-primary btn-block" name="button">Save</button>
+      </div>
+    </div> -->
+
+
+    <div ng-if="!division.simpleMode">
+      <div class="row" style="padding:20px;">
+        <div class="col-md-3">
+          <span style="font-size:18px;color:#777777;">  <img src="/static/images/icons8-id-verified-80.png" style="width:30px;margin-right:10px;" alt=""> CIN</span>
+        </div>
+
+        <div class="col-md-9">
+          <span>
+              <input type="text" ng-model="division.cin" class="form-control greyInput" ng-change="save()">
+          </span>
+        </div>
+      </div>
+      <div class="row" style="padding:20px;" >
+        <div class="col-md-3">
+          <span style="font-size:18px;color:#777777;">  <img src="/static/images/icons8-id-verified-80.png" style="width:30px;margin-right:10px;" alt=""> Offices</span>
+        </div>
+
+        <div class="col-md-9">
+
+          <div class="col-md-6" ng-repeat="unit in unitsData" style="margin-bottom:20px;">
+            <div class="container-fluid" ng-click="careateUnit(unit)"  style="box-shadow:5px 10px 20px #e3e3e3;height:150px;padding:15px;background:white;  ">
+              <div class="row">
+                <div class="col-md-10">
+                  <h5 style="font-weight:600">{{unit.name}}</h5>
+                  {{unit.address}} <br>
+                  {{unit.city}} , {{unit.pincode}} , {{unit.state}}
+                </div>
+                <div class="col-md-2">
+                  <img ng-if="unit.warehouse" src="/static/images/warehouse.png" style="width:100%;">
+                </div>
+              </div>
+              <!-- <div class="row" style="margin-top:20px;padding:15px;margin:0px;">
+                <span ng-click="delUnit(unit.pk , $index);$event.stopPropogation()"> <i class="fa fa-trash  pull-right" style="font-size:20px;"></i></span>
+              </div> -->
+            </div>
+          </div>
+
+          <div class="col-md-3 text-center" >
+            <div class="" style="box-shadow:5px 10px 20px #e3e3e3;height:150px;padding:48px;background:white;" ng-click="careateUnit()">
+              <i class = "fa fa-plus " style="font-size:30px;"></i> <br>
+              Add New
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:10px;padding:20px;"  ng-if="!division.simpleMode">
+        <div class="col-md-3">
+          <span style="font-size:18px;color:#777777;">  <img src="/static/images/icons8-id-verified-80.png" style="width:30px;margin-right:10px;" alt=""> Roles</span>
+        </div>
+
+        <div class="col-md-9">
+
+          <div class="col-lg-6" ng-repeat="role in RolesData"  style="margin-bottom:20px">
+            <div class="" style="box-shadow:5px 10px 20px #e3e3e3;height:120px;padding:30px;background:white;" >
+              <h4 style="font-weight:600" ng-click="createRole(role)">{{role.name}}</h4>
+              <!-- <br>
+              <div class="row" >
+                <div class="">
+                  <span ng-click="delRole(role.pk , $index);$event.stopPropogation()"> <i class="fa fa-trash  pull-right" style="font-size:20px;"></i></span>
+                </div>
+              </div> -->
+              <button ng-click="$event.stopPropogation();editRolePermission(role);">Edit Apps</button>
+            </div>
+          </div>
+          <div class="col-md-3 text-center"  style="margin-bottom:20px" >
+            <div class="" style="box-shadow:5px 10px 20px #e3e3e3;height:120px;padding:48px;background:white;" ng-click="createRole()">
+              <i class = "fa fa-plus " style="font-size:30px;"></i>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+  </div>
+
+
+
+</div>
+</ui-view>

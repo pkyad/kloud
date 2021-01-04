@@ -1,0 +1,96 @@
+
+      <div class="container-fluid contactList" style="background:#FAFAFA;min-height:100vh;">
+        <div class="row" style="background:rgb(18, 46, 99);padding:15px;padding-top:20px;padding-bottom:20px;">
+          <div class="col-md-2">
+          </div>
+          <div class="col-md-2">
+            <ul class="nav navbar-nav navbar-left">
+              <li style="padding-bottom:1.5vh;margin-top:5px;">
+                <strong style="margin-left:-20px;color:white;font-size:20px;">BIND</strong>
+              </li>
+              <li style="margin-right:100px;margin-top:5px;">
+                <switch ng-model="formToggle.toggleMain"></switch>
+              </li>
+              <li style="padding-bottom:1.5vh;margin-top:5px;">
+                <strong style="margin-left:-90px;color:white;font-size:20px;">Trading</strong>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-8">
+
+            <div class="col-md-2 col-md-offset-2">
+              <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.importexport.projectsNew')">New</button>
+            </div>
+            <div class="col-md-4">
+              <div class="input-group" style="background:#ffffff;border-radius:10px;">
+                <input type="text" class="form-control" ng-model="search.query" placeholder="Search" ng-enter="fetchData()" style="border:none !important;background:#ffffff;">
+                <div class="input-group-btn">
+                  <button class="btn btn-default" type="submit" ng-click="fetchData()" style="border:none !important;background:#ffffff;">
+                    <i class="glyphicon glyphicon-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="privious()">privious</button>
+            </div>
+            <div class="col-md-2">
+              <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="next()">next</button>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="background:rgb(18, 46, 99);color:white;padding-bottom:20px;padding:30px;">
+
+          <div class="col-md-4"> <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.importexport')">Projects</button></div>
+          <div class="col-md-4"> <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.importexport.archieveProject')">Archieve</button></div>
+          <div class="col-md-4"> <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.importexport.junkProject')">Junk</button></div>
+        </div>
+        <div class="row">
+          <div class="col-md-4" ng-repeat="data in allData" style="padding-bottom:20px;padding-left:10px;padding-right:10px;padding-top:10px;cursor:pointer">
+            <div class="container-fluid card" ng-click="$state.go('businessManagement.importexport.archiveprojectView',{id:data.pk})" ng-repeat="data in allData" style="border: 2px solid rgb(51, 122, 183);">
+              <div class="row text-center" style="height:6vh;">
+                <div class="col-md-12" style="position:relative;display:block;">
+                  <div class="row" style="padding-left:10px;">
+                    <h3>{{data.title}}</h3>
+                  </div>
+                </div>
+              </div>
+              <div class="row container-fluid" style="padding-top:20px;height:12vh;">
+                <div class="col-md-10" style="z-index: 1;">
+                  <div class="row">
+                    <div class="col-md-5">
+                      <span style="font-size:15px;"><strong> Customer </strong>:</span>
+                    </div>
+                    <div class="col-md-7">
+                      <span> {{data.service.name}}</span>
+                    </div>
+                  </div>
+                  <div class="row" ng-if="data.savedStatus">
+                    <div class="col-md-5">
+                      <span style="font-size:15px;"><strong> Stage </strong>:</span>
+                    </div>
+                    <div class="col-md-7">
+                      <span ng-if="data.savedStatus"> Archieved</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-5">
+                      <span style="font-size:15px;"><strong>Mobile </strong>:</span>
+                    </div>
+                    <div class="col-md-7">
+                      <span>{{data.service.mobile}}</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-5">
+                      <span><strong>Closing date </strong>: </span>
+                    </div>
+                    <div class="col-md-7">
+                      <span>{{data.date}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>

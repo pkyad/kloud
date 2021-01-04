@@ -1,0 +1,106 @@
+
+<div class="row" style="padding:30px 10px 10px 10px;">
+    <div class="col-md-6 text-left">
+        <span style="font-size: 180%;"> Multiple Choice Questions</span>
+          <hr>
+    </div>
+    <div class="col-md-6 text-right">
+           <button class="btn1" type="button" name="button"><i class="fa fa-upload"></i>Bulk Upload</button>
+          <hr>
+    </div>
+</div>
+<div style="padding:10px 10px 10px 10px;" class="row">
+  <!-- <div class="col-md-6 form-group">
+  <label for="inputsm">Problem Name</label>
+  <input class="form-control " id="inputsm" type="text">
+  </div> -->
+    <div class="col-md-3 form-group">
+    <label for="inputsm">Score</label>
+    <input class="form-control " ng-model="form.marks" id="inputsm" type="text">
+  </div>
+  <!-- <div class="col-md-3 form-group">
+  <label for="inputsm">Recommanded Time</label>
+  <input class="form-control" id="inputsm" type="text">
+</div> -->
+</div>
+<div style="padding:10px 10px 10px 10px;" class="form-group">
+  <label>Problem description</label>
+  <textarea class="textarea"  ng-model="form.ques"  ui-tinymce="tinymceOptions" ng-model="form.template"></textarea>
+</div>
+<div class="col-md-12 text-right">
+     <button type="button" class="btn1"  ng-click="options(form.pk)" name="button">add Options</button>
+</div>
+<!-- <div style="padding:10px 10px 10px 10px;" class="row">
+    <div class="col-md-6">
+      <b>Choices</b>
+    </div>
+    <div  class="col-md-6">
+       <input style="margin-top:10px;" type="checkbox" name="" value=""><span>&nbsp;&nbsp;Allow to select more than 1 answer</span>
+
+    </div>
+
+</div> -->
+<hr>
+<div ng-if="form.pk" class="">
+
+
+<div   class="row">
+  <div class="col-md-1 text-center">
+     <b>A</b>
+     <p> <input type="radio" ng-model="form.answer" id="answer" name="" value=""></p>
+     <!-- <p> <input type="radio"  id="answer1" name="" value=""></p> -->
+
+
+  </div>
+  <div style="margin-top:15px;" class="col-md-10 text-left form-group">
+
+    <input class="form-control lg" id="inputsm" type="text">
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-md-1 text-center">
+     <b>B</b>
+     <p> <input type="radio" name="" value=""></p>
+  </div>
+  <div style="margin-top:15px;" class="col-md-10 text-left form-group">
+    <input class="form-control lg" id="inputsm" type="text">
+  </div>
+</div>
+<hr>
+
+<div  class="row">
+  <div class="col-md-1 text-center">
+     <b>C</b>
+     <p> <input type="radio" name="" value=""></p>
+  </div>
+  <div style="margin-top:15px;" class="col-md-10 text-left form-group">
+    <input class="form-control lg" id="inputsm" type="text">
+  </div>
+</div>
+<hr>
+
+<div class="row">
+  <div class="col-md-1 text-center">
+     <b>D</b>
+     <p> <input type="radio" name="" value=""></p>
+  </div>
+  <div style="margin-top:15px;" class="col-md-10 text-left form-group">
+    <input class="form-control lg" id="inputsm" type="text">
+  </div>
+</div>
+
+<hr>
+<h5><a href="#">&nbsp;&nbsp;&nbsp;Add one more choice</a></h5>
+
+
+
+</div>
+<div style="padding:10px 10px 10px 10px;" class="row">
+  <div class="col-md-6 text-left">
+       <button type="button"   name="button">Save question</button>
+  </div>
+  <div class="col-md-6 text-right">
+       <button type="button" class="btn1" ng-click="saveMCQ()" name="button">Save & add another</button>
+  </div>
+  </div>

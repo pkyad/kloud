@@ -1,0 +1,20 @@
+<div >
+  <div class="row" style="margin:0px;position:relative;">
+    <textarea class="form-control" rows="3" cols="80" placeholder="Write a note" ng-model="text" style="resize: none;
+border-radius: 18px !important;
+box-shadow: -1px 4px 23px rgba(0, 0, 0, 0.1) !important;
+border: none;
+padding: 20px;"></textarea>
+
+    <!-- <span class="input-group-addon bg-blue" ng-if="doc.size != 0"> <i class="fa fa-2x  {{doc.name | fileTypeIcon}}"></i> <br> <br>{{doc.name}}</span> -->
+    <span class="input-group-addon" style="position: absolute;right: 20px;bottom: 10px;width: 48px;border:none !important;color: #d0d0d0;background:white;" ng-click="browseForFile()"><i class="fa-lg fa-2x fa fa-{{doc.size == 0? 'paperclip':'times'}}"></i> </span>
+
+
+  </div>
+  <div class="row" style="margin:0px;margin-top:20px;">
+    <button type="button" class="btn btn-primary cutebuttonplain pull-right" style="background:rgb(14, 67, 136);color:white;" ng-click="saveNote()">
+      Save
+    </button>
+  </div>
+  <input type="file" file-model="doc" style="display:None;" id="noteEditorFile{{randomKey}}">
+</div>

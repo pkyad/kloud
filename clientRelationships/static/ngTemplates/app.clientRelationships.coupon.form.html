@@ -1,0 +1,21 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" class="form-control" ng-model="form.title">
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea type="text" rows="3" name="desc" value="" class="form-control"  ng-model="form.description"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Percentage (%)</label>
+        <input type="text" class="form-control" ng-model="form.percentage">
+      </div>
+
+        <button class="btn btn-primary" ng-click="save()"> Save</button>
+    </div>
+  </div>
+</div>

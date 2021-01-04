@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for component in components %}
+
+<div ng-app="app" ng-controller="main" ng-init='data = {{component.data | safe}}'>
+  {{component.template | safe}}
+</div>
+{% endfor %}
+
+
+
+{% endblock %}
+
+{% block pageJS %}
+<script type="text/javascript">
+
+  var app = angular.module('app', [ 'ngSanitize', 'ui.bootstrap']);
+
+  app.controller('main', function($scope, $http, $sce, $uibModal) {
+
+
+  });
+
+
+
+</script>
+{% endblock %}

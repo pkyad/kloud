@@ -1,0 +1,224 @@
+<div class="container-fluid" ng-controller="workforceManagement.recruitment.onboarding.explore">
+  <div class="row" ng-if="!saved">
+    <div class="col-md-5">
+      <div class="container-fluid" style="padding-top:20px;">
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Name :</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.firstname}} {{candidate.lastname}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Email :</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.email}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Phone :</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.mobile}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Job Type :</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.job.jobtype}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Job :</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.job.role.name}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Department :</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.job.department.dept_name}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Date Of Joining:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.joiningDate}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Basic:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.basic}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>HRA:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.hra}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>LTA:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.lta}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Special Allowance:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.special}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Tax Slab:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.taxSlab}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>AdHOC:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.adHoc}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Annual Leaves:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.al}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Medical Leaves:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.ml}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>AdHOC Leaves:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.adHoc}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Medical Insurance Amount:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.amount}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Notice Period:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.notice}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Probation Period:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.probation}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Notice Period During Probation Period:</strong>
+          </div>
+          <div class="col-md-7">
+            {{candidate.probationNotice}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row" style="padding-top:15px">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>First Name</label>
+                <input type="text" class="form-control" ng-model="candidate.firstname">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" class="form-control" ng-model="candidate.lastname">
+              </div>
+            </div>
+          </div>
+          <div class="row" style="padding-top:15px">
+            <div class="col-md-6 ">
+              <label>Email</label>
+              <div class="input-group">
+                <input  type="text" class="form-control"  ng-model="candidate.newEmail">
+                <span class="input-group-addon">@cioc.in</span>
+              </div>
+              <!-- <div class="row" style="margin:0px; padding:0px;">
+                <div class="col-md-8">
+                  <input type="text" class="form-control" ng-model="form.email">
+                </div>
+                <div class="col-md-4">
+                  <span>@cioc.in</span>
+                </div>
+              </div> -->
+            </div>
+            <!-- <div class="col-md-6">
+              <div class="form-group">
+                <label>Username</label>
+                <input type="text" class="form-control" ng-model="candidate.username">
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+        <div class="row" style="padding-top:15px">
+          <div class="col-md-12">
+            <button class="btn btn-primary " mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-user'></i>" cancel-text="No" on-confirm="addAsUser()" confirm-button-type="primary" cancel-button-type="default"
+              style="width:150px"><i class="fa fa-user"> Create User</i></button>
+          </div>
+        </div>
+    </div>
+  </div>
+  <div class="row" ng-if="saved" style="padding-top:15px">
+    <div class="col-md-12">
+      <div ng-include="'/static/ngTemplates/app.recruitment.createUser.form.html'">
+      </div>
+    </div>
+  </div>
+
+</div>

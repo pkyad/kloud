@@ -1,0 +1,101 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-2">
+      <div class="form-group">
+        <label for="sel1">Financial Year</label>
+        <!-- <select class="form-control" ng-model="select.year" ng-options="year for year in years" >
+</select > -->
+        <select class="form-control" name="">
+          <option value="2019-20">2019-20</option>
+          <option value="2020-21">2020-21</option>
+          <option value="2021-22">2021-22</option>
+          <option value="2022-23">2022-23</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-lg-2">
+      <div class="form-group">
+        <label for="sel1">Period</label>
+        <select class="form-control" ng-model="select.month" ng-options="month for month in monthsPetty">
+</select>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <h4>Name: Petty Cash Journal</h4>
+      <!-- <h4>Owner: {{account.contactPerson.first_name}} {{account.contactPerson.last_name}}</h4> -->
+      <div class="row">
+        <div class="col-lg-12 text-right">
+          <a href="/api/finance/PettyCashAccpdf/?id={{account.pk}}" type="button" class="btn btn-sm btn-primary "style="padding:8px 18px;margin-bottom:20px;" >Download</a>
+
+        </div>
+      </div>
+      <!-- <p>{{account}}</p> -->
+      <div class="invoiceTable">
+
+        <table class="table">
+          <thead>
+            <tr style="height: 50px;border-top:1px solid #ddd;background-color: black;color:white">
+              <!-- <th ><i class="fa fa-refresh" style="cursor:pointer;"></i></th> -->
+              <th >Date</th>
+              <th>Voucher</th>
+              <th >Payee</th>
+              <th >Description</th>
+              <th >Amount</th>
+              <th >Balance</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border:1px solid #ddd;height: 40px;">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <th>Starting Cash in Hand</th>
+              <td>{{account.balance}}</td>
+            </tr>
+            <tr ng-repeat="pacc in pettycashacntData" style="border:1px solid #ddd;height: 40px;">
+              <!-- <td>{{$index+1}}</td> -->
+              <td>{{pacc.created | date}}</td>
+              <td>{{pacc.pk}}</td>
+              <td>{{account.contactPerson.first_name}}  {{account.contactPerson.last_name}}</td>
+              <!-- <td>{{pacc.heading.title}}</td> -->
+              <td>{{pacc.description}}</td>
+              <td>{{pacc.creditAmount}}</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <th>Voucher Totals</th>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <th>Cash on Hand Total</th>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th>Owner: {{account.contactPerson.first_name}}  {{account.contactPerson.last_name}}</th>
+              <td></td>
+              <th>Date</th>
+              <th>Difference</th>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

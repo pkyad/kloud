@@ -1,0 +1,32 @@
+<div class="modal-header" style="border-bottom:solid 3px #0078ff;">
+  <div class="row">
+    <div class="col-md-9">
+      <h3>Facebook Messenger Settings</h3>
+    </div>
+    <div class="col-md-3">
+      <img src="/static/images/Facebook_Messenger.png" class="pull-right" style="height:60px;">
+    </div>
+  </div>
+</div>
+<div class="modal-body">
+
+  <div class="form-group">
+    <label>Access Token</label>
+    <input ng-model="form.access_token" type="text" class="form-control">
+    <p class="help-block">Token provided by Facebook </p>
+  </div>
+
+  <div class="form-group">
+    <label>Page ID</label>
+    <input ng-model="form.pageID"  type="text" class="form-control">
+    <!-- <p class="help-block">Token provided by Facebook </p> -->
+  </div>
+
+  <button ng-click="save()" type="button" class="btn btn-primary">
+    Save
+  </button>
+  <button ng-click="cancel()" type="button" class="btn btn-default pull-right">
+    Close
+  </button>
+
+</div>

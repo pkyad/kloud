@@ -1,0 +1,50 @@
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12 text-center" style="margin-top:5px">
+          <h4>ADD DEDUCTION</h4>
+        </div>
+      </div>
+      <div class="row" style="padding-bottom: 15px;">
+        <div class="col-md-6 text-right" style="margin-top:5px">
+          <label>Deduction</label>
+        </div>
+        <div class="col-md-6">
+          <!-- <div class="form-group"> -->
+            <!-- <input type="text" class="form-control" ng-model="form.deduction" style="border: none;border-radius: 10px;background-color: #eee;" placeholder="Deduction"> -->
+            <select class="" ng-model="form.deduction" ng-options=" m.title for m in allDeductions" ng-change="selectData()" style="border: none;border-radius: 10px;background-color: #eee;width: 100%;">
+            </select>
+          <!-- </div> -->
+        </div>
+      </div>
+      <div class="row" >
+        <div class="col-md-6 text-right" style="margin-top:5px">
+          <label>Limit</label>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="text" class="form-control" ng-model="form.limit" style="border: none;border-radius: 10px;background-color: #eee;" placeholder="Limit" disabled>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 text-right" style="margin-top:5px">
+          <label>Amount</label>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="text" class="form-control" ng-model="form.amount" style="border: none;border-radius: 10px;background-color: #eee;" placeholder="Amount">
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-12 text-right" style="margin-top:5px">
+          <button class="btn btn-default" ng-click="updateDeduction()"> SAVE </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

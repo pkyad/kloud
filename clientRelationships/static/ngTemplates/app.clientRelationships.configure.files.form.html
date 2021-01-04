@@ -1,0 +1,36 @@
+
+<div class="container-fluid">
+<div class="modal-header text-center">
+<h3>File</h3>
+</div>
+<div class="modal-body">
+
+  <div class="col-md-12" >
+
+
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text " class="form-control" ng-model="form.title" placeholder="Title">
+    </div>
+
+    <div class="form-group">
+      <label>File</label>
+      <input type="file" file-model="form.attachment" >
+    </div>
+
+    <div class="form-group">
+      <label>Raw Files</label>
+      <input type="file" file-model="form.rawFiles" >
+    </div>
+
+  </div>
+</div>
+<div class="modal-footer" style="border-top:0px solid transparent">
+
+  <div class="pull-right">
+    <button type="button" class="btn btn-primary pull-right" ng-click="saveFile()" >Save</button>
+  </div>
+</div>
+</div>
+
+<!-- <p>ng-controller = "businessManagement.clientRelationships.configure.files.form"</p> -->

@@ -1,0 +1,133 @@
+<style>
+  th{
+    border-right : 1px solid #d9d9d9
+  }
+  td{
+    border-right : 1px solid #d9d9d9
+  }
+</style>
+<div class="container-fluid" ng-controller="businessManagement.finance.accounts.explore">
+<!-- <div class="container-fluid" ng-controller="businessManagement.finance.tab.datas.explore"> -->
+  <div class="row">
+    <h3 class="text-muted" style="margin-left:15px;">{{tab.data.title}}</h3>
+    <h5  style="margin-left:15px;">(under : {{tab.data.group | humanize}} - {{tab.data.heading | humanize}})</h5>
+    <div class="col-md-12">
+      <div class="container-fluid">
+        <div class="row">
+          <div class=" col-md-offset-6 form-group col-md-3">
+            <label> Year </label>
+            <select class="form-control" ng-model="select.year" ng-options="p for p in years" ng-change="fetchData()">
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label> Month </label>
+            <select class="form-control" ng-model="select.month" ng-options=" m.month for m in months" ng-change="fetchData()">
+            </select>
+          </div>
+        </div>
+        <div class="row">
+        <div class="col-md-12">
+          <table class="table table-striped" style="border:1px solid black!important">
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Details</th>
+                <th scope="col">Ref.</th>
+                <th scope="col">Debit</th>
+                <th scope="col">Credit</th>
+                <th scope="col" style="border-right:1px solid black!important">Balance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="t in transactionData">
+                <th scope="row">{{t.created | date}}</th>
+                <td><span ng-if="t.fromAcc">{{t.fromAcc.title}}</span>
+                  <span ng-if="t.toAcc">{{t.toAcc.title}}</span> ( {{t.narration}} )</td>
+                <td>{{t.externalReferenceID}}</td>
+                <td>{{t.type=='debit'?t.amount:''}}</td>
+                <td>{{t.type=='credit'?t.amount:''}}</td>
+                <td style="border-right:1px solid black!important" >{{t.balance}}</td>
+              </tr>
+              <!-- <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+              </tr> -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      </div>
+
+    </div>
+
+  </div>
+  <!-- <div class="">
+    <div class="row" style="margin-top:20px;margin-bottom:20px;">
+      <div class="col-md-4">
+
+      </div>
+      <div class="col-md-2">
+        <div class="btn-group">
+          <a ng-click="Transaction()" type="button" class="btn btn-sm btn-primary " style="padding:8px 18px">Transaction</a>
+          <a ng-click="addmoreMoney()"  type="button" class="btn btn-sm btn-primary "style="padding:8px 18px" >Addmoney</a>
+
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="input-group">
+          <input type="text" class="form-control" ng-model="searchForm.search" placeholder="Search with Account Number" ng-change="pettyCashaccounts(true,searchForm.search)">
+          <div class="input-group-btn">
+            <button class="btn btn-default" type="submit" ng-click="pettyCashaccounts(true,searchForm.search)">
+              <i class="glyphicon glyphicon-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <button type="button" class="btn btn-sm btn-primary btn-block" style="padding:8px 18px" ng-click="prevpettyAcc()">Prev</button>
+      </div>
+      <div class="col-md-1">
+        <button type="button" class="btn btn-sm btn-primary btn-block " style="padding:8px 18px" ng-click="nextpettyAcc()">Next</button>
+
+      </div>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="">
+
+
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th ng-click="pettyCashaccounts()"><i class="fa fa-refresh" style="cursor:pointer;"></i></th>
+
+            <th>Name</th>
+            <th>Transfered To</th>
+            <th>Amount</th>
+            <th>Transfered by</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="pc in pettycashacntData"  ng-click="viewpettyAcc(pc)">
+            <td>{{$index+1}}</td>
+            <td>{{pc.heading.title}}</td>
+            <td>{{pc.project.title}}</td>
+            <td>{{pc.amount}}</td>
+            <td>{{pc.createdUser.first_name}} {{pc.createdUser.last_name}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div> -->
+
+
+</div>

@@ -1,0 +1,212 @@
+<div class="modal-header bg-red" style="padding-bottom:0px;padding-top:5px;">
+  <div class="container-fluid">
+    <div class="col-md-4">
+      <i ng-if="mailer" class="fa fa-arrow-circle-o-left pull-left fa-2x" ng-click="cancel()" style="cursor:pointer;"></i>
+      <i ng-if="!mailer" class="fa fa-arrow-circle-o-left pull-left fa-2x" ng-click="dismiss()" style="cursor:pointer;"></i>
+      <span ng-click="save()" style="cursor:pointer;margin-left:30px;" class="btn">Save and Continue</span>
+    </div>
+    <div class="col-md-1" style="padding-top:4px;">
+      <!-- <i class="fa fa-file fa-lg" ng-click="selectedFileTemplate()" style="cursor:pointer;"></i> -->
+    </div>
+    <div class="col-md-3" style="padding-top:4px;">
+      <!-- <div class="dropdown" style="cursor:pointer;">
+          <span style="font-size:16px;" class="dropdown-toggle" data-toggle="dropdown">Quote Template - 1</span>
+          <span class="caret"></span>
+          <ul class="dropdown-menu">
+            <li><a href="#">Quote Template 1</a></li>
+            <li><a href="#">Quote Template 2</a></li>
+            <li><a href="#">Quote Template 3</a></li>
+          </ul>
+        </div> -->
+    </div>
+    <div class="col-md-4">
+      <span class="pull-right">
+        <span class="btn" ng-if="mailer" style="margin-right:30px;cursor:pointer;" ng-click="send()">Send Quote</span>
+        <!-- <span ng-if="firstQuote" style="margin-right:30px;"><a ng-click="downloadInvoice()" target="_blank" class="btn btn-primary"><i class="fa fa-download fa-lg"></i></a></span> -->
+        <i class="fa fa-money"></i> <span style="font-size:16px;margin-left:20px;">{{ quote.pk == null ? 'Create': 'Edit'}} quote</span>
+      </span>
+    </div>
+  </div>
+</div>
+<div class="row" style="padding:10px;display:block;box-sizing:border-box;">
+  <div class="row">
+    <div class="container-fluid" style="padding:20px;padding-left:30px;padding-right:30px;">
+      <div class="col-md-4">
+        <strong>Description</strong>
+      </div>
+      <div class="col-md-1">
+        <strong>Price</strong>
+      </div>
+      <div class="col-md-1">
+        <strong>Tax Rate</strong>
+      </div>
+      <div class="col-md-1">
+        <strong>HSN/SAC code</strong>
+      </div>
+      <div class="col-md-1">
+        <strong>Quantity</strong>
+      </div>
+      <div class="col-md-2">
+        <strong>Total tax</strong>
+      </div>
+      <div class="col-md-1">
+        <strong>Sub Total</strong>
+      </div>
+    </div>
+  </div>
+  <div style="max-height:50vh;overflow:auto;padding-right:20px;padding-left:20px;">
+    <div ng-if="data.length == 0" class="container-fluid text-center">
+      <span>No data!</span>
+    </div>
+    <table class="table table-striped">
+      <tbody>
+        <tr ng-repeat="d in data track by $index">
+          <td style="width:34.6%">{{d.desc}}</td>
+          <td style="width:8.33%">{{d.rate}}</td>
+          <td style="width:8.33%">{{d.tax}}</td>
+          <td style="width:8.33%">{{d.taxCode}}</td>
+          <td style="width:8.33%">{{d.quantity}}</td>
+          <td style="width:16.66%">{{d.totalTax}}</td>
+          <td style="width:7%">{{d.subtotal}}</td>
+          <td>
+            <div class="btn-group btn-group-sm">
+              <button type="button" class="btn btn-danger" ng-click="remove($index)">
+                <i class="fa fa-trash-o"></i>
+              </button>
+              <button type="button" ng-click="edit($index)" class="btn btn-default">
+                <i class="fa fa-pencil"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <hr>
+  <div class="container-fluid">
+    <div class="col-md-6">
+      <div class="row">
+        <div class="container-fluid">
+          Total : {{total}} <br>
+          tax : {{totalTax}} <br>
+          Discount : {{discountRate}} <br>
+          Grand total : <span style="font-size:20px;" ng-if="finalAmount<=0">{{grandTotal.toFixed(2)}}</span>
+          <span style="font-size:20px;" ng-if="finalAmount>0"><span style="text-decoration: line-through"> {{grandTotal.toFixed(2)}}</span><span> {{finalAmount.toFixed(2)}}</span></span><br>
+        </div>
+      </div>
+      <hr>
+
+      <div class="form-group">
+        <label>Description / Product Name</label>
+        <input uib-typeahead="p as p.name for p in inventorySearch($viewValue)" class="form-control" ng-model="form.desc"></input>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Rate</label>
+            <input type="number" step="0.01" class="form-control" ng-model="form.rate">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Product/Service class</label>
+            <input type="text" class="form-control" ng-model="form.productMeta" uib-typeahead="meta as meta.description for meta in searchTaxCode($viewValue)" ng-if="!showTaxCodeDetails">
+
+            <span ng-if="showTaxCodeDetails"> <button type="button" class="btn btn-default btn-sm" ng-click="form.productMeta = ''">
+                Edit <i class="fa fa-pencil"></i>
+              </button> <br> {{form.productMeta.description}} <br><strong>Code Type : </strong> {{form.productMeta.typ}} <br> <strong>Code : </strong> {{form.productMeta.code}} <br> <strong>Tax Rate :</strong>{{form.productMeta.taxRate}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Quantity</label>
+            <input type="number" step="0.5" class="form-control" ng-model="form.quantity">
+          </div>
+        </div>
+        <div class="col-md-3" style="padding-top: 25px;">
+          <button type="button" ng-click="add()" class="btn btn-default">
+            Add <i class="fa fa-plus"></i>
+          </button>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Currency</label> <br>
+            <button class="btn btn-default btn-block dropdown-toggle disabled" type="button" data-toggle="dropdown">
+              <span data-bind="label">{{form.currency | humanize}} </span> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li ng-repeat="r in currency" ng-click="setCurrency(r)"><a href="">{{r | humanize}}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-8">
+          <select class="form-control" ng-model="terms" ng-options="p.heading for p in termsConditions" style="margin-top:15px">
+          </select>
+          <div style="padding-top:15px">
+            <p> <b>Heading : </b> {{terms.heading}} </p>
+            <ol>
+              <li style="padding:10px" ng-repeat="i in terms.points  track by $index"> {{i}}</li>
+            </ol>
+
+          </div>
+        </div>
+        <div class="col-md-4">
+          <select class="form-control" ng-model="coupon" ng-options="p.title + ' - ' + p.percentage for p in discount" style="margin-top:15px">
+          </select>
+          <div style="padding-top:15px" ng-if="coupon">
+            <p> <b><i class="fa fa-header"></i> : </b> {{coupon.title}} </p>
+            <p><b><i class="fa fa-info"></i> : </b>{{coupon.description}} </p>
+            <p><b><i class="fa fa-percent"></i> : </b>{{coupon.percentage}} </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6" ng-if="mailer">
+      <div class="row" style="margin-bottom:10px;">
+        <div class="col-md-2">
+          <label>To</label>
+        </div>
+        <div class="col-md-10">
+          <tags-input ng-model="mailEditor.to" add-on-paste="true" add-From-Autocomplete-Only="false" display-property="email">
+            <auto-complete source="getEmailAddressSuggestions($query)" load-on-down-arrow="true"></auto-complete>
+          </tags-input>
+        </div>
+      </div>
+      <div class="row" style="margin-bottom:10px;">
+        <div class="col-md-2">
+          <label>Subject</label>
+        </div>
+        <div class="col-md-10">
+          <input type="text" class="form-control" placeholder="Subject" ng-model="mailEditor.subject">
+        </div>
+      </div>
+      <div class="row" style="margin-bottom:10px;">
+        <div class="col-md-2">
+          <label>CC</label>
+        </div>
+        <div class="col-md-10">
+          <tags-input ng-model="mailEditor.cc" add-on-paste="true" add-From-Autocomplete-Only="false" display-property="email">
+            <auto-complete source="getEmailAddressSuggestions($query)" load-on-down-arrow="true"></auto-complete>
+          </tags-input>
+        </div>
+      </div>
+      <textarea ui-tinymce="tinymceOptions" ng-model="mailEditor.body"></textarea>
+      <div class="row" style="margin-top:10px;">
+        <div ng-repeat="f in mailEditor.added" class="col-md-6">
+          <div class="container-fluid bg-blue" style="padding-right:0px;padding-top:5px;">
+            <i class="fa {{f.filename | fileTypeIcon}} fa-lg" style="margin-right:15px;"></i> {{f.filename}}
+            <button type="button" ng-click="removeMailAttachment($index)" class="btn btn-primary btn-sm pull-right">
+              <i class="fa fa-minus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

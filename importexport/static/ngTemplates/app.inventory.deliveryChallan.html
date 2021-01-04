@@ -1,0 +1,78 @@
+<div class="modal-header">
+  <div class="row">
+    <div class="col-md-11">
+      <h3 ng-if="!form.pk">Create Delivery Challan</h3>
+      <h3 ng-if="form.pk">Edit Delivery Challan</h3>
+    </div>
+    <div class="col-md-1">
+      <button class="btn btn-primary" ng-click="close()"><i class="fa fa-close"></i></button>
+    </div>
+  </div>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row" style="padding:10px">
+        <div class="col-md-6">
+          <label>Challan Number</label>
+          <input ng-model="form.challanNo" type="text" class="form-control">
+        </div>
+        <div class="col-md-6">
+          <label>Customer Name</label>
+          <input ng-model="form.customername" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="row" style="padding:10px">
+        <div class="col-md-6">
+          <label>Customer GST</label>
+          <input ng-model="form.customergst" type="text" class="form-control">
+        </div>
+        <div class="col-md-6">
+          <label>Customer Address</label>
+          <textarea type="text" class="form-control" ng-model="form.customeraddress" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="row" style="padding:10px">
+        <div class="col-md-6">
+          <label>Challan Date</label>
+          <div class="input-group">
+            <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.challanDate" is-open="statusDue.opened" ng-init="today" />
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="statusDue.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label>Ref No</label>
+          <input ng-model="form.refNo" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="row" style="padding:10px">
+        <div class="col-md-6">
+          <label>Medium of Delivery</label>
+          <input ng-model="form.deliveryThr" type="text" class="form-control">
+        </div>
+        <div class="col-md-6">
+          <label>Approximate Value</label>
+          <input ng-model="form.apprx" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="row" style="padding:10px">
+        <div class="col-md-6">
+          <label>Heading details</label>
+          <textarea type="text" class="form-control" ng-model="form.heading" rows="3"></textarea>
+        </div>
+        <div class="col-md-6">
+          <label>Notes</label>
+          <textarea type="text" class="form-control" ng-model="form.notes" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="row" style="padding:10px">
+        <div class="col-md-12 text-right">
+          <span ng-if="form.pk"> <a class="btn btn-primary" style="cursor:pointer;" target="_blank" href="/api/importexport/deliveryChallanDownload/?value={{form.pk}}">Download DC <i class="fa fa-download"></i></a></span>
+          <button type="button" class="btn btn-primary " ng-click="create()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

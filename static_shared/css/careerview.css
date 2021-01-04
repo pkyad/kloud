@@ -1,0 +1,18 @@
+.career_heading {
+  letter-spacing: 0.5px;
+  line-height: 1.5;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  color: white;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 34px;
+}
+
+
+.centered {
+  padding-top: 30px;
+  /* padding-bottom:30px; */
+  padding-left: 15px;
+  padding-right: 10px;
+  word-break: break-all;
+}

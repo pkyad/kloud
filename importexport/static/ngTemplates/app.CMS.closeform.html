@@ -1,0 +1,57 @@
+<style media="screen">
+  #body {
+    background-color: white;
+  }
+</style>
+<div id="body" class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+
+    <h1 class="display-5">Close Complaint</h1>
+
+
+
+    </div>
+  </div>
+
+</div>
+<div id="body" class="container-fluid">
+
+  <div class="row">
+    <div class="col-md-12">
+      <label>
+        <h3>Closed By:</h3>
+      </label>
+      <input class="form-control " ng-model="form.closedBy" uib-typeahead="g as g.first_name for g in genericUserSearch1($viewValue)">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <label>
+        <h3>Date</h3>
+      </label>
+      <div class="input-group">
+        <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.date" is-open="statusDue.opened" ng-init="today" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="statusDue.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </div>
+  </div>
+  <div class="row">
+
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+    </div>
+    <div style="margin-top:20px;margin-left:-13px;" class="col-md-6 text-right">
+        <button  type="button" class="btn btn-primary  " name="button" ng-click="complaintClose()" >Save</button>
+      <button style="margin-left:0px;" type="button" class="btn btn-primary  " name="button" ng-click="close()">Close</button><br>
+    </div>
+
+  </div>
+  <br>
+
+
+
+
+</div>

@@ -1,0 +1,93 @@
+<div class="modal-body" ng-if="device == 'whatsappTest' ">
+
+  <div class="container-fluid" style="padding:0px;">
+    <div class="col-md-8" style="padding:0px;">
+      <h4>Whatsapp Sandbox Settings</h4>
+    </div>
+    <div class="col-md-4 text-right">
+      <img style="width:60px;" src="/static/images/whatsapp.png" alt="">
+    </div>
+  </div>
+
+  <hr>
+
+  <p class="text-success">Please add country code as well in the beginning for example 91 for indian numbers </p>
+
+  <div class="input-group" style="border-radius:0px;">
+    <span style="position: absolute;left: 20px;z-index: 4;top: 7px;color: #7b7b7b;">+</span>
+    <input ng-model="data.number" type="text" class="form-control" style="padding-left:40px;" placeholder="Please enter your whatsapp number without any spaces between">
+    <span class="input-group-addon" style="cursor:pointer;" ng-click="sendLink()">Create</span>
+  </div>
+  <br>
+  <div class="alert alert-success" ng-if="data.success">
+    <strong>Great!</strong> We have sent a test message on your whatsapp number. You can now reply to the number to talk to your bot.
+  </div>
+
+</div>
+
+
+<div class="modal-body" ng-if="device != 'whatsappTest' ">
+
+  <div class="row">
+    <div class="container-fluid">
+      <strong style="font-size:20px;color:red;">Step 1.</strong> Download EpsilonAI chatbot app from {{device == 'ios' ? 'iOS' : 'Android'}} store.
+    </div>
+
+
+    <div class="container-fluid text-center" style="margin-bottom:20px;margin-top:20px;">
+
+      <a ng-if="device=='android'" href="https://play.google.com/store/apps/details?id=in.cioc.epsilonai">https://play.google.com/store/apps/details?id=in.cioc.epsilonai</a>
+      <a ng-if="device=='ios'" href="https://apps.apple.com/us/app/inciocepsilonai/id1484441018">https://apps.apple.com/us/app/inciocepsilonai/id1484441018</a>
+
+      <br>
+
+      <h4>OR</h4>
+
+      <div class="input-group" style="border-radius:0px;">
+        <span style="position: absolute;left: 12px;z-index: 4;top: 7px;color: #7b7b7b;">+91</span>
+        <input ng-model="data.number" type="text" class="form-control" style="padding-left:40px;" placeholder="Please enter your mobile number">
+        <span class="input-group-addon" style="cursor:pointer;" ng-click="sendLink()">Send App Link</span>
+      </div>
+      <br>
+      <div class="alert alert-success" ng-if="data.success">
+        <strong>Great!</strong> Link sent. Install the app and build your first chatbot on your {{device}} phone.
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+  <div class="row" style="margin-bottom:20px;margin-top:20px;">
+    <div class="container-fluid">
+      <strong style="font-size:20px;color:red;">Step 2.</strong> Scan the below QR Code in the app <br>
+
+
+      <div class="" style="background:url('/static/images/app_instructions.png');background-repeat:no-repeat;background-position:left;height:600px;height: 500px;background-size: contain;">
+        <img src="https://support.cioc.in/genQRCode/?text={{apiKey}}" alt="" style="width: 30%;margin-top: 185px;right: 92px;position: absolute;">
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="container-fluid">
+      <strong style="font-size:20px;color:red;">Step 3.</strong> Start talking to the bot <br>
+
+      <img src="/static/images/chat_screen.jpeg" style="width: 45%;margin-top: 35px;" alt="">
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+</div>

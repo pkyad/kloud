@@ -1,0 +1,25 @@
+<div class="modal-header">
+  <input type="checkbox" ng-model="form.allSelected"> Select All
+  <button type="button" class="btn btn-danger pull-right" ng-click="cancel()">
+    Cancel
+  </button>
+  <button type="button" class="btn btn-default pull-right" ng-click="saveSelected()" ng-hide="nowclose">
+    ok
+  </button>
+</div>
+<div class="modal-body">
+  <table style="table-layout:auto;width:100%">
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Address</th>
+      <th>Phone</th>
+    </tr>
+    <tr ng-repeat= "m in multislot">
+      <td><input id="" type="checkbox" ng-model="m.selected"></td>
+      <td>{{m.name}}</td>
+      <td>{{m.pinCode}}</td>
+      <td>{{m.mobile}}</td>
+    </tr>
+  </table>
+</div>

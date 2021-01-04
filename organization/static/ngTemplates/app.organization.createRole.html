@@ -1,0 +1,58 @@
+<style>
+  .helptooltip {
+    position: relative;
+    display: inline-block;
+  }
+
+  .helptooltip .helptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    right: 105%;
+  }
+
+  .helptooltip:hover .helptext {
+    visibility: visible;
+    opacity: 0.5;
+    padding: 5px;
+  }
+
+  .rowRole {
+    padding: 9px;
+    text-align: center;
+  }
+</style>
+
+
+<div class="modal-body">
+  <h2 style="margin:10px;" class="modal-title">Role</h2>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+
+
+        <div class="form-group">
+          <label>Name</label>
+          <input ng-if="form.pk" style="background:#F3F6FB;padding:25px !important;font-size:20px;border-radius:10px !important;border:none !important;" type="text" class="form-control" ng-model="form.name" placeholder="enter name" ng-change="save()">
+          
+          <input ng-if="!form.pk" style="background:#F3F6FB;padding:25px !important;font-size:20px;border-radius:10px !important;border:none !important;" type="text" class="form-control" ng-model="form.name" placeholder="enter name">
+        </div>
+      </div>
+    </div>
+
+    <div class="row container-fluid" ng-if="!form.pk">
+      <button type="button" class="btn btn-primary" ng-click="save()"  > Save</button>
+    </div>
+
+    
+
+  </div>
+</div>

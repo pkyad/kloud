@@ -1,0 +1,412 @@
+<style media="screen">
+  .glass::before {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: rgba(97, 97, 97, 0.23);
+    background-size: cover;
+    content: ' ';
+    opacity: 0.4;
+  }
+
+  .glass {
+    background-color: white;
+  }
+
+  .glass.down {
+    transform: translateY(100%) translateY(-7rem);
+  }
+
+  .glass.down::before {
+    transform: translateY(-100%) translateY(7rem);
+  }
+
+  .glass.up,
+  .glass.up::before {
+    transform: translateY(0);
+  }
+
+
+  .navigationBtn,
+  .navigationBtn:hover {
+    padding: 10px;
+    border: none !important;
+    border-radius: 23px !important;
+  }
+
+  .contactList input,
+  .contactList button,
+  .contactList .btn,
+  .contactList .btn-primary {
+    border: none !important;
+  }
+
+  .contactList input,
+  .contactList .form-control {
+    padding: 20px;
+    border-radius: 23px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  .text-dull {
+    color: #bbb;
+  }
+
+  .tableNew th {
+    padding: 17px !important;
+  }
+
+  .tableNew {
+    border-radius: 1em;
+    overflow: hidden;
+  }
+
+  .contentTd {
+    padding: 18px !important;
+  }
+
+  table,
+  th,
+  td {
+    border-color: #f2f2f2 !important;
+  }
+
+  .deleteBtn:hover,
+  .deleteBtn:focus {
+    background: white !important;
+    color: #E33B37 !important;
+  }
+
+  .cleanInputDark {
+    border: none !important;
+    resize: none;
+    background: #0E1C2C;
+    color: white;
+  }
+</style>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2" style="min-height:100vh;padding:40px;position: fixed;left: 9%;background: #FAFAFA;z-index: 1;" >
+
+      <div class="row" ng-if="!form.isInvoice" style="margin-top:20vh;width: 123%;">
+        <div class="col-md-12 text-center" ng-repeat="f in documents track by $index" ng-click="changeView($index)" style="padding-top:15px;padding-bottom:15px;background:{{$index == inView?'#ffffff':''}};cursor:pointer">
+          <h5 ng-if="!f.isInvoice"> Purchase Order</h5>
+          <h5 ng-if="f.isInvoice"> #{{$index}}  Invoice</h5>
+        </div>
+      </div>
+      <div class="row" ng-if="!form.isInvoice" style="bottom:10px;position:fixed;width: 14%;">
+        <div class="col-md-12">
+          <button class="btb btn-default btn-block" style="border-radius:10px;padding-top:15px;padding-bottom:15px;border:none" ng-click="addInvoice()"> <i class="fa fa-plus"></i> New Invoice </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9" style="min-height:100vh;background:white;padding:15px;position:absolute;right:0px;">
+      <div class="row" ng-if="form.isInvoice">
+        <div class="col-md-12">
+          <!-- <div class="col-md-12 text-right">
+          <a href="/api/finance/invoiceDownload/?id={{form.pk}}" target="_blank"><i class="fa fa-download fa-2x"></i></a>
+          </div> -->
+          <div class="col-md-12 text-center">
+            <h2> INVOICE  </h2>
+          </div>
+            <div class="col-md-12" style="margin-top:20px">
+              <h5> Delivery Date : {{form.deliveryDate}} </h5>
+              <h5> Payment Due: {{form.paymentDueDate}} </h5>
+              <h5> ID : {{form.pk}} </h5>
+            </div>
+            <div class="col-md-4" style="margin-top:20px">
+                <h5> <strong> {{form.vendor.service.name}} </strong> </h5>
+              <h5>{{form.address}} , {{form.city}} {{form.state}} , {{form.country}} - {{form.pincode}}</h5>
+              <h5> GSTIN : {{form.gstIn}} </h5>
+            </div>
+            <div class="col-md-12" style="margin-top:20px">
+              <h5> <strong> Responsible Person : {{form.personName}} (Mobile - {{form.phone}}) (Email - {{form.email}})  </strong> </h5>
+            </div>
+          <table class="invoiceTable" style=" width: 100%;">
+            <tbody>
+              <tr style="background-color: #eeeeee;height: 50px;">
+                <th>S.No</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>HSN</th>
+                <th>Quantity</th>
+                <th>Total</th>
+              </tr>
+              <tr ng-repeat="v in form.products track by $index">
+                <td>{{$index + 1}}</td>
+                <!-- <td><input type="text" class="form-control-pos text-center" ng-model="v.product"></td> -->
+                <td>{{v.product}}</td>
+                <td>{{v.price}}</td>
+                <th>{{v.hsn}} ({{v.tax}}%)</th>
+                <td>{{v.qty}}</td>
+                <td>{{v.total}}</td>
+              </tr>
+              <tr>
+                <td style="border:none">  </td>
+                <td style="border:none">  </td>
+                <td style="border:none">  </td>
+                <td style="border:none">  </td>
+                <td style="border:none" class="text-right"> <h4>Paid :</h4> </td>
+                <td style="border:none"> <h4>{{form.paidAmount}}</h4> </td>
+              </tr>
+              <tr>
+                <td style="border:none">  </td>
+                <td style="border:none">  </td>
+                <td style="border:none">  </td>
+                <td style="border:none">  </td>
+                <td style="border:none" class="text-right"> <h4>Balance :</h4> </td>
+                <td style="border:none"> <h4>{{form.balanceAmount}}</h4> </td>
+              </tr>
+              <tr>
+                <td style="border:none">  </td>
+                <td style="border:none">  </td>
+                <td style="border:none">  </td>
+                <td style="border:none">  </td>
+                <td style="border:none" class="text-right"> <h4>Total :</h4> </td>
+                <td style="border:none"> <h4>{{form.totalAmount}} </h4></td>
+              </tr>
+            </tbody>
+          </table>
+            <div class=" col-md-12">
+                <h3> Bank Details </h3>
+                <h6> Bank Name :   {{form.bankName}} </h6>
+                <h6> Account No :   {{form.accNo}} </h6>
+                <h6> IFSC :   {{form.ifsc}} </h6>
+            </div>
+             <div class="col-md-12" ng-if="form.note.length>0">
+               <h3>Note: </h3>
+                <p> {{form.note}}</p>
+             </div>
+            <div class="row" ng-if="form.isInvoice" style="margin-top:15px">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label>Amount</label>
+                  <input type="number" class="form-control" ng-model="data.amount" >
+                </div>
+              </div>
+              <div class="col-md-2" style="padding-top: 25px;">
+                <button class="btn btn-primary" ng-click="savePayment()"> Add </button>
+              </div>
+            </div>
+            <div class="row" style="max-height:65vh;overflow-y:scroll;scrollbar-width: none;background:white;margin-top:20px" ng-if="form.isInvoice">
+              <div class="col-md-12">
+                <table class="invoiceTable" style=" width: 100%;" ng-if="form.isInvoice&&allTransactions.length>0">
+                  <tbody>
+                  <tr style="background-color: #eeeeee;height: 50px;">
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Ref ID</th>
+                  </tr>
+                  <tr ng-repeat="v in allTransactions track by $index">
+                    <td>{{v.amount}}</td>
+                    <td>{{v.date}}</td>
+                    <td>In Progress</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+            </div>
+
+        </div>
+      </div>
+      <div class="row" ng-if="!form.isInvoice" style="margin-top:20px">
+        <div class="col-md-12" ng-repeat="form in documents track by $index" ng-if="$index==inView">
+          <i ng-if="form.isInvoice&&tableEdit" class="fa fa-floppy-o pull-right fa-2x" ng-click="saveInvoice()" style="margin-right:50px">  </i>
+          <i ng-if="form.isInvoice&&!tableEdit" class="fa fa-pencil pull-right fa-2x" ng-click="changeEdit()" style="margin-right:50px">  </i>
+          <div class="col-md-12 text-center">
+            <h2 ng-if="!form.isInvoice"> PURCHASE ORDER </h2>
+            <h2 ng-if="form.isInvoice"> INVOICE</h2>
+            <a ng-if="!form.isInvoice" class="pull-right" style="background: white;position: absolute;top: 10px;right: 30px;z-index: 10;" href="/api/finance/poDownload?value={{form.pk}}" target="_blank">
+              <img src="/static/images/icons8-print-64.png" style="width:30px;" >
+            </a>
+          </div>
+            <div class="col-md-12" style="margin-top:20px">
+              <h5> Delivery Date : {{form.deliveryDate}} </h5>
+              <h5> On: {{form.quoteDate}} </h5>
+              <h5> Quote : {{form.quoteNumber}} </h5>
+              <div   ng-if="form.isInvoice" style="display: table">
+                <h5 style="display: table-cell"> Payment Due Date :  <span ng-if="!tableEdit"> {{form.paymentDueDate }} </span></h5>
+                <div class="form-group datepickerInput" style="display: table-cell" ng-if="tableEdit">
+                  <div class="input-group">
+                    <input  type="text" class="" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.paymentDueDate" is-open="statusDue.opened" ng-init="today" />
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="statusDue.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                  </div>
+                </div></div>
+              <h5 ng-if="form.pk"> ID : {{form.pk}} </h5>
+            </div>
+            <div class="col-md-6" style="margin-top:20px">
+                <h5> <strong> {{form.vendor.service.name}} </strong> </h5>
+              <h5>{{form.address}} , {{form.city}} {{form.state}} , {{form.country}} - {{form.pincode}}</h5>
+              <div   ng-if="form.isInvoice" style="display: table"><h5 style="display: table-cell"> GSTIN : </h5> <input style="display: table-cell" ng-if="tableEdit" type="text" class="form-control-pos " ng-model="form.gstIn"> <span style="display: table-cell" ng-if="!tableEdit"> {{form.gstIn}}</span></div>
+            </div>
+            <div class="col-md-6" style="margin-top:20px">
+              <h5> <strong> Requester: </strong>  {{form.requester.first_name}}  {{form.requester.last_name}}</h5>
+                <h5> <strong>   Mobile - {{form.requester.profile.mobile}}  </strong> </h5>
+                <h5> <strong>  Email - {{form.requester.email}}  </strong> </h5>
+            </div>
+            <div class="col-md-12" style="margin-top:20px">
+              <h5> <strong>  {{form.personName}} (Mobile - {{form.phone}}) (Email - {{form.email}})  </strong> </h5>
+            </div>
+          <table class="invoiceTable" style=" width: 100%;" ng-if="!form.isInvoice">
+            <tbody>
+              <tr style="background-color: #eeeeee;height: 50px;">
+                <th>S.No</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+              </tr>
+              <tr ng-repeat="v in form.products track by $index">
+                <td>{{$index + 1}}</td>
+                <!-- <td><input type="text" class="form-control-pos text-center" ng-model="v.product"></td> -->
+                <td>{{v.product}}</td>
+                <td>{{v.price}}</td>
+                <td>{{v.qty}}</td>
+              </tr>
+              <tr>
+                <td style="border:none">  </td>
+                <td style="border:none">  </td>
+                <td style="border:none" class="text-right"> <h4>Total :</h4> </td>
+                <td style="border:none"> <h4>{{form.totalAmount}} </h4></td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="invoiceTable" style=" width: 100%;" ng-if="form.isInvoice">
+            <tbody>
+              <tr style="background-color: #eeeeee;height: 50px;">
+                <th>S.No</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>HSN/SAC Code</th>
+                <th>Tax (%)</th>
+                <th>Sub Total</th>
+                <th ng-if="tableEdit"></th>
+              </tr>
+              <tr ng-repeat="v in form.products track by $index">
+                <td>{{$index + 1}}</td>
+                <!-- <td><input type="text" class="form-control-pos text-center" ng-model="v.product"></td> -->
+                <td>{{v.product}}</td>
+                <td>{{v.price}}</td>
+                <td> <input ng-if="tableEdit"  type="text" class="form-control-pos text-center" ng-model="v.receivedQty" ng-change=calculate()> <span  ng-if="!tableEdit" > {{v.receivedQty}} </span></td>
+                <td>{{v.hsn.pk?v.hsn.code:v.hsn}}</td>
+                <td>{{v.tax}}</td>
+                <td>{{v.total}}</td>
+                <td ng-if="tableEdit"><button type="button" class="btn btn-danger btn-sm"  ng-click="delete( $index)"> <i class="fa fa-trash"></i> </button></td>
+              </tr>
+              <tr ng-if="tableEdit">
+                <td></td>
+                <!-- <td><input type="text" class="form-control-pos text-center" ng-model="v.product"></td> -->
+                <td><input type="text" class="form-control-pos text-center" ng-model="form.productForm.product" uib-typeahead="p as p.product for p in productSearch($viewValue)"></td>
+                <td><input type="text" class="form-control-pos text-center" ng-model="form.productForm.price"></td>
+                <td><input type="text" class="form-control-pos text-center" ng-model="form.productForm.receivedQty"></td>
+                <td><input type="text" class="form-control-pos text-center" ng-model="form.productForm.hsn" uib-typeahead="meta as meta.code for meta in productMetaSearch($viewValue)"></td>
+                <td><input type="text" class="form-control-pos text-center" ng-model="form.productForm.tax"></td>
+                <td><input type="text" class="form-control-pos text-center" ng-model="form.productForm.total"></td>
+                <td><button type="button" class="btn btn-primary btn-sm"  ng-click="addData()"> <i class="fa fa-plus"></i> Add </button></td>
+              </tr>
+              <tr ng-if="form.isInvoice&&form.pk">
+                <td style="border:none">  </td>
+                <td style="border:none">  </td>
+                <td style="border:none">  </td>
+                <td style="border:none">  </td>
+                <td style="border:none">  </td>
+                <td style="border:none" class="text-right"> <h4>Paid :</h4> </td>
+                <td style="border:none"> <h4>{{form.paidAmount}}</h4> </td>
+              </tr>
+              <tr ng-if="form.isInvoice&&form.pk">
+                <td style="border:none">  </td>
+                <td style="border:none">  </td>
+                <td style="border:none">  </td>
+                <td style="border:none">  </td>
+                <td style="border:none">  </td>
+                <td style="border:none" class="text-right"> <h4>Balance :</h4> </td>
+                <td style="border:none"> <h4>{{form.balanceAmount}}</h4> </td>
+              </tr>
+              <tr>
+                <td style="border:none">  </td>
+                <td style="border:none">  </td>
+                <td style="border:none">  </td>
+                <td style="border:none">  </td>
+                <td style="border:none">  </td>
+                <td style="border:none" class="text-right"> <h4>Total :</h4> </td>
+                <td style="border:none"> <h4>{{form.totalAmount}} </h4></td>
+              </tr>
+              <!-- <tr>
+                <td><button style="background-color:white;border:none;" ng-click="addTableRow($index)"><i class="fa fa-plus" style="cursor:pointer"></i></button></td>
+              </tr> -->
+            </tbody>
+          </table>
+          <div  class="col-md-12" ng-if="!form.isInvoice">
+            <h3>Terms and Conditions: </h3>
+           <div class="col-md-11" ng-repeat = "a in form.termsandcondition.body.split('||') track by $index">
+              <p> {{$index+1}}. {{a}}</p>
+           </div>
+         </div>
+         <div class="col-md-12" style="padding-left:15px">
+           <h3>Note: </h3>
+            <p ng-if="!tableEdit"> {{form.note}}</p>
+             <input style="display: table-cell" ng-if="tableEdit" type="text" class="form-control-pos " ng-model="form.note">
+         </div>
+         <div class=" col-md-12" ng-if="form.isInvoice">
+             <h3> Bank Details </h3>
+               <div style="display: table"><h6 style="display: table-cell"> Bank Name : </h6> <input style="display: table-cell" ng-if="tableEdit" type="text" class="form-control-pos " ng-model="form.bankName"> <span style="display: table-cell" ng-if="!tableEdit"> {{form.bankName}}</span>
+               </div>
+               <div style="display: table"><h6 style="display: table-cell">  Account No : </h6> <input style="display: table-cell" ng-if="tableEdit" type="text" class="form-control-pos " ng-model="form.accNo"> <span style="display: table-cell" ng-if="!tableEdit"> {{form.accNo}}</span>
+               </div>
+               <div style="display: table"><h6 style="display: table-cell"> IFSC :</h6> <input style="display: table-cell" ng-if="tableEdit" type="text" class="form-control-pos " ng-model="form.ifsc"> <span style="display: table-cell" ng-if="!tableEdit"> {{form.ifsc}}</span>
+               </div>
+
+         <div class="row" ng-if="form.isInvoice&&form.pk" >
+           <div class="col-md-5" style="margin-top:30px">
+             <div class="form-group">
+               <label>Amount</label>
+               <input type="number" class="form-control" ng-model="data.amount" >
+             </div>
+           </div>
+          <div class="col-md-2" style="padding-top:25px;margin-top:30px">
+           <button class="btn btn-primary" ng-click="savePayment()"> Add </button>
+          </div>
+         </div>
+         <div class="row" style="background:white;" ng-if="form.isInvoice&&form.pk">
+           <div class="col-md-12">
+             <table class="invoiceTable" style=" width: 100%;" ng-if="form.isInvoice&&allTransactions.length>0">
+               <tbody>
+               <tr style="background-color: #eeeeee;height: 50px;">
+                 <th>Amount</th>
+                 <th>Date</th>
+                 <th>Status</th>
+                 <th>Ref ID</th>
+               </tr>
+               <tr ng-repeat="v in allTransactions track by $index">
+                 <td>{{v.amount}}</td>
+                 <td>{{v.date}}</td>
+                 <td>In Progress</td>
+                 <td></td>
+               </tr>
+             </tbody>
+           </table>
+           </div>
+           <!-- <div class=" col-md-4" ng-repeat="c in allTransactions" style="background:white;box-shadow:20px 20px 50px #eee, -30px -30px 60px #eee;padding:20px;min-height:100px;border-radius:20px;margin-bottom:20px;cursor:pointer">
+             <div class="row">
+               <div class=" col-md-12 ">
+                 <h3> <i class="fa fa-inr"> </i> {{c.amount | number : 2}} </h3>
+               </div>
+             </div>
+             <div class="row">
+               <div class=" col-md-6 "> {{c.dated | date}} </div>
+               <div class="col-md-6 text-right"> {{c.paymentMode}} </div>
+             </div>
+           </div> -->
+         </div>
+         </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

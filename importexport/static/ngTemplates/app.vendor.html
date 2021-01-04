@@ -1,0 +1,136 @@
+
+      <div class="container-fluid contactList" style="background:#FAFAFA;min-height:100vh;">
+        <div class="row" style="background:rgb(18, 46, 99);padding:15px;padding-top:20px;padding-bottom:20px;">
+          <div class="col-md-1">
+
+          </div>
+          <div class="col-md-3">
+            <ul class="nav navbar-nav navbar-left">
+              <li style="padding-bottom:1.5vh;margin-top:5px;">
+                <strong style="margin-left:-10px;color:white;font-size:20px;">BIND</strong>
+              </li>
+              <li style="margin-right:100px;margin-top:5px;">
+                <switch ng-model="formToggle.toggleMain"></switch>
+              </li>
+              <li style="padding-bottom:1.5vh;margin-top:5px;">
+                <strong style="margin-left:-90px;color:white;font-size:20px;">Trading</strong>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-8">
+            <div class="col-md-2 col-md-offset-2">
+              <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.importexport.newVendor')">New</button>
+            </div>
+            <div class="col-md-4">
+              <div class="input-group" style="background:#ffffff;border-radius:10px;">
+                <input type="text" class="form-control" ng-model="search.query" placeholder="Search by name" ng-enter="fetchData()" style="border:none !important;background:#ffffff;">
+                <div class="input-group-btn">
+                  <button class="btn btn-default" type="submit" ng-click="fetchData()" style="border:none !important;background:#ffffff;">
+                    <i class="glyphicon glyphicon-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="privious()">Prev</button>
+            </div>
+            <div class="col-md-2">
+              <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="next()">Next</button>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="background:rgb(18, 46, 99);color:white;padding-bottom:20px;padding:30px;">
+          <div class="col-md-4"> </div>
+          <div class="col-md-4 text-center">
+            <h3>Vendors</h3>
+          </div>
+          <div class="col-md-4"> </div>
+        </div>
+        <div class="row" style="margin-top:30px">
+          <div class="col-md-4" ng-repeat="data in allData" style="padding-bottom:20px;padding-left:10px;padding-top:10px;padding-right:10pxcursor:pointer">
+            <div class="container-fluid card" style="border: 2px solid green;">
+              <div class="row text-center" style="height:6vh;">
+                <div class="col-md-12" style="position:relative;display:block;">
+                  <div class="row" style="padding-left:10px;">
+                    <h3>{{data.name}}</h3>
+                  </div>
+                </div>
+              </div>
+              <div class="row container-fluid" style="padding-top:20px;height:12vh;">
+                <div class="col-md-12" style="z-index: 1;">
+                  <div class="row">
+                    <div class="col-md-5">
+                      <span style="font-size:12px;"><strong> Mobile </strong>:</span>
+                    </div>
+                    <div class="col-md-7">
+                      <span> {{data.mobile}}</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-5">
+                      <span style="font-size:12px;"><strong> GST: </strong>:</span>
+                    </div>
+                    <div class="col-md-7">
+                      <span> {{data.gst}}</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-5">
+                      <span style="font-size:12px;"><strong>Street: </strong>:</span>
+                    </div>
+                    <div class="col-md-7">
+                      <span>{{data.street}}</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-5">
+                      <span style="font-size:12px;"><strong>City: </strong>:</span>
+                    </div>
+                    <div class="col-md-7">
+                      <span>{{data.city}}</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-5">
+                      <span style="font-size:12px;"><strong>Pincode: </strong>:</span>
+                    </div>
+                    <div class="col-md-7">
+                      <span>{{data.pincode}}</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-5">
+                      <span style="font-size:12px;"><strong>state: </strong>:</span>
+                    </div>
+                    <div class="col-md-5">
+                      <span>{{data.state}}</span>
+                    </div>
+                    <div class="col-md-2">
+                      <span><span ng-click="$state.go('businessManagement.importexport.editVendor',{'id':data.pk})" class="pull-right" style="cursor:pointer;">
+                          <i class="fa fa-pencil fa-2x" style="margin-bottom:10px;"></i>
+                        </span></span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-5">
+                      <span style="font-size:12px;"><strong>Country: </strong>:</span>
+                    </div>
+                    <div class="col-md-5">
+                      <span>{{data.country}}</span>
+                    </div>
+                    <div class="col-md-2">
+                      <span> <span class="pull-right" style="cursor:pointer;" ng-click="$event.stopPropagation()" mwl-confirm title="Delete" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No"
+                          on-confirm="deleteVendor(data.pk)" confirm-button-type="default" cancel-button-type="default">
+                          <i class="fa fa-trash fa-2x"></i></span></span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 text-right">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>

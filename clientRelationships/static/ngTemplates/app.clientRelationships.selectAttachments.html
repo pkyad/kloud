@@ -1,0 +1,54 @@
+<div class="modal-body">
+  <div class="row" style="margin-top:20px;">
+    <div class="container-fluid">
+
+      <div class="row">
+        <h4 style="color:#eeeeee;margin-left:30px;" ng-if="added.length == 0">No Files Selected</h4>
+        <div ng-repeat="f in added" class="col-md-6">
+          <div class="container-fluid bg-blue" style="padding-right:0px;padding-top:5px;">
+            <i class="fa {{f.filename | fileTypeIcon}} fa-lg" style="margin-right:15px;"></i> {{f.filename}}
+            <button type="button" ng-click="remove($index)" class="btn btn-primary btn-sm pull-right">
+              <i class="fa fa-minus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <input ng-enter="fetchFiles()" type="text" class="form-control" ng-model="query" placeholder="Search template by title" style="margin-bottom:20px;" >
+      <div class="container-fluid" style="border:solid 2px #eeeeee;margin-bottom:10px;padding-right:0px;" ng-repeat="f in files">
+        <div class="row">
+          <div class="col-md-1" style="padding-top:10px;">
+            <i class="fa {{f.filename | fileTypeIcon}} fa-3x"></i>
+          </div>
+          <div class="col-md-9">
+            {{f.title}} <br>
+            <a href="{{f.attachment}}" target="_blank">{{f.filename}}</a> <br>
+            {{f.description}} <br>
+          </div>
+          <div class="col-md-2">
+            <button ng-click="add(f)" type="button" class="btn btn-default pull-right btn-sm">
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin:0px;">
+      <div class="container-fluid">
+        <button ng-click="prev()" type="button" class="btn btn-default">
+          Prev
+        </button>
+        <button ng-click="next()" type="button" class="btn btn-default">
+          Next
+        </button>
+        <button ng-click="close()" type="button" class="btn btn-primary pull-right">
+          Close
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
