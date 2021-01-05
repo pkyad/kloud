@@ -1637,17 +1637,16 @@ app.controller('businessManagement.clientRelationships.addProduct.modal', functi
 
   if (typeof contact != 'object') {
     $scope.form = {
-      'asset': '',
+      'productName': '',
       // 'addon' : '',
       'period': 'Quaterly',
       'contact': contact,
       'totalServices': 1,
       'serialNo': '',
-      'qty': 1,
+      'notes': '',
       'seperateAddress': false,
       'address': '',
       'pincode': '',
-      'serviceFor': '',
       'startDate': new Date()
     }
   } else {
@@ -1655,43 +1654,10 @@ app.controller('businessManagement.clientRelationships.addProduct.modal', functi
   }
 
   $scope.period = ['Yearly', 'Quaterly', 'Half Yearly']
-  $http({
-    method: 'GET',
-    url: '/api/finance/inventory/'
-  }).
-  then(function(response) {
-    $scope.allAssets = response.data
-    // $scope.allAddons = $scope.form.asset.addons
-    if ($scope.form.pk && $scope.form.inventory != null) {
-      for (var i = 0; i < $scope.allAssets.length; i++) {
-        if ($scope.allAssets[i].pk == $scope.form.inventory.pk) {
-          $scope.form.asset = $scope.allAssets[i]
-        }
-      }
-    } else {
-      $scope.form.asset = $scope.allAssets[0]
-    }
-  })
 
   $scope.changeAsset = function() {
     $scope.allAddons = $scope.form.asset.addons
   }
-
-  $scope.allApplications = []
-  $scope.getallApplications = function() {
-    $http({
-      method: 'GET',
-      url: '/api/ERP/getapplication/?statealias=false',
-    }).
-    then(function(response) {
-      $scope.allApplications = response.data
-      if ($scope.allApplications.length > 0) {
-        $scope.form.serviceFor = $scope.allApplications[0]
-      }
-
-    })
-  }
-  $scope.getallApplications()
 
   $scope.addProd = function() {
 
@@ -1708,7 +1674,7 @@ app.controller('businessManagement.clientRelationships.addProduct.modal', functi
       return
     }
     var dataToSend = {
-      asset: $scope.form.asset.pk,
+      productName: $scope.form.productName,
       period: $scope.form.period,
       contact: $scope.form.contact,
       totalServices: $scope.form.totalServices,

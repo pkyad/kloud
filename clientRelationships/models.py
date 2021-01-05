@@ -89,14 +89,6 @@ DEAL_STATE_CHOICES = (
     ('conclusion' , 'conclusion'),
 )
 
-RELATION_CHOICES = (
-    ('onetime' , 'onetime'),
-    ('request' , 'request'),
-    ('day' , 'day'),
-    ('hour' , 'hour'),
-    ('monthly' , 'monthly'),
-    ('yearly' , 'yearly')
-)
 
 RESULT_CHOICES = (
     ('na' , 'na'),
@@ -105,12 +97,6 @@ RESULT_CHOICES = (
 )
 
 
-
-BILLING_TYPE_CHOICES = (
-    ('fixed' , 'fixed'),
-    ('monthly' , 'monthly'),
-    ('hourly' , 'hourly')
-)
 
 class Deal(models.Model):
     user = models.ForeignKey(User , related_name = 'dealsCreated' , null = False) # the user created it
@@ -174,7 +160,7 @@ class Contract(models.Model): # invoices actually
     readDateAndTime = models.DateTimeField(null = True)
     termsAndCondition =  models.ForeignKey(CRMTermsAndConditions , null = True , related_name='termsandconditions', on_delete=models.SET_NULL)
 
-    identifier =  models.CharField(max_length = 100 , null = True)
+    identifier =  models.CharField(max_length = 100 , null = True) # we need to take it from UNIT code
 
     termsAndConditionTxts = models.TextField(max_length = 10000 , null = True, blank = True)
     discount = models.FloatField(default=0)
@@ -302,7 +288,55 @@ class ContractTracker(models.Model):
     termsAndConditionTxts = models.TextField(max_length = 10000 , null = True, blank = True)
     heading = models.CharField(max_length = 300 , null = True)
 
+TICKET_CHOICES = (
+    ('created' , 'created'),
+    ('assigned' , 'assigned'),
+    ('ongoing' , 'ongoing'),
+    ('completed' , 'completed'),
+    ('postponed' , 'postponed'),
+    ('cancelled' , 'cancelled'),
+)
+
+
+class RegisteredProducts(models.Model):
+    created = models.DateTimeField(auto_now_add = True)
+    contact = models.ForeignKey(Contact , related_name='products' , null = True)
+    productName = models.TextField(max_length=400 , null = False)
+    period = models.CharField(max_length=20 , null = False)
+    totalServices = models.PositiveIntegerField(default = 1)
+    serialNo = models.CharField(max_length=30 , null = False)
+    notes = models.TextField(max_length=500 , null = False)
+    seperateAddress = models.BooleanField(default=False)
+    installationAddress = models.TextField(max_length=300 , null = False)
+    pincode = models.CharField(max_length=20 , null = False)
+    city = models.CharField(max_length=20 , null = False)
+    state = models.CharField(max_length=20 , null = False)
+    country = models.CharField(max_length=20 , null = False)
+    startDate = models.DateField(null=True)
+
 
 class ServiceTicket(models.Model):
     created = models.DateTimeField(auto_now_add = True)
+    closedOn = models.DateTimeField(null=True)
     preferredTimeSlot = models.CharField(max_length=20 , null = True)
+    preferredDate = models.DateField(null = True)
+    referenceContact = models.ForeignKey(Contact , related_name='tickets' , null = True)
+    referenceAMC = models.ForeignKey(RegisteredProducts , related_name='tickets' , null = True)
+    name = models.CharField(max_length=150 , null= True)
+    phone = models.CharField(max_length=150 , null= True)
+    email = models.CharField(max_length=150 , null= True)
+    productName = models.CharField(max_length=150 , null= True)
+    productSerial = models.CharField(max_length=150 , null= True)
+    warrantyStatus = models.CharField(max_length=150 , null= True)
+    notes = models.TextField(max_length=850 , null= True)
+    address = models.TextField(max_length=550 , null= True)
+    pincode = models.CharField(max_length=150 , null= True)
+    city = models.CharField(max_length=150 , null= True)
+    state = models.CharField(max_length=150 , null= True)
+    country = models.CharField(max_length=150 , null= True)
+    requireOnSiteVisit = models.BooleanField(default=False)
+    engineer = models.ForeignKey(User , related_name='tickets' , null = True)
+    status = models.CharField(max_length=50 , default='created' , choices=TICKET_CHOICES)
+    postponeCount = models.PositiveIntegerField(default = 0)
+    engineersNotes = models.TextField(max_length=850 , null= True)
+

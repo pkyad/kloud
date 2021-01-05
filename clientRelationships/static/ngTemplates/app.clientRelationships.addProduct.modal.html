@@ -12,8 +12,11 @@
   <div class="col-md-12">
     <h3>{{form.pk?'Edit':'Add'}} Product </h3>
     <div class="form-group">
-      <select class="form-control" ng-model="form.asset"  ng-options="p.name  for p in allAssets" style="height: 40px;border: none;border-radius: 10px;margin-top:15px;margin-bottom:30px;font-size:20px;" ng-change="changeAsset()">
-      </select>
+      <input type="text" class="form-control" ng-model="form.productName" placeholder="Name of the product with model number etc.." style="padding: 29px;border: none;border-radius: 10px;margin-top:15px;margin-bottom:30px;font-size:20px;">
+    </div>
+    <div class="form-group">
+      <label>Serial Number ( Optional ) </label>
+      <input type="text" class="form-control" ng-model="form.serialNo" placeholder="Serial Number" style="padding: 29px;border: none;border-radius: 10px;margin-top:15px;margin-bottom:30px;font-size:20px;">
     </div>
     <div class="form-group">
       <label>Maintance Schedule ( Select one of the options from dropdown ) </label>
@@ -33,18 +36,10 @@
         </span>
     </div>
     </div>
+    
     <div class="form-group">
-      <label>Serial Number</label>
-      <input type="text" class="form-control" ng-model="form.serialNo" placeholder="Serial Number" style="padding: 29px;border: none;border-radius: 10px;margin-top:15px;margin-bottom:30px;font-size:20px;">
-    </div>
-    <div class="form-group">
-      <label>Age of the item</label>
-      <input type="text" class="form-control" ng-model="form.qty" placeholder="in Years" style="padding: 29px;border: none;border-radius: 10px;margin-top:15px;margin-bottom:30px;font-size:20px;">
-    </div>
-    <div class="form-group" >
-      <label>Service </label>
-      <select class="form-control journalBtn" ng-model="form.serviceFor" ng-options="p.displayName for p in allApplications" >
-      </select>
+      <label>Notes</label>
+      <input type="text" class="form-control" ng-model="form.notes" style="padding: 29px;border: none;border-radius: 10px;margin-top:15px;margin-bottom:30px;font-size:20px;">
     </div>
     <div class="form-group">
       <label>Separate Address ? ( check this box if the installation is not at the customer's billing address )</label>
