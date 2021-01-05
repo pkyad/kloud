@@ -4377,6 +4377,16 @@ def addPageNumbertoBrochure(self,doc):
         width = 1.25*inch
         he = 1*inch
         self.drawImage(limg,15*mm,10*inch ,width=width, height=(he * aspect),mask='auto')
+
+    # try:
+    waterMark = utils.ImageReader(os.path.join(globalSettings.BASE_DIR,'media_root','org', 'LOGO', '1609852182_17_epsilonai_logo_dark.png'))
+    waterMark.hAlign ="CENTER"
+    iw, ih = waterMark.getSize()
+    aspect = ih / float(iw)
+    self.drawImage(waterMark,0*mm,0*inch,width=22*cm,height=11*inch,mask='auto')
+    # except:
+        # pass
+
     p = Paragraph("<para fontSize=9  alignment='center'><b>%s</b><br/></para>"%(doc.user.designation.division.name),styles['Normal'])
     p.wrapOn(self ,75*mm,10.25*inch)
     p.drawOn(self ,75*mm,10.25*inch)
@@ -4485,6 +4495,18 @@ def proCatalog(response, request):
         elements.append(dataTabl)
         products= []
 
+    # img = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'images', 'CatalogFront.png')
+    # drawing = svg2rlg(img)
+    # imgD = Image(img, 30, 30, hAlign='CENTER')
+
+    data1=[['']]
+    # rheights=1*[1.1*inch]
+    # cwidths=2*[0.8*inch]
+    # cwidths[1]=7*inch
+    t1=Table(data1)
+    elements.append(t1)
+
+
     doc.build(elements,onFirstPage= addPageNumbertoBrochure,canvasmaker=PageNumCanvas)
 
 
@@ -4495,9 +4517,9 @@ class ProductsCatalogAPI(APIView):
         response['Content-Disposition'] = 'attachment; filename="Catalog.pdf"'
 
         proCatalog(response, request)
-        f = open(os.path.join(globalSettings.BASE_DIR, 'media_root/Catalog.pdf'), 'wb')
-        f.write(response.content)
-        f.close()
+        # f = open(os.path.join(globalSettings.BASE_DIR, 'media_root/Catalog.pdf'), 'wb')
+        # f.write(response.content)
+        # f.close()
 
         return response
 

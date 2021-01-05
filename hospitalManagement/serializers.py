@@ -10,7 +10,7 @@ import datetime
 class PatientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
-        fields = ('pk' ,'created', 'firstName','lastName','dateOfBirth','gender','uniqueId','email','phoneNo','emergencyContact1','emergencyContact2','street','city','pin','state','country' , 'age' )
+        fields = ('pk' ,'created', 'firstName','lastName','dateOfBirth','gender','uniqueId','email','phoneNo','emergencyContact1','emergencyContact2','street','city','pin','state','country' , 'age', 'division' )
 
     def create(self , validated_data):
         print '****************************'
@@ -18,8 +18,8 @@ class PatientSerializer(serializers.ModelSerializer):
         p = Patient(**validated_data)
         p.save()
         p.uniqueId = str(p.pk).zfill(5)
+        p.division = self.context['request'].user.designation.division
         p.save()
-
 
         requests.get("https://cioc.in/api/ERP/contacts/?name=" + p.firstName + "&email="+ str(p.email) + "&mobile=" + str(p.phoneNo) + "&age=" + str(p.age) + "&pincode=" + str(p.pin) )
 
@@ -31,11 +31,25 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ('pk' , 'name','rate')
+    def create(self , validated_data):
+        p = Product(**validated_data)
+        p.save()
+        p.division = self.context['request'].user.designation.division
+        p.save()
+        return p
+
 
 class DoctorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Doctor
         fields = ('pk' , 'name','department', 'education' , 'mobile')
+    def create(self , validated_data):
+        d = Doctor(**validated_data)
+        d.save()
+        d.division = self.context['request'].user.designation.division
+        d.save()
+        return d
+
 
 class ActivePatientSerializer(serializers.ModelSerializer):
     patient = PatientSerializer(many=False , read_only=True)

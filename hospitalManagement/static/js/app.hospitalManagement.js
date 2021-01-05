@@ -131,7 +131,7 @@ app.controller("businessManagement.hospitalManagement", function($scope, $rootSc
       url: url
     }).
     then(function(response) {
-      $scope.allData = response.data.results/api/hospitalManagement/patient
+      $scope.allData = response.data.results
       $scope.count = response.data.count
     })
   }
@@ -147,7 +147,7 @@ app.controller("businessManagement.patient.explore", function($scope, $rootScope
     url: '/api/hospitalManagement/patient/' + $stateParams.id + '/'
   }).
   then(function(response) {
-    Flash.create("", "immmmmmmm")
+    // Flash.create("", "immmmmmmm")
     $scope.patient = response.data
   })
 
@@ -185,16 +185,39 @@ app.controller("businessManagement.hospitalManagement.form", function($scope, $r
       phoneNo: '',
       age: '',
       street: '',
-      city: 'Bangalore',
+      city: '',
       pin: '',
-      state: 'Karnataka',
-      country: 'India'
+      state: '',
+      country: ''
     };
   }
   $scope.formRefresh();
 
+  console.log($scope.newPatient.pin);
+
+  $scope.$watch('newPatient.pin', function(newValue, oldValue) {
+    if (newValue.toString().length == 6) {
+      $http({
+        method: 'GET',
+        url: '/api/ERP/genericPincode/?pincode=' + $scope.newPatient.pin
+      }).
+      then(function(response) {
+        console.log(response);
+        if (response.data.length > 0) {
+          $scope.newPatient.city = response.data[0].city;
+          $scope.newPatient.state = response.data[0].state;
+          $scope.newPatient.country = response.data[0].country;
+        }
+      })
+    } else {
+      $scope.newPatient.city = ''
+      $scope.newPatient.state = ''
+      $scope.newPatient.country = ''
+    }
+  })
+
+
   if ($state.is('businessManagement.hospitalManagement.editpatient')) {
-    console.log($stateParams.id, "oiiiiiiiiiiiiiiiddddddddddddddd");
 
     $http({
       method: 'GET',
@@ -234,8 +257,11 @@ app.controller("businessManagement.hospitalManagement.form", function($scope, $r
     }
 
     if ($scope.newPatient.pin == '') {
-      delete $scope.newPatient.pin
+      // delete $scope.newPatient.pin
+      Flash.create('warning', 'Please enter pincode');
+      return
     }
+
 
     $http({
       method: 'POST',
@@ -245,6 +271,7 @@ app.controller("businessManagement.hospitalManagement.form", function($scope, $r
     then(function(response) {
       Flash.create('success', response.status + ' : ' + response.statusText);
       $scope.formRefresh()
+      $scope.fetchData()
     }, function(response) {
       Flash.create('danger', response.status + ' : ' + response.statusText);
     });
@@ -263,7 +290,7 @@ app.controller('businessManagement.activePatient.explore', function($scope, $htt
   $http({
 
     method: 'GET',
-    url: '/api/hospitalManagement/activePatient/' + $stateParams.id + '/'
+    url: '/api/hospitalManagement/activePatient/' + $stateParams.id + '/',
   }).
   then(function(response) {
     $scope.data = response.data
@@ -275,7 +302,7 @@ app.controller('businessManagement.activePatient.explore', function($scope, $htt
 
       $http({
         method: 'PATCH',
-        url: '/api/hospitalManagement/activePatient/' + $stateParams.id + '/',
+        url: '/api/hospitalManagement/activePatient/' + $stateParams.id + '/' + '?division=' +  $scope.me.designation.division,
         data: {
           msg: $scope.data.msg
         }
@@ -362,6 +389,7 @@ app.controller('businessManagement.activePatient.explore', function($scope, $htt
   $timeout(function() {
     $scope.$watch('dischargeSummForm.patient.dateOfDischarge', function(newValue, oldValue) {
 
+      console.log(newValue);
       if (newValue == '' || newValue == undefined) {
         $scope.dischargeSummForm.patient.dateOfDischarge = new Date();
       } else {
@@ -372,7 +400,7 @@ app.controller('businessManagement.activePatient.explore', function($scope, $htt
 
       $http({
         method: 'PATCH',
-        url: '/api/hospitalManagement/activePatient/' + $scope.data.pk + '/',
+        url: '/api/hospitalManagement/activePatient/' + $scope.data.pk + '/' + '?division=' +  $scope.me.designation.division,
         data: {
           status: 'dishcharged',
           dateOfDischarge: newValue
@@ -579,6 +607,7 @@ app.controller('businessManagement.activePatient.explore', function($scope, $htt
   }
 
   $scope.openDischargeSummary = function(pk) {
+    console.log(pk);
     $scope.saveDischargeSumm()
     $timeout(function() {
       window.open('/api/hospitalManagement/downloaddischargeSummary/?pPk=' + pk, '_blank');
@@ -903,8 +932,6 @@ app.controller("businessManagement.activePatients.form", function($scope, $rootS
       return
     }
 
-
-
     dataToSend = {
       patient: $scope.activePatientsForm.patient.pk,
       inTime: $scope.activePatientsForm.inTime,
@@ -953,7 +980,6 @@ app.controller("businessManagement.activePatients.form", function($scope, $rootS
     }).
     then(function(response) {
       $scope.activePatientsForm = response.data
-      console.log($scope.newPatient);
     })
 
     $scope.editinPatient = function() {
@@ -967,6 +993,8 @@ app.controller("businessManagement.activePatients.form", function($scope, $rootS
         status: $scope.activePatientsForm.status,
       };
       Flash.create('success', 'Updated');
+
+
       $http({
         method: 'PATCH',
         url: '/api/hospitalManagement/activePatient/' + $stateParams.id + '/',
@@ -974,7 +1002,6 @@ app.controller("businessManagement.activePatients.form", function($scope, $rootS
       }).
       then(function(response) {
         Flash.create('success', 'Updated');
-        console.log('dataaaa', response.data);
       })
     }
   } else {
@@ -1049,10 +1076,11 @@ app.controller('businessManagement.outPatient.explore', function($scope, $http, 
   console.log('coming in explooreeee');
 
   $scope.invoices = [];
-  $http({
+  console.log('yyyyyyyyyyyyyy');
 
+  $http({
     method: 'GET',
-    url: '/api/hospitalManagement/activePatient/' + $stateParams.id + '/'
+    url: '/api/hospitalManagement/activePatient/' + $stateParams.id + '/' + '?outPatient=true'
   }).
   then(function(response) {
     $scope.data = response.data
@@ -1377,6 +1405,7 @@ app.controller("businessManagement.outPatient", function($scope, $rootScope, $st
 
 app.controller('businessManagement.outPatient.form', function($scope, $http, $aside, $state, Flash, $users, $filter, $timeout, $uibModal, $stateParams) {
 
+
   $scope.patientSearch = function(query) {
     return $http.get('/api/hospitalManagement/patient/?firstName__contains=' + query).
     then(function(response) {
@@ -1595,11 +1624,11 @@ app.controller('businessManagement.outPatient.form', function($scope, $http, $as
 
 
   if ($state.is('businessManagement.hospitalManagement.editoutpatient')) {
-    console.log($stateParams.id, "oiiiiiiiiiiiiiiiddddddddddddddd");
 
+    console.log($scope.me.designation.division, $stateParams.id);
     $http({
       method: 'GET',
-      url: '/api/hospitalManagement/activePatient/' + $stateParams.id + '/'
+      url: '/api/hospitalManagement/activePatient/' + $stateParams.id + '/' + '?outPatient=true'
     }).
     then(function(response) {
       $scope.activePatientsForm = response.data
@@ -1616,7 +1645,7 @@ app.controller('businessManagement.outPatient.form', function($scope, $http, $as
       };
       $http({
         method: 'PATCH',
-        url: '/api/hospitalManagement/activePatient/' + $stateParams.id + '/',
+        url: '/api/hospitalManagement/activePatient/' + $stateParams.id + '/' + '?outPatient=true',
         data: dataToSend,
       }).
       then(function(response) {
@@ -1668,11 +1697,11 @@ app.controller("businessManagement.hospitalManagement.servicesOffered", function
 
 app.controller("businessManagement.services.form", function($scope, $rootScope, $state, $users, $stateParams, $http, Flash, $uibModal) {
 
-
   $scope.productForm = {
     name: '',
     rate: ''
   }
+
   $scope.save = function() {
 
     $http({
@@ -1745,6 +1774,7 @@ app.controller("businessManagement.hospitalManagement.doctors", function($scope,
     query: ''
   }
   $scope.fetchData = function() {
+
     let url = '/api/hospitalManagement/doctor/?limit=' + $scope.limit + '&offset=' + $scope.offset
     if ($scope.search.query.length > 0) {
       url = url + '&name=' + $scope.search.query

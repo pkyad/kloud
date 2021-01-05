@@ -50,14 +50,15 @@ class PatientViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, )
     serializer_class = PatientSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['uniqueId', 'firstName']
+    filter_fields = ['uniqueId', 'firstName', 'division']
     def get_queryset(self):
+        division = self.request.user.designation.division.pk
+        patientObjs = Patient.objects.filter(division = division)
         if 'name' in self.request.GET:
-            queryset = Patient.objects.filter(firstName__icontains = str(self.request.GET['name']))
+            queryset = patientObjs.filter(firstName__icontains = str(self.request.GET['name']))
             return queryset
-
         else:
-            queryset = Patient.objects.all()
+            queryset = patientObjs
             return queryset
 
 
@@ -65,23 +66,29 @@ class DoctorViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, )
     serializer_class = DoctorSerializer
     filter_backends = [DjangoFilterBackend]
+    filter_fields = ['name', 'division']
     def get_queryset(self):
+        division = self.request.user.designation.division.pk
+        doctorObjs = Doctor.objects.filter(division = division)
         if 'name' in self.request.GET:
-            queryset = Doctor.objects.filter(name__icontains = str(self.request.GET['name']))
+            queryset = doctorObjs.filter(name__icontains = str(self.request.GET['name']))
             return queryset
         else:
-            return Doctor.objects.all()
+            return doctorObjs
 
 
 class ProductViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, )
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend]
+    filter_fields = ['division']
     def get_queryset(self):
+        division = self.request.user.designation.division.pk
+        productObjs = Product.objects.filter(division = division)
         if 'name' in self.request.GET:
-            return Product.objects.filter(name__icontains = str(self.request.GET['name']))
+            return productObjs.filter(name__icontains = str(self.request.GET['name']))
         else:
-            return Product.objects.all()
+            return productObjs
 
 class DishchargeSummaryViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, )
@@ -110,13 +117,14 @@ class ActivePatientViewSet(viewsets.ModelViewSet):
     filter_fields = ['patient' , 'status']
 
     def get_queryset(self):
+        division = self.request.user.designation.division
         if 'all' in self.request.GET:
             return ActivePatient.objects.order_by('-created')
         if 'name' in self.request.GET:
              queryset = ActivePatient.objects.filter(patient__firstName__icontains = str(self.request.GET['name'])).order_by('-created')
              return queryset
         else:
-            qs = ActivePatient.objects.filter( ~Q(status = 'settled') , outPatient = ('outPatient' in self.request.GET and self.request.GET['outPatient'] == 'true' )).order_by('-created')
+            qs = ActivePatient.objects.filter( ~Q(status = 'settled') , patient__division = division, outPatient = ('outPatient' in self.request.GET and self.request.GET['outPatient'] == 'true')).order_by('-created')
             return qs
 
 class PageNumCanvas(canvas.Canvas):
@@ -156,7 +164,7 @@ class PageNumCanvas(canvas.Canvas):
         p.wrapOn(self , 50*mm , 10*mm)
         p.drawOn(self , 95*mm , 5*mm)
 
-def invoice(response,inv):
+def invoice(request, response,inv):
     print '999999999999999999999999999999999999999'
     now = datetime.datetime.now()
     aprilFst_20 = datetime.date(2020,04,01)
@@ -208,14 +216,20 @@ def invoice(response,inv):
     styles = getSampleStyleSheet()
     doc = SimpleDocTemplate(response,pagesize=letter, topMargin=0.5*cm,leftMargin=0.1*cm,rightMargin=0.1*cm)
     elements = []
-    logo = os.path.join(globalSettings.BASE_DIR , 'static_shared','images' , 'hospital_logo.png')
-    im = Image(logo,height=1*inch ,width=0.6*inch)
+
+    divisionLogo = inv.activePatient.patient.division.logo
+    logo = os.path.join(globalSettings.MEDIA_ROOT , str(divisionLogo))
+    f = open(logo, 'rb')
+    im = Image(f,height=1*inch ,width=0.6*inch)
+    unitObj = request.user.designation.unit
 
     p1=[
-       Paragraph("<para fontSize=30 alignment='center' leading=25 textColor=darkblue><b> CHAITANYA HOSPITAL </b></para>",styles['Normal']),
-       Paragraph("<para fontSize=11  spaceBefore=12 leftIndent=5 textColor=darkblue># 80, 3rd Cross, P & T Colony, R. T. Nagar, Bangalore - 560 032. Ph : 2333 3581, Fax : 2343 2633</para>",styles['Normal']),
-       Paragraph("<para fontSize=11 alignment='left'  leftIndent=5 textColor=darkblue><strong>Reg. No. 711 / 95-96 </strong></para>",styles['Normal']),
+       Paragraph("<para fontSize=30 alignment='center' leading=25 textColor=darkblue><b>{0}</b></para>".format(unitObj.name), styles['Normal']),
+       Paragraph("<para fontSize=11 alignment='center' textColor=darkblue>{0}</para>".format(unitObj.address),styles['Normal']),
+       Paragraph("<para fontSize=11 alignment='center' leftIndent=5 textColor=darkblue><strong>{0} </strong></para>".format(unitObj.mobile),styles['Normal']),
+       Paragraph("<para fontSize=11 alignment='center' leftIndent=5 textColor=darkblue><strong>{0} </strong></para>".format(unitObj.areaCode),styles['Normal']),
        ]
+
 
     data1=[[im,p1]]
     rheights=1*[1.1*inch]
@@ -277,14 +291,15 @@ def invoice(response,inv):
         elements.append(Paragraph("<para fontSize=10 alignment='right' rightIndent=70><b> Amount recieved : {0} </b></para>".format(total-inv.discount),styles['Normal']))
         elements.append(Paragraph("<para fontSize=10 alignment='right' rightIndent=70><b> Discount Amount / Due amount: {0} </b></para>".format(inv.discount),styles['Normal']))
     elements.append(Spacer(1, 30))
-    elements.append(Paragraph("<para fontSize=10 alignment='right' leading=15 rightIndent=50> FOR CHAITANYA HOSPITAL </para>",styles['Normal']))
+    # elements.append(Paragraph("<para fontSize=10 alignment='right' leading=15 rightIndent=50> FOR CHAITANYA HOSPITAL </para>",styles['Normal']))
     elements.append(Paragraph("<para fontSize=10 alignment='right' rightIndent=50> {0} </para>".format(inv.activePatient.msg),styles['Normal']))
 
     doc.build(elements)
 
 def dischargeSummary(response,dis):
     print '77777777777777777'
-    now = datetime.datetime.now() + timedelta(hours=5,minutes=30)
+    # now = datetime.datetime.now() + timedelta(hours=5,minutes=30)
+    now = datetime.datetime.now()
     styles = getSampleStyleSheet()
     doc = SimpleDocTemplate(response,pagesize=letter, topMargin=5*cm,leftMargin=0.1*cm,rightMargin=0.1*cm,bottomMargin=1*cm)
     elements = []
@@ -300,7 +315,7 @@ def dischargeSummary(response,dis):
 
     dd = str(dis.patient.dateOfDischarge).split('.')[0]
 
-    dd = defaultfilters.date(dis.patient.dateOfDischarge + timedelta(hours=5,minutes=30), "d-m-Y , h:i A")
+    dd = defaultfilters.date(dis.patient.dateOfDischarge, "d-m-Y , h:i A")
 
     d = defaultfilters.date(now, "d-m-Y , h:i A")
     if dis.patient.docName:
@@ -433,7 +448,7 @@ def dischargeSummary(response,dis):
     t2.setStyle(TableStyle([('TEXTFONT', (0, 0), (-1, -1), 'Times-Bold'),('TEXTCOLOR',(0,0),(-1,-1),black),('ALIGN',(0,0),(-1,-1),'LEFT'),('VALIGN',(0,0),(-1,-1),'TOP'),]))
     elements.append(t2)
     elements.append(Spacer(1,6))
-    data3 = [['Treating Consultant /\nAuthorized Team Doctor','Name',docname.upper(),''],['','Signature','',''],['Date&Time : '+dt,'Reg. No.: ',regno,'Contact No. : '+str(docMob)],['Patient / Attendant','Name',pname.upper(),''],['','Signature','',''],]
+    data3 = [['Treating Consultant /\nAuthorized Team Doctor','Name',docname.upper(),''],['','Signature','',''],['Date & Time : '+dt,'Reg. No.: ',regno,'Contact No. : '+str(docMob)],['Patient / Attendant','Name',pname.upper(),''],['','Signature','',''],]
     rheights=5*[0.3*inch]
     cwidths=[2.2*inch , 0.7*inch , 2.8*inch , 2*inch]
     t3=Table(data3,rowHeights=rheights,colWidths=cwidths)
@@ -450,7 +465,7 @@ class InvoiceSlip(APIView):
         inv = Invoice.objects.get(pk = request.GET['invoicePk'])
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment;filename="invoice.pdf"'
-        invoice(response,inv)
+        invoice(request, response,inv)
         return response
 
 class DischargeSummarys(APIView):
@@ -465,11 +480,12 @@ class DischargeSummarys(APIView):
 
 class GetReports(APIView):
     def get(self , request , format = None):
-        print 'reportssssssssssssssssss'
+        print 'reportssssssssssssssssss', request.GET
         start = request.GET['start']
         end = request.GET['end']
-        print start,end
-        Records =list( Invoice.objects.filter(created__range=(start,end)).values('pk','invoiceName','grandTotal','activePatient__outPatient','activePatient__patient__firstName','activePatient__dischargeSummary__ipNo','activePatient__opNo'))
+        division = request.user.designation.division.pk
+        print start,end, division, '000000000000000000000000000'
+        Records =list( Invoice.objects.filter(created__range=(start,end), activePatient__patient__division=division).values('pk','invoiceName','grandTotal','activePatient__outPatient','activePatient__patient__firstName','activePatient__dischargeSummary__ipNo','activePatient__opNo'))
         twoDigitsYear = str(datetime.date.today().year)[2:]
         aprilFst_20 = datetime.date(2020,04,01)
         for i in Records:

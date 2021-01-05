@@ -281,7 +281,7 @@ class Unit(models.Model):
     pincode = models.CharField(max_length = 15 , null = True , blank = True)
     l1 = models.CharField(max_length = 200 , null = True)
     l2 = models.CharField(max_length = 200 , null = True)
-    mobile = models.CharField(null=True , max_length=15)
+    mobile = models.CharField(null=True , max_length=150)
     telephone = models.CharField(null=True , max_length=15)
     email = models.CharField(null=True , max_length=100)
     division = models.ForeignKey(Division , null = True , related_name = "units")
