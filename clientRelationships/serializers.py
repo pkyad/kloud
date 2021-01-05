@@ -280,3 +280,27 @@ class ContractTrackerSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContractTracker
         fields = ('pk'  ,'created', 'grandTotal' , 'contract' , 'data' , 'discount' , 'termsAndConditionTxts' , 'heading')
+
+class RegisteredProductsSerializer(serializers.ModelSerializer):
+    completedServices = serializers.SerializerMethodField()
+    class Meta:
+        model = RegisteredProducts
+        fields = ('pk'  ,'productName', 'period' , 'totalServices' , 'installationAddress' , 'pincode' , 'city' , 'state' , 'country' , 'startDate','completedServices')
+    def get_completedServices(self , obj):
+        count = obj.tickets.filter(status = 'completed').count()
+        return count
+
+
+class ServiceTicketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ServiceTicket
+        fields = ('pk'  ,'name' , 'phone' , 'email' , 'productName' , 'productSerial' , 'notes' , 'address' , 'pincode', 'city' , 'state' , 'country' , 'requireOnSiteVisit','referenceContact','preferredDate','preferredTimeSlot')
+    def create(self , validated_data):
+        t = ServiceTicket(**validated_data)
+        t.division = self.context['request'].user.designation.division
+        t.save()
+        if t.referenceContact == None:
+            contactObj = Contact.objects.create(user = self.context['request'].user, name = t.name, mobile = t.phone, email = t.email, street = t.address , pincode = t.pincode , state = t.state, country = t.country )
+            t.referenceContact = contactObj
+            t.save()
+        return t

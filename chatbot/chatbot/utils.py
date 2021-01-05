@@ -95,7 +95,7 @@ def numerize(val, scale = 1):
     else:
         negative = False
     val = non_decimal.sub('', str(val))
-    
+
     if '(' in val or negative:
         # print "in if"
         val = val.replace('(' , '').replace(')', '').replace('%','').replace(',', '')

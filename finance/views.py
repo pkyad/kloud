@@ -375,9 +375,9 @@ class CategoryViewSet(viewsets.ModelViewSet):
         divsn = self.request.user.designation.division
         return Category.objects.filter(division = divsn)
 
-class InventoryViewSet(viewsets.ModelViewSet):
+class RateListViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny ,)
-    serializer_class = InventorySerializer
+    serializer_class = RateListSerializer
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['sellable','category','name']
     def get_queryset(self):
@@ -634,7 +634,7 @@ class GetInventoryAPI(APIView):
             invObj = Inventory.objects.filter(pk__in = invObjPks)
             if 'search' in params:
                 invObj = invObj.filter(Q(name__icontains = params['search'])|Q(sku__icontains = params['search']))
-            data = InventorySerializer(invObj[offset:limit], many = True).data
+            data = RateListSerializer(invObj[offset:limit], many = True).data
         return Response(data, status=status.HTTP_200_OK)
 
 class ExpensesGraphDataAPI(APIView):

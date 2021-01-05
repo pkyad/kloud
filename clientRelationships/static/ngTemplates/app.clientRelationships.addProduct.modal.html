@@ -36,7 +36,7 @@
         </span>
     </div>
     </div>
-    
+
     <div class="form-group">
       <label>Notes</label>
       <input type="text" class="form-control" ng-model="form.notes" style="padding: 29px;border: none;border-radius: 10px;margin-top:15px;margin-bottom:30px;font-size:20px;">
@@ -51,7 +51,8 @@
     </div>
     <div class="form-group" ng-if="form.seperateAddress">
       <label>Pincode </label>
-    <input type="text" class="form-control" ng-model="form.pincode" placeholder="Pincode" style="padding: 29px;border: none;border-radius: 10px;margin-top:15px;margin-bottom:30px;font-size:20px;">
+    <input type="text" class="form-control" ng-model="form.pincode" placeholder="Pincode" style="padding: 29px;border: none;border-radius: 10px;margin-top:15px;margin-bottom:20px;font-size:20px;" uib-typeahead="pin as pin.pincode for pin in pinSearch($viewValue)">
+    {{form.pincode.city}} {{form.pincode.state}} - {{form.pincode.country}}
     </div>
 
     <!-- <div class="form-group">

@@ -352,18 +352,18 @@
               <thead>
                 <tr style="background:#f2f2f2;padding:10px;">
                   <th>Product Name</th>
-                  <th>Age</th>
-                  <th>Product SKU</th>
-                  <th>Product SL</th>
+                  <th>Schedule Period</th>
+                  <th>Total Services</th>
+                  <th>Completed Services</th>
                 </tr>
               </thead>
 
               <tbody class="hilighted">
                 <tr ng-repeat="p in products" ng-click="editAMCProduct(p)">
-                  <td class="contentTd" >{{p.inventory.name}}</td>
-                  <td class="contentTd"> {{p.qty}} </td>
-                  <td class="contentTd" > {{p.inventory.sku}}</td>
-                  <td class="contentTd">{{p.serialNo}}</td>
+                  <td class="contentTd" > <p> {{p.productName}}</p> <p> {{p.serialNo}} </p> </td>
+                  <td class="contentTd"> {{p.period}} </td>
+                  <td class="contentTd" > {{p.totalServices}}</td>
+                  <td class="contentTd">{{p.completedServices}}</td>
                 </tr>
               </tbody>
 

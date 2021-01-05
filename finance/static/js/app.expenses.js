@@ -1512,7 +1512,7 @@ app.controller('businessManagement.finance.inboundInvoices.form', function($scop
   };
 
   $scope.productMetaSearch = function(query) {
-    return $http.get('/api/ERP/productMeta/?code__contains=' + query).
+    return $http.get('/api/ERP/productMeta/?search=' + query).
     then(function(response) {
       return response.data;
     })
@@ -2020,7 +2020,7 @@ $scope.productSearch = function(query) {
 };
 
 $scope.productMetaSearch = function(query) {
-  return $http.get('/api/ERP/productMeta/?code__contains=' + query).
+  return $http.get('/api/ERP/productMeta/?search=' + query).
   then(function(response) {
     return response.data;
   })

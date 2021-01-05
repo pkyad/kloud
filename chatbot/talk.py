@@ -88,7 +88,7 @@ def executeExternalRPACall(config , ctx):
             robotIDs = [json.loads(config.uipathRobot)['Id']]
         except:
             sendError('You have not selected the process and robot in Invoke UiPath Process. Click here to select' , 'CONFIG' , ctx['uid'] )
-            
+
         print "Running on a perticular machine...........\n\n"
         releaseKey = ReleasekeyGet(value , config.uipathProcess , custProfile.uipathTenent ,  custProfile.uipathUrl , custProfile.uipathOrgId )
         PARAMS = {"startInfo":{"ReleaseKey":releaseKey,"Strategy":"Specific","RobotIds":robotIDs,"NoOfRobots":0,"Source":"Manual"}}

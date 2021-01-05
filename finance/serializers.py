@@ -594,13 +594,12 @@ class CategorySerializer(serializers.ModelSerializer):
         cat.save()
         return cat
 
-class InventorySerializer(serializers.ModelSerializer):
-    total = serializers.SerializerMethodField()
-    totalRef = serializers.SerializerMethodField()
-    totalCheckinQty = serializers.SerializerMethodField()
+print Inventory
+class RateListSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Inventory
-        fields=('pk','created','name','value','rate','total','qtyAdded','refurnished','refurnishedAdded','totalRef','sellable','description','richtxtDesc','taxCode','img1','img2','img3','category','division','buyingPrice','sku','totalCheckinQty','taxRate','mrp')
+        fields=('pk','created','name','value','rate','qtyAdded','refurnished','refurnishedAdded','sellable','description','richtxtDesc','taxCode','img1','img2','img3','category','division','buyingPrice','sku','taxRate','mrp')
     def create(self , validated_data):
         inven = Inventory(**validated_data)
         try:
@@ -621,16 +620,9 @@ class InventorySerializer(serializers.ModelSerializer):
             instance.qtyAdded = self.context['request'].data['value']
         instance.save()
         return instance
-    def get_total(self , obj):
-        return obj.qtyAdded
-    def get_totalRef(self , obj):
-        return obj.refurnishedAdded
-    def get_totalCheckinQty(self , obj):
-        objDataCount = Checkin.objects.filter(inventory=obj.pk, checkout = False).count()
-        return objDataCount
 
 class InventoryLogSerializer(serializers.ModelSerializer):
-    inventory = InventorySerializer(many = False , read_only = True)
+    inventory = RateListSerializer(many = False , read_only = True)
     class Meta:
         model = InventoryLog
         fields=('pk','created','inventory','user','value','refurnished','division')

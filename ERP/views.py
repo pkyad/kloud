@@ -81,9 +81,10 @@ def loginView(request):
             d = json.loads(str(request.body))
         except:
             d = request.POST
+
         if 'mobile' in d:
             try:
-                usernameOrEmail = User.objects.filter(profile__mobile = d['mobile']).first().user.username
+                usernameOrEmail = User.objects.filter(profile__mobile = d['mobile']).first().username
             except:
                 reg = Registration.objects.filter(mobile = request.POST['mobile'], mobileOTP = request.POST['otp'])
                 if len(reg)>0:
@@ -1179,8 +1180,8 @@ class ProductMetaViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     serializer_class = ProductMetaSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['description', 'code','typ','taxRate']
-
+    filter_fields = ['description', 'code']
+    search_fields = ('description', 'code')
     def get_queryset(self):
         toReturn = ProductMeta.objects.all()
         if 'search' in self.request.GET:

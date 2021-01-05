@@ -16,7 +16,7 @@ from datetime import date,timedelta, datetime
 from dateutil.relativedelta import relativedelta
 from django.core.mail import send_mail , EmailMessage
 from projects.models import media
-from finance.serializers import SaleSerializer, SaleLiteSerializer, InventorySerializer
+from finance.serializers import SaleLiteSerializer
 import pytz
 from HR.serializers import TeamSerializer
 from PIM.models import calendar

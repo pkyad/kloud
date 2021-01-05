@@ -17,6 +17,8 @@ router.register(r'legalAgreement' , LegalAgreementViewSet, base_name = 'legalAgr
 router.register(r'legalAgreementTerms' , LegalAgreementTermsViewSet, base_name = 'legalTermsAndConditions')
 router.register(r'contractTracker' , ContractTrackerViewSet , base_name ='contractTracker')
 router.register(r'crmtermsAndConditions' , CRMTermsAndConditionsViewSet , base_name ='crmtermsAndConditions')
+router.register(r'registeredProducts' , RegisteredProductsViewSet , base_name ='registeredProducts')
+router.register(r'serviceTicket' , ServiceTicketViewSet , base_name ='serviceTicket')
 
 urlpatterns = [
     url(r'^', include(router.urls)),
@@ -44,4 +46,6 @@ urlpatterns = [
     url(r'saveDeal/$' , SaveDealView.as_view()),
     url(r'downloadAggrement/$' , DownloadAggrement.as_view()),
     url(r'dataMigrations/$' , DataMigrationsAPIView.as_view()),
+    url(r'addProduct/$' , AddProductView.as_view()),
+
 ]

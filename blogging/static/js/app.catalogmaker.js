@@ -167,7 +167,7 @@ app.controller('businessManagement.catalog', function($scope, $http, $aside, $st
         controller: function($scope, $uibModalInstance, $rootScope) {
 
           $scope.productMetaSearch = function(query) {
-            return $http.get('/api/ERP/productMeta/?code__contains=' + query).
+            return $http.get('/api/ERP/productMeta/?search=' + query).
             then(function(response) {
               return response.data;
             })
@@ -332,7 +332,7 @@ app.controller('businessManagement.catalog', function($scope, $http, $aside, $st
           //   $scope.form.productMeta = $scope.data.productMeta.description
           // }
           $scope.productMetaSearch = function(query) {
-            return $http.get('/api/ERP/productMeta/?description__contains=' + query).
+            return $http.get('/api/ERP/productMeta/?search=' + query).
             then(function(response) {
               return response.data;
             })
@@ -362,6 +362,7 @@ app.controller('businessManagement.catalog', function($scope, $http, $aside, $st
             fd.append('category',$state.params.id);
             fd.append('mrp',$scope.form.mrp);
 
+            console.log($scope.form);
             if ($scope.form.sku != undefined &&  $scope.form.sku != null  ) {
                 fd.append('sku',$scope.form.sku);
             }

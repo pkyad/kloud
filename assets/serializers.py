@@ -7,7 +7,6 @@ from HR.serializers import *
 from organization.serializers import UnitsLiteSerializer
 from clientRelationships.serializers import ContactLiteSerializer
 import datetime
-from finance.models import Inventory
 
 class CheckinSerializer(serializers.ModelSerializer):
     to = userSerializer(many=False,read_only=True)

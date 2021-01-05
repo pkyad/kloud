@@ -305,7 +305,7 @@
                 <td><input type="text" class="form-control-pos text-center" ng-model="form.productForm.product" uib-typeahead="p as p.product for p in productSearch($viewValue)"></td>
                 <td><input type="text" class="form-control-pos text-center" ng-model="form.productForm.price"></td>
                 <td><input type="text" class="form-control-pos text-center" ng-model="form.productForm.receivedQty"></td>
-                <td><input type="text" class="form-control-pos text-center" ng-model="form.productForm.hsn" uib-typeahead="meta as meta.code for meta in productMetaSearch($viewValue)"></td>
+                <td><input type="text" class="form-control-pos text-center" ng-model="form.productForm.hsn" uib-typeahead="meta as  (meta.code ' : ' + meta.description) for meta in productMetaSearch($viewValue)"></td>
                 <td><input type="text" class="form-control-pos text-center" ng-model="form.productForm.tax"></td>
                 <td><input type="text" class="form-control-pos text-center" ng-model="form.productForm.total"></td>
                 <td><button type="button" class="btn btn-primary btn-sm"  ng-click="addData()"> <i class="fa fa-plus"></i> Add </button></td>

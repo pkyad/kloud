@@ -1606,3 +1606,81 @@ class DownloadAggrement(APIView):
         genAMCAggrement(response, contactObj, productObj, request)
 
         return response
+
+
+class AddProductView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny,)
+    def post(self, request, format=None):
+        data = request.data
+        # {u'startDate': u'2021-01-05', u'serialNo': u'3423432', u'period': u'Quaterly', u'totalServices': 1, u'contact': u'1', u'address': u'', u'seperateAddress': False, u'productName': u'asdsa', u'pincode': u''}
+        # print data,'aaaaaaaaaaa'
+        # if 'id' in data:
+        #     pass
+        # else:
+        if 'serialNo' in data:
+            serialNo = data['serialNo']
+        else:
+            serialNo = ''
+        if 'notes' in data:
+            notes = data['notes']
+        else:
+            notes = ''
+        contactObj = Contact.objects.get(pk = int(data['contact']))
+        toSave = {'contact' : contactObj, 'period': data['period'] , 'totalServices' : data['totalServices'] , 'startDate' : data['startDate'] , 'notes' : notes , 'serialNo' : serialNo, 'productName' : data['productName']}
+
+
+        if data['seperateAddress'] == True:
+            address = data['address']
+            city = data['city']
+            state = data['state']
+            pincode = data['pincode']
+            country = data['country']
+        else:
+            address = contactObj.street
+            city = contactObj.city
+            state = contactObj.state
+            pincode = contactObj.pincode
+            country = contactObj.country
+        toSave['installationAddress'] = address
+        toSave['city'] = city
+        toSave['state'] = state
+        toSave['pincode'] = pincode
+        toSave['country'] = country
+        amc = RegisteredProducts.objects.create(**toSave)
+
+        if  data['period'] == 'Yearly':
+            months = 12
+        elif data['period'] == 'Quaterly':
+            months = 3
+        elif data['period'] == 'Half Yearly':
+            months = 6
+        nextDate =  datetime.datetime.strptime(data['startDate'], '%Y-%m-%d')
+        for i in range(0,int(data['totalServices'])):
+            division = request.user.designation.division
+            ticketData = {'referenceContact' : contactObj , 'name' : contactObj.name , 'phone' : contactObj.mobile , 'email'  : contactObj.email , 'productName' : data['productName']  ,'notes' : notes , 'productSerial' : serialNo , 'address' : address , 'pincode' : pincode , 'city' : city, 'state' : state , 'country' : country , 'referenceAMC' : amc , 'division' : division}
+            nextDate = nextDate+ relativedelta(months=+months)
+            ticket = ServiceTicket.objects.create(**ticketData)
+        toRet = RegisteredProductsSerializer(amc, many = False).data
+        return Response(toRet, status=status.HTTP_200_OK)
+
+
+class RegisteredProductsViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    serializer_class = RegisteredProductsSerializer
+    queryset = RegisteredProducts.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['contact']
+
+
+class ServiceTicketViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    serializer_class = ServiceTicketSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['status']
+    def get_queryset(self):
+        division = self.request.user.designation.division
+        return ServiceTicket.objects.filter(division = division)
+
+    # filter_backends = [DjangoFilterBackend]
+    # filter_fields = ['contact']

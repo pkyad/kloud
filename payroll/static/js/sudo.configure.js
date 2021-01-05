@@ -59,7 +59,7 @@ app.config(function($stateProvider) {
       templateUrl: '/static/ngTemplates/app.finance.costCenter.html',
       controller: 'businessManagement.finance.costCenter'
     })
-   
+
     .state('admin.termsandconditions', {
       url: "/service-ticketing-terms",
       templateUrl: '/static/ngTemplates/app.finance.termsAndConditions.html',
@@ -808,7 +808,7 @@ app.controller('businessManagement.finance.inventory', function($scope, $http, $
       controller: function($scope, $uibModalInstance, $rootScope) {
 
         $scope.productMetaSearch = function(query) {
-          return $http.get('/api/ERP/productMeta/?code__contains=' + query).
+          return $http.get('/api/ERP/productMeta/?search=' + query).
           then(function(response) {
             return response.data;
           })
@@ -946,7 +946,7 @@ app.controller('businessManagement.finance.inventory', function($scope, $http, $
         //   $scope.form.productMeta = $scope.data.productMeta.description
         // }
         $scope.productSearch = function(query) {
-          return $http.get('/api/ERP/productMeta/?description__contains=' + query).
+          return $http.get('/api/ERP/productMeta/?search=' + query).
           then(function(response) {
             return response.data;
           })
@@ -994,8 +994,8 @@ app.controller('businessManagement.finance.inventory', function($scope, $http, $
           if ($scope.form.taxRate!=null) {
             fd.append('taxRate', $scope.form.taxRate);
           }
-          if ($scope.form.taxDescription!=null) {
-            fd.append('taxDescription', $scope.form.taxDescription);
+          if ($scope.form.taxCode!=null) {
+            fd.append('taxCode', $scope.form.taxCode);
           }
           // fd.append('richtxtDesc', $scope.form.richtxtDesc);
           // if (typeof $scope.form.img1 != 'string' && $scope.form.img1 != emptyFile) {
