@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
+from ERP.models import Division
 
 # Create your models here.
 
@@ -11,6 +12,9 @@ class Doctor(models.Model):
     department = models.CharField(max_length = 100 , null = False)
     education = models.CharField(max_length = 100 , null = False)
     mobile = models.CharField(max_length = 15 , null = True)
+    division = models.ForeignKey(Division, related_name='doctors',null=True)
+
+
 
 class Patient(models.Model):
     created = models.DateTimeField(auto_now_add = True)
@@ -30,6 +34,8 @@ class Patient(models.Model):
     pin = models.IntegerField(null= True , blank = True)
     state = models.CharField(max_length = 20 , null= True, blank = True )
     country = models.CharField(max_length = 20 , null= True, blank = True , default = 'India')
+    division = models.ForeignKey(Division, related_name='patients',null=True)
+
 
     class Meta:
         ordering = ('-created',)
@@ -94,6 +100,8 @@ class Product(models.Model):
     updated = models.DateField(auto_now=True)
     name = models.CharField(max_length = 100 , null = False)
     rate = models.PositiveIntegerField(null=True)
+    division = models.ForeignKey(Division, related_name='products',null=True)
+
 
 class Invoice(models.Model):
     created = models.DateTimeField(auto_now_add = True)

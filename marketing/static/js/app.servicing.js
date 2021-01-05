@@ -53,6 +53,15 @@ app.config(function($stateProvider) {
 
 app.controller("businessManagement.servicing.view", function($scope, $state, $users, $stateParams, $http, Flash, $aside, $sce, $uibModal) {
 
+  $scope.getServices = function(){
+    $http({
+      method: 'GET',
+      url: '/api/ERP/getapplication/'
+    }).
+    then(function(response) {
+
+    })
+
 
 })
 
@@ -105,4 +114,3 @@ app.controller("businessManagement.servicing", function($scope, $state, $users, 
 
 
 });
-

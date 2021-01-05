@@ -280,3 +280,18 @@ class ContractTrackerSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContractTracker
         fields = ('pk'  ,'created', 'grandTotal' , 'contract' , 'data' , 'discount' , 'termsAndConditionTxts' , 'heading')
+
+class RegisteredProductsSerializer(serializers.ModelSerializer):
+    completedServices = serializers.SerializerMethodField()
+    class Meta:
+        model = RegisteredProducts
+        fields = ('pk'  ,'productName', 'period' , 'totalServices' , 'installationAddress' , 'pincode' , 'city' , 'state' , 'country' , 'startDate','completedServices')
+    def get_completedServices(self , obj):
+        count = obj.tickets.filter(status = 'completed').count()
+        return count
+
+
+class ServiceTicketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ServiceTicket
+        fields = ('pk'  ,'name', 'period' , 'phone' , 'email' , 'productName' , 'productSerial' , 'notes' , 'address' , 'pincode', 'city' , 'state' , 'country' , 'requireOnSiteVisit')

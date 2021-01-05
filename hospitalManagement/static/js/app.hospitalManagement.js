@@ -131,7 +131,7 @@ app.controller("businessManagement.hospitalManagement", function($scope, $rootSc
       url: url
     }).
     then(function(response) {
-      $scope.allData = response.data.results
+      $scope.allData = response.data.results/api/hospitalManagement/patient
       $scope.count = response.data.count
     })
   }

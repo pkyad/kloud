@@ -17,6 +17,8 @@ router.register(r'legalAgreement' , LegalAgreementViewSet, base_name = 'legalAgr
 router.register(r'legalAgreementTerms' , LegalAgreementTermsViewSet, base_name = 'legalTermsAndConditions')
 router.register(r'contractTracker' , ContractTrackerViewSet , base_name ='contractTracker')
 router.register(r'crmtermsAndConditions' , CRMTermsAndConditionsViewSet , base_name ='crmtermsAndConditions')
+router.register(r'registeredProducts' , RegisteredProductsViewSet , base_name ='registeredProducts')
+router.register(r'registeredProducts' , RegisteredProductsViewSet , base_name ='registeredProducts')
 
 urlpatterns = [
     url(r'^', include(router.urls)),

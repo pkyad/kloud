@@ -81,9 +81,10 @@ def loginView(request):
             d = json.loads(str(request.body))
         except:
             d = request.POST
+
         if 'mobile' in d:
             try:
-                usernameOrEmail = User.objects.filter(profile__mobile = d['mobile']).first().user.username
+                usernameOrEmail = User.objects.filter(profile__mobile = d['mobile']).first().username
             except:
                 reg = Registration.objects.filter(mobile = request.POST['mobile'], mobileOTP = request.POST['otp'])
                 if len(reg)>0:
