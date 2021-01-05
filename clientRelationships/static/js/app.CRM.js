@@ -1015,7 +1015,7 @@ app.controller('businessManagement.clientRelationships.contacts.delatils', funct
 
   $http({
     method: 'GET',
-    url: '/api/assets/addProduct/?id=' + $state.params.id
+    url: '/api/clientRelationships/registeredProducts/?contact=' + $state.params.id
   }).
   then(function(response) {
     $scope.products = response.data;
@@ -1665,23 +1665,23 @@ app.controller('businessManagement.clientRelationships.addProduct.modal', functi
       Flash.create('warning', 'Add valid total services')
       return
     }
-    if ($scope.form.serialNo.length == 0) {
-      Flash.create('warning', 'Add valid Serial Number')
-      return
-    }
-    if ($scope.form.qty == 0) {
-      Flash.create('warning', 'Add valid qunatity')
-      return
-    }
+    // if ($scope.form.serialNo.length == 0) {
+    //   Flash.create('warning', 'Add valid Serial Number')
+    //   return
+    // }
+    // if ($scope.form.qty == 0) {
+    //   Flash.create('warning', 'Add valid qunatity')
+    //   return
+    // }
     var dataToSend = {
       productName: $scope.form.productName,
       period: $scope.form.period,
       contact: $scope.form.contact,
       totalServices: $scope.form.totalServices,
-      serialNo: $scope.form.serialNo,
-      qty: $scope.form.qty,
+      // serialNo: $scope.form.serialNo,
+      // qty: $scope.form.qty,
       seperateAddress: $scope.form.seperateAddress,
-      serviceFor: $scope.form.serviceFor.stateAlias,
+      // serviceFor: $scope.form.serviceFor.stateAlias,
       startDate: $scope.form.startDate.toJSON().split('T')[0]
     }
     if ($scope.form.pk != undefined) {
@@ -1694,25 +1694,38 @@ app.controller('businessManagement.clientRelationships.addProduct.modal', functi
         Flash.create('warning', 'Address is required')
         return
       }
-      if ($scope.form.pincode.length > 0) {
-        dataToSend.pincode = $scope.form.pincode
+      if (typeof $scope.form.pincode=='object') {
+        dataToSend.pincode = $scope.form.pincode.pincode
+        dataToSend.city = $scope.form.pincode.city
+        dataToSend.state = $scope.form.pincode.state
+        dataToSend.country = $scope.form.pincode.country
       } else {
         Flash.create('warning', 'Pincode is required')
         return
       }
-    } else {
-      dataToSend.address = ''
-      dataToSend.pincode = ''
+    }
+    if ($scope.form.serialNo!= null) {
+      dataToSend.serialNo = $scope.form.serialNo
+    }
+    if ($scope.form.notes!= null) {
+      dataToSend.notes = $scope.form.notes
     }
     $http({
       method: 'POST',
-      url: '/api/assets/addProduct/',
+      url: '/api/clientRelationships/addProduct/',
       data: dataToSend
     }).
     then(function(response) {
       $uibModalInstance.dismiss(response.data)
     })
   }
+
+  $scope.pinSearch = function(query) {
+    return $http.get('/api/ERP/genericPincode/?limit=10&pincode__contains=' + query).
+    then(function(response) {
+      return response.data.results;
+    })
+  };
 
 })
 
