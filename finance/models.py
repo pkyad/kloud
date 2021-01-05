@@ -302,7 +302,6 @@ class Inventory(models.Model):
     category = models.ForeignKey(Category,related_name='categoryInventory',null=True)
     richtxtDesc = models.TextField(max_length=10000 , null=True)
     taxCode  = models.TextField(max_length = 500 , null = True )
-    division = models.ForeignKey(Division,related_name='divisionInventory',null=True)
     sku = models.CharField(max_length = 100 , null = True )
     buyingPrice = models.FloatField(default=1)
     division = models.ForeignKey(Division,related_name='divisionInventory',null=True)

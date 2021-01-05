@@ -59,7 +59,7 @@ app.config(function($stateProvider) {
       templateUrl: '/static/ngTemplates/app.finance.costCenter.html',
       controller: 'businessManagement.finance.costCenter'
     })
-   
+
     .state('admin.termsandconditions', {
       url: "/service-ticketing-terms",
       templateUrl: '/static/ngTemplates/app.finance.termsAndConditions.html',

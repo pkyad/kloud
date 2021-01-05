@@ -339,3 +339,4 @@ class ServiceTicket(models.Model):
     status = models.CharField(max_length=50 , default='created' , choices=TICKET_CHOICES)
     postponeCount = models.PositiveIntegerField(default = 0)
     engineersNotes = models.TextField(max_length=850 , null= True)
+    division =  models.ForeignKey(Division , related_name='tickets' , null = True)

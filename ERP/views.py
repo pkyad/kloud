@@ -1180,8 +1180,8 @@ class ProductMetaViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     serializer_class = ProductMetaSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['description', 'code','typ','taxRate']
-
+    # filter_fields = ['description', 'code','typ','taxRate']
+    search_fields = ('description', 'code')
     def get_queryset(self):
         toReturn = ProductMeta.objects.all()
         if 'search' in self.request.GET:

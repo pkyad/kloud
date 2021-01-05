@@ -1658,7 +1658,7 @@ class AddProductView(APIView):
         nextDate =  datetime.datetime.strptime(data['startDate'], '%Y-%m-%d')
         for i in range(0,int(data['totalServices'])):
             print nextDate
-            ticketData = {'referenceContact' : contactObj , 'name' : contactObj.name , 'phone' : contactObj.mobile , 'email'  : contactObj.email , 'productName' : data['productName']  ,'notes' : notes , 'productSerial' : serialNo , 'address' : address , 'pincode' : pincode , 'city' : city, 'state' : state , 'country' : country , 'referenceAMC' : amc}
+            ticketData = {'referenceContact' : contactObj , 'name' : contactObj.name , 'phone' : contactObj.mobile , 'email'  : contactObj.email , 'productName' : data['productName']  ,'notes' : notes , 'productSerial' : serialNo , 'address' : address , 'pincode' : pincode , 'city' : city, 'state' : state , 'country' : country , 'referenceAMC' : amc , 'division' : division}
             nextDate = nextDate+ relativedelta(months=+months)
         toRet = RegisteredProductsSerializer(amc, many = False).data
         return Response(toRet, status=status.HTTP_200_OK)
@@ -1676,5 +1676,5 @@ class ServiceTicketViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     serializer_class = ServiceTicketSerializer
     queryset = ServiceTicket.objects.all()
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['contact']
+    # filter_backends = [DjangoFilterBackend]
+    # filter_fields = ['contact']

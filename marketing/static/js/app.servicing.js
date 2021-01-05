@@ -56,12 +56,13 @@ app.controller("businessManagement.servicing.view", function($scope, $state, $us
   $scope.getServices = function(){
     $http({
       method: 'GET',
-      url: '/api/ERP/getapplication/'
+      url: '/api/ERP/serviceTicket/'
     }).
     then(function(response) {
-
+      $scope.allServices = response.data
     })
 
+    $scope.getServices()
 
 })
 
