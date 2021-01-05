@@ -1660,6 +1660,7 @@ class AddProductView(APIView):
             division = request
             ticketData = {'referenceContact' : contactObj , 'name' : contactObj.name , 'phone' : contactObj.mobile , 'email'  : contactObj.email , 'productName' : data['productName']  ,'notes' : notes , 'productSerial' : serialNo , 'address' : address , 'pincode' : pincode , 'city' : city, 'state' : state , 'country' : country , 'referenceAMC' : amc , 'division' : division}
             nextDate = nextDate+ relativedelta(months=+months)
+            ticket = ServiceTicket.objects.create(**ticketData)
         toRet = RegisteredProductsSerializer(amc, many = False).data
         return Response(toRet, status=status.HTTP_200_OK)
 

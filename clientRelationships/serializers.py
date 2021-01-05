@@ -294,4 +294,4 @@ class RegisteredProductsSerializer(serializers.ModelSerializer):
 class ServiceTicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServiceTicket
-        fields = ('pk'  ,'name', 'period' , 'phone' , 'email' , 'productName' , 'productSerial' , 'notes' , 'address' , 'pincode', 'city' , 'state' , 'country' , 'requireOnSiteVisit')
+        fields = ('pk'  ,'name' , 'phone' , 'email' , 'productName' , 'productSerial' , 'notes' , 'address' , 'pincode', 'city' , 'state' , 'country' , 'requireOnSiteVisit')

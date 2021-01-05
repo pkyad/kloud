@@ -44,7 +44,7 @@
 
 
 <!-- <ui-view> -->
-  <div class="container-fluid" style="padding:40px;min-height:100vh;background:#FAFAFA;" ng-controller = "businessManagement.marketing.leads">
+  <div class="container-fluid" style="padding:40px;min-height:100vh;background:#FAFAFA;">
     <div class="row">
       <div class="col-md-8 col-md-offset-3">
 
@@ -88,7 +88,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="contact in data" style="padding:10px;background:white;" ng-click="newContact($index)">
+          <tr ng-repeat="contact in allServices" style="padding:10px;background:white;" ng-click="newContact($index)">
             <td class="contentTd">{{contact.pk}}</td>
             <td class="contentTd"> <h4>{{contact.name}}</h4>
               {{contact.addrs}} {{contact.city}} {{contact.state}} {{contact.country}} - {{contact.areaCode}} <br>
