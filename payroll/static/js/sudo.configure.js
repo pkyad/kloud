@@ -808,7 +808,7 @@ app.controller('businessManagement.finance.inventory', function($scope, $http, $
       controller: function($scope, $uibModalInstance, $rootScope) {
 
         $scope.productMetaSearch = function(query) {
-          return $http.get('/api/ERP/productMeta/?code__contains=' + query).
+          return $http.get('/api/ERP/productMeta/?search=' + query).
           then(function(response) {
             return response.data;
           })
@@ -994,8 +994,8 @@ app.controller('businessManagement.finance.inventory', function($scope, $http, $
           if ($scope.form.taxRate!=null) {
             fd.append('taxRate', $scope.form.taxRate);
           }
-          if ($scope.form.taxDescription!=null) {
-            fd.append('taxDescription', $scope.form.taxDescription);
+          if ($scope.form.taxCode!=null) {
+            fd.append('taxCode', $scope.form.taxCode);
           }
           // fd.append('richtxtDesc', $scope.form.richtxtDesc);
           // if (typeof $scope.form.img1 != 'string' && $scope.form.img1 != emptyFile) {

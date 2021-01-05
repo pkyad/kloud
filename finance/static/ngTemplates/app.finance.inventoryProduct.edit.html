@@ -47,7 +47,7 @@
         <div class="col-md-3">
           <div class="form-group">
             <label>Tax Code</label>
-          <input uib-typeahead="product as product.code for product in productSearch($viewValue)" ng-model="form.taxCode" type="text" class="form-control websiteInput" placeholder="Select Product Meta" typeahead-on-select="selectedMeta()">
+          <input uib-typeahead="product as (product.code + ' : ' + product.description) for product in productSearch($viewValue)" ng-model="form.taxCode" type="text" class="form-control websiteInput" placeholder="Select Product Meta" typeahead-on-select="selectedMeta()">
           </div>
         </div>
         <div class="col-md-3">
