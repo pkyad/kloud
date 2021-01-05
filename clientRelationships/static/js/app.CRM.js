@@ -618,6 +618,8 @@ app.controller('businessManagement.clientRelationships.contacts.quote', function
   }
 
 
+
+
   $scope.showTerms = true
   if ($state.is('businessManagement.contacts.createquote')) {
 
@@ -706,7 +708,7 @@ app.controller('businessManagement.clientRelationships.contacts.quote', function
     if ($scope.contract.data[indx].taxCode.toString().length > 0) {
       $http.get('/api/ERP/productMeta/?code=' + $scope.contract.data[indx].taxCode).
       then(function(response) {
-        $scope.form.productMeta = response.data[0];
+        $scope.form.productMeta =  response.data[0];
       })
 
     }
@@ -875,7 +877,7 @@ app.controller('businessManagement.clientRelationships.contacts.quote', function
   }
 
   $scope.searchTaxCode = function(c) {
-    return $http.get('/api/ERP/productMeta/?description__icontains=' + c).
+    return $http.get('/api/ERP/productMeta/?search=' + c).
     then(function(response) {
       return response.data;
     })
@@ -894,7 +896,16 @@ app.controller('businessManagement.clientRelationships.contacts.quote', function
   $scope.$watch('form.desc', function(newValue, oldValue) {
     if (newValue.pk) {
       $scope.form.rate = newValue.rate;
-      $scope.form.productMeta = newValue.productMeta;
+      if ( newValue.taxCode!=null&&newValue.taxCode.length>0) {
+        $http.get('/api/ERP/productMeta/?code=' + newValue.taxCode).
+        then(function(response) {
+          $scope.form.productMeta =  response.data[0];
+        })
+      }
+      else{
+        $scope.form.productMeta = ''
+      }
+      $scope.form.desc = newValue.name;
     }
   }, true)
 

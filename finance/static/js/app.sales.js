@@ -477,7 +477,7 @@ $scope.allTransactions = []
     }
 
   $scope.searchTaxCode = function(c) {
-    return $http.get('/api/ERP/productMeta/?limit=10&code__icontains=' + c).
+    return $http.get('/api/ERP/productMeta/?limit=10&search=' + c).
     then(function(response) {
       return response.data.results;
     })
@@ -884,7 +884,7 @@ $scope.assetsAccounts = []
   };
 
   $scope.searchTaxCode = function(c) {
-    return $http.get('/api/ERP/productMeta/?limit=10&code__icontains=' + c).
+    return $http.get('/api/ERP/productMeta/?limit=10&search=' + c).
     then(function(response) {
       return response.data.results;
     })
