@@ -19,7 +19,7 @@
         <li ng-class="{active: $state.includes(a.state)}" class="ripple" ng-repeat="a in filter.menuApps" ng-if="$index <5" style="width:transition:10s" ng-mouseover="onHover=true" ng-mouseleave="onHover=false">
           <a ng-if="a.state" ui-sref="{{a.state}}"  style="padding-top:10px !important;padding-bottom:0px !important;position:relative;" >
             <div class="container-fluid text-center" style="padding:0px;padding-bottom:10px;overflow-x:visible;padding-left:5px;">
-              <img style="height:40px;filter: drop-shadow(5px 5px 5px #c8c4c4);max-width:100px;" ng-src="{{a.icon}}" alt="">
+              <img style="height:57px;filter: drop-shadow(5px 5px 5px #c8c4c4);max-width:100px;" ng-src="{{a.icon}}" alt="">
               <br>
               <span style="font-size:14px;font-weight: unset;">{{a.displayName}}</span>
 
@@ -32,7 +32,7 @@
           </a>
           <a ng-if="!a.state" href="#{{a.url}}" style="padding-top:10px !important;padding-bottom:0px !important;" >
             <div class="container-fluid text-center" style="padding:0px;padding-bottom:10px;overflow-x:visible;padding-left:5px;">
-              <img style="height:40px;filter: drop-shadow(5px 5px 5px #c8c4c4);max-width:100px;" ng-src="{{a.icon}}" alt="">
+              <img style="height:57px;filter: drop-shadow(5px 5px 5px #c8c4c4);max-width:100px;" ng-src="{{a.icon}}" alt="">
               <br>
               <span style="font-size:14px;font-weight: unset;">{{a.displayName}}</span>
             </div>
