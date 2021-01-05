@@ -747,7 +747,7 @@ app.controller('businessManagement.clientRelationships.contacts.quote', function
     if ($state.is('businessManagement.contacts.contactQuote')) {
       toSend.tour = $state.params.tour
     }
-    if ($scope.form.mode == 'edit') {
+    if ($scope.contract.pk) {
       method = 'PATCH';
       url += $scope.contract.pk + '/'
     }
