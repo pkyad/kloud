@@ -332,7 +332,7 @@ app.controller('businessManagement.catalog', function($scope, $http, $aside, $st
           //   $scope.form.productMeta = $scope.data.productMeta.description
           // }
           $scope.productMetaSearch = function(query) {
-            return $http.get('/api/ERP/productMeta/?description__contains=' + query).
+            return $http.get('/api/ERP/productMeta/?search=' + query).
             then(function(response) {
               return response.data;
             })

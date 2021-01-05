@@ -41,7 +41,7 @@
       <h3 style="margin-left: 29px;margin-bottom: 37px;">Add a new lead</h3>
     </div>
     <div class="col-md-6">
-      <button style="background: #461482;color: white;bottom: 20px;border: none !important;border-radius: 64px !important;padding: 17px;width: 112px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;" class="btn btn-primary pull-right" ng-click="saveContact()">  Save </button>
+      <button style="background: #461482;color: white;bottom: 20px;border: none !important;border-radius: 64px !important;padding: 17px;width: 112px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;" class="btn btn-primary pull-right" ng-click="save()" >  Save </button>
 
       <button style="background:rgb(237, 2, 2);color: white;bottom: 20px;border: none !important;border-radius: 64px !important;padding: 17px;width: 112px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;margin-right:30px" class="btn btn-primary pull-right" ng-click="close()">  Cancel </button>
     </div>
@@ -52,19 +52,19 @@
       <div class="col-md-6">
         <div class="form-group">
           <label>Name</label>
-          <input type="text" class="form-control whiteInputField" ng-model="form.name" autocomplete="new-password">
+          <input type="text" class="form-control whiteInputField" ng-model="form.name"  typeahead-on-select="selectContact()"  uib-typeahead="p as p.name for p in searchContact($viewValue)" placeholder="Search or add Contact">
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
           <label>Phone</label>
-          <input type="text" class="form-control whiteInputField" ng-model="form.mobile" ng-change="checkContact()" autocomplete="new-password">
+          <input type="text" class="form-control whiteInputField" ng-model="form.phone"  >
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
           <label>Email</label>
-          <input type="email" class="form-control whiteInputField" ng-model="form.email" autocomplete="new-password">
+          <input type="email" class="form-control whiteInputField" ng-model="form.email" >
         </div>
       </div>
       <!-- <div class="col-md-6">
@@ -75,27 +75,33 @@
           </select>
         </div>
       </div> -->
-      <div class="col-md-12" ng-if="material_inward=='True'">
+      <!-- <div class="col-md-12" ng-if="material_inward=='True'">
         <div class="form-group">
           <label>Company Name</label>
           <input type="text" class="form-control whiteInputField" ng-model="form.companyName" autocomplete="new-password">
         </div>
+      </div> -->
+      <div class="col-md-6" style="margin-top: 25px;margin-bottom: 25px;">
+        <div class="form-group">
+          <label>Require Onsite Visit?</label>
+          <input type="checkbox"  ng-model="form.requireOnSiteVisit" >
+        </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6" ng-if="form.requireOnSiteVisit">
         <div class="form-group">
           <label>Preferred Date</label>
           <div class="input-group newDatePicWhite">
-            <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.date" is-open="status.opened" />
+            <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.preferredDate" is-open="status.opened" />
             <span class="input-group-btn">
               <button type="button" class="btn btn-default pic" ng-click="status.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
             </span>
           </div>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6" ng-if="form.requireOnSiteVisit">
         <div class="form-group">
-          <label>Preffered Time Slot</label>
-          <select class="form-control" ng-model="form.slot" style="height: 55px;border-radius: 10px;border: none !important;">
+          <label>Prefered Time Slot</label>
+          <select class="form-control" ng-model="form.preferredTimeSlot" style="height: 55px;border-radius: 10px;border: none !important;">
             <option hidden disabled selected value></option>
             <option value="9 AM">9 AM</option>
             <option value="10 AM">10 AM</option>
@@ -117,8 +123,8 @@
         <div class="form-group">
           <label>Warranty Status</label>
           <select class="form-control" ng-model="form.warrantyStatus" style="height: 55px;border-radius: 10px;border: none !important;">
-            <option hidden disabled selected value></option>
-            <option value="OEM Warranty">OEM Warranty</option>
+            <!-- <option hidden disabled selected value></option> -->
+            <option value="OEM Warranty" selected>OEM Warranty</option>
             <option value="AMC">AMC</option>
             <option value="Out Of Warranty">Out Of Warranty</option>
           </select>
@@ -127,25 +133,25 @@
       <div class="col-md-6">
         <div class="form-group">
           <label>Product</label>
-          <input uib-typeahead="product as product.name for product in productSearch($viewValue)" ng-model="form.product" type="text" class="form-control whiteInputField" placeholder="">
+          <input  ng-model="form.productName" type="text" class="form-control whiteInputField" placeholder="">
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
           <label>Serial No.</label>
-          <input type="text" class="form-control whiteInputField" ng-model="form.serialNo" autocomplete="new-password">
+          <input type="text" class="form-control whiteInputField" ng-model="form.productSerial" autocomplete="new-password">
         </div>
       </div>
       <div class="col-md-12" >
         <div class="form-group">
           <label>Notes</label>
-          <textarea name="name" ng-model="form.about"  class="form-control whiteInputField" rows="4" cols="80"></textarea>
+          <textarea name="name" ng-model="form.notes"  class="form-control whiteInputField" rows="4" cols="80"></textarea>
         </div>
       </div>
       <div class="col-md-6" >
         <div class="form-group">
           <label>Pincode</label>
-          <input type="text" class="form-control whiteInputField" ng-model="form.pinCode">
+          <input type="text" class="form-control whiteInputField" ng-model="form.pincode" typeahead-on-select="selectPincode()"  uib-typeahead="p as p.pincode for p in pinSearch($viewValue)">
         </div>
       </div>
     </div>
@@ -153,13 +159,13 @@
     <div class="row" style="margin:15px;margin-bottom:100px;">
       <label>Address</label>
       <input places-auto-complete
-        ng-model="form.addrs"
+        ng-model="form.address"
         component-restrictions="{country:'in'}"
         types="{{types}}"
         strict-bounds="true"
         on-place-changed="placeChanged()" class="form-control whiteInputField" />
 
-      <map ng-if="form.addrs" center="{{locations}}" style="display: block;width: auto;height: 300px;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;overflow: hidden;"   zoom="12">
+      <map ng-if="form.address" center="{{locations}}" style="display: block;width: auto;height: 300px;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;overflow: hidden;"   zoom="12">
         <marker  position="{{locations}}" centered="true" draggable="true" on-dragend="getCurrentLocation($event)" ></marker>
       </map>
     </div>
