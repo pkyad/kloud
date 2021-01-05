@@ -25,7 +25,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import datetime
 from marketing.models import Contacts
-from talk import *
+# from talk import *
 from PIM.models import *
 # Create your views here.
 
@@ -652,7 +652,7 @@ class SupportChatViewSet(viewsets.ModelViewSet):
 def publicAPI(request , objectType):
     if objectType == 'chatThread':
         if request.method == 'PATCH':
-            
+
             data = json.loads(request.body)
             chatThObj = ChatThread.objects.filter(uid = data['uid'])[0]
             if 'status' in data and data['status']=='closed':
@@ -662,7 +662,7 @@ def publicAPI(request , objectType):
                 #     pass
                 # else:
                 #     instance.closedBy = User.objects.get(pk=int(request.user.pk))
-                
+
             if 'customerFeedback' in data:
                 chatThObj.customerFeedback = data['customerFeedback']
                 chatThObj.customerRating = data['customerRating']
@@ -701,7 +701,7 @@ def publicAPI(request , objectType):
             return JsonResponse(PublicChatThreadSerializer(c , many = True ).data , safe=False)
 
     elif objectType == 'supportChat':
-        
+
 
         if request.method == 'POST':
 
@@ -812,6 +812,6 @@ def publicAPI(request , objectType):
         if request.method == 'GET':
             msgs = ChatMessage.objects.filter(uid = request.GET['uid'], is_hidden = False)
             return JsonResponse(SupportChatSerializer(msgs , many = True).data , safe=False)
-            
 
-    return 
+
+    return
