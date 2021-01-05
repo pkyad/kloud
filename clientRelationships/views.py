@@ -1657,7 +1657,7 @@ class AddProductView(APIView):
             months = 6
         nextDate =  datetime.datetime.strptime(data['startDate'], '%Y-%m-%d')
         for i in range(0,int(data['totalServices'])):
-            print nextDate
+            division = request
             ticketData = {'referenceContact' : contactObj , 'name' : contactObj.name , 'phone' : contactObj.mobile , 'email'  : contactObj.email , 'productName' : data['productName']  ,'notes' : notes , 'productSerial' : serialNo , 'address' : address , 'pincode' : pincode , 'city' : city, 'state' : state , 'country' : country , 'referenceAMC' : amc , 'division' : division}
             nextDate = nextDate+ relativedelta(months=+months)
         toRet = RegisteredProductsSerializer(amc, many = False).data

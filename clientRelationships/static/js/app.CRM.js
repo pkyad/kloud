@@ -688,7 +688,10 @@ app.controller('businessManagement.clientRelationships.contacts.quote', function
 
 
   $scope.editItem = function(indx) {
+    var tempTerms = $scope.form.tncs
     $scope.form = $scope.contract.data[indx]
+    $scope.form.qty = $scope.contract.data[indx].quantity
+    $scope.form.tncs = tempTerms
     if ($scope.contract.data[indx].extraFieldOne != undefined && $scope.contract.data[indx].extraFieldOne.length > 0) {
       $scope.form.extraFieldOne = $scope.contract.data[indx].extraFieldOne
     }
