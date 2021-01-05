@@ -326,7 +326,7 @@
           style="margin:0px;background:white;border-radius: 18px !important;box-shadow: 0px 16px 23px rgba(0, 0, 0, 0.1) !important;border: none;border-top-left-radius:0px !important;border-top-right-radius:0px !important;margin-bottom:20px;border-top: solid 2px #eee;padding-top: 15px;background: #0E1C2C;">
           <div>
           <div class="{{terms.isGst?'col-md-4':'col-md-6'}}" style="padding:0px !important;resize: none;">
-            <textarea id="descEdit" ng-model="form.desc" name="name" rows="2" cols="80" class="form-control cleanInputDark" placeholder="Enter description...." uib-typeahead="p as p.name for p in inventorySearch($viewValue)"
+            <textarea id="descEdit" ng-model="form.desc" name="name" rows="2" cols="80" class="form-control cleanInputDark" placeholder="Enter description...." uib-typeahead="p as p.name for p in inventorySearch($viewValue)" 
               style="border-bottom-left-radius: 18px !important;"></textarea>
 
             <p ng-if="form.productMeta.pk&&terms.isGst" style="padding:15px;color:white;">

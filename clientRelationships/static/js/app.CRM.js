@@ -618,6 +618,8 @@ app.controller('businessManagement.clientRelationships.contacts.quote', function
   }
 
 
+
+
   $scope.showTerms = true
   if ($state.is('businessManagement.contacts.createquote')) {
 
@@ -894,7 +896,15 @@ app.controller('businessManagement.clientRelationships.contacts.quote', function
   $scope.$watch('form.desc', function(newValue, oldValue) {
     if (newValue.pk) {
       $scope.form.rate = newValue.rate;
-      $scope.form.productMeta = newValue.productMeta;
+      if ( newValue.taxCode!=null&&newValue.taxCode.length>0) {
+        $http.get('/api/ERP/productMeta/?code=' + newValue.taxCode).
+        then(function(response) {
+          $scope.form.productMeta =  response.data[0];
+        })
+      }
+      else{
+        $scope.form.productMeta = ''
+      }
     }
   }, true)
 
