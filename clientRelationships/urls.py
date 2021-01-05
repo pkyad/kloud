@@ -44,4 +44,6 @@ urlpatterns = [
     url(r'saveDeal/$' , SaveDealView.as_view()),
     url(r'downloadAggrement/$' , DownloadAggrement.as_view()),
     url(r'dataMigrations/$' , DataMigrationsAPIView.as_view()),
+    url(r'addProduct/$' , AddProductView.as_view()),
+
 ]

@@ -1606,3 +1606,12 @@ class DownloadAggrement(APIView):
         genAMCAggrement(response, contactObj, productObj, request)
 
         return response
+
+
+class AddProductView(APIView):
+renderer_classes = (JSONRenderer,)
+permission_classes = (permissions.AllowAny,)
+def post(self, request, format=None):
+    data = request.data
+    
+    return Response( status=status.HTTP_200_OK)

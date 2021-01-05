@@ -1706,7 +1706,7 @@ app.controller('businessManagement.clientRelationships.addProduct.modal', functi
     }
     $http({
       method: 'POST',
-      url: '/api/assets/addProduct/',
+      url: '/api/clientRelationships/addProduct/',
       data: dataToSend
     }).
     then(function(response) {
