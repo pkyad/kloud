@@ -2,7 +2,6 @@ from django.conf.urls import include, url
 from .views import *
 from rest_framework import routers
 
-
 router = routers.DefaultRouter()
 
 router.register(r'account' , AccountViewSet , base_name ='account')
@@ -21,7 +20,7 @@ router.register(r'expenseHeading' , ExpenseHeadingViewSet , base_name ='expenseH
 router.register(r'sale' , SaleViewSet , base_name ='outBoundInvoice')
 router.register(r'saleAll' , SaleAllViewSet , base_name ='outBoundInvoice')
 router.register(r'salesQty' , SalesQtyViewSet , base_name ='outBoundInvoiceQty')
-router.register(r'inventory' , InventoryViewSet , base_name ='inventory')
+router.register(r'inventory' , RateListViewSet , base_name ='ratelist')
 router.register(r'inventoryLog' , InventoryLogViewSet , base_name ='inventoryLog')
 router.register(r'configureTermsAndConditions' , ConfigureTermsAndConditionsViewSet , base_name ='configureTermsAndConditions')
 router.register(r'category' , CategoryViewSet , base_name ='category')
