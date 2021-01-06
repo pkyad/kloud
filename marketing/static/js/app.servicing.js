@@ -38,11 +38,11 @@ app.config(function($stateProvider) {
   })
   $stateProvider.state('businessManagement.servicing.upcoming', {
     url: "/upcoming",
-    templateUrl: '/static/ngTemplates/app.marketing.upcoming.html',
+    templateUrl: '/static/ngTemplates/app.marketing.leads.html',
     controller: 'businessManagement.servicing'
   })
-  $stateProvider.state('businessManagement.servicing.collection', {
-    url: "/collection",
+  $stateProvider.state('businessManagement.servicing.completed', {
+    url: "/completed",
     templateUrl: '/static/ngTemplates/app.marketing.customerDetails.html',
     controller: 'businessManagement.servicing'
   })
@@ -75,7 +75,7 @@ app.controller("businessManagement.servicing", function($scope, $state, $users, 
 
 
   $scope.selected = {
-    status: 'created',
+    status: '',
     search: '',
     selectedEngineer:''
   }
@@ -83,20 +83,31 @@ app.controller("businessManagement.servicing", function($scope, $state, $users, 
   $scope.limit = 10
   $scope.offset = 0
   $scope.count = 0
-
+  $scope.statusList = []
   if ($state.is('businessManagement.servicing.assigned')) {
     $scope.selected.status = 'assigned'
+    $scope.statusList = ['assigned' ,'ongoing' , 'completed' , 'postponed' , 'cancelled']
   } else if ($state.is('businessManagement.servicing.ongoing')) {
     $scope.selected.status = 'ongoing'
+    $scope.statusList = ['ongoing', 'completed' , 'postponed' , 'cancelled']
   } else if ($state.is('businessManagement.servicing.completed')) {
     $scope.selected.status = 'completed'
+    $scope.statusList = ['completed']
   } else if ($state.is('businessManagement.servicing.postponed')) {
     $scope.selected.status = 'postponed'
+    $scope.statusList = ['postponed']
   } else if ($state.is('businessManagement.servicing.cancelled')) {
     $scope.selected.status = 'cancelled'
+    $scope.statusList = ['cancelled']
+  }else if ($state.is('businessManagement.servicing.upcoming')) {
+    $scope.selected.status = 'upcoming'
+    $scope.statusList = ['upcoming']
   }
   $scope.getServices = function() {
-    url = '/api/clientRelationships/serviceTicket/?status=' + $scope.selected.status + '&limit=' + $scope.limit + '&offset=' + $scope.offset
+    url = '/api/clientRelationships/serviceTicket/?limit=' + $scope.limit + '&offset=' + $scope.offset
+    if ($scope.selected.status.length>0) {
+        url += '&status=' + $scope.selected.status
+    }
     if ($scope.selected.search.length > 0) {
       url += '&search=' + $scope.selected.search
     }
@@ -155,6 +166,38 @@ app.controller("businessManagement.servicing", function($scope, $state, $users, 
     })
   }
   $scope.getUsers()
+
+  $scope.getAllTerms = function(){
+    $http({
+      method: 'GET',
+      url: '/api/clientRelationships/crmtermsAndConditions/',
+    }).
+    then(function(response) {
+      $scope.allTerms = response.data
+
+    })
+
+  }
+  $scope.getAllTerms()
+
+
+  $scope.changeStatus = function(indx, status){
+    method = 'PATCH'
+    url = '/api/clientRelationships/serviceTicket/'+ $scope.allServices[indx].pk + '/'
+    $http({
+      method: method,
+      url: url,
+      data: {
+      status : status,
+    }
+    }).
+    then(function(response) {
+        $scope.getServices()
+      // $uibModalInstance.dismiss()
+    })
+  }
+
+
 
 
   $scope.newContact = function(indx) {
@@ -216,6 +259,7 @@ app.controller("businessManagement.servicing", function($scope, $state, $users, 
 app.controller("businessManagement.marketing.assignTechnician", function($scope, $state, $users, $stateParams, $http, Flash, $aside, $sce, $uibModal, $uibModalInstance, data) {
 
   $scope.form = data
+  $scope.statusplan = $scope.form.status
   $scope.allUsers = []
   $scope.getUsers = function() {
     $http.get('/api/HR/userSearch/').
@@ -234,7 +278,7 @@ app.controller("businessManagement.marketing.assignTechnician", function($scope,
   $scope.getUsers()
   $scope.plan = function(){
     var dataSave = {
-      status:'assigned',
+      // status:'assigned',
       serviceType : $scope.form.serviceType,
       preferredTimeSlot : $scope.form.preferredTimeSlot,
     }
@@ -245,6 +289,10 @@ app.controller("businessManagement.marketing.assignTechnician", function($scope,
 
     if ($scope.form.preferredDate!=null && typeof $scope.form.preferredDate == 'object') {
         dataSave.preferredDate = dateToString($scope.form.preferredDate)
+    }
+
+    if ($scope.statusplan == 'created' || $scope.statusplan == 'upcoming' ) {
+      dataSave.status = 'assigned'
     }
 
     method = 'PATCH'

@@ -293,9 +293,10 @@ class RegisteredProductsSerializer(serializers.ModelSerializer):
 
 class ServiceTicketSerializer(serializers.ModelSerializer):
     engineer = userMinLiteSerializer(many = False , read_only = True)
+    allInvoices = serializers.SerializerMethodField()
     class Meta:
         model = ServiceTicket
-        fields = ('pk'  ,'name' , 'phone' , 'email' , 'productName' , 'productSerial' , 'notes' , 'address' , 'pincode', 'city' , 'state' , 'country' , 'requireOnSiteVisit','referenceContact','preferredDate','preferredTimeSlot','warrantyStatus' , 'engineer' , 'serviceType','status')
+        fields = ('pk'  ,'name' , 'phone' , 'email' , 'productName' , 'productSerial' , 'notes' , 'address' , 'pincode', 'city' , 'state' , 'country' , 'requireOnSiteVisit','referenceContact','preferredDate','preferredTimeSlot','warrantyStatus' , 'engineer' , 'serviceType','status','allInvoices')
     def create(self , validated_data):
         t = ServiceTicket(**validated_data)
         t.division = self.context['request'].user.designation.division
@@ -316,3 +317,11 @@ class ServiceTicketSerializer(serializers.ModelSerializer):
             instance.engineer = User.objects.get(pk = int(self.context['request'].data['engineer']))
         instance.save()
         return instance
+    def get_allInvoices(self , obj):
+        allData = []
+        lastDate =  datetime.datetime.now()
+        if obj.closedOn is not None:
+            lastDate = obj.closedOn
+        if obj.referenceContact is not None:
+            allData = Contract.objects.filter(created__range = [obj.created , lastDate], contact = obj.referenceContact).values('pk' , 'heading')
+        return allData

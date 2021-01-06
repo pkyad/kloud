@@ -291,6 +291,7 @@ class ContractTracker(models.Model):
 
 TICKET_CHOICES = (
     ('created' , 'created'),
+    ('upcoming' , 'upcoming'),
     ('assigned' , 'assigned'),
     ('ongoing' , 'ongoing'),
     ('completed' , 'completed'),

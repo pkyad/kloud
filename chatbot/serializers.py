@@ -449,4 +449,3 @@ class SupportChatSerializer(serializers.ModelSerializer):
 
         # context = getResponse(s.message, context, chatThObj[0].company , fil = fileUrl)
         return s
-
