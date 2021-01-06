@@ -442,7 +442,7 @@ AUTHENTICATION_BACKENDS = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'essgi',
+        'NAME': 'kloud_new',
         'USER': 'newuser',
         'PASSWORD': 'titan@1234',
         'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on

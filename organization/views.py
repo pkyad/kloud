@@ -320,128 +320,151 @@ class DataMigrationsAPIView(APIView):
     renderer_classes = (JSONRenderer,)
     permission_classes = (permissions.AllowAny, )
     def get(self, request, format=None):
-        divisionPK = 3
+        divisionPK = 4
 
         divisionObj = Division.objects.get(pk = divisionPK)
         unitObj = divisionObj.units.last()
 
         # #creating users
         userData = None
-        userDataPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'DataMigrationFIles','essgi_user.json')
+        userDataPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','sdpl_user.json')
         with open(userDataPath) as json_file:
             userData = json.load(json_file)
-            for item in userData:
-                userObj, created = User.objects.get_or_create(username = item['username'])
-                userObj.first_name = item['first_name']
-                userObj.last_name = item['last_name']
-                userObj.email = item['email']
-                userObj.is_active = item['is_active']
-                userObj.is_staff = item['is_staff']
-                userObj.set_password('essgi')
-                userObj.save()
-
-                profileObj = userObj.profile
-                profileObj.married = item['profile']['married']
-                profileObj.empType = item['profile']['empType']
-                profileObj.isManager = item['profile']['isManager']
-                profileObj.mobile = item['profile']['mobile']
-                profileObj.permanentAddressState = item['profile']['permanentAddressState']
-                profileObj.localAddressStreet = item['profile']['localAddressStreet']
-                profileObj.permanentAddressCountry = item['profile']['permanentAddressCountry']
-                profileObj.permanentAddressPin = item['profile']['permanentAddressPin']
-                profileObj.permanentAddressCity = item['profile']['permanentAddressCity']
-                profileObj.localAddressCountry = item['profile']['localAddressCountry']
-                profileObj.save()
-
-                payrollObj = userObj.payroll
-                payrollObj.pfAccNo = item['payroll']['pfAccNo']
-                payrollObj.off = item['payroll']['off']
-                payrollObj.alHold = item['payroll']['alHold']
-                payrollObj.save()
-
-                designationObj = userObj.designation
-                designationObj.division = divisionObj
-                designationObj.unit = unitObj
-                designationObj.save()
-
-                print 'user', userObj.first_name, userObj.pk
+        #     for item in userData:
+        #         userObj, created = User.objects.get_or_create(username = item['username'])
+        #         userObj.first_name = item['first_name']
+        #         userObj.last_name = item['last_name']
+        #         userObj.email = item['email']
+        #         userObj.is_active = item['is_active']
+        #         userObj.is_staff = item['is_staff']
+        #         userObj.set_password('essgi')
+        #         userObj.save()
+        #
+        #         profileObj = userObj.profile
+        #         profileObj.married = item['profile']['married']
+        #         profileObj.empType = item['profile']['empType']
+        #         profileObj.isManager = item['profile']['isManager']
+        #         profileObj.mobile = item['profile']['mobile']
+        #         profileObj.permanentAddressState = item['profile']['permanentAddressState']
+        #         profileObj.localAddressStreet = item['profile']['localAddressStreet']
+        #         profileObj.permanentAddressCountry = item['profile']['permanentAddressCountry']
+        #         profileObj.permanentAddressPin = item['profile']['permanentAddressPin']
+        #         profileObj.permanentAddressCity = item['profile']['permanentAddressCity']
+        #         profileObj.localAddressCountry = item['profile']['localAddressCountry']
+        #         profileObj.save()
+        #
+        #         payrollObj = userObj.payroll
+        #         payrollObj.pfAccNo = item['payroll']['pfAccNo']
+        #         payrollObj.off = item['payroll']['off']
+        #         payrollObj.alHold = item['payroll']['alHold']
+        #         payrollObj.save()
+        #
+        #         designationObj = userObj.designation
+        #         designationObj.division = divisionObj
+        #         designationObj.unit = unitObj
+        #         designationObj.save()
+        #
+        #         print 'user', userObj.first_name, userObj.pk
 
 
 
         # getting company creation
-        companyPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'DataMigrationFIles','essgi_company.json')
+        companyPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','sdpl_company.json')
         with open(companyPath) as json_file:
             comapnyData = json.load(json_file)
             for item in comapnyData:
 
-                # if item['user'] is not None:
-                userObj = User.objects.get(username = 'sanjay')
-                objs = service.objects.filter(name = item['name'])
+                try:
+                    if item['user'] is not None:
+                        userObj = User.objects.get(username = item['user']['username'])
+                except:
+                    print item['user'], 'user'
+                    userObjData = [x for x in userData if x['pk'] == item['user']]
+                    userObj = User.objects.get(username = userObjData[0]['username'])
+                else:
+                    userObj = User.objects.get(email = 'sachin@superiorsystems.in')
+
+
+                objs = service.objects.filter(name = item['name'],user = userObj)
+                obj = None
                 if len(objs)>0:
                     obj = objs[0]
                 if len(objs) == 0:
                     print item['name'], 'name '
-                    obj = service.objects.create(name = item['name'],user = userObj)
+                    if item['name'] != 'cioc':
+                        obj = service.objects.create(name = item['name'],user = userObj)
 
-                obj.contactPerson = item['contactPerson']
-                obj.mobile = item['mobile']
+                if obj is not None:
+                    obj.contactPerson = item['contactPerson']
+                    obj.mobile = item['mobile']
 
-                if item['address'] is not None:
-                    addressObj = address.objects.create(city = item['address']['city'], country = item['address']['country'], lon = item['address']['lon'] , pincode = item['address']['pincode'], state = item['address']['state'],street = item['address']['street'],lat = item['address']['lat'])
+                    if item['address'] is not None:
+                        addressObj = address.objects.create(city = item['address']['city'], country = item['address']['country'], lon = item['address']['lon'] , pincode = item['address']['pincode'], state = item['address']['state'],street = item['address']['street'],lat = item['address']['lat'])
 
-                    obj.address = addressObj
+                        obj.address = addressObj
 
-                obj.save()
-                print 'company', obj.name, obj.pk
+                    obj.save()
+                    print 'company', obj.name, obj.pk
 
         # #creating crm term and condition details
-        termsAndConditionPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'DataMigrationFIles','essgi_crmtermsAndConditions.json')
+        termsAndConditionPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','sdpl_crmtermsAndConditions.json')
         with open(termsAndConditionPath) as json_file:
             termsAndConditionData = json.load(json_file)
             for item in termsAndConditionData:
-                obj, created = CRMTermsAndConditions.objects.get_or_create(heading = item['heading'], version = 'V1', division = divisionObj,themeColor = '#227daa')
+                obj, created = CRMTermsAndConditions.objects.get_or_create(heading = item['heading'], version = 'V2', division = divisionObj,themeColor = '#BB2724')
                 obj.body = item['body']
                 obj.default = item['default']
-                obj.extraFieldOne = item['extraFieldOne']
-                obj.extraFieldTwo = item['extraFieldTwo']
-                obj.isGst = item['isGst']
+                # obj.extraFieldOne = item['extraFieldOne']
+                # obj.extraFieldTwo = item['extraFieldTwo']
+                # obj.isGst = item['isGst']
 
                 obj.save()
                 print 'termsAndCondition', obj.heading, obj.pk
         #
         #
         # #creating inventory data
-        inventoryPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'DataMigrationFIles','essgi_inventory.json')
-        with open(inventoryPath) as json_file:
-            inventoryData = json.load(json_file)
-            for item in inventoryData:
-                obj = Inventory.objects.create(name = item['name'], division = divisionObj)
-                obj.value = item['value']
-                obj.refurnishedAdded = item['refurnishedAdded']
-                obj.sellable = item['sellable']
-                obj.rate = item['rate']
-                obj.qtyAdded = item['qtyAdded']
-                obj.totalRef = item['totalRef']
-                obj.total = item['total']
-                obj.richtxtDesc = item['richtxtDesc']
-                obj.description = item['description']
-
-                if item['productMeta'] is not None:
-                    productMetaObj ,created = ProductMeta.objects.get_or_create(code = item['productMeta']['code'],taxRate = item['productMeta']['taxRate'])
-                    productMetaObj.typ  = item['productMeta']['typ']
-                    productMetaObj.description  = item['productMeta']['description']
-                    obj.productMeta = productMetaObj
-
-                obj.save()
-                print 'inventory', obj.name, obj.pk
+        # inventoryPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','sdpl_inventory.json')
+        # with open(inventoryPath) as json_file:
+        #     inventoryData = json.load(json_file)
+        #     for item in inventoryData:
+        #         obj = Inventory.objects.create(name = item['name'], division = divisionObj)
+        #         obj.value = item['value']
+        #         obj.refurnishedAdded = item['refurnishedAdded']
+        #         obj.sellable = item['sellable']
+        #         obj.rate = item['rate']
+        #         obj.qtyAdded = item['qtyAdded']
+        #         obj.totalRef = item['totalRef']
+        #         obj.total = item['total']
+        #         obj.richtxtDesc = item['richtxtDesc']
+        #         obj.description = item['description']
         #
+        #         if item['productMeta'] is not None:
+        #             productMetaObj ,created = ProductMeta.objects.get_or_create(code = item['productMeta']['code'],taxRate = item['productMeta']['taxRate'])
+        #             productMetaObj.typ  = item['productMeta']['typ']
+        #             productMetaObj.description  = item['productMeta']['description']
+        #             obj.productMeta = productMetaObj
+        #
+        #         obj.save()
+        #         print 'inventory', obj.name, obj.pk
+
         # #creating contacts data
-        contactPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'DataMigrationFIles','essgi_contacts.json')
+        contactPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','sdpl_contacts.json')
         with open(contactPath) as json_file:
             contactData = json.load(json_file)
             for item in contactData:
                 print item['mobile']
-                userObj = User.objects.get(username = 'sanjay')
+
+                try:
+                    if item['user'] is not None:
+                        userObj = User.objects.get(username = item['user']['username'])
+                except:
+                    print item['user'], 'user'
+                    userObjData = [x for x in userData if x['pk'] == item['user']]
+                    userObj = User.objects.get(username = userObjData[0]['username'])
+                else:
+                    userObj = User.objects.get(email = 'sachin@superiorsystems.in')
+
+
                 obj = Contact.objects.create(name = item['name'], division = divisionObj, user = userObj)
                 if item['company'] is not None:
                     companyObjs = service.objects.filter(name = item['company']['name'])
@@ -468,7 +491,7 @@ class DataMigrationsAPIView(APIView):
                 print 'contact ',obj.name , obj.mobile
         #
         # #creating contracts
-        contractPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'DataMigrationFIles','essgi_contracts.json')
+        contractPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','sdpl_contracts.json')
         with open(contractPath) as json_file:
             contractData = json.load(json_file)
             for item in contractData:
@@ -480,7 +503,16 @@ class DataMigrationsAPIView(APIView):
                     if len(contactObjs)>0:
                         contactObj = contactObjs[0]
                 if contactObj is not None:
-                    userObj = User.objects.get(username = 'sanjay')
+                    try:
+                        if item['user'] is not None:
+                            userObj = User.objects.get(username = item['user']['username'])
+                    except:
+                        print item['user'], 'user'
+                        userObjData = [x for x in userData if x['pk'] == item['user']]
+                        userObj = User.objects.get(username = userObjData[0]['username'])
+                    else:
+                        userObj = User.objects.get(email = 'sachin@superiorsystems.in')
+
                     obj = Contract.objects.create(data = item['data'], contact = contactObj, user = userObj)
                     obj.grandTotal = item['grandTotal']
                     obj.dueDate = item['dueDate']
@@ -491,7 +523,7 @@ class DataMigrationsAPIView(APIView):
                     obj.totalTax = item['totalTax']
                     obj.value = item['value']
                     obj.recievedDate = item['recievedDate']
-                    obj.heading = item['heading']
+                    obj.heading = item['subject']
                     obj.read = item['read']
 
                     if item['termsAndCondition'] is not None:

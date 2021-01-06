@@ -128,7 +128,7 @@ class address(models.Model):
 
 class service(models.Model): # contains other companies datails
     created = models.DateTimeField(auto_now_add = True)
-    name = models.CharField(max_length = 100 , null = False, unique = True)
+    name = models.CharField(max_length = 100 , null = False)
     user = models.ForeignKey(User , related_name = 'servicesCreated' , null = False) # the responsible person for this service
     address = models.ForeignKey(address , null = True ,blank=True)
     mobile = models.CharField(max_length = 20 , null = True,blank=True)
@@ -148,7 +148,9 @@ class service(models.Model): # contains other companies datails
     ifscCode = models.CharField(max_length = 100 , null= True)
     paymentTerm = models.PositiveIntegerField(null=True , default=0)
 
-
+    class Meta:
+        unique_together = ('name', 'user',)
+        
     def __unicode__(self):
         return '< name :%s>,<user :%s>,<address :%s>' %(self.name ,self.user.username, self.address)
 
