@@ -1666,11 +1666,26 @@ class AddProductView(APIView):
             pincode = data['pincode']
             country = data['country']
         else:
-            address = contactObj.street
-            city = contactObj.city
-            state = contactObj.state
-            pincode = contactObj.pincode
-            country = contactObj.country
+            if contactObj.street is not None:
+                address = contactObj.street
+            else:
+                address = ''
+            if contactObj.city is not None:
+                city = contactObj.city
+            else:
+                city = ''
+            if contactObj.state is not None:
+                state = contactObj.state
+            else:
+                state = ''
+            if contactObj.pincode is not None:
+                pincode = contactObj.pincode
+            else:
+                pincode = ''
+            if contactObj.country is not None:
+                country = contactObj.country
+            else:
+                country = ''
         toSave['installationAddress'] = address
         toSave['city'] = city
         toSave['state'] = state
@@ -1687,7 +1702,7 @@ class AddProductView(APIView):
         nextDate =  datetime.datetime.strptime(data['startDate'], '%Y-%m-%d')
         for i in range(0,int(data['totalServices'])):
             division = request.user.designation.division
-            ticketData = {'referenceContact' : contactObj , 'name' : contactObj.name , 'phone' : contactObj.mobile , 'email'  : contactObj.email , 'productName' : data['productName']  ,'notes' : notes , 'productSerial' : serialNo , 'address' : address , 'pincode' : pincode , 'city' : city, 'state' : state , 'country' : country , 'referenceAMC' : amc , 'division' : division, 'status' : 'upcoming'}
+            ticketData = {'referenceContact' : contactObj , 'name' : contactObj.name , 'phone' : contactObj.mobile , 'email'  : contactObj.email , 'productName' : data['productName']  ,'notes' : notes , 'productSerial' : serialNo , 'address' : address , 'pincode' : pincode , 'city' : city, 'state' : state , 'country' : country , 'referenceAMC' : amc , 'division' : division, 'status' : 'upcoming','preferredDate': nextDate , 'requireOnSiteVisit' : True}
             nextDate = nextDate+ relativedelta(months=+months)
             ticket = ServiceTicket.objects.create(**ticketData)
         toRet = RegisteredProductsSerializer(amc, many = False).data
