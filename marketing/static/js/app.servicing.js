@@ -167,6 +167,19 @@ app.controller("businessManagement.servicing", function($scope, $state, $users, 
   }
   $scope.getUsers()
 
+  $scope.getAllTerms = function(){
+    $http({
+      method: 'GET',
+      url: '/api/clientRelationships/crmtermsAndConditions/',
+    }).
+    then(function(response) {
+      $scope.allTerms = response.data
+
+    })
+
+  }
+  $scope.getAllTerms()
+
 
   $scope.changeStatus = function(indx, status){
     method = 'PATCH'
@@ -183,6 +196,8 @@ app.controller("businessManagement.servicing", function($scope, $state, $users, 
       // $uibModalInstance.dismiss()
     })
   }
+
+
 
 
   $scope.newContact = function(indx) {
