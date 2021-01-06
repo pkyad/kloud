@@ -76,8 +76,8 @@
         <div class="col-md-1">
           <button type="button" class="btn btn-default btn-block" ng-click="next()" style="padding:15px;background:#F2F3F7;border-radius:10px !important;border:none !important;">Next</button>
         </div>
-        <div class="col-md-2">
-              <a ng-click="download()" type="button" class="btn btn-primary" style="padding:15px;padding-top:8px;padding-bottom:8px;background:#F2F3F7;border-radius:10px !important;border:none !important;" href="/api/marketing/downloadAllvisits/?serviceName={{serviceName}}"><img src="/static/images/download-from-cloud.png" style="width: 35px;" > Download Report</a>
+        <div class="col-md-2" ng-if="$state.is('businessManagement.servicing')">
+              <a  type="button" class="btn btn-primary" style="padding:15px;padding-top:8px;padding-bottom:8px;background:#F2F3F7;border-radius:10px !important;border:none !important;" href="/api/clientRelationships/downloadAllvisits/"><img src="/static/images/download-from-cloud.png" style="width: 35px;" > Download Report</a>
         </div>
       </div>
     </div>
@@ -110,9 +110,10 @@
             </td>
             <td class="contentTd">{{contact.warrantyStatus}}</td>
             <td class="contentTd">
-              <div class="btn-group btn-group-sm">
+              <div class="btn-group btn-group-sm" ng-if="contact.status == 'assigned' || contact.status == 'ongoing' ||  contact.status == 'posponded' || contact.status == 'created' || contact.status == 'upcoming'">
                 <button type="button" class="btn-assign" ng-click="assign($index);$event.stopPropagation();" style="">
-                  Assign Technician
+                <span ng-if="contact.status == 'created'|| contact.status == 'upcoming'">  Assign Technician </span>
+                <span ng-if="contact.status == 'assigned' || contact.status == 'ongoing' ||  contact.status == 'posponded'">  Change Technician </span>
                 </button>
                 <!-- <button ng-if="material_inward == 'True'" type="button" class="btn btn-default" ng-click="openMaterialInward($index);$event.stopPropagation();">
                   MIN

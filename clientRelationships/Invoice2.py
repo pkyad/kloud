@@ -595,19 +595,21 @@ def genInvoice(response, contract, request):
     tncPara = "<font size='9'><strong>Terms and Conditions:</strong></font>"
 
     story.append(Paragraph(tncPara, styleN))
-    if contract.termsAndCondition is not None and contract.termsAndCondition.body is not None:
+    if contract.termsAndConditionTxts is not None and len(contract.termsAndConditionTxts)>0:
         tncBody = contract.termsAndCondition.body
-
-    if tncBody is None:
-        for i , cond in enumerate(contract.termsAndConditionTxts.split('||')):
-            bullts += "<strong>%s.</strong> %s <br/>"%(i+1 , cond)
-        story.append(Paragraph(bullts, styleN))
+    elif contract.termsAndCondition is not None and contract.termsAndCondition.body is not None:
+        tncBody = contract.termsAndConditionTxts
     else:
+        termsObj = CRMTermsAndConditions.objects.filter(division = divsn)
+        if termsObj.count()>0:
+            tncBody = termsObj.first().body
+
+    # print contract.termsAndConditionTxts, 'contract.termsAndConditionTxts'
+
+    if tncBody is not None:
         for i , cond in enumerate(tncBody.split('||')):
             bullts += "<strong>%s.</strong> %s <br/>"%(i+1 , cond)
         story.append(Paragraph(bullts, styleN))
-
-    print "bullts" , bullts
 
     if contract.termsAndCondition.message is not None:
 

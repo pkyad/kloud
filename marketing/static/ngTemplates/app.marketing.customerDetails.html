@@ -62,21 +62,27 @@
                   <a href="/api/marketing/downloadExpenses/?id={{a.pk}}"><img src="/static/images/downloadExpenses.png" style="height:50px"> Expenses</a>
                 </div>
                 <div class="col-md-6">
-                  <a ng-if="a.contract" ng-click="$state.go('businessManagement.contacts.quote', { id : a.contact.contact_ref , contract :a.contract})"><img src="/static/images/quotation.png" style="height:50px"> Quotation </a>
-                  <a ng-if="!a.contract" ng-click="$state.go('businessManagement.contacts.contactQuote', { id : a.contact.contact_ref , tour:a.pk})"><img src="/static/images/quotation.png" style="height:50px"> Quotation </a>
+                  <a ng-click="$state.go('businessManagement.contacts.delatils', {id :a.referenceContact})"><img src="/static/images/quotation.png" style="height:50px"> Quotation </a>
+                  <!-- <a ng-if="!a.contract" ng-click="$state.go('businessManagement.contacts.contactQuote', { id : a.contact.contact_ref , tour:a.pk})"><img src="/static/images/quotation.png" style="height:50px"> Quotation </a> -->
                 </div>
               </div>
               </div>
-            <div class="col-md-5"> <h3>{{a.preferredDate}} @  {{a.preferredTimeSlot}}</h3>
+            <div class="col-md-4"> <h3>{{a.preferredDate}} @  {{a.preferredTimeSlot}}</h3>
               <!-- <p style="color:{{a.remaining.split(' ')[0]<=0 || a.remaining<=0 ?'orange':'green'}}"> {{a.remaining}} Remaining </p> -->
 
               <h3> <img src="/static/images/icons8-worker-100.png" width="35px">  {{a.engineer.first_name}} {{a.engineer.last_name}}</h3>
                <!-- <br> Status : {{a.techStatus}} -->
             </div>
-            <div class="col-md-1 text-center" ng-if="showEdit==true">
+            <!-- <div class="col-md-1 text-center" ng-if="showEdit==true">
               <img src="https://icons-for-free.com/iconfiles/png/512/edit+document+edit+file+edited+editing+icon-1320191040211803620.png" style="width: 35px;" ng-click="assign($index)">
+            </div> -->
+            <div class="col-md-2" ng-if="statusList.length>0">
+              <p> Change status </p>
+              <select class="form-control" ng-model="a.status" ng-options="k for k  in statusList" ng-change="changeStatus($index , a.status)" style="width:70%;padding:15px;background:#F2F3F7;border-radius:10px !important;border:none !important;height:55px;">
+              </select>
             </div>
           </div>
+
 
           <!-- <div class="row" ng-if="$index==indx" style="padding-top:15px;padding-bottom:15px">
             <div class="col-md-6">

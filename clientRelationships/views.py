@@ -60,7 +60,8 @@ from openpyxl.utils import get_column_letter
 from aggrement import *
 # from Invoice1 import *
 # from Invoice2 import *
-
+import random, string
+from openpyxl.writer.excel import save_virtual_workbook
 
 
 
@@ -1658,7 +1659,7 @@ class AddProductView(APIView):
         nextDate =  datetime.datetime.strptime(data['startDate'], '%Y-%m-%d')
         for i in range(0,int(data['totalServices'])):
             division = request.user.designation.division
-            ticketData = {'referenceContact' : contactObj , 'name' : contactObj.name , 'phone' : contactObj.mobile , 'email'  : contactObj.email , 'productName' : data['productName']  ,'notes' : notes , 'productSerial' : serialNo , 'address' : address , 'pincode' : pincode , 'city' : city, 'state' : state , 'country' : country , 'referenceAMC' : amc , 'division' : division}
+            ticketData = {'referenceContact' : contactObj , 'name' : contactObj.name , 'phone' : contactObj.mobile , 'email'  : contactObj.email , 'productName' : data['productName']  ,'notes' : notes , 'productSerial' : serialNo , 'address' : address , 'pincode' : pincode , 'city' : city, 'state' : state , 'country' : country , 'referenceAMC' : amc , 'division' : division, 'status' : 'upcoming'}
             nextDate = nextDate+ relativedelta(months=+months)
             ticket = ServiceTicket.objects.create(**ticketData)
         toRet = RegisteredProductsSerializer(amc, many = False).data
@@ -1685,3 +1686,112 @@ class ServiceTicketViewSet(viewsets.ModelViewSet):
 
     # filter_backends = [DjangoFilterBackend]
     # filter_fields = ['contact']
+
+
+
+class DownloadAllVisitsAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def get(self,request , format= None):
+        workbook = Workbook()
+        divsn = self.request.user.designation.division
+        obj = ServiceTicket.objects.filter(division = divsn)
+        Sheet1 = workbook.active
+        hdFont = Font(size=12,bold=True)
+        alphaChars = list(string.ascii_uppercase)
+        Sheet1.title = 'Assigned'
+        hd1 = [ 'ID' 'Name' , 'Phone' , 'Email' , 'Product' , 'Serial No.' , ' Preferred Date ' ,' Prefered Time Slot ' , 'Technician' ]
+        hdWidth = [10,10,10,30,30,30,30,15]
+        Sheet1.append(hd1)
+        data = []
+        for i in obj.filter(status = 'assigned'):
+            if i.preferredDate is not None:
+                date = i.preferredDate
+            else:
+                date = ''
+            if i.preferredTimeSlot is not None:
+                timeslot = i.preferredTimeSlot
+            else:
+                timeslot = ''
+            if i.engineer is not None:
+                engineer =  i.engineer.first_name+' ' +i.engineer.last_name
+            else:
+                engineer = ''
+            data = [i.name, i.email, i.phone, i.productName , i.productSerial , date, timeslot , engineer]
+            Sheet1.append(data)
+        Sheet2 = workbook.create_sheet('Ongoing')
+        Sheet2.append(hd1)
+        data = []
+        for i in obj.filter(status = 'ongoing'):
+            if i.preferredDate is not None:
+                date = i.preferredDate
+            else:
+                date = ''
+            if i.preferredTimeSlot is not None:
+                timeslot = i.preferredTimeSlot
+            else:
+                timeslot = ''
+            if i.engineer is not None:
+                engineer = i.engineer.first_name+' ' +i.engineer.last_name
+            else:
+                engineer = ''
+            data = [i.name, i.email, i.phone, i.productName , i.productSerial , date, timeslot , engineer]
+            Sheet2.append(data)
+        Sheet3 = workbook.create_sheet('Completed')
+        Sheet3.append(hd1)
+        data = []
+        for i in obj.filter(status = 'completed'):
+            if i.preferredDate is not None:
+                date = i.preferredDate
+            else:
+                date = ''
+            if i.preferredTimeSlot is not None:
+                timeslot = i.preferredTimeSlot
+            else:
+                timeslot = ''
+            if i.engineer is not None:
+                engineer =  i.engineer.first_name+' ' +i.engineer.last_name
+            else:
+                engineer = ''
+            data = [i.name, i.email, i.phone, i.productName , i.productSerial , date, timeslot , engineer]
+            Sheet3.append(data)
+        Sheet4 = workbook.create_sheet('Postponed')
+        Sheet4.append(hd1)
+        data = []
+        for i in obj.filter(status = 'postponed'):
+            if i.preferredDate is not None:
+                date = i.preferredDate
+            else:
+                date = ''
+            if i.preferredTimeSlot is not None:
+                timeslot = i.preferredTimeSlot
+            else:
+                timeslot = ''
+            if i.engineer is not None:
+                engineer = i.engineer.first_name+' ' +i.engineer.last_name
+            else:
+                engineer = ''
+            data = [i.name, i.email, i.phone, i.productName , i.productSerial , date, timeslot , engineer]
+            Sheet4.append(data)
+        Sheet6 = workbook.create_sheet('Cancelled')
+        Sheet6.append(hd1)
+        data = []
+        for i in obj.filter(status = 'cancelled'):
+            if i.preferredDate is not None:
+                date = i.preferredDate
+            else:
+                date = ''
+            if i.preferredTimeSlot is not None:
+                timeslot = i.preferredTimeSlot
+            else:
+                timeslot = ''
+            if i.engineer is not None:
+                engineer = i.engineer.first_name+' ' +i.engineer.last_name
+            else:
+                engineer = ''
+            data = [i.name, i.email, i.phone, i.productName , i.productSerial , date, timeslot , engineer]
+            Sheet6.append(data)
+
+        response = HttpResponse(content=save_virtual_workbook(workbook),content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=Collection.xlsx'
+        return response
