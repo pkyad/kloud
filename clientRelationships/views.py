@@ -1000,12 +1000,22 @@ class sendEmailAttachment(APIView):
         response.unit = request.user.designation.unit
         response['Content-Disposition'] = 'attachment; filename="CR_invoice%s_%s_%s.pdf"' % (
             o.pk, datetime.datetime.now(pytz.timezone('Asia/Kolkata')).year, o.pk)
-        if o.termsAndCondition.version == 'V2':
-            from Invoice2 import *
-        elif o.termsAndCondition.version == 'V3':
-            from Invoice3 import *
+        if o.termsAndCondition is not None:
+            if o.termsAndCondition.version == 'V2':
+                from Invoice2 import *
+            elif o.termsAndCondition.version == 'V3':
+                from Invoice3 import *
+            else:
+                from Invoice1 import *
         else:
-            from Invoice1 import *
+            # try:
+            crmObj = CRMTermsAndConditions.objects.filter(division = request.user.designation.division).first()
+            if crmObj.version == 'V2':
+                from Invoice2 import *
+            elif crmObj.version == 'V3':
+                from Invoice3 import *
+            else:
+                from Invoice1 import *
         genInvoice(response, o, request)
         filePath = os.path.join(globalSettings.BASE_DIR, 'media_root/CR_invoice%s%s_%s.pdf' %
                               (o.pk, datetime.datetime.now(pytz.timezone('Asia/Kolkata')).year, o.pk))
