@@ -47,5 +47,6 @@ urlpatterns = [
     url(r'downloadAggrement/$' , DownloadAggrement.as_view()),
     url(r'dataMigrations/$' , DataMigrationsAPIView.as_view()),
     url(r'addProduct/$' , AddProductView.as_view()),
+    url(r'fixDivision/$' , FixDivisionView.as_view()),
 
 ]

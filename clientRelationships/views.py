@@ -1607,6 +1607,22 @@ class DownloadAggrement(APIView):
 
         return response
 
+class FixDivisionView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny,)
+    def get(self, request, format=None):
+        success = 0
+        failure = 0
+        for c in Contract.objects.all():
+            try:
+                c.division = c.user.designation.division
+                c.save()
+                success += 1
+            except:
+                failure += 1
+
+        return Response({"failure" : failure , "success" : success}, status=status.HTTP_200_OK)
+        
 
 class AddProductView(APIView):
     renderer_classes = (JSONRenderer,)

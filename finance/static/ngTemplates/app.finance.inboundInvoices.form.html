@@ -159,7 +159,7 @@
                   <td><input type="text" class="form-control-pos text-center" ng-model="v.product" uib-typeahead="p as p.product for p in productSearch($viewValue)"></td>
                   <td><input type="text" class="form-control-pos text-center" ng-model="v.price"></td>
                   <td><input type="text" class="form-control-pos text-center" ng-model="v.receivedQty"></td>
-                  <td><input type="text" class="form-control-pos text-center" ng-model="v.hsn" uib-typeahead="meta as  (meta.code ' : ' + meta.description) for meta in productMetaSearch($viewValue)"></td>
+                  <td><input type="text" class="form-control-pos text-center" ng-model="v.hsn" uib-typeahead="meta as  (meta.code + ' : ' + meta.description) for meta in productMetaSearch($viewValue)"></td>
                   <td><input type="text" class="form-control-pos text-center" ng-model="v.tax"></td>
                   <td><input type="text" class="form-control-pos text-center" ng-model="v.total"></td>
                   <td><button type="button" class="btn btn-danger btn-sm"  ng-click="deleteData(v.pk , $index)"> <i class="fa fa-trash fa-2x"></i> </button></td>
