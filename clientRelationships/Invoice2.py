@@ -427,7 +427,7 @@ def genInvoice(response, contract, request):
     imagePath = os.path.join(globalSettings.MEDIA_ROOT , str(divsn.logo))
     f = open(imagePath, 'rb')
     ima = Image(f)
-    # ima.drawHeight = 0.8*inch
+    ima.drawHeight = 1*inch
     ima.drawWidth = 1*inch
     ima.hAlign = 'RIGHT'
     imageTable = [[ima]]
