@@ -478,7 +478,6 @@ class ClientHomeCalAPIView(APIView):
         else:
             currencyTyp = ''
         contact_count = Contact.objects.filter(division = divsn, created__range = (FstDate,lstDate)).count()
-        opportunities_count = Deal.objects.filter(division = divsn, created__range = (FstDate,lstDate)).count()
         contract_count = Contract.objects.filter(division = divsn, created__range = (FstDate,lstDate)).count()
         quoted = Contract.objects.filter(division = divsn, created__range = (request.GET['frm'], request.GET['to']))
         if 'typ' in request.GET:
@@ -502,7 +501,7 @@ class ClientHomeCalAPIView(APIView):
             excelData.save(response)
             return response
 
-        toSend = {'sumLi': sumLi, 'countLi': countLi, 'approvedAmount': approvedAmount, 'billedAmount': billedAmount, 'receivedAmount': receivedAmount, 'currencyTyp': currencyTyp, 'target': target, 'complete': complete, 'period': period,'contact_count':contact_count,'opportunities_count':opportunities_count,'contract_count':contract_count,'quotedQuote':quotedQuote,'billedQuote':billedQuote,'dueElapsedQuote':dueElapsedQuote}
+        toSend = {'sumLi': sumLi, 'countLi': countLi, 'approvedAmount': approvedAmount, 'billedAmount': billedAmount, 'receivedAmount': receivedAmount, 'currencyTyp': currencyTyp, 'target': target, 'complete': complete, 'period': period,'contact_count':contact_count,'opportunities_count':0,'contract_count':contract_count,'quotedQuote':quotedQuote,'billedQuote':billedQuote,'dueElapsedQuote':dueElapsedQuote}
 
         return Response(toSend, status=status.HTTP_200_OK)
 
