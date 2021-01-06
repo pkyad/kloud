@@ -86,5 +86,5 @@ urlpatterns = [
     url(r'sendNofctn/$' , SendNotfcnAPIView.as_view()),
     url(r'expenseSheetCreate/$' , createExpenseSheetAPIView.as_view()),
     url(r'downloadExpenses/$' , DownloadExpensesAPIView.as_view()),
-    url(r'downloadAllvisits/$' , DownloadAllVisitsAPIView.as_view()),
+
 ]
