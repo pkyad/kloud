@@ -4495,14 +4495,7 @@ def proCatalog(response, request):
         elements.append(dataTabl)
         products= []
 
-    # img = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'images', 'CatalogFront.png')
-    # drawing = svg2rlg(img)
-    # imgD = Image(img, 30, 30, hAlign='CENTER')
-
     data1=[['']]
-    # rheights=1*[1.1*inch]
-    # cwidths=2*[0.8*inch]
-    # cwidths[1]=7*inch
     t1=Table(data1)
     elements.append(t1)
 

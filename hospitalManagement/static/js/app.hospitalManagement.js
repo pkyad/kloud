@@ -1625,7 +1625,6 @@ app.controller('businessManagement.outPatient.form', function($scope, $http, $as
 
   if ($state.is('businessManagement.hospitalManagement.editoutpatient')) {
 
-    console.log($scope.me.designation.division, $stateParams.id);
     $http({
       method: 'GET',
       url: '/api/hospitalManagement/activePatient/' + $stateParams.id + '/' + '?outPatient=true'
