@@ -165,6 +165,7 @@ class Contract(models.Model): # invoices actually
     termsAndConditionTxts = models.TextField(max_length = 10000 , null = True, blank = True)
     discount = models.FloatField(default=0)
     heading = models.CharField(max_length = 300 , null = True)
+    division = models.ForeignKey(Division , related_name='quotations' , null = True)
 
 
 @receiver(pre_save, sender=Contract)

@@ -228,8 +228,12 @@ class PageNumCanvas(canvas.Canvas):
         p.drawOn(self, 100 * mm, 10 * mm)
 
     def drawLetterHeadFooter(self):
-        if self.contract.termsAndCondition.themeColor is not None:
+        if self.contract.termsAndCondition is not None and self.contract.termsAndCondition.themeColor is not None:
             themeColor = colors.HexColor(self.contract.termsAndCondition.themeColor)
+        else:
+            termsObj = CRMTermsAndConditions.objects.filter(division = self.division)
+            if termsObj.count()>0:
+                themeColor = colors.HexColor(termsObj.first().themeColor)
         settingsFields = application.objects.get(name='app.CRM').settings.all()
         self.setStrokeColor(themeColor)
         self.setFillColor(themeColor)
@@ -266,9 +270,9 @@ class PageNumCanvas(canvas.Canvas):
         imagePath = os.path.join(globalSettings.MEDIA_ROOT , str(self.division.logo))
         f = open(imagePath, 'rb')
         ima = Image(f)
-        ima.drawHeight = 0.8*inch
+        # ima.drawHeight = 0.8*inch
         ima.drawWidth = 2*inch
-        ima.hAlign = 'CENTER'
+        ima.hAlign = 'RIGHT'
         tab5 = Table([[ima]])
         tab5.wrapOn(self, 1 * mm, self._pagesize[1] - 25 * mm)
         tab5.drawOn(self, 1 * mm, self._pagesize[1] - 25 * mm)
@@ -299,8 +303,15 @@ from num2words import num2words
 
 
 def genInvoice(response, contract, request):
-    if contract.termsAndCondition.themeColor is not None:
+    divsn = request.user.designation.division
+    unt  = request.user.designation.unit
+
+    if contract.termsAndCondition is not None and contract.termsAndCondition.themeColor is not None:
         themeColor = colors.HexColor(contract.termsAndCondition.themeColor)
+    else:
+        termsObj = CRMTermsAndConditions.objects.filter(division = divsn)
+        if termsObj.count()>0:
+            themeColor = colors.HexColor(termsObj.first().themeColor)
 
     MARGIN_SIZE = 8 * mm
     PAGE_SIZE = A4
@@ -668,8 +679,6 @@ def genInvoice(response, contract, request):
         story.append(Paragraph(summryParaSrc1, styleN))
         story.append(Spacer(2.5, 0.5 * cm))
 
-    divsn = request.user.designation.division
-    unt  = request.user.designation.unit
 
     if contract.status in ['billed', 'approved', 'recieved']:
 
@@ -708,7 +717,7 @@ def genInvoice(response, contract, request):
     #         bullts += "<strong>%s.</strong> %s <br/>"%(i+1 , cond)
     #     story.append(Paragraph(bullts, styleN))
 
-    if contract.termsAndCondition.message is not None:
+    if contract.termsAndCondition is not None and contract.termsAndCondition.message is not None:
 
         para11 = '''
         <para align="left">

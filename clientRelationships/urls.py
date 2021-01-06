@@ -48,5 +48,6 @@ urlpatterns = [
     url(r'dataMigrations/$' , DataMigrationsAPIView.as_view()),
     url(r'addProduct/$' , AddProductView.as_view()),
     url(r'downloadAllvisits/$' , DownloadAllVisitsAPIView.as_view()),
+    url(r'fixDivision/$' , FixDivisionView.as_view()),
 
 ]

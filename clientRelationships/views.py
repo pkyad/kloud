@@ -97,12 +97,24 @@ class DownloadInvoice(APIView):
         response.contract = o
         response.division = request.user.designation.division
         response.unit = request.user.designation.unit
-        if o.termsAndCondition.version == 'V2':
-            from Invoice2 import *
-        elif o.termsAndCondition.version == 'V3':
-            from Invoice3 import *
+        if o.termsAndCondition is not None:
+            if o.termsAndCondition.version == 'V2':
+                from Invoice2 import *
+            elif o.termsAndCondition.version == 'V3':
+                from Invoice3 import *
+            else:
+                from Invoice1 import *
         else:
-            from Invoice1 import *
+            # try:
+            crmObj = CRMTermsAndConditions.objects.filter(division = request.user.designation.division).first()
+            if crmObj.version == 'V2':
+                from Invoice2 import *
+            elif crmObj.version == 'V3':
+                from Invoice3 import *
+            else:
+                from Invoice1 import *
+            # except:
+            #     pass
         response['Content-Disposition'] = 'attachment; filename="CR_%s%s_%s_%s.pdf"' % (o.status,
             o.pk, datetime.datetime.now(pytz.timezone('Asia/Kolkata')).year, o.pk)
         genInvoice(response, o, request)
@@ -1607,6 +1619,22 @@ class DownloadAggrement(APIView):
         genAMCAggrement(response, contactObj, productObj, request)
 
         return response
+
+class FixDivisionView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny,)
+    def get(self, request, format=None):
+        success = 0
+        failure = 0
+        for c in Contract.objects.all():
+            try:
+                c.division = c.user.designation.division
+                c.save()
+                success += 1
+            except:
+                failure += 1
+
+        return Response({"failure" : failure , "success" : success}, status=status.HTTP_200_OK)
 
 
 class AddProductView(APIView):
