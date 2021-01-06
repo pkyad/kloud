@@ -109,5 +109,6 @@ urlpatterns = [
     url(r'getInventory/$' , GetInventoryAPI.as_view()),
     url(r'ProductsCatalog/$' , ProductsCatalogAPI.as_view()),
     url(r'getAccountTotal/$' , GetAccountsTotalAPIView.as_view()),
+    url(r'makeImageTransparent/$' , TransparentImageAPI.as_view()),
 
 ]

@@ -237,6 +237,8 @@ app.controller("businessManagement.hospitalManagement.form", function($scope, $r
       then(function(response) {
         Flash.create('success', 'Updated');
         console.log('dataaaa', response.data);
+        $scope.fetchData()
+        
       })
     }
   }
@@ -302,7 +304,7 @@ app.controller('businessManagement.activePatient.explore', function($scope, $htt
 
       $http({
         method: 'PATCH',
-        url: '/api/hospitalManagement/activePatient/' + $stateParams.id + '/' + '?division=' +  $scope.me.designation.division,
+        url: '/api/hospitalManagement/activePatient/' + $stateParams.id + '/',
         data: {
           msg: $scope.data.msg
         }
@@ -400,7 +402,7 @@ app.controller('businessManagement.activePatient.explore', function($scope, $htt
 
       $http({
         method: 'PATCH',
-        url: '/api/hospitalManagement/activePatient/' + $scope.data.pk + '/' + '?division=' +  $scope.me.designation.division,
+        url: '/api/hospitalManagement/activePatient/' + $scope.data.pk + '/',
         data: {
           status: 'dishcharged',
           dateOfDischarge: newValue
