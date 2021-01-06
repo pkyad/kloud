@@ -1693,7 +1693,8 @@ class ServiceTicketViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     serializer_class = ServiceTicketSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['status']
+    filter_fields = ['status','engineer']
+    search_fields = ('name', 'email', 'phone')
     def get_queryset(self):
         division = self.request.user.designation.division
         return ServiceTicket.objects.filter(division = division)
