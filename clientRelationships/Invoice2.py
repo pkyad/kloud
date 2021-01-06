@@ -105,7 +105,7 @@ class expanseReportHead(Flowable):
         # offset = application.objects.get(name='app.clientRelationships').settings.filter(name='CRM_offset').value
         offset = globalSettings.CRM_OFFSET
         id = id - offset
-        docId = globalSettings.INVOICE_NUMBER_PREFIX + str(id)
+        docId = self.contract.frm.designation.unit.areaCode + str(id)
         self.contract.identifier = docId
         self.contract.save()
         docID = '%s' % (docId)
