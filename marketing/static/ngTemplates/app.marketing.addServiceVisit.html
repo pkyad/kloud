@@ -1,21 +1,21 @@
 <div class="modal-body" style="background:#F2F3F7;min-height:100vh;padding:30px;" >
-  <h4 style="margin-bottom: 37px;"> {{typ=='planandcontact' ? 'Edit' : 'Add'}} Technician Appointment For <span style="font-size:23px;">{{form.customer.name}}</span> </h4>
+  <h4 style="margin-bottom: 37px;">  Appoint a Technician  For <span style="font-size:23px;">{{form.name}}</span> </h4>
   <div class="row">
     <div class="col-md-6">
       <div class="form-group">
         <label>Technician</label>
-        <select style="height: 55px;border-radius: 10px;border: none !important;" ng-change="checkCount()" class="form-control" ng-model="form.user"  ng-options="p.first_name + ' ' +  p.last_name for p in form.techniciandata" >
+        <select style="height: 55px;border-radius: 10px;border: none !important;"  class="form-control" ng-model="form.engineer"  ng-options="p.first_name + ' ' +  p.last_name for p in allUsers" >
         </select>
       </div>
-      <div class="row" style="margin:0px;font-size:18px;" ng-if="form.user">
+      <!-- <div class="row" style="margin:0px;font-size:18px;" ng-if="form.user">
         <p style="color:green" ng-if="tourPlanCount>0"> {{tourPlanCount}} leads already assigned  for {{form.dated | date :'dd MMM'}}</p>
           <p style="color:green" ng-if="tourPlanCount==0"> no leads assigned yet for {{form.dated | date : 'dd MMM'}}</p>
-      </div>
+      </div> -->
     </div>
     <div class="col-md-6">
       <div class="form-group">
         <label>Type of service</label>
-        <select class="form-control" style="height: 55px;border-radius: 10px;border: none !important;" ng-model="form.visitType">
+        <select class="form-control" style="height: 55px;border-radius: 10px;border: none !important;" ng-model="form.serviceType">
           <option value="installation">Installation</option>
           <option value="service">Service</option>
           <option value="replacement">Replacement</option>
@@ -39,7 +39,7 @@
       <div class="form-group">
         <label>Date</label>
         <div class="input-group newDatePicWhite">
-          <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.dated" is-open="status.opened" />
+          <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.preferredDate" is-open="status.opened" />
           <span class="input-group-btn ">
             <button type="button" class="btn btn-default pic" ng-click="status.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
           </span>
@@ -49,7 +49,7 @@
     <div class="col-md-6">
       <div class="form-group">
         <label> Time Slot</label>
-        <select class="form-control" style="height: 55px;border-radius: 10px;border: none !important;" ng-model="form.timeslot">
+        <select class="form-control" style="height: 55px;border-radius: 10px;border: none !important;" ng-model="form.preferredTimeSlot">
           <option hidden disabled selected value></option>
           <option value="9 AM">9 AM</option>
           <option value="10 AM">10 AM</option>
@@ -70,15 +70,15 @@
   </div>
 
 
-  <div class="row" style="margin:0px;" ng-if="typ!='planandcontact'">
+  <div class="row" style="margin:0px;">
 
-    <button style="background: #461482;color: white;border: none !important;border-radius: 64px !important;padding: 17px;width: 112px;right: 59px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;" type="button" class="btn btn-default" ng-click="plan()">
+    <button style="background: #461482;color: white;border: none !important;border-radius: 64px !important;padding: 17px;width: 112px;right: 59px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;" type="button" class="btn btn-default"  mwl-confirm title="Delete" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="plan()" confirm-button-type="default" cancel-button-type="default">
       Assign
     </button>
 
   </div>
 
-  <div class="row" ng-if="typ=='planandcontact'">
+  <!-- <div class="row" ng-if="typ=='planandcontact'">
     <div class="row" style="margin:0px;">
 
       <button style="position: fixed;bottom: 20px;background: #461482;color: white;border: none !important;border-radius: 64px !important;padding: 17px;width: 112px;right: 59px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;" type="button" class="btn btn-default" ng-click="plan()">
@@ -132,5 +132,5 @@
       </map>
     </div>
 
-  </div>
+  </div> -->
 </div>
