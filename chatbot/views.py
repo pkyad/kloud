@@ -25,7 +25,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import datetime
 from marketing.models import Contacts
-# from talk import *
+import getpass
+if getpass.getuser() == 'cioc-d2':
+    from talk import *
 from PIM.models import *
 # Create your views here.
 

@@ -1,4 +1,22 @@
 newStyle.appendChild(document.createTextNode("\
+div.scrollView {\
+  overflow: auto;\
+  white-space: nowrap;\
+}\
+\
+div.scrollView .prodView {\
+  display: inline-block;\
+  text-align: center;\
+  padding: 14px;\
+  border-radius:20px;\
+  text-decoration: none;\
+}\
+.scrollView img{\
+  width: 120px;\
+}\
+div.scrollView .prodView:hover {\
+  background-color: #eee;\
+}\
 @font-face {\
   font-family: 'Syrow';\
   src:  url('/static/fonts/syrow/Syrow.eot') format('embedded-opentype'),\
