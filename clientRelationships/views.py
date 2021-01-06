@@ -1732,10 +1732,13 @@ class ServiceTicketViewSet(viewsets.ModelViewSet):
     serializer_class = ServiceTicketSerializer
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['status','engineer']
-    search_fields = ('name', 'email', 'phone')
+    # search_fields = ('name', 'email', 'phone')
     def get_queryset(self):
         division = self.request.user.designation.division
-        return ServiceTicket.objects.filter(division = division)
+        toRet = ServiceTicket.objects.filter(division = division).order_by('-created')
+        if 'search' in self.request.GET:
+            toRet = toRet.filter(Q(name__icontains = self.request.GET['search']) | Q(phone__icontains = self.request.GET['search']) )
+        return toRet
 
     # filter_backends = [DjangoFilterBackend]
     # filter_fields = ['contact']
@@ -1748,7 +1751,7 @@ class DownloadAllVisitsAPIView(APIView):
     def get(self,request , format= None):
         workbook = Workbook()
         divsn = self.request.user.designation.division
-        obj = ServiceTicket.objects.filter(division = divsn)
+        obj = ServiceTicket.objects.filter(division = divsn).order_by('-created')
         Sheet1 = workbook.active
         hdFont = Font(size=12,bold=True)
         alphaChars = list(string.ascii_uppercase)
@@ -1826,10 +1829,29 @@ class DownloadAllVisitsAPIView(APIView):
                 engineer = ''
             data = [i.name, i.email, i.phone, i.productName , i.productSerial , date, timeslot , engineer]
             Sheet4.append(data)
-        Sheet6 = workbook.create_sheet('Cancelled')
-        Sheet6.append(hd1)
+        Sheet5 = workbook.create_sheet('Cancelled')
+        Sheet5.append(hd1)
         data = []
         for i in obj.filter(status = 'cancelled'):
+            if i.preferredDate is not None:
+                date = i.preferredDate
+            else:
+                date = ''
+            if i.preferredTimeSlot is not None:
+                timeslot = i.preferredTimeSlot
+            else:
+                timeslot = ''
+            if i.engineer is not None:
+                engineer = i.engineer.first_name+' ' +i.engineer.last_name
+            else:
+                engineer = ''
+            data = [i.name, i.email, i.phone, i.productName , i.productSerial , date, timeslot , engineer]
+            Sheet5.append(data)
+
+        Sheet6 = workbook.create_sheet('Upcoming')
+        Sheet6.append(hd1)
+        data = []
+        for i in obj.filter(status = 'upcoming'):
             if i.preferredDate is not None:
                 date = i.preferredDate
             else:
