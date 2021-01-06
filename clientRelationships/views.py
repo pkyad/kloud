@@ -92,7 +92,7 @@ class DownloadInvoice(APIView):
         if 'contract' not in request.GET:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         response = HttpResponse(content_type='application/pdf')
-        o = Contract.objects.get(id=request.GET['contract'])
+        o = Contract.objects.get(id=request.GET['contract'] , division = request.user.designation.division)
         response.contract = o
         response.division = request.user.designation.division
         response.unit = request.user.designation.unit
@@ -229,12 +229,13 @@ class ContractViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['status', 'value','id','contact','user' , 'deal']
     def get_queryset(self):
+        divisn =  self.request.user.designation.division
         if 'search' in self.request.GET:
             try:
-                toRet = Contract.objects.filter(value__gte=int(self.request.GET['search']))
+                toRet = Contract.objects.filter(value__gte=int(self.request.GET['search']), division = divisn)
                 return toRet
             except:
-                return Contract.objects.all().order_by('-created')
+                return Contract.objects.all(division = divisn).order_by('-created')
         if 'filters' in self.request.GET:
             prts =  self.request.GET['filters'].split(',')
             statss = []
@@ -244,9 +245,9 @@ class ContractViewSet(viewsets.ModelViewSet):
                 statss.append('billed')
             if prts[2] == 'true':
                 statss.append('dueElapsed')
-            return Contract.objects.filter(status__in =  statss).order_by('-created')
+            return Contract.objects.filter(status__in =  statss, division = divisn).order_by('-created')
         else:
-            return Contract.objects.all().order_by('-created')
+            return Contract.objects.filter(division = divisn).order_by('-created')
 
 
 class ActivityViewSet(viewsets.ModelViewSet):
@@ -314,7 +315,7 @@ class SendNotificationAPIView(APIView):
                     toSMS.append(mob)
             print toSMS
 
-        c = Contract.objects.get(pk=request.data['contract'])
+        c = Contract.objects.get(pk=request.data['contract'], division = request.user.designation.division)
         docID = '%s%s%s' % (c.deal.pk, c.billedDate.year, c.pk)
         value = c.grandTotal
 
@@ -411,7 +412,7 @@ class ClientHomeCalAPIView(APIView):
     def get(self, request, format=None):
         today = datetime.date.today()
         divsn = self.request.user.designation.division
-        approvedAmount = list(Contract.objects.filter( user__designation__division = divsn,
+        approvedAmount = list(Contract.objects.filter( division = divsn,
             status='approved').values('status').annotate(total=Sum('value')))
         if len(approvedAmount) > 0:
             approvedAmount = approvedAmount[0]['total']
@@ -463,10 +464,10 @@ class ClientHomeCalAPIView(APIView):
             currencyTyp = currencyObj[0].value
         else:
             currencyTyp = ''
-        contact_count = Contact.objects.filter(user__designation__division = divsn, created__range = (FstDate,lstDate)).count()
-        opportunities_count = Deal.objects.filter(user__designation__division = divsn, created__range = (FstDate,lstDate)).count()
-        contract_count = Contract.objects.filter(user__designation__division = divsn, created__range = (FstDate,lstDate)).count()
-        quoted = Contract.objects.filter(user__designation__division = divsn, created__range = (request.GET['frm'], request.GET['to']))
+        contact_count = Contact.objects.filter(division = divsn, created__range = (FstDate,lstDate)).count()
+        opportunities_count = Deal.objects.filter(division = divsn, created__range = (FstDate,lstDate)).count()
+        contract_count = Contract.objects.filter(division = divsn, created__range = (FstDate,lstDate)).count()
+        quoted = Contract.objects.filter(division = divsn, created__range = (request.GET['frm'], request.GET['to']))
         if 'typ' in request.GET:
             quoted = quoted.filter(status = request.GET['typ'])
         if 'tandc' in request.GET:
@@ -474,7 +475,7 @@ class ClientHomeCalAPIView(APIView):
         if 'customer' in request.GET:
             quoted = quoted.filter(contact__id = request.GET['customer'])
         if request.user.is_staff:
-            quotedQuote = quoted.filter(user__designation__division = divsn).order_by('-created')
+            quotedQuote = quoted.filter(division = divsn).order_by('-created')
         else:
             quotedQuote = quoted.filter(user = request.user).order_by('-created')
         quotedQuote = quotedQuote.values('pk', 'data', 'value','created','updated','status','deal__name','deal__pk','deal__company__name','deal__company__pk','contact__name','contact__pk','contact__company__name','contact__company__pk','contact__dp','user__pk','user__first_name','user__last_name','dueDate','termsAndCondition__heading')

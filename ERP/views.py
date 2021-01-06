@@ -693,7 +693,7 @@ class GetApplicationDetailsApi(APIView):
         feedObj = Feedback.objects.filter(app = appObj)
         appFeedbacks = FeedbackSerializer(feedObj, many = True).data
         apps = InstalledApp.objects.filter(app__pk=request.GET['app'])
-        users = User.objects.filter(designation__apps__in = apps)
+        users = User.objects.filter(designation__apps__in = apps , designation__division = division)
         appUser = userSearchSerializer(users , many =True).data
         installedApp = InstalledApp.objects.filter(app = appObj , parent = division).first()
         installedAppObj = InstalledAppSerializer(installedApp , many = False).data
