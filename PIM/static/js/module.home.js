@@ -151,6 +151,8 @@ function calcDays(date1, date2) {
   return diffDays
 }
 
+
+
 app.controller('controller.home.leave' , function($scope , $state , $http,$users, Flash){
 $scope.resetAll = function(){
   $scope.form = {

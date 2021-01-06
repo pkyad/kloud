@@ -88,35 +88,74 @@
   .user-search .list-group-item.active{
     color:white;
   }
-
-
+body{
+  background-color:#d9dbd4
+}
+.scrollView{
+  overflow-y: scroll;
+  height: 80vh;
+  scrollbar-color: rgba(0,0,0,.2)
+hsla(0,0%,100%,.1);
+scrollbar-width: thin;
+}
+.bgImg {
+  background-image: url('/static/images/bg_chat.png');
+  height: 89.75vh;
+  background-color: #e5ddd5;
+  /* opacity:0.06 */
+}
 </style>
 
-<div class="row">
+<div class="container-fluid">
+<!-- <div class="container-fluid" style="background-color:#009688;height:100px;"> -->
+  <div class="col-md-10 col-md-offset-1" style="margin-top:60px;box-shadow: 0px 10px 0px #ccc;background-color:#fff;height: 90vh;border: 1px solid
+#ccc;padding:0px;">
 
-  <div class="col-md-3 " style="padding:1rem;background:#fff;height:100vh;padding:0px;padding-left:10px;overflow:hidden;position: fixed;">
+    <div class="col-md-3 " style="padding:0rem;background:#ffffff;">
 
-    <div class=" contact-search" style=" width:82%;margin-bottom:2rem;margin-top:1rem;margin-left: 5%;" >
-      <i class="fa fa-search fa-2x ico" style="position:absolute;left:34px;top:20px;color: #777;font-size: 20px;"></i>
-      <input class="searchInp"  type="text" ng-enter="getUsers()" ng-model="form.searchTxt" placeholder="Search..." style="border:none;padding:1rem 4rem ; border-radius:20px;width:100%;margin-left:-7px">
-    </div>
-    <div class="" style="overflow-y:scroll;overflow-x:hidden;background: white;">
-      <div class=" row contact userMenuItem {{ $state.is('home.messenger.explore') && $state.params.id == u.pk   ? 'activeUserItem':''}}"  ng-click="$state.go('home.messenger.explore' , {id : u.pk})" style="padding:15px;margin:0px;" ng-repeat="u in users">
-        <div class="col-md-2 text-right" style="padding:0px;">
-          <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
-          <div class="" style="clip-path:circle(50%);background:#2edd2e;width:15px;height:15px;position: absolute;bottom: -5px;right: -5px;"></div>
+      <div class="contact-search" style="padding:1rem 1rem;background-color:#f6f6f6;" >
+        <div class="form-group" style="margin:0px;">
+          <i class="fa fa-search " style="position:absolute;padding:11px;color: #777;font-size: 14px;"></i>
+          <input class="form-control searchInp"  type="text" ng-enter="getUsers()" ng-model="form.searchTxt" placeholder="Search..." style="border:none;padding:1rem 4rem ; border-radius:20px;width:100%;">
+
         </div>
-        <div class="col-md-10" style="font-size: 1vw;">
-          {{u.first_name}} {{u.last_name}}
-        </div>
-        <div class="col-md-10" style="font-size: 0.8vw;">
-          {{u.msg}}
+      </div>
+      <div class="" style="overflow-y:scroll;overflow-x:hidden;background: white;scrollbar-color: rgba(0,0,0,.2)
+hsla(0,0%,100%,.1);scrollbar-width: thin;height:84vh;">
+        <div class=" row contact userMenuItem {{ $state.is('home.messenger.explore') && $state.params.id == u.pk   ? 'activeUserItem':''}}"  ng-click="$state.go('home.messenger.explore' , {id : u.pk})" style="padding:10px 15px;padding-bottom:0px;" ng-repeat="u in chatthreads">
+          <div class="col-md-2 text-right" style="padding:0px;">
+            <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
+            <!-- <div class="" style="clip-path:circle(50%);background:#2edd2e;width:15px;height:15px;position: absolute;bottom: -5px;right: -5px;"></div> -->
+          </div>
+          <div class="col-md-10" style="font-size: 1vw;">
+            <div class="row" style="margin:0px;border-bottom:1px solid #ccc;height:60px;">
+              <div class="">
+                <h5>
+                  {{u.title}} 
+
+                </h5>
+
+              </div>
+              <div class="">
+                <p>
+
+                  {{u.msg}}
+                </p>
+
+              </div>
+
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
-  </div>
+    <div >
+      <ui-view >  </ui-view>
+    </div>
 
-  <ui-view></ui-view>
+
+  </div>
 
 </div>
 
@@ -147,14 +186,11 @@
   width: fit-content;
 }
 .chat-input{
-  bottom: 17px;
-    position: fixed;
-    background-color: #fff;
-    width: 42.5%;
+    position: absolute;
+    background-color: #ededed;
     height: 60px;
-    left: 35.3%;
-    border-radius: 10px;
     box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;
+    padding:10px;bottom:0px;
 
 }
 .chat-box{
@@ -177,7 +213,7 @@
 .recived-text{
   background-color:#fff;
   color: #000;
-  padding:1rem;
+  padding:0rem 2rem;
   font-size: 14px;
   font-weight: lighter;
   max-width: 80%;
@@ -272,14 +308,16 @@ margin-top: auto;
 margin-bottom: auto;
 }
 .userMenuItem:hover{
-  background: #F3F6FB;
+  background: #f5f5f5;
   cursor:pointer;
 }
 .userMenuItem{
-  background: #fff
+  /* background: #fff */
+  background: #ffffff
 }
 .activeUserItem{
-  background: #F3F6FB
+  background: #f5f5f5
+  /* background: #F3F6FB */
 }
 
 /* padding */
@@ -292,10 +330,10 @@ padding:0.50rem !important;
 padding-left: 0.5rem !important;
 padding-right: 0.5rem !important;
 }
-@media (min-width:1900px) {
+/* @media (min-width:1900px) {
   .ico{
     left:40px !important;
   }
-}
+} */
 
 </style>
