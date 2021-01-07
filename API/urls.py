@@ -24,5 +24,4 @@ urlpatterns = [
     url(r'^forum/', include('forum.urls')),
     url(r'^blogging/', include('blogging.urls')),
     url(r'^chatbot/', include('chatbot.urls')),
-    url(r'^notes/', include('notes.urls')),
 ]

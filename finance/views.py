@@ -4472,20 +4472,18 @@ stylesH = styles['Heading1']
 from reportlab.platypus import SimpleDocTemplate, Image , Spacer
 from reportlab.platypus import PageBreak, SimpleDocTemplate, Table, TableStyle
 def getFourProductArray(variants):
-    print 'dggffffddd   qqqqqqqqqqqqqqqqqqqqq   AAAAAAAAAAAAAAAAA'
-    print variants,'3o434'
     imageData = []
     if len(variants) > 0:
         for variant in variants:
             if variant.img1 :
                 imgg = str(variant.img1)
                 mediaImg = os.path.join(globalSettings.MEDIA_ROOT,imgg)
-                file = request.FILES['img1']
-                print file.name , 'ffffffff'
-                Img = os.path.join(globalSettings.BASE_DIR, 'media_root/finance/inventory', file.name)
-                f = open(Img, "w")
-                f.write(file.read())
-                f.close()
+                # file = request.FILES['img1']
+                # print file.name , 'ffffffff'
+                # Img = os.path.join(globalSettings.BASE_DIR, 'media_root/finance/inventory', file.name)
+                # f = open(Img, "w")
+                # f.write(file.read())
+                # f.close()
 
                 BLUR = 1
                 CANNY_THRESH_1 = 10
@@ -4494,7 +4492,7 @@ def getFourProductArray(variants):
                 MASK_ERODE_ITER = 10
                 MASK_COLOR = (0.0,0.0,0.0) # In BGR format
 
-                img = cv2.imread(Img)
+                img = cv2.imread(mediaImg)
                 gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
                 edges = cv2.Canny(gray, CANNY_THRESH_1, CANNY_THRESH_2)
@@ -4534,7 +4532,7 @@ def getFourProductArray(variants):
                 b, g, r = cv2.split(masked)
                 rgba = [b,g,r, alpha]
                 dst = cv2.merge(rgba,4)
-                cv2.imwrite("media_root/finance/inventory/%s" %(file.name), dst)
+                cv2.imwrite("media_root/finance/inventory/%s" %(img), dst)
 
                 httpUrl = globalSettings.SITE_ADDRESS+'/media_root/finance/inventory/%s' %(file.name)
                 print httpUrl , 'ooooooooooo'
@@ -4552,6 +4550,7 @@ def getFourProductArray(variants):
                 # url = globalSettings.SITE_ADDRESS+'/api/finance/uploadExcel/'
                 # dataVal = {'startDate':data['fromDate'],'endDate':data['toDate'],'user':user, 'level':level}
                 # rData = requests.post(url,  data=dataVal, files=files)
+                rData = requests.post(globalSettings.SITE_ADDRESS+'/api/finance/makeImageTransparent/',  data={'d':'dsf'}, files=mediaImg)
 
 
 

@@ -238,7 +238,7 @@ app.controller("businessManagement.hospitalManagement.form", function($scope, $r
         Flash.create('success', 'Updated');
         console.log('dataaaa', response.data);
         $scope.fetchData()
-        
+
       })
     }
   }
