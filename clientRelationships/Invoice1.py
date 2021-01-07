@@ -698,7 +698,7 @@ def genInvoice(response, contract, request):
     story.append(Paragraph(tncPara, styleN))
 
     if contract.termsAndConditionTxts is not None and len(contract.termsAndConditionTxts)>0:
-        tncBody = contract.termsAndCondition.body
+        tncBody = contract.termsAndConditionTxts
     elif contract.termsAndCondition is not None and contract.termsAndCondition.body is not None:
         tncBody = contract.termsAndConditionTxts
     else:

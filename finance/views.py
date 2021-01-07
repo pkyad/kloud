@@ -56,6 +56,9 @@ import ast
 import json
 from clientRelationships.models import *
 from marketing.models import TourPlanStop
+from svglib.svglib import svg2rlg
+import cv2
+import numpy as np
 
 
 class TermsAndConditionsViewSet(viewsets.ModelViewSet):
@@ -2201,7 +2204,6 @@ class PageNumCanvas(canvas.Canvas):
         p.drawOn(self , 100*mm , 10*mm)
 
 
-
 def pettyCashacc(response,pettycash,accnt,month , year,request):
     styles = getSampleStyleSheet()
     doc = SimpleDocTemplate(response,pagesize=letter, topMargin=0.5*cm,leftMargin=1*cm,rightMargin=1*cm)
@@ -2582,7 +2584,6 @@ class serviceApi(APIView):
 
     def post(self , request , format = None):
         data = request.data
-        print data,'ssssssssssssssssssssssssssss'
         if 'addresspk' in request.data:
             addressObj = address.objects.get(pk = data['addresspk'])
             addressObj.pincode = data['pincode']
@@ -2607,11 +2608,17 @@ class serviceApi(APIView):
             if 'bankName' in data:
                 serviceObj.bankName = data['bankName']
             if 'accountNumber' in data:
-                serviceObj.accountNumber = data['accountNumber']
+                if len(str(data['accountNumber']))>0:
+                    serviceObj.accountNumber = data['accountNumber']
+                else:
+                    serviceObj.accountNumber = None
             if 'ifscCode' in data:
                 serviceObj.ifscCode = data['ifscCode']
             if 'paymentTerm' in data:
-                serviceObj.paymentTerm = data['paymentTerm']
+                if len(str(data['paymentTerm']))>0:
+                    serviceObj.paymentTerm = data['paymentTerm']
+                else:
+                    serviceObj.paymentTerm = None
             serviceObj.save()
         else:
             serviceObj = service.objects.create(name = data['name'], user = request.user, address=addressObj , tin = data['tin'])
@@ -2622,11 +2629,17 @@ class serviceApi(APIView):
             if 'bankName' in data:
                 serviceObj.bankName = data['bankName']
             if 'accountNumber' in data:
-                serviceObj.accountNumber = data['accountNumber']
+                if len(str(data['accountNumber']))>0:
+                    serviceObj.accountNumber = data['accountNumber']
+                else:
+                    serviceObj.accountNumber = None
             if 'ifscCode' in data:
                 serviceObj.ifscCode = data['ifscCode']
             if 'paymentTerm' in data:
-                serviceObj.paymentTerm = data['paymentTerm']
+                if len(str(data['paymentTerm']))>0:
+                    serviceObj.paymentTerm = data['paymentTerm']
+                else:
+                    serviceObj.paymentTerm = None
             serviceObj.save()
         serviceData = serviceSerializer(serviceObj , many = False).data
         return Response(serviceData, status = status.HTTP_200_OK)
@@ -3679,7 +3692,6 @@ class GetVendorDetailsAPI(APIView):
         data = {'vendor':VendorProfileLiteSerializer(vendorObj,many=False).data,'totalPurchase':purchaseCount,'services':VendorServiceLiteSerializer(vendorServiceObj,many=True).data}
         return Response(data, status = status.HTTP_200_OK)
 
-from svglib.svglib import svg2rlg
 def PoPDF(response , request,poObj):
     styles = getSampleStyleSheet()
     doc = SimpleDocTemplate(response,pagesize=letter, topMargin=1*cm,leftMargin=1*cm,rightMargin=1*cm)
@@ -4378,14 +4390,12 @@ def addPageNumbertoBrochure(self,doc):
         he = 1*inch
         self.drawImage(limg,15*mm,10*inch ,width=width, height=(he * aspect),mask='auto')
 
-    # try:
-    waterMark = utils.ImageReader(os.path.join(globalSettings.BASE_DIR,'media_root','org', 'LOGO', '1609852182_17_epsilonai_logo_dark.png'))
-    waterMark.hAlign ="CENTER"
-    iw, ih = waterMark.getSize()
-    aspect = ih / float(iw)
-    self.drawImage(waterMark,0*mm,0*inch,width=22*cm,height=11*inch,mask='auto')
-    # except:
-        # pass
+    if self._pageNumber == 1:
+        bgImg1 = svg2rlg(os.path.join(globalSettings.BASE_DIR,'static_shared', 'images', 'CatalogFront.svg'))
+        sx=sy=1.05
+        bgImg1.width, bgImg1.height = bgImg1.minWidth()*sx, bgImg1.height*sy
+        bgImg1.scale(sx,sy)
+        renderPDF.draw(bgImg1, self, 0*mm,0*inch)
 
     p = Paragraph("<para fontSize=9  alignment='center'><b>%s</b><br/></para>"%(doc.user.designation.division.name),styles['Normal'])
     p.wrapOn(self ,75*mm,10.25*inch)
@@ -4404,6 +4414,8 @@ class PageNumCanvas(canvas.Canvas):
         """
         On a page break, add information to the list
         """
+        page_count = len(self.pages)
+
         self.pages.append(dict(self.__dict__))
         self._startPage()
 
@@ -4424,9 +4436,24 @@ class PageNumCanvas(canvas.Canvas):
 
     #----------------------------------------------------------------------
     def draw_page_number(self, page_count):
+
         """
         Add the page number
         """
+
+        if self._pageNumber == 2:
+            bgImg2 = svg2rlg(os.path.join(globalSettings.BASE_DIR,'static_shared', 'images', 'CatalogList.svg'))
+            sx=sy=1.05
+            bgImg2.width, bgImg2.height = bgImg2.minWidth()*sx, bgImg2.height*sy
+            bgImg2.scale(sx,sy)
+            renderPDF.draw(bgImg2, self, 0*mm,0*inch)
+
+        if self._pageNumber == 3:
+            bgImg2 = svg2rlg(os.path.join(globalSettings.BASE_DIR,'static_shared', 'images', 'CatalogBack.svg'))
+            sx=sy=1.05
+            bgImg2.width, bgImg2.height = bgImg2.minWidth()*sx, bgImg2.height*sy
+            bgImg2.scale(sx,sy)
+            renderPDF.draw(bgImg2, self, 0*mm,0*inch)
 
         p = Paragraph("<para fontSize=8  alignment='right'><b>Page %d of %d</b></para>"%(self._pageNumber,page_count),styles['Normal'])
         p.wrapOn(self , 50*mm , 10*mm)
@@ -4438,11 +4465,14 @@ class PageNumCanvas(canvas.Canvas):
         p.wrapOn(self , 50*mm , 10*mm)
         p.drawOn(self , 15*mm  , 5*mm)
 
+#----------------------------------------------------------------------
+
 stylesN = styles['Normal']
 stylesH = styles['Heading1']
 from reportlab.platypus import SimpleDocTemplate, Image , Spacer
 from reportlab.platypus import PageBreak, SimpleDocTemplate, Table, TableStyle
 def getFourProductArray(variants):
+    print 'dggffffddd   qqqqqqqqqqqqqqqqqqqqq   AAAAAAAAAAAAAAAAA'
     print variants,'3o434'
     imageData = []
     if len(variants) > 0:
@@ -4450,6 +4480,81 @@ def getFourProductArray(variants):
             if variant.img1 :
                 imgg = str(variant.img1)
                 mediaImg = os.path.join(globalSettings.MEDIA_ROOT,imgg)
+                file = request.FILES['img1']
+                print file.name , 'ffffffff'
+                Img = os.path.join(globalSettings.BASE_DIR, 'media_root/finance/inventory', file.name)
+                f = open(Img, "w")
+                f.write(file.read())
+                f.close()
+
+                BLUR = 1
+                CANNY_THRESH_1 = 10
+                CANNY_THRESH_2 = 200
+                MASK_DILATE_ITER = 10
+                MASK_ERODE_ITER = 10
+                MASK_COLOR = (0.0,0.0,0.0) # In BGR format
+
+                img = cv2.imread(Img)
+                gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+
+                edges = cv2.Canny(gray, CANNY_THRESH_1, CANNY_THRESH_2)
+                edges = cv2.dilate(edges, None)
+                edges = cv2.erode(edges, None)
+
+                contour_info = []
+                contours, _ = cv2.findContours(edges, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
+                # Previously, for a previous version of cv2, this line was:
+                #  contours, _ = cv2.findContours(edges, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
+                # Thanks to notes from commenters, I've updated the code but left this note
+                for c in contours:
+                    contour_info.append((
+                        c,
+                        cv2.isContourConvex(c),
+                        cv2.contourArea(c),
+                    ))
+                contour_info = sorted(contour_info, key=lambda c: c[2], reverse=True)
+                max_contour = contour_info[0]
+
+                mask = np.zeros(edges.shape)
+                cv2.fillConvexPoly(mask, max_contour[0], (255))
+
+                #-- Smooth mask, then blur it --------------------------------------------------------
+                mask = cv2.dilate(mask, None, iterations=MASK_DILATE_ITER)
+                mask = cv2.erode(mask, None, iterations=MASK_ERODE_ITER)
+                mask = cv2.GaussianBlur(mask, (BLUR, BLUR), 0)
+                mask_stack = np.dstack([mask]*3)    # Create 3-channel alpha mask
+
+                #-- Blend masked img into MASK_COLOR background --------------------------------------
+                mask_stack  = mask_stack.astype('float32') / 255.0          # Use float matrices,
+                img         = img.astype('float32') / 255.0                 #  for easy blending
+                masked = (mask_stack * img) + ((1-mask_stack)*(MASK_COLOR)) # Blend
+                masked = (masked * 255).astype('uint8')                     # Convert back to 8-bit
+                tmp = cv2.cvtColor(masked, cv2.COLOR_BGR2GRAY)
+                _,alpha = cv2.threshold(tmp,0,255,cv2.THRESH_BINARY)
+                b, g, r = cv2.split(masked)
+                rgba = [b,g,r, alpha]
+                dst = cv2.merge(rgba,4)
+                cv2.imwrite("media_root/finance/inventory/%s" %(file.name), dst)
+
+                httpUrl = globalSettings.SITE_ADDRESS+'/media_root/finance/inventory/%s' %(file.name)
+                print httpUrl , 'ooooooooooo'
+
+                # url = globalSettings.SITE_ADDRESS+'/api/finance/makeImageTransparent/'
+                #
+                # dataVal = {'ddfs' : 'dfdfsd'}
+                # getImgUrl = requests.post(url,  data=mediaImg)
+                #
+                # savefile = os.path.join(globalSettings.BASE_DIR, 'media_root', fileVal+'.xlsx')
+                # workbook.save(filename = savefile)
+                # Data = open(savefile, 'rb')
+                # print Data, 'ddddddddddd'
+                # files = { 'excelFile': Data}
+                # url = globalSettings.SITE_ADDRESS+'/api/finance/uploadExcel/'
+                # dataVal = {'startDate':data['fromDate'],'endDate':data['toDate'],'user':user, 'level':level}
+                # rData = requests.post(url,  data=dataVal, files=files)
+
+
+
                 imgData = open(mediaImg, 'rb')
                 img = Image(mediaImg)
                 ratio = img.drawHeight / img.drawWidth
@@ -4481,6 +4586,7 @@ def proCatalog(response, request):
     products = []
     doc.user = request.user
     doc.story = []
+
     inventoryObj = Inventory.objects.filter(division = request.user.designation.division.pk).order_by('pk')
     if 'id' in request.GET:
         inventoryObj = inventoryObj.filter(category__pk = int(request.GET['id']))
@@ -4495,16 +4601,23 @@ def proCatalog(response, request):
         elements.append(dataTabl)
         products= []
 
-    # img = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'images', 'CatalogFront.png')
-    # drawing = svg2rlg(img)
-    # imgD = Image(img, 30, 30, hAlign='CENTER')
-
     data1=[['']]
-    # rheights=1*[1.1*inch]
-    # cwidths=2*[0.8*inch]
-    # cwidths[1]=7*inch
     t1=Table(data1)
     elements.append(t1)
+
+    elements.append(PageBreak())
+
+    data2=[['']]
+    t2=Table(data2)
+    elements.append(t2)
+
+    elements.append(PageBreak())
+
+    data2=[['']]
+    t2=Table(data2)
+    elements.append(t2)
+
+    elements.append(PageBreak())
 
 
     doc.build(elements,onFirstPage= addPageNumbertoBrochure,canvasmaker=PageNumCanvas)
@@ -4517,11 +4630,84 @@ class ProductsCatalogAPI(APIView):
         response['Content-Disposition'] = 'attachment; filename="Catalog.pdf"'
 
         proCatalog(response, request)
-        # f = open(os.path.join(globalSettings.BASE_DIR, 'media_root/Catalog.pdf'), 'wb')
-        # f.write(response.content)
-        # f.close()
+        f = open(os.path.join(globalSettings.BASE_DIR, 'media_root/Catalog.pdf'), 'wb')
+        f.write(response.content)
+        f.close()
 
         return response
+
+
+class TransparentImageAPI(APIView):
+    renderer_classes = (JSONRenderer,)
+    def post(self,request , format= None):
+        data = request.data
+        print data , 'dafagsdsg'
+
+        # imageUrls = []
+        # imageFiles = []
+        # for i in request.FILES:
+        #     print i , 'iiiiiiiiii'
+        file = request.FILES['img1']
+        print file.name , 'ffffffff'
+        Img = os.path.join(globalSettings.BASE_DIR, 'media_root/finance/inventory', file.name)
+        f = open(Img, "w")
+        f.write(file.read())
+        f.close()
+
+        BLUR = 1
+        CANNY_THRESH_1 = 10
+        CANNY_THRESH_2 = 200
+        MASK_DILATE_ITER = 10
+        MASK_ERODE_ITER = 10
+        MASK_COLOR = (0.0,0.0,0.0) # In BGR format
+
+        img = cv2.imread(Img)
+        gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+
+        edges = cv2.Canny(gray, CANNY_THRESH_1, CANNY_THRESH_2)
+        edges = cv2.dilate(edges, None)
+        edges = cv2.erode(edges, None)
+
+        contour_info = []
+        contours, _ = cv2.findContours(edges, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
+        # Previously, for a previous version of cv2, this line was:
+        #  contours, _ = cv2.findContours(edges, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
+        # Thanks to notes from commenters, I've updated the code but left this note
+        for c in contours:
+            contour_info.append((
+                c,
+                cv2.isContourConvex(c),
+                cv2.contourArea(c),
+            ))
+        contour_info = sorted(contour_info, key=lambda c: c[2], reverse=True)
+        max_contour = contour_info[0]
+
+        mask = np.zeros(edges.shape)
+        cv2.fillConvexPoly(mask, max_contour[0], (255))
+
+        #-- Smooth mask, then blur it --------------------------------------------------------
+        mask = cv2.dilate(mask, None, iterations=MASK_DILATE_ITER)
+        mask = cv2.erode(mask, None, iterations=MASK_ERODE_ITER)
+        mask = cv2.GaussianBlur(mask, (BLUR, BLUR), 0)
+        mask_stack = np.dstack([mask]*3)    # Create 3-channel alpha mask
+
+        #-- Blend masked img into MASK_COLOR background --------------------------------------
+        mask_stack  = mask_stack.astype('float32') / 255.0          # Use float matrices,
+        img         = img.astype('float32') / 255.0                 #  for easy blending
+        masked = (mask_stack * img) + ((1-mask_stack)*(MASK_COLOR)) # Blend
+        masked = (masked * 255).astype('uint8')                     # Convert back to 8-bit
+        tmp = cv2.cvtColor(masked, cv2.COLOR_BGR2GRAY)
+        _,alpha = cv2.threshold(tmp,0,255,cv2.THRESH_BINARY)
+        b, g, r = cv2.split(masked)
+        rgba = [b,g,r, alpha]
+        dst = cv2.merge(rgba,4)
+        cv2.imwrite("media_root/finance/inventory/%s" %(file.name), dst)
+
+        httpUrl = globalSettings.SITE_ADDRESS+'/media_root/finance/inventory/%s' %(file.name)
+        print httpUrl , 'ooooooooooo'
+
+
+        return Response({'url':httpUrl} ,status = status.HTTP_200_OK)
 
 
 class DisbursalViewSet(viewsets.ModelViewSet):

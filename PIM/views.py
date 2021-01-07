@@ -231,3 +231,9 @@ class chatMessageBetweenViewSet(viewsets.ModelViewSet):
             msg.read = True
             msg.save()
         return qs.order_by('created')[:150]
+
+
+class NoteBookViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    queryset = notebook.objects.all()
+    serializer_class = NotebookFullSerializer

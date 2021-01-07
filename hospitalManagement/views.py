@@ -201,7 +201,8 @@ def invoice(request, response,inv):
         twoDigitsYear = str(datetime.date.today().year)[2:]
         billNo = 'CB'+str(count).zfill(4)+ '/' +twoDigitsYear
         a = defaultfilters.date(inv.activePatient.inTime + timedelta(hours=5,minutes=30), "d-m-Y , h:i A")
-        d = defaultfilters.date(inv.activePatient.dateOfDischarge + timedelta(hours=5,minutes=30), "d-m-Y , h:i A")
+        # d = defaultfilters.date(inv.activePatient.dateOfDischarge + timedelta(hours=5,minutes=30), "d-m-Y , h:i A")
+        d = defaultfilters.date(inv.activePatient.dateOfDischarge, "d-m-Y , h:i A")
         try:
             refId = inv.activePatient.dischargeSummary.get().ipNo
         except DischargeSummary.DoesNotExist:
@@ -209,6 +210,7 @@ def invoice(request, response,inv):
     (refid,name,admitDate,dischargeDate,total) = (inv.activePatient.patient.uniqueId,inv.activePatient.patient.firstName+' '+inv.activePatient.patient.lastName,a,d,inv.grandTotal)
     data = json.loads(inv.products)
     details = []
+    print inv, 'aaaaaaaaaaaa'
     for i in data:
         details.append({'name':i['data']['name'],'qty':i['quantity'],'rate':i['data']['rate']})
     totalRows = len(details)

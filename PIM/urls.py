@@ -13,6 +13,7 @@ router.register(r'calendar' , calendarViewSet , base_name = 'calendar')
 router.register(r'chatMessage' , chatMessageViewSet, base_name = 'chatmessage')
 router.register(r'chatMessageBetween' , chatMessageBetweenViewSet, base_name = 'chatbetween')
 router.register(r'chatThreads' , ChatThreadsViewSet , base_name = 'chatThreads')
+router.register(r'notes' , NoteBookViewSet , base_name = 'notes')
 
 urlpatterns = [
     url(r'^', include(router.urls)),

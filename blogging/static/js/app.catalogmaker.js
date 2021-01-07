@@ -158,7 +158,9 @@ app.controller('businessManagement.catalog', function($scope, $http, $aside, $st
 
     }
 
+
     $scope.addInventory = function() {
+
       $uibModal.open({
         templateUrl: '/static/ngTemplates/app.finance.inventoryProductCatalog.modal.html',
         size: 'xl',
@@ -175,14 +177,16 @@ app.controller('businessManagement.catalog', function($scope, $http, $aside, $st
           $scope.close = function() {
             $uibModalInstance.close();
           }
+
           $scope.refresh = function() {
             $scope.form = {
-              value: 0,
-              rate: '',
               name: '',
-              refurnished: 0,
+              mrp:'',
               buyingPrice:0,
+              rate: '',
               sku:'',
+              value: 0,
+              refurnished: 0,
               productMeta:'',
               taxRate:'',
               taxDescription:'',
@@ -190,11 +194,11 @@ app.controller('businessManagement.catalog', function($scope, $http, $aside, $st
               img2:emptyFile,
               img3:emptyFile,
               richtxtDesc:'',
-              mrp:''
+              taxCode : '',
             }
           }
-
           $scope.refresh()
+
           $scope.selectedMeta = function(){
               if (typeof $scope.form.taxCode == 'object') {
                 // $scope.form.taxDescription = $scope.form.productMeta.description
@@ -248,7 +252,7 @@ app.controller('businessManagement.catalog', function($scope, $http, $aside, $st
               fd.append('img2',$scope.form.img2);
             }
             if ($scope.form.img3!=null&&$scope.form.img3!=emptyFile&&typeof $scope.form.img3=='object') {
-                fd.append('img3',$scope.form.img3);
+              fd.append('img3',$scope.form.img3);
             }
 
             $http({
@@ -265,6 +269,7 @@ app.controller('businessManagement.catalog', function($scope, $http, $aside, $st
               $uibModalInstance.dismiss()
               $scope.refresh()
             })
+
           }
         },
       }).result.then(function() {

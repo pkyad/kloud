@@ -9,6 +9,7 @@ from HR.models import service
 from marketing.models import  Contacts
 from clientRelationships.models import Contact
 from HR.serializers import *
+from notes.models import *
 import datetime
 import pytz
 import math
@@ -337,3 +338,18 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
                 v.save()
 
         return instance
+
+
+class NotebookFullSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = notebook
+        fields = ('created', 'title', 'source', 'shares', 'type', 'locked')
+    def create(self , validated_data):
+        notesObj = notebook(**validated_data)
+        user = self.context['request'].user
+        notesObj.user = user
+        notesObj.division = user.designation.division
+        notesObj.save()
+
+
+        return notesObj
