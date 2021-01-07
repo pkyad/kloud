@@ -81,6 +81,7 @@ $scope.getThread = function(){
   })
 }
 $scope.getThread()
+
 $scope.addParticipants =  function(){
   $uibModal.open({
     templateUrl: '/static/ngTemplates/app.PIM.addparticipants.html',
@@ -120,7 +121,11 @@ $scope.addParticipants =  function(){
 
     }
 
-  })
+  }).result.then(function() {
+
+  }, function() {
+    $scope.getThread()
+  });
 }
 
 
