@@ -206,6 +206,7 @@ class chatMessageSerializer(serializers.ModelSerializer):
 
 
 class ChatThreadsSerializer(serializers.ModelSerializer):
+    participants = userSearchSerializer(read_only=True,many=True)
     # agent_name = serializers.SerializerMethodField()
     # agent_dp = serializers.SerializerMethodField()
     # companyName = serializers.SerializerMethodField()

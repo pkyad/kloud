@@ -126,33 +126,7 @@ class address(models.Model):
     def __unicode__(self):
         return '< street :%s>,<city :%s>,<state :%s>' %(self.street ,self.city, self.state)
 
-class service(models.Model): # contains other companies datails
-    created = models.DateTimeField(auto_now_add = True)
-    name = models.CharField(max_length = 100 , null = False)
-    user = models.ForeignKey(User , related_name = 'servicesCreated' , null = False) # the responsible person for this service
-    address = models.ForeignKey(address , null = True ,blank=True)
-    mobile = models.CharField(max_length = 20 , null = True,blank=True)
-    telephone = models.CharField(max_length = 20 , null = True,blank=True)
-    about = models.TextField(max_length = 2000 , null = True,blank=True)
-    cin = models.CharField(max_length = 100 , null = True,blank=True) # PAN number
-    tin = models.CharField(max_length = 100 , null = True,blank=True) # tax identification number
-    logo = models.CharField(max_length = 200 , null = True,blank=True) # image/svg link to the logo
-    web = models.TextField(max_length = 100 , null = True,blank=True) # image/svg link to the logo
-    doc  = models.ForeignKey(media , related_name = 'services' , null = True,blank=True)
-    contactPerson = models.ForeignKey(User , related_name = 'servicesContactPerson' , null = True,blank=True)
-    vendor = models.BooleanField(default = False)
-    inUseBy = models.CharField(default = "CRM" , max_length = 20)
-    owner =  models.ForeignKey(User , related_name = 'servicesOwned' , null = True) # the responsible person for this service
-    bankName = models.CharField(max_length = 100 , null= True)
-    accountNumber = models.PositiveIntegerField(null=True)
-    ifscCode = models.CharField(max_length = 100 , null= True)
-    paymentTerm = models.PositiveIntegerField(null=True , default=0)
 
-    class Meta:
-        unique_together = ('name', 'user',)
-        
-    def __unicode__(self):
-        return '< name :%s>,<user :%s>,<address :%s>' %(self.name ,self.user.username, self.address)
 
 
 class MenuItems(models.Model):
@@ -262,6 +236,34 @@ class Division(models.Model):
     # address
     # themeColor
     # invoiceVersion
+
+class service(models.Model): # contains other companies datails
+    created = models.DateTimeField(auto_now_add = True)
+    name = models.CharField(max_length = 100 , null = False)
+    user = models.ForeignKey(User , related_name = 'servicesCreated' , null = False) # the responsible person for this service
+    address = models.ForeignKey(address , null = True ,blank=True)
+    mobile = models.CharField(max_length = 20 , null = True,blank=True)
+    telephone = models.CharField(max_length = 20 , null = True,blank=True)
+    about = models.TextField(max_length = 2000 , null = True,blank=True)
+    cin = models.CharField(max_length = 100 , null = True,blank=True) # PAN number
+    tin = models.CharField(max_length = 100 , null = True,blank=True) # tax identification number
+    logo = models.CharField(max_length = 200 , null = True,blank=True) # image/svg link to the logo
+    web = models.TextField(max_length = 100 , null = True,blank=True) # image/svg link to the logo
+    doc  = models.ForeignKey(media , related_name = 'services' , null = True,blank=True)
+    contactPerson = models.ForeignKey(User , related_name = 'servicesContactPerson' , null = True,blank=True)
+    vendor = models.BooleanField(default = False)
+    inUseBy = models.CharField(default = "CRM" , max_length = 20)
+    owner =  models.ForeignKey(User , related_name = 'servicesOwned' , null = True) # the responsible person for this service
+    bankName = models.CharField(max_length = 100 , null= True)
+    accountNumber = models.PositiveIntegerField(null=True)
+    ifscCode = models.CharField(max_length = 100 , null= True)
+    paymentTerm = models.PositiveIntegerField(null=True , default=0)
+    division = models.ForeignKey(Division , null = True , related_name = "divisions")
+
+
+    def __unicode__(self):
+        return '< name :%s>,<user :%s>,<address :%s>' %(self.name ,self.user.username, self.address)
+
 
 class InstalledApp(models.Model):
     created = models.DateTimeField(auto_now_add = True)

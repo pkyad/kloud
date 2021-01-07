@@ -982,7 +982,7 @@ app.controller('businessManagement.finance.vendorService.form', function($scope,
   }
 
   $scope.ServiceSave = function() {
-    if ($scope.form.name.length == 0  || $scope.form.mobile.length == 0 || $scope.form.pincode.length == 0 || $scope.form.tin.length == 0 || $scope.form.street.length == 0 ) {
+    if ($scope.form.name.length == 0  || $scope.form.pincode.length == 0 || $scope.form.tin.length == 0 || $scope.form.street.length == 0 ) {
       Flash.create('warning', 'All details are required')
       return
     }
@@ -1021,16 +1021,20 @@ app.controller('businessManagement.finance.vendorService.form', function($scope,
     // if ($scope.form.email.length > 0 && $scope.form.email != null) {
     //   dataToSend.email = $scope.form.email
     // }
-    if ($scope.form.paymentTerm.toString().length > 0 && $scope.form.paymentTerm != null) {
+    if ($scope.form.paymentTerm != undefined && $scope.form.paymentTerm != null) {
       dataToSend.paymentTerm = $scope.form.paymentTerm
     }
-    if ($scope.form.bankName.length > 0 && $scope.form.bankName != null) {
+
+    if ($scope.form.mobile != undefined && $scope.form.mobile != null) {
+      dataToSend.mobile = $scope.form.mobile
+    }
+    if ($scope.form.bankName != undefined && $scope.form.bankName != null) {
       dataToSend.bankName = $scope.form.bankName
     }
-    if ($scope.form.accountNumber != null && $scope.form.accountNumber.length > 0) {
+    if ($scope.form.accountNumber != undefined && $scope.form.accountNumber != null) {
       dataToSend.accountNumber = $scope.form.accountNumber
     }
-    if ($scope.form.ifscCode.length > 0 && $scope.form.ifscCode != null) {
+    if ($scope.form.ifscCode != undefined && $scope.form.ifscCode != null) {
       dataToSend.ifscCode = $scope.form.ifscCode
     }
     $http({

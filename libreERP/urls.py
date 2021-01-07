@@ -73,6 +73,7 @@ urlpatterns = [
     url(r'intentDesigner/(?P<id>[\w|\W]+)/' , intentDesignerView , name = "intentDesigner"),
     url(r'^script/chatter-(?P<fileid>[\w|\W]+).js', getChatterScript , name ='getChatterScript'),
     url(r'activities' , activityView , name = "activity"),
+    url(r'^externalWindow/', ExternalWindow , name ='externalWindow'),
     # url(r'extractorTester/$' , ExtractorTesterView.as_view() , name = "extractorTester"),
 
 ]

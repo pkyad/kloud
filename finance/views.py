@@ -2584,7 +2584,6 @@ class serviceApi(APIView):
 
     def post(self , request , format = None):
         data = request.data
-        print data,'ssssssssssssssssssssssssssss'
         if 'addresspk' in request.data:
             addressObj = address.objects.get(pk = data['addresspk'])
             addressObj.pincode = data['pincode']
@@ -2609,11 +2608,17 @@ class serviceApi(APIView):
             if 'bankName' in data:
                 serviceObj.bankName = data['bankName']
             if 'accountNumber' in data:
-                serviceObj.accountNumber = data['accountNumber']
+                if len(str(data['accountNumber']))>0:
+                    serviceObj.accountNumber = data['accountNumber']
+                else:
+                    serviceObj.accountNumber = None
             if 'ifscCode' in data:
                 serviceObj.ifscCode = data['ifscCode']
             if 'paymentTerm' in data:
-                serviceObj.paymentTerm = data['paymentTerm']
+                if len(str(data['paymentTerm']))>0:
+                    serviceObj.paymentTerm = data['paymentTerm']
+                else:
+                    serviceObj.paymentTerm = None
             serviceObj.save()
         else:
             serviceObj = service.objects.create(name = data['name'], user = request.user, address=addressObj , tin = data['tin'])
@@ -2624,11 +2629,17 @@ class serviceApi(APIView):
             if 'bankName' in data:
                 serviceObj.bankName = data['bankName']
             if 'accountNumber' in data:
-                serviceObj.accountNumber = data['accountNumber']
+                if len(str(data['accountNumber']))>0:
+                    serviceObj.accountNumber = data['accountNumber']
+                else:
+                    serviceObj.accountNumber = None
             if 'ifscCode' in data:
                 serviceObj.ifscCode = data['ifscCode']
             if 'paymentTerm' in data:
-                serviceObj.paymentTerm = data['paymentTerm']
+                if len(str(data['paymentTerm']))>0:
+                    serviceObj.paymentTerm = data['paymentTerm']
+                else:
+                    serviceObj.paymentTerm = None
             serviceObj.save()
         serviceData = serviceSerializer(serviceObj , many = False).data
         return Response(serviceData, status = status.HTTP_200_OK)

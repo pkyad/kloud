@@ -270,7 +270,7 @@ class PageNumCanvas(canvas.Canvas):
         imagePath = os.path.join(globalSettings.MEDIA_ROOT , str(self.division.logo))
         f = open(imagePath, 'rb')
         ima = Image(f)
-        # ima.drawHeight = 0.8*inch
+        ima.drawHeight = 0.8*inch
         ima.drawWidth = 2*inch
         ima.hAlign = 'RIGHT'
         tab5 = Table([[ima]])
@@ -698,7 +698,7 @@ def genInvoice(response, contract, request):
     story.append(Paragraph(tncPara, styleN))
 
     if contract.termsAndConditionTxts is not None and len(contract.termsAndConditionTxts)>0:
-        tncBody = contract.termsAndCondition.body
+        tncBody = contract.termsAndConditionTxts
     elif contract.termsAndCondition is not None and contract.termsAndCondition.body is not None:
         tncBody = contract.termsAndConditionTxts
     else:

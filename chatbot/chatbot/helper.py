@@ -12,7 +12,7 @@ from nltk.tokenize import word_tokenize
 # this file defines the curpous data loader class and training
 import jsonrpc
 from simplejson import loads
-from chatterbot.parsing import datetime_parsing
+# from chatterbot.parsing import datetime_parsing
 import datetime
 
 import pandas as pd
