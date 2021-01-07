@@ -206,34 +206,25 @@ class chatMessageSerializer(serializers.ModelSerializer):
 
 class ChatThreadsSerializer(serializers.ModelSerializer):
     participants = userSearchSerializer(read_only=True,many=True)
-    # agent_name = serializers.SerializerMethodField()
+    name = serializers.SerializerMethodField()
     # agent_dp = serializers.SerializerMethodField()
     # companyName = serializers.SerializerMethodField()
     class Meta:
         model = ChatThread
-        fields = ( 'pk' , 'created' , 'title', 'participants' , 'description','dp','lastActivity','isLate','visitor','uid','status','customerRating','customerFeedback','company','userDevice','location','userDeviceIp','firstResponseTime','typ','userAssignedTime','firstMessage','receivedBy','channel','transferred','fid','closedOn','closedBy')
-    # def get_agent_name(self , obj):
-    #     users = obj.participants.all()
-    #     if users.count()>0:
-    #         user = users.first()
-    #         return user.last_name
-    #     else:
-    #         return ''
-    # def get_agent_dp(self , obj):
-    #     users = obj.participants.all()
-    #     if users.count()>0:
-    #         try:
-    #             user = users.first()
-    #             return user.profile.displayPicture.url
-    #         except:
-    #             return ''
-    #     else:
-    #         return ''
-    # def get_companyName(self , obj):
-    #     try:
-    #         return obj.company.name
-    #     except :
-    #         return ''
+        fields = ( 'pk' , 'created' , 'title', 'participants' , 'description','dp','lastActivity','isLate','visitor','uid','status','customerRating','customerFeedback','company','userDevice','location','userDeviceIp','firstResponseTime','typ','userAssignedTime','firstMessage','receivedBy','channel','transferred','fid','closedOn','closedBy','name')
+    def get_name(self , obj):
+        if obj.uid != None:
+            if obj.visitor == None:
+                name = obj.uid
+            else:
+                name = obj.vistor.name
+        else:
+            if obj.title == None:
+                name = obj.participants.exclude(pk = self.context['request'].user.pk)[0].first_name
+            else:
+                name = obj.title
+        return name
+
 
     def create(self ,  validated_data):
         print validated_data
@@ -293,7 +284,7 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
                 instance.escalatedL2By = User.objects.get(pk=int(self.context['request'].user.pk))
                 instance.save()
 
-        for key in ['status' , 'customerRating' , 'customerFeedback' , 'company','typ','isLate','location', 'visitor','participants']:
+        for key in ['status' , 'customerRating' , 'customerFeedback' , 'company','typ','isLate','location', 'visitor','participants','title',  'description']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
@@ -322,8 +313,8 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
         #         instance.user = User.objects.get(pk=int(self.context['request'].data['user']))
         #     else:
         #         raise ValidationError(detail={'PARAMS' : 'Already Taken'})
-        instance.participants.clear()
         if 'participants' in  self.context['request'].data:
+            instance.participants.clear()
             tagged = self.context['request'].data['participants']
             for tag in tagged:
                 instance.participants.add( User.objects.get(pk = tag))

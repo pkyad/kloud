@@ -9,7 +9,7 @@
             </div>
           </div>
           <div class="col-md-9" ng-click="user.is_show=true">
-            <h5 style="margin-top:0px;">{{user.title}} </h5>
+            <h5 style="margin-top:0px;">{{user.name}} </h5>
             <p>last seen today</p>
           </div>
           <div class="col-md-2 text-right">
@@ -435,23 +435,34 @@
         </div>
         <div class="col-md-12">
           <div class="col-md-10">
-            <h4 ng-if="!showInput">{{user.title}}</h4>
+            <h4 ng-if="!showInput">{{user.name}}</h4>
             <div class="form-group" ng-if="showInput">
-              <input type="text" class="form-control" ng-model="user.title" name="" ng-enter="editThread()"value="">
+              <input type="text" class="form-control" ng-model="user.title" name="" ng-enter="editThread()"value="" style="border:none;border-bottom:2px solid #009688">
 
             </div>
             <p>Created on {{user.created | date:"dd/MM/y HH:MM"}} </p>
 
           </div>
-          <div class="col-md-2 text-right" style="padding:20px 10px;">
+          <div class="col-md-2 text-right" style="padding:20px 10px;" >
             <i class="fa fa-pencil" style="font-size:15px;" ng-click="showInput=true" ng-init="showInput=false"></i>
           </div>
         </div>
       </div>
-      <div class="row " style="background-color:white;margin-bottom:10px;">
+      <div class="row " style="background-color:white;margin-bottom:10px;padding:10px 0px">
 
         <div class="col-md-12">
-          <h4>{{user.description}}</h4>
+          <div class="col-md-10">
+            <h4 ng-if="!description">{{user.description}}</h4>
+            <div class="form-group" ng-if="description">
+              <input type="text" class="form-control" ng-model="user.description" name="" ng-enter="editThread()"value="" style="border:none;border-bottom:2px solid #009688">
+
+            </div>
+
+          </div>
+          <div class="col-md-2 text-right" style="padding:10px 15px;">
+            <i class="fa fa-pencil" style="font-size:15px;" ng-click="description=true" ng-init="description=false"></i>
+
+          </div>
           <p></p>
           <!-- <div class="col-md-12">
             <div class="col-md-9">
@@ -472,7 +483,7 @@
 
       <div class="row" style="background-color:white;padding:10px;">
         <div class="col-md-6">
-          <p style="color:#009688">{{user.participants.length}} participants</p>
+          <p style="color:#009688" ng-if="user.participants.length>0">{{user.participants.length}} participants</p>
         </div>
         <div class="col-md-6 text-right">
           <i class="fa fa-search"></i>
