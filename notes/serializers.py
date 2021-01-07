@@ -21,17 +21,17 @@ class notebookSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-class pageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = page
-        fields = ('pk' , 'user', 'source' , 'parent' , 'title')
-    def create(self , validated_data):
-        p = page.objects.create(**validated_data)
-        p.user = self.context['request'].user
-        p.save()
-        return p
-    def update(self, instance, validated_data): # like the comment
-        instance.title = validated_data['title']
-        instance.source = validated_data['source']
-        instance.save()
-        return instances
+# class pageSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = page
+#         fields = ('pk' , 'user', 'source' , 'parent' , 'title')
+#     def create(self , validated_data):
+#         p = page.objects.create(**validated_data)
+#         p.user = self.context['request'].user
+#         p.save()
+#         return p
+#     def update(self, instance, validated_data): # like the comment
+#         instance.title = validated_data['title']
+#         instance.source = validated_data['source']
+#         instance.save()
+#         return instances

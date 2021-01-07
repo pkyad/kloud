@@ -41,8 +41,8 @@ class notebookViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return notebook.objects.filter(user = self.request.user ).order_by('-created')
 
-class pageViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, isOwner,)
-    serializer_class = pageSerializer
-    def get_queryset(self):
-        return page.objects.filter(user = self.request.user ).order_by('-created')
+# class pageViewSet(viewsets.ModelViewSet):
+#     permission_classes = (permissions.IsAuthenticatedOrReadOnly, isOwner,)
+#     serializer_class = pageSerializer
+#     def get_queryset(self):
+#         return page.objects.filter(user = self.request.user ).order_by('-created')

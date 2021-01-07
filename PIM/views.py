@@ -151,7 +151,16 @@ class ChatThreadsViewSet(viewsets.ModelViewSet):
                     raise ValidationError(detail={'PARAMS' : 'createCookie'})
             print 'tttttttttttttttt',threadObj
             return threadObj
-        return ChatThread.objects.filter(company= self.request.user.designation.division,title__isnull=False)
+
+        return ChatThread.objects.all()
+
+class createChatThreadAPIView(APIView):
+    permission_classes = (permissions.AllowAny ,)
+    def post(self , request , format = None):
+        if 'user' and 'company' in request.data:
+            chatThread = ChatThread.objects.get_or_create(company__id=request.data['company'],user__id = request.data['user'],title=request.data['title'])
+            chatThread.save()
+        return Response({}, status = status.HTTP_200_OK)
 
 class GetChatThreadsAPIView(APIView):
     permission_classes = (permissions.AllowAny ,)
@@ -230,3 +239,22 @@ class chatMessageBetweenViewSet(viewsets.ModelViewSet):
             msg.read = True
             msg.save()
         return qs.order_by('created')[:150]
+
+
+class NoteBookViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    queryset = notebook.objects.all()
+    serializer_class = NotebookFullSerializer
+
+
+class NotesTitleViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    serializer_class = NotesLiteSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['title']
+    def get_queryset(self):
+        division = self.request.user.designation.division
+        notesObj = notebook.objects.filter(division = division)
+        toReturn = notesObj.order_by('-created')
+
+        return toReturn

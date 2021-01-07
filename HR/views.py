@@ -689,7 +689,7 @@ class GetMyAppsView(APIView):
 
         for app in apps:
             print app.name
-            if len(app.name.split('.')) > 2 or app.name in ['app.dashboard' , 'app.notes', 'app.users' , 'app.messenger']:
+            if len(app.name.split('.')) > 2 or app.name in ['app.dashboard' , 'app.users' , 'app.messenger']:
                 continue
 
             state = None

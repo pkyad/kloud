@@ -9,6 +9,7 @@ from HR.models import service
 from marketing.models import  Contacts
 from clientRelationships.models import Contact
 from HR.serializers import *
+from notes.models import *
 import datetime
 import pytz
 import math
@@ -159,12 +160,14 @@ class userProfileLiteSerializer(serializers.ModelSerializer):
 class userSearchSerializer(serializers.ModelSerializer):
     profile = userProfileLiteSerializer(many=False , read_only=True)
     logo = serializers.SerializerMethodField()
-
+    division = serializers.SerializerMethodField()
     class Meta:
         model = User
-        fields = ( 'pk', 'username' , 'first_name' , 'last_name' , 'profile' , 'designation', 'email' ,'logo','is_staff','last_login')
+        fields = ( 'pk', 'username' , 'first_name' , 'last_name' , 'profile' , 'designation', 'email' ,'logo','is_staff','last_login','division')
     def get_logo(self, obj):
         return globalSettings.BRAND_LOGO
+    def get_division(self, obj):
+        return obj.designation.division.pk
 
 class chatMessageSerializer(serializers.ModelSerializer):
     user = userSearchSerializer(read_only=True,many=False)
@@ -206,124 +209,50 @@ class chatMessageSerializer(serializers.ModelSerializer):
 
 class ChatThreadsSerializer(serializers.ModelSerializer):
     participants = userSearchSerializer(read_only=True,many=True)
-    # agent_name = serializers.SerializerMethodField()
+    name = serializers.SerializerMethodField()
     # agent_dp = serializers.SerializerMethodField()
     # companyName = serializers.SerializerMethodField()
     class Meta:
         model = ChatThread
-        fields = ( 'pk' , 'created' , 'title', 'participants' , 'description','dp','lastActivity','isLate','visitor','uid','status','customerRating','customerFeedback','company','userDevice','location','userDeviceIp','firstResponseTime','typ','userAssignedTime','firstMessage','receivedBy','channel','transferred','fid','closedOn','closedBy')
-    # def get_agent_name(self , obj):
-    #     users = obj.participants.all()
-    #     if users.count()>0:
-    #         user = users.first()
-    #         return user.last_name
-    #     else:
-    #         return ''
-    # def get_agent_dp(self , obj):
-    #     users = obj.participants.all()
-    #     if users.count()>0:
-    #         try:
-    #             user = users.first()
-    #             return user.profile.displayPicture.url
-    #         except:
-    #             return ''
-    #     else:
-    #         return ''
-    # def get_companyName(self , obj):
-    #     try:
-    #         return obj.company.name
-    #     except :
-    #         return ''
+        fields = ( 'pk' , 'created' , 'title', 'participants' , 'description','dp','lastActivity','isLate','visitor','uid','status','customerRating','customerFeedback','company','userDevice','location','userDeviceIp','firstResponseTime','typ','userAssignedTime','firstMessage','receivedBy','channel','transferred','fid','closedOn','closedBy','name','user')
+    def get_name(self , obj):
+        if obj.uid != None:
+            if obj.visitor == None:
+                name = obj.uid
+            else:
+                name = obj.vistor.name
+        else:
+            if obj.title == None:
+                name = obj.participants.exclude(pk = self.context['request'].user.pk)[0].first_name
+            else:
+                name = obj.title
+        return name
+
 
     def create(self ,  validated_data):
-        print validated_data
         c = ChatThread(**validated_data)
-        c.save()
-        c.company = Division.objects.get(pk=int(self.context['request'].data['company']))
-        browserHeader =  dict((regex.sub('', header), value) for (header, value) in self.context['request'].META.items() if header.startswith('HTTP_'))
-        print browserHeader.get('USER_AGENT') , self.context['request'].META.get('REMOTE_ADDR'),'@@@@@@@@@@@2'
-        if browserHeader.get('USER_AGENT'):
-            c.userDevice = browserHeader.get('USER_AGENT')
-        if self.context['request'].META.get('REMOTE_ADDR'):
-            c.userDeviceIp = self.context['request'].META.get('REMOTE_ADDR')
-            try:
-                api1 = requests.request('GET',"http://api.ipstack.com/"+c.userDeviceIp+"?access_key=f6e584f19ad6fa9080e0434fb46ae508&format=1")
-                # api1=requests.request('GET',"http://api.ipstack.com/43.224.128.172?access_key=f6e584f19ad6fa9080e0434fb46ae508&format=1")
-                c.location=json.dumps(api1.json())
-            except:
-                try:
-                    api2 = requests.request('GET','http://ip-api.com/json/'+c.userDeviceIp)
-                    # api2=requests.request('GET','http://ip-api.com/json/43.224.128.172')
-                    c.location=json.dumps(api2.json())
-                except :
-                    pass
+        
+        if 'company' in self.context['request'].data :
+            c.company = Division.objects.get(pk=int(self.context['request'].data['company']))
         c.save()
         return c
     def update(self ,instance, validated_data):
-        if 'status' in self.context['request'].data and instance.status=='started':
-            uidMsg = SupportChat.objects.filter(uid=instance.uid)
-            if len(uidMsg)>0:
-                instance.chatDuration = round((uidMsg[uidMsg.count()-1].created - uidMsg[0].created).total_seconds()/60.0 , 2)
-        if 'status' in self.context['request'].data:
-            if self.context['request'].data['status']=='reviewed':
-                instance.reviewedOn = datetime.datetime.now()
-                instance.reviewedBy = User.objects.get(pk=int(self.context['request'].user.pk))
-                instance.save()
-            if self.context['request'].data['status']=='closed':
-                instance.closedOn = datetime.datetime.now()
-                if 'closedByUser' in self.context['request'].data:
-                    pass
-                else:
-                    instance.closedBy = User.objects.get(pk=int(self.context['request'].user.pk))
-                instance.save()
-            if self.context['request'].data['status']=='resolved':
-                instance.resolvedOn = datetime.datetime.now()
-                instance.resolvedBy = User.objects.get(pk=int(self.context['request'].user.pk))
-                instance.save()
-            if self.context['request'].data['status']=='archived':
-                instance.archivedOn = datetime.datetime.now()
-                instance.archivedBy = User.objects.get(pk=int(self.context['request'].user.pk))
-                instance.save()
-            if self.context['request'].data['status']=='escalatedL1':
-                instance.escalatedL1On = datetime.datetime.now()
-                instance.escalatedL1By = User.objects.get(pk=int(self.context['request'].user.pk))
-                instance.save()
-            if self.context['request'].data['status']=='escalatedL2':
-                instance.escalatedL2On = datetime.datetime.now()
-                instance.escalatedL2By = User.objects.get(pk=int(self.context['request'].user.pk))
-                instance.save()
 
-        for key in ['status' , 'customerRating' , 'customerFeedback' , 'company','typ','isLate','location', 'visitor','participants']:
+
+        for key in ['status' , 'customerRating' , 'customerFeedback' , 'company','typ','isLate','location', 'visitor','participants','title',  'description']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
                 pass
         if 'visitor' in self.context['request'].data:
-            instance.visitor = Visitor.objects.get(pk=int(self.context['request'].data['visitor']))
-        if 'user' in self.context['request'].data:
-            if instance.user is None:
-                instance.userAssignedTime = datetime.datetime.now()
-            instance.user = User.objects.get(pk=int(self.context['request'].data['user']))
+            instance.visitor = Contacts.objects.get(pk=int(self.context['request'].data['visitor']))
 
-        if 'patchMessagesAlso' in self.context['request'].data and 'user' in self.context['request'].data:
-            uid = instance.uid
-            Usr = User.objects.get(pk=int(self.context['request'].data['user']))
-            chats = SupportChat.objects.filter(uid = uid, user = None)
-            for c in chats:
-                c.user = Usr
-                c.save()
 
-        if 'receivedBy' in self.context['request'].data:
-            for u in self.context['request'].data['receivedBy']:
-                u = User.objects.get(pk = int(u))
-                instance.receivedBy.add(u)
-        # if 'user' in self.context['request'].data and 'firstAssign' in self.context['request'].data:
-        #     if instance.user is None:
-        #         instance.user = User.objects.get(pk=int(self.context['request'].data['user']))
-        #     else:
-        #         raise ValidationError(detail={'PARAMS' : 'Already Taken'})
-        instance.participants.clear()
+
+
+
         if 'participants' in  self.context['request'].data:
+            instance.participants.clear()
             tagged = self.context['request'].data['participants']
             for tag in tagged:
                 instance.participants.add( User.objects.get(pk = tag))
@@ -331,18 +260,48 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
 
         instance.save()
 
-        if 'email' in self.context['request'].data:
-            print 'getting email here' , self.context['request'].data['email']
-            email = self.context['request'].data['email']
-            uid = instance.uid
-            vObj = Visitor.objects.filter(uid = uid)
-            if len(vObj)>0:
-                print 'hree'
-                vObj[0].email = email
-                vObj[0].save()
-            else:
-                v = Visitor.objects.create(uid = uid , email = email)
-                # Visitor(uid = uid , email = email)
-                v.save()
+        # if 'email' in self.context['request'].data:
+        #     print 'getting email here' , self.context['request'].data['email']
+        #     email = self.context['request'].data['email']
+        #     uid = instance.uid
+        #     vObj = Visitor.objects.filter(uid = uid)
+        #     if len(vObj)>0:
+        #         print 'hree'
+        #         vObj[0].email = email
+        #         vObj[0].save()
+        #     else:
+        #         v = Visitor.objects.create(uid = uid , email = email)
+        #
+        #         v.save()
 
         return instance
+
+
+class NotebookFullSerializer(serializers.ModelSerializer):
+    user = userSearchSerializer(many=False , read_only=True)
+    class Meta:
+        model = notebook
+        fields = ('created', 'title', 'source', 'shares', 'type', 'locked', 'user', 'pk')
+        read_only_fields = ('shares' , )
+    def create(self , validated_data):
+        notesObj = notebook(**validated_data)
+        user = self.context['request'].user
+        notesObj.user = user
+        notesObj.division = user.designation.division
+        notesObj.save()
+        return notesObj
+
+    def update(self , instance, validated_data):
+        if 'shares' in self.context['request'].data:
+            instance.shares.clear()
+            for sharedWith in self.context['request'].data['shares']:
+                instance.shares.add(User.objects.get(pk = sharedWith))
+        if 'source' in self.context['request'].data:
+            instance.source =  self.context['request'].data['source']
+            instance.save()
+        return instance
+
+class NotesLiteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = notebook
+        fields = ('pk', 'title')
