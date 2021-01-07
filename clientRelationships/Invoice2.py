@@ -166,6 +166,8 @@ class PageNumCanvas(canvas.Canvas):
         print "dir : ---------", dir(self)
 
         self.contract =  args[0].contract
+        self.division =  args[0].division
+        self.unit =  args[0].unit
         # print "contractId : " , contractId
         self.pages = []
 
@@ -205,14 +207,18 @@ class PageNumCanvas(canvas.Canvas):
         p.drawOn(self, 100 * mm, 10 * mm)
 
     def drawLetterHeadFooter(self):
-        if self.contract.termsAndCondition.themeColor is not None:
-            themeColor = self.contract.termsAndCondition.themeColor
+        if self.contract.termsAndCondition is not None and self.contract.termsAndCondition.themeColor is not None:
+            themeColor = colors.HexColor(self.contract.termsAndCondition.themeColor)
+        else:
+            termsObj = CRMTermsAndConditions.objects.filter(division = self.division)
+            if termsObj.count()>0:
+                themeColor = colors.HexColor(termsObj.first().themeColor)
         settingsFields = application.objects.get(name='app.CRM').settings.all()
         self.setStrokeColor(str(themeColor))
         self.setFillColor(str(themeColor))
         self.rect(0, 0, 1500, 5, fill=True)
         d = Drawing(100,100)
-        d.add(Rect(0,68,1500,3, fillColor=colors.HexColor(str(themeColor)),strokeWidth=0))
+        d.add(Rect(0,68,1500,3, fillColor=themeColor,strokeWidth=0))
         renderPDF.draw(d, self, 1 * mm, self._pagesize[1] - 25 * mm)
 
 from num2words import num2words
@@ -222,8 +228,15 @@ def genInvoice(response, contract, request):
     story = []
     MARGIN_SIZE = 8 * mm
     PAGE_SIZE = A4
-    if contract.termsAndCondition.themeColor is not None:
-        themeColor = contract.termsAndCondition.themeColor
+    divsn = request.user.designation.division
+    unt  = request.user.designation.unit
+
+    if contract.termsAndCondition is not None and contract.termsAndCondition.themeColor is not None:
+        themeColor = colors.HexColor(contract.termsAndCondition.themeColor)
+    else:
+        termsObj = CRMTermsAndConditions.objects.filter(division = divsn)
+        if termsObj.count()>0:
+            themeColor = colors.HexColor(termsObj.first().themeColor)
     pdf_doc = SimpleDocTemplate(response, pagesize=PAGE_SIZE,
                                 leftMargin=MARGIN_SIZE, rightMargin=MARGIN_SIZE,
                                 topMargin=0, bottomMargin=3 * MARGIN_SIZE)
@@ -348,11 +361,11 @@ def genInvoice(response, contract, request):
                          ('VALIGN', (0, -1), (-1, -1), 'TOP'),
                          ('SPAN', (-3, -1), (-2, -1)),
                          ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-                         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor(str(themeColor))),
-                         ('LINEABOVE', (0, 0), (-1, 0), 0.25,colors.HexColor(str(themeColor))),
-                         ('LINEABOVE', (0, 1), (-1, 1), 0.25, colors.HexColor(str(themeColor))),
+                         ('BACKGROUND', (0, 0), (-1, 0), themeColor),
+                         ('LINEABOVE', (0, 0), (-1, 0), 0.25,themeColor),
+                         ('LINEABOVE', (0, 1), (-1, 1), 0.25, themeColor),
                          # ('BACKGROUND', (-3, -2), (-1, -2), colors.HexColor('#eeeeee')),
-                         ('BACKGROUND', (-3, -1), (-1, -1), colors.HexColor(str(themeColor))),
+                         ('BACKGROUND', (-3, -1), (-1, -1), themeColor),
                          # ('LINEABOVE', (-3, -2), (-1, -2), 0.25, colors.gray),
                          ('LINEABOVE', (0, -1), (-1, -1), 0.25, colors.gray),
                          # ('LINEBELOW',(0,-1),(-1,-1),0.25,colors.gray),
@@ -364,11 +377,11 @@ def genInvoice(response, contract, request):
                          ('VALIGN', (0, -1), (-1, -1), 'TOP'),
                          ('SPAN', (-3, -1), (-2, -1)),
                          ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-                         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor(str(themeColor))),
-                         ('LINEABOVE', (0, 0), (-1, 0), 0.25, colors.HexColor(str(themeColor))),
-                         ('LINEABOVE', (0, 1), (-1, 1), 0.25, colors.HexColor(str(themeColor))),
+                         ('BACKGROUND', (0, 0), (-1, 0), themeColor),
+                         ('LINEABOVE', (0, 0), (-1, 0), 0.25, themeColor),
+                         ('LINEABOVE', (0, 1), (-1, 1), 0.25,themeColor),
                          # ('BACKGROUND', (-2, -2), (-1, -2), colors.HexColor('#eeeeee')),
-                         ('BACKGROUND', (-3, -1), (-1, -1), colors.HexColor(str(themeColor))),
+                         ('BACKGROUND', (-3, -1), (-1, -1), themeColor),
                          # ('LINEABOVE', (-2, -2), (-1, -2), 0.25, colors.gray),
                          ('LINEABOVE', (0, -1), (-1, -1), 0.25, colors.gray),
                          # ('LINEBELOW',(0,-1),(-1,-1),0.25,colors.gray),
@@ -407,16 +420,16 @@ def genInvoice(response, contract, request):
     # drawing.width, drawing.height = drawing.minWidth() * sx, drawing.height * sy
     # drawing.scale(sx, sy)
     # story.append(drawing)
-    divsn = request.user.designation.division
-    unt  = request.user.designation.unit
+    # divsn = request.user.designation.division
+    # unt  = request.user.designation.unit
     tableheaderparaStyle = ParagraphStyle('parrafos',fontSize = 16, fontName="Times-Roman", textColor = 'black', leading = 10)
     from reportlab.platypus import Image
     imagePath = os.path.join(globalSettings.MEDIA_ROOT , str(divsn.logo))
     f = open(imagePath, 'rb')
     ima = Image(f)
-    ima.drawHeight = 0.8*inch
+    # ima.drawHeight = 0.8*inch
     ima.drawWidth = 1*inch
-    ima.hAlign = 'CENTER'
+    ima.hAlign = 'RIGHT'
     imageTable = [[ima]]
     tabHeaderImage = Table(imageTable)
     toHeading1  =  Paragraph("<para align='left'><strong>%s</strong></para>"%(divsn.name ), tableheaderparaStyle)
@@ -595,21 +608,23 @@ def genInvoice(response, contract, request):
     tncPara = "<font size='9'><strong>Terms and Conditions:</strong></font>"
 
     story.append(Paragraph(tncPara, styleN))
-    if contract.termsAndCondition is not None and contract.termsAndCondition.body is not None:
+    if contract.termsAndConditionTxts is not None and len(contract.termsAndConditionTxts)>0:
         tncBody = contract.termsAndCondition.body
-
-    if tncBody is None:
-        for i , cond in enumerate(contract.termsAndConditionTxts.split('||')):
-            bullts += "<strong>%s.</strong> %s <br/>"%(i+1 , cond)
-        story.append(Paragraph(bullts, styleN))
+    elif contract.termsAndCondition is not None and contract.termsAndCondition.body is not None:
+        tncBody = contract.termsAndConditionTxts
     else:
+        termsObj = CRMTermsAndConditions.objects.filter(division = divsn)
+        if termsObj.count()>0:
+            tncBody = termsObj.first().body
+
+    # print contract.termsAndConditionTxts, 'contract.termsAndConditionTxts'
+
+    if tncBody is not None:
         for i , cond in enumerate(tncBody.split('||')):
             bullts += "<strong>%s.</strong> %s <br/>"%(i+1 , cond)
         story.append(Paragraph(bullts, styleN))
 
-    print "bullts" , bullts
-
-    if contract.termsAndCondition.message is not None:
+    if  contract.termsAndCondition is not None and contract.termsAndCondition.message is not None:
 
         para11 = '''
         <para align="left">

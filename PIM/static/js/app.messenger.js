@@ -63,11 +63,65 @@
   ]
 
 
+$scope.getMessages = function(){
   $http({method : 'GET' , url : '/api/PIM/chatMessageBetween/?other=' + $state.params.id }).
   then(function(response) {
     $scope.messages = response.data
+
   })
 
+}
+$scope.getMessages()
+
+$scope.getThread = function(){
+  $http({method : 'GET' , url : '/api/PIM/chatThreads/' + $state.params.id}).
+  then(function(response) {
+    $scope.user = response.data
+    $scope.user.is_show=false
+  })
+}
+$scope.getThread()
+$scope.addParticipants =  function(){
+  $uibModal.open({
+    templateUrl: '/static/ngTemplates/app.PIM.addparticipants.html',
+    size: 'sm',
+    backdrop: true,
+    controller: function($scope,$uibModalInstance,$http,$state) {
+      $scope.close = function(){
+        $uibModalInstance.dismiss()
+      }
+      $scope.getallUsers = function(){
+        $http({method : 'GET' , url : '/api/HR/users/' }).
+        then(function(response) {
+          $scope.allUsers = response.data
+          for (var i = 0; i < $scope.allUsers.length; i++) {
+              $scope.allUsers[i].add = false
+          }
+        })
+      }
+      $scope.getallUsers()
+      $scope.form ={
+        participants:[]
+      }
+      $scope.adduser = function(indx){
+        console.log($scope.allUsers[indx],'3232');
+        if ($scope.allUsers[indx].add = true) {
+
+          $scope.form.participants.push($scope.allUsers[indx].pk)
+        }
+
+      }
+      $scope.save=function(){
+        $http({method : 'PATCH' , url : '/api/PIM/chatThreads/'+$state.params.id+'/',data:$scope.form }).
+        then(function(response) {
+          $uibModalInstance.dismiss()
+        })
+      }
+
+    }
+
+  })
+}
 
 
 });
@@ -98,8 +152,14 @@ app.controller("controller.messenger", function($scope , $state , $users ,  $sta
 
       $scope.getUsers();
 
+      $scope.getChatthreads = function(){
+        $http({method : 'GET' , url : '/api/PIM/chatThreads/' }).
+        then(function(response) {
+          $scope.chatthreads = response.data
+        })
 
-
+      }
+$scope.getChatthreads()
 
 
 });

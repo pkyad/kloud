@@ -1,9 +1,37 @@
-<div class="col-md-9 pull-right">
-  <div class="row" style="background:#F3F6FB">
 
 
-    <div class=" col-md-8  " style="height:93vh ;background:#F3F6FB;overflow-y: auto;overflow-x: hidden;border-left:0.5px solid #f4f4f4;border-right:0.5px solid #f4f4f4;">
-      <div class=" margin-auto m-bottom-5 padding-2" style="width:95%;">
+
+
+
+
+
+
+
+
+
+<div class="col-md-9 pull-right " style="padding:0px;">
+  <div class="row" style=";margin:0px;">
+    <div class="{{user.is_show?'col-md-8':'col-md-12'}} bgImg " style="padding:0px;">
+      <div class="row" style="margin:0px;position:sticky;z-index:1;">
+        <div class="" style="background-color:#ededed;height:60px;padding:10px;">
+          <div class="col-md-1" ng-click="user.is_show=true">
+            <div class="">
+              <img ng-src="{{user.dp}}" src="p/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
+            </div>
+          </div>
+          <div class="col-md-9" ng-click="user.is_show=true">
+            <h5 style="margin-top:0px;">{{user.title}} </h5>
+            <p>last seen today</p>
+          </div>
+          <div class="col-md-2 text-right">
+            <div class="" style="font-size:20px;padding-top:10px;">
+              <i class="fa fa-search " ng-click="user.is_search = true;user.is_show=false" style="padding-right:20px;"></i>
+              <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="scrollView margin-auto m-bottom-5 padding-2" style="width:95%;">
         <div ng-repeat="message in messages">
 
           <!-- if only message is sent -->
@@ -39,7 +67,7 @@
 
           <div ng-if="me.pk == message.originator && message.message === null && message.fileType === 'image'" class="  m-top-5 m-bottom-5 margin-l-auto">
             <div class="" style="display:flex">
-              <div class="img-sent padding-2" style="margin-left:auto; width:300px;height:300px" >
+              <div class="img-sent padding-2" style="margin-left:auto; width:300px;height:300px">
                 <img class=" " ng-src="{{message.attachment}}" alt="photo" width="289" height="289">
               </div>
               <div style="padding: 0px;width: 40px;margin-left: auto;margin-top: auto;height: 40px;margin-bottom: 1%;margin-left: 2%;">
@@ -55,7 +83,7 @@
 
           <div ng-if="me.pk == message.originator && message.attachment != null && message.fileType === 'image' &&message.message != null" class="  m-top-5 m-bottom-5 margin-l-auto">
             <div class="">
-              <div  class="img-sent  padding-2" style="margin-left:auto; width:300px;height:300px;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;margin-right: 58px;border-radius: 6px 6px 0 0 !important;">
+              <div class="img-sent  padding-2" style="margin-left:auto; width:300px;height:300px;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;margin-right: 58px;border-radius: 6px 6px 0 0 !important;">
                 <img class=" " ng-src="{{message.attachment}}" alt="photo" width="289" height="289">
               </div>
               <div class="" style="display:flex;">
@@ -74,7 +102,7 @@
 
           <div ng-if="me.pk != message.originator && message.attachment != null && message.message === null && message.fileType === 'image'" class="  m-top-5 m-bottom-5 margin-l-auto">
             <div class="" style="display:flex">
-              <div class="img-recived padding-2" style="margin-left:auto; width:300px;height:300px" >
+              <div class="img-recived padding-2" style="margin-left:auto; width:300px;height:300px">
                 <img class=" " ng-src="{{message.attachment}}" alt="photo" width="289" height="289">
               </div>
               <div style="padding: 0px;width: 40px;margin-right: auto;margin-top: auto;height: 40px;margin-bottom: 1%;margin-left: 2%;">
@@ -88,7 +116,7 @@
 
           <!-- if attached img  != null and message != null is recived -->
 
-          <div ng-if="me.pk != message.originator && message.attachment != null && message.message != null && message.fileType === 'image'" class="  m-top-5 m-bottom-5 margin-l-auto">
+          <div ng-if="me.pk != message.originator && message.attachment != null && message.message != null && message.fileType === 'image'" class="  m-top-5 m-bottom-5 margin-l-auto ">
             <div class="">
               <div class="img-recived  padding-2" style="margin-right:auto; width:300px;height:300px;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;margin-right: 58px;">
                 <img class=" " ng-src="{{message.attachment}}" alt="photo" width="289" height="289">
@@ -110,12 +138,14 @@
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
-                <img src="/static/images/icons8-pdf-96.png" alt="" width="40">
+                  <img src="/static/images/icons8-pdf-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="color:white;font-size:12px">{{message.fileName}}</p>
                   <a href="{{message.attachment}}" target="_blank" class="margin-l-auto padding-2 margin-y-auto">
                     <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z" fill="#fff"/>
-                                  </svg>
+                      <path
+                        d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z"
+                        fill="#fff" />
+                    </svg>
                   </a>
 
 
@@ -146,12 +176,14 @@
               </div>
               <div class="file-recived" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
-                <img src="/static/images/icons8-pdf-96.png" alt="" width="40">
+                  <img src="/static/images/icons8-pdf-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="color:black;font-size:12px">{{message.fileName}}</p>
                   <a href="{{message.attachment}}" target="_blank" class="margin-l-auto padding-2 margin-y-auto">
                     <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z" fill="#000"/>
-                                  </svg>
+                      <path
+                        d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z"
+                        fill="#000" />
+                    </svg>
                   </a>
 
 
@@ -176,12 +208,14 @@
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
-                <img src="/static/images/icons8-word-96.png" alt="" width="40">
+                  <img src="/static/images/icons8-word-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="color:white;font-size:12px">{{message.fileName}}</p>
                   <a href="{{message.attachment}}" target="_blank" class="margin-l-auto padding-2 margin-y-auto">
                     <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z" fill="#fff"/>
-                                  </svg>
+                      <path
+                        d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z"
+                        fill="#fff" />
+                    </svg>
                   </a>
 
 
@@ -211,12 +245,14 @@
               </div>
               <div class="file-recived" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
-                <img src="/static/images/icons8-word-96.png" alt="" width="40">
+                  <img src="/static/images/icons8-word-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="color:black;font-size:12px">{{message.fileName}}</p>
                   <a href="{{message.attachment}}" target="_blank" class="margin-l-auto padding-2 margin-y-auto">
                     <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z" fill="#000"/>
-                                  </svg>
+                      <path
+                        d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z"
+                        fill="#000" />
+                    </svg>
                   </a>
 
                 </div>
@@ -239,12 +275,14 @@
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
-                <img src="/static/images/icons8-ppt-96.png" alt="" width="40">
+                  <img src="/static/images/icons8-ppt-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="color:white;font-size:12px">{{message.fileName}}</p>
                   <a href="{{message.attachment}}" target="_blank" class="margin-l-auto padding-2 margin-y-auto">
                     <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z" fill="#fff"/>
-                                  </svg>
+                      <path
+                        d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z"
+                        fill="#fff" />
+                    </svg>
                   </a>
 
 
@@ -275,12 +313,14 @@
               </div>
               <div class="file-recived" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
-                <img src="/static/images/icons8-ppt-96.png" alt="" width="40">
+                  <img src="/static/images/icons8-ppt-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="color:black;font-size:12px">{{message.fileName}}</p>
                   <a href="{{message.attachment}}" target="_blank" class="margin-l-auto padding-2 margin-y-auto">
                     <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z" fill="#000"/>
-                                  </svg>
+                      <path
+                        d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z"
+                        fill="#000" />
+                    </svg>
                   </a>
 
                 </div>
@@ -303,12 +343,14 @@
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
-                <img src="/static/images/icons8-xls-96.png" alt="" width="40">
+                  <img src="/static/images/icons8-xls-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="color:white;font-size:12px">{{message.fileName}}</p>
                   <a href="{{message.attachment}}" target="_blank" class="margin-l-auto padding-2 margin-y-auto">
                     <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z" fill="#fff"/>
-                                  </svg>
+                      <path
+                        d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z"
+                        fill="#fff" />
+                    </svg>
                   </a>
 
 
@@ -338,12 +380,14 @@
               </div>
               <div class="file-recived" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
-                <img src="/static/images/icons8-xls-96.png" alt="" width="40">
-                  <p class="margin-y-auto m-left-4" style="color:black;font-size:12px" >{{message.fileName}}</p>
+                  <img src="/static/images/icons8-xls-96.png" alt="" width="40">
+                  <p class="margin-y-auto m-left-4" style="color:black;font-size:12px">{{message.fileName}}</p>
                   <a href="{{message.attachment}}" target="_blank" class="margin-l-auto padding-2 margin-y-auto">
                     <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z" fill="#000"/>
-                                  </svg>
+                      <path
+                        d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z"
+                        fill="#000" />
+                    </svg>
                   </a>
 
 
@@ -366,34 +410,507 @@
 
         </div>
       </div>
-      <div style="display: flex;" class="chat-input " style="width:42.5% !important;">
-        <div class="attachment m-left-3 paddig-3 margin-y-auto">
+      <div class="col-md-12 chat-input ">
+        <div class="attachment col-md-1">
           <input type="file" style="display : none;" file-model="form.file" id="filePicker">
           <button ng-click="openFilePicker()" type="button" name="button" style="border:none;background:#fff;">
             <svg width="30" height="30" viewBox="0 0 167 167" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M29.6771 77.8244C21.8735 85.6279 17.4895 96.2118 17.4895 107.248C17.4895 118.284 21.8735 128.867 29.6771 136.671C37.4806 144.474 48.0645 148.858 59.1003 148.858C70.1362 148.858 80.7201 144.474 88.5236 136.671L144.695 80.4992C150.371 74.8239 153.559 67.1266 153.559 59.1005C153.559 51.0744 150.371 43.377 144.695 37.7017C139.02 32.0264 131.323 28.8381 123.297 28.8381C115.271 28.8381 107.573 32.0264 101.898 37.7017L56.4255 83.1741C52.8784 86.7211 50.8857 91.532 50.8857 96.5483C50.8857 101.565 52.8784 106.375 56.4255 109.923C59.9726 113.47 64.7834 115.462 69.7997 115.462C74.816 115.462 79.6269 113.47 83.1739 109.923L123.297 69.7999L115.272 61.7753L75.1494 101.898C73.7306 103.317 71.8062 104.114 69.7997 104.114C67.7932 104.114 65.8689 103.317 64.45 101.898C63.0312 100.479 62.2341 98.5548 62.2341 96.5483C62.2341 94.5418 63.0312 92.6174 64.45 91.1986L109.922 45.7263C111.679 43.9699 113.764 42.5767 116.059 41.6262C118.353 40.6757 120.813 40.1865 123.297 40.1865C125.78 40.1865 128.24 40.6757 130.535 41.6262C132.829 42.5767 134.914 43.9699 136.671 45.7263C138.427 47.4826 139.82 49.5677 140.771 51.8624C141.721 54.1572 142.211 56.6167 142.211 59.1005C142.211 61.5843 141.721 64.0438 140.771 66.3386C139.82 68.6333 138.427 70.7184 136.671 72.4747L80.4991 128.646C74.8238 134.322 67.1264 137.51 59.1003 137.51C51.0743 137.51 43.3769 134.322 37.7016 128.646C32.0263 122.971 28.8379 115.274 28.8379 107.248C28.8379 99.2216 32.0263 91.5242 37.7016 85.8489L88.5236 35.0269L80.4991 27.0024L29.6771 77.8244Z"
-                                    fill="grey" />
-              </svg>
+              <path
+                d="M29.6771 77.8244C21.8735 85.6279 17.4895 96.2118 17.4895 107.248C17.4895 118.284 21.8735 128.867 29.6771 136.671C37.4806 144.474 48.0645 148.858 59.1003 148.858C70.1362 148.858 80.7201 144.474 88.5236 136.671L144.695 80.4992C150.371 74.8239 153.559 67.1266 153.559 59.1005C153.559 51.0744 150.371 43.377 144.695 37.7017C139.02 32.0264 131.323 28.8381 123.297 28.8381C115.271 28.8381 107.573 32.0264 101.898 37.7017L56.4255 83.1741C52.8784 86.7211 50.8857 91.532 50.8857 96.5483C50.8857 101.565 52.8784 106.375 56.4255 109.923C59.9726 113.47 64.7834 115.462 69.7997 115.462C74.816 115.462 79.6269 113.47 83.1739 109.923L123.297 69.7999L115.272 61.7753L75.1494 101.898C73.7306 103.317 71.8062 104.114 69.7997 104.114C67.7932 104.114 65.8689 103.317 64.45 101.898C63.0312 100.479 62.2341 98.5548 62.2341 96.5483C62.2341 94.5418 63.0312 92.6174 64.45 91.1986L109.922 45.7263C111.679 43.9699 113.764 42.5767 116.059 41.6262C118.353 40.6757 120.813 40.1865 123.297 40.1865C125.78 40.1865 128.24 40.6757 130.535 41.6262C132.829 42.5767 134.914 43.9699 136.671 45.7263C138.427 47.4826 139.82 49.5677 140.771 51.8624C141.721 54.1572 142.211 56.6167 142.211 59.1005C142.211 61.5843 141.721 64.0438 140.771 66.3386C139.82 68.6333 138.427 70.7184 136.671 72.4747L80.4991 128.646C74.8238 134.322 67.1264 137.51 59.1003 137.51C51.0743 137.51 43.3769 134.322 37.7016 128.646C32.0263 122.971 28.8379 115.274 28.8379 107.248C28.8379 99.2216 32.0263 91.5242 37.7016 85.8489L88.5236 35.0269L80.4991 27.0024L29.6771 77.8244Z"
+                fill="grey" />
+            </svg>
           </button>
         </div>
 
-        <div class="m-left-3 margin-y-auto" style="width:80%;">
+        <div class="col-md-11">
           <input ng-model="form.text" ng-enter="send()" class="form-control" type="text" placeholder="Type your message...." style="border-radius:30px;padding: 19px;">
         </div>
-        <div class="" style="padding:1rem">
-          <div ng-click="send()" style="height: 40px;padding:1rem 2rem;margin:auto;display: inline-flex;margin-left: 2%;background: #004DFC;color: #fff;border-radius: 6px !important;cursor:pointer;" class="send-btn  margin-y-auto m-bottom-2">
-            <p style="margin-right:12%">SEND</p>
-            <svg width="25" height="25" viewBox="0 0 21 18" fill="none">
-                        <path d="M0 18L21 9L0 0V7L15 9L0 11V18Z" fill="#fff" />
-                    </svg>
+
+      </div>
+
+    </div>
+    <div class="col-md-4" ng-if="user.is_show" style="background-color:#ececec">
+      <div class="row">
+        <div class="" style="background-color:#ededed;height:60px;padding:20px 10px;" ng-click="user.is_show=true">
+          <div class="col-md-12">
+            <span>
+              <i class="fa fa-times" ng-click="user.is_show=false" style="padding-right:20px;font-size:20px;"></i> Group info
+            </span>
           </div>
+
+        </div>
+      </div>
+      <div class="row text-center" style="background-color:white;margin-bottom:10px;">
+        <div class="text-center" style="padding:30px 0px;">
+          <img ng-src="{{user.dp}}" src="p/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:150px;height:150px;" class="img img-circle">
+        </div>
+        <div class="">
+          <h4>{{user.title}}</h4>
+          <p>Created </p>
+        </div>
+      </div>
+      <div class="row " style="background-color:white;margin-bottom:10px;">
+
+        <div class="col-md-12">
+          <h4>{{user.description}}</h4>
+          <p></p>
+          <!-- <div class="col-md-12">
+            <div class="col-md-9">
+              <p ng-if="">Add group description</p>
+              <div class="form-group" ng-if="!show">
+                <input type="text"  class="form-control"name="" value="">
+
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="">
+                <i class="fa fa-pencil pull-right"></i>
+              </div>
+            </div>
+          </div> -->
+        </div>
+      </div>
+      <div class="row text-left" style="background-color:white;margin-bottom:10px;"  ng-click="addParticipants()">
+        <div class="col-md-3" style="margin-top:5px;">
+          <div class="" style="height:50px;width:50px;background-color:#009688;border-radius: 50%;padding: 18px;">
+            <i class="fa fa-user-plus" aria-hidden="true" style="font-size:20px;color:white;"></i>
+          </div>
+        </div>
+        <div class="col-md-9" style="border-bottom:1px solid #ccc;border-top:1px solid #ccc;color:#009688;height:60px;">
+          <p style="line-height:4">Add Participants</p>
+        </div>
+      </div>
+      <div class="row text-left" style="background-color:white;margin-bottom:10px;color:red;padding:10px;" >
+        <div class="col-md-1">
+          <i class="fa fa-sign-out" aria-hidden="true" style="font-size:20px"></i>
+        </div>
+        <div class="col-md-10 text-center">
+        <p style="margin:0px;">Exit group</p>
         </div>
       </div>
     </div>
+    <div class="col-md-4" ng-if="user.is_search">
+      <div class="form-group" style="margin:0px;">
+        <i class="fa fa-search " style="position:absolute;padding:11px;color: #777;font-size: 14px;"></i>
+        <input class="form-control searchInp" type="text" ng-enter="getUsers()" ng-model="form.searchTxt" placeholder="Search..." style="border:none;padding:1rem 4rem ; border-radius:20px;width:100%;">
+
+      </div>
+      <div class="row">
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class=" col-md-8  " style="height:93vh ;background:#F3F6FB;overflow-y: auto;overflow-x: hidden;border-left:0.5px solid #f4f4f4;border-right:0.5px solid #f4f4f4;display:none">
+  <div class=" margin-auto m-bottom-5 padding-2" style="width:95%;">
+    <div ng-repeat="message in messages">
+
+      <!-- if only message is sent -->
+
+      <div ng-if="me.pk == message.originator && message.attachment === null" class="m-top-5 m-bottom-5">
+        <div class="" style="display:flex">
+          <p class="sent-text" style="margin-left: auto;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;">{{message.message}}</p>
+
+          <div style="padding: 0px;width: 40px;margin-left: auto;margin-top: auto;height: 40px;margin-bottom: 1%;margin-left: 2%;">
+            <img ng-src="{{u.profile.displayPicture}}" src="p/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
+          </div>
+        </div>
+        <div style="display:flex;width:87%;" class=" margin-auto">
+          <p class="margin-l-auto">{{message.created | timeAgo}}</p>
+        </div>
+      </div>
+
+      <!-- if only message is recived -->
+
+      <div ng-if="me.pk != message.originator && message.attachment === null" class="m-top-5 m-bottom-5">
+        <div class="" style="display:flex">
+          <div style="padding: 0px;width: 40px;margin-top: auto;height: 40px;margin-bottom: 1%;margin-right: 2%;">
+            <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
+          </div>
+          <p class="recived-text" style="margin-right: auto;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;">{{message.message}}</p>
+        </div>
+        <div style="display:flex;width:87%" class=" margin-auto">
+          <p class="margin-r-auto">{{message.created | timeAgo}}</p>
+        </div>
+      </div>
+
+      <!-- if attached != null and message == null  is sent-->
+
+      <div ng-if="me.pk == message.originator && message.message === null && message.fileType === 'image'" class="  m-top-5 m-bottom-5 margin-l-auto">
+        <div class="" style="display:flex">
+          <div class="img-sent padding-2" style="margin-left:auto; width:300px;height:300px">
+            <img class=" " ng-src="{{message.attachment}}" alt="photo" width="289" height="289">
+          </div>
+          <div style="padding: 0px;width: 40px;margin-left: auto;margin-top: auto;height: 40px;margin-bottom: 1%;margin-left: 2%;">
+            <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
+          </div>
+        </div>
+        <div style="display:flex;width:87%;" class=" margin-auto">
+          <p class="margin-l-auto" style="margin-top:10px;">{{message.created | timeAgo}}</p>
+        </div>
+      </div>
+
+      <!-- if attached img  != null and message != null is sent -->
+
+      <div ng-if="me.pk == message.originator && message.attachment != null && message.fileType === 'image' &&message.message != null" class="  m-top-5 m-bottom-5 margin-l-auto">
+        <div class="">
+          <div class="img-sent  padding-2" style="margin-left:auto; width:300px;height:300px;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;margin-right: 58px;border-radius: 6px 6px 0 0 !important;">
+            <img class=" " ng-src="{{message.attachment}}" alt="photo" width="289" height="289">
+          </div>
+          <div class="" style="display:flex;">
+            <p class="sent-text" style="margin-left: auto;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;width: 39.8%;border-radius: 0 0 6px 6px !important;">{{message.message}}</p>
+
+            <div style="padding: 0px;width: 40px;margin-left: auto;margin-top: auto;height: 40px;margin-bottom: 1%;margin-left: 2.3%;">
+              <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;width:87%;" class=" margin-auto">
+          <p class="margin-l-auto">{{message.created | timeAgo}}</p>
+        </div>
+      </div>
+      <!-- if attached != null and message == null  is recived-->
+
+      <div ng-if="me.pk != message.originator && message.attachment != null && message.message === null && message.fileType === 'image'" class="  m-top-5 m-bottom-5 margin-l-auto">
+        <div class="" style="display:flex">
+          <div class="img-recived padding-2" style="margin-left:auto; width:300px;height:300px">
+            <img class=" " ng-src="{{message.attachment}}" alt="photo" width="289" height="289">
+          </div>
+          <div style="padding: 0px;width: 40px;margin-right: auto;margin-top: auto;height: 40px;margin-bottom: 1%;margin-left: 2%;">
+            <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
+          </div>
+        </div>
+        <div style="display:flex;width:87%;" class=" margin-auto">
+          <p class="margin-l-auto" style="margin-top:10px;margin-right:33px">{{message.created | timeAgo}}</p>
+        </div>
+      </div>
+
+      <!-- if attached img  != null and message != null is recived -->
+
+      <div ng-if="me.pk != message.originator && message.attachment != null && message.message != null && message.fileType === 'image'" class="  m-top-5 m-bottom-5 margin-l-auto">
+        <div class="">
+          <div class="img-recived  padding-2" style="margin-right:auto; width:300px;height:300px;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;margin-right: 58px;">
+            <img class=" " ng-src="{{message.attachment}}" alt="photo" width="289" height="289">
+          </div>
+          <div class="" style="display:flex;margin-top: 20px;">
+            <div style="padding: 0px;width: 40px;margin-top: auto;height: 40px;margin-bottom: 1%;margin-right: 2%;">
+              <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
+            </div>
+            <p class="recived-text" style="margin-right: auto;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;">{{message.message}}</p>
+          </div>
+        </div>
+        <div style="display:flex;width:87%;" class=" margin-auto">
+          <p class="margin-l-auto">{{message.created | timeAgo}}</p>
+        </div>
+      </div>
+      <!-- if file is sent and filetype is pdf -->
+
+      <div ng-if="me.pk === message.originator &&  message.fileType == 'pdf' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
+        <div class="" style="display: flex;justify-content: space-between;">
+          <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
+            <div style="display:flex;width:100%;" class="file-card padding-2 ">
+              <img src="/static/images/icons8-pdf-96.png" alt="" width="40">
+              <p class="margin-y-auto m-left-4" style="color:white;font-size:12px">{{message.fileName}}</p>
+              <a href="{{message.attachment}}" target="_blank" class="margin-l-auto padding-2 margin-y-auto">
+                <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z"
+                    fill="#fff" />
+                </svg>
+              </a>
 
 
-    <div class="col-md-4 pull-right" style="background:#fff;height:100vh">
+            </div>
+            <div style="display:flex;width:95%;font-size:12px" class=" margin-auto">
+              <div style="display:flex;" class="margin-r-auto">
+                <p class="m-right-2 margin-y-auto" style="color:white;">{{message.fileSize/1000}}</p>
+                <p class="m-left-2 margin-y-auto" style="color:white;">{{message.fileType}}</p>
+              </div>
+            </div>
+          </div>
+          <div style="padding: 0px;width: 40px;margin-top: auto;height: 40px;margin-bottom: 1%;margin-right: -3%;">
+            <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
+          </div>
+        </div>
+        <div style="display:flex;width:87%;margin-top: 3%;margin-left: 3%;" class=" margin-auto">
+          <p class="margin-l-auto">{{message.created | timeAgo}}</p>
+        </div>
+      </div>
+
+
+      <!-- if file is recived and filetype is pdf -->
+
+      <div ng-if="me.pk != message.originator &&  message.fileType == 'pdf' " class="file-card   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
+        <div class="" style="display: flex;justify-content: space-between;">
+          <div style="padding: 0px;width: 40px;margin-top: auto;height: 40px;margin-bottom: 1%;margin-right: -3%;">
+            <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
+          </div>
+          <div class="file-recived" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
+            <div style="display:flex;width:100%;" class="file-card padding-2 ">
+              <img src="/static/images/icons8-pdf-96.png" alt="" width="40">
+              <p class="margin-y-auto m-left-4" style="color:black;font-size:12px">{{message.fileName}}</p>
+              <a href="{{message.attachment}}" target="_blank" class="margin-l-auto padding-2 margin-y-auto">
+                <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z"
+                    fill="#000" />
+                </svg>
+              </a>
+
+
+            </div>
+            <div style="display:flex;width:95%;font-size:12px" class=" margin-auto">
+              <div style="display:flex;" class="margin-r-auto">
+                <p class="m-right-2 margin-y-auto" style="color:black;">{{message.fileSize/1000}}</p>
+                <p class="m-left-2 margin-y-auto" style="color:black;">{{message.fileType}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;width:87%;margin-top: 3%;margin-left: 3%;" class=" margin-auto">
+          <p style="margin-left:42px">{{message.created | timeAgo}}</p>
+        </div>
+      </div>
+
+
+      <!-- if file is sent and filetype is doc -->
+
+      <div ng-if="me.pk === message.originator &&  message.fileType == 'word' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
+        <div class="" style="display: flex;justify-content: space-between;">
+          <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
+            <div style="display:flex;width:100%;" class="file-card padding-2 ">
+              <img src="/static/images/icons8-word-96.png" alt="" width="40">
+              <p class="margin-y-auto m-left-4" style="color:white;font-size:12px">{{message.fileName}}</p>
+              <a href="{{message.attachment}}" target="_blank" class="margin-l-auto padding-2 margin-y-auto">
+                <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z"
+                    fill="#fff" />
+                </svg>
+              </a>
+
+
+            </div>
+            <div style="display:flex;width:95%;font-size:12px" class=" margin-auto">
+              <div style="display:flex;" class="margin-r-auto">
+                <p class="m-right-2 margin-y-auto" style="color:white;">{{message.fileSize/1000}}</p>
+                <p class="m-left-2 margin-y-auto" style="color:white;">{{message.fileType}}</p>
+              </div>
+            </div>
+          </div>
+          <div style="padding: 0px;width: 40px;margin-top: auto;height: 40px;margin-bottom: 1%;margin-right: -3%;">
+            <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
+          </div>
+        </div>
+        <div style="display:flex;width:87%;margin-top: 3%;margin-left: 3%;" class=" margin-auto">
+          <p class="margin-l-auto">{{message.created | timeAgo}}</p>
+        </div>
+      </div>
+
+      <!-- if file is recived and filetype is doc -->
+
+      <div ng-if="me.pk != message.originator &&  message.fileType == 'word' " class="file-card   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
+        <div class="" style="display: flex;justify-content: space-between;">
+          <div style="padding: 0px;width: 40px;margin-top: auto;height: 40px;margin-bottom: 1%;margin-right: -3%;">
+            <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
+          </div>
+          <div class="file-recived" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
+            <div style="display:flex;width:100%;" class="file-card padding-2 ">
+              <img src="/static/images/icons8-word-96.png" alt="" width="40">
+              <p class="margin-y-auto m-left-4" style="color:black;font-size:12px">{{message.fileName}}</p>
+              <a href="{{message.attachment}}" target="_blank" class="margin-l-auto padding-2 margin-y-auto">
+                <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z"
+                    fill="#000" />
+                </svg>
+              </a>
+
+            </div>
+            <div style="display:flex;width:95%;font-size:12px" class=" margin-auto">
+              <div style="display:flex;" class="margin-r-auto">
+                <p class="m-right-2 margin-y-auto" style="color:black;">{{message.fileSize/1000}}</p>
+                <p class="m-left-2 margin-y-auto" style="color:black;">{{message.fileType}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;width:87%;margin-top: 3%;margin-left: 3%;" class=" margin-auto">
+          <p style="margin-left:42px">{{message.created | timeAgo}}</p>
+        </div>
+      </div>
+
+      <!-- if file is sent and filetype is ppt -->
+
+      <div ng-if="me.pk === message.originator &&  message.fileType == 'ppt' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
+        <div class="" style="display: flex;justify-content: space-between;">
+          <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
+            <div style="display:flex;width:100%;" class="file-card padding-2 ">
+              <img src="/static/images/icons8-ppt-96.png" alt="" width="40">
+              <p class="margin-y-auto m-left-4" style="color:white;font-size:12px">{{message.fileName}}</p>
+              <a href="{{message.attachment}}" target="_blank" class="margin-l-auto padding-2 margin-y-auto">
+                <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z"
+                    fill="#fff" />
+                </svg>
+              </a>
+
+
+            </div>
+            <div style="display:flex;width:95%;font-size:12px" class=" margin-auto">
+              <div style="display:flex;" class="margin-r-auto">
+                <p class="m-right-2 margin-y-auto" style="color:white;">{{message.fileSize/1000}}</p>
+                <p class="m-left-2 margin-y-auto" style="color:white;">{{message.fileType}}</p>
+              </div>
+            </div>
+          </div>
+          <div style="padding: 0px;width: 40px;margin-top: auto;height: 40px;margin-bottom: 1%;margin-right: -3%;">
+            <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
+          </div>
+        </div>
+        <div style="display:flex;width:87%;margin-top: 3%;margin-left: 3%;" class=" margin-auto">
+          <p class="margin-l-auto">{{message.created | timeAgo}}</p>
+        </div>
+      </div>
+
+
+      <!-- if file is recived and filetype is ppt -->
+
+      <div ng-if="me.pk != message.originator &&  message.fileType == 'ppt' " class="file-card   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
+        <div class="" style="display: flex;justify-content: space-between;">
+          <div style="padding: 0px;width: 40px;margin-top: auto;height: 40px;margin-bottom: 1%;margin-right: -3%;">
+            <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
+          </div>
+          <div class="file-recived" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
+            <div style="display:flex;width:100%;" class="file-card padding-2 ">
+              <img src="/static/images/icons8-ppt-96.png" alt="" width="40">
+              <p class="margin-y-auto m-left-4" style="color:black;font-size:12px">{{message.fileName}}</p>
+              <a href="{{message.attachment}}" target="_blank" class="margin-l-auto padding-2 margin-y-auto">
+                <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z"
+                    fill="#000" />
+                </svg>
+              </a>
+
+            </div>
+            <div style="display:flex;width:95%;font-size:12px" class=" margin-auto">
+              <div style="display:flex;" class="margin-r-auto">
+                <p class="m-right-2 margin-y-auto" style="color:black;">{{message.fileSize/1000}}</p>
+                <p class="m-left-2 margin-y-auto" style="color:black;">{{message.fileType}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;width:87%;margin-top: 3%;margin-left: 3%;" class=" margin-auto">
+          <p style="margin-left:42px">{{message.created | timeAgo}}</p>
+        </div>
+      </div>
+
+      <!-- if file is sent and filetype is xl -->
+
+      <div ng-if="me.pk === message.originator &&  message.fileType == 'xl' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
+        <div class="" style="display: flex;justify-content: space-between;">
+          <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
+            <div style="display:flex;width:100%;" class="file-card padding-2 ">
+              <img src="/static/images/icons8-xls-96.png" alt="" width="40">
+              <p class="margin-y-auto m-left-4" style="color:white;font-size:12px">{{message.fileName}}</p>
+              <a href="{{message.attachment}}" target="_blank" class="margin-l-auto padding-2 margin-y-auto">
+                <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z"
+                    fill="#fff" />
+                </svg>
+              </a>
+
+
+            </div>
+            <div style="display:flex;width:95%;font-size:12px" class=" margin-auto">
+              <div style="display:flex;" class="margin-r-auto">
+                <p class="m-right-2 margin-y-auto" style="color:white;">{{message.fileSize/1000}}</p>
+                <p class="m-left-2 margin-y-auto" style="color:white;">{{message.fileType}}</p>
+              </div>
+            </div>
+          </div>
+          <div style="padding: 0px;width: 40px;margin-top: auto;height: 40px;margin-bottom: 1%;margin-right: -3%;">
+            <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
+          </div>
+        </div>
+        <div style="display:flex;width:87%;margin-top: 3%;margin-left: 3%;" class=" margin-auto">
+          <p class="margin-l-auto">{{message.created | timeAgo}}</p>
+        </div>
+      </div>
+
+      <!-- if file is recived and filetype is xl -->
+
+      <div ng-if="me.pk != message.originator &&  message.fileType == 'xl' " class="file-card   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
+        <div class="" style="display: flex;justify-content: space-between;">
+          <div style="padding: 0px;width: 40px;margin-top: auto;height: 40px;margin-bottom: 1%;margin-right: -3%;">
+            <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
+          </div>
+          <div class="file-recived" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
+            <div style="display:flex;width:100%;" class="file-card padding-2 ">
+              <img src="/static/images/icons8-xls-96.png" alt="" width="40">
+              <p class="margin-y-auto m-left-4" style="color:black;font-size:12px">{{message.fileName}}</p>
+              <a href="{{message.attachment}}" target="_blank" class="margin-l-auto padding-2 margin-y-auto">
+                <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z"
+                    fill="#000" />
+                </svg>
+              </a>
+
+
+            </div>
+            <div style="display:flex;width:95%;font-size:12px" class=" margin-auto">
+              <div style="display:flex;" class="margin-r-auto">
+                <p class="m-right-2 margin-y-auto" style="color:black;">{{message.fileSize/1000/1000}}</p>
+                <p class="m-left-2 margin-y-auto" style="color:black;">{{message.fileType}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;width:87%;margin-top: 3%;margin-left: 3%;" class=" margin-auto">
+          <p style="margin-left:42px">{{message.created | timeAgo}}</p>
+        </div>
+      </div>
+
+
+
+
+    </div>
+  </div>
+  <div style="display: flex;" class="chat-input " style="width:42.5% !important;">
+    <div class="attachment m-left-3 paddig-3 margin-y-auto">
+      <input type="file" style="display : none;" file-model="form.file" id="filePicker">
+      <button ng-click="openFilePicker()" type="button" name="button" style="border:none;background:#fff;">
+        <svg width="30" height="30" viewBox="0 0 167 167" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M29.6771 77.8244C21.8735 85.6279 17.4895 96.2118 17.4895 107.248C17.4895 118.284 21.8735 128.867 29.6771 136.671C37.4806 144.474 48.0645 148.858 59.1003 148.858C70.1362 148.858 80.7201 144.474 88.5236 136.671L144.695 80.4992C150.371 74.8239 153.559 67.1266 153.559 59.1005C153.559 51.0744 150.371 43.377 144.695 37.7017C139.02 32.0264 131.323 28.8381 123.297 28.8381C115.271 28.8381 107.573 32.0264 101.898 37.7017L56.4255 83.1741C52.8784 86.7211 50.8857 91.532 50.8857 96.5483C50.8857 101.565 52.8784 106.375 56.4255 109.923C59.9726 113.47 64.7834 115.462 69.7997 115.462C74.816 115.462 79.6269 113.47 83.1739 109.923L123.297 69.7999L115.272 61.7753L75.1494 101.898C73.7306 103.317 71.8062 104.114 69.7997 104.114C67.7932 104.114 65.8689 103.317 64.45 101.898C63.0312 100.479 62.2341 98.5548 62.2341 96.5483C62.2341 94.5418 63.0312 92.6174 64.45 91.1986L109.922 45.7263C111.679 43.9699 113.764 42.5767 116.059 41.6262C118.353 40.6757 120.813 40.1865 123.297 40.1865C125.78 40.1865 128.24 40.6757 130.535 41.6262C132.829 42.5767 134.914 43.9699 136.671 45.7263C138.427 47.4826 139.82 49.5677 140.771 51.8624C141.721 54.1572 142.211 56.6167 142.211 59.1005C142.211 61.5843 141.721 64.0438 140.771 66.3386C139.82 68.6333 138.427 70.7184 136.671 72.4747L80.4991 128.646C74.8238 134.322 67.1264 137.51 59.1003 137.51C51.0743 137.51 43.3769 134.322 37.7016 128.646C32.0263 122.971 28.8379 115.274 28.8379 107.248C28.8379 99.2216 32.0263 91.5242 37.7016 85.8489L88.5236 35.0269L80.4991 27.0024L29.6771 77.8244Z"
+            fill="grey" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="m-left-3 margin-y-auto" style="width:80%;">
+      <input ng-model="form.text" ng-enter="send()" class="form-control" type="text" placeholder="Type your message...." style="border-radius:30px;padding: 19px;">
+    </div>
+    <div class="" style="padding:1rem">
+      <div ng-click="send()" style="height: 40px;padding:1rem 2rem;margin:auto;display: inline-flex;margin-left: 2%;background: #004DFC;color: #fff;border-radius: 6px !important;cursor:pointer;" class="send-btn  margin-y-auto m-bottom-2">
+        <p style="margin-right:12%">SEND</p>
+        <svg width="25" height="25" viewBox="0 0 21 18" fill="none">
+          <path d="M0 18L21 9L0 0V7L15 9L0 11V18Z" fill="#fff" />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- <div class="col-md-4 pull-right" style="background:#fff;height:100vh;display:none">
       <div class="" style="margin: auto; margin-top: 15%;margin-right: 5%;">
         <div style="padding: 0px;width: 80px;margin:auto; margin-top: 10% !important;">
           <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:80px;" class="img img-circle">
@@ -414,8 +931,8 @@
 
         </div>
       </div>
-    </div>
+    </div> -->
 
 
-  </div>
+</div>
 </div>
