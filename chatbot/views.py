@@ -955,4 +955,3 @@ def ExternalWindow(request):
         else:
             createMessage(request.POST['uid'] ,  request.POST['message'])
             return JsonResponse({"status" : "ok"} , status = 200)
-
