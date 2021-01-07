@@ -32,6 +32,31 @@ app.filter('reverse', function() {
 // Main controller is mainly for the Navbar and also contains some common components such as clipboad etc
 app.controller('main', function($scope, $state, $users, $aside, $http, $timeout, $uibModal,  ngAudio, $rootScope , $interval) {
   console.log('main');
+
+  $scope.openSuspensionNotice = function(){
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.disabledNotice.html',
+      size: 'md',
+      backdrop: false,
+      controller: function($scope , $uibModalInstance){
+  
+        $scope.divisionName = DIVISION_NAME;
+        $scope.dueDate = DUE_DATE;
+        $scope.totalDue = TOTAL_DUE
+        
+        
+      },
+    }).result.then(function() {
+  
+    }, function() {
+      $scope.getallCheckins()
+    });
+  }
+
+  if(LOCKED == 'True'){
+    $scope.openSuspensionNotice();
+  }
+
   $rootScope.formToggle={toggleMain : false}
     $scope.$watch('formToggle.toggleMain', function(newValue, oldValue) {
       if(newValue!=oldValue){

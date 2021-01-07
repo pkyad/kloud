@@ -86,14 +86,15 @@ def loginView(request):
             try:
                 usernameOrEmail = User.objects.filter(profile__mobile = d['mobile']).first().username
             except:
-                reg = Registration.objects.filter(mobile = request.POST['mobile'], mobileOTP = request.POST['otp'])
-                if len(reg)>0:
-                    newuser = User.objects.create(username = request.POST['mobile'])
-                    usernameOrEmail = newuser.username
-                    username = newuser.username
-                    prof = newuser.profile
-                    prof.mobile = request.POST['mobile']
-                    prof.save()
+                pass
+                # reg = Registration.objects.filter(mobile = request.POST['mobile'], mobileOTP = request.POST['otp'])
+                # if len(reg)>0:
+                #     newuser = User.objects.create(username = request.POST['mobile'])
+                #     usernameOrEmail = newuser.username
+                #     username = newuser.username
+                #     prof = newuser.profile
+                #     prof.mobile = request.POST['mobile']
+                #     prof.save()
         else:
             usernameOrEmail = d['username']
 
@@ -241,8 +242,8 @@ def root(request):
 @login_required(login_url = globalSettings.LOGIN_URL)
 def home(request):
     u = request.user
-
-    if u.designation.division == None:
+    division = u.designation.division
+    if division == None:
         return redirect('newuser')
 
     print "is staff : " , u.is_staff , "is super user : " , u.is_superuser
@@ -262,16 +263,16 @@ def home(request):
 
     apps = apps.filter(~Q(name__startswith='configure.' )).filter(~Q(name='app.users')).filter(~Q(name__endswith='.public')).filter(parent__isnull = True)
 
-    if u.designation.division:
-        divisionPk = u.designation.division.pk
-        telephony = u.designation.division.telephony
-        messaging = u.designation.division.messaging
-        simpleMode = u.designation.division.simpleMode
+    if division:
+        divisionPk = division.pk
+        telephony = division.telephony
+        messaging = division.messaging
+        simpleMode = division.simpleMode
     else:
         divisionPk = None
 
     try:
-        customerPk = request.user.designation.division.pk
+        customerPk = division.pk
     except:
         customerPk = -1
 
@@ -318,7 +319,7 @@ def home(request):
         for subApp in app.menuitems.all():
             jsFilesList.append(subApp.jsFileName)
 
-    return render(request , 'ngBase.html' , {'homeState': homeState , 'dashboardEnabled' : u.profile.isDashboard , 'wampServer' : globalSettings.WAMP_SERVER, 'appsWithJs' : jsFilesList \
+    return render(request , 'ngBase.html' , {'division' : division , 'homeState': homeState , 'dashboardEnabled' : u.profile.isDashboard , 'wampServer' : globalSettings.WAMP_SERVER, 'appsWithJs' : jsFilesList \
     ,'appsWithCss' : apps.filter(haveCss=True) , 'useCDN' : globalSettings.USE_CDN , 'BRAND_LOGO' : brandLogo \
     ,'BRAND_NAME' :  globalSettings.BRAND_NAME,'sourceList':globalSettings.SOURCE_LIST , 'commonApps' : globalSettings.SHOW_COMMON_APPS , 'defaultState' : state, 'limit_expenses_count':globalSettings.LIMIT_EXPENSE_COUNT  , 'MATERIAL_INWARD' : MATERIAL_INWARD, 'DIVISIONPK' : divisionPk , "SIP" : SIP_DETAILS ,"NOTIFICATIONCOUNT":notificationCount,'telephony' : telephony , 'simpleMode' : simpleMode, 'messaging' : messaging,'customerPk':customerPk})
 
@@ -337,7 +338,7 @@ def RegView(request):
     return JsonResponse({} ,status =200 )
 
 @csrf_exempt
-def generateOTP(request):
+def generateOTPView(request):
     from datetime import  timedelta
     print request.GET,'aaaaaaaaaaaaaaaa'
     mobileNo = None

@@ -365,7 +365,10 @@ transition-duration: 0.8s;
       var ENABLE_TELEPHONY = '{{telephony}}' == 'True';
       var ENABLE_MESSAGING = '{{messaging}}' == 'True';
       var SIMPLE_MODE = '{{simpleMode}}' == 'True';
-      var CUSTOMER_PK = '{{customerPk}}';
+      var LOCKED = '{{division.locked}}';
+      var TOTAL_DUE = '{{division.totalDue}}';
+      var DUE_DATE = '{{division.dueDate}}';
+      var DIVISION_NAME = '{{division.name}}';
     </script>
     <script src="{% static 'js/moment-with-locales-2.24.0.min.js' %}"></script>
     <script src="{% static 'js/sip-0.11.6.min.js' %}"></script>
