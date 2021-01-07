@@ -727,6 +727,8 @@ class serviceViewSet(viewsets.ModelViewSet):
         if 'name__icontains' in self.request.GET:
             queryset = service.objects.filter(name__icontains = str(self.rquest.GET['name__icontains']))
             return queryset
+
+
 class registerDeviceApi(APIView):
     renderer_classes = (JSONRenderer,)
     permission_classes = (permissions.AllowAny ,)
