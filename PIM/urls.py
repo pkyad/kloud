@@ -14,6 +14,7 @@ router.register(r'chatMessage' , chatMessageViewSet, base_name = 'chatmessage')
 router.register(r'chatMessageBetween' , chatMessageBetweenViewSet, base_name = 'chatbetween')
 router.register(r'chatThreads' , ChatThreadsViewSet , base_name = 'chatThreads')
 router.register(r'notes' , NoteBookViewSet , base_name = 'notes')
+router.register(r'notesTitle' , NotesTitleViewSet , base_name = 'notesTitle')
 
 urlpatterns = [
     url(r'^', include(router.urls)),

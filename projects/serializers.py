@@ -37,7 +37,7 @@ class projectCommentSerializer(serializers.ModelSerializer):
 class CostCenterLiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = CostCenter
-        fields = ('pk', 'head' , 'name' , 'code' , 'account' )
+        fields = ('pk', 'name'  )
 
 
 class ProjectObjectiveSerializer(serializers.ModelSerializer):

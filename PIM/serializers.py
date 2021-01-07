@@ -278,15 +278,30 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
 
 
 class NotebookFullSerializer(serializers.ModelSerializer):
+    user = userSearchSerializer(many=False , read_only=True)
     class Meta:
         model = notebook
-        fields = ('created', 'title', 'source', 'shares', 'type', 'locked')
+        fields = ('created', 'title', 'source', 'shares', 'type', 'locked', 'user', 'pk')
+        read_only_fields = ('shares' , )
     def create(self , validated_data):
         notesObj = notebook(**validated_data)
         user = self.context['request'].user
         notesObj.user = user
         notesObj.division = user.designation.division
         notesObj.save()
-
-
         return notesObj
+
+    def update(self , instance, validated_data):
+        if 'shares' in self.context['request'].data:
+            instance.shares.clear()
+            for sharedWith in self.context['request'].data['shares']:
+                instance.shares.add(User.objects.get(pk = sharedWith))
+        if 'source' in self.context['request'].data:
+            instance.source =  self.context['request'].data['source']
+            instance.save()
+        return instance
+
+class NotesLiteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = notebook
+        fields = ('pk', 'title')

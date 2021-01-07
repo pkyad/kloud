@@ -245,3 +245,16 @@ class NoteBookViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     queryset = notebook.objects.all()
     serializer_class = NotebookFullSerializer
+
+
+class NotesTitleViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    serializer_class = NotesLiteSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['title']
+    def get_queryset(self):
+        division = self.request.user.designation.division
+        notesObj = notebook.objects.filter(division = division)
+        toReturn = notesObj.order_by('-created')
+
+        return toReturn
