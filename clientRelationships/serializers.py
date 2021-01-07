@@ -173,6 +173,8 @@ class ContractSerializer(serializers.ModelSerializer):
             c.contact_id = int(self.context['request'].data['contact'])
         if 'termsAndCondition' in self.context['request'].data:
             c.termsAndCondition_id = int(self.context['request'].data['termsAndCondition'])
+        c.division = self.context['request'].user.designation.division
+            
         c.save()
         contract = c
         user = self.context['request'].user
