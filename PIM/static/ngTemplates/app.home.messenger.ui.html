@@ -1,21 +1,21 @@
-<div class="col-md-9 pull-right " style="padding:0px;">
+<div class="col-md-9 col-sm-8 pull-right " style="padding:0px;">
   <div class="row" style=";margin:0px;">
     <div class="{{user.is_show?'col-md-8':'col-md-12'}} bgImg " style="padding:0px;">
       <div class="row" style="margin:0px;position:sticky;z-index:1;">
         <div class="" style="background-color:#ededed;height:60px;padding:10px;">
-          <div class="col-md-1" ng-click="user.is_show=true">
+          <div class="col-md-1 col-sm-1" ng-click="user.is_show=true">
             <div class="">
               <img ng-src="{{user.dp}}" src="p/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
             </div>
           </div>
-          <div class="col-md-9" ng-click="user.is_show=true">
+          <div class="col-md-9 col-sm-9" ng-click="user.is_show=true">
             <h5 style="margin-top:0px;">{{user.name}} </h5>
             <p>last seen today</p>
           </div>
-          <div class="col-md-2 text-right">
+          <div class="col-md-2 col-sm-2 text-right">
             <div class="" style="font-size:20px;padding-top:10px;">
               <i class="fa fa-search " ng-click="user.is_search = true;user.is_show=false" style="padding-right:20px;"></i>
-              <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+              <!-- <i class="fa fa-ellipsis-v" aria-hidden="true"></i> -->
             </div>
           </div>
         </div>
@@ -399,8 +399,8 @@
 
         </div>
       </div>
-      <div class="col-md-12 chat-input ">
-        <div class="attachment col-md-1">
+      <div class="col-md-12 col-sm-12 chat-input ">
+        <div class="attachment col-md-1 col-sm-1">
           <input type="file" style="display : none;" file-model="form.file" id="filePicker">
           <button ng-click="openFilePicker()" type="button" name="button" style="border:none;background:#fff;">
             <svg width="30" height="30" viewBox="0 0 167 167" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -411,14 +411,14 @@
           </button>
         </div>
 
-        <div class="col-md-11">
+        <div class="col-md-11 col-sm-11">
           <input ng-model="form.text" ng-enter="send()" class="form-control" type="text" placeholder="Type your message...." style="border-radius:30px;padding: 19px;">
         </div>
 
       </div>
 
     </div>
-    <div class="col-md-4" ng-if="user.is_show" style="background-color:#ececec">
+    <div class="col-md-4 col-sm-12" ng-if="user.is_show" style="background-color:#ececec">
       <div class="row">
         <div class="" style="background-color:#ededed;height:60px;padding:20px 10px;" ng-click="user.is_show=true">
           <div class="col-md-12">
@@ -482,18 +482,18 @@
       </div>
 
       <div class="row" style="background-color:white;padding:10px;">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <p style="color:#009688" ng-if="user.participants.length>0">{{user.participants.length}} participants</p>
         </div>
-        <div class="col-md-6 text-right">
+        <!-- <div class="col-md-6 text-right">
           <i class="fa fa-search"></i>
-        </div>
+        </div> -->
       </div>
 
 
       <div class="row text-left" style="background-color:white;" ng-click="addParticipants()">
         <div class="col-md-3" style="margin-top:5px;">
-          <div class="" style="height:50px;width:50px;background-color:#009688;border-radius: 50%;padding: 18px;">
+          <div class="" style="height:40px;width:40px;background-color:#009688;border-radius: 50%;padding: 10px;">
             <i class="fa fa-user-plus" aria-hidden="true" style="font-size:20px;color:white;"></i>
           </div>
         </div>
@@ -501,8 +501,8 @@
           <p style="line-height:4">Add Participants</p>
         </div>
       </div>
-      <div class="row contact userMenuItem " style="padding:10px 15px;padding-bottom:0px;" ng-repeat="k in user.participants track by $index">
-        <div class="col-md-2 text-right" style="padding:0px;">
+      <div class="row contact userMenuItem " style="padding:10px 15px;padding-bottom:0px;" ng-click="createChatThread(k)" ng-repeat="k in user.participants track by $index">
+        <div class="col-md-2 text-left" style="padding:0px;">
           <img src="{{k.dp}}" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
           <!-- <div class="" style="clip-path:circle(50%);background:#2edd2e;width:15px;height:15px;position: absolute;bottom: -5px;right: -5px;"></div> -->
         </div>
@@ -536,7 +536,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4" ng-if="user.is_search">
+    <!-- <div class="col-md-4" ng-if="user.is_search">
       <div class="form-group" style="margin:0px;">
         <i class="fa fa-search " style="position:absolute;padding:11px;color: #777;font-size: 14px;"></i>
         <input class="form-control searchInp" type="text" ng-enter="getUsers()" ng-model="form.searchTxt" placeholder="Search..." style="border:none;padding:1rem 4rem ; border-radius:20px;width:100%;">
@@ -546,7 +546,7 @@
 
       </div>
 
-    </div>
+    </div> -->
   </div>
 </div>
 
@@ -957,28 +957,6 @@
 </div>
 
 
-<!-- <div class="col-md-4 pull-right" style="background:#fff;height:100vh;display:none">
-      <div class="" style="margin: auto; margin-top: 15%;margin-right: 5%;">
-        <div style="padding: 0px;width: 80px;margin:auto; margin-top: 10% !important;">
-          <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:80px;" class="img img-circle">
-        </div>
-        <div class="" style="margin-bottom:10%;">
-          <div class="text-center" style="margin-top:8%">
-            <p>CIOC Admin</p>
-          </div>
-          <div class="" style="display:inline-flex;width:100%;margin-left:10%;margin-top:8%">
-            <img src="/static/images/icons8-email-96.png" style="width: 25px;">
-            <p style="margin: auto 0 auto 5%;">info@cioc.in</p>
-          </div>
-          <div class="" style="display:inline-flex;width:100%;margin-left:10%;margin-top:8%">
-            <img src="/static/images/icons8-dialing-number-100.png" style="width: 25px;">
-            <p style="margin: auto 0 auto 5%;cursor:pointer;" ng-click="call('9702438730')">9702438730</p>
-          </div>
-
-
-        </div>
-      </div>
-    </div> -->
 
 
 </div>

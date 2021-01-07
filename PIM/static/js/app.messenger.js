@@ -154,21 +154,37 @@
               data:$scope.form
             }).
             then(function(response) {
-              $uibModalInstance.dismiss()
+              $uibModalInstance.dismiss(response.data)
             })
           }
 
 
         }
 
-      }).result.then(function() {
+      }).result.then(function(data) {
 
-      }, function() {
-        $scope.getThread()
+      }, function(data) {
+          $scope.getThread()
           $scope.user.is_show = false
       });
     }
 
+
+  $scope.createChatThread = function(k){
+    console.log(k,'99000');
+    var data ={
+      user:k.pk,
+      title:k.first_name,
+      company:k.division
+    }
+    $http({
+      method: 'POST',
+      url: '/api/PIM/chatThreads/',
+      data:data
+    }).then(function(response) {
+
+    })
+  }
 
 
   });
