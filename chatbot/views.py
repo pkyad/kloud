@@ -818,8 +818,8 @@ def publicAPI(request , objectType):
 
     return
 
-
-from talk import initialiseBlock , saveContext
+if getpass.getuser() == 'cioc-d2':
+    from talk import initialiseBlock , saveContext
 
 @csrf_exempt
 def ExternalWindow(request):
