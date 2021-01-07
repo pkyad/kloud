@@ -55,6 +55,11 @@ app.config(function($stateProvider ){
     templateUrl: '/static/ngTemplates/app.home.notes.html',
     controller: 'controller.home.notes'
   })
+  .state('home.createNote', {
+    url: "/notes",
+    templateUrl: '/static/ngTemplates/app.home.notes.html',
+    controller: 'controller.home.createNotes'
+  })
   .state('home.myWork', {
     url: "/myWork",
     templateUrl: '/static/ngTemplates/app.home.myWork.html',

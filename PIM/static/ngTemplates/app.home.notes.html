@@ -1,4 +1,4 @@
-<breadcrumb></breadcrumb>
+<!-- <breadcrumb></breadcrumb>
 <div class="container-fluid col-md-10 " id="containerSize" style="border-right:solid 2px #eeeeee;">
   <uib-tabset>
     <uib-tab ng-repeat="page in pages" active="tab.active" disable="tab.disabled" ng-click="openPage(page.pk,page.parent,$index)">
@@ -24,9 +24,6 @@
           <span class="col-md-1 btn"style="width:25px;height:25px;background:black;margin:3px;" id="black" ng-click="setColor('black',$index)"></span>
         </div>
         <div class="dropdown col-md-1">
-          <!-- <button type="button" class="btn btn-success" ng-click="rect($index)">rectangle</button>
-          <button type="button" class="btn btn-success" ng-click="tri($index)">triangle</button>
-          <button type="button" class="btn btn-success" ng-click="cir($index)">circle</button> -->
           <select class="shape">
             <option selected disabled hidden>Choose Shape</option>
             <option ng-click="shape($index,0)" id="rectangle">Rectangle</option>
@@ -38,10 +35,36 @@
       <canvas style="border:1px solid black" id="canvas{{$index}}" width="1370" height="755"></canvas>
     </uib-tab>
   </uib-tabset>
-</div>
-<div class="col-md-2">
-  <h2>NOTES</h2>
-  <div class="btn" ng-repeat="n in notebooks" ng-click="openBook(n.pk)">
-    &emsp;{{$index + 1}}:&nbsp;&emsp;{{n.title}}
+</div> -->
+
+
+<div class="row">
+  <div class="col-md-3" style="background:#F2F3F7;height:100vh">
+    <div class="row" style="margin:20px">
+      <div class="col-md-9">
+        <div class="input-group" style="background:#ffffff;border-radius:10px;">
+          <input type="text" class="form-control" ng-model="search.query" placeholder="Search" ng-enter="fetchData()" style="border:none !important;background:#ffffff;">
+          <div class="input-group-btn">
+            <button class="btn btn-default" type="submit" ng-click="fetchData()" style="border:none !important;background:#ffffff;">
+              <i class="glyphicon glyphicon-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="openCreateNote()" style="padding:5px"><i class="fa fa-plus"></i></button>
+      </div>
+    </div>
+    <div class="row">
+      <div ng-repeat="a in notes" style="border:1px solid black;height:100px;">
+        {{a.title}}
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9 text-center">
+    <h2>NOTES</h2>
+    <!-- <div class="btn" ng-repeat="n in notebooks" ng-click="openBook(n.pk)">
+      &emsp;{{$index + 1}}:&nbsp;&emsp;{{n.title}}
+    </div> -->
   </div>
 </div>
