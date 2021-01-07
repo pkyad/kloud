@@ -126,7 +126,7 @@ app.controller('businessManagement.finance.expenseClaimsheet.invoiceView', funct
     console.log($scope.invoice.pk);
     $http({
       method: 'PATCH',
-      url: '/api/finance/invoices/' + $scope.invoice.pk + '/',
+      url: '/api/finance/expense/' + $scope.invoice.pk + '/',
       data: {
         approved: newValue
       }
@@ -142,7 +142,7 @@ app.controller('businessManagement.finance.expenseClaims.explore', function($sco
 
   $http({
     method: 'GET',
-    url: '/api/finance/invoices/?sheet=' + $scope.expense.pk
+    url: '/api/finance/expense/?sheet=' + $scope.expense.pk
   }).
   then(function(response) {
     console.log('sssssssssssssssss', response.data);
@@ -296,7 +296,7 @@ app.controller('businessManagement.finance.expenseClaims.form', function($scope,
     $scope.refreshOption = false;
     $http({
       method: 'GET',
-      url: '/api/finance/invoices/?sheet=' + $scope.form.pk
+      url: '/api/finance/expense/?sheet=' + $scope.form.pk
     }).
     then(function(response) {
       $scope.invoiceData = response.data;
@@ -306,7 +306,7 @@ app.controller('businessManagement.finance.expenseClaims.form', function($scope,
   $scope.deleteInvoice=function(pk ,ind){
     $http({
       method: 'DELETE',
-      url: '/api/finance/invoices/'+pk + '/'
+      url: '/api/finance/expense/'+pk + '/'
     }).
     then((function(ind) {
       return function(response) {
@@ -329,7 +329,7 @@ app.controller('businessManagement.finance.expenseClaims.form', function($scope,
   $scope.invoiceData = [];
   $scope.saveInvoice = function() {
     var f = $scope.invoiceForm;
-    var url = '/api/finance/invoices/';
+    var url = '/api/finance/expense/';
     if ($scope.invoiceForm.pk) {
       var method = 'PATCH';
       url += $scope.invoiceForm.pk + '/';

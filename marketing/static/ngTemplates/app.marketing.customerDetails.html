@@ -114,7 +114,7 @@
                 </div>
               </div>
           </div>
-          <div class="row" ng-if="allTerms.length>0" style="margin-top:15px">
+          <div class="row" ng-if="allTerms.length>0&&(a.status == 'created' || a.status == 'assigned'  || a.status == 'upcoming' || a.status == 'ongoing' || a.status == 'postponed')" style="margin-top:15px">
               <div class="col-md-10 col-md-offset-1" >
                 <div class="flex-container">
                   <p style="margin-top:15px;margin-right:15px"> Formats: </p>

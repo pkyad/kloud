@@ -238,7 +238,7 @@ class ExpenseSheet(models.Model):
 class ExpenseHeading(models.Model):
     title = models.CharField(max_length = 40 , null = False)
 
-class Invoice(models.Model):
+class Expense(models.Model):
     user = models.ForeignKey(User , related_name='invoiceGeneratedOrSubmitted' , null = False)
     created = models.DateTimeField(auto_now_add=True)
     code = models.CharField(max_length = 200,null=True)
@@ -318,14 +318,6 @@ class InventoryLog(models.Model):
     division = models.ForeignKey(Division,related_name='divisionInventoryLog',null=True)
 
 
-STATUS_CHOICES = (
-    ('created' , 'created'),
-    ('Sent' , 'Sent'),
-    ('GRN' , 'GRN'),
-    ('Approved' , 'Approved'),
-    ('paid' , 'paid'),
-    ('rejected' , 'rejected'),
-)
 
 
 class ConfigureTermsAndConditions(models.Model):
@@ -350,3 +342,61 @@ class Disbursal(models.Model):
     amount = models.FloatField(default= 0)
     ifscCode =  models.CharField(max_length = 100 , null = True)
     account = models.ForeignKey(Account , related_name = "companyAccount" , null=True)
+
+
+
+STATUS_CHOICES_INVOICE = (
+    ('created' , 'created'),
+    ('Sent' , 'Sent'),
+    ('GRN' , 'GRN'),
+    ('Approved' , 'Approved'),
+    ('paid' , 'paid'),
+    ('rejected' , 'rejected'),
+    # ('NotReceivedAndArchived' , 'NotReceivedAndArchived'),
+    # ('Reconciled' , 'Reconciled'),
+)
+
+
+
+
+class InvoiceReceived(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User , related_name='invoiceUsers' , null = True)
+    status = models.CharField(default = 'created' ,max_length = 30 ,choices = STATUS_CHOICES_INVOICE)
+    companyName = models.CharField(max_length = 100 , null = True)
+    personName = models.CharField(max_length = 100 , null = True)
+    phone = models.CharField(max_length = 20 , null = True)
+    email =  models.CharField(max_length = 50 , null = True)
+    address = models.TextField(max_length=200 , null = True)
+    pincode = models.CharField(max_length =10, null = True)
+    state = models.CharField(max_length = 50, null = True)
+    city =  models.CharField(max_length = 50, null = True)
+    country =  models.CharField(max_length = 30, null = True)
+    deliveryDate = models.DateField(null = True, blank=True)
+    paymentDueDate = models.DateField(null = True)
+    gstIn = models.CharField(max_length = 30 ,null = True)
+    costcenter = models.ForeignKey(CostCenter , related_name='invoiceCostcenter' , null = True)
+    accNo =  models.CharField(max_length = 30, null = True)
+    ifsc = models.CharField(max_length = 30, null = True)
+    bankName =  models.CharField(max_length = 30, null = True)
+    invNo =  models.CharField(max_length = 50, null = True)
+    account = models.ForeignKey(Account, related_name='invoiceAccount' , null = True)
+    division = models.ForeignKey(Division,related_name='invoiceDivision',null=True)
+    totalAmount = models.FloatField(default=0)
+    balanceAmount = models.FloatField(default=0)
+    paidAmount = models.FloatField(default=0)
+    companyReference = models.ForeignKey(service,related_name='invoiceCompany',null=True)
+    note = models.TextField(max_length=500 , null = True)
+
+
+class InvoiceQty(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    invoice = models.ForeignKey(InvoiceReceived , related_name='parentInvoice' , null = True)
+    product = models.CharField(max_length = 100 , null = True)
+    qty = models.PositiveIntegerField(default=1)
+    price = models.FloatField(default=1)
+    taxCode =  models.CharField(max_length = 100 , null = True)
+    taxPer = models.FloatField(null = True)
+    tax = models.FloatField(null = True)
+    total = models.FloatField(null = True)
+    receivedQty = models.PositiveIntegerField(default=0)

@@ -26,6 +26,17 @@ var projectsStepsData = [{
 ];
 
 
+function dateToString(date) {
+    if (typeof date == 'object') {
+      day = date.getDate()
+      month = date.getMonth() + 1
+      year = date.getFullYear()
+      return year + '-' + month + '-' + day
+    } else {
+      return date
+    }
+  }
+
 app.controller('businessManagement.finance.financeExpenses', function($scope, $http, $aside, $state, Flash, $users, $filter,  $uibModal) {
   $scope.limit = 20
   $scope.form = {
@@ -42,7 +53,7 @@ app.controller('businessManagement.finance.financeExpenses', function($scope, $h
   }
 
   $scope.purchaseOrders = function() {
-    var url = '/api/finance/getallPurchaseOrder/?search=' + $scope.form.search +'&limit='+$scope.limit+ '&only='
+    var url = '/api/finance/fetchExpenses/?search=' + $scope.form.search +'&limit='+$scope.limit+ '&only='
     // if ($scope.form.dated.length > 0) {
     //   url = url + '&dated=' + $scope.form.dated
     // }
@@ -69,7 +80,7 @@ app.controller('businessManagement.finance.financeExpenses', function($scope, $h
     $state.go('home.approveExpenseClaims' , {'id' : id})
     }
     else{
-      $state.go('businessManagement.accounting.explore',{'id':id})
+      $state.go('businessManagement.accounting.editInvoice',{'id':id})
     }
   }
 
@@ -988,7 +999,7 @@ app.controller('businessManagement.finance.vendorService.form', function($scope,
     }
 
     var method = 'POST'
-    var url = '/api/finance/serviceApi/'
+    var url = '/api/ERP/serviceApi/'
     // if ($scope.form.service.pk){
     //   method = 'PATCH'
     //   url = '/api/finance/vendorApi/'+$scope.form.service.pk+'/'
@@ -1226,7 +1237,7 @@ app.controller('businessManagement.finance.inboundInvoices.form', function($scop
 
   $scope.resetForm = function() {
     $scope.form = {
-      name: '',
+      companyName: '',
       address: '',
       personName: '',
       phone: '',
@@ -1235,487 +1246,414 @@ app.controller('businessManagement.finance.inboundInvoices.form', function($scop
       city: '',
       state: '',
       country: '',
-      poNumber: '',
       paymentDueDate: '',
-      invoiceTerms: '',
-      terms: '',
-      project: '',
       costcenter: '',
-      bussinessunit: '',
       products: [],
       accNo: '',
-      reaccNo: '',
       ifsc: '',
-      reifsc: '',
       bankName: '',
       invNo: '',
       account: '',
-      termsandcondition: '',
       totalAmount:0,
       deliveryDate:'',
-      otherBankName : '',
-      otherifsc : '',
-      otheraccNo : '',
-      note:''
-
+      note:'',
+      companyReference:'',
+      gstIn:''
     }
   }
+  $scope.resetForm()
 
-  $scope.allCostCenter = []
-    $scope.costCenterSearch = function() {
-      $http.get('/api/finance/costCenter/').
+
+
+
+    $scope.companySearch = function(query) {
+      return $http.get('/api/ERP/service/?name__icontains=' + query).
       then(function(response) {
-        $scope.allCostCenter =  response.data;
-        if ($state.is('businessManagement.accounting.editPuchaseOrder')) {
-          for (var i = 0; i < $scope.allCostCenter.length; i++) {
-            if ($scope.allCostCenter[i].pk == $scope.form.costcenter.pk) {
-              $scope.form.costcenter = $scope.allCostCenter[i]
-            }
-          }
-
-        }
+        return response.data;
       })
     };
-  $scope.mode = 'new';
-    $scope.getAllData = function(idx) {
-      $scope.resetForm()
-      $http({
-        method: 'GET',
-        url: '/api/finance/purchaseorder/' + idx + '/',
-      }).
-      then(function(response) {
-      $scope.form = response.data
-      $scope.form.vendor =   $scope.form.service
-      $scope.costCenterSearch()
-      $scope.form.reaccNo =  $scope.form.accNo
-      $scope.form.reifsc =  $scope.form.ifsc
-      $scope.getAccount()
-    $http({
-      method: 'GET',
-      url: '/api/finance/purchaseorderqty/?purchaseorder=' + idx,
-    }).
-    then(function(response) {
-      $scope.form.products = response.data
-    })
-    })
+
+
+
+  $scope.selectCompany = function(){
+    if (typeof $scope.form.companyReference == 'object') {
+        // $scope.form.phone = $scope.form.companyReference.mobile
+        $scope.form.ifsc =  $scope.form.companyReference.ifscCode
+        $scope.form.gstIn =  $scope.form.companyReference.tin
+        $scope.form.accNo  =  $scope.form.companyReference.accountNumber
+        $scope.form.bankName  =  $scope.form.companyReference.bankName
+        $scope.form.city  =  $scope.form.companyReference.address.city
+        $scope.form.country  =  $scope.form.companyReference.address.country
+        $scope.form.state  =  $scope.form.companyReference.address.state
+        $scope.form.address  =  $scope.form.companyReference.address.street
+        $scope.form.pincode  =  $scope.form.companyReference.address.pincode
+        // $scope.form.companyReference = $scope.form.companyReference.pk
+        $scope.form.companyName = $scope.form.companyReference.name
+    }
   }
-
-  $scope.toInvoice = function() {
-    $scope.resetForm()
-    $http({
-      method: 'GET',
-      url: '/api/finance/purchaseorder/' + $state.params.id + '/',
-    }).
-    then(function(response) {
-    $scope.form = response.data
-    $scope.form.poNumber =  $scope.form.pk
-    $scope.form.pk = null
-    $scope.form.isInvoice = true
-    $scope.form.products = []
-  })
-  }
-
-
-  $scope.bankList = [
-    'Allahabad Bank',
-    'Andhra Bank',
-    'Bank of Baroda',
-    'Bank of India',
-    'Bank of Maharashtra',
-    'Canara Bank',
-    'Central Bank of India',
-    'Corporation Bank',
-    'Dena Bank',
-    'Indian Bank',
-    'Indian Overseas Bank',
-    'Oriental Bank of Commerce',
-    'Punjab National Bank',
-    'Punjab & Sind Bank',
-    'Syndicate Bank',
-    'UCO Bank',
-    'Union Bank of India',
-    'United Bank of India',
-    'Vijaya Bank',
-    'IDBI Bank Ltd',
-    'Bharatiya Mahila Bank',
-    'State Bank of India',
-    'State Bank of Bikaner',
-    'State Bank of Hyderabad',
-    'State Bank of Mysore',
-    'State Bank of Patiala',
-    'State Bank of Travancore',
-  ]
-  $scope.projectSearch = function(query) {
-    return $http.get('/api/projects/project/?title__contains=' + query).
-    then(function(response) {
-      return response.data;
-    })
-  };
-
-  $scope.productSearch = function(query) {
-    return $http.get('/api/finance/purchaseorderqty/?product__contains=' + query).
-    then(function(response) {
-      return response.data;
-    })
-  };
-
-  $scope.createVendorService = function() {
-    $uibModal.open({
-        templateUrl: '/static/ngTemplates/app.finance.vendorService.form.html',
-        size: 'lg',
-        backdrop: false,
-        resolve: {
-          vsdata: function() {
-            return $scope.form.vendor
+    $scope.createVendorService = function() {
+      $uibModal.open({
+          templateUrl: '/static/ngTemplates/app.finance.vendorService.form.html',
+          size: 'lg',
+          backdrop: false,
+          resolve: {
+            vsdata: function() {
+              return $scope.form.companyReference
+            },
+          },
+          controller: 'businessManagement.finance.vendorService.form',
+        })
+        .result.then(function(pk) {}, function(res) {
+          // $http.get('/api/finance/vendorprofile/' + res + '/').
+          // then(function(response) {
+          //   $scope.form.vendor = response.data;
+          // })
+          if (typeof res == 'object') {
+            $scope.form.companyReference =  res
+            $scope.selectCompany()
           }
-        },
-        controller: 'businessManagement.finance.vendorService.form',
-      })
-      .result.then(function(pk) {}, function(res) {
-        // $http.get('/api/finance/vendorprofile/' + res + '/').
-        // then(function(response) {
-        //   $scope.form.vendor = response.data;
-        // })
-        if (typeof res == 'object') {
-          $scope.form.vendor =  res
-          // if ($scope.form.vendor.address!=undefined) {
-          //   $scope.form.street = $scope.form.vendor.street
-          //   $scope.form.city = $scope.form.vendor.city
-          //   $scope.form.state = $scope.form.vendor.state
-          //   $scope.form.pincode = $scope.form.vendor.pincode
-          //   $scope.form.country = $scope.form.vendor.country
-          // }
-        }
-      })
-  }
-  $scope.companySearch = function(query) {
-    return $http.get('/api/ERP/service/?name__icontains=' + query).
-    then(function(response) {
-      return response.data;
-    })
-  };
+        })
+    }
 
-  $scope.contactSearch = function(query) {
-    return $http.get('/api/CRM/contact/?name__icontains=' + query).
-    then(function(response) {
-      return response.data;
-    })
-  };
-
-
-  $scope.$watch('form.vendor', function(newValue, oldValue) {
-    if ($scope.form.vendor != null && typeof $scope.form.vendor  == 'object') {
-      // $scope.form.personName = $scope.form.vendor.contactPerson
-      $scope.form.phone = newValue.mobile
-      // $scope.form.email = newValue.email;
-      $scope.form.accNo = newValue.accountNumber;
-      $scope.form.reaccNo = newValue.accountNumber;
-      $scope.form.ifsc = newValue.ifscCode;
-      $scope.form.reifsc = newValue.ifscCode;
-      $scope.form.bankName = newValue.bankName;
-      $scope.form.rebankName = newValue.bankName;
-      // if ($scope.form.paymentDueDate.length == 0) {
-        var date = new Date();
-
-        $scope.form.paymentDueDate = date.setDate(date.getDate() + $scope.form.vendor.paymentTerm);
-      // }
-        // if (newValue.service != undefined) {
-      $scope.form.gstIn = newValue.tin
-      if (newValue.address!=null && typeof newValue.address == 'object') {
-        $scope.form.address = newValue.address.street
-        $scope.form.pincode = newValue.address.pincode
+      $scope.getAccount = function() {
+        $http.get('/api/finance/accountLite/?heading=expense').
+        then(function(response) {
+          $scope.allAccount = response.data;
+          if (!$scope.form.pk) {
+            $scope.form.account = $scope.allAccount[0]
+          } else {
+            for (var i = 0; i < $scope.allAccount.length; i++) {
+              if ($scope.allAccount[i].pk == $scope.form.account) {
+                $scope.form.account = $scope.allAccount[i]
+              }
+            }
+          }
+        })
 
       }
 
 
+    $scope.allCostCenter = []
+      $scope.costCenterSearch = function() {
+        $http.get('/api/finance/costCenter/').
+        then(function(response) {
+          $scope.allCostCenter =  response.data;
+          // if ($state.is('businessManagement.accounting.editPuchaseOrder')) {
+            for (var i = 0; i < $scope.allCostCenter.length; i++) {
+              if ($scope.allCostCenter[i].pk == $scope.form.costcenter) {
+                $scope.form.costcenter = $scope.allCostCenter[i]
+              }
+            }
+
+          // }
+        })
+      };
 
 
-        // }
-        // else{
-        //   $scope.form.gstIn = ''
-        //   $scope.form.address = ''
-        //   $scope.form.pincode = ''
-        // }
+
+  $scope.save = function(){
+      if (typeof $scope.form.companyReference !='object') {
+        Flash.create('danger', 'Company is required');
+        return
+      }
+      if ($scope.form.personName == null || $scope.form.personName.length == 0) {
+        Flash.create('danger', 'Person name is required');
+        return
+      }
+      if ($scope.form.phone == null || $scope.form.phone.length == 0) {
+        Flash.create('danger', 'Mobile number is required');
+        return
+      }
+      if( $scope.form.address == null || $scope.form.address.length == 0 || $scope.form.state == null || $scope.form.state.length == 0 || $scope.form.city == null || $scope.form.city.length == 0 || $scope.form.pincode == null || $scope.form.pincode.length == 0 || $scope.form.gstIn == null || $scope.form.gstIn.length == 0){
+        Flash.create('danger', 'Please update company details');
+        return
+      }
+      if ($scope.form.deliveryDate.length==0) {
+        Flash.create('danger', 'Delivery Date is required');
+        return
+      }
+      if ($scope.form.paymentDueDate.length==0) {
+        Flash.create('danger', 'Payment Due Date is required');
+        return
+      }
+      if ($scope.form.bankName == null || $scope.form.bankName.length == 0 || $scope.form.ifsc == undefined || $scope.form.ifsc.length == 0 || $scope.form.accNo == undefined || $scope.form.accNo.length == 0) {
+        Flash.create('danger', 'Add Bank Details');
+        return
+      }
+      if ($scope.form.products.length == 0) {
+        Flash.create('danger', 'Add Products');
+        return
+      }
+
+      var dataSave = {
+        companyReference:$scope.form.companyReference.pk,
+        companyName:$scope.form.companyName,
+        address : $scope.form.address,
+        state : $scope.form.state,
+        city : $scope.form.city,
+        country : $scope.form.country,
+        pincode : $scope.form.pincode,
+        gstIn : $scope.form.gstIn,
+        bankName : $scope.form.bankName,
+        ifsc : $scope.form.ifsc,
+        accNo : $scope.form.accNo,
+        note : $scope.form.note,
+        invNo : $scope.form.invNo,
+        personName : $scope.form.personName,
+        phone : $scope.form.phone,
+        products :  $scope.form.products
+      }
+
+      if (typeof $scope.form.paymentDueDate == 'object') {
+        dataSave.paymentDueDate = dateToString($scope.form.paymentDueDate)
+      }
+
+      if (typeof $scope.form.deliveryDate == 'object') {
+        dataSave.deliveryDate = dateToString($scope.form.deliveryDate)
+      }
+      if (typeof $scope.form.account == 'object') {
+          dataSave.account = $scope.form.account.pk
+      }
+      if (typeof $scope.form.costcenter == 'object') {
+          dataSave.costcenter = $scope.form.costcenter.pk
+      }
+
+      if ($scope.form.pk) {
+        dataSave.id = $scope.form.pk
+      }
+
+      $http({
+        method: 'POST',
+        url: '/api/finance/saveInvoice/',
+        data: dataSave
+      }).
+      then(function(response) {
+        // $scope.form = response.data
+        Flash.create('success', 'Saved');
+        if (!$scope.form.pk) {
+          $state.go('businessManagement.accounting.editInvoice',{'id':response.data.pk})
+        }
+        else{
+          $scope.form = response.data
+          $scope.costCenterSearch()
+            $scope.getAccount()
+        }
+        // $scope.cancel()
+      })
+
+  }
 
 
-      // $http({
-      //   method: 'GET',
-      //   url: '/api/finance/getVendorDetails/?id=' + newValue.pk,
-      // }).
-      // then(function(response) {
-      //   $scope.vendorDetails = response.data
-      //
-      // })
+    $scope.deleteData = function(pkVal, idx) {
+      if (pkVal == undefined) {
+        $scope.form.products.splice(idx, 1)
+        return
+      } else {
+        $http({
+          method: 'DELETE',
+          url: '/api/finance/invoiceReceived/' + pkVal + '/'
+        }).
+        then(function(response) {
+          $scope.form.products.splice(idx, 1)
+          Flash.create('success', 'Deleted');
+          return
+        })
+      }
     }
 
-  }, true)
 
+
+
+    $scope.addTableRow = function(indx) {
+
+      $scope.form.products.push({
+        product: '',
+        price: 0,
+        receivedQty: 0,
+        productMeta: '',
+        taxCode: '',
+        taxPer : 0,
+        tax: 0,
+        total: 0
+      });
+      // $scope.showButton = false
+    }
+
+
+      $scope.productMetaSearch = function(query) {
+        return $http.get('/api/ERP/productMeta/?search=' + query).
+        then(function(response) {
+          return response.data;
+        })
+      };
+
+    $scope.calc = function(indx){
+      var total = $scope.form.products[indx].receivedQty * $scope.form.products[indx].price
+      if ($scope.form.products[indx].taxPer == null || $scope.form.products[indx].taxPer.length == 0) {
+        $scope.form.products[indx].taxPer = 0
+      }
+      $scope.form.products[indx].tax = (($scope.form.products[indx].receivedQty * $scope.form.products[indx].price)*$scope.form.products[indx].taxPer)/100
+      $scope.form.products[indx].total = total + $scope.form.products[indx].tax
+
+    }
+
+    $scope.selectHsn = function(indx){
+      if (typeof $scope.form.products[indx].taxCode == 'object' ) {
+        $scope.form.products[indx].taxPer = $scope.form.products[indx].taxCode.taxRate
+        $scope.form.products[indx].taxCode = $scope.form.products[indx].taxCode.code
+        $scope.calc(indx)
+      }
+    }
+
+
+      if ($state.is('businessManagement.accounting.editInvoice')) {
+        $http({
+          method: 'GET',
+          url: '/api/finance/invoiceReceivedAll/'+$state.params.id+'/',
+
+        }).
+        then(function(response) {
+          $scope.form = response.data
+            $scope.costCenterSearch()
+              $scope.getAccount()
+
+        })
+      }
+      else{
+        $scope.costCenterSearch()
+          $scope.getAccount()
+      }
+
+
+})
+
+
+
+app.controller('businessManagement.finance.vendorService.form', function($scope, $http, $aside, $state, Flash, $users, $filter,  $uibModal, vsdata, $uibModalInstance) {
+
+  $scope.resetForm = function() {
+    $scope.form = {
+      service: '',
+      email: '',
+      contactPerson: '',
+      mobile: '',
+      paymentTerm: '',
+      bankName: '',
+      accountNumber: '',
+      ifscCode: '',
+      city: '',
+      state: '',
+      pincode: '',
+      country: '',
+      street:'',
+      tin:''
+    }
+  }
+  $scope.resetForm()
+
+
+  if (typeof vsdata == 'object') {
+    // $http({
+    //   method: 'GET',
+    //   url: '/api/ERP/service/' + vsdata +'/',
+    // }).
+    // then(function(response) {
+    // })
+    $scope.form = vsdata
+    if ($scope.form.address!=undefined) {
+      $scope.form.street =   $scope.form.address.street
+      $scope.form.city =   $scope.form.address.city
+      $scope.form.state =   $scope.form.address.state
+      $scope.form.pincode =   $scope.form.address.pincode
+      $scope.form.country =   $scope.form.address.country
+    }
+    else{
+      $scope.form.street =  ''
+      $scope.form.city =  ''
+      $scope.form.state =   ''
+      $scope.form.pincode =   ''
+      $scope.form.country =   ''
+    }
+  }
+  else{
+    $scope.form.name = vsdata
+  }
 
   $scope.$watch('form.pincode', function(newValue, oldValue) {
-    if ($scope.form.pincode.toString().length == 6) {
+    if (newValue!=undefined && newValue.length == 6) {
       $http({
         method: 'GET',
-        url: '/api/ERP/genericPincode/?pincode=' + $scope.form.pincode
+        url: '/api/ERP/genericPincode/?pincode=' + newValue
       }).
       then(function(response) {
         if (response.data.length > 0) {
           $scope.form.city = response.data[0].city;
           $scope.form.state = response.data[0].state;
           $scope.form.country = response.data[0].country;
-          $scope.form.pin_status = response.data[0].pin_status;
         }
       })
     }
   })
 
-  $scope.refresh = function() {
-    $scope.resetForm()
+  $scope.cancel = function() {
+    $uibModalInstance.dismiss($scope.form);
   }
 
-  $scope.addTableRow = function(indx) {
-
-    $scope.form.products.push({
-      product: '',
-      price: 0,
-      receivedQty: 0,
-      productMeta: '',
-      hsn: '',
-      tax: '',
-      total: 0
-    });
-    // $scope.showButton = false
-  }
-
-  $scope.allCostCenter = []
-    $scope.costCenterSearch = function() {
-      $http.get('/api/finance/costCenter/').
-      then(function(response) {
-        $scope.allCostCenter =  response.data;
-        if ($state.is('businessManagement.accounting.editInvoice')) {
-          for (var i = 0; i < $scope.allCostCenter.length; i++) {
-            if ($scope.allCostCenter[i].pk == $scope.form.costcenter.pk) {
-              $scope.form.costcenter = $scope.allCostCenter[i]
-            }
-          }
-
-        }
-      })
-    };
-  $scope.bussinessUnit = function(query) {
-    return $http.get('/api/organization/unit/?name__contains=' + query).
-    then(function(response) {
-      return response.data;
-    })
-  };
-
-  $scope.poSearch = function(query) {
-    return $http.get('/api/finance/purchaseorder/?pk__contains=' + query + '&isInvoice=false').
-    then(function(response) {
-      return response.data;
-    })
-  };
-
-  $scope.productMetaSearch = function(query) {
-    return $http.get('/api/ERP/productMeta/?search=' + query).
-    then(function(response) {
-      return response.data;
-    })
-  };
-  //
-  // $scope.pinSearch = function(query) {
-  //   return $http.get('/api/ERP/genericPincode/?pincode__contains=' + query).
-  //   then(function(response) {
-  //     return response.data;
-  //   })
-  // };
-
-
-  $scope.$watch('form.poNumber', function(newValue, oldValue) {
-    if (newValue != null || newValue != undefined) {
-      if (typeof newValue == "object") {
-        $scope.form.pk = null
-        $scope.form.name = newValue.name
-        $scope.form.address = newValue.address
-        $scope.form.personName = newValue.personName
-        $scope.form.phone = newValue.phone
-        $scope.form.email = newValue.email
-        $scope.form.pincode = newValue.pincode
-        $scope.form.city = newValue.city
-        $scope.form.state = newValue.state
-        $scope.form.country = newValue.country
-        $scope.form.status = newValue.status
-        $scope.form.quoteNumber = newValue.quoteNumber
-        $scope.form.quoteDate = newValue.quoteDate
-        $scope.form.deliveryDate = newValue.deliveryDate
-        $scope.form.terms = newValue.terms
-        $scope.form.costcenter = newValue.costcenter
-        $scope.form.bussinessunit = newValue.bussinessunit
-        $scope.form.project = newValue.project
-        $scope.form.isInvoice = newValue.isInvoice
-        $scope.form.vendor = newValue.vendor
-        $scope.form.poNumber = newValue.pk
-        $scope.form.products = []
-        $scope.mode == 'new'
-      }
-    }
-  })
-
-  $http({
-    method: 'GET',
-    url: '/api/finance/termsAndConditions/',
-  }).
-  then(function(response) {
-    $scope.terms = response.data
-    for (var i = 0; i < $scope.terms.length; i++) {
-      // $scope.terms[i].data = []
-      $scope.terms[i].body = $scope.terms[i].body.split('||')
-      // for (var j = 0; j < $scope.terms[i].body .length; j++) {
-      //   $scope.terms[i].data.push({'text': $scope.terms[i].body[j]})
-      // }
-
-    }
-  })
-
-  $scope.$watch('form.products', function(newValue, oldValue) {
-    $scope.form.totalAmount = 0
-    if (newValue != undefined) {
-      for (var i = 0; i < newValue.length; i++) {
-        if (newValue[i].hsn != null && typeof newValue[i].hsn == 'object') {
-          $scope.form.products[i].tax = newValue[i].hsn.taxRate
-          $scope.form.products[i].total = ((newValue[i].receivedQty * newValue[i].price) + (((newValue[i].receivedQty * newValue[i].price) * $scope.form.products[i].tax) / 100)).toFixed(2)
-          // $scope.form.products[i].productMeta = newValue[i].hsn
-          // $scope.form.products[i].hsn = newValue[i].productMeta.code
-        }
-        if (typeof newValue[i].product == 'object') {
-          $scope.form.products[i].product = newValue[i].product.product
-        }
-        $scope.form.totalAmount = parseFloat($scope.form.totalAmount) +  parseFloat($scope.form.products[i].total)
-      }
-    }
-  }, true)
-  $scope.ErrorOnSave = false
-  $scope.saveInvoice = function() {
-
-    // if (typeof $scope.form.poNumber == 'object') {
-    //   $scope.form.poNumber = $scope.form.poNumber.poNumber
-    // } else {
-    //   $scope.form.poNumber = $scope.form.poNumber
-    // }
-    if (typeof $scope.form.vendor !='object') {
-      Flash.create('danger', 'Company is required');
+  $scope.ServiceSave = function() {
+    if ($scope.form.name.length == 0  || $scope.form.pincode.length == 0 || $scope.form.tin.length == 0 || $scope.form.street.length == 0 ) {
+      Flash.create('warning', 'All details are required')
       return
-    }
-
-    if( $scope.form.address == null || $scope.form.address.length == 0 || $scope.form.state == null || $scope.form.state.length == 0 || $scope.form.city == null || $scope.form.city.length == 0 || $scope.form.pincode == null || $scope.form.pincode.length == 0 || $scope.form.gstIn == null || $scope.form.gstIn.length == 0){
-      Flash.create('danger', 'Please update company details');
-      return
-    }
-
-    if ($scope.form.deliveryDate.length==0) {
-      Flash.create('danger', 'Delivery Date is required');
-      return
-    }
-    if ($scope.form.paymentDueDate.length==0) {
-      Flash.create('danger', 'Payment Due Date is required');
-      return
-    }
-
-    if ($scope.form.bankName == null || $scope.form.bankName.length == 0 || $scope.form.ifsc == undefined || $scope.form.ifsc.length == 0 || $scope.form.accNo == undefined || $scope.form.accNo.length == 0) {
-      Flash.create('danger', 'Add Bank Details');
-      return
-    }
-
-
-    for (var i = 0; i < $scope.form.products.length; i++) {
-      if (!$scope.form.products[i].hsn) {
-        console.log($scope.form.products[i].hsn);
-        Flash.create('danger', 'Add HSN');
-        return
-      }
-    }
-
-    // var termsandcond = ''
-    // for (var i = 0; i < $scope.form.termsandcondition.body.length; i++) {
-    //   if (i == $scope.form.termsandcondition.body.length - 1) {
-    //     termsandcond = termsandcond+$scope.form.termsandcondition.body[i]
-    //   }
-    //   else{
-    //     termsandcond = termsandcond+$scope.form.termsandcondition.body[i]
-    //   }
-    // }
-    var dataToSend = {
-      personName: $scope.form.personName,
-      address: $scope.form.address,
-      phone: $scope.form.phone,
-      // email: $scope.form.email,
-      pincode: $scope.form.pincode,
-      state: $scope.form.state,
-      city: $scope.form.city,
-      country: $scope.form.country,
-      pin_status: $scope.form.pin_status,
-      // deliveryDate: $scope.form.deliveryDate,
-      // poNumber: $scope.form.poNumber,
-      // paymentDueDate: $scope.form.paymentDueDate,
-      gstIn: $scope.form.gstIn,
-      // invoiceTerms: $scope.form.invoiceTerms,
-      // poNumber: $scope.form.poNumber,
-      isInvoice: true,
-      accNo: $scope.form.accNo,
-      ifsc: $scope.form.ifsc,
-      bankName: $scope.form.bankName,
-      // terms: termsandcond,
-      service: $scope.form.vendor.pk,
-      name: $scope.form.vendor.name,
-      totalAmount: $scope.form.totalAmount
-    }
-    if ($scope.form.poNumber != null && $scope.form.poNumber.length>0) {
-      dataToSend.poNumber = $scope.form.poNumber
-    }
-    if ($scope.form.deliveryDate != null && typeof $scope.form.deliveryDate == 'object') {
-      dataToSend.deliveryDate = $scope.form.deliveryDate.toJSON().split('T')[0]
-    }
-    if ($scope.form.paymentDueDate != null && typeof $scope.form.paymentDueDate == 'object') {
-      dataToSend.paymentDueDate = $scope.form.paymentDueDate.toJSON().split('T')[0]
-    }
-
-    if ($scope.form.account!=null && typeof $scope.form.account == 'object') {
-      dataToSend.account = $scope.form.account.pk
-    }
-    if ($scope.form.project != undefined) {
-      dataToSend.project = $scope.form.project.pk
-      if ($scope.form.project.costCenter != undefined || $scope.form.project.costCenter != null) {
-        $scope.form.costCenter = $scope.form.project.costCenter
-        dataToSend.costcenter = $scope.form.costCenter.pk
-        if ($scope.form.costCenter.unit != undefined) {
-          $scope.form.bussinessunit = $scope.form.costCenter.unit
-          dataToSend.bussinessunit = $scope.form.bussinessunit.pk
-        }
-      }
-    }
-    if ($scope.form.costcenter != undefined || $scope.form.costcenter != null) {
-      dataToSend.costcenter = $scope.form.costcenter.pk
-      // if ($scope.form.costcenter.unit != undefined || $scope.form.costcenter.unit != null) {
-      //   $scope.form.bussinessunit = $scope.form.costcenter.unit
-      //   dataToSend.bussinessunit = $scope.form.bussinessunit.pk
-      // }
-    }
-
-    if ($scope.form.bussinessunit != undefined || $scope.form.bussinessunit != null) {
-      dataToSend.bussinessunit = $scope.form.bussinessunit.pk
-    }
-    if ($scope.form.invNo != null && $scope.form.invNo.length > 0) {
-      dataToSend.invNo = $scope.form.invNo
-    }
-
-    if ($scope.form.note !=undefined ||  $scope.form.note != null) {
-        dataToSend.note = $scope.form.note
     }
 
     var method = 'POST'
-    var url = '/api/finance/purchaseorder/'
+    var url = '/api/ERP/serviceApi/'
+    // if ($scope.form.service.pk){
+    //   method = 'PATCH'
+    //   url = '/api/finance/vendorApi/'+$scope.form.service.pk+'/'
+    // }
+
+    var dataToSend = {
+      name: $scope.form.name,
+      // contactPerson: $scope.form.contactPerson,
+      mobile: $scope.form.mobile,
+      city: $scope.form.city,
+      state: $scope.form.state,
+      pincode: $scope.form.pincode,
+      country: $scope.form.country,
+      street: $scope.form.street,
+      tin: $scope.form.tin,
+    }
+    console.log(dataToSend);
+
     if ($scope.form.pk) {
-      method = 'PATCH'
-      url = url + $scope.form.pk + '/'
+      dataToSend.servicepk = $scope.form.pk
+    }
+
+    if ($scope.form.vendorpk) {
+      dataToSend.vendorpk = $scope.form.vendorpk
+    }
+
+    if ($scope.form.addresspk) {
+      dataToSend.addresspk = $scope.form.addresspk
+    }
+    // if ($scope.form.email.length > 0 && $scope.form.email != null) {
+    //   dataToSend.email = $scope.form.email
+    // }
+    if ($scope.form.paymentTerm != undefined && $scope.form.paymentTerm != null) {
+      dataToSend.paymentTerm = $scope.form.paymentTerm
+    }
+
+    if ($scope.form.mobile != undefined && $scope.form.mobile != null) {
+      dataToSend.mobile = $scope.form.mobile
+    }
+    if ($scope.form.bankName != undefined && $scope.form.bankName != null) {
+      dataToSend.bankName = $scope.form.bankName
+    }
+    if ($scope.form.accountNumber != undefined && $scope.form.accountNumber != null) {
+      dataToSend.accountNumber = $scope.form.accountNumber
+    }
+    if ($scope.form.ifscCode != undefined && $scope.form.ifscCode != null) {
+      dataToSend.ifscCode = $scope.form.ifscCode
     }
     $http({
       method: method,
@@ -1723,126 +1661,799 @@ app.controller('businessManagement.finance.inboundInvoices.form', function($scop
       data: dataToSend
     }).
     then(function(response) {
-      Flash.create('success', 'Saved');
-      var count = 0
-      if ($scope.form.products.length > 0) {
-        for (var i = 0; i < $scope.form.products.length; i++) {
-          count += 1
-          if (typeof $scope.form.products[i].hsn == 'object') {
-            $scope.form.products[i].tax = $scope.form.products[i].hsn.taxRate
-            $scope.form.products[i].hsn = $scope.form.products[i].hsn.code
-            // $scope.form.products[i].productMeta = $scope.form.products[i].hsn
-          } else {
-            $scope.form.products[i].hsn = $scope.form.products[i].hsn
-            $scope.form.products[i].tax = $scope.form.products[i].tax
-            // $scope.form.products[i].productMeta = $scope.form.products[i].productMeta
-          }
-          var toSend = {
-            product: $scope.form.products[i].product,
-            receivedQty: $scope.form.products[i].receivedQty,
-            price: $scope.form.products[i].price,
-            purchaseorder: response.data.pk,
-            hsn: $scope.form.products[i].hsn,
-            tax: $scope.form.products[i].tax,
-            // productMeta: $scope.form.products[i].productMeta.pk,
-            total: $scope.form.products[i].total
-          }
-          if ($scope.form.products[i].pk) {
-            method = 'PATCH',
-              url = '/api/finance/purchaseorderqty/' + $scope.form.products[i].pk + '/'
-          } else {
-            method = 'POST'
-            url = '/api/finance/purchaseorderqty/'
-          }
-          $http({
-            method: method,
-            url: url,
-            data: toSend
-          }).
-          then(function(res) {
-            if ($scope.form.products.length == count && $scope.mode == 'new') {
-              $state.go('businessManagement.accounting.editInvoice',{'id':response.data.pk})
-            }
-            else{
-              $scope.getAllData($state.params.id)
-            }
-          })
-        }
-      } else {
-        Flash.create('danger', 'Products are not created')
-      }
+      $scope.form = response.data
+      Flash.create('success', response.status + ' : ' + response.statusText);
+      $scope.cancel()
     })
-
   }
-  $scope.deleteData = function(pkVal, idx) {
-    if (pkVal == undefined) {
-      $scope.form.products.splice(idx, 1)
-      return
-    } else {
-      $http({
-        method: 'DELETE',
-        url: '/api/finance/purchaseorderqty/' + pkVal + '/'
-      }).
-      then(function(response) {
-        $scope.form.products.splice(idx, 1)
-        Flash.create('success', 'Deleted');
-        return
-      })
-    }
-  }
-
-  $scope.getAccount = function() {
-    $http.get('/api/finance/accountLite/?heading=expense').
-    then(function(response) {
-      $scope.allAccount = response.data;
-      if (!$scope.form.pk) {
-        $scope.form.account = $scope.allAccount[0]
-      } else {
-        for (var i = 0; i < $scope.allAccount.length; i++) {
-          if ($scope.allAccount[i].pk == $scope.form.account.pk) {
-            $scope.form.account = $scope.allAccount[i]
-          }
-        }
-      }
-    })
-
-  }
-
-
-  if ($state.is('businessManagement.accounting.editInvoice')) {
-    $scope.getAllData($state.params.id)
-    $scope.mode = 'edit';
-    $scope.options = true
-    if ($scope.form.termsandcondition != null && typeof $scope.form.termsandcondition == 'object') {
-      if (typeof $scope.form.termsandcondition.body == 'string') {
-        $scope.form.termsandcondition.body = $scope.form.termsandcondition.body.split('||')
-      } else {
-        $scope.form.termsandcondition.body = $scope.form.termsandcondition.body
-      }
-    }
-
-    // $scope.form.ifsc = $scope.form.ifsc
-    // $scope.form.accNo = $scope.form.accNo
-    // $scope.form.accNo = $scope.form.accNo
-  }  else if ($state.is('businessManagement.accounting.poToInvoice')){
-    $scope.mode = 'new';
-    $scope.toInvoice()
-
-    $scope.options = false
-    $scope.getAccount()
-    $scope.costCenterSearch()
-  } else {
-    $scope.mode = 'new';
-    $scope.resetForm()
-    $scope.products = []
-    $scope.options = false
-    $scope.getAccount()
-    $scope.costCenterSearch()
-  }
-
-
-
 })
+
+
+// app.controller('businessManagement.finance.purchaseOrder.explore', function($scope, $http, $aside, $state, Flash, $users, $filter,  $uibModal) {
+//   $scope.projectSteps = {
+//     steps: projectsStepsData
+//   }
+//   $scope.data = $scope.tab.data
+//
+//   $scope.updateStatus = function() {
+//     for (var i = 0; i < $scope.projectSteps.steps.length; i++) {
+//       if ($scope.projectSteps.steps[i].text == $scope.data.status) {
+//         $scope.data.selectedStatus = $scope.projectSteps.steps[i].indx;
+//         break;
+//       }
+//     }
+//   }
+//   $scope.updateStatus()
+//   $scope.getAllData = function() {
+//     $http({
+//       method: 'GET',
+//       url: '/api/finance/purchaseorderqty/?purchaseorder=' + $scope.data.pk,
+//     }).
+//     then(function(response) {
+//       $scope.products = response.data
+//     })
+//   }
+//
+//
+//   $scope.getAllData()
+//
+//   $scope.sendForApproval = function() {
+//     dataToSend = {
+//       status: 'Sent'
+//     }
+//     $http({
+//       method: 'PATCH',
+//       url: '/api/finance/purchaseorder/' + $scope.data.pk + '/',
+//       data: dataToSend
+//     }).then(function(response) {
+//       $scope.data = response.data
+//       $scope.tab.data = response.data
+//       $scope.updateStatus()
+//     })
+//   }
+//   $scope.approve = function() {
+//     dataToSend = {
+//       status: 'Approved'
+//     }
+//     $http({
+//       method: 'PATCH',
+//       url: '/api/finance/purchaseorder/' + $scope.data.pk + '/',
+//       data: dataToSend
+//     }).then(function(response) {
+//       $scope.data = response.data
+//       $scope.tab.data = response.data
+//       $scope.updateStatus()
+//     })
+//   }
+//   $scope.reject = function() {
+//     dataToSend = {
+//       status: 'rejected'
+//     }
+//     $http({
+//       method: 'PATCH',
+//       url: '/api/finance/purchaseorder/' + $scope.data.pk + '/',
+//       data: dataToSend
+//     }).then(function(response) {
+//       $scope.data = response.data
+//       $scope.tab.data = response.data
+//       $scope.updateStatus()
+//     })
+//
+//   }
+//   $scope.invoice = false
+//   $scope.addToInvoice = function() {
+//     $uibModal.open({
+//       templateUrl: '/static/ngTemplates/app.finance.purchaseOrder.bankDetails.modal.html',
+//       size: 'lg',
+//       backdrop: false,
+//       resolve: {
+//         data: function() {
+//           return $scope.data.pk;
+//         }
+//       },
+//       controller: function($scope, data, $uibModalInstance, $rootScope) {
+//         // $scope.data.pk = data
+//         $scope.bankList = [
+//           'Allahabad Bank',
+//           'Andhra Bank',
+//           'Bank of Baroda',
+//           'Bank of India',
+//           'Bank of Maharashtra',
+//           'Canara Bank',
+//           'Central Bank of India',
+//           'Corporation Bank',
+//           'Dena Bank',
+//           'Indian Bank',
+//           'Indian Overseas Bank',
+//           'Oriental Bank of Commerce',
+//           'Punjab National Bank',
+//           'Punjab & Sind Bank',
+//           'Syndicate Bank',
+//           'UCO Bank',
+//           'Union Bank of India',
+//           'United Bank of India',
+//           'Vijaya Bank',
+//           'IDBI Bank Ltd',
+//           'Bharatiya Mahila Bank',
+//           'State Bank of India',
+//           'State Bank of Bikaner',
+//           'State Bank of Hyderabad',
+//           'State Bank of Mysore',
+//           'State Bank of Patiala',
+//           'State Bank of Travancore',
+//         ]
+//
+//         $scope.close = function() {
+//           $uibModalInstance.close();
+//         }
+//
+//
+//         $scope.saveBankDetails = function() {
+//           if ($scope.data.accNo != $scope.data.reaccNo || $scope.data.accNo == undefined || $scope.data.reaccNo == undefined) {
+//             Flash.create('danger', 'Account Number Doesnt Match');
+//             return
+//           }
+//           if ($scope.data.ifsc != $scope.data.reifsc || $scope.data.ifsc == undefined || $scope.data.reifsc == undefined) {
+//             Flash.create('danger', 'IFSC Number Doesnt Match');
+//             return
+//           }
+//           if ($scope.data.bankName == undefined) {
+//             Flash.create('danger', 'Add Bank Name');
+//             return
+//           }
+//           dataToSend = {
+//             accNo: $scope.data.accNo,
+//             ifsc: $scope.data.ifsc,
+//             bankName: $scope.data.bankName,
+//             isInvoice: true,
+//           }
+//           $http({
+//             method: 'PATCH',
+//             url: '/api/finance/purchaseorder/' + data + '/',
+//             data: dataToSend
+//           }).then(function(response) {
+//             Flash.create('success', 'Saved');
+//             // $scope.data = response.data
+//             // $scope.data.reaccNo = response.data.accNo
+//             //  $scope.data.reifsc = response.data.ifsc
+//           })
+//           $rootScope.$broadcast('forceRefetch', {});
+//           $uibModalInstance.close();
+//         }
+//       },
+//     }).result.then(function() {
+//
+//     }, function() {
+//
+//     });
+//     // $scope.invoice = true
+//     // if ($scope.data.accNo != null || $scope.data.ifsc != null) {
+//     //   $scope.data.reaccNo = $scope.data.accNo
+//     //   $scope.data.reifsc = $scope.data.ifsc
+//     // }
+//     $scope.data = response.data
+//     // $scope.updateStatus()
+//   }
+//
+//   console.log($scope.tab, 'businessManagement.finance.purchaseOrder.explore');
+//
+//
+// })
+//
+// app.controller('businessManagement.finance.inboundInvoices.form', function($scope, $timeout, $http, $aside, $state, Flash, $users, $filter,  $uibModal) {
+//
+//   $scope.resetForm = function() {
+//     $scope.form = {
+//       companyName: '',
+//       address: '',
+//       personName: '',
+//       phone: '',
+//       email: '',
+//       pincode: 0,
+//       city: '',
+//       state: '',
+//       country: '',
+//       paymentDueDate: '',
+//       costcenter: '',
+//       products: [],
+//       accNo: '',
+//       ifsc: '',
+//       bankName: '',
+//       invNo: '',
+//       account: '',
+//       totalAmount:0,
+//       deliveryDate:'',
+//       note:''
+//
+//     }
+//   }
+//
+//   $scope.allCostCenter = []
+//     $scope.costCenterSearch = function() {
+//       $http.get('/api/finance/costCenter/').
+//       then(function(response) {
+//         $scope.allCostCenter =  response.data;
+//         if ($state.is('businessManagement.accounting.editPuchaseOrder')) {
+//           for (var i = 0; i < $scope.allCostCenter.length; i++) {
+//             if ($scope.allCostCenter[i].pk == $scope.form.costcenter.pk) {
+//               $scope.form.costcenter = $scope.allCostCenter[i]
+//             }
+//           }
+//
+//         }
+//       })
+//     };
+//   $scope.mode = 'new';
+//     $scope.getAllData = function(idx) {
+//       $scope.resetForm()
+//       $http({
+//         method: 'GET',
+//         url: '/api/finance/invoiceReceived/' + idx + '/',
+//       }).
+//       then(function(response) {
+//       $scope.form = response.data
+//       $scope.form.company =   $scope.form.company
+//       $scope.costCenterSearch()
+//       $scope.getAccount()
+//     $http({
+//       method: 'GET',
+//       url: '/api/finance/purchaseorderqty/?purchaseorder=' + idx,
+//     }).
+//     then(function(response) {
+//       $scope.form.products = response.data
+//     })
+//     })
+//   }
+//
+//   $scope.toInvoice = function() {
+//     $scope.resetForm()
+//     $http({
+//       method: 'GET',
+//       url: '/api/finance/purchaseorder/' + $state.params.id + '/',
+//     }).
+//     then(function(response) {
+//     $scope.form = response.data
+//     $scope.form.poNumber =  $scope.form.pk
+//     $scope.form.pk = null
+//     $scope.form.isInvoice = true
+//     $scope.form.products = []
+//   })
+//   }
+//
+//
+//   $scope.bankList = [
+//     'Allahabad Bank',
+//     'Andhra Bank',
+//     'Bank of Baroda',
+//     'Bank of India',
+//     'Bank of Maharashtra',
+//     'Canara Bank',
+//     'Central Bank of India',
+//     'Corporation Bank',
+//     'Dena Bank',
+//     'Indian Bank',
+//     'Indian Overseas Bank',
+//     'Oriental Bank of Commerce',
+//     'Punjab National Bank',
+//     'Punjab & Sind Bank',
+//     'Syndicate Bank',
+//     'UCO Bank',
+//     'Union Bank of India',
+//     'United Bank of India',
+//     'Vijaya Bank',
+//     'IDBI Bank Ltd',
+//     'Bharatiya Mahila Bank',
+//     'State Bank of India',
+//     'State Bank of Bikaner',
+//     'State Bank of Hyderabad',
+//     'State Bank of Mysore',
+//     'State Bank of Patiala',
+//     'State Bank of Travancore',
+//   ]
+//   $scope.projectSearch = function(query) {
+//     return $http.get('/api/projects/project/?title__contains=' + query).
+//     then(function(response) {
+//       return response.data;
+//     })
+//   };
+//
+//   $scope.productSearch = function(query) {
+//     return $http.get('/api/finance/purchaseorderqty/?product__contains=' + query).
+//     then(function(response) {
+//       return response.data;
+//     })
+//   };
+//
+//   $scope.createVendorService = function() {
+//     $uibModal.open({
+//         templateUrl: '/static/ngTemplates/app.finance.vendorService.form.html',
+//         size: 'lg',
+//         backdrop: false,
+//         resolve: {
+//           vsdata: function() {
+//             return $scope.form.vendor
+//           }
+//         },
+//         controller: 'businessManagement.finance.vendorService.form',
+//       })
+//       .result.then(function(pk) {}, function(res) {
+//         // $http.get('/api/finance/vendorprofile/' + res + '/').
+//         // then(function(response) {
+//         //   $scope.form.vendor = response.data;
+//         // })
+//         if (typeof res == 'object') {
+//           $scope.form.company =  res
+//           $scope.form.companyName =  $scope.form.company.name
+//           if ($scope.form.vendor.address!=undefined) {
+//             $scope.form.address = $scope.form.vendor.address.street
+//             $scope.form.city = $scope.form.vendor.address.city
+//             $scope.form.state = $scope.form.vendor.address.state
+//             $scope.form.pincode = $scope.form.vendor.address.pincode
+//             $scope.form.country = $scope.form.vendor.address.country
+//           }
+//         }
+//       })
+//   }
+//   $scope.companySearch = function(query) {
+//     return $http.get('/api/ERP/service/?name__icontains=' + query).
+//     then(function(response) {
+//       return response.data;
+//     })
+//   };
+//
+//   $scope.contactSearch = function(query) {
+//     return $http.get('/api/CRM/contact/?name__icontains=' + query).
+//     then(function(response) {
+//       return response.data;
+//     })
+//   };
+//
+//
+//   $scope.$watch('form.vendor', function(newValue, oldValue) {
+//     if ($scope.form.vendor != null && typeof $scope.form.vendor  == 'object') {
+//       // $scope.form.personName = $scope.form.vendor.contactPerson
+//       $scope.form.phone = newValue.mobile
+//       // $scope.form.email = newValue.email;
+//       $scope.form.accNo = newValue.accountNumber;
+//       // $scope.form.reaccNo = newValue.accountNumber;
+//       $scope.form.ifsc = newValue.ifscCode;
+//       // $scope.form.reifsc = newValue.ifscCode;
+//       $scope.form.bankName = newValue.bankName;
+//       // $scope.form.rebankName = newValue.bankName;
+//       // if ($scope.form.paymentDueDate.length == 0) {
+//         var date = new Date();
+//
+//         $scope.form.paymentDueDate = date.setDate(date.getDate() + $scope.form.vendor.paymentTerm);
+//       // }
+//         // if (newValue.service != undefined) {
+//       $scope.form.gstIn = newValue.tin
+//       if (newValue.address!=null && typeof newValue.address == 'object') {
+//         $scope.form.address = newValue.address.street
+//         $scope.form.pincode = newValue.address.pincode
+//         $scope.form.city = newValue.address.city
+//         $scope.form.state = newValue.address.state
+//         $scope.form.pincode = newValue.address.pincode
+//         $scope.form.country = newValue.address.country
+//
+//       }
+//
+//
+//
+//
+//         // }
+//         // else{
+//         //   $scope.form.gstIn = ''
+//         //   $scope.form.address = ''
+//         //   $scope.form.pincode = ''
+//         // }
+//
+//
+//       // $http({
+//       //   method: 'GET',
+//       //   url: '/api/finance/getVendorDetails/?id=' + newValue.pk,
+//       // }).
+//       // then(function(response) {
+//       //   $scope.vendorDetails = response.data
+//       //
+//       // })
+//     }
+//
+//   }, true)
+//
+//
+//   $scope.$watch('form.pincode', function(newValue, oldValue) {
+//     if ($scope.form.pincode.toString().length == 6) {
+//       console.log("ssssssssssssssssssssss");
+//       $http({
+//         method: 'GET',
+//         url: '/api/ERP/genericPincode/?pincode=' + $scope.form.pincode
+//       }).
+//       then(function(response) {
+//         if (response.data.length > 0) {
+//           $scope.form.city = response.data[0].city;
+//           $scope.form.state = response.data[0].state;
+//           $scope.form.country = response.data[0].country;
+//           $scope.form.pin_status = response.data[0].pin_status;
+//         }
+//       })
+//     }
+//   })
+//
+//   $scope.refresh = function() {
+//     $scope.resetForm()
+//   }
+//
+//   $scope.addTableRow = function(indx) {
+//
+//     $scope.form.products.push({
+//       product: '',
+//       price: 0,
+//       receivedQty: 0,
+//       productMeta: '',
+//       hsn: '',
+//       tax: '',
+//       total: 0
+//     });
+//     // $scope.showButton = false
+//   }
+//
+//   $scope.allCostCenter = []
+//     $scope.costCenterSearch = function() {
+//       $http.get('/api/finance/costCenter/').
+//       then(function(response) {
+//         $scope.allCostCenter =  response.data;
+//         if ($state.is('businessManagement.accounting.editInvoice')) {
+//           for (var i = 0; i < $scope.allCostCenter.length; i++) {
+//             if ($scope.allCostCenter[i].pk == $scope.form.costcenter.pk) {
+//               $scope.form.costcenter = $scope.allCostCenter[i]
+//             }
+//           }
+//
+//         }
+//       })
+//     };
+//   $scope.bussinessUnit = function(query) {
+//     return $http.get('/api/organization/unit/?name__contains=' + query).
+//     then(function(response) {
+//       return response.data;
+//     })
+//   };
+//
+//   $scope.poSearch = function(query) {
+//     return $http.get('/api/finance/purchaseorder/?pk__contains=' + query + '&isInvoice=false').
+//     then(function(response) {
+//       return response.data;
+//     })
+//   };
+//
+//   $scope.productMetaSearch = function(query) {
+//     return $http.get('/api/ERP/productMeta/?search=' + query).
+//     then(function(response) {
+//       return response.data;
+//     })
+//   };
+//   //
+//   // $scope.pinSearch = function(query) {
+//   //   return $http.get('/api/ERP/genericPincode/?pincode__contains=' + query).
+//   //   then(function(response) {
+//   //     return response.data;
+//   //   })
+//   // };
+//
+//
+//   $scope.$watch('form.poNumber', function(newValue, oldValue) {
+//     if (newValue != null || newValue != undefined) {
+//       if (typeof newValue == "object") {
+//         $scope.form.pk = null
+//         $scope.form.name = newValue.name
+//         $scope.form.address = newValue.address
+//         $scope.form.personName = newValue.personName
+//         $scope.form.phone = newValue.phone
+//         $scope.form.email = newValue.email
+//         $scope.form.pincode = newValue.pincode
+//         $scope.form.city = newValue.city
+//         $scope.form.state = newValue.state
+//         $scope.form.country = newValue.country
+//         $scope.form.status = newValue.status
+//         $scope.form.quoteNumber = newValue.quoteNumber
+//         $scope.form.quoteDate = newValue.quoteDate
+//         $scope.form.deliveryDate = newValue.deliveryDate
+//         $scope.form.terms = newValue.terms
+//         $scope.form.costcenter = newValue.costcenter
+//         $scope.form.bussinessunit = newValue.bussinessunit
+//         $scope.form.project = newValue.project
+//         $scope.form.isInvoice = newValue.isInvoice
+//         $scope.form.vendor = newValue.vendor
+//         $scope.form.poNumber = newValue.pk
+//         $scope.form.products = []
+//         $scope.mode == 'new'
+//       }
+//     }
+//   })
+//
+//   $http({
+//     method: 'GET',
+//     url: '/api/finance/termsAndConditions/',
+//   }).
+//   then(function(response) {
+//     $scope.terms = response.data
+//     for (var i = 0; i < $scope.terms.length; i++) {
+//       // $scope.terms[i].data = []
+//       $scope.terms[i].body = $scope.terms[i].body.split('||')
+//       // for (var j = 0; j < $scope.terms[i].body .length; j++) {
+//       //   $scope.terms[i].data.push({'text': $scope.terms[i].body[j]})
+//       // }
+//
+//     }
+//   })
+//
+//   $scope.$watch('form.products', function(newValue, oldValue) {
+//     $scope.form.totalAmount = 0
+//     if (newValue != undefined) {
+//       for (var i = 0; i < newValue.length; i++) {
+//         if (newValue[i].hsn != null && typeof newValue[i].hsn == 'object') {
+//           $scope.form.products[i].tax = newValue[i].hsn.taxRate
+//           $scope.form.products[i].total = ((newValue[i].receivedQty * newValue[i].price) + (((newValue[i].receivedQty * newValue[i].price) * $scope.form.products[i].tax) / 100)).toFixed(2)
+//           // $scope.form.products[i].productMeta = newValue[i].hsn
+//           // $scope.form.products[i].hsn = newValue[i].productMeta.code
+//         }
+//         if (typeof newValue[i].product == 'object') {
+//           $scope.form.products[i].product = newValue[i].product.product
+//         }
+//         $scope.form.totalAmount = parseFloat($scope.form.totalAmount) +  parseFloat($scope.form.products[i].total)
+//       }
+//     }
+//   }, true)
+//   $scope.ErrorOnSave = false
+//   $scope.saveInvoice = function() {
+//
+//     // if (typeof $scope.form.poNumber == 'object') {
+//     //   $scope.form.poNumber = $scope.form.poNumber.poNumber
+//     // } else {
+//     //   $scope.form.poNumber = $scope.form.poNumber
+//     // }
+//     if (typeof $scope.form.vendor !='object') {
+//       Flash.create('danger', 'Company is required');
+//       return
+//     }
+//
+//     if( $scope.form.address == null || $scope.form.address.length == 0 || $scope.form.state == null || $scope.form.state.length == 0 || $scope.form.city == null || $scope.form.city.length == 0 || $scope.form.pincode == null || $scope.form.pincode.length == 0 || $scope.form.gstIn == null || $scope.form.gstIn.length == 0){
+//       Flash.create('danger', 'Please update company details');
+//       return
+//     }
+//
+//     if ($scope.form.deliveryDate.length==0) {
+//       Flash.create('danger', 'Delivery Date is required');
+//       return
+//     }
+//     if ($scope.form.paymentDueDate.length==0) {
+//       Flash.create('danger', 'Payment Due Date is required');
+//       return
+//     }
+//
+//     if ($scope.form.bankName == null || $scope.form.bankName.length == 0 || $scope.form.ifsc == undefined || $scope.form.ifsc.length == 0 || $scope.form.accNo == undefined || $scope.form.accNo.length == 0) {
+//       Flash.create('danger', 'Add Bank Details');
+//       return
+//     }
+//
+//
+//     for (var i = 0; i < $scope.form.products.length; i++) {
+//       if (!$scope.form.products[i].hsn) {
+//         console.log($scope.form.products[i].hsn);
+//         Flash.create('danger', 'Add HSN');
+//         return
+//       }
+//     }
+//
+//     // var termsandcond = ''
+//     // for (var i = 0; i < $scope.form.termsandcondition.body.length; i++) {
+//     //   if (i == $scope.form.termsandcondition.body.length - 1) {
+//     //     termsandcond = termsandcond+$scope.form.termsandcondition.body[i]
+//     //   }
+//     //   else{
+//     //     termsandcond = termsandcond+$scope.form.termsandcondition.body[i]
+//     //   }
+//     // }
+//     var dataToSend = {
+//       personName: $scope.form.personName,
+//       address: $scope.form.address,
+//       phone: $scope.form.phone,
+//       // email: $scope.form.email,
+//       pincode: $scope.form.pincode,
+//       state: $scope.form.state,
+//       city: $scope.form.city,
+//       country: $scope.form.country,
+//       pin_status: $scope.form.pin_status,
+//       // deliveryDate: $scope.form.deliveryDate,
+//       // poNumber: $scope.form.poNumber,
+//       // paymentDueDate: $scope.form.paymentDueDate,
+//       gstIn: $scope.form.gstIn,
+//       // invoiceTerms: $scope.form.invoiceTerms,
+//       // poNumber: $scope.form.poNumber,
+//       isInvoice: true,
+//       accNo: $scope.form.accNo,
+//       ifsc: $scope.form.ifsc,
+//       bankName: $scope.form.bankName,
+//       // terms: termsandcond,
+//       service: $scope.form.vendor.pk,
+//       name: $scope.form.vendor.name,
+//       totalAmount: $scope.form.totalAmount
+//     }
+//     if ($scope.form.poNumber != null && $scope.form.poNumber.length>0) {
+//       dataToSend.poNumber = $scope.form.poNumber
+//     }
+//     if ($scope.form.deliveryDate != null && typeof $scope.form.deliveryDate == 'object') {
+//       dataToSend.deliveryDate = $scope.form.deliveryDate.toJSON().split('T')[0]
+//     }
+//     if ($scope.form.paymentDueDate != null && typeof $scope.form.paymentDueDate == 'object') {
+//       dataToSend.paymentDueDate = $scope.form.paymentDueDate.toJSON().split('T')[0]
+//     }
+//
+//     if ($scope.form.account!=null && typeof $scope.form.account == 'object') {
+//       dataToSend.account = $scope.form.account.pk
+//     }
+//     if ($scope.form.project != undefined) {
+//       dataToSend.project = $scope.form.project.pk
+//       if ($scope.form.project.costCenter != undefined || $scope.form.project.costCenter != null) {
+//         $scope.form.costCenter = $scope.form.project.costCenter
+//         dataToSend.costcenter = $scope.form.costCenter.pk
+//         if ($scope.form.costCenter.unit != undefined) {
+//           $scope.form.bussinessunit = $scope.form.costCenter.unit
+//           dataToSend.bussinessunit = $scope.form.bussinessunit.pk
+//         }
+//       }
+//     }
+//     if ($scope.form.costcenter != undefined || $scope.form.costcenter != null) {
+//       dataToSend.costcenter = $scope.form.costcenter.pk
+//       // if ($scope.form.costcenter.unit != undefined || $scope.form.costcenter.unit != null) {
+//       //   $scope.form.bussinessunit = $scope.form.costcenter.unit
+//       //   dataToSend.bussinessunit = $scope.form.bussinessunit.pk
+//       // }
+//     }
+//
+//     if ($scope.form.bussinessunit != undefined || $scope.form.bussinessunit != null) {
+//       dataToSend.bussinessunit = $scope.form.bussinessunit.pk
+//     }
+//     if ($scope.form.invNo != null && $scope.form.invNo.length > 0) {
+//       dataToSend.invNo = $scope.form.invNo
+//     }
+//
+//     if ($scope.form.note !=undefined ||  $scope.form.note != null) {
+//         dataToSend.note = $scope.form.note
+//     }
+//
+//     var method = 'POST'
+//     var url = '/api/finance/purchaseorder/'
+//     if ($scope.form.pk) {
+//       method = 'PATCH'
+//       url = url + $scope.form.pk + '/'
+//     }
+//     $http({
+//       method: method,
+//       url: url,
+//       data: dataToSend
+//     }).
+//     then(function(response) {
+//       Flash.create('success', 'Saved');
+//       var count = 0
+//       if ($scope.form.products.length > 0) {
+//         for (var i = 0; i < $scope.form.products.length; i++) {
+//           count += 1
+//           if (typeof $scope.form.products[i].hsn == 'object') {
+//             $scope.form.products[i].tax = $scope.form.products[i].hsn.taxRate
+//             $scope.form.products[i].hsn = $scope.form.products[i].hsn.code
+//             // $scope.form.products[i].productMeta = $scope.form.products[i].hsn
+//           } else {
+//             $scope.form.products[i].hsn = $scope.form.products[i].hsn
+//             $scope.form.products[i].tax = $scope.form.products[i].tax
+//             // $scope.form.products[i].productMeta = $scope.form.products[i].productMeta
+//           }
+//           var toSend = {
+//             product: $scope.form.products[i].product,
+//             receivedQty: $scope.form.products[i].receivedQty,
+//             price: $scope.form.products[i].price,
+//             purchaseorder: response.data.pk,
+//             hsn: $scope.form.products[i].hsn,
+//             tax: $scope.form.products[i].tax,
+//             // productMeta: $scope.form.products[i].productMeta.pk,
+//             total: $scope.form.products[i].total
+//           }
+//           if ($scope.form.products[i].pk) {
+//             method = 'PATCH',
+//               url = '/api/finance/purchaseorderqty/' + $scope.form.products[i].pk + '/'
+//           } else {
+//             method = 'POST'
+//             url = '/api/finance/purchaseorderqty/'
+//           }
+//           $http({
+//             method: method,
+//             url: url,
+//             data: toSend
+//           }).
+//           then(function(res) {
+//             if ($scope.form.products.length == count && $scope.mode == 'new') {
+//               $state.go('businessManagement.accounting.editInvoice',{'id':response.data.pk})
+//             }
+//             else{
+//               $scope.getAllData($state.params.id)
+//             }
+//           })
+//         }
+//       } else {
+//         Flash.create('danger', 'Products are not created')
+//       }
+//     })
+//
+//   }
+//   $scope.deleteData = function(pkVal, idx) {
+//     if (pkVal == undefined) {
+//       $scope.form.products.splice(idx, 1)
+//       return
+//     } else {
+//       $http({
+//         method: 'DELETE',
+//         url: '/api/finance/purchaseorderqty/' + pkVal + '/'
+//       }).
+//       then(function(response) {
+//         $scope.form.products.splice(idx, 1)
+//         Flash.create('success', 'Deleted');
+//         return
+//       })
+//     }
+//   }
+//
+//   $scope.getAccount = function() {
+//     $http.get('/api/finance/accountLite/?heading=expense').
+//     then(function(response) {
+//       $scope.allAccount = response.data;
+//       if (!$scope.form.pk) {
+//         $scope.form.account = $scope.allAccount[0]
+//       } else {
+//         for (var i = 0; i < $scope.allAccount.length; i++) {
+//           if ($scope.allAccount[i].pk == $scope.form.account.pk) {
+//             $scope.form.account = $scope.allAccount[i]
+//           }
+//         }
+//       }
+//     })
+//
+//   }
+//
+//
+//   if ($state.is('businessManagement.accounting.editInvoice')) {
+//     $scope.getAllData($state.params.id)
+//     $scope.mode = 'edit';
+//     $scope.options = true
+//     if ($scope.form.termsandcondition != null && typeof $scope.form.termsandcondition == 'object') {
+//       if (typeof $scope.form.termsandcondition.body == 'string') {
+//         $scope.form.termsandcondition.body = $scope.form.termsandcondition.body.split('||')
+//       } else {
+//         $scope.form.termsandcondition.body = $scope.form.termsandcondition.body
+//       }
+//     }
+//
+//     // $scope.form.ifsc = $scope.form.ifsc
+//     // $scope.form.accNo = $scope.form.accNo
+//     // $scope.form.accNo = $scope.form.accNo
+//   }  else if ($state.is('businessManagement.accounting.poToInvoice')){
+//     $scope.mode = 'new';
+//     $scope.toInvoice()
+//
+//     $scope.options = false
+//     $scope.getAccount()
+//     $scope.costCenterSearch()
+//   } else {
+//     $scope.mode = 'new';
+//     $scope.resetForm()
+//     $scope.products = []
+//     $scope.options = false
+//     $scope.getAccount()
+//     $scope.costCenterSearch()
+//   }
+//
+//
+//
+// })
 
 app.controller('businessManagement.finance.inboundInvoices.explore', function($scope, $http, $aside, $state, Flash, $users, $filter,  $uibModal) {
   $scope.data = $scope.tab.data

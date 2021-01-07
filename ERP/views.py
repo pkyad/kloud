@@ -711,21 +711,22 @@ class serviceViewSet(viewsets.ModelViewSet):
         divsn = self.request.user.designation.division
         if 'get_service' in self.request.GET:
             if self.request.user.is_staff:
-                return service.objects.all()
+                return service.objects.filter(division = divsn)
             else:
                 contObj = Contact.objects.filter(user = self.request.user).values('company__id')
-                serviceObj1 =  service.objects.filter(pk__in = contObj).distinct()
-                serviceObj2 = service.objects.filter(user = self.request.user)
+                serviceObj1 =  service.objects.filter(pk__in = contObj, division = divsn).distinct()
+                serviceObj2 = service.objects.filter(user = self.request.user, division = divsn)
                 return serviceObj2.union(serviceObj1).distinct()
 
         else:
-            return service.objects.filter(user__designation__division = divsn)
+            return service.objects.filter(division = divsn)
         if 'search' in self.request.GET:
             val = self.request.GET['search']
-            toReturn = service.objects.filter(Q(name__icontains = val)|Q(web__icontains=val)|Q(tin__icontains=val)|Q(cin__icontains = val)|Q(mobile__icontains = val))
+            toReturn = service.objects.filter(division = divsn)
+            toReturn = toReturn.filter(Q(name__icontains = val)|Q(web__icontains=val)|Q(tin__icontains=val)|Q(cin__icontains = val)|Q(mobile__icontains = val))
             return toReturn
         if 'name__icontains' in self.request.GET:
-            queryset = service.objects.filter(name__icontains = str(self.rquest.GET['name__icontains']))
+            queryset = service.objects.filter(name__icontains = str(self.rquest.GET['name__icontains']),division = divsn )
             return queryset
 
 
@@ -1231,3 +1232,70 @@ class downloadExcelFileAPI(APIView):
         response = HttpResponse(FilePointer, content_type='application/ms-excel')
         response['Content-Disposition'] = 'attachment; filename=demo.xlsx'
         return response
+
+
+class serviceApi(APIView):
+    renderer_classes = (JSONRenderer,)
+
+    def post(self , request , format = None):
+        data = request.data
+        if 'addresspk' in request.data:
+            addressObj = address.objects.get(pk = data['addresspk'])
+            addressObj.pincode = data['pincode']
+            addressObj.city = data['city']
+            addressObj.state = data['state']
+            addressObj.country = data['country']
+            addressObj.street = data['street']
+            addressObj.save()
+        else:
+            addressObj = address.objects.create(city = data['city'], pincode = int(data['pincode']), state = data['state'], country = data['country'],street = data['street'])
+            addressObj.save()
+
+        if 'servicepk' in request.data:
+            serviceObj = service.objects.get(pk = data['servicepk'])
+            serviceObj.address = addressObj
+            serviceObj.name = data['name']
+            serviceObj.tin = data['tin']
+            if 'email' in data:
+                serviceObj.email = data['email']
+            if 'mobile' in data:
+                serviceObj.mobile = data['mobile']
+            if 'bankName' in data:
+                serviceObj.bankName = data['bankName']
+            if 'accountNumber' in data:
+                if len(str(data['accountNumber']))>0:
+                    serviceObj.accountNumber = data['accountNumber']
+                else:
+                    serviceObj.accountNumber = None
+            if 'ifscCode' in data:
+                serviceObj.ifscCode = data['ifscCode']
+            if 'paymentTerm' in data:
+                if len(str(data['paymentTerm']))>0:
+                    serviceObj.paymentTerm = data['paymentTerm']
+                else:
+                    serviceObj.paymentTerm = None
+            serviceObj.save()
+        else:
+            user = request.user
+            serviceObj = service.objects.create(name = data['name'], user = user, address=addressObj , tin = data['tin'], division = user.designation.division )
+            if 'email' in data:
+                serviceObj.email = data['email']
+            if 'mobile' in data:
+                serviceObj.mobile = data['mobile']
+            if 'bankName' in data:
+                serviceObj.bankName = data['bankName']
+            if 'accountNumber' in data:
+                if len(str(data['accountNumber']))>0:
+                    serviceObj.accountNumber = data['accountNumber']
+                else:
+                    serviceObj.accountNumber = None
+            if 'ifscCode' in data:
+                serviceObj.ifscCode = data['ifscCode']
+            if 'paymentTerm' in data:
+                if len(str(data['paymentTerm']))>0:
+                    serviceObj.paymentTerm = data['paymentTerm']
+                else:
+                    serviceObj.paymentTerm = None
+            serviceObj.save()
+        serviceData = serviceSerializer(serviceObj , many = False).data
+        return Response(serviceData, status = status.HTTP_200_OK)

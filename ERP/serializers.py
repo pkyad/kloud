@@ -61,7 +61,9 @@ class serviceSerializer(serializers.ModelSerializer):
     def create(self , validated_data):
         print validated_data
         s = service(name = validated_data['name'] )
-        s.user = self.context['request'].user
+        user =  self.context['request'].user
+        s.user = user
+        s.division = user.designation.division
         self.assignValues(s, validated_data)
         return s
     def update(self , instance , validated_data):
