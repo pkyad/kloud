@@ -410,8 +410,12 @@ app.controller("businessManagement.marketing.addContacts", function($scope, $sta
       Flash.create('warning', 'Mobile number is required')
       return
     }
-    if ($scope.form.productName == null || $scope.form.productName.length == 0) {
+    if (!$scope.form.requireOnSiteVisit && ($scope.form.productName == null || $scope.form.productName.length == 0)) {
       Flash.create('warning', 'Product name is required')
+      return
+    }
+    if (!$scope.form.requireOnSiteVisit && ($scope.form.productSerial == null || $scope.form.productSerial.length == 0)) {
+      Flash.create('warning', 'Serial Number is required')
       return
     }
     if ($scope.form.requireOnSiteVisit == true) {

@@ -43,22 +43,13 @@
 }
 
 .flex-container > div {
-  /* background-color: #f1f1f1; */
-  /* margin: 10px; */
-  padding: 10px;
+  padding: 15px;
+  padding-top:5px;
+  padding-bottom:5px;
   border:1px solid #e4dddd;
   border-radius:25px;
-  margin-right:10px
-  /* font-size: 30px; */
-}
-.flex-container > div:hover{
-  /* background-color: #f1f1f1; */
-  /* margin: 10px; */
-  padding: 10px;
-  border:1px solid #b4b4b4;
-  border-radius:25px;
-  margin-right:10px
-  /* font-size: 30px; */
+  margin-right:10px;
+  cursor:pointer;
 }
 
 </style>
@@ -138,9 +129,6 @@
                 <span ng-if="contact.status == 'assigned' || contact.status == 'ongoing' ||  contact.status == 'posponded'">  Change Technician </span>
                 </button>
                 <div ng-if="contact.status != 'created' && contact.status != 'upcoming'" style="margin-top:15px" class="text-center"> <span ng-if="contact.engineer"> {{contact.engineer.first_name}}  {{contact.engineer.last_name}} </span>  <span ng-if="contact.preferredDate"> <br/> on {{contact.preferredDate | date}} <span>  <span ng-if="contact.preferredTimeSlot">  @ {{contact.preferredTimeSlot}} <span> </div>
-                <!-- <button ng-if="material_inward == 'True'" type="button" class="btn btn-default" ng-click="openMaterialInward($index);$event.stopPropagation();">
-                  MIN
-                </button> -->
               </div>
             </td>
           </tr>
@@ -150,16 +138,16 @@
                   <div class="col-md-10 col-md-offset-1" >
                     <!-- <div style="margin-bottom:15px"> Quotations: </div> -->
                     <div class="flex-container">
-                        <p style="margin-top:15px;margin-right:15px"> Quotations: </p>
-                         <div ng-repeat="i in contact.allInvoices track by $index" ng-click="$state.go('businessManagement.contacts.quote', {id: a.contact,contract: i.pk})">{{i.heading}}</div>
+                        <p style="margin-top:15px;margin-right:15px"> Documents: </p>
+                         <div ng-repeat="i in contact.allInvoices track by $index" ng-click="$state.go('businessManagement.contacts.quote', {id: contact.referenceContact,contract: i.pk});$event.stopPropagation()">{{i.heading}}</div>
                     </div>
                   </div>
               </div>
               <div class="row" ng-if="allTerms.length>0&&(contact.status == 'created' || contact.status == 'assigned'  || contact.status == 'upcoming' || contact.status == 'ongoing' || contact.status == 'postponed')" style="margin-top:15px">
                   <div class="col-md-10 col-md-offset-1" >
                     <div class="flex-container">
-                      <p style="margin-top:15px;margin-right:15px"> Formats: </p>
-                         <div ng-repeat="t in allTerms track by $index" ng-click="$state.go('businessManagement.contacts.createquote', {id: a.referenceContact,template: t.pk})">{{t.heading}}</div>
+                      <p style="margin-top:15px;margin-right:15px"> Create new document: </p>
+                         <div ng-repeat="t in allTerms track by $index" ng-click="$state.go('businessManagement.contacts.createquote', {id: contact.referenceContact,template: t.pk});$event.stopPropagation()">{{t.heading}}</div>
                     </div>
                   </div>
               </div>
