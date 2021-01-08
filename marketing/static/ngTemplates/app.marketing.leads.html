@@ -107,7 +107,7 @@
             <th width="17%"></th>
           </tr>
         </thead>
-        <tbody  ng-repeat="contact in allServices" ng-click="newContact($index)">
+        <tbody  ng-repeat="contact in allServices" >
           <tr style="padding:10px;background:white;" >
             <td class="contentTd">{{contact.pk}}</td>
             <td class="contentTd"> <h4>{{contact.name}}</h4>
@@ -124,12 +124,16 @@
             <td class="contentTd">{{contact.warrantyStatus}}</td>
             <td class="contentTd">
               <div class="btn-group btn-group-sm" ng-if="contact.status == 'assigned' || contact.status == 'ongoing' ||  contact.status == 'postponed' || contact.status == 'created' || contact.status == 'upcoming'">
-                <button type="button" class="btn-assign" ng-click="assign($index);$event.stopPropagation();" style="">
+                <button type="button" class="btn-assign" ng-click="assign($index);$event.stopPropagation();" style="width:130%">
                 <span ng-if="contact.status == 'created'|| contact.status == 'upcoming'">  Assign Technician </span>
                 <span ng-if="contact.status == 'assigned' || contact.status == 'ongoing' ||  contact.status == 'postponed'">  Change Technician </span>
                 </button>
                 <div ng-if="contact.status != 'created' && contact.status != 'upcoming'" style="margin-top:15px" class="text-center"> <span ng-if="contact.engineer"> {{contact.engineer.first_name}}  {{contact.engineer.last_name}} </span>  <span ng-if="contact.preferredDate"> <br/> on {{contact.preferredDate | date}} <span>  <span ng-if="contact.preferredTimeSlot">  @ {{contact.preferredTimeSlot}} <span> </div>
               </div>
+              <button  style="border: none !important;border-radius: 64px !important;padding: 10px;font-size: 16px;z-index: 10;margin-top:15px" class="btn btn-primary" ng-click="download(contact.pk)">  Print Material Inward Note </button>
+              <button type="button" class="btn-assign" ng-click="newContact($index)" style="width:100%;margin-top:15px">
+                Edit
+              </button>
             </td>
           </tr>
           <tr style="background:white;" >

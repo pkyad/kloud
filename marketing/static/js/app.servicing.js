@@ -254,6 +254,9 @@ app.controller("businessManagement.servicing", function($scope, $state, $users, 
   // })
 
 
+    $scope.download = function(id){
+        window.location.href = '/api/clientRelationships/materialIssue/?id='+id
+    }
 
 });
 
@@ -309,6 +312,7 @@ app.controller("businessManagement.marketing.assignTechnician", function($scope,
 
 
   }
+
 
 })
 app.controller("businessManagement.marketing.addContacts", function($scope, $state, $users, $stateParams, $http, Flash, $aside, $sce, $uibModal, $uibModalInstance, data) {
@@ -495,9 +499,7 @@ app.controller("businessManagement.marketing.addContacts", function($scope, $sta
   }
 
 
-$scope.download = function(){
-    window.location.href = '/api/clientRelationships/materialIssue/?id='+$scope.form.pk
-}
+
 
 
 })
