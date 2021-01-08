@@ -4478,84 +4478,15 @@ def getFourProductArray(variants):
             if variant.img1 :
                 imgg = str(variant.img1)
                 mediaImg = os.path.join(globalSettings.MEDIA_ROOT,imgg)
-                # file = request.FILES['img1']
-                # print file.name , 'ffffffff'
-                # Img = os.path.join(globalSettings.BASE_DIR, 'media_root/finance/inventory', file.name)
-                # f = open(Img, "w")
-                # f.write(file.read())
-                # f.close()
 
-                BLUR = 1
-                CANNY_THRESH_1 = 10
-                CANNY_THRESH_2 = 200
-                MASK_DILATE_ITER = 10
-                MASK_ERODE_ITER = 10
-                MASK_COLOR = (0.0,0.0,0.0) # In BGR format
+                URL = globalSettings.SITE_ADDRESS+'/api/finance/makeImageTransparent/'
+                fileData = {'file':mediaImg}
+                r = requests.post(url = URL, data = fileData)
+                data = r.json()
+                convertedImg = os.path.join(globalSettings.MEDIA_ROOT,data['url'])
 
-                img = cv2.imread(mediaImg)
-                gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-
-                edges = cv2.Canny(gray, CANNY_THRESH_1, CANNY_THRESH_2)
-                edges = cv2.dilate(edges, None)
-                edges = cv2.erode(edges, None)
-
-                contour_info = []
-                contours, _ = cv2.findContours(edges, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
-                # Previously, for a previous version of cv2, this line was:
-                #  contours, _ = cv2.findContours(edges, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
-                # Thanks to notes from commenters, I've updated the code but left this note
-                for c in contours:
-                    contour_info.append((
-                        c,
-                        cv2.isContourConvex(c),
-                        cv2.contourArea(c),
-                    ))
-                contour_info = sorted(contour_info, key=lambda c: c[2], reverse=True)
-                max_contour = contour_info[0]
-
-                mask = np.zeros(edges.shape)
-                cv2.fillConvexPoly(mask, max_contour[0], (255))
-
-                #-- Smooth mask, then blur it --------------------------------------------------------
-                mask = cv2.dilate(mask, None, iterations=MASK_DILATE_ITER)
-                mask = cv2.erode(mask, None, iterations=MASK_ERODE_ITER)
-                mask = cv2.GaussianBlur(mask, (BLUR, BLUR), 0)
-                mask_stack = np.dstack([mask]*3)    # Create 3-channel alpha mask
-
-                #-- Blend masked img into MASK_COLOR background --------------------------------------
-                mask_stack  = mask_stack.astype('float32') / 255.0          # Use float matrices,
-                img         = img.astype('float32') / 255.0                 #  for easy blending
-                masked = (mask_stack * img) + ((1-mask_stack)*(MASK_COLOR)) # Blend
-                masked = (masked * 255).astype('uint8')                     # Convert back to 8-bit
-                tmp = cv2.cvtColor(masked, cv2.COLOR_BGR2GRAY)
-                _,alpha = cv2.threshold(tmp,0,255,cv2.THRESH_BINARY)
-                b, g, r = cv2.split(masked)
-                rgba = [b,g,r, alpha]
-                dst = cv2.merge(rgba,4)
-                cv2.imwrite("media_root/finance/inventory/%s" %(img), dst)
-
-                httpUrl = globalSettings.SITE_ADDRESS+'/media_root/finance/inventory/%s' %(file.name)
-                print httpUrl , 'ooooooooooo'
-
-                # url = globalSettings.SITE_ADDRESS+'/api/finance/makeImageTransparent/'
-                #
-                # dataVal = {'ddfs' : 'dfdfsd'}
-                # getImgUrl = requests.post(url,  data=mediaImg)
-                #
-                # savefile = os.path.join(globalSettings.BASE_DIR, 'media_root', fileVal+'.xlsx')
-                # workbook.save(filename = savefile)
-                # Data = open(savefile, 'rb')
-                # print Data, 'ddddddddddd'
-                # files = { 'excelFile': Data}
-                # url = globalSettings.SITE_ADDRESS+'/api/finance/uploadExcel/'
-                # dataVal = {'startDate':data['fromDate'],'endDate':data['toDate'],'user':user, 'level':level}
-                # rData = requests.post(url,  data=dataVal, files=files)
-                rData = requests.post(globalSettings.SITE_ADDRESS+'/api/finance/makeImageTransparent/',  data={'d':'dsf'}, files=mediaImg)
-
-
-
-                imgData = open(mediaImg, 'rb')
-                img = Image(mediaImg)
+                imgData = open(convertedImg, 'rb')
+                img = Image(convertedImg)
                 ratio = img.drawHeight / img.drawWidth
                 img.drawHeight = 1.25*inch
                 img.drawWidth = 1.25*inch
@@ -4638,20 +4569,10 @@ class ProductsCatalogAPI(APIView):
 
 class TransparentImageAPI(APIView):
     renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+
     def post(self,request , format= None):
         data = request.data
-        print data , 'dafagsdsg'
-
-        # imageUrls = []
-        # imageFiles = []
-        # for i in request.FILES:
-        #     print i , 'iiiiiiiiii'
-        file = request.FILES['img1']
-        print file.name , 'ffffffff'
-        Img = os.path.join(globalSettings.BASE_DIR, 'media_root/finance/inventory', file.name)
-        f = open(Img, "w")
-        f.write(file.read())
-        f.close()
 
         BLUR = 1
         CANNY_THRESH_1 = 10
@@ -4660,7 +4581,7 @@ class TransparentImageAPI(APIView):
         MASK_ERODE_ITER = 10
         MASK_COLOR = (0.0,0.0,0.0) # In BGR format
 
-        img = cv2.imread(Img)
+        img = cv2.imread(data['file'])
         gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
         edges = cv2.Canny(gray, CANNY_THRESH_1, CANNY_THRESH_2)
@@ -4700,9 +4621,13 @@ class TransparentImageAPI(APIView):
         b, g, r = cv2.split(masked)
         rgba = [b,g,r, alpha]
         dst = cv2.merge(rgba,4)
-        cv2.imwrite("media_root/finance/inventory/%s" %(file.name), dst)
+        # cv2.imwrite("media_root/finance/inventory/%s" %(file.name), dst)
+        print data['file'], 'eeeeeeeee'
+        print data['file'].name, 'eeeeeeeee'
+        cv2.imwrite("media_root/finance/inventory/converted.png", dst)
 
-        httpUrl = globalSettings.SITE_ADDRESS+'/media_root/finance/inventory/%s' %(file.name)
+        # httpUrl = globalSettings.SITE_ADDRESS+'/media_root/finance/inventory/%s' %(file.name)
+        httpUrl = 'finance/inventory/converted.png'
         print httpUrl , 'ooooooooooo'
 
 
