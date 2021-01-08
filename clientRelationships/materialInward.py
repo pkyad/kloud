@@ -345,7 +345,7 @@ def genMaterialIssueNote(response, ticket, request):
     if ticket.city is not None:
         city = ticket.city
 
-    utc_time = ticket.created
+    utc_time = datetime.datetime.now()
     tz = pytz.timezone( 'Asia/Kolkata')
     utc_time =utc_time.replace(tzinfo=pytz.UTC) #replace method
     indian_time=utc_time.astimezone(tz)        #astimezone method
