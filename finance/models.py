@@ -53,7 +53,7 @@ class Account(models.Model):
 
 
     def __unicode__(self):
-        return '<Number : %s > , <responsible : %s > , <bank : %s>' %(self.number , self.contactPerson.username , self.bank)
+        return '<Number : %s > , <bank : %s>' %(self.number , self.bank)
 
 
 class CostCenter(models.Model):
@@ -336,6 +336,7 @@ class Disbursal(models.Model):
     amount = models.FloatField(default= 0)
     ifscCode =  models.CharField(max_length = 100 , null = True)
     account = models.ForeignKey(Account , related_name = "companyAccount" , null=True)
+    division = models.ForeignKey(Division,related_name='divisionDisbursal',null=True)
 
 
 

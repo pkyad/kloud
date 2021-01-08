@@ -1472,30 +1472,6 @@ app.controller('businessManagement.finance.inboundInvoices.form', function($scop
       }
     }
 
-    $scope.pay = function(){
-      $uibModal.open({
-          templateUrl: '/static/ngTemplates/app.finance.payment.html',
-          size: 'lg',
-          backdrop: false,
-          resolve: {
-            vsdata: function() {
-              return $scope.form.companyReference
-            },
-          },
-          controller: 'businessManagement.finance.vendorService.form',
-        })
-        .result.then(function(pk) {}, function(res) {
-          // $http.get('/api/finance/vendorprofile/' + res + '/').
-          // then(function(response) {
-          //   $scope.form.vendor = response.data;
-          // })
-          if (typeof res == 'object') {
-            $scope.form.companyReference =  res
-            $scope.selectCompany()
-          }
-        })
-    }
-
 
 
 
@@ -1560,12 +1536,74 @@ app.controller('businessManagement.finance.inboundInvoices.form', function($scop
       }
 
 
-    $scope.pay = function(){
+      $scope.pay = function(indx){
+        $uibModal.open({
+            templateUrl: '/static/ngTemplates/app.finance.payment.html',
+            size: 'md',
+            backdrop: false,
+            resolve: {
+              data: function() {
+                return $scope.form
+              },
+            },
+            controller: 'businessManagement.finance.payemnt.form',
+          })
+          .result.then(function() {}, function(res) {
+            console.log(res);
+            if (typeof res == 'object') {
+              $scope.form = res
+              $scope.costCenterSearch()
+              $scope.getAccount()
+            }
 
-    }
+          })
+      }
+
+
 
 
 })
+
+app.controller('businessManagement.finance.payemnt.form', function($scope, $http, $aside, $state, Flash, $users, $filter,  $uibModal, data, $uibModalInstance) {
+  $scope.data = data
+  $scope.form = {
+    amount : 0
+  }
+  $scope.add = function(){
+    if (parseFloat($scope.form.amount)<=0 || (parseFloat($scope.data.paidAmount)+parseFloat($scope.form.amount))>parseFloat($scope.data.totalAmount)) {
+      Flash.create('warning','Add valid amount')
+      return
+    }
+    $http({
+      method: 'POST',
+      url: '/api/finance/expenseTransactionCreate/',
+      data :{
+        purchase : $scope.data.pk,
+        amount : $scope.form.amount
+      }
+    }).
+    then(function(response) {
+      $uibModalInstance.dismiss(response.data.purchase);
+    })
+  }
+
+  $scope.getTransaction = function(){
+    $http({
+      method: 'GET',
+      url: '/api/finance/disbursallite/?sourcePk='+ $scope.data.pk+'&source=INVOICE',
+    }).
+    then(function(response) {
+      $scope.allTransactions = response.data
+    })
+  }
+  $scope.getTransaction()
+
+  $scope.close = function() {
+   $uibModalInstance.close();
+ }
+
+})
+
 
 
 

@@ -652,7 +652,7 @@ class ExpenseHeadingLiteSerializer(serializers.ModelSerializer):
 class DisbursalLiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Disbursal
-        fields=('pk','date','sourcePk','source','amount','account')
+        fields=('pk','date','sourcePk','source','amount','account','disbursed' , 'disbursalNote')
 
 
 class DisbursalSerializer(serializers.ModelSerializer):

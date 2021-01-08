@@ -4625,16 +4625,22 @@ class TransparentImageAPI(APIView):
 class DisbursalViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = DisbursalSerializer
-    queryset = Disbursal.objects.all()
+    # queryset = Disbursal.objects.all()
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['disbursed']
+    def get_queryset(self):
+        divsn = self.request.user.designation.division
+        return Disbursal.objects.filter(division = divsn)
 
 class DisbursalliteViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = DisbursalLiteSerializer
-    queryset = Disbursal.objects.all()
+    # queryset = Disbursal.objects.all()
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['source' , 'sourcePk']
+    def get_queryset(self):
+        divsn = self.request.user.designation.division
+        return Disbursal.objects.filter(division = divsn)
 
 
 class InvoiceReceivedViewSet(viewsets.ModelViewSet):
@@ -4704,14 +4710,15 @@ class CreateExpenseTransactionAPI(APIView):
     permission_classes = (permissions.AllowAny ,)
     def post(self,request , format= None):
         data = request.data
+        div = request.user.designation.division
         from datetime import date
         today = date.today()
         purchaseObj = InvoiceReceived.objects.get(pk = int(data['purchase']))
-        transObj = Disbursal.objects.create(sourcePk = data['purchase'] , amount = data['amount'] , date = today , source = 'expensesInvoice')
+        transObj = Disbursal.objects.create(sourcePk = data['purchase'] , amount = data['amount'] , date = today , source = 'INVOICE', division = div)
         transObj.accountNumber = purchaseObj.accNo
         transObj.ifscCode = purchaseObj.ifsc
         transObj.bankName = purchaseObj.bankName
-        transObj.narration = 'Expenses Invoice ' + str(round(data['amount'])) +' Rs , ' + str(transObj.date.strftime("%B")) + '-' + str(transObj.date.year)
+        transObj.narration = 'Expenses Invoice ' + str(round(float(data['amount']))) +' Rs , ' + str(transObj.date.strftime("%B")) + '-' + str(transObj.date.year)
         transObj.save()
         purchaseObj.paidAmount = float(purchaseObj.paidAmount) + float(data['amount'])
         purchaseObj.balanceAmount = float(purchaseObj.totalAmount) - float(purchaseObj.paidAmount)

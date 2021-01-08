@@ -1,1 +1,57 @@
-<!-- <div class="moda" -->
+<div class="modal-body" style="background:#FAFAFA">
+  <div class="row">
+    <div class="col-md-12">
+
+      <div class="row">
+        <div class="col-md-4">
+          <h5>Total Amount </h5>
+          <h4><i class="fa fa-inr"></i> {{data.totalAmount}} </h4>
+        </div>
+        <div class="col-md-4">
+          <h5>Paid Amount </h5>
+          <h4><i class="fa fa-inr"></i> {{data.paidAmount}} </h4>
+        </div>
+        <div class="col-md-4">
+          <h5>Balance Amount </h5>
+          <h4><i class="fa fa-inr"></i> {{data.balanceAmount}} </h4>
+        </div>
+      </div>
+      <div class="row" style="margin-top:30px">
+        <div class="col-md-8">
+          <div class="form-group">
+            <label> Amount </label>
+            <input type="text" class="form-control" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;" ng-model="form.amount">
+          </div>
+        </div>
+        <div class="col-md-4" style="margin-top: 40px;">
+          <button type="button" class="btn btn-primary btn-block cutebuttonplain" style="background:rgb(14, 67, 136);color:white;" ng-click="add()">Add</button>
+        </div>
+      </div>
+      <div class="row" style="margin-top:30px">
+        <div class="col-md-12">
+          <table class="invoiceTable" style=" width: 100%;" ng-if="allTransactions.length>0">
+            <tbody>
+            <tr style="background-color: #eeeeee;height: 50px;">
+              <th>Amount</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Ref ID</th>
+            </tr>
+            <tr ng-repeat="v in allTransactions track by $index">
+              <td>{{v.amount}}</td>
+              <td>{{v.date}}</td>
+              <td>{{v.disbursed?'Completed' : 'In Progress'}}</td>
+              <td>{{v.disbursalNote}}</td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+      <div class="row" style="margin-top:15px">
+        <div class="col-md-12">
+            <button style="color: rgb(237, 2, 2);bottom: 20px;border: none !important;border-radius: 64px !important;padding: 17px;width: 112px;font-size: 16px;z-index: 10;margin-right:30px;background:none;" class="btn btn-primary pull-right" ng-click="close()">  Close </button>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
