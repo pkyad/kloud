@@ -345,10 +345,17 @@ def genMaterialIssueNote(response, ticket, request):
     if ticket.city is not None:
         city = ticket.city
 
+    utc_time = ticket.created
+    tz = pytz.timezone( 'Asia/Kolkata')
+    utc_time =utc_time.replace(tzinfo=pytz.UTC) #replace method
+    indian_time=utc_time.astimezone(tz)        #astimezone method
+    datecreated = str(indian_time.strftime("%d-%B-%Y"))
+
     summryParaSrc = """
 
     <font size='9'>
      <strong>MIN No: %s</strong><br/>
+     Date : %s<br/><br/>
      <strong>Customer Details:</strong><br/>
     %s<br/>
     %s<br/>
@@ -356,7 +363,7 @@ def genMaterialIssueNote(response, ticket, request):
      <strong> Address : </strong> %s<br/>
      %s %s %s - %s
     </font>
-    """ % (srno,  name, phone , email, address, city, state, country, pincode )
+    """ % (srno,datecreated,  name, phone , email, address, city, state, country, pincode )
 
 
     story.append(Paragraph(summryParaSrc, styleN))
