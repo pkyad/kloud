@@ -324,11 +324,12 @@ def genMaterialIssueNote(response, ticket, request):
     address = ''
     country = ''
     pincode = ''
+    warrantyStatus = ''
+
 
     year = ticket.created.year
     nextYear = ticket.created.year + 1
     srno = str(year) +'-'+ str(nextYear) + '/'+ str(ticket.pk)
-    print srno
     if ticket.name is not None:
         name = ticket.name
     if ticket.phone is not None:
@@ -345,11 +346,14 @@ def genMaterialIssueNote(response, ticket, request):
         state = ticket.state
     if ticket.city is not None:
         city = ticket.city
+    if ticket.warrantyStatus is not None:
+        warrantyStatus = ticket.warrantyStatus
+
 
     utc_time = datetime.datetime.now()
     tz = pytz.timezone( 'Asia/Kolkata')
-    utc_time =utc_time.replace(tzinfo=pytz.UTC) #replace method
-    indian_time=utc_time.astimezone(tz)        #astimezone method
+    utc_time =utc_time.replace(tzinfo=pytz.UTC)
+    indian_time=utc_time.astimezone(tz)
     datecreated = str(indian_time.strftime("%d-%B-%Y"))
 
     summryParaSrc = """
@@ -362,9 +366,10 @@ def genMaterialIssueNote(response, ticket, request):
     %s<br/>
      %s <br/>
      <strong> Address : </strong> %s<br/>
-     %s %s %s - %s
+     %s %s %s - %s<br/>
+     Warranty Type: %s
     </font>
-    """ % (srno,datecreated,  name, phone , email, address, city, state, country, pincode )
+    """ % (srno,datecreated,  name, phone , email, address, city, state, country, pincode, warrantyStatus )
 
 
     story.append(Paragraph(summryParaSrc, styleN))

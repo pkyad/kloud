@@ -322,7 +322,7 @@ class ServiceTicketSerializer(serializers.ModelSerializer):
             t.save()
         return t
     def update(self ,instance, validated_data):
-        for key in ['name' , 'phone' , 'email' , 'productName' , 'productSerial' , 'notes' , 'address' , 'pincode', 'city' , 'state' , 'country' , 'requireOnSiteVisit','preferredDate','preferredTimeSlot' , 'status', 'serviceType','engineer' ]:
+        for key in ['name' , 'phone' , 'email' , 'productName' , 'productSerial' , 'notes' , 'address' , 'pincode', 'city' , 'state' , 'country' , 'requireOnSiteVisit','preferredDate','preferredTimeSlot' , 'status', 'serviceType','engineer','warrantyStatus' ]:
             try:
                 setattr(instance , key , validated_data[key])
             except:

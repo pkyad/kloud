@@ -233,26 +233,7 @@ class VendorServiceViewSet(viewsets.ModelViewSet):
 
 
 
-class CreateExpenseTransactionAPI(APIView):
-    renderer_classes = (JSONRenderer,)
-    permission_classes = (permissions.AllowAny ,)
-    def post(self,request , format= None):
-        data = request.data
-        from datetime import date
-        today = date.today()
-        purchaseObj = InvoiceReceived.objects.get(pk = int(data['purchase']))
-        transObj = Disbursal.objects.create(sourcePk = data['purchase'] , amount = data['amount'] , date = today , source = 'expensesInvoice')
-        transObj.accountNumber = purchaseObj.accNo
-        transObj.ifscCode = purchaseObj.ifsc
-        transObj.bankName = purchaseObj.bankName
-        transObj.narration = 'Expenses Invoice ' + str(round(data['amount'])) +' Rs , ' + str(transObj.date.strftime("%B")) + '-' + str(transObj.date.year)
-        transObj.save()
-        purchaseObj.paidAmount = float(purchaseObj.paidAmount) + float(data['amount'])
-        purchaseObj.balanceAmount = float(purchaseObj.totalAmount) - float(purchaseObj.paidAmount)
-        purchaseObj.save()
-        data = DisbursalLiteSerializer(transObj,many=False).data
-        purchaseObjData = InvoiceReceivedAllSerializer(purchaseObj, many=False).data
-        return Response({'purchase':purchaseObjData , 'data': data})
+
 
 class CreateSalesTransactionAPI(APIView):
     renderer_classes = (JSONRenderer,)
@@ -4716,3 +4697,41 @@ class SaveInvoiceReceived(APIView):
         obj.save()
         toRet = InvoiceReceivedAllSerializer(obj, many=False).data
         return Response(toRet ,status = status.HTTP_200_OK)
+
+
+class CreateExpenseTransactionAPI(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def post(self,request , format= None):
+        data = request.data
+        from datetime import date
+        today = date.today()
+        purchaseObj = InvoiceReceived.objects.get(pk = int(data['purchase']))
+        transObj = Disbursal.objects.create(sourcePk = data['purchase'] , amount = data['amount'] , date = today , source = 'expensesInvoice')
+        transObj.accountNumber = purchaseObj.accNo
+        transObj.ifscCode = purchaseObj.ifsc
+        transObj.bankName = purchaseObj.bankName
+        transObj.narration = 'Expenses Invoice ' + str(round(data['amount'])) +' Rs , ' + str(transObj.date.strftime("%B")) + '-' + str(transObj.date.year)
+        transObj.save()
+        purchaseObj.paidAmount = float(purchaseObj.paidAmount) + float(data['amount'])
+        purchaseObj.balanceAmount = float(purchaseObj.totalAmount) - float(purchaseObj.paidAmount)
+        purchaseObj.save()
+        data = DisbursalLiteSerializer(transObj,many=False).data
+        purchaseObjData = InvoiceReceivedAllSerializer(purchaseObj, many=False).data
+        return Response({'purchase':purchaseObjData , 'data': data})
+
+
+class UpdateTotalAPI(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def get(self,request , format= None):
+        inv = InvoiceReceived.objects.get(pk = int(request.GET['id']))
+        total =inv.parentInvoice.aggregate(tot = Sum('total'))
+        totalAmount = 0
+        if total['tot'] is not None:
+            totalAmount = total['tot']
+        inv.totalAmount = totalAmount
+        inv.balanceAmount = totalAmount - inv.paidAmount
+        inv.save()
+
+        return Response({})

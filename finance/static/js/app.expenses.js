@@ -1443,6 +1443,16 @@ app.controller('businessManagement.finance.inboundInvoices.form', function($scop
 
   }
 
+  $scope.updateTotal = function(){
+    $http({
+      method: 'GET',
+      url: '/api/finance/updateInvTotal/?id='+$scope.form.pk,
+    }).
+    then(function(response) {
+
+    })
+  }
+
 
     $scope.deleteData = function(pkVal, idx) {
       if (pkVal == undefined) {
@@ -1456,13 +1466,34 @@ app.controller('businessManagement.finance.inboundInvoices.form', function($scop
         then(function(response) {
           $scope.form.products.splice(idx, 1)
           Flash.create('success', 'Deleted');
+          $scope.updateTotal()
           return
         })
       }
     }
 
     $scope.pay = function(){
-      console.log("ssssssssssssss");
+      $uibModal.open({
+          templateUrl: '/static/ngTemplates/app.finance.payment.html',
+          size: 'lg',
+          backdrop: false,
+          resolve: {
+            vsdata: function() {
+              return $scope.form.companyReference
+            },
+          },
+          controller: 'businessManagement.finance.vendorService.form',
+        })
+        .result.then(function(pk) {}, function(res) {
+          // $http.get('/api/finance/vendorprofile/' + res + '/').
+          // then(function(response) {
+          //   $scope.form.vendor = response.data;
+          // })
+          if (typeof res == 'object') {
+            $scope.form.companyReference =  res
+            $scope.selectCompany()
+          }
+        })
     }
 
 
@@ -1527,6 +1558,11 @@ app.controller('businessManagement.finance.inboundInvoices.form', function($scop
         $scope.costCenterSearch()
           $scope.getAccount()
       }
+
+
+    $scope.pay = function(){
+
+    }
 
 
 })
