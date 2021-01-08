@@ -38,7 +38,7 @@
       <h3 style="margin-left: 29px;margin-bottom: 37px;" ng-if="form.pk">Update ticket</h3>
     </div>
     <div class="col-md-4">
-      <button ng-if="form.pk" style="bottom: 20px;border: none !important;border-radius: 64px !important;padding: 17px;font-size: 16px;z-index: 10;margin-right:30px;" class="btn btn-primary pull-right" ng-click="alert('error')">  Print Material Inward Note </button>
+      <button ng-if="form.pk" style="bottom: 20px;border: none !important;border-radius: 64px !important;padding: 17px;font-size: 16px;z-index: 10;margin-right:30px;" class="btn btn-primary pull-right" ng-click="download()">  Print Material Inward Note </button>
     </div>
     <div class="col-md-4">
       <button style="background: #461482;color: white;bottom: 20px;border: none !important;border-radius: 64px !important;padding: 17px;width: 112px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;" class="btn btn-primary pull-right" ng-click="save()" >  Save </button>
@@ -71,8 +71,8 @@
         <div class="form-group">
           <label>Do the customer need Onsite Visit?</label>
           <label>ಗ್ರಾಹಕರಿಗೆ ಆನ್‌ಸೈಟ್ ಭೇಟಿ ಅಗತ್ಯವಿದೆಯೇ?</label>
-          
-          <!-- <span class="label label-default">Yes</span> 
+
+          <!-- <span class="label label-default">Yes</span>
           <span class="label label-primary">No</span>  -->
 
           <input type="checkbox"  ng-model="form.requireOnSiteVisit" >

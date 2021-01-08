@@ -1870,3 +1870,20 @@ class DownloadAllVisitsAPIView(APIView):
         response = HttpResponse(content=save_virtual_workbook(workbook),content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = 'attachment; filename=Collection.xlsx'
         return response
+
+
+
+
+
+
+class MaterialIssuedNoteAPIView(APIView):
+    def get(self , request , format = None):
+        data = request.GET
+        from materialInward import *
+        ticket = ServiceTicket.objects.get(pk = int(data['id']))
+        response = HttpResponse(content_type='application/pdf')
+        response.division = request.user.designation.division
+        response.unit = request.user.designation.unit
+        response['Content-Disposition'] = 'attachment;filename="Quotationdownload.pdf"'
+        genMaterialIssueNote(response , ticket,request)
+        return response

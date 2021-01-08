@@ -494,5 +494,9 @@ app.controller("businessManagement.marketing.addContacts", function($scope, $sta
   }
 
 
+$scope.download = function(){
+    window.location.href = '/api/clientRelationships/materialIssue/?id='+$scope.form.pk
+}
+
 
 })
