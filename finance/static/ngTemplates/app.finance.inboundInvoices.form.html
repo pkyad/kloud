@@ -174,12 +174,11 @@
           </div>
         </div>
         <div class="row fixedActionStrip" style="padding-top:15px;background:transparent!important">
-          <div class="col-md-offset-10 col-md-1 ">
+          <div class="col-md-offset-9 col-md-1 ">
               <button type="button" class="btn btn-primary btn-block cutebuttonplain" style="background:rgb(14, 67, 136);color:white;" ng-click="save()">Save</button>
           </div>
-          <div class="col-md-1">
-              <button ng-if="form.pk" mwl-confirm title="Reject" message="Are you sure?" data-placement="top" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="pay();"
-                confirm-button-type="default" cancel-button-type="default" type="button" class="btn btn-default btn-block cutebuttonplain" style="background:#461482;color:white;">PAY</button>
+          <div class="col-md-2">
+              <button ng-if="form.pk" ng-click="" style="background:#461482;color:white;">PAYMENT DETAILS</button>
           </div>
         </div>
       </div>

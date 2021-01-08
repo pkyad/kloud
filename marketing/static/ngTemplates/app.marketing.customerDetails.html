@@ -71,7 +71,7 @@
         <div class="col-md-1" ng-click=sortData() style="cursor:pointer"></div>
       </div>
       <!-- <p>{{techdata}}</p> -->
-      <div class="row detailsHover" ng-repeat="a in allServices" style="border-bottom:1px solid #dfdfdf;">
+      <div class="row detailsHover" ng-repeat="a in allServices" style="border-bottom:1px solid #dfdfdf;" ng-click="newContact($index)">
         <div class="col-md-12" style="cursor:pointer;padding-top:15px;padding-bottom:15px;" >
           <div class="row"  >
             <div class="col-md-1">{{a.pk}}</div>
