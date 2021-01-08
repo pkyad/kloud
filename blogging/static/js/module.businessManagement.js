@@ -808,7 +808,8 @@ app.controller('businessManagement.KloudERPdelails', function($scope, $http, $st
     dataToSend = {
       simpleMode: $scope.data.simpleMode,
       telephony: $scope.data.telephony,
-      messaging: $scope.data.messaging
+      messaging: $scope.data.messaging,
+      locked: $scope.data.locked
     }
     $http({
       method: 'PATCH',

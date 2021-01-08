@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'^logout/', logoutView , name ='logout'),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^robots\.txt', include('robots.urls')),
-    url(r'^generateOTP/', generateOTP, name="generateOTP"),
+    url(r'^generateOTP/', generateOTPView, name="generateOTP"),
     url(r'^(\w+)_(\d+).png', emailTracks.as_view()),
     url(r'^updateEmailOpen', OpenEmailUpdate.as_view()),
     url(r'^tlogin/', TokenLogin , name ='tlogin'),
@@ -73,6 +73,7 @@ urlpatterns = [
     url(r'intentDesigner/(?P<id>[\w|\W]+)/' , intentDesignerView , name = "intentDesigner"),
     url(r'^script/chatter-(?P<fileid>[\w|\W]+).js', getChatterScript , name ='getChatterScript'),
     url(r'activities' , activityView , name = "activity"),
+    url(r'^externalWindow/', ExternalWindow , name ='externalWindow'),
     # url(r'extractorTester/$' , ExtractorTesterView.as_view() , name = "extractorTester"),
 
 ]

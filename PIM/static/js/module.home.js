@@ -55,6 +55,11 @@ app.config(function($stateProvider ){
     templateUrl: '/static/ngTemplates/app.home.notes.html',
     controller: 'controller.home.notes'
   })
+  .state('home.notes.view', {
+    url: "/:id",
+    templateUrl: '/static/ngTemplates/app.home.viewNote.html',
+    controller: 'controller.home.viewNotes'
+  })
   .state('home.myWork', {
     url: "/myWork",
     templateUrl: '/static/ngTemplates/app.home.myWork.html',
@@ -150,6 +155,8 @@ function calcDays(date1, date2) {
   var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   return diffDays
 }
+
+
 
 app.controller('controller.home.leave' , function($scope , $state , $http,$users, Flash){
 $scope.resetAll = function(){
@@ -1119,7 +1126,7 @@ app.controller('controller.home.expense.claims', function($scope, $http, $aside,
             fd.append('description', f.description);
           $http({
             method: 'POST',
-            url: '/api/finance/invoices/',
+            url: '/api/finance/expense/',
             data: fd,
             transformRequest: angular.identity,
             headers: {

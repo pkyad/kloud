@@ -155,7 +155,7 @@
     </div>
 
     <div style="margin-top:30px;" class="row menuItems {{$state.is('businessManagement.servicing')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.servicing')">
-      <strong> Tickets </strong>
+      <strong> New / Un assigned Tickets </strong>
     </div>
     <div class="row menuItems {{$state.is('businessManagement.servicing.assigned')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.servicing.assigned')">
       <strong> Assigned </strong>
@@ -163,7 +163,7 @@
     <div class="row menuItems {{$state.is('businessManagement.servicing.ongoing')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.servicing.ongoing')">
       <strong> Ongoing </strong>
     </div>
-    <div class="row menuItems {{$state.is('businessManagement.servicing.collection')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.servicing.collection')">
+    <div class="row menuItems {{$state.is('businessManagement.servicing.completed')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.servicing.completed')">
       <strong>Completed</strong>
     </div>
     <div class="row menuItems {{$state.is('businessManagement.servicing.postponed')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.servicing.postponed')">

@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="{% static 'css/custom/navbarControls.css' %}" charset="utf-8">
     <link rel="stylesheet" href="{% static 'css/custom/calendar.css' %}" charset="utf-8">
     <link rel="stylesheet" href="{% static 'css/app.HR.css' %}" charset="utf-8">
+    <link rel="stylesheet" href="{% static 'css/app.LMS.learn.css' %}" charset="utf-8">
     <link rel="stylesheet" href="{% static 'css/jquery.orgchart.min.css' %}" charset="utf-8">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
@@ -365,7 +366,10 @@ transition-duration: 0.8s;
       var ENABLE_TELEPHONY = '{{telephony}}' == 'True';
       var ENABLE_MESSAGING = '{{messaging}}' == 'True';
       var SIMPLE_MODE = '{{simpleMode}}' == 'True';
-      var CUSTOMER_PK = '{{customerPk}}';
+      var LOCKED = '{{division.locked}}';
+      var TOTAL_DUE = '{{division.totalDue}}';
+      var DUE_DATE = '{{division.dueDate}}';
+      var DIVISION_NAME = '{{division.name}}';
     </script>
     <script src="{% static 'js/moment-with-locales-2.24.0.min.js' %}"></script>
     <script src="{% static 'js/sip-0.11.6.min.js' %}"></script>
@@ -398,7 +402,7 @@ transition-duration: 0.8s;
     <script src="{% static '' %}js/module.projectManagement.js"></script>
     <script src="{% static '' %}js/module.workforceManagement.js"></script>
     <script src="{% static '' %}js/sudo.configure.js"></script>
-
+  <script src="{% static '' %}js/app.makePayments.js"></script>
 
   </body>
 </html>

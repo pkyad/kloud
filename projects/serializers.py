@@ -37,7 +37,7 @@ class projectCommentSerializer(serializers.ModelSerializer):
 class CostCenterLiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = CostCenter
-        fields = ('pk', 'head' , 'name' , 'code' , 'account' )
+        fields = ('pk', 'name'  )
 
 
 class ProjectObjectiveSerializer(serializers.ModelSerializer):
@@ -75,9 +75,10 @@ class projectSerializer(serializers.ModelSerializer):
     costCenter = CostCenterLiteSerializer(many = False , read_only = True)
     ourBoundInvoices = OutBoundInvoiceLiteSerializer(many = True , read_only = True)
     totalCost = serializers.SerializerMethodField()
+    team = userSerializer(many = True , read_only = True)
     class Meta:
         model = project
-        fields = ('pk','dueDate', 'created' , 'title' , 'description' , 'files' , 'team', 'comments', 'repos','user','costCenter','budget','projectClosed','ourBoundInvoices','totalCost','company')
+        fields = ('pk','dueDate', 'created' , 'title' , 'description' , 'files' , 'team', 'comments', 'repos','user','costCenter','budget','projectClosed','ourBoundInvoices','totalCost','company', 'icon')
         read_only_fields = ('user', 'team',)
     def create(self , validated_data):
         p = project(**validated_data)
@@ -111,6 +112,8 @@ class projectSerializer(serializers.ModelSerializer):
             instance.team.clear()
             for u in self.context['request'].data['team']:
                 instance.team.add(User.objects.get(pk=u))
+        if 'icon' in self.context['request'].data:
+            instance.icon = self.context['request'].data['icon']
         instance.save()
         return instance
     def get_totalCost(self, obj):

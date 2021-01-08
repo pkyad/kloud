@@ -332,19 +332,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
   }
 
-  window.onbeforeunload=function(){
-    if(isAudioClicked||isVideoClicked){
-      if(isAudioClicked){
-        audioBtn.click()
-      }
-      if(isVideoClicked){
-        videoBtn.click()
-      }
-    } else {
-        return
-    }
-  }
-
   setTimeout(function () {
     var ChatWithUs=document.getElementById('ChatWithUs')
     ChatWithUs.addEventListener('click',function(){
@@ -365,24 +352,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     var supportChat = function(args) {
       var message;
-      if(args[0]=='hideVisitorScreen'){
-        document.getElementById('iframeDiv').style.display = "none";
-        chatBox.style.display = "none";
-        return
-      }
-      else if(args[0]=='ShowVisitorScreen'){
-        document.getElementById('iframeDiv').style.display = "block";
-        chatBox.style.display = "block";
-        return
-      }else if(args[0]=='calledToShowVisitorVideo'){
-        setIframeToNormal()
-        getFrameContent.postMessage('rotateIcons','*')
-        return
-      }else if(args[0]=='calledToHideVisitorVideo'){
-        setIframeRotated()
-        getFrameContent.postMessage('rotateIcons','*')
-        return
-      }
 
       if (args[0]=='T') {
         isAgentOnline = true;
@@ -450,48 +419,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         messageBox.appendChild(div);
         scroll();
         return
-      }else if (args[0]=='visitor_file_saved') {
-        if (videoOpened) {
-          clearTimeout(timeoutForHidingFrameVid);
-          document.getElementById('iframeDiv').style.display="none"
-          videoSection.style.display = "none";
-          chatBox_content.style.marginTop = "0";
-          var frame = document.getElementById('iframeDiv');
-          if (frame.contentWindow!=undefined || frame.contentDocument!=undefined) {
-            frameDoc = frame.contentDocument || frame.contentWindow.document;
-            frameDoc.removeChild(frameDoc.documentElement);
-          }
-          frame.src=''
-          var iFrame = document.getElementById('iFrame1')
-          if (iFrame) {
-            iFrame.src = '';
-            if (device=='sm') {
-              videoSection.innerHTML = "";
-              videoSection.style.display = "none";
-              chatBox_content.style.marginTop = "0";
-            }else {
-              chatBox_header.style.borderRadius = header_bor_rad_no_vid;
-              chatBox_footer.style.borderRadius = footer_bor_rad_no_vid;
-              var iframeDiv = document.getElementById('iframeDiv')
-              iframeDiv.parentNode.removeChild(iframeDiv);
-            }
-            videoOpened = false;
-            videoWaiting = false;
-          }
-        }
-        if (audioOpened) {
-          clearTimeout(timeoutForHidingFrameAud);
-          var iFrame = document.getElementById('iFrame1')
-          if (iFrame) {
-            console.log('audio call iframe removed');
-            iFrame.src = '';
-            audioSection.innerHTML = "";
-            audioSection.style.display = "none";
-            chatBox_content.style.marginTop = "0";
-            audioOpened = false;
-            audioWaiting = false;
-          }
-        }
       }
 
       if (args[0]=='M' || args[0]=='MF' || args[0]=='ML' || args[0]=='F') {
@@ -524,20 +451,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       return uid
     }
 
-    function audioVideoState() {
-      if (document.getElementById("videoSection").children.length>0 || (document.getElementById("iframeDiv") != null && document.getElementById("iframeDiv").children.length > 0)) {
-        if (document.getElementById("iframeDiv").style.display != "none") {
-          return "video";
-        }else{
-          return "";
-        }
 
-      }else if (document.getElementById("audioSection").children.length>0) {
-        return "audio"
-      }else{
-        return ""
-      }
-    }
     function getLoggedInStatus(args){
       if (CHATTER_LOGGED_IN != undefined) {
         return CHATTER_LOGGED_IN;
@@ -633,16 +547,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         console.log("failed to subscribe: service.support.createDetailCookie");
       }
     );
-
-    session.register(wamp_prefix+'service.support.videoOrAudioStatus.'+uid, audioVideoState).then(
-      function (res) {
-        console.log("registered to service.support.videoOrAudioStatus'");
-      },
-      function (err) {
-        console.log("failed to register: service.support.videoOrAudioStatus" + err);
-      }
-    );
-
 
     session.register(wamp_prefix+'service.support.heartbeat.'+uid, heartbeat).then(
       function (res) {
@@ -800,25 +704,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     modal.style.display = "block";
   }
 
-  function activeVideoCall(){
-    winCol = windowColor.split('#')[1]
-    urlforConferenceForAgent= webRtcAddress +'/'+uid+'?audio_video=video&windowColor='+winCol+'&agent=true';
-    urlforConference =  webRtcAddress +'/' +uid+'?audio_video=video&windowColor='+winCol+'&agent=false';
-    if (device=='sm') {
-      urlforConferenceForAgent = urlforConferenceForAgent + '&userMob=true'
-      urlforConference = urlforConference + '&userMob=true'
-    }
-    streamTyp='video'
-   openVideoAudioIframe(urlforConference , urlforConferenceForAgent,streamTyp)
-  }
-  function activeAudioCall(){
-    winCol = windowColor.split('#')[1]
-    urlforConferenceForAgent= webRtcAddress +'/' +uid+'?audio_video=audio&windowColor='+winCol+'&agent=true';
-    urlforConference =  webRtcAddress +'/' +uid+'?audio_video=audio&windowColor='+winCol+'&agent=false';
-    streamTyp='audio'
-    openVideoAudioIframe(urlforConference , urlforConferenceForAgent , streamTyp)
-  }
-
   function reachChatBoxForInfo(){
     connection.session.publish(wamp_prefix+'service.support.agent.'+agentPk, [uid , 'CustmorClosedTheChat' ] , {}, {
       acknowledge: true
@@ -833,63 +718,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var videoOpened = false
   var audioOpened = false
   var getFrameContent;
-  var openVideoAudioIframe =   function(urlforConference , urlforConferenceForAgent, streamTyp){
-    if (videoOpened || audioOpened) {
-      return
-    }
-    if (streamTyp=='video') {
-      var body = document.getElementsByTagName("BODY")[0]
-      var iframeDiv = document.createElement('div')
-      iframeDiv.id = "iframeDiv";
-      iframeDiv.style.position = "fixed";
-      iframeDiv.style.height = "70vh";
-      iframeDiv.style.width = "50%";
-      iframeDiv.style.bottom = "85px";
-      if (sideOfChatBox=='right') {
-        iframeDiv.style.right = "400px";
-      }else {
-        iframeDiv.style.left = "400px";
-      }
-      iframeDiv.style.animation = "moveInFront 0.6s"
-      iframeDiv.style.boxShadow='-5px -5px 10px rgb(0,0,0,0.2)';
-      chatBox_header.style.borderRadius = header_bor_rad_active_vid; // header
-      chatBox_footer.style.borderRadius = foot_bor_rad_active_vid // footer
-    }
-
-
-    var iFrame = document.createElement('iframe');
-    iFrame.id = "iFrame1"
-    iFrame.src = urlforConference;
-    iFrame.style.width = "100%";
-    iFrame.scrolling = "no";
-    iFrame.style.height = "100%";
-    iFrame.style.border='none';
-    if (videoOpened) {
-      iFrame.style.borderRadius='7px 0px 0px 7px';
-    }
-    iFrame.setAttribute('allowFullScreen', '')
-    iFrame.setAttribute('allow','geolocation; microphone; camera')
-    setTimeout(function () {
-        getFrameContent = document.getElementById("iFrame1").contentWindow;
-    }, 1000);
-
-    if (streamTyp=='audio') {
-      audioSection.appendChild(iFrame)
-      audioSection.style.display = "block";
-      chatBox_content.style.marginTop = "40px";
-      // console.log(messageBox.style,'messageBoxmessageBoxmessageBoxmessageBox');
-    }else {
-
-      if (device=='sm') {
-        videoSection.style.display = "block";
-        videoSection.appendChild(iFrame)
-        chatBox_content.style.marginTop = "200px"
-      }else if (device=='lg') {
-        iframeDiv.appendChild(iFrame)
-        body.appendChild(iframeDiv)
-      }
-    }
-  }
+  
   singleService.style.display = "none";
   function checkCookie() {
     uid = getCookie("uid");
@@ -1717,31 +1546,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
   videoBtn.addEventListener("click",function(){
 
 
-    if(isConfirmedToEnd){
-      alert('start new chat')
-      return
-    }
-    videoSet=true
-    audioBtn.style.display='none'
-    isVideoClicked=!isVideoClicked
-    if(isVideoClicked){
-      videoOpened=false;
-      countForFrameContent++;
-      activeVideoCall();
-      if(countForFrameContent>1){
-        getFrameContent.postMessage('refreshIframeVistorSide',webRtcAddress);
-      }
-    }else{
-      var iframeDiv = document.getElementById('iframeDiv')
-      iframeDiv.parentNode.removeChild(iframeDiv);
-
-      if (videoOpened) {
-        createLogs('video call ended')
-      }
-      deactivateVideoFrame()
-      hideTheIframeOnAgentSide()
-    }
-    togglingActive(videoBtn,isVideoClicked,'video')
+    
+    // togglingActive(videoBtn,isVideoClicked,'video')
   })
 
   videoCircle.addEventListener('click',function () {
@@ -1757,42 +1563,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var countForFrameContent=0;
 
   audioBtn.addEventListener("click",function(){
-
-    audioSet=true
-    if(isConfirmedToEnd){
-      alert('start new chat')
-      return
-    }
-
-    if(isVideoClicked){
-      alert('Video call is Active')
-      return
-    }
-    isAudioClicked=!isAudioClicked
-    videoBtn.style.display='none';
-    if(isAudioClicked){
-      countForFrameContent++;
-      activeAudioCall()
-      if(countForFrameContent>1){
-        getFrameContent.postMessage('refreshIframeVistorSide',webRtcAddress);
-      }
-    }else{
-      deactivateAudioFrame()
-      hideTheIframeOnAgentSide()
-    }
     togglingActive(audioBtn,isAudioClicked,'audio')
   })
 
-  function hideTheIframeOnAgentSide(){
-    connection.session.publish(wamp_prefix+'service.support.agent.'+agentPk, [uid , 'hideTheIframe' ] , {}, {
-      acknowledge: true
-    }).
-    then(function(publication) {
-      console.log("called service.supoort.agent with "+agentPk+" to hide the Iframe on agent side" );
-    },function(err){
-      console.log("unable to call service.supoort.agent with "+agentPk+" to hide the Iframe on agent side" );
-    });
-  }
   function hideAudioAndVidoeBtn(){
     videoBtn.style.display='none'
     audioBtn.style.display='none'
@@ -1869,18 +1642,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
       var confBox = document.getElementById('confirmationBox')
       confBox.parentNode.removeChild(confBox);
-      if (audioOpened && !audioWaiting) {
-        audioBtn.click()
-      }
-      if (videoOpened && !videoWaiting) {
-        videoBtn.click()
-      }
       isConfirmedToEnd=true
 
-          if (threadExist==undefined) {
-            return
-          }
-          endChat();
+      if (threadExist==undefined) {
+        return
+      }
+      endChat();
     });
   }
 
@@ -2073,17 +1840,35 @@ document.addEventListener("DOMContentLoaded", function(event) {
       var div = document.createElement("div");
       div.setAttribute("id", "first_msg")
       if (chat.messages[i].message=="first") {
-        firstMessage = firstMessage.replaceAll("&lt;",'<')
-        firstMessage = firstMessage.replaceAll("&gt;",">")
         firstMessage = firstMessage.replaceAll("<a","<a style="+'color:var(--windowColor) !important;text-decoration:none')
         firstMessage = firstMessage.replaceAll("<li>","<li style='list-style:none'>")
-          div.innerHTML = '<div style="margin:0px 0px 10px; box-sizing:border-box;" >'+
-                  '<div style="clear: both; float:left; background-color:#f6f6f6 !important; padding:5px 10px;margin:8px; border-radius:5px; box-sizing:border-box;font-size:14px;text-align: initial !important;">'+
-                     firstMessage+
-                  '</div> '+
-                '</div> '
+        div.innerHTML = '<div style="margin:0px 0px 10px; box-sizing:border-box;" >'+
+          '<div style="clear: both; float:left; background-color:#f6f6f6 !important; padding:5px 10px;margin:8px; border-radius:5px; box-sizing:border-box;font-size:14px;text-align: initial !important;">'+
+              firstMessage+
+          '</div> '+
+        '</div> '
       }else {
         div.innerHTML = messageDiv(chat.messages[i])
+      }
+
+      var productsArr = [
+        {image : 'https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png' , title : 'A product Title' , subTitle : '$20 only'},
+        {image : 'https://systunix.com/media/POS/productV2/1591031671_11_covid-safety-key-500x500.jpg' , title : 'second Title' , subTitle : '$20 only'},
+        {image : 'https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png' , title : 'A product Title' , subTitle : '$20 only'},
+      ]
+
+      var scrollProds = '<div class="scrollView">'
+      for (let j = 0; j < productsArr.length; j++) {
+        const prod = productsArr[j];
+        scrollProds += '<div class="prodView prodId'+j+'"><img src="'+ prod.image +'"><br><span class="prodHeading">'+ prod.title +'</span><br><span class="prodSubHeading">'+ prod.subTitle +'</span></div>'
+      }
+      scrollProds += '</div>'
+
+      console.log(scrollProds);
+      div.innerHTML = scrollProds;
+      div.onclick = function(evt){
+        console.log(evt.target)
+        sendMessage(evt.target.className);
       }
       messageBox.appendChild(div);
     }
@@ -2128,18 +1913,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
       spying(this.value)
     }
   });
-
-  var patchLocationToChatThread=function(chatThreadPk,dataToSend){
-    var xhttp = new XMLHttpRequest();
-     xhttp.onreadystatechange = function() {
-       if (this.readyState == 4 && this.status == 200) {
-         console.log(this.responseText);
-       }
-     };
-     xhttp.open('PATCH', '{{serverAddress}}/api/chatbot/chatThread/'+ chatThreadPk + '/', true);
-     xhttp.setRequestHeader("Content-type", "application/json");xhttp.setRequestHeader("X-CSRFToken", csrfToken);
-     xhttp.send(JSON.stringify({'location':dataToSend}));
-  }
 
   function sendMessage(inptText, is_agent, is_hidden) {
       inputText.value = ''

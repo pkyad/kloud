@@ -368,7 +368,7 @@ app.controller('projectManagement.project.issues', function($scope, $http, $asid
 
 })
 
-app.controller('projectManagement.project.tasks', function($scope, $http, $aside, $state, Flash, $users, $filter,  $uibModal) {
+app.controller('projectManagement.project.tasks', function($scope, $http, $aside, $state, Flash, $users, $filter,  $uibModal, $interval) {
 
   $scope.getPeopleTextRaw = function(item) {
              return '@' + item.username;
@@ -434,6 +434,8 @@ app.controller('projectManagement.project.tasks', function($scope, $http, $aside
 
    $scope.addNewSubTask = function(indx , newSubTasksSeries) {
 
+     console.log(indx , newSubTasksSeries);
+
      if (newSubTasksSeries) {
        var dataToSend = {title : $scope.form.subTaskTxt , task : $scope.tasks[indx].pk  }
      }else{
@@ -482,6 +484,179 @@ app.controller('projectManagement.project.tasks', function($scope, $http, $aside
    }
 
    $scope.tasks = [ ]
+
+  $scope.updateTaskTitle = function(pk , txt) {
+    $http({method : 'PATCH' , url : '/api/taskBoard/task/' + pk  + '/' , data : {title : txt}}).
+    then(function(response) {
+
+    })
+  }
+
+  $scope.markSubTask = function(pk , indx , taskIndx , status) {
+
+   console.log(pk , indx , taskIndx , status);
+
+   if (status == 'notStarted') {
+     var sts = 'complete';
+   }else{
+     var sts = 'notStarted';
+   }
+
+   $http({method : 'PATCH' , url : '/api/taskBoard/subTask/' + pk  +'/' ,data: {status : sts}} ).
+   then((function(indx, taskIndx) {
+     console.log(indx , taskIndx);
+     return function(response) {
+       $scope.tasks[taskIndx].subTasks[indx].status = response.data.status;
+     }
+   })(indx, taskIndx))
+  }
+
+  $scope.markTask = function(indx , pk , completion) {
+    if (completion>0) {
+      var cmp = 0;
+    }else{
+      var cmp = 100;
+    }
+    $http({method : 'PATCH' , url : '/api/taskBoard/task/' + pk +'/' , data : {completion : cmp }  }).
+    then((function(indx) {
+      return function(response) {
+        $scope.tasks[indx].completion = response.data.completion;
+      }
+    })(indx))
+  }
+
+
+  $scope.openFile = function(file) {
+    window.open(file.attachment , '_blank');
+  }
+
+
+  $interval(function() {
+    for (var i = 0; i < $scope.tasks.length; i++) {
+      if ($scope.tasks[i].timerStartedAt != null) {
+        $scope.tasks[i].timerStr = diff_human_readable(new Date(), $scope.tasks[i].timerStartedAt , $scope.tasks[i].timeSpent)
+      }
+    }
+  },1000)
+
+  $scope.startTask = function(indx) {
+
+
+    for (var i = 0; i < $scope.tasks.length; i++) {
+      if ($scope.tasks[i].timerStartedAt != null) {
+        Flash.create('warning' , 'Another task already running')
+        return;
+      }
+    }
+
+
+
+    var task = $scope.tasks[indx];
+    if (task.timerStartedAt == null) {
+      $http({method : 'PATCH' , url : '/api/taskBoard/task/' + task.pk +'/', data : {timerStartedAt : new Date()}}).
+      then((function(indx) {
+        return function(response) {
+          $scope.tasks[indx].timerStartedAt = new Date();
+        }
+      })(indx))
+    }
+  }
+
+
+  $scope.stopTask = function(indx) {
+    var task = $scope.tasks[indx];
+
+    if (task.timerStartedAt != null) {
+      $http({method : 'PATCH' , url : '/api/taskBoard/task/' + task.pk + '/', data : {timerStartedAt : null, timeSpent : task.timeSpent + diff_minutes(task.timerStartedAt , new Date()) }}).
+      then((function(indx) {
+        return function(response) {
+          $scope.tasks[indx].timerStartedAt = null;
+          $scope.tasks[indx].timeSpent = response.data.timeSpent;
+        }
+      })(indx))
+    }
+  }
+
+
+  $scope.openTask = function(task) {
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.taskBoard.task.html',
+      placement: 'right',
+      size: 'md',
+      backdrop: true,
+      controller: function($scope , $uibModalInstance , task , $filter  ) {
+        $scope.task = task;
+        $scope.form = {files : []}
+
+        $scope.$watch('task.dueDate' , function(newValue , oldValue) {
+          $http({
+            method: 'PATCH',
+            url: '/api/taskBoard/task/'+ $scope.task.pk + '/',
+            data: {dueDate : $filter('date')($scope.task.dueDate ,'yyyy-MM-dd HH:mm') },
+          }).then(function(response) {
+            // $scope.task.dueDate = response.data.files;
+          })
+        });
+
+        $scope.deleteFile = function(indx) {
+          $http({method : 'DELETE' , url : '/api/taskBoard/media/' + $scope.task.files[indx].pk + '/'   }).
+          then((function(indx) {
+            $scope.task.files.splice(indx , 1);
+          })(indx))
+        }
+
+
+        $scope.$watch('form.files' , function(newValue , oldValue) {
+          if (newValue.length > 0) {
+            var fd = new FormData();
+            fd.append('filesCount' , $scope.form.files.length)
+
+            for (var i = 0; i < $scope.form.files.length; i++) {
+              fd.append('file'+ i , $scope.form.files[i])
+            }
+
+            $http({
+              method: 'PATCH',
+              url: '/api/taskBoard/task/'+ $scope.task.pk + '/',
+              data: fd,
+              transformRequest: angular.identity,
+              headers: {
+                'Content-Type': undefined
+              }
+            }).then(function(response) {
+              $scope.task.files = response.data.files;
+            })
+          }
+        })
+
+        $scope.deleteTask = function() {
+          $http({method : 'DELETE' , url : '/api/taskBoard/task/' + $scope.task.pk  + '/'}).
+          then(function(response) {
+            $uibModalInstance.dismiss();
+          })
+        }
+      },
+      resolve: {
+        task: function() {
+          return task;
+        }
+      }
+    }).result.then(function() {
+      $scope.fetchTasks();
+    }, function() {
+      $scope.fetchTasks();
+    })
+
+  }
+
+
+  $scope.updateSubTaskTitle = function(pk , txt) {
+    $http({method : 'PATCH' , url : '/api/taskBoard/subTask/' + pk  + '/' , data : {title : txt}}).
+    then(function(response) {
+
+    })
+  }
+
 });
 
 var parseNotifications = function(notifications) {
@@ -508,6 +683,33 @@ var parseNotifications = function(notifications) {
 
 
 app.controller('projectManagement.projects.project.explore', function($scope, $http, $aside, $state, Flash, $users, $filter,  $uibModal) {
+
+  $scope.form = {
+    'icon': emptyFile,
+  }
+
+  $scope.$watch('project.icon', function(newValue, oldValue) {
+    if (typeof newValue == 'object') {
+      // show the preview and save the logo
+      // logo
+      var fd = new FormData();
+      if (newValue != emptyFile && newValue != null && typeof newValue!='string') {
+        fd.append('icon', newValue)
+      }
+      $http({
+        method: 'PATCH',
+        url: '/api/projects/project/' + $state.params.id + '/',
+        data: fd,
+        transformRequest: angular.identity,
+        headers: {
+          'Content-Type': undefined
+        }
+      }).
+      then(function(response) {
+        $scope.project.icon = response.data.icon;
+      })
+    }
+  })
 
 
   $http({

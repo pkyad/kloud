@@ -24,7 +24,7 @@ from marketing.models import TourPlan
 from HR.models import ExitManagement, Appraisal
 from finance.models import *
 from django.db.models import Sum, Count
-from finance.serializers import InvoiceLiteSerializer
+from finance.serializers import ExpenseLiteSerializer
 
 from reportlab import *
 from reportlab.pdfgen import canvas
@@ -270,10 +270,10 @@ class MyApprovalsAPIView(APIView):
                 dp = '/static/images/userIcon.png'
             val['dp'] = dp
             invoice_total = 0
-            invoices = Invoice.objects.filter(sheet = i)
+            invoices = Expense.objects.filter(sheet = i)
             invoice_total = invoices.aggregate(Sum('amount'))
             val['invoice_total'] = invoice_total['amount__sum']
-            val['invoices'] = InvoiceLiteSerializer(invoices,many=True).data
+            val['invoices'] = ExpenseLiteSerializer(invoices,many=True).data
             try:
                 designation = i.user.profile.designation.role.name
             except:

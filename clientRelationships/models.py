@@ -165,6 +165,7 @@ class Contract(models.Model): # invoices actually
     termsAndConditionTxts = models.TextField(max_length = 10000 , null = True, blank = True)
     discount = models.FloatField(default=0)
     heading = models.CharField(max_length = 300 , null = True)
+    division = models.ForeignKey(Division , related_name='quotations' , null = True)
 
 
 @receiver(pre_save, sender=Contract)
@@ -288,8 +289,17 @@ class ContractTracker(models.Model):
     termsAndConditionTxts = models.TextField(max_length = 10000 , null = True, blank = True)
     heading = models.CharField(max_length = 300 , null = True)
 
+class ConfigureTermsAndConditions(models.Model):
+    created = models.DateTimeField(auto_now_add = True)
+    body = models.TextField(max_length=3000 , null=True)
+    heading = models.TextField(max_length=100 , null=True)
+    default = models.BooleanField(default = False)
+    division = models.ForeignKey(Division , related_name='termsandconditions' , null = True)
+
+
 TICKET_CHOICES = (
     ('created' , 'created'),
+    ('upcoming' , 'upcoming'),
     ('assigned' , 'assigned'),
     ('ongoing' , 'ongoing'),
     ('completed' , 'completed'),
@@ -340,3 +350,4 @@ class ServiceTicket(models.Model):
     postponeCount = models.PositiveIntegerField(default = 0)
     engineersNotes = models.TextField(max_length=850 , null= True)
     division =  models.ForeignKey(Division , related_name='tickets' , null = True)
+    serviceType =  models.CharField(max_length=150 , null= True)

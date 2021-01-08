@@ -5,8 +5,11 @@ from rest_framework.exceptions import *
 from .models import *
 from ERP.zoomapi import *
 from ERP.models import service
+from HR.models import service
 from marketing.models import  Contacts
 from clientRelationships.models import Contact
+from HR.serializers import *
+from notes.models import *
 import datetime
 import pytz
 import math
@@ -149,3 +152,156 @@ class calendarSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+class userProfileLiteSerializer(serializers.ModelSerializer):
+    # to be used in the typehead tag search input, only a small set of fields is responded to reduce the bandwidth requirements
+    class Meta:
+        model = profile
+        fields = ('displayPicture' , 'prefix' ,'pk','mobile','lat','lon','isDashboard','isManager','zoom_token')
+class userSearchSerializer(serializers.ModelSerializer):
+    profile = userProfileLiteSerializer(many=False , read_only=True)
+    logo = serializers.SerializerMethodField()
+    division = serializers.SerializerMethodField()
+    class Meta:
+        model = User
+        fields = ( 'pk', 'username' , 'first_name' , 'last_name' , 'profile' , 'designation', 'email' ,'logo','is_staff','last_login','division')
+    def get_logo(self, obj):
+        return globalSettings.BRAND_LOGO
+    def get_division(self, obj):
+        return obj.designation.division.pk
+
+class chatMessageSerializer(serializers.ModelSerializer):
+    user = userSearchSerializer(read_only=True,many=False)
+    class Meta:
+        model = ChatMessage
+        fields = ('pk' , 'thread' ,'uid', 'attachment' , 'created' , 'read' , 'user','message','attachmentType','sentByAgent','responseTime','logs','delivered','read','is_hidden','fileType','fileSize','fileName')
+    def create(self , validated_data):
+        im = ChatMessage.objects.create(**validated_data)
+        im.user = self.context['request'].user
+        try:
+            im.attachment = self.context['request'].FILES['attachment']
+        except:
+            pass
+        try:
+            im.attachment = self.context['request'].FILES['attachment']
+            if im.attachment.name.endswith('.pdf'):
+                im.fileType = 'pdf'
+            elif im.attachment.name.endswith('.png') or  im.attachment.name.endswith('.jpg') or  im.attachment.name.endswith('.jpeg'):
+                im.fileType = 'image'
+            elif im.attachment.name.endswith('.doc') or  im.attachment.name.endswith('.docs') or im.attachment.name.endswith('.docx'):
+                im.fileType = 'word'
+            elif im.attachment.name.endswith('.ppt') or  im.attachment.name.endswith('.pptx'):
+                im.fileType = 'ppt'
+            elif im.attachment.name.endswith('.xlsx') or im.attachment.name.endswith('.xls'):
+                im.fileType = 'xl'
+            im.fileSize =  im.attachment.size
+            im.fileName = im.attachment.name
+        except:
+            pass
+        # if im.originator == im.user:
+        #     im.delete()
+        #     raise ParseError(detail=None)
+        # else:
+        if 'user' in self.context['request'].data:
+            im.thread = ChatThread.objects.get(pk=self.context['request'].data['user'])
+        im.save()
+        return im
+
+
+class ChatThreadsSerializer(serializers.ModelSerializer):
+    participants = userSearchSerializer(read_only=True,many=True)
+    name = serializers.SerializerMethodField()
+    # agent_dp = serializers.SerializerMethodField()
+    # companyName = serializers.SerializerMethodField()
+    class Meta:
+        model = ChatThread
+        fields = ( 'pk' , 'created' , 'title', 'participants' , 'description','dp','lastActivity','isLate','visitor','uid','status','customerRating','customerFeedback','company','userDevice','location','userDeviceIp','firstResponseTime','typ','userAssignedTime','firstMessage','receivedBy','channel','transferred','fid','closedOn','closedBy','name','user')
+    def get_name(self , obj):
+        if obj.uid != None:
+            if obj.visitor == None:
+                name = obj.uid
+            else:
+                name = obj.vistor.name
+        else:
+            if obj.title == None:
+                name = obj.participants.exclude(pk = self.context['request'].user.pk)[0].first_name
+            else:
+                name = obj.title
+        return name
+
+
+    def create(self ,  validated_data):
+        c = ChatThread(**validated_data)
+        
+        if 'company' in self.context['request'].data :
+            c.company = Division.objects.get(pk=int(self.context['request'].data['company']))
+        c.save()
+        return c
+    def update(self ,instance, validated_data):
+
+
+        for key in ['status' , 'customerRating' , 'customerFeedback' , 'company','typ','isLate','location', 'visitor','participants','title',  'description']:
+            try:
+                setattr(instance , key , validated_data[key])
+            except:
+                pass
+        if 'visitor' in self.context['request'].data:
+            instance.visitor = Contacts.objects.get(pk=int(self.context['request'].data['visitor']))
+
+
+
+
+
+        if 'participants' in  self.context['request'].data:
+            instance.participants.clear()
+            tagged = self.context['request'].data['participants']
+            for tag in tagged:
+                instance.participants.add( User.objects.get(pk = tag))
+
+
+        instance.save()
+
+        # if 'email' in self.context['request'].data:
+        #     print 'getting email here' , self.context['request'].data['email']
+        #     email = self.context['request'].data['email']
+        #     uid = instance.uid
+        #     vObj = Visitor.objects.filter(uid = uid)
+        #     if len(vObj)>0:
+        #         print 'hree'
+        #         vObj[0].email = email
+        #         vObj[0].save()
+        #     else:
+        #         v = Visitor.objects.create(uid = uid , email = email)
+        #
+        #         v.save()
+
+        return instance
+
+
+class NotebookFullSerializer(serializers.ModelSerializer):
+    user = userSearchSerializer(many=False , read_only=True)
+    class Meta:
+        model = notebook
+        fields = ('created', 'title', 'source', 'shares', 'type', 'locked', 'user', 'pk')
+        read_only_fields = ('shares' , )
+    def create(self , validated_data):
+        notesObj = notebook(**validated_data)
+        user = self.context['request'].user
+        notesObj.user = user
+        notesObj.division = user.designation.division
+        notesObj.save()
+        return notesObj
+
+    def update(self , instance, validated_data):
+        if 'shares' in self.context['request'].data:
+            instance.shares.clear()
+            for sharedWith in self.context['request'].data['shares']:
+                instance.shares.add(User.objects.get(pk = sharedWith))
+        if 'source' in self.context['request'].data:
+            instance.source =  self.context['request'].data['source']
+            instance.save()
+        return instance
+
+class NotesLiteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = notebook
+        fields = ('pk', 'title')

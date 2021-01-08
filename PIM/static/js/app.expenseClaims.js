@@ -227,7 +227,7 @@ app.controller('controller.home.expense.claims', function($scope, $http, $aside,
             fd.append('description', f.description);
           $http({
             method: 'POST',
-            url: '/api/finance/invoices/',
+            url: '/api/finance/expense/',
             data: fd,
             transformRequest: angular.identity,
             headers: {
@@ -459,7 +459,7 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
     //   Flash.create('danger', 'Description Is Required');
     //   return
     // }
-    var url = '/api/finance/invoices/';
+    var url = '/api/finance/expense/';
     var method = 'POST';
     if ($scope.invoiceForm.pk) {
       method = 'PATCH';
@@ -499,7 +499,7 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
   $scope.approveInvoice = function(indx){
     console.log($scope.form.unapproved[indx]);
     if ($scope.form.unapproved[indx].accepted) {
-        var url = '/api/finance/invoices/'+$scope.form.unapproved[indx].pk+'/';
+        var url = '/api/finance/expense/'+$scope.form.unapproved[indx].pk+'/';
         var method = 'PATCH';
         $http({
           method: method,
@@ -520,7 +520,7 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
   $scope.undo = function(indx){
     console.log($scope.form.invoices[indx]);
     // if ($scope.form.invoices[indx].accepted) {
-        var url = '/api/finance/invoices/'+$scope.form.invoices[indx].pk+'/';
+        var url = '/api/finance/expense/'+$scope.form.invoices[indx].pk+'/';
         var method = 'PATCH';
         $http({
           method: method,
@@ -563,7 +563,7 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
   $scope.deleteInvoice = function(ind, pk) {
     $http({
       method: 'DELETE',
-      url: '/api/finance/invoices/' + pk + '/'
+      url: '/api/finance/expense/' + pk + '/'
     }).
     then((function(ind) {
       return function(response) {
@@ -597,7 +597,7 @@ app.controller('home.expenseSheet.invoiceView', function($scope, $http, input) {
     console.log($scope.invoice.pk);
     $http({
       method: 'PATCH',
-      url: '/api/finance/invoices/' + $scope.invoice.pk + '/',
+      url: '/api/finance/expense/' + $scope.invoice.pk + '/',
       data: {
         approved: newValue
       }
@@ -951,7 +951,7 @@ app.controller('home.expense.claims.form', function($scope, $http, Flash, mode, 
   $scope.deleteInvoice = function(ind, pk) {
     $http({
       method: 'DELETE',
-      url: '/api/finance/invoices/' + pk + '/'
+      url: '/api/finance/expense/' + pk + '/'
     }).
     then((function(ind) {
       return function(response) {
@@ -1000,7 +1000,7 @@ app.controller('home.expense.claims.form', function($scope, $http, Flash, mode, 
       Flash.create('danger', 'Description Is Required');
       return
     }
-    var url = '/api/finance/invoices/';
+    var url = '/api/finance/expense/';
     var method = 'POST';
     if ($scope.invoiceForm.pk) {
       method = 'PATCH';

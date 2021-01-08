@@ -117,7 +117,7 @@ class ChatThread(models.Model):
     fid = models.CharField(max_length = 50 , null = True )
     closedOn = models.DateTimeField(null = True, blank=True)
     closedBy = models.ForeignKey(User , related_name = 'closedUser' , null = True, blank=True)
-
+    user = models.ForeignKey(User , related_name='externalChatThreads' , null = True)
 
 MSG_TYPE_CHOICES = (
     ('text' , 'text'),

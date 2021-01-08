@@ -174,9 +174,13 @@ class PageNumCanvas(canvas.Canvas):
         p.drawOn(self, 100 * mm, 10 * mm)
 
     def drawLetterHeadFooter(self):
-        settingsFields = application.objects.get(name='app.CRM').settings.all()
-        if self.contract.termsAndCondition.themeColor is not None:
+        # settingsFields = application.objects.get(name='app.CRM').settings.all()
+        if self.contract.termsAndCondition is not None and self.contract.termsAndCondition.themeColor is not None:
             themeColor = colors.HexColor(self.contract.termsAndCondition.themeColor)
+        else:
+            termsObj = CRMTermsAndConditions.objects.filter(division = self.division)
+            if termsObj.count()>0:
+                themeColor = colors.HexColor(termsObj.first().themeColor)
         self.setStrokeColor(themeColor)
         self.setFillColor(themeColor)
         self.rect(0, 0, 1500, 3, fill=True)
@@ -219,7 +223,7 @@ class PageNumCanvas(canvas.Canvas):
         ima = Image(f)
         ima.drawHeight = 0.8*inch
         ima.drawWidth = 1*inch
-        ima.hAlign = 'CENTER'
+        ima.hAlign = 'RIGHT'
         tab5 = Table([[ima]])
         tab5.wrapOn(self, 1 * mm, self._pagesize[1] - 25 * mm)
         tab5.drawOn(self, 1 * mm, self._pagesize[1] - 25 * mm)
@@ -263,9 +267,15 @@ from num2words import num2words
 
 
 def genInvoice(response, contract, request):
+    divsn = request.user.designation.division
+    unt  = request.user.designation.unit
 
-    if contract.termsAndCondition.themeColor is not None:
+    if contract.termsAndCondition is not None and contract.termsAndCondition.themeColor is not None:
         themeColor = colors.HexColor(contract.termsAndCondition.themeColor)
+    else:
+        termsObj = CRMTermsAndConditions.objects.filter(division = divsn)
+        if termsObj.count()>0:
+            themeColor = colors.HexColor(termsObj.first().themeColor)
     MARGIN_SIZE = 8 * mm
     PAGE_SIZE = A4
 
@@ -724,14 +734,18 @@ def genInvoice(response, contract, request):
     tncPara = "<font size='9'><strong>Terms and Conditions:</strong></font>"
 
     story.append(Paragraph(tncPara, styleN))
-    if contract.termsAndCondition is not None and contract.termsAndCondition.body is not None:
+    if contract.termsAndConditionTxts is not None and len(contract.termsAndConditionTxts)>0:
+        tncBody = contract.termsAndConditionTxts
+    elif contract.termsAndCondition is not None and contract.termsAndCondition.body is not None:
         tncBody = contract.termsAndCondition.body
-
-    if contract.termsAndConditionTxts is not None:
-        for i , cond in enumerate(contract.termsAndConditionTxts.split('||')):
-            bullts += "<strong>%s.</strong> %s <br/>"%(i+1 , cond)
-        story.append(Paragraph(bullts, styleN))
     else:
+        termsObj = CRMTermsAndConditions.objects.filter(division = divsn)
+        if termsObj.count()>0:
+            tncBody = termsObj.first().body
+
+    # print contract.termsAndConditionTxts, 'contract.termsAndConditionTxts'
+
+    if tncBody is not None:
         for i , cond in enumerate(tncBody.split('||')):
             bullts += "<strong>%s.</strong> %s <br/>"%(i+1 , cond)
         story.append(Paragraph(bullts, styleN))
@@ -764,7 +778,7 @@ def genInvoice(response, contract, request):
     #
     #     story.append(Paragraph(para11, styleN))
 
-    if contract.termsAndCondition.message is not None:
+    if contract.termsAndCondition is not None and contract.termsAndCondition.message is not None:
 
         para11 = '''
         <para align="left">

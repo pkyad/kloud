@@ -1,0 +1,72 @@
+<div class="container-fluid" style="padding:0px;">
+  <div class="modal-body" style="height:500px;overflow-y:scroll;padding:0px;">
+    <div class="" style="position: fixed;z-index: 1;width: 100%;">
+      <div class="row" style="padding:10px;background-color: #009688;margin: 0px;">
+        <div class="col-md-2">
+          <i class="fa fa-times" ng-click="close()" style="color:white;font-size:20px;"></i>
+        </div>
+        <div class="col-md-9 text-center">
+          <p style="color:white;">Add Participants</p>
+
+        </div>
+      </div>
+      <div class="row" style="margin:0px;background-color:#f6f6f6;padding:10px;">
+        <div class="form-group" style="margin:0px;">
+          <i class="fa fa-search " style="position:absolute;padding:11px;color: #777;font-size: 14px;"></i>
+          <input class="form-control searchInp" type="text" ng-enter="getUsers()" ng-model="form.searchTxt" placeholder="Search..." style="border:none;padding:1rem 4rem ; border-radius:20px;width:100%;">
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="" >
+      <div class="row" style="margin:0px;margin-top:110px;z-index: 9999">
+        <div  ng-repeat="k in data track by $index" style="display: flex;margin: 10px;">
+          <div class="" style="display: flex;background-color:#e6e6e6;padding: 5px;border-radius: 30px;">
+            <span>
+              <i class="fa fa-user" aria-hidden="true" style="color:white"></i>
+              {{k.first_name}}   {{k.last_name}}
+              <i class="fa fa-times" aria-hidden="true" style="color:white" ng-click="k.add=false;adduser($index)"></i>
+          </span>
+          </div>
+        </div>
+      </div>
+      <div class="row" ng-repeat="u in allUsers track by $index" style="margin:0px" >
+        <div class="col-md-1">
+          <div class="form-group">
+            <input type="checkbox"  name="{{u.first_name}} {{u.last_name}}" ng-model="u.add" value="{{u.pk}}" ng-click="adduser($index)">
+          </div>
+
+        </div>
+        <div class="col-md-2 text-right" style="padding:0px;">
+          <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
+        </div>
+        <div class="col-md-8" style="font-size: 1vw;">
+          <div class="row" style="margin:0px;border-bottom:1px solid #ccc;height:60px;">
+            <div class="">
+              <h5>
+                {{u.first_name}} {{u.last_name}}
+
+              </h5>
+
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="row" style="margin:0px;position:fixed;right:20px;z-index: 1;
+bottom: 15px;" ng-if="data.length>0">
+      <div class="" style="width:50px;height:50px;border-radius:50%;background-color:#09e85e;padding:20px;padding: 13px;
+font-size: 20px;" ng-click="save()">
+        <i class="fa fa-check" style="color:white;"></i>
+      </div>
+    </div>
+
+  </div>
+</div>

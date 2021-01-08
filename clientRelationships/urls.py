@@ -19,6 +19,7 @@ router.register(r'contractTracker' , ContractTrackerViewSet , base_name ='contra
 router.register(r'crmtermsAndConditions' , CRMTermsAndConditionsViewSet , base_name ='crmtermsAndConditions')
 router.register(r'registeredProducts' , RegisteredProductsViewSet , base_name ='registeredProducts')
 router.register(r'serviceTicket' , ServiceTicketViewSet , base_name ='serviceTicket')
+router.register(r'configureTermsAndConditions' , ConfigureTermsAndConditionsViewSet , base_name ='configureTermsAndConditions')
 
 urlpatterns = [
     url(r'^', include(router.urls)),
@@ -47,5 +48,7 @@ urlpatterns = [
     url(r'downloadAggrement/$' , DownloadAggrement.as_view()),
     url(r'dataMigrations/$' , DataMigrationsAPIView.as_view()),
     url(r'addProduct/$' , AddProductView.as_view()),
-
+    url(r'downloadAllvisits/$' , DownloadAllVisitsAPIView.as_view()),
+    url(r'fixDivision/$' , FixDivisionView.as_view()),
+    url(r'materialIssue/$' , MaterialIssuedNoteAPIView.as_view()),
 ]

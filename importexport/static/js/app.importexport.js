@@ -4340,7 +4340,6 @@ app.controller("businessManagement.importexport.invoice", function($scope, $stat
       $scope.allData = response.data.results
 
       $scope.count = response.data.count
-      console.log($scope.allData, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaTable");
     })
   }
   $scope.fetchData()

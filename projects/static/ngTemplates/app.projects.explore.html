@@ -53,13 +53,23 @@
     <div class="row text-center" style="margin:46px;">
 
       <div style="height:169px;width:100%;background:white;border-radius:30px;padding:20px;">
-        <div ng-click="$state.go('projectManagement.projects.details' , {id : project.pk})"  style="height:100%;width:100%;background-image:url('https://lh3.googleusercontent.com/proxy/qD41wv4ByLpPnpR9EBoyOw1yd0H6tuy-FBDxDBts2_yGmbhVhN0_fXvOM4q7sn-0CRPwueaiA64gILxtn9s_zgr8lnOFjtuZcivTubn6ToVAUMce3NdlT3D1rmhT');background-size: contain;">
+        <!-- <div ng-click="$state.go('projectManagement.projects.details' , {id : project.pk})"  style="height:100%;width:100%;background-image:url('https://lh3.googleusercontent.com/proxy/qD41wv4ByLpPnpR9EBoyOw1yd0H6tuy-FBDxDBts2_yGmbhVhN0_fXvOM4q7sn-0CRPwueaiA64gILxtn9s_zgr8lnOFjtuZcivTubn6ToVAUMce3NdlT3D1rmhT');background-size:contain;">
+        </div> -->
+        <img ng-src="{{project.icon}}" onclick="document.getElementById('filePicker').click()" style="width:150px;min-height:100px;background-size:contain;" onerror="this.src='/static/images/no_tour_image.jpg'" src="/static/images/no_tour_image.jpg">
+      </div>
+      <div class="col-md-12" style="padding-top:130px;">
+        <span>
+          <input type="file" file-model="project.icon" id="filePicker" style="display:none">
+        </span>
+      </div>
 
+
+      <div class="row" >
+        <div class="col-md-12">
+          <h1>{{project.title}}</h1>
         </div>
-
       </div>
     </div>
-
 
 
     <div class="row taskMenuItem {{$state.is('projectManagement.projects.details.wiki') ? 'activeMenuItem':''}}" style="padding:15px;margin:0px;" ng-click="$state.go('projectManagement.projects.details.wiki' , {id : project.pk})">
@@ -112,7 +122,7 @@
     <div class="col-md-1 text-right" style="padding-top: 15px;">
       <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
     </div>
-    <div class="col-md-11" style="padding-top:15px;">
+    <!-- <div class="col-md-11" style="padding-top:15px;">
       <div class="row">
         <span>
           <span style="margin-top:10px;">
@@ -141,7 +151,7 @@
         </div>
 
       </div>
-    </div>
+    </div> -->
   </div>
 
   <ui-view>
@@ -153,10 +163,10 @@
       <div class="col-md-11" style="padding-top:15px;">
 
         <div class="row">
-          <div class="row" style="margin:0px;">
+          <!-- <div class="row" style="margin:0px;">
             <h3 class="text-muted">Team</h3>
-          </div>
-
+          </div> -->
+<!--
           <div class="row" style="margin:0px;">
             <div class="row" ng-repeat="u in teamMembers" style="padding:10px;">
               <div class="container-fluid" style="padding-top:15px;padding-left:20px;border:none;border-radius:20px;">
@@ -188,7 +198,7 @@
 
 
 
-          </div>
+          </div> -->
 
           <div class="row" style="margin:0px;">
             <h3 class="text-muted">Files</h3>

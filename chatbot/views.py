@@ -25,7 +25,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import datetime
 from marketing.models import Contacts
-# from talk import *
+import getpass
+if getpass.getuser() == 'cioc-d2':
+    from talk import *
 from PIM.models import *
 # Create your views here.
 
@@ -815,3 +817,141 @@ def publicAPI(request , objectType):
 
 
     return
+
+if getpass.getuser() == 'cioc-d2':
+    from talk import initialiseBlock , saveContext
+
+@csrf_exempt
+def ExternalWindow(request):
+    if request.method == 'GET':
+
+        if 'mode' in request.GET and request.GET['mode'] == 'info':
+            ct = ChatThread.objects.filter(uid = request.GET['uid'])
+            if ct.count()==0:
+                return JsonResponse({"status" : "not found"} , status = 404)
+            else:
+                ct = ct[0]
+                toReturn = {"userDevice": ct.userDevice , "location" : ct.location , "ip" : ct.userDeviceIp}
+                vists = Visitor.objects.filter(uid = request.GET['uid'])
+
+                if vists.count()>0:
+                    toReturn['email'] = vists[0].email
+                    toReturn['name'] = vists[0].name
+                    toReturn['phoneNumber'] = vists[0].phoneNumber
+                    toReturn['notes'] = vists[0].notes
+
+                return JsonResponse(toReturn , status = 200)
+
+        cc = ChatContext.objects.filter(uid = request.GET['uid'] , key = request.GET['key'])
+        if cc.count()==0:
+            return JsonResponse({"status" : "not found"} , status = 404)
+        else:
+            return JsonResponse({"key" : cc[0].key , "value" : cc[0].value , "type" : cc[0].typ} , status = 200)
+    else:
+        if 'mode' in request.GET and request.GET['mode'] == 'save':
+            cc , created = ChatContext.objects.get_or_create(uid = request.POST['uid'] , key =  request.POST['key'])
+
+            cc.value = request.POST['value']
+            cc.typ = request.POST['type']
+            cc.save()
+
+            return JsonResponse({"status" : "ok"} , status = 200)
+        elif 'mode' in request.GET and request.GET['mode'] == 'file':
+
+            createMessage( request.POST['uid'] , None , fileObj = request.FILES['fileObj']   )
+            return JsonResponse({"status" : "ok"} , status = 200)
+        elif 'mode' in request.GET and request.GET['mode'] == 'resume':
+            print "Resuming the conversation"
+            context = {"uid" :  request.POST['uid'] }
+            empty = True
+            for cntx in ChatContext.objects.filter(uid =  request.POST['uid'] ):
+                empty = False
+                if cntx.typ == 'int':
+                    if cntx.value == 'None':
+                        context[cntx.key] = None
+                    else:
+                        context[cntx.key] = int(cntx.value)
+                elif cntx.typ == 'date':
+                    try:
+                        context[cntx.key] = datetime.datetime.strptime(cntx.value, '%Y-%m-%d %H:%M:%S')
+                    except:
+                        context[cntx.key] = datetime.datetime.strptime(cntx.value, '%Y-%m-%d %H:%M:%S.%f')
+                else:
+                    context[cntx.key] = cntx.value
+
+
+            context['chatThread'] = ChatThread.objects.filter(uid = request.POST['uid'] )[0]
+
+            if 'leadMagnetDefer' not in context:
+                context['leadMagnetDefer'] = 0
+            if 'leadMagnetSuccess' not in context:
+                context['leadMagnetSuccess'] = "0"
+
+
+            if 'retryID' not in context:
+                context['retryID'] = None
+
+            if 'retry' not in context:
+                context['retry'] = 0
+
+
+            node = NodeBlock.objects.get(pk = context['rpa_callback_node'] )
+            nxt = node.connections.filter(callbackName = 'success')[0]
+
+
+            context["step_id"]= nxt.to_id
+            saveContext('step_id' , 'int' , context)
+            initialiseBlock(nxt.to , context)
+
+            # remove rpa_callback_node
+
+            return JsonResponse({"status" : "ok"} , status = 200)
+
+
+        elif 'mode' in request.GET and request.GET['mode'] == 'reject':
+
+            context = {"uid" :  request.POST['uid'] }
+            empty = True
+            for cntx in ChatContext.objects.filter(uid =  request.POST['uid'] ):
+                empty = False
+                if cntx.typ == 'int':
+                    if cntx.value == 'None':
+                        context[cntx.key] = None
+                    else:
+                        context[cntx.key] = int(cntx.value)
+                elif cntx.typ == 'date':
+                    try:
+                        context[cntx.key] = datetime.datetime.strptime(cntx.value, '%Y-%m-%d %H:%M:%S')
+                    except:
+                        context[cntx.key] = datetime.datetime.strptime(cntx.value, '%Y-%m-%d %H:%M:%S.%f')
+                else:
+                    context[cntx.key] = cntx.value
+
+
+            context['chatThread'] = ChatThread.objects.filter(uid = request.POST['uid'] )[0]
+
+            if 'leadMagnetDefer' not in context:
+                context['leadMagnetDefer'] = 0
+            if 'leadMagnetSuccess' not in context:
+                context['leadMagnetSuccess'] = "0"
+
+
+            if 'retryID' not in context:
+                context['retryID'] = None
+
+            if 'retry' not in context:
+                context['retry'] = 0
+
+
+            node = NodeBlock.objects.get(pk = context['rpa_callback_node'] )
+
+
+            nxt = node.connections.filter(callbackName = 'failure')[0]
+            context["step_id"]= nxt.to_id
+            saveContext('step_id' , 'int' , context)
+            initialiseBlock(nxt.to , context)
+            return JsonResponse({"status" : "ok"} , status = 200)
+
+        else:
+            createMessage(request.POST['uid'] ,  request.POST['message'])
+            return JsonResponse({"status" : "ok"} , status = 200)

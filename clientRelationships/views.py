@@ -60,7 +60,8 @@ from openpyxl.utils import get_column_letter
 from aggrement import *
 # from Invoice1 import *
 # from Invoice2 import *
-
+import random, string
+from openpyxl.writer.excel import save_virtual_workbook
 
 
 
@@ -92,16 +93,28 @@ class DownloadInvoice(APIView):
         if 'contract' not in request.GET:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         response = HttpResponse(content_type='application/pdf')
-        o = Contract.objects.get(id=request.GET['contract'])
+        o = Contract.objects.get(id=request.GET['contract'] , division = request.user.designation.division)
         response.contract = o
         response.division = request.user.designation.division
         response.unit = request.user.designation.unit
-        if o.termsAndCondition.version == 'V2':
-            from Invoice2 import *
-        elif o.termsAndCondition.version == 'V3':
-            from Invoice3 import *
+        if o.termsAndCondition is not None:
+            if o.termsAndCondition.version == 'V2':
+                from Invoice2 import *
+            elif o.termsAndCondition.version == 'V3':
+                from Invoice3 import *
+            else:
+                from Invoice1 import *
         else:
-            from Invoice1 import *
+            # try:
+            crmObj = CRMTermsAndConditions.objects.filter(division = request.user.designation.division).first()
+            if crmObj.version == 'V2':
+                from Invoice2 import *
+            elif crmObj.version == 'V3':
+                from Invoice3 import *
+            else:
+                from Invoice1 import *
+            # except:
+            #     pass
         response['Content-Disposition'] = 'attachment; filename="CR_%s%s_%s_%s.pdf"' % (o.status,
             o.pk, datetime.datetime.now(pytz.timezone('Asia/Kolkata')).year, o.pk)
         genInvoice(response, o, request)
@@ -229,12 +242,13 @@ class ContractViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['status', 'value','id','contact','user' , 'deal']
     def get_queryset(self):
+        divisn =  self.request.user.designation.division
         if 'search' in self.request.GET:
             try:
-                toRet = Contract.objects.filter(value__gte=int(self.request.GET['search']))
+                toRet = Contract.objects.filter(value__gte=int(self.request.GET['search']), division = divisn)
                 return toRet
             except:
-                return Contract.objects.all().order_by('-created')
+                return Contract.objects.all(division = divisn).order_by('-created')
         if 'filters' in self.request.GET:
             prts =  self.request.GET['filters'].split(',')
             statss = []
@@ -244,9 +258,9 @@ class ContractViewSet(viewsets.ModelViewSet):
                 statss.append('billed')
             if prts[2] == 'true':
                 statss.append('dueElapsed')
-            return Contract.objects.filter(status__in =  statss).order_by('-created')
+            return Contract.objects.filter(status__in =  statss, division = divisn).order_by('-created')
         else:
-            return Contract.objects.all().order_by('-created')
+            return Contract.objects.filter(division = divisn).order_by('-created')
 
 
 class ActivityViewSet(viewsets.ModelViewSet):
@@ -314,7 +328,7 @@ class SendNotificationAPIView(APIView):
                     toSMS.append(mob)
             print toSMS
 
-        c = Contract.objects.get(pk=request.data['contract'])
+        c = Contract.objects.get(pk=request.data['contract'], division = request.user.designation.division)
         docID = '%s%s%s' % (c.deal.pk, c.billedDate.year, c.pk)
         value = c.grandTotal
 
@@ -411,7 +425,7 @@ class ClientHomeCalAPIView(APIView):
     def get(self, request, format=None):
         today = datetime.date.today()
         divsn = self.request.user.designation.division
-        approvedAmount = list(Contract.objects.filter( user__designation__division = divsn,
+        approvedAmount = list(Contract.objects.filter( division = divsn,
             status='approved').values('status').annotate(total=Sum('value')))
         if len(approvedAmount) > 0:
             approvedAmount = approvedAmount[0]['total']
@@ -463,10 +477,9 @@ class ClientHomeCalAPIView(APIView):
             currencyTyp = currencyObj[0].value
         else:
             currencyTyp = ''
-        contact_count = Contact.objects.filter(user__designation__division = divsn, created__range = (FstDate,lstDate)).count()
-        opportunities_count = Deal.objects.filter(user__designation__division = divsn, created__range = (FstDate,lstDate)).count()
-        contract_count = Contract.objects.filter(user__designation__division = divsn, created__range = (FstDate,lstDate)).count()
-        quoted = Contract.objects.filter(user__designation__division = divsn, created__range = (request.GET['frm'], request.GET['to']))
+        contact_count = Contact.objects.filter(division = divsn, created__range = (FstDate,lstDate)).count()
+        contract_count = Contract.objects.filter(division = divsn, created__range = (FstDate,lstDate)).count()
+        quoted = Contract.objects.filter(division = divsn, created__range = (request.GET['frm'], request.GET['to']))
         if 'typ' in request.GET:
             quoted = quoted.filter(status = request.GET['typ'])
         if 'tandc' in request.GET:
@@ -474,7 +487,7 @@ class ClientHomeCalAPIView(APIView):
         if 'customer' in request.GET:
             quoted = quoted.filter(contact__id = request.GET['customer'])
         if request.user.is_staff:
-            quotedQuote = quoted.filter(user__designation__division = divsn).order_by('-created')
+            quotedQuote = quoted.filter(division = divsn).order_by('-created')
         else:
             quotedQuote = quoted.filter(user = request.user).order_by('-created')
         quotedQuote = quotedQuote.values('pk', 'data', 'value','created','updated','status','deal__name','deal__pk','deal__company__name','deal__company__pk','contact__name','contact__pk','contact__company__name','contact__company__pk','contact__dp','user__pk','user__first_name','user__last_name','dueDate','termsAndCondition__heading')
@@ -488,7 +501,7 @@ class ClientHomeCalAPIView(APIView):
             excelData.save(response)
             return response
 
-        toSend = {'sumLi': sumLi, 'countLi': countLi, 'approvedAmount': approvedAmount, 'billedAmount': billedAmount, 'receivedAmount': receivedAmount, 'currencyTyp': currencyTyp, 'target': target, 'complete': complete, 'period': period,'contact_count':contact_count,'opportunities_count':opportunities_count,'contract_count':contract_count,'quotedQuote':quotedQuote,'billedQuote':billedQuote,'dueElapsedQuote':dueElapsedQuote}
+        toSend = {'sumLi': sumLi, 'countLi': countLi, 'approvedAmount': approvedAmount, 'billedAmount': billedAmount, 'receivedAmount': receivedAmount, 'currencyTyp': currencyTyp, 'target': target, 'complete': complete, 'period': period,'contact_count':contact_count,'opportunities_count':0,'contract_count':contract_count,'quotedQuote':quotedQuote,'billedQuote':billedQuote,'dueElapsedQuote':dueElapsedQuote}
 
         return Response(toSend, status=status.HTTP_200_OK)
 
@@ -987,12 +1000,22 @@ class sendEmailAttachment(APIView):
         response.unit = request.user.designation.unit
         response['Content-Disposition'] = 'attachment; filename="CR_invoice%s_%s_%s.pdf"' % (
             o.pk, datetime.datetime.now(pytz.timezone('Asia/Kolkata')).year, o.pk)
-        if o.termsAndCondition.version == 'V2':
-            from Invoice2 import *
-        elif o.termsAndCondition.version == 'V3':
-            from Invoice3 import *
+        if o.termsAndCondition is not None:
+            if o.termsAndCondition.version == 'V2':
+                from Invoice2 import *
+            elif o.termsAndCondition.version == 'V3':
+                from Invoice3 import *
+            else:
+                from Invoice1 import *
         else:
-            from Invoice1 import *
+            # try:
+            crmObj = CRMTermsAndConditions.objects.filter(division = request.user.designation.division).first()
+            if crmObj.version == 'V2':
+                from Invoice2 import *
+            elif crmObj.version == 'V3':
+                from Invoice3 import *
+            else:
+                from Invoice1 import *
         genInvoice(response, o, request)
         filePath = os.path.join(globalSettings.BASE_DIR, 'media_root/CR_invoice%s%s_%s.pdf' %
                               (o.pk, datetime.datetime.now(pytz.timezone('Asia/Kolkata')).year, o.pk))
@@ -1607,6 +1630,22 @@ class DownloadAggrement(APIView):
 
         return response
 
+class FixDivisionView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny,)
+    def get(self, request, format=None):
+        success = 0
+        failure = 0
+        for c in Contract.objects.all():
+            try:
+                c.division = c.user.designation.division
+                c.save()
+                success += 1
+            except:
+                failure += 1
+
+        return Response({"failure" : failure , "success" : success}, status=status.HTTP_200_OK)
+
 
 class AddProductView(APIView):
     renderer_classes = (JSONRenderer,)
@@ -1637,11 +1676,26 @@ class AddProductView(APIView):
             pincode = data['pincode']
             country = data['country']
         else:
-            address = contactObj.street
-            city = contactObj.city
-            state = contactObj.state
-            pincode = contactObj.pincode
-            country = contactObj.country
+            if contactObj.street is not None:
+                address = contactObj.street
+            else:
+                address = ''
+            if contactObj.city is not None:
+                city = contactObj.city
+            else:
+                city = ''
+            if contactObj.state is not None:
+                state = contactObj.state
+            else:
+                state = ''
+            if contactObj.pincode is not None:
+                pincode = contactObj.pincode
+            else:
+                pincode = ''
+            if contactObj.country is not None:
+                country = contactObj.country
+            else:
+                country = ''
         toSave['installationAddress'] = address
         toSave['city'] = city
         toSave['state'] = state
@@ -1658,7 +1712,7 @@ class AddProductView(APIView):
         nextDate =  datetime.datetime.strptime(data['startDate'], '%Y-%m-%d')
         for i in range(0,int(data['totalServices'])):
             division = request.user.designation.division
-            ticketData = {'referenceContact' : contactObj , 'name' : contactObj.name , 'phone' : contactObj.mobile , 'email'  : contactObj.email , 'productName' : data['productName']  ,'notes' : notes , 'productSerial' : serialNo , 'address' : address , 'pincode' : pincode , 'city' : city, 'state' : state , 'country' : country , 'referenceAMC' : amc , 'division' : division}
+            ticketData = {'referenceContact' : contactObj , 'name' : contactObj.name , 'phone' : contactObj.mobile , 'email'  : contactObj.email , 'productName' : data['productName']  ,'notes' : notes , 'productSerial' : serialNo , 'address' : address , 'pincode' : pincode , 'city' : city, 'state' : state , 'country' : country , 'referenceAMC' : amc , 'division' : division, 'status' : 'upcoming','preferredDate': nextDate , 'requireOnSiteVisit' : True}
             nextDate = nextDate+ relativedelta(months=+months)
             ticket = ServiceTicket.objects.create(**ticketData)
         toRet = RegisteredProductsSerializer(amc, many = False).data
@@ -1677,10 +1731,165 @@ class ServiceTicketViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     serializer_class = ServiceTicketSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['status']
+    filter_fields = ['status','engineer']
+    # search_fields = ('name', 'email', 'phone')
     def get_queryset(self):
         division = self.request.user.designation.division
-        return ServiceTicket.objects.filter(division = division)
+        toRet = ServiceTicket.objects.filter(division = division).order_by('-created')
+        if 'search' in self.request.GET:
+            toRet = toRet.filter(Q(name__icontains = self.request.GET['search']) | Q(phone__icontains = self.request.GET['search']) )
+        return toRet
 
     # filter_backends = [DjangoFilterBackend]
     # filter_fields = ['contact']
+
+class ConfigureTermsAndConditionsViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,  )
+    serializer_class = ConfigureTermsAndConditionsSerializer
+    def get_queryset(self):
+        divsn = self.request.user.designation.division
+        return ConfigureTermsAndConditions.objects.filter(division = divsn)
+
+
+class DownloadAllVisitsAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def get(self,request , format= None):
+        workbook = Workbook()
+        divsn = self.request.user.designation.division
+        obj = ServiceTicket.objects.filter(division = divsn).order_by('-created')
+        Sheet1 = workbook.active
+        hdFont = Font(size=12,bold=True)
+        alphaChars = list(string.ascii_uppercase)
+        Sheet1.title = 'Assigned'
+        hd1 = [ 'ID' 'Name' , 'Phone' , 'Email' , 'Product' , 'Serial No.' , ' Preferred Date ' ,' Prefered Time Slot ' , 'Technician' ]
+        hdWidth = [10,10,10,30,30,30,30,15]
+        Sheet1.append(hd1)
+        data = []
+        for i in obj.filter(status = 'assigned'):
+            if i.preferredDate is not None:
+                date = i.preferredDate
+            else:
+                date = ''
+            if i.preferredTimeSlot is not None:
+                timeslot = i.preferredTimeSlot
+            else:
+                timeslot = ''
+            if i.engineer is not None:
+                engineer =  i.engineer.first_name+' ' +i.engineer.last_name
+            else:
+                engineer = ''
+            data = [i.name, i.email, i.phone, i.productName , i.productSerial , date, timeslot , engineer]
+            Sheet1.append(data)
+        Sheet2 = workbook.create_sheet('Ongoing')
+        Sheet2.append(hd1)
+        data = []
+        for i in obj.filter(status = 'ongoing'):
+            if i.preferredDate is not None:
+                date = i.preferredDate
+            else:
+                date = ''
+            if i.preferredTimeSlot is not None:
+                timeslot = i.preferredTimeSlot
+            else:
+                timeslot = ''
+            if i.engineer is not None:
+                engineer = i.engineer.first_name+' ' +i.engineer.last_name
+            else:
+                engineer = ''
+            data = [i.name, i.email, i.phone, i.productName , i.productSerial , date, timeslot , engineer]
+            Sheet2.append(data)
+        Sheet3 = workbook.create_sheet('Completed')
+        Sheet3.append(hd1)
+        data = []
+        for i in obj.filter(status = 'completed'):
+            if i.preferredDate is not None:
+                date = i.preferredDate
+            else:
+                date = ''
+            if i.preferredTimeSlot is not None:
+                timeslot = i.preferredTimeSlot
+            else:
+                timeslot = ''
+            if i.engineer is not None:
+                engineer =  i.engineer.first_name+' ' +i.engineer.last_name
+            else:
+                engineer = ''
+            data = [i.name, i.email, i.phone, i.productName , i.productSerial , date, timeslot , engineer]
+            Sheet3.append(data)
+        Sheet4 = workbook.create_sheet('Postponed')
+        Sheet4.append(hd1)
+        data = []
+        for i in obj.filter(status = 'postponed'):
+            if i.preferredDate is not None:
+                date = i.preferredDate
+            else:
+                date = ''
+            if i.preferredTimeSlot is not None:
+                timeslot = i.preferredTimeSlot
+            else:
+                timeslot = ''
+            if i.engineer is not None:
+                engineer = i.engineer.first_name+' ' +i.engineer.last_name
+            else:
+                engineer = ''
+            data = [i.name, i.email, i.phone, i.productName , i.productSerial , date, timeslot , engineer]
+            Sheet4.append(data)
+        Sheet5 = workbook.create_sheet('Cancelled')
+        Sheet5.append(hd1)
+        data = []
+        for i in obj.filter(status = 'cancelled'):
+            if i.preferredDate is not None:
+                date = i.preferredDate
+            else:
+                date = ''
+            if i.preferredTimeSlot is not None:
+                timeslot = i.preferredTimeSlot
+            else:
+                timeslot = ''
+            if i.engineer is not None:
+                engineer = i.engineer.first_name+' ' +i.engineer.last_name
+            else:
+                engineer = ''
+            data = [i.name, i.email, i.phone, i.productName , i.productSerial , date, timeslot , engineer]
+            Sheet5.append(data)
+
+        Sheet6 = workbook.create_sheet('Upcoming')
+        Sheet6.append(hd1)
+        data = []
+        for i in obj.filter(status = 'upcoming'):
+            if i.preferredDate is not None:
+                date = i.preferredDate
+            else:
+                date = ''
+            if i.preferredTimeSlot is not None:
+                timeslot = i.preferredTimeSlot
+            else:
+                timeslot = ''
+            if i.engineer is not None:
+                engineer = i.engineer.first_name+' ' +i.engineer.last_name
+            else:
+                engineer = ''
+            data = [i.name, i.email, i.phone, i.productName , i.productSerial , date, timeslot , engineer]
+            Sheet6.append(data)
+
+        response = HttpResponse(content=save_virtual_workbook(workbook),content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=Collection.xlsx'
+        return response
+
+
+
+
+
+
+class MaterialIssuedNoteAPIView(APIView):
+    def get(self , request , format = None):
+        data = request.GET
+        from materialInward import *
+        ticket = ServiceTicket.objects.get(pk = int(data['id']))
+        response = HttpResponse(content_type='application/pdf')
+        response.division = request.user.designation.division
+        response.unit = request.user.designation.unit
+        response['Content-Disposition'] = 'attachment;filename="Quotationdownload.pdf"'
+        genMaterialIssueNote(response , ticket,request)
+        return response

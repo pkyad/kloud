@@ -173,6 +173,8 @@ class ContractSerializer(serializers.ModelSerializer):
             c.contact_id = int(self.context['request'].data['contact'])
         if 'termsAndCondition' in self.context['request'].data:
             c.termsAndCondition_id = int(self.context['request'].data['termsAndCondition'])
+        c.division = self.context['request'].user.designation.division
+
         c.save()
         contract = c
         user = self.context['request'].user
@@ -281,6 +283,19 @@ class ContractTrackerSerializer(serializers.ModelSerializer):
         model = ContractTracker
         fields = ('pk'  ,'created', 'grandTotal' , 'contract' , 'data' , 'discount' , 'termsAndConditionTxts' , 'heading')
 
+class ConfigureTermsAndConditionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ConfigureTermsAndConditions
+        fields = ('pk'  , 'created' , 'body', 'heading' , 'default')
+    def create(self , validated_data):
+        t = ConfigureTermsAndConditions(**validated_data)
+        try:
+            t.division = self.context['request'].user.designation.division
+        except:
+            pass
+        t.save()
+        return t
+
 class RegisteredProductsSerializer(serializers.ModelSerializer):
     completedServices = serializers.SerializerMethodField()
     class Meta:
@@ -292,9 +307,11 @@ class RegisteredProductsSerializer(serializers.ModelSerializer):
 
 
 class ServiceTicketSerializer(serializers.ModelSerializer):
+    engineer = userMinLiteSerializer(many = False , read_only = True)
+    allInvoices = serializers.SerializerMethodField()
     class Meta:
         model = ServiceTicket
-        fields = ('pk'  ,'name' , 'phone' , 'email' , 'productName' , 'productSerial' , 'notes' , 'address' , 'pincode', 'city' , 'state' , 'country' , 'requireOnSiteVisit','referenceContact','preferredDate','preferredTimeSlot')
+        fields = ('pk'  ,'name' , 'phone' , 'email' , 'productName' , 'productSerial' , 'notes' , 'address' , 'pincode', 'city' , 'state' , 'country' , 'requireOnSiteVisit','referenceContact','preferredDate','preferredTimeSlot','warrantyStatus' , 'engineer' , 'serviceType','status','allInvoices')
     def create(self , validated_data):
         t = ServiceTicket(**validated_data)
         t.division = self.context['request'].user.designation.division
@@ -304,3 +321,22 @@ class ServiceTicketSerializer(serializers.ModelSerializer):
             t.referenceContact = contactObj
             t.save()
         return t
+    def update(self ,instance, validated_data):
+        for key in ['name' , 'phone' , 'email' , 'productName' , 'productSerial' , 'notes' , 'address' , 'pincode', 'city' , 'state' , 'country' , 'requireOnSiteVisit','preferredDate','preferredTimeSlot' , 'status', 'serviceType','engineer','warrantyStatus' ]:
+            try:
+                setattr(instance , key , validated_data[key])
+            except:
+                print "Error while saving " , key
+                pass
+        if 'engineer' in  self.context['request'].data:
+            instance.engineer = User.objects.get(pk = int(self.context['request'].data['engineer']))
+        instance.save()
+        return instance
+    def get_allInvoices(self , obj):
+        allData = []
+        lastDate =  datetime.datetime.now()
+        if obj.closedOn is not None:
+            lastDate = obj.closedOn
+        if obj.referenceContact is not None:
+            allData = Contract.objects.filter(created__range = [obj.created , lastDate], contact = obj.referenceContact).values('pk' , 'heading')
+        return allData

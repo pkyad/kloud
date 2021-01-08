@@ -184,6 +184,9 @@
           <span class="pull-right" style="margin-left:20px;font-size: 20px;color: #b7b7b7;" ng-if="task.timerStartedAt">{{task.timerStr}}</span>
           <span ng-click="form.addingSubTask = $index;" class="fa fa-plus-circle pull-right fa-2x" style="color:#8b8b8b;cursor:pointer;" ng-if=" task.subTasks.length ==0 && task.hover" > </span>
           <span ng-click="openTask(task)" class="fa fa-files-o pull-right fa-2x" style="color:#8b8b8b;cursor:pointer;margin-right:25px;" ng-if="task.hover" > </span>
+          <span class="fa fa-play-circle pull-right fa-2x" ng-click="startTask($index)" ng-if="!task.timerStartedAt && task.hover" style="color:#23ab51;cursor:pointer;margin-right:25px;" > </span>
+
+          <span class="fa fa-stop-circle pull-right fa-2x" ng-click="stopTask($index)" ng-if="task.timerStartedAt && task.hover" style="color:#f66a3e;cursor:pointer;margin-right:25px;" > </span>
 
 
         </div>

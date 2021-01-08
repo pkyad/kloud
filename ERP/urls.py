@@ -35,5 +35,6 @@ urlpatterns = [
     url(r'getAppSettings/$' , GetAppSettings.as_view() ),
     url(r'getAllSettings/$' , getAllSettings.as_view() ),
     url(r'dowloadExcel/$' , downloadExcelFileAPI.as_view() ),
+    url(r'serviceApi/$' , serviceApi.as_view()),
 
 ]
