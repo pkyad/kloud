@@ -84,6 +84,7 @@ app.controller("businessManagement.servicing", function($scope, $state, $users, 
   $scope.offset = 0
   $scope.count = 0
   $scope.statusList = []
+    $scope.selected.status = 'created'
   if ($state.is('businessManagement.servicing.assigned')) {
     $scope.selected.status = 'assigned'
     $scope.statusList = ['assigned' ,'ongoing' , 'completed' , 'postponed' , 'cancelled']

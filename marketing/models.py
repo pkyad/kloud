@@ -4,10 +4,9 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User, Group
 from time import time
-from finance.models import  ConfigureTermsAndConditions
 from projects.models import media
 from HR.models import Team
-from clientRelationships.models import Contact, Contract
+from clientRelationships.models import Contact, Contract, ConfigureTermsAndConditions
 from finance.models import ExpenseSheet, Inventory
 from organization.models import Division
 

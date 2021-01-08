@@ -42,6 +42,7 @@ from excel_response import ExcelResponse
 from django.db.models.functions import Concat
 from django.db.models import Value
 import xlsxwriter
+# from finanace.models import configureTermsAndConditions
 # from clientRelationships.serializers import ContractSerializer,ContactSerializer,DealLiteSerializer
 # from projects.models import project,Issues, ProjectObjective
 # from projects.serializers import IssueSerializer
@@ -410,7 +411,7 @@ def genMaterialIssueNote(response, ticket, request):
 
     tncBody = None
     bullts = ''
-    termsObj = CRMTermsAndConditions.objects.filter(division = request.user.designation.division)
+    termsObj = ConfigureTermsAndConditions.objects.filter(division = request.user.designation.division)
     print  termsObj.first().body
     if termsObj.count()>0:
         tncBody = termsObj.first().body

@@ -174,7 +174,7 @@ class ContractSerializer(serializers.ModelSerializer):
         if 'termsAndCondition' in self.context['request'].data:
             c.termsAndCondition_id = int(self.context['request'].data['termsAndCondition'])
         c.division = self.context['request'].user.designation.division
-            
+
         c.save()
         contract = c
         user = self.context['request'].user
@@ -282,6 +282,19 @@ class ContractTrackerSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContractTracker
         fields = ('pk'  ,'created', 'grandTotal' , 'contract' , 'data' , 'discount' , 'termsAndConditionTxts' , 'heading')
+
+class ConfigureTermsAndConditionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ConfigureTermsAndConditions
+        fields = ('pk'  , 'created' , 'body', 'heading' , 'default')
+    def create(self , validated_data):
+        t = ConfigureTermsAndConditions(**validated_data)
+        try:
+            t.division = self.context['request'].user.designation.division
+        except:
+            pass
+        t.save()
+        return t
 
 class RegisteredProductsSerializer(serializers.ModelSerializer):
     completedServices = serializers.SerializerMethodField()

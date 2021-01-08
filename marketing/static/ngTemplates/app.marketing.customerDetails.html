@@ -103,6 +103,11 @@
               <p> Change status </p>
               <select class="form-control" ng-model="a.status" ng-options="k for k  in statusList" ng-change="changeStatus($index , a.status)" style="width:70%;padding:15px;background:#F2F3F7;border-radius:10px !important;border:none !important;height:55px;">
               </select>
+              <div class="btn-group btn-group-sm" ng-if="a.status == 'assigned' || a.status == 'ongoing' ||  a.status == 'postponed' || a.status == 'created' || a.status == 'upcoming'">
+                <button type="button" class="btn-assign" ng-click="assign($index);$event.stopPropagation();" style="margin-top:15px">
+                <span style="background: none !important;">  Change Technician </span>
+                </button>
+              </div>
             </div>
           </div>
           <div class="row" ng-if="a.allInvoices.length>0">

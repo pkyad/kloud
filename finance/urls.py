@@ -22,7 +22,7 @@ router.register(r'saleAll' , SaleAllViewSet , base_name ='outBoundInvoice')
 router.register(r'salesQty' , SalesQtyViewSet , base_name ='outBoundInvoiceQty')
 router.register(r'inventory' , RateListViewSet , base_name ='ratelist')
 router.register(r'inventoryLog' , InventoryLogViewSet , base_name ='inventoryLog')
-router.register(r'configureTermsAndConditions' , ConfigureTermsAndConditionsViewSet , base_name ='configureTermsAndConditions')
+
 router.register(r'category' , CategoryViewSet , base_name ='category')
 router.register(r'disbursal' , DisbursalViewSet , base_name ='disbursal')
 router.register(r'disbursallite' , DisbursalliteViewSet , base_name ='disbursallite')

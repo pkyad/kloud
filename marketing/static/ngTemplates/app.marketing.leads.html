@@ -123,10 +123,10 @@
             </td>
             <td class="contentTd">{{contact.warrantyStatus}}</td>
             <td class="contentTd">
-              <div class="btn-group btn-group-sm" ng-if="contact.status == 'assigned' || contact.status == 'ongoing' ||  contact.status == 'posponded' || contact.status == 'created' || contact.status == 'upcoming'">
+              <div class="btn-group btn-group-sm" ng-if="contact.status == 'assigned' || contact.status == 'ongoing' ||  contact.status == 'postponed' || contact.status == 'created' || contact.status == 'upcoming'">
                 <button type="button" class="btn-assign" ng-click="assign($index);$event.stopPropagation();" style="">
                 <span ng-if="contact.status == 'created'|| contact.status == 'upcoming'">  Assign Technician </span>
-                <span ng-if="contact.status == 'assigned' || contact.status == 'ongoing' ||  contact.status == 'posponded'">  Change Technician </span>
+                <span ng-if="contact.status == 'assigned' || contact.status == 'ongoing' ||  contact.status == 'postponed'">  Change Technician </span>
                 </button>
                 <div ng-if="contact.status != 'created' && contact.status != 'upcoming'" style="margin-top:15px" class="text-center"> <span ng-if="contact.engineer"> {{contact.engineer.first_name}}  {{contact.engineer.last_name}} </span>  <span ng-if="contact.preferredDate"> <br/> on {{contact.preferredDate | date}} <span>  <span ng-if="contact.preferredTimeSlot">  @ {{contact.preferredTimeSlot}} <span> </div>
               </div>

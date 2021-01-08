@@ -3861,12 +3861,6 @@ class JournalAPIView(APIView):
         return Response(result , status = status.HTTP_200_OK)
 
 
-class ConfigureTermsAndConditionsViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticated,  )
-    serializer_class = ConfigureTermsAndConditionsSerializer
-    def get_queryset(self):
-        divsn = self.request.user.designation.division
-        return ConfigureTermsAndConditions.objects.filter(division = divsn)
 
 class GetAllExpensesAPI(APIView):
     permission_classes = (permissions.IsAuthenticated ,)

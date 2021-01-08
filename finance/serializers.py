@@ -646,18 +646,7 @@ class ExpenseHeadingLiteSerializer(serializers.ModelSerializer):
         fields = ('pk', 'title')
 
 
-class ConfigureTermsAndConditionsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ConfigureTermsAndConditions
-        fields = ('pk'  , 'created' , 'body', 'heading' , 'default')
-    def create(self , validated_data):
-        t = ConfigureTermsAndConditions(**validated_data)
-        try:
-            t.division = self.context['request'].user.designation.division
-        except:
-            pass
-        t.save()
-        return t
+
 
 
 class DisbursalLiteSerializer(serializers.ModelSerializer):
