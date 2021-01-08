@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'saveImage/$' , SaveImageAPIView.as_view() ),
     url(r'genCalendarNotifications/$' , CalendarNotificationsAPIView.as_view() ),
     url(r'getChatThreads/$' , GetChatThreadsAPIView.as_view() ),
+    url(r'createChatThread/$' , createChatThreadAPIView.as_view() ),
     url(r'createNotification/$' , CreateNotificationAPIView.as_view()),
 ]

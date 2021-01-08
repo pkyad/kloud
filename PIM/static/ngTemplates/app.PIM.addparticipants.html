@@ -3,7 +3,7 @@
     <div class="" style="position: fixed;z-index: 1;width: 100%;">
       <div class="row" style="padding:10px;background-color: #009688;margin: 0px;">
         <div class="col-md-2">
-          <i class="fa fa-times" ng-click="close()"></i>
+          <i class="fa fa-times" ng-click="close()" style="color:white;font-size:20px;"></i>
         </div>
         <div class="col-md-9 text-center">
           <p style="color:white;">Add Participants</p>
@@ -20,18 +20,22 @@
 
     </div>
 
-    <div class="row" style="margin-top:110px;">
-      <div class="" style="display:flex" ng-repeat="k in form.participants track by $index">
-        <div class="">
-          {{k.first_name}}   {{k.last_name}}
+    <div class="" >
+      <div class="row" style="margin:0px;margin-top:110px;z-index: 9999">
+        <div  ng-repeat="k in data track by $index" style="display: flex;margin: 10px;">
+          <div class="" style="display: flex;background-color:#e6e6e6;padding: 5px;border-radius: 30px;">
+            <span>
+              <i class="fa fa-user" aria-hidden="true" style="color:white"></i>
+              {{k.first_name}}   {{k.last_name}}
+              <i class="fa fa-times" aria-hidden="true" style="color:white" ng-click="k.add=false;adduser($index)"></i>
+          </span>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="" >
-      <div class="row" ng-repeat="u in allUsers" style="margin:0px" >
+      <div class="row" ng-repeat="u in allUsers track by $index" style="margin:0px" >
         <div class="col-md-1">
           <div class="form-group">
-            <input type="checkbox" class="form-control" name="" ng-model="u.add" value="{{u.pk}}" ng-change="adduser($index)">
+            <input type="checkbox"  name="{{u.first_name}} {{u.last_name}}" ng-model="u.add" value="{{u.pk}}" ng-click="adduser($index)">
           </div>
 
         </div>
@@ -57,7 +61,7 @@
 
 
     <div class="row" style="margin:0px;position:fixed;right:20px;z-index: 1;
-bottom: 15px;" ng-if="form.participants.length>0">
+bottom: 15px;" ng-if="data.length>0">
       <div class="" style="width:50px;height:50px;border-radius:50%;background-color:#09e85e;padding:20px;padding: 13px;
 font-size: 20px;" ng-click="save()">
         <i class="fa fa-check" style="color:white;"></i>

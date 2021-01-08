@@ -1126,7 +1126,7 @@ app.controller('controller.home.expense.claims', function($scope, $http, $aside,
             fd.append('description', f.description);
           $http({
             method: 'POST',
-            url: '/api/finance/invoices/',
+            url: '/api/finance/expense/',
             data: fd,
             transformRequest: angular.identity,
             headers: {

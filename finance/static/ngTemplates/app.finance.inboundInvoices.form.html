@@ -27,8 +27,8 @@
       <div class="col-md-offset-1 col-md-8">
         <div class="row">
           <div class="col-md-12 text-center">
-            <h3 ng-if="mode=='new'">Create a new Invoice (Accounts Payable)</h3>
-            <h3 ng-if="mode=='edit'">Edit Invoice</h3>
+            <h3 ng-if="!form.pk">Create a new Invoice (Accounts Payable)</h3>
+            <h3 ng-if="form.pk">Edit Invoice</h3>
           </div>
         </div>
         <div class="row" style="margin-top:30px">
@@ -36,11 +36,11 @@
           <div class="col-md-6">
             <label> Company </label>
             <div class="input-group">
-              <input type="text " class="form-control" ng-model="form.vendor" uib-typeahead="n as n.name for n in companySearch($viewValue)" placeholder="Select or Add Company"
-                style="padding: 29px;border: none; border-top-left-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;    border-bottom-left-radius: 10px;">
+              <input type="text " class="form-control" ng-model="form.companyReference" uib-typeahead="n as n.name for n in companySearch($viewValue)" placeholder="Select or Add Company"
+                style="padding: 29px;border: none; border-top-left-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;    border-bottom-left-radius: 10px;"  typeahead-on-select="selectCompany()" >
               <span class="input-group-btn">
                 <button type="button" ng-click="createVendorService()" class="btn btn-default" style="padding: 15px;border: none;border-bottom-right-radius: 10px !important;border-top-right-radius: 10px !important;"><i
-                    class="fa fa-{{form.vendor.pk? 'pencil':'plus'}} fa-2x"></i></button>
+                    class="fa fa-{{form.companyReference.pk? 'pencil':'plus'}} fa-2x"></i></button>
               </span>
             </div>
           </div>
@@ -62,7 +62,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label> Mobile Number </label>
-              <input type="text" class="form-control" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;">
+              <input type="text" class="form-control" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;" ng-model="form.phone">
             </div>
           </div>
         </div>
@@ -151,17 +151,19 @@
                   <th>Quantity</th>
                   <th>HSN/SAC Code</th>
                   <th>Tax (%)</th>
-                  <th>Sub Total</th>
+                  <th>Tax </th>
+                  <th>Total</th>
                   <th></th>
                 </tr>
                 <tr ng-repeat="v in form.products track by $index">
-                  <td>{{$index + 1}}</td>
+                  <td>{{$index + 1}} </td>
                   <td><input type="text" class="form-control-pos text-center" ng-model="v.product" uib-typeahead="p as p.product for p in productSearch($viewValue)"></td>
-                  <td><input type="text" class="form-control-pos text-center" ng-model="v.price"></td>
-                  <td><input type="text" class="form-control-pos text-center" ng-model="v.receivedQty"></td>
-                  <td><input type="text" class="form-control-pos text-center" ng-model="v.hsn" uib-typeahead="meta as  (meta.code + ' : ' + meta.description) for meta in productMetaSearch($viewValue)"></td>
-                  <td><input type="text" class="form-control-pos text-center" ng-model="v.tax"></td>
-                  <td><input type="text" class="form-control-pos text-center" ng-model="v.total"></td>
+                  <td><input type="text" class="form-control-pos text-center" ng-model="v.price" ng-change="calc($index)"></td>
+                  <td><input type="text" class="form-control-pos text-center" ng-model="v.receivedQty" ng-change="calc($index)"></td>
+                  <td><input type="text" class="form-control-pos text-center" ng-model="v.taxCode" uib-typeahead="meta as  (meta.code + ' : ' + meta.description) for meta in productMetaSearch($viewValue)" typeahead-on-select="selectHsn($index)"></td>
+                  <td><input type="text" class="form-control-pos text-center" ng-model="v.taxPer" ng-change="calc($index)"></td>
+                  <td><input type="text" class="form-control-pos text-center" ng-model="v.tax" disabled></td>
+                  <td><input type="text" class="form-control-pos text-center" ng-model="v.total" disabled></td>
                   <td><button type="button" class="btn btn-danger btn-sm"  ng-click="deleteData(v.pk , $index)"> <i class="fa fa-trash fa-2x"></i> </button></td>
                 </tr>
                 <tr class="text-left" ng-click="addTableRow($index)">
@@ -172,16 +174,16 @@
           </div>
         </div>
         <div class="row fixedActionStrip" style="padding-top:15px;background:transparent!important">
-          <div class="col-md-offset-10 col-md-1 ">
-              <button type="button" class="btn btn-primary btn-block cutebuttonplain" style="background:rgb(14, 67, 136);color:white;" ng-click="saveInvoice()">Save</button>
+          <div class="col-md-offset-9 col-md-1 ">
+              <button type="button" class="btn btn-primary btn-block cutebuttonplain" style="background:rgb(14, 67, 136);color:white;" ng-click="save()">Save</button>
           </div>
-          <div class="col-md-1">
-              <button ng-if="mode=='new'" type="button" class="btn btn-default btn-block cutebuttonplain" style="background:#461482;color:white;" ng-click="refresh()">Refresh</button>
+          <div class="col-md-2">
+              <button ng-show="form.pk" ng-click="pay()"  class="btn btn-default btn-block cutebuttonplain" style="background:#461482;color:white;">PAYMENT DETAILS</button>
           </div>
         </div>
       </div>
       <div class=" col-md-3">
-        <div class="row" ng-show="form.vendor.pk" style="margin-top:11vh">
+        <div class="row" ng-show="form.companyReference.pk" style="margin-top:11vh">
           <div class="col-md-12">
             <div class="row">
               <div class="col-md-3">

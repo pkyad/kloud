@@ -193,22 +193,22 @@ class InflowSerializer(serializers.ModelSerializer):
         inf.save()
         return inf
 
-class InvoiceLiteSerializer(serializers.ModelSerializer):
+class ExpenseLiteSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Invoice
+        model = Expense
         fields = ('pk' , 'created' , 'amount' ,'attachment','description','code')
 
 import os
 from django.core.files import File
-class InvoiceSerializer(serializers.ModelSerializer):
+class ExpenseSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Invoice
+        model = Expense
         fields = ('pk', 'user' , 'created' , 'code', 'amount' , 'currency' , 'dated' , 'attachment','sheet' ,'transaction', 'description','approved','dispensed','gstVal','gstIN','invNo','invoiceAmount','division')
         read_only_fields = ('user',)
 
     def create(self , validated_data):
         print 'came to create an Invoce'
-        inv = Invoice(**validated_data)
+        inv = Expense(**validated_data)
         inv.user = self.context['request'].user
 
         if 'scan' in self.context['request'].data:
@@ -245,7 +245,7 @@ class InvoiceSerializer(serializers.ModelSerializer):
         return instance
 
 class ExpenseSheetSerializer(serializers.ModelSerializer):
-    invoices = InvoiceSerializer(many = True , read_only = True)
+    invoices = ExpenseSerializer(many = True , read_only = True)
     project = projectLiteSerializer(many = True , read_only = True)
     totalAmount = serializers.SerializerMethodField()
     unapproved = serializers.SerializerMethodField()
@@ -300,8 +300,8 @@ class ExpenseSheetSerializer(serializers.ModelSerializer):
         request = self.context.get("request")
         if request and hasattr(request, "user"):
             user = request.user
-        objData = Invoice.objects.filter( sheet__isnull = True, user = user)
-        return InvoiceSerializer(objData,many = True ).data
+        objData = Expense.objects.filter( sheet__isnull = True, user = user)
+        return ExpenseSerializer(objData,many = True ).data
     def get_typ(self , obj):
         return 'EXPENSE SHEET'
 
@@ -646,24 +646,13 @@ class ExpenseHeadingLiteSerializer(serializers.ModelSerializer):
         fields = ('pk', 'title')
 
 
-class ConfigureTermsAndConditionsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ConfigureTermsAndConditions
-        fields = ('pk'  , 'created' , 'body', 'heading' , 'default')
-    def create(self , validated_data):
-        t = ConfigureTermsAndConditions(**validated_data)
-        try:
-            t.division = self.context['request'].user.designation.division
-        except:
-            pass
-        t.save()
-        return t
+
 
 
 class DisbursalLiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Disbursal
-        fields=('pk','date','sourcePk','source','amount','account')
+        fields=('pk','date','sourcePk','source','amount','account','disbursed' , 'disbursalNote')
 
 
 class DisbursalSerializer(serializers.ModelSerializer):
@@ -681,3 +670,28 @@ class DisbursalSerializer(serializers.ModelSerializer):
             instance.account = Account.objects.get(pk = int(self.context['request'].data['account']))
         instance.save()
         return instance
+
+
+class InvoiceReceivedSerializer(serializers.ModelSerializer):
+    typ = serializers.SerializerMethodField()
+    class Meta:
+        model = InvoiceReceived
+        fields=('pk','created','user','companyName','personName','typ','totalAmount')
+    def get_typ(self, obj):
+        return 'INVOICE'
+
+
+class InvoiceQtySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InvoiceQty
+        fields=('pk','product','price','taxCode','taxPer','tax','total','receivedQty')
+
+
+class InvoiceReceivedAllSerializer(serializers.ModelSerializer):
+    products = serializers.SerializerMethodField()
+    companyReference = serviceSerializer(many = False , read_only = True)
+    class Meta:
+        model = InvoiceReceived
+        fields=('pk','created','user','companyName','personName','phone','email','address' ,'state' , 'city' ,'country','pincode' , 'deliveryDate' , 'paymentDueDate' , 'costcenter' , 'accNo' , 'ifsc' , 'bankName' , 'account'  , 'totalAmount' , 'balanceAmount' , 'paidAmount' , 'companyReference' , 'note','products','invNo','gstIn')
+    def get_products(self, obj):
+        return InvoiceQtySerializer(obj.parentInvoice, many = True).data

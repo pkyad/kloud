@@ -233,6 +233,11 @@ class Division(models.Model):
     uipathOrgId = models.TextField(max_length = 10 , null = True)
     gupshupAppName = models.TextField(max_length = 20 , null = True)
 
+    locked = models.BooleanField(default=False)
+    totalDue = models.PositiveIntegerField(default = 0)
+    dueDate = models.DateTimeField(null = True)
+    
+
     # address
     # themeColor
     # invoiceVersion

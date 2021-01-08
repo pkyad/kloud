@@ -146,10 +146,10 @@ transition-duration: 0.8s;
                     <td  class="td_data">
                       <div class="text-center" ng-if="po.typ=='EXPENSE SHEET'"  style="border-radius:20px;width: 150px;padding-top: 5px;padding-bottom: 5px;background: #b9e3ff;color: #5f92b3">{{po.typ}}</div>
                       <div class="text-center" ng-if="po.typ=='INVOICE'"  style="border-radius:20px;width: 150px;padding-top: 5px;padding-bottom: 5px;background: #ebffeb;color: green;">{{po.typ}}</div>
-                      <div class="text-center" ng-if="po.typ=='PURCHASE ORDER'"  style="border-radius:20px;width: 150px;padding-top: 5px;padding-bottom: 5px;background: #fff7e6;color: #f9a365;">{{po.typ}}</div>
+                      <!-- <div class="text-center" ng-if="po.typ=='PURCHASE ORDER'"  style="border-radius:20px;width: 150px;padding-top: 5px;padding-bottom: 5px;background: #fff7e6;color: #f9a365;">{{po.typ}}</div> -->
                     </td>
                     <td class="td_data" style="font-size:20px;">
-                      <span ng-if="po.typ!='EXPENSE SHEET'">{{po.name}}</span>
+                      <span ng-if="po.typ!='EXPENSE SHEET'">{{po.companyName}}</span>
                       <span ng-if="po.typ=='EXPENSE SHEET'">{{po.user|getName}}</span>
                     </td>
                     <td  class="td_data">{{po.totalAmount }}</td>

@@ -1948,10 +1948,10 @@ app.controller("businessManagement.finance.termsAndConditions", function($scope,
         heading: $scope.form.heading
       }
       var method = 'POST'
-      var url = '/api/finance/configureTermsAndConditions/'
+      var url = '/api/clientRelationships/configureTermsAndConditions/'
       if ($scope.form.pk) {
         var method = 'PATCH'
-        var url = '/api/finance/configureTermsAndConditions/' + $scope.form.pk + '/'
+        var url = '/api/clientRelationships/configureTermsAndConditions/' + $scope.form.pk + '/'
       }
 
       $http({
@@ -1973,7 +1973,7 @@ app.controller("businessManagement.finance.termsAndConditions", function($scope,
 
     $http({
       method: 'GET',
-      url: '/api/finance/configureTermsAndConditions/',
+      url: '/api/clientRelationships/configureTermsAndConditions/',
     }).
     then(function(response) {
       $scope.allData = response.data
@@ -1995,7 +1995,7 @@ app.controller("businessManagement.finance.termsAndConditions", function($scope,
     $scope.delete = function(indx) {
       $http({
         method: 'DELETE',
-        url: '/api/finance/configureTermsAndConditions/' + $scope.allData[indx].pk + '/'
+        url: '/api/clientRelationships/configureTermsAndConditions/' + $scope.allData[indx].pk + '/'
       }).
       then(function(response) {
         Flash.create('success', 'Deleted');

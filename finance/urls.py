@@ -10,7 +10,7 @@ router.register(r'costCenter' , CostCenterViewSet , base_name ='costCenter')
 router.register(r'transaction' , TransactionViewSet , base_name ='transaction')
 router.register(r'expenseSheet' , ExpenseSheetViewSet , base_name ='expenseSheet')
 router.register(r'expenseSheetLite' , ExpenseSheetLiteViewSet , base_name ='expenseSheetLite')
-router.register(r'invoices' , InvoiceViewSet , base_name ='invoices')
+router.register(r'expense' , ExpenseViewSet , base_name ='expense')
 router.register(r'inflow' , InflowViewSet , base_name ='inflow')
 router.register(r'termsAndConditions' , TermsAndConditionsViewSet, base_name = 'termsAndConditions')
 router.register(r'vendorprofile' , VendorProfileViewSet , base_name ='vendorprofile')
@@ -22,11 +22,13 @@ router.register(r'saleAll' , SaleAllViewSet , base_name ='outBoundInvoice')
 router.register(r'salesQty' , SalesQtyViewSet , base_name ='outBoundInvoiceQty')
 router.register(r'inventory' , RateListViewSet , base_name ='ratelist')
 router.register(r'inventoryLog' , InventoryLogViewSet , base_name ='inventoryLog')
-router.register(r'configureTermsAndConditions' , ConfigureTermsAndConditionsViewSet , base_name ='configureTermsAndConditions')
+
 router.register(r'category' , CategoryViewSet , base_name ='category')
 router.register(r'disbursal' , DisbursalViewSet , base_name ='disbursal')
 router.register(r'disbursallite' , DisbursalliteViewSet , base_name ='disbursallite')
-
+router.register(r'invoiceReceived' , InvoiceReceivedViewSet , base_name ='invoiceReceived')
+router.register(r'invoiceReceivedAll' , InvoiceReceivedAllViewSet , base_name ='invoiceReceivedAll')
+router.register(r'invoiceQty' , InvoiceQtyViewSet , base_name ='invoiceQty')
 # router.register(r'outBoundInvoice' , OutBoundInvoiceViewSet , base_name ='outBoundInvoice')
 # router.register(r'outBoundInvoiceAll' , OutBoundInvoiceAllViewSet , base_name ='outBoundInvoice')
 # router.register(r'outBoundInvoiceQty' , OutBoundInvoiceQtyViewSet , base_name ='outBoundInvoiceQty')
@@ -71,7 +73,6 @@ urlpatterns = [
     url(r'accountsSpreadSheet/$' , AccountsSpreadSheetAPI.as_view()),
     url(r'pettyCashJournal/$' , PettyCashJournalAPI.as_view()),
     url(r'gettTransactions/$' , GettTransactionsAPI.as_view()),
-    url(r'serviceApi/$' , serviceApi.as_view()),
     url(r'getAccount/$' , GetAccountAPI.as_view()),
     url(r'cashFlow/$' , CashFlowAPI.as_view()),
     url(r'balanceSheet/$' , BalanceSheetAPI.as_view()),
@@ -94,7 +95,7 @@ urlpatterns = [
 
     url(r'getallCount/$' , GetAllCountAPI.as_view()),
     url(r'createTransaction/$' , CreateTransactionsAPI.as_view()),
-    url(r'getallPurchaseOrder/$' , GetAllPurchaseOrderAPI.as_view()),
+    url(r'fetchExpenses/$' , GetAllExpensesAPI.as_view()),
     url(r'expenseTransactionCreate/$' , CreateExpenseTransactionAPI.as_view()),
     url(r'salesTransactionCreate/$' , CreateSalesTransactionAPI.as_view()),
     url(r'outbondInvoiceDetails/$' , OuttbondInvoiceAPIView.as_view()),
@@ -109,6 +110,8 @@ urlpatterns = [
     url(r'getInventory/$' , GetInventoryAPI.as_view()),
     url(r'ProductsCatalog/$' , ProductsCatalogAPI.as_view()),
     url(r'getAccountTotal/$' , GetAccountsTotalAPIView.as_view()),
+    url(r'saveInvoice/$' , SaveInvoiceReceived.as_view()),
     url(r'makeImageTransparent/$' , TransparentImageAPI.as_view()),
+    url(r'updateInvTotal/$' , UpdateTotalAPI.as_view()),
 
 ]

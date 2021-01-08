@@ -289,6 +289,14 @@ class ContractTracker(models.Model):
     termsAndConditionTxts = models.TextField(max_length = 10000 , null = True, blank = True)
     heading = models.CharField(max_length = 300 , null = True)
 
+class ConfigureTermsAndConditions(models.Model):
+    created = models.DateTimeField(auto_now_add = True)
+    body = models.TextField(max_length=3000 , null=True)
+    heading = models.TextField(max_length=100 , null=True)
+    default = models.BooleanField(default = False)
+    division = models.ForeignKey(Division , related_name='termsandconditions' , null = True)
+
+
 TICKET_CHOICES = (
     ('created' , 'created'),
     ('upcoming' , 'upcoming'),

@@ -151,7 +151,16 @@ class ChatThreadsViewSet(viewsets.ModelViewSet):
                     raise ValidationError(detail={'PARAMS' : 'createCookie'})
             print 'tttttttttttttttt',threadObj
             return threadObj
-        return ChatThread.objects.filter(company= self.request.user.designation.division,title__isnull=False)
+
+        return ChatThread.objects.all()
+
+class createChatThreadAPIView(APIView):
+    permission_classes = (permissions.AllowAny ,)
+    def post(self , request , format = None):
+        if 'user' and 'company' in request.data:
+            chatThread = ChatThread.objects.get_or_create(company__id=request.data['company'],user__id = request.data['user'],title=request.data['title'])
+            chatThread.save()
+        return Response({}, status = status.HTTP_200_OK)
 
 class GetChatThreadsAPIView(APIView):
     permission_classes = (permissions.AllowAny ,)

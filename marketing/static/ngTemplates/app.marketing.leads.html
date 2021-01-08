@@ -37,7 +37,20 @@
     border-color:#f2f2f2 !important;
   }
 
+  .flex-container {
+  display: flex;
+  /* background-color: DodgerBlue; */
+}
 
+.flex-container > div {
+  padding: 15px;
+  padding-top:5px;
+  padding-bottom:5px;
+  border:1px solid #e4dddd;
+  border-radius:25px;
+  margin-right:10px;
+  cursor:pointer;
+}
 
 </style>
 
@@ -94,8 +107,8 @@
             <th width="17%"></th>
           </tr>
         </thead>
-        <tbody>
-          <tr ng-repeat="contact in allServices" style="padding:10px;background:white;" ng-click="newContact($index)">
+        <tbody  ng-repeat="contact in allServices" >
+          <tr style="padding:10px;background:white;" >
             <td class="contentTd">{{contact.pk}}</td>
             <td class="contentTd"> <h4>{{contact.name}}</h4>
               {{contact.address}} {{contact.city}} {{contact.state}} {{contact.country}} - {{contact.pincode}} <br>
@@ -110,19 +123,44 @@
             </td>
             <td class="contentTd">{{contact.warrantyStatus}}</td>
             <td class="contentTd">
-              <div class="btn-group btn-group-sm" ng-if="contact.status == 'assigned' || contact.status == 'ongoing' ||  contact.status == 'posponded' || contact.status == 'created' || contact.status == 'upcoming'">
-                <button type="button" class="btn-assign" ng-click="assign($index);$event.stopPropagation();" style="">
+              <div class="btn-group btn-group-sm" ng-if="contact.status == 'assigned' || contact.status == 'ongoing' ||  contact.status == 'postponed' || contact.status == 'created' || contact.status == 'upcoming'">
+                <button type="button" class="btn-assign" ng-click="assign($index);$event.stopPropagation();" style="width:130%">
                 <span ng-if="contact.status == 'created'|| contact.status == 'upcoming'">  Assign Technician </span>
-                <span ng-if="contact.status == 'assigned' || contact.status == 'ongoing' ||  contact.status == 'posponded'">  Change Technician </span>
+                <span ng-if="contact.status == 'assigned' || contact.status == 'ongoing' ||  contact.status == 'postponed'">  Change Technician </span>
                 </button>
                 <div ng-if="contact.status != 'created' && contact.status != 'upcoming'" style="margin-top:15px" class="text-center"> <span ng-if="contact.engineer"> {{contact.engineer.first_name}}  {{contact.engineer.last_name}} </span>  <span ng-if="contact.preferredDate"> <br/> on {{contact.preferredDate | date}} <span>  <span ng-if="contact.preferredTimeSlot">  @ {{contact.preferredTimeSlot}} <span> </div>
-                <!-- <button ng-if="material_inward == 'True'" type="button" class="btn btn-default" ng-click="openMaterialInward($index);$event.stopPropagation();">
-                  MIN
-                </button> -->
               </div>
+              <button  style="border: none !important;border-radius: 64px !important;padding: 10px;font-size: 16px;z-index: 10;margin-top:15px" class="btn btn-primary" ng-click="download(contact.pk)">  Print Material Inward Note </button>
+              <button type="button" class="btn-assign" ng-click="newContact($index)" style="width:100%;margin-top:15px">
+                Edit
+              </button>
             </td>
           </tr>
+          <tr style="background:white;" >
+            <td  colspan="5" style="border-top:none!important">
+              <div class="row" ng-if="contact.allInvoices.length>0">
+                  <div class="col-md-10 col-md-offset-1" >
+                    <!-- <div style="margin-bottom:15px"> Quotations: </div> -->
+                    <div class="flex-container">
+                        <p style="margin-top:15px;margin-right:15px"> Documents: </p>
+                         <div ng-repeat="i in contact.allInvoices track by $index" ng-click="$state.go('businessManagement.contacts.quote', {id: contact.referenceContact,contract: i.pk});$event.stopPropagation()">{{i.heading}}</div>
+                    </div>
+                  </div>
+              </div>
+              <div class="row" ng-if="allTerms.length>0&&(contact.status == 'created' || contact.status == 'assigned'  || contact.status == 'upcoming' || contact.status == 'ongoing' || contact.status == 'postponed')" style="margin-top:15px">
+                  <div class="col-md-10 col-md-offset-1" >
+                    <div class="flex-container">
+                      <p style="margin-top:15px;margin-right:15px"> Create new document: </p>
+                         <div ng-repeat="t in allTerms track by $index" ng-click="$state.go('businessManagement.contacts.createquote', {id: contact.referenceContact,template: t.pk});$event.stopPropagation()">{{t.heading}}</div>
+                    </div>
+                  </div>
+              </div>
+
+            </td>
+
+          </tr>
         </tbody>
+
       </table>
     </div>
   </div>
