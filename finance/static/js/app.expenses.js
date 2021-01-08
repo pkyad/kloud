@@ -1451,7 +1451,7 @@ app.controller('businessManagement.finance.inboundInvoices.form', function($scop
       } else {
         $http({
           method: 'DELETE',
-          url: '/api/finance/invoiceReceived/' + pkVal + '/'
+          url: '/api/finance/invoiceQty/' + pkVal + '/'
         }).
         then(function(response) {
           $scope.form.products.splice(idx, 1)
@@ -1459,6 +1459,10 @@ app.controller('businessManagement.finance.inboundInvoices.form', function($scop
           return
         })
       }
+    }
+
+    $scope.pay = function(){
+      console.log("ssssssssssssss");
     }
 
 

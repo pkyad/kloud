@@ -156,7 +156,7 @@
                   <th></th>
                 </tr>
                 <tr ng-repeat="v in form.products track by $index">
-                  <td>{{$index + 1}}</td>
+                  <td>{{$index + 1}} {{v.pk}}</td>
                   <td><input type="text" class="form-control-pos text-center" ng-model="v.product" uib-typeahead="p as p.product for p in productSearch($viewValue)"></td>
                   <td><input type="text" class="form-control-pos text-center" ng-model="v.price" ng-change="calc($index)"></td>
                   <td><input type="text" class="form-control-pos text-center" ng-model="v.receivedQty" ng-change="calc($index)"></td>
@@ -178,7 +178,8 @@
               <button type="button" class="btn btn-primary btn-block cutebuttonplain" style="background:rgb(14, 67, 136);color:white;" ng-click="save()">Save</button>
           </div>
           <div class="col-md-1">
-              <button ng-if="mode=='new'" type="button" class="btn btn-default btn-block cutebuttonplain" style="background:#461482;color:white;" ng-click="refresh()">Refresh</button>
+              <button ng-if="form.pk" mwl-confirm title="Reject" message="Are you sure?" data-placement="top" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="pay();"
+                confirm-button-type="default" cancel-button-type="default" type="button" class="btn btn-default btn-block cutebuttonplain" style="background:#461482;color:white;">PAY</button>
           </div>
         </div>
       </div>

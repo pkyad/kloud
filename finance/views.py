@@ -4680,6 +4680,11 @@ class InvoiceReceivedAllViewSet(viewsets.ModelViewSet):
         divsn = self.request.user.designation.division
         return InvoiceReceived.objects.filter(division = divsn)
 
+class InvoiceQtyViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated, )
+    serializer_class = InvoiceQtySerializer
+    queryset = InvoiceQty.objects.all()
+
 
 class SaveInvoiceReceived(APIView):
     renderer_classes = (JSONRenderer,)
@@ -4710,7 +4715,7 @@ class SaveInvoiceReceived(APIView):
                 prodObj.__dict__.update(proddataSave)
             else:
                 prodObj = InvoiceQty.objects.create(**proddataSave)
-                total +=float(i['total'])
+            total +=float(i['total'])
         balance = total - obj.paidAmount
         obj.totalAmount = total
         obj.balance = balance

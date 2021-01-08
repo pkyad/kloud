@@ -703,6 +703,7 @@ console.log('ggg');
     then(function(response) {
       $scope.form = response.data
       $scope.inWords  = price_in_words($scope.form.total)
+      $scope.getCurrentAccounts()
     })
   }
   $scope.contactSearch = function(query) {
@@ -734,10 +735,17 @@ $scope.assetsAccounts = []
     }).
     then(function(response) {
       $scope.assetsAccounts = response.data
+      if ($scope.form.pk) {
+        for (var i = 0; i < $scope.assetsAccounts.length; i++) {
+          if ($scope.assetsAccounts[i].pk == $scope.form.account.pk) {
+            $scope.form.account = $scope.assetsAccounts[i]
+          }
+        }
+      }
     })
   }
 
-    $scope.getCurrentAccounts()
+
 
     $scope.allTermsandCondition = []
       $scope.getTermsandCondition = function(){
@@ -837,6 +845,7 @@ $scope.assetsAccounts = []
   if  ($state.is('businessManagement.sales.editSales') || $state.is('businessManagement.sales.editInvoice')) {
       $scope.mode = 'edit';
       $scope.getDetails()
+
   }
   else {
     $scope.mode = 'new';
@@ -845,6 +854,7 @@ $scope.assetsAccounts = []
        $scope.form.isInvoice = true
        $scope.showPerforma = true
      }
+     $scope.getCurrentAccounts()
   }
   $scope.$watch('form.pincode', function(newValue, oldValue) {
     if (newValue != null && newValue.length > 0) {
@@ -1041,12 +1051,12 @@ $scope.save = function(){
     dataToSend.terms =  $scope.form.termsandcondition.body
   }
 
-  if (typeof $scope.form.serviceFor == 'object') {
-    dataToSend.serviceFor = $scope.form.serviceFor.stateAlias
-  }
-  else if($scope.form.serviceFor.length>0){
-    dataToSend.serviceFor = $scope.form.serviceFor
-  }
+  // if (typeof $scope.form.serviceFor == 'object') {
+  //   dataToSend.serviceFor = $scope.form.serviceFor.stateAlias
+  // }
+  // else if($scope.form.serviceFor.length>0){
+  //   dataToSend.serviceFor = $scope.form.serviceFor
+  // }
   $http({
     method: 'POST',
     url: '/api/finance/outbondInvoiceDetails/',
