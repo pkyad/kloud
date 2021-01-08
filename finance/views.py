@@ -233,26 +233,7 @@ class VendorServiceViewSet(viewsets.ModelViewSet):
 
 
 
-class CreateExpenseTransactionAPI(APIView):
-    renderer_classes = (JSONRenderer,)
-    permission_classes = (permissions.AllowAny ,)
-    def post(self,request , format= None):
-        data = request.data
-        from datetime import date
-        today = date.today()
-        purchaseObj = InvoiceReceived.objects.get(pk = int(data['purchase']))
-        transObj = Disbursal.objects.create(sourcePk = data['purchase'] , amount = data['amount'] , date = today , source = 'expensesInvoice')
-        transObj.accountNumber = purchaseObj.accNo
-        transObj.ifscCode = purchaseObj.ifsc
-        transObj.bankName = purchaseObj.bankName
-        transObj.narration = 'Expenses Invoice ' + str(round(data['amount'])) +' Rs , ' + str(transObj.date.strftime("%B")) + '-' + str(transObj.date.year)
-        transObj.save()
-        purchaseObj.paidAmount = float(purchaseObj.paidAmount) + float(data['amount'])
-        purchaseObj.balanceAmount = float(purchaseObj.totalAmount) - float(purchaseObj.paidAmount)
-        purchaseObj.save()
-        data = DisbursalLiteSerializer(transObj,many=False).data
-        purchaseObjData = InvoiceReceivedAllSerializer(purchaseObj, many=False).data
-        return Response({'purchase':purchaseObjData , 'data': data})
+
 
 class CreateSalesTransactionAPI(APIView):
     renderer_classes = (JSONRenderer,)
@@ -3861,12 +3842,6 @@ class JournalAPIView(APIView):
         return Response(result , status = status.HTTP_200_OK)
 
 
-class ConfigureTermsAndConditionsViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticated,  )
-    serializer_class = ConfigureTermsAndConditionsSerializer
-    def get_queryset(self):
-        divsn = self.request.user.designation.division
-        return ConfigureTermsAndConditions.objects.filter(division = divsn)
 
 class GetAllExpensesAPI(APIView):
     permission_classes = (permissions.IsAuthenticated ,)
@@ -4416,84 +4391,15 @@ def getFourProductArray(variants):
             if variant.img1 :
                 imgg = str(variant.img1)
                 mediaImg = os.path.join(globalSettings.MEDIA_ROOT,imgg)
-                # file = request.FILES['img1']
-                # print file.name , 'ffffffff'
-                # Img = os.path.join(globalSettings.BASE_DIR, 'media_root/finance/inventory', file.name)
-                # f = open(Img, "w")
-                # f.write(file.read())
-                # f.close()
 
-                BLUR = 1
-                CANNY_THRESH_1 = 10
-                CANNY_THRESH_2 = 200
-                MASK_DILATE_ITER = 10
-                MASK_ERODE_ITER = 10
-                MASK_COLOR = (0.0,0.0,0.0) # In BGR format
+                URL = globalSettings.SITE_ADDRESS+'/api/finance/makeImageTransparent/'
+                fileData = {'file':mediaImg}
+                r = requests.post(url = URL, data = fileData)
+                data = r.json()
+                convertedImg = os.path.join(globalSettings.MEDIA_ROOT,data['url'])
 
-                img = cv2.imread(mediaImg)
-                gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-
-                edges = cv2.Canny(gray, CANNY_THRESH_1, CANNY_THRESH_2)
-                edges = cv2.dilate(edges, None)
-                edges = cv2.erode(edges, None)
-
-                contour_info = []
-                contours, _ = cv2.findContours(edges, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
-                # Previously, for a previous version of cv2, this line was:
-                #  contours, _ = cv2.findContours(edges, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
-                # Thanks to notes from commenters, I've updated the code but left this note
-                for c in contours:
-                    contour_info.append((
-                        c,
-                        cv2.isContourConvex(c),
-                        cv2.contourArea(c),
-                    ))
-                contour_info = sorted(contour_info, key=lambda c: c[2], reverse=True)
-                max_contour = contour_info[0]
-
-                mask = np.zeros(edges.shape)
-                cv2.fillConvexPoly(mask, max_contour[0], (255))
-
-                #-- Smooth mask, then blur it --------------------------------------------------------
-                mask = cv2.dilate(mask, None, iterations=MASK_DILATE_ITER)
-                mask = cv2.erode(mask, None, iterations=MASK_ERODE_ITER)
-                mask = cv2.GaussianBlur(mask, (BLUR, BLUR), 0)
-                mask_stack = np.dstack([mask]*3)    # Create 3-channel alpha mask
-
-                #-- Blend masked img into MASK_COLOR background --------------------------------------
-                mask_stack  = mask_stack.astype('float32') / 255.0          # Use float matrices,
-                img         = img.astype('float32') / 255.0                 #  for easy blending
-                masked = (mask_stack * img) + ((1-mask_stack)*(MASK_COLOR)) # Blend
-                masked = (masked * 255).astype('uint8')                     # Convert back to 8-bit
-                tmp = cv2.cvtColor(masked, cv2.COLOR_BGR2GRAY)
-                _,alpha = cv2.threshold(tmp,0,255,cv2.THRESH_BINARY)
-                b, g, r = cv2.split(masked)
-                rgba = [b,g,r, alpha]
-                dst = cv2.merge(rgba,4)
-                cv2.imwrite("media_root/finance/inventory/%s" %(img), dst)
-
-                httpUrl = globalSettings.SITE_ADDRESS+'/media_root/finance/inventory/%s' %(file.name)
-                print httpUrl , 'ooooooooooo'
-
-                # url = globalSettings.SITE_ADDRESS+'/api/finance/makeImageTransparent/'
-                #
-                # dataVal = {'ddfs' : 'dfdfsd'}
-                # getImgUrl = requests.post(url,  data=mediaImg)
-                #
-                # savefile = os.path.join(globalSettings.BASE_DIR, 'media_root', fileVal+'.xlsx')
-                # workbook.save(filename = savefile)
-                # Data = open(savefile, 'rb')
-                # print Data, 'ddddddddddd'
-                # files = { 'excelFile': Data}
-                # url = globalSettings.SITE_ADDRESS+'/api/finance/uploadExcel/'
-                # dataVal = {'startDate':data['fromDate'],'endDate':data['toDate'],'user':user, 'level':level}
-                # rData = requests.post(url,  data=dataVal, files=files)
-                rData = requests.post(globalSettings.SITE_ADDRESS+'/api/finance/makeImageTransparent/',  data={'d':'dsf'}, files=mediaImg)
-
-
-
-                imgData = open(mediaImg, 'rb')
-                img = Image(mediaImg)
+                imgData = open(convertedImg, 'rb')
+                img = Image(convertedImg)
                 ratio = img.drawHeight / img.drawWidth
                 img.drawHeight = 1.25*inch
                 img.drawWidth = 1.25*inch
@@ -4576,20 +4482,10 @@ class ProductsCatalogAPI(APIView):
 
 class TransparentImageAPI(APIView):
     renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+
     def post(self,request , format= None):
         data = request.data
-        print data , 'dafagsdsg'
-
-        # imageUrls = []
-        # imageFiles = []
-        # for i in request.FILES:
-        #     print i , 'iiiiiiiiii'
-        file = request.FILES['img1']
-        print file.name , 'ffffffff'
-        Img = os.path.join(globalSettings.BASE_DIR, 'media_root/finance/inventory', file.name)
-        f = open(Img, "w")
-        f.write(file.read())
-        f.close()
 
         BLUR = 1
         CANNY_THRESH_1 = 10
@@ -4598,7 +4494,7 @@ class TransparentImageAPI(APIView):
         MASK_ERODE_ITER = 10
         MASK_COLOR = (0.0,0.0,0.0) # In BGR format
 
-        img = cv2.imread(Img)
+        img = cv2.imread(data['file'])
         gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
         edges = cv2.Canny(gray, CANNY_THRESH_1, CANNY_THRESH_2)
@@ -4638,9 +4534,13 @@ class TransparentImageAPI(APIView):
         b, g, r = cv2.split(masked)
         rgba = [b,g,r, alpha]
         dst = cv2.merge(rgba,4)
-        cv2.imwrite("media_root/finance/inventory/%s" %(file.name), dst)
+        # cv2.imwrite("media_root/finance/inventory/%s" %(file.name), dst)
+        print data['file'], 'eeeeeeeee'
+        print data['file'].name, 'eeeeeeeee'
+        cv2.imwrite("media_root/finance/inventory/converted.png", dst)
 
-        httpUrl = globalSettings.SITE_ADDRESS+'/media_root/finance/inventory/%s' %(file.name)
+        # httpUrl = globalSettings.SITE_ADDRESS+'/media_root/finance/inventory/%s' %(file.name)
+        httpUrl = 'finance/inventory/converted.png'
         print httpUrl , 'ooooooooooo'
 
 
@@ -4650,16 +4550,22 @@ class TransparentImageAPI(APIView):
 class DisbursalViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = DisbursalSerializer
-    queryset = Disbursal.objects.all()
+    # queryset = Disbursal.objects.all()
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['disbursed']
+    def get_queryset(self):
+        divsn = self.request.user.designation.division
+        return Disbursal.objects.filter(division = divsn)
 
 class DisbursalliteViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = DisbursalLiteSerializer
-    queryset = Disbursal.objects.all()
+    # queryset = Disbursal.objects.all()
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['source' , 'sourcePk']
+    def get_queryset(self):
+        divsn = self.request.user.designation.division
+        return Disbursal.objects.filter(division = divsn)
 
 
 class InvoiceReceivedViewSet(viewsets.ModelViewSet):
@@ -4679,6 +4585,11 @@ class InvoiceReceivedAllViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         divsn = self.request.user.designation.division
         return InvoiceReceived.objects.filter(division = divsn)
+
+class InvoiceQtyViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated, )
+    serializer_class = InvoiceQtySerializer
+    queryset = InvoiceQty.objects.all()
 
 
 class SaveInvoiceReceived(APIView):
@@ -4710,10 +4621,49 @@ class SaveInvoiceReceived(APIView):
                 prodObj.__dict__.update(proddataSave)
             else:
                 prodObj = InvoiceQty.objects.create(**proddataSave)
-                total +=float(i['total'])
+            total +=float(i['total'])
         balance = total - obj.paidAmount
         obj.totalAmount = total
         obj.balance = balance
         obj.save()
         toRet = InvoiceReceivedAllSerializer(obj, many=False).data
         return Response(toRet ,status = status.HTTP_200_OK)
+
+
+class CreateExpenseTransactionAPI(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def post(self,request , format= None):
+        data = request.data
+        div = request.user.designation.division
+        from datetime import date
+        today = date.today()
+        purchaseObj = InvoiceReceived.objects.get(pk = int(data['purchase']))
+        transObj = Disbursal.objects.create(sourcePk = data['purchase'] , amount = data['amount'] , date = today , source = 'INVOICE', division = div)
+        transObj.accountNumber = purchaseObj.accNo
+        transObj.ifscCode = purchaseObj.ifsc
+        transObj.bankName = purchaseObj.bankName
+        transObj.narration = 'Expenses Invoice ' + str(round(float(data['amount']))) +' Rs , ' + str(transObj.date.strftime("%B")) + '-' + str(transObj.date.year)
+        transObj.save()
+        purchaseObj.paidAmount = float(purchaseObj.paidAmount) + float(data['amount'])
+        purchaseObj.balanceAmount = float(purchaseObj.totalAmount) - float(purchaseObj.paidAmount)
+        purchaseObj.save()
+        data = DisbursalLiteSerializer(transObj,many=False).data
+        purchaseObjData = InvoiceReceivedAllSerializer(purchaseObj, many=False).data
+        return Response({'purchase':purchaseObjData , 'data': data})
+
+
+class UpdateTotalAPI(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def get(self,request , format= None):
+        inv = InvoiceReceived.objects.get(pk = int(request.GET['id']))
+        total =inv.parentInvoice.aggregate(tot = Sum('total'))
+        totalAmount = 0
+        if total['tot'] is not None:
+            totalAmount = total['tot']
+        inv.totalAmount = totalAmount
+        inv.balanceAmount = totalAmount - inv.paidAmount
+        inv.save()
+
+        return Response({})

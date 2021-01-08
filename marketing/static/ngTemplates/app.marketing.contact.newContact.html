@@ -32,18 +32,18 @@
 <div class="modal-body" style="background:#F2F3F7;">
 
 
-  <!-- <button style="background: #461482;color: white;position: fixed;bottom: 20px;border: none !important;border-radius: 64px !important;padding: 17px;width: 112px;right: 59px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;" class="btn btn-primary pull-right" ng-click="saveContact()">  Save </button>
-
-  <button style="background:rgb(237, 2, 2);color: white;position: fixed;bottom: 20px;border: none !important;border-radius: 64px !important;padding: 17px;width: 112px;right: 259px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;" class="btn btn-primary pull-right" ng-click="close()">  Cancel </button> -->
-
-  <div class= "row" >
-    <div class="col-md-6">
-      <h3 style="margin-left: 29px;margin-bottom: 37px;">Add a new lead</h3>
+  <div class= "row" style="border-bottom: solid 2px #e4e4e4;margin-bottom:20px;">
+    <div class="col-md-4">
+      <h3 style="margin-left: 29px;margin-bottom: 37px;" ng-if="!form.pk">Add a new ticket</h3>
+      <h3 style="margin-left: 29px;margin-bottom: 37px;" ng-if="form.pk">Update ticket</h3>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
+      <!-- <button ng-if="form.pk" style="bottom: 20px;border: none !important;border-radius: 64px !important;padding: 17px;font-size: 16px;z-index: 10;margin-right:30px;" class="btn btn-primary pull-right" ng-click="download()">  Print Material Inward Note </button> -->
+    </div>
+    <div class="col-md-4">
       <button style="background: #461482;color: white;bottom: 20px;border: none !important;border-radius: 64px !important;padding: 17px;width: 112px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;" class="btn btn-primary pull-right" ng-click="save()" >  Save </button>
 
-      <button style="background:rgb(237, 2, 2);color: white;bottom: 20px;border: none !important;border-radius: 64px !important;padding: 17px;width: 112px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;margin-right:30px" class="btn btn-primary pull-right" ng-click="close()">  Cancel </button>
+      <button style="color: rgb(237, 2, 2);bottom: 20px;border: none !important;border-radius: 64px !important;padding: 17px;width: 112px;font-size: 16px;z-index: 10;margin-right:30px;background:none;" class="btn btn-primary pull-right" ng-click="close()">  Cancel </button>
     </div>
   </div>
 
@@ -67,23 +67,14 @@
           <input type="email" class="form-control whiteInputField" ng-model="form.email" >
         </div>
       </div>
-      <!-- <div class="col-md-6">
+      <div class="col-md-12" style="margin-top: 25px;margin-bottom: 25px;">
         <div class="form-group">
-          <label>Referrer</label>
-          <select class="form-control" ng-model="form.source" style="height: 55px;border-radius: 10px;border: none !important;" >
-            <option value="Sample">Sample</option>
-          </select>
-        </div>
-      </div> -->
-      <!-- <div class="col-md-12" ng-if="material_inward=='True'">
-        <div class="form-group">
-          <label>Company Name</label>
-          <input type="text" class="form-control whiteInputField" ng-model="form.companyName" autocomplete="new-password">
-        </div>
-      </div> -->
-      <div class="col-md-6" style="margin-top: 25px;margin-bottom: 25px;">
-        <div class="form-group">
-          <label>Require Onsite Visit?</label>
+          <label>Do the customer need Onsite Visit?</label>
+          <label>ಗ್ರಾಹಕರಿಗೆ ಆನ್‌ಸೈಟ್ ಭೇಟಿ ಅಗತ್ಯವಿದೆಯೇ?</label>
+
+          <!-- <span class="label label-default">Yes</span>
+          <span class="label label-primary">No</span>  -->
+
           <input type="checkbox"  ng-model="form.requireOnSiteVisit" >
         </div>
       </div>
@@ -130,13 +121,13 @@
           </select>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6" ng-if="!form.requireOnSiteVisit">
         <div class="form-group">
-          <label>Product</label>
+          <label>Product Name</label>
           <input  ng-model="form.productName" type="text" class="form-control whiteInputField" placeholder="">
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6" ng-if="!form.requireOnSiteVisit">
         <div class="form-group">
           <label>Serial No.</label>
           <input type="text" class="form-control whiteInputField" ng-model="form.productSerial" autocomplete="new-password">
@@ -144,8 +135,8 @@
       </div>
       <div class="col-md-12" >
         <div class="form-group">
-          <label>Notes</label>
-          <textarea name="name" ng-model="form.notes"  class="form-control whiteInputField" rows="4" cols="80"></textarea>
+          <label>Customer's complaint ( mention the fault with the product ) </label>
+          <textarea name="name" ng-model="form.notes"  class="form-control whiteInputField" rows="4" cols="80" placeholder="ಗ್ರಾಹಕರ ದೂರು (ಉತ್ಪನ್ನದ ದೋಷವನ್ನು ನಮೂದಿಸಿ)"></textarea>
         </div>
       </div>
       <div class="col-md-6" >

@@ -700,7 +700,7 @@ def genInvoice(response, contract, request):
     if contract.termsAndConditionTxts is not None and len(contract.termsAndConditionTxts)>0:
         tncBody = contract.termsAndConditionTxts
     elif contract.termsAndCondition is not None and contract.termsAndCondition.body is not None:
-        tncBody = contract.termsAndConditionTxts
+        tncBody = contract.termsAndCondition.body
     else:
         termsObj = CRMTermsAndConditions.objects.filter(division = divsn)
         if termsObj.count()>0:

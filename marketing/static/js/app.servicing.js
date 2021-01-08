@@ -84,6 +84,7 @@ app.controller("businessManagement.servicing", function($scope, $state, $users, 
   $scope.offset = 0
   $scope.count = 0
   $scope.statusList = []
+    $scope.selected.status = 'created'
   if ($state.is('businessManagement.servicing.assigned')) {
     $scope.selected.status = 'assigned'
     $scope.statusList = ['assigned' ,'ongoing' , 'completed' , 'postponed' , 'cancelled']
@@ -253,6 +254,9 @@ app.controller("businessManagement.servicing", function($scope, $state, $users, 
   // })
 
 
+    $scope.download = function(id){
+        window.location.href = '/api/clientRelationships/materialIssue/?id='+id
+    }
 
 });
 
@@ -308,6 +312,7 @@ app.controller("businessManagement.marketing.assignTechnician", function($scope,
 
 
   }
+
 
 })
 app.controller("businessManagement.marketing.addContacts", function($scope, $state, $users, $stateParams, $http, Flash, $aside, $sce, $uibModal, $uibModalInstance, data) {
@@ -410,8 +415,12 @@ app.controller("businessManagement.marketing.addContacts", function($scope, $sta
       Flash.create('warning', 'Mobile number is required')
       return
     }
-    if ($scope.form.productName == null || $scope.form.productName.length == 0) {
+    if (!$scope.form.requireOnSiteVisit && ($scope.form.productName == null || $scope.form.productName.length == 0)) {
       Flash.create('warning', 'Product name is required')
+      return
+    }
+    if (!$scope.form.requireOnSiteVisit && ($scope.form.productSerial == null || $scope.form.productSerial.length == 0)) {
+      Flash.create('warning', 'Serial Number is required')
       return
     }
     if ($scope.form.requireOnSiteVisit == true) {
@@ -488,6 +497,8 @@ app.controller("businessManagement.marketing.addContacts", function($scope, $sta
     })
 
   }
+
+
 
 
 

@@ -21,6 +21,9 @@ def getProjectsUploadsPath(instance , filename ):
 def getcontentFilePath(instance , filename ):
     return 'projects/issue/%s_%s__%s' % (str(time()).replace('.', '_'), instance.title, filename)
 
+def getIconPath(instance , filename):
+    return 'projects/icon/%s_%s' % (str(time()).replace('.', '_'), filename)
+
 MEDIA_TYPE_CHOICES = (
     ('onlineVideo' , 'onlineVideo'),
     ('video' , 'video'),
@@ -58,6 +61,8 @@ class project(models.Model):
     budget = models.PositiveIntegerField(default=0)
     projectClosed = models.BooleanField(default = False)
     company = models.ForeignKey(service , related_name = 'projects',null=True)
+    icon = models.ImageField(upload_to = getIconPath , null = True)
+
 
 class projectComment(comment):
     project = models.ForeignKey(project , null= False , related_name='comments')
