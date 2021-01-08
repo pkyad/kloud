@@ -66,6 +66,7 @@ from django.core.mail import send_mail, EmailMessage
 from excel_response import ExcelResponse
 from num2words import num2words
 import re
+from ERP.models import Division, service, address
 
 
 class ProductsViewSet(viewsets.ModelViewSet):
@@ -4279,3 +4280,385 @@ class getProjObjViewset(APIView):
             data['pending'] = projObj.filter(comm_nr = c).exclude(status = 'approved').count()
             toRet.append(data)
         return Response(toRet,status = status.HTTP_200_OK)
+
+
+class ImportExportDataMigrationsAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny, )
+    def get(self, request, format=None):
+        divisionPK = 5
+
+        divisionObj = Division.objects.get(pk = divisionPK)
+
+        # #creating users
+        userData = None
+        userDataPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','bruderer_user.json')
+        with open(userDataPath) as json_file:
+            userData = json.load(json_file)
+        #creating products
+        productsPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','bruderer_products.json')
+        with open(productsPath) as json_file:
+            data = json.load(json_file)
+            for item in data:
+                productObj,created = Products.objects.get_or_create(part_no = item['part_no'],division = divisionObj)
+                productObj.description_1 = item['description_1']
+                productObj.description_2 = item['description_2']
+                productObj.sheet = item['sheet']
+                productObj.weight = item['weight']
+                productObj.parent = item['parent']
+                productObj.bar_code = item['bar_code']
+                productObj.price = item['price']
+                productObj.total_quantity = item['total_quantity']
+                productObj.custom = item['custom']
+                productObj.customs_no = item['customs_no']
+                productObj.replaced = item['replaced']
+                productObj.gst = item['gst']
+                productObj.division = divisionObj
+                productObj.save()
+                print productObj.pk , 'productObj pk'
+
+
+        #creating Service
+        companyPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','bruderer_service.json')
+        with open(companyPath) as json_file:
+            comapnyData = json.load(json_file)
+            for item in comapnyData:
+
+                try:
+                    if item['user'] is not None:
+                        userObj = User.objects.get(username = item['user']['username'])
+                except:
+                    print item['user'], 'user'
+                    userObjData = [x for x in userData if x['pk'] == item['user']]
+                    userObj = User.objects.get(username = userObjData[0]['username'])
+                else:
+                    userObj = User.objects.get(username = 'gopinath')
+
+
+                objs = service.objects.filter(name = item['name'],user = userObj)
+                obj = None
+                if len(objs)>0:
+                    obj = objs[0]
+                if len(objs) == 0:
+                    print item['name'], 'name '
+                    if item['name'] != 'cioc':
+                        obj = service.objects.create(name = item['name'],user = userObj)
+
+                if obj is not None:
+                    obj.customerName = item['customerName']
+                    obj.created = item['created']
+                    obj.mobile = item['mobile']
+                    obj.gst = item['gst']
+
+                    if item['address'] is not None:
+                        addressObj = address.objects.create(city = item['address']['city'], country = item['address']['country'], lon = item['address']['lon'] , pincode = item['address']['pincode'], state = item['address']['state'],street = item['address']['street'],lat = item['address']['lat'])
+
+                        obj.address = addressObj
+
+                    obj.save()
+                    print 'company', obj.name, obj.pk
+
+
+        #creating Vendor
+        vendorPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','bruderer_vendor.json')
+        with open(vendorPath) as json_file:
+            data = json.load(json_file)
+            for item in data:
+                vendorObj,created = Vendor.objects.get_or_create(name = item['name'], division = divisionObj)
+                vendorObj.personName = item['personName']
+                vendorObj.city = item['city']
+                vendorObj.street = item['street']
+                vendorObj.state = item['state']
+                vendorObj.pincode = item['pincode']
+                vendorObj.country = item['country']
+                vendorObj.mobile = item['mobile']
+                vendorObj.gst = item['gst']
+                vendorObj.email = item['email']
+                vendorObj.save()
+                print vendorObj.pk , 'vendor pk'
+
+        # creating Projects
+        projectPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','bruderer_projects.json')
+        with open(projectPath) as json_file:
+            data = json.load(json_file)
+            for item in data:
+                #getting service
+                serviceObj = None
+                if item['service'] is not None:
+                    serviceObjs = service.objects.filter(name = item['service']['name'])
+                    if len(serviceObjs)>0:
+                        serviceObj = serviceObjs[0]
+                if serviceObj is not None:
+
+                    projectObj, created = Projects.objects.get_or_create(title = item['title'],boeRefNumber = item['boeRefNumber'],comm_nr = item['comm_nr'],quote_ref = item['quote_ref'],invoiceNumber = item['invoiceNumber'],status = item['status'],clearingCharges1 = item['clearingCharges1'],poDate = item['poDate'],invoiceValue = item['invoiceValue'], service = serviceObj)
+                    # projectObj.date = item['date']
+                    # projectObj.machinemodel = item['machinemodel']
+                    # projectObj.quote_ref = item['quote_ref']
+                    # projectObj.enquiry_ref = item['enquiry_ref']
+                    projectObj.responsible = item['responsible']
+                    projectObj.approved1 = item['approved1']
+                    projectObj.approved2 = item['approved2']
+                    #ForeignKey user
+                    userObj = User.objects.get(username = 'gopinath')
+                    projectObj.approved1_user = userObj
+
+                    projectObj.approved1_date = item['approved1_date']
+                    projectObj.approved2_date = item['approved2_date']
+                    projectObj.status = item['status']
+                    projectObj.revision = item['revision']
+                    projectObj.savedStatus = item['savedStatus']
+                    projectObj.invoiceValue = item['invoiceValue']
+                    projectObj.packing = item['packing']
+                    projectObj.insurance = item['insurance']
+                    projectObj.freight = item['freight']
+                    projectObj.assessableValue = item['assessableValue']
+                    projectObj.gst1 = item['gst1']
+                    projectObj.gst2 = item['gst2']
+                    projectObj.clearingCharges1 = item['clearingCharges1']
+                    projectObj.clearingCharges2 = item['clearingCharges2']
+                    projectObj.exRate = item['exRate']
+                    projectObj.profitMargin = item['profitMargin']
+                    projectObj.poNumber = item['poNumber']
+                    projectObj.poDate = item['poDate']
+                    projectObj.invoiceNumber = item['invoiceNumber']
+                    projectObj.boeRefNumber = item['boeRefNumber']
+                    projectObj.quoteRefNumber = item['quoteRefNumber']
+                    projectObj.quoteDate = item['quoteDate']
+
+                    #getting vendor
+                    vendorObj = None
+                    if item['vendor'] is not None:
+                        vendorObjs = Vendor.objects.filter(name = item['vendor']['name'])
+                        if len(vendorObjs)>0:
+                            vendorObj = vendorObjs[0]
+                    if vendorObj is not None:
+                        projectObj.vendor = vendorObj
+
+
+
+                    projectObj.quoteValidity = item['quoteValidity']
+                    projectObj.terms = item['terms']
+                    projectObj.termspo = item['termspo']
+                    projectObj.delivery = item['delivery']
+                    projectObj.paymentTerms = item['paymentTerms']
+                    projectObj.paymentTerms1 = item['paymentTerms1']
+                    projectObj.junkStatus = item['junkStatus']
+                    projectObj.shipmentMode = item['shipmentMode']
+                    projectObj.shipmentDetails = item['shipmentDetails']
+                    projectObj.weightValue = item['weightValue']
+                    projectObj.quoteNotes = item['quoteNotes']
+                    projectObj.poNotes = item['poNotes']
+                    projectObj.currency = item['currency']
+                    projectObj.grnDate = item['grnDate']
+                    projectObj.flag = item['flag']
+                    projectObj.save()
+                    print projectObj.pk , 'project pk'
+                else:
+                    print item['service']['name'] , 'service is not available'
+        #creating BOM
+        bomPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','bruderer_bom.json')
+        with open(bomPath) as json_file:
+            data = json.load(json_file)
+            for item in data:
+                productObj = None
+                projectObj = None
+                userObj = None
+                try:
+                    userObjData = [x for x in userData if x['pk'] == item['user']]
+                    userObj = User.objects.get(username = userObjData[0]['username'])
+                except:
+                    userObj = User.objects.get(username = 'gopinath')
+
+                if item['products'] is not None:
+                    productObj = Products.objects.get(part_no = item['products']['part_no'])
+                print item['pk'], 'bom pk'
+                if item['project'] is not None:
+                    print item['project']
+                    # try:
+                    projectObj = Projects.objects.get(title = item['project']['title'],boeRefNumber = item['project']['boeRefNumber'],comm_nr = item['project']['comm_nr'],quote_ref = item['project']['quote_ref'],invoiceNumber = item['project']['invoiceNumber'],status = item['project']['status'],clearingCharges1 = item['project']['clearingCharges1'],poDate = item['project']['poDate'],invoiceValue = item['project']['invoiceValue'])
+                    # except Exception as e:
+                    #     pass
+                print projectObj.boeRefNumber, 'project details'
+
+
+
+
+                if productObj and projectObj is not None:
+                    bomObj, created = BoM.objects.get_or_create(project = projectObj, products = productObj,user = userObj)
+                    bomObj.user  = userObj
+                    bomObj.customer_price  = item['customer_price']
+                    bomObj.gst  = item['gst']
+                    bomObj.landed_price  = item['landed_price']
+                    bomObj.price  = item['price']
+                    bomObj.custom  = item['custom']
+                    bomObj.customs_no  = item['customs_no']
+                    bomObj.invoice_price  = item['invoice_price']
+                    bomObj.quantity1  = item['quantity1']
+                    bomObj.quantity2  = item['quantity2']
+                    bomObj.save()
+                    print bomObj.products.part_no, 'bomObj.products.part_no'
+
+
+
+        # creating Inventory
+        inventoryPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','bruderer_inventory.json')
+        with open(inventoryPath) as json_file:
+            data = json.load(json_file)
+            for item in data:
+                productObj = None
+                projectObj = None
+                if item['product'] is not None:
+                    productObj = Products.objects.get(part_no = item['product']['part_no'])
+                else:
+                    print item['pk'], 'product is none'
+                    break
+                if item['project'] is not None:
+                    projectObj = Projects.objects.get(title = item['project']['title'],boeRefNumber = item['project']['boeRefNumber'],comm_nr = item['project']['comm_nr'],quote_ref = item['project']['quote_ref'],invoiceNumber = item['project']['invoiceNumber'],status = item['project']['status'],clearingCharges1 = item['project']['clearingCharges1'],poDate = item['project']['poDate'],invoiceValue = item['project']['invoiceValue'])
+                else:
+                    print item['pk'], 'project is none'
+                    if item['pk'] == 2882:
+                        pass
+                    else:
+                        break
+
+
+
+                if productObj and projectObj is not None:
+                    inventoryObj, created = Inventory.objects.get_or_create(project = projectObj, product = productObj,qty = item['qty'],rate = item['rate'],addedqty = item['addedqty'],division = divisionObj)
+                    inventoryObj.created  = item['created']
+                    inventoryObj.save()
+                    print inventoryObj.pk, 'inventory obj'
+
+
+        #creating Material Issue Note
+        materialIssueMainPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','bruderer_materialIssueMain.json')
+        with open(materialIssueMainPath) as json_file:
+            data = json.load(json_file)
+            for item in data:
+                projectObj = None
+                userObj = None
+                if item['project'] is not None:
+                    projectObj = Projects.objects.get(title = item['project']['title'],boeRefNumber = item['project']['boeRefNumber'],comm_nr = item['project']['comm_nr'],quote_ref = item['project']['quote_ref'],invoiceNumber = item['project']['invoiceNumber'],status = item['project']['status'],clearingCharges1 = item['project']['clearingCharges1'],poDate = item['project']['poDate'],invoiceValue = item['project']['invoiceValue'])
+                else:
+                    print item['pk'], 'project is none'
+                    break
+
+                if item['user'] is not None:
+                    try:
+                        userObj = User.objects.get(username = item['user']['username'])
+                    except:
+                        userObj = User.objects.get(username = 'gopinath')
+
+
+                if userObj and projectObj is not None:
+                    materialMainObj, created = MaterialIssueMain.objects.get_or_create(project = projectObj, user = userObj,created = item['created'],division = divisionObj)
+                    materialMainObj.save()
+                    materialMainObj.materialIssue.clear()
+                    print materialMainObj.pk , "material issue"
+                    if len(item['materialIssue'])>0:
+                        for issueItem in item['materialIssue']:
+                            productObj = None
+                            productObj = Products.objects.get(part_no = issueItem['product']['part_no'])
+
+                            if productObj is not None:
+                                # materialIssueObj  = MaterialIssue.objects.create(created = issueItem['created'],product = productObj, qty = issueItem['qty'],price = issueItem['price'], division = divisionObj)
+                                materialIssueObj  = MaterialIssue.objects.create(created = issueItem['created'],product = productObj, qty = issueItem['qty'],price = issueItem['price'], stock = issueItem['stock'], division = divisionObj)
+                                materialMainObj.materialIssue.add(materialIssueObj)
+                            else:
+                                print  issueItem['pk'] , 'product obj'
+
+                    materialMainObj.save()
+
+
+
+        #creating Invoice
+        invoicePath = os.path.join(globalSettings.BASE_DIR, 'static_shared','bruderer_invoice.json')
+        with open(invoicePath) as json_file:
+            data = json.load(json_file)
+            print len(data), 'invoice lenght'
+            for item in data:
+                invObj, created = Invoice.objects.get_or_create(invoiceNumber = item['invoiceNumber'])
+                invObj.created  = item['created']
+                invObj.invoiceDate  = item['invoiceDate']
+                invObj.poNumber  = item['poNumber']
+                invObj.insuranceNumber  = item['insuranceNumber']
+                invObj.lrNo  = item['lrNo']
+                invObj.billName  = item['billName']
+                invObj.shipName  = item['shipName']
+                invObj.billAddress  = item['billAddress']
+                invObj.shipAddress  = item['shipAddress']
+                invObj.billGst  = item['billGst']
+                invObj.shipGst  = item['shipGst']
+                invObj.billState  = item['billState']
+                invObj.shipState  = item['shipState']
+                invObj.billCode  = item['billCode']
+                invObj.shipCode  = item['shipCode']
+                invObj.isDetails  = item['isDetails']
+                invObj.invoiceTerms  = item['invoiceTerms']
+                invObj.division  = divisionObj
+                invObj.flag  = item['flag']
+                # invObj.comm_nr  = item['comm_nr']
+                # invObj.packing  = item['packing']
+                # invObj.lockInvoice  = item['lockInvoice']
+                invObj.save()
+                print invObj.pk , 'inv obj'
+        #creating inventory qty
+        invoiceQtyPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','bruderer_invoiceQty.json')
+        with open(invoiceQtyPath) as json_file:
+            data = json.load(json_file)
+            for item in data:
+                productObj = None
+                invoiceObj = None
+                if item['product'] is not None:
+                    productObj = Products.objects.get(part_no = item['product']['part_no'])
+                else:
+                    'product is none'
+
+                if item['invoice'] is not None:
+                    invoiceObj = Invoice.objects.get(invoiceNumber = item['invoice']['invoiceNumber'])
+                else:
+                    'invoice is none'
+
+                if invoiceObj and productObj is not None:
+                    InvoiceQtyObj, created = InvoiceQty.objects.get_or_create(product = productObj, invoice = invoiceObj,total = item['total'], created = item['created'])
+                    InvoiceQtyObj.part_no  = item['part_no']
+                    InvoiceQtyObj.description_1  = item['description_1']
+                    InvoiceQtyObj.customs_no  = item['customs_no']
+                    InvoiceQtyObj.price  = item['price']
+                    InvoiceQtyObj.qty  = item['qty']
+                    InvoiceQtyObj.taxableprice  = item['taxableprice']
+                    InvoiceQtyObj.cgst  = item['cgst']
+                    InvoiceQtyObj.cgstVal  = item['cgstVal']
+                    InvoiceQtyObj.sgst  = item['sgst']
+                    InvoiceQtyObj.sgstVal  = item['sgstVal']
+                    InvoiceQtyObj.igst  = item['igst']
+                    InvoiceQtyObj.igstVal  = item['igstVal']
+                    InvoiceQtyObj.save()
+                    print InvoiceQtyObj.pk , 'InvoiceQtyObj pk'
+
+
+        #creating Product Stock Summery
+        stockSummaryReportData = None
+        StockSummaryReportPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','bruderer_stockSummaryReport.json')
+        with open(StockSummaryReportPath) as json_file:
+            stockSummaryReportData = json.load(json_file)
+
+        projectStockSummaryPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','bruderer_projectStockSummary.json')
+        with open(projectStockSummaryPath) as json_file:
+            data = json.load(json_file)
+            for item in data:
+                projectStockObj, created =     ProjectStockSummary.objects.get_or_create(created = item['created'],title = item['title'],flag = item['flag'],comm_nr = item['comm_nr'])
+                if item['stockReport'] is not None:
+                    stockReportObjs = [x for x in stockSummaryReportData if x['pk'] == item['stockReport']]
+                    stockReportObj = stockReportObjs[0]
+                    dateObj = datetime.datetime.strptime(stockReportObj['dated'], '%Y-%m-%d')
+                    stockReportObjCreate, created =     StockSummaryReport.objects.get_or_create(dated = stockReportObj['dated'])
+                    stockReportObjCreate.stockValue = stockReportObj['stockValue']
+                    stockReportObjCreate.created = stockReportObj['created']
+                    stockReportObjCreate.division = divisionObj
+                    projectStockObj.stockReport =   stockReportObjCreate
+                    projectStockObj.save()
+
+
+
+        return Response({'status':'ok'}, status=status.HTTP_200_OK)

@@ -4327,7 +4327,7 @@ app.controller("businessManagement.importexport.invoice", function($scope, $stat
     query: ''
   }
   $scope.fetchData = function() {
-    let url = '/api/importexport/invoice/?limit=' + $scope.limit + '&offset=' + $scope.offset + '&flag=' + $rootScope.formToggle.toggleMain
+    let url = '/api/importexport/invoice/?limit=' + $scope.limit + '&offset=' + $scope.offset + '&flag=' + true
     if ($scope.search.query.length > 0) {
       url = url + '&invoiceno=' + $scope.search.query
 
