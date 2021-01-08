@@ -5,7 +5,7 @@ app.config(function($stateProvider) {
       templateUrl: '/static/ngTemplates/app.LMS.courses.html',
       controller: 'businessManagement.LMS'
     })
-    .state('businessManagement.LMS.new', {
+    .state('businessManagement.new', {
       url: "/new",
       templateUrl: '/static/ngTemplates/app.LMS.courses.form.html',
       controller: 'businessManagement.LMS.form'
@@ -46,7 +46,7 @@ app.config(function($stateProvider) {
       templateUrl: '/static/ngTemplates/app.LMS.fileupload.html',
       controller: 'businessManagement.LMS.evaluation'
     })
-    .state('businessManagement.LMS.viewPaper', {
+    .state('businessManagement.viewPaper', {
       url: "/onlinetest/view/:id/",
       templateUrl: '/static/ngTemplates/app.LMS.onlinetestview.html',
       controller: 'businessManagement.LMS.evaluation'
@@ -85,8 +85,12 @@ app.config(function($stateProvider) {
 //------------------------------------------------books ends----------------------------------
 
 
-app.controller("businessManagement.LMS", function($scope, $state, $users, $stateParams, $http, Flash, $timeout,$stateParams) {
+app.controller("businessManagement.LMS", function($scope, $state, $users, $stateParams, $http, Flash, $timeout,$stateParams,$uibModal) {
 
+
+  $scope.getState = {
+    state:'current'
+  }
   $scope.limit = 10
   $scope.offset = 0
   $scope.count = 0
@@ -122,6 +126,26 @@ app.controller("businessManagement.LMS", function($scope, $state, $users, $state
     })
   }
   $scope.fetchData()
+
+
+  $scope.createTest = function(){
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.LMS.evaluation.form.html',
+      size: 'lg',
+      backdrop: true,
+      controller: function($scope,   $uibModalInstance) {
+        $scope.close = function(){
+          $uibModalInstance.dismiss()
+        }
+
+
+
+      },
+    }).result.then(function() {
+
+    }, function() {
+    });
+  }
 });
 
 app.controller("businessManagement.activityLog", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal, $aside, $rootScope) {
@@ -517,6 +541,10 @@ app.controller("businessManagement.LMS.examReport", function($scope, $state, $us
 
 //-----------------------------------------------online tet starts--------------------------------------------
 app.controller('businessManagement.LMS.evaluation', function($scope, $http, $aside, $state, Flash, $users, $filter, $uibModal,$stateParams) {
+
+  $scope.getState = {
+    state:'current'
+  }
 
 
   $scope.limit = 10
