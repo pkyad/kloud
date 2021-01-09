@@ -114,6 +114,8 @@ class TermsAndConditions(models.Model):
     heading = models.TextField(max_length=100 , null=True)
     default = models.BooleanField(default = False)
     division = models.ForeignKey(Division , related_name='tncs' , null = True)
+    prefix = models.CharField(null = True , blank = True, max_length = 60)
+    counter = models.PositiveIntegerField(default=1)
 
 class Sale(models.Model):
     created = models.DateTimeField(auto_now_add=True)

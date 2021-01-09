@@ -36,6 +36,10 @@ class CRMTermsAndConditions(models.Model):
     message =  models.TextField(max_length=1000 , null=True)
     version = models.CharField(null = True , blank = True, max_length = 60)
     name = models.CharField(null = True , blank = True, max_length = 60)
+    prefix = models.CharField(null = True , blank = True, max_length = 60)
+    counter = models.PositiveIntegerField(default=1)
+    canSupplyOrder =  models.BooleanField(default = False)
+    canInvoice =  models.BooleanField(default = False)
 
 
 class Contact(models.Model):
@@ -166,6 +170,7 @@ class Contract(models.Model): # invoices actually
     discount = models.FloatField(default=0)
     heading = models.CharField(max_length = 300 , null = True)
     division = models.ForeignKey(Division , related_name='quotations' , null = True)
+    uniqueId =  models.CharField(max_length = 300 , null = True)
 
 
 @receiver(pre_save, sender=Contract)

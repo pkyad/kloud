@@ -101,33 +101,33 @@ class expanseReportHead(Flowable):
         # elif(self.contract.contact):
         #     id = self.contract.contact.pk
         # else:
-        id = self.contract.pk
-        # offset = application.objects.get(name='app.clientRelationships').settings.filter(name='CRM_offset').value
-        offset = globalSettings.CRM_OFFSET
-        id = id - offset
-        docId = self.contract.user.designation.unit.areaCode + str(id)
-        self.contract.identifier = docId
-        self.contract.save()
-        docID = '%s' % (docId)
+        # if(self.contract.deal):
+        #     id = self.contract.deal.pk
+        # elif(self.contract.contact):
+        #     id = self.contract.contact.pk
+        # else:
+        #     id = self.contract.pk
+        # docID = '%s%s%s' % (id, now.year, self.contract.pk)
         utc_time = self.contract.created
         tz = pytz.timezone( 'Asia/Kolkata')
         utc_time =utc_time.replace(tzinfo=pytz.UTC) #replace method
         indian_time=utc_time.astimezone(tz)        #astimezone method
         datecreated = str(indian_time.strftime("%d-%B-%Y - %H:%M %S"))
-        try:
-            passKey = '%s%s' % (str(self.req.user.date_joined.year),self.req.user.pk)  # also the user ID
-            pSrc = '''
-            <font size=9>
-            <strong>On:</strong> %s<br/>
-            <strong>#:</strong> %s<br/><br/>
-            </font>
-            ''' % ( datecreated, docID)
-        except:
-            pSrc = '''
-            <strong>On:</strong> %s<br/>
-            <strong>Document ID:</strong> %s<br/><br/>
-            </font>
-            ''' % ( datecreated, docID)
+        docID = self.contract.uniqueId
+        # try:
+        #     passKey = '%s%s' % (str(self.req.user.date_joined.year),self.req.user.pk)  # also the user ID
+        pSrc = '''
+        <font size=9>
+        <strong>On:</strong> %s<br/>
+        <strong>#:</strong> %s<br/><br/>
+        </font>
+        ''' % ( datecreated, docID)
+        # except:
+            # pSrc = '''
+            # <strong>On:</strong> %s<br/>
+            # <strong>Document ID:</strong> %s<br/><br/>
+            # </font>
+            # ''' % ( datecreated, docID)
 
         story = []
         head = Paragraph(pSrc, styleN)

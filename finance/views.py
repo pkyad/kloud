@@ -297,7 +297,7 @@ class SaleViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['poNumber','status','id','isInvoice','phone','isPerforma','cancelled']
     def get_queryset(self):
-        outBondObj = Sale.objects.all().order_by('-created')
+        outBondObj = Sale.objects.filter(division = self.request.user.designation.division).order_by('-created')
         if 'search__in' in self.request.GET:
             search = self.request.GET['search__in']
             outBondObj = outBondObj.filter(Q(poNumber__icontains=search) | Q(name__icontains=search) | Q(personName__icontains=search)
@@ -2330,19 +2330,20 @@ class GetOutBoundCountAPI(APIView):
     permission_classes = (permissions.AllowAny ,)
     def get(self,request , format= None):
         toReturn = []
-        outstanding = Sale.objects.filter(status = 'SaleOrder', isInvoice = True).exclude(cancelled = True).count()
+        saleObj = Sale.objects.filter(division = request.user.designation.division)
+        outstanding = saleObj.filter(status = 'SaleOrder', isInvoice = True).exclude(cancelled = True).count()
         val = {'name' : 'Outstanding' , 'is_selected' : False, 'count' : outstanding ,'title' : 'Pending Payments'}
         toReturn.append(val)
-        saleOrder = Sale.objects.filter(status = 'SaleOrder', isInvoice = False).exclude(cancelled = True).count()
+        saleOrder = saleObj.filter(status = 'SaleOrder', isInvoice = False).exclude(cancelled = True).count()
         val = {'name' : 'SaleOrder' , 'is_selected' : False, 'count' : saleOrder ,'title' : 'Sales Order'}
         toReturn.append(val)
-        received = Sale.objects.filter(status = 'Received', isInvoice = True).exclude(cancelled = True).count()
+        received = saleObj.filter(status = 'Received', isInvoice = True).exclude(cancelled = True).count()
         val = {'name' : 'Received' , 'is_selected' : False, 'count' : received ,'title' : 'Paid Invoices'}
         toReturn.append(val)
-        overdue = Sale.objects.filter(status = 'Overdue', isInvoice = True).exclude(cancelled = True).count()
+        overdue = saleObj.filter(status = 'Overdue', isInvoice = True).exclude(cancelled = True).count()
         val = {'name' : 'Overdue' , 'is_selected' : False, 'count' : overdue, 'title' : 'Deloayed Invoices'}
         toReturn.append(val)
-        cancelled = Sale.objects.filter(cancelled = True, isInvoice = True).count()
+        cancelled = saleObj.filter(cancelled = True, isInvoice = True).count()
         val = {'name' : 'Cancelled' , 'is_selected' : False, 'count' : cancelled , 'title' : 'Cancelled Invoices'}
         toReturn.append(val)
         return Response({'data':toReturn }, status = status.HTTP_200_OK)
@@ -3953,6 +3954,7 @@ class OuttbondInvoiceAPIView(APIView):
                 data_to_post['serviceFor'] = data['serviceFor']
             outBondObj = Sale(**data_to_post)
             outBondObj.user = request.user
+            outBondObj.division = request.user.designation.division
             if 'account' in data:
                 outBondObj.account = Account.objects.get(pk = int(data['account']))
             if 'termsandcondition' in data:
@@ -4032,6 +4034,7 @@ class OuttbondInvoiceAPIView(APIView):
             else:
                 outBondObj = Sale(**data_to_post)
                 outBondObj.user = request.user
+                outBondObj.division = request.user.designation.division
                 if 'parent' in data:
                     outBondObj.parent = Sale.objects.get( pk = int(data['parent']))
             if 'costcenter' in data:

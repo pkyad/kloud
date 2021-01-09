@@ -23,7 +23,7 @@ from assets.models import *
 class TermsAndConditionsLiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = TermsAndConditions
-        fields = ('pk'  , 'created' , 'body', 'heading', 'default' , 'division')
+        fields = ('pk'  , 'created' , 'body', 'heading', 'default' , 'division' , 'prefix' , 'counter')
 
 
 

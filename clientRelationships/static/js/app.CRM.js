@@ -428,6 +428,9 @@ $scope.getAll()
     if (formdata.extraFieldOne != null) {
       fd.append('extraFieldOne', formdata.extraFieldOne);
     }
+    if (formdata.prefix != null) {
+      fd.append('prefix', formdata.prefix);
+    }
     if (formdata.extraFieldTwo != null) {
       fd.append('extraFieldTwo', formdata.extraFieldTwo);
     }
@@ -462,7 +465,7 @@ $scope.getAll()
         $scope.allData[indx].addedPoints.push({'txt' : points[j]})
       }
       // $scope.allData.push(response.data)
-      $scope.reset()
+      // $scope.reset()
     }, function(error) {
 
 
@@ -766,7 +769,9 @@ app.controller('businessManagement.clientRelationships.contacts.quote', function
           contract: response.data.pk
         })
       }
-      $scope.getVersions()
+      if ($scope.contract.pk) {
+        $scope.getVersions()
+      }
 
 
     })

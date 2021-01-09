@@ -150,7 +150,7 @@ class DealSerializer(serializers.ModelSerializer):
 class CRMTermsAndConditionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = CRMTermsAndConditions
-        fields = ('pk'  , 'created' , 'body', 'heading', 'default' , 'division','extraFieldOne','extraFieldTwo','isGst','companyPamphlet','themeColor','message','version','name')
+        fields = ('pk'  , 'created' , 'body', 'heading', 'default' , 'division','extraFieldOne','extraFieldTwo','isGst','companyPamphlet','themeColor','message','version','name' , 'prefix' , 'counter' , 'canSupplyOrder' , 'canInvoice')
     def create(self , validated_data):
         t = CRMTermsAndConditions(**validated_data)
         t.division = self.context['request'].user.designation.division
@@ -162,7 +162,7 @@ class ContractSerializer(serializers.ModelSerializer):
     contact = ContactSerializer(many = False, read_only = True)
     class Meta:
         model = Contract
-        fields = ('pk'  ,'user' , 'created' , 'updated', 'value','deal', 'status', 'details' , 'data', 'dueDate','billedDate','recievedDate','archivedDate','approvedDate','grandTotal','totalTax','read','frm','templateName','files','trackingCode','readDateAndTime','contact','termsAndCondition' , 'termsAndConditionTxts' , 'discount', 'heading')
+        fields = ('pk'  ,'user' , 'created' , 'updated', 'value','deal', 'status', 'details' , 'data', 'dueDate','billedDate','recievedDate','archivedDate','approvedDate','grandTotal','totalTax','read','frm','templateName','files','trackingCode','readDateAndTime','contact','termsAndCondition' , 'termsAndConditionTxts' , 'discount', 'heading' ,'uniqueId')
         read_only_fields = ('user',)
     def create(self , validated_data):
         c = Contract(**validated_data)
@@ -172,9 +172,13 @@ class ContractSerializer(serializers.ModelSerializer):
         if 'contact' in self.context['request'].data:
             c.contact_id = int(self.context['request'].data['contact'])
         if 'termsAndCondition' in self.context['request'].data:
-            c.termsAndCondition_id = int(self.context['request'].data['termsAndCondition'])
+            termsObj =  CRMTermsAndConditions.objects.get(pk = int(self.context['request'].data['termsAndCondition']))
+            c.termsAndCondition = termsObj
+            c.uniqueId = termsObj.prefix + str(termsObj.counter)
+            print c.uniqueId,'uniqueIduniqueIduniqueId'
+            termsObj.counter = termsObj.counter + 1
+            termsObj.save()
         c.division = self.context['request'].user.designation.division
-
         c.save()
         contract = c
         user = self.context['request'].user
@@ -184,14 +188,13 @@ class ContractSerializer(serializers.ModelSerializer):
         termsAndConditionTxts = c.termsAndConditionTxts
         heading = c.heading
         contObj = ContractTracker.objects.create(user = user , grandTotal = grandTotal , contract = contract , discount = discount, data = data , termsAndConditionTxts = termsAndConditionTxts , heading = heading)
-        if 'tour' in self.context['request'].data:
-            print 'ttttttttttttttttttttttttttttttttttttttttttttttttttt'
-            tourObj = TourPlanStop.objects.get(pk = int(self.context['request'].data['tour']))
-            tourObj.contract = c
-            tourObj.save()
+        # if 'tour' in self.context['request'].data:
+        #     tourObj = TourPlanStop.objects.get(pk = int(self.context['request'].data['tour']))
+        #     tourObj.contract = c
+        #     tourObj.save()
         return c
     def update(self ,instance, validated_data):
-        for key in ['user' , 'created' , 'updated', 'value','deal', 'status', 'details' , 'data', 'dueDate','billedDate','recievedDate','archivedDate','approvedDate','grandTotal','totalTax','read','frm','templateName','files','trackingCode','readDateAndTime','contact','termsAndCondition', 'termsAndConditionTxts' , 'discount', 'heading']:
+        for key in ['user' , 'created' , 'updated', 'value','deal', 'status', 'details' , 'data', 'dueDate','billedDate','recievedDate','archivedDate','approvedDate','grandTotal','totalTax','read','frm','templateName','files','trackingCode','readDateAndTime','contact','termsAndCondition', 'termsAndConditionTxts' , 'discount', 'heading','uniqueId']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
@@ -202,14 +205,14 @@ class ContractSerializer(serializers.ModelSerializer):
             instance.deal_id = int(self.context['request'].data['deal'])
         if 'contact' in self.context['request'].data:
             instance.contact_id = int(self.context['request'].data['contact'])
-        if 'termsAndCondition' in self.context['request'].data:
-            instance.termsAndCondition_id = int(self.context['request'].data['termsAndCondition'])
+        # if 'termsAndCondition' in self.context['request'].data:
+        #     instance.termsAndCondition = int(self.context['request'].data['termsAndCondition'])
         instance.save()
-        if 'tour' in self.context['request'].data:
-            print 'tttttttttttttttttttttttttttttttttttttttttttttttttttoooooooooooooooooooooooo'
-            tourObj = TourPlanStop.objects.get(pk = int(self.context['request'].data['tour']))
-            tourObj.contract = instance
-            tourObj.save()
+        # if 'tour' in self.context['request'].data:
+        #     print 'tttttttttttttttttttttttttttttttttttttttttttttttttttoooooooooooooooooooooooo'
+        #     tourObj = TourPlanStop.objects.get(pk = int(self.context['request'].data['tour']))
+        #     tourObj.contract = instance
+        #     tourObj.save()
         return instance
 
 class ActivitySerializer(serializers.ModelSerializer):
