@@ -1021,8 +1021,10 @@ app.controller('businessManagement.clientRelationships.contacts.delatils', funct
   }).
   then(function(response) {
     $scope.contact = response.data;
-    $scope.lat = parseFloat(response.data.company.address.lat)
-    $scope.lon = parseFloat(response.data.company.address.lon)
+    if (response.data.company!=undefined&&response.data.company!=null) {
+      $scope.lat = parseFloat(response.data.company.address.lat)
+      $scope.lon = parseFloat(response.data.company.address.lon)
+    }
     $scope.fetchContracts();
     $scope.fetchCoworkers();
   })
