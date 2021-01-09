@@ -113,7 +113,10 @@ class expanseReportHead(Flowable):
         utc_time =utc_time.replace(tzinfo=pytz.UTC) #replace method
         indian_time=utc_time.astimezone(tz)        #astimezone method
         datecreated = str(indian_time.strftime("%d-%B-%Y - %H:%M %S"))
-        docID = self.contract.uniqueId
+        if self.contract.uniqueId is not None:
+            docID = self.contract.uniqueId
+        else:
+            docID = self.contract.pk
         # try:
         #     passKey = '%s%s' % (str(self.req.user.date_joined.year),self.req.user.pk)  # also the user ID
         pSrc = '''

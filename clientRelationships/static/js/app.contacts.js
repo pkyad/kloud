@@ -166,7 +166,7 @@ app.controller("businessManagement.clientRelationships.contacts", function($scop
       $scope.contactNext = response.data.next
     })
   }
-$scope.getallContacts ()
+$scope.getallContacts()
 
 $scope.previous = function(){
   if ($scope.contactPrev != null) {

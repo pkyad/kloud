@@ -174,10 +174,12 @@ class ContractSerializer(serializers.ModelSerializer):
         if 'termsAndCondition' in self.context['request'].data:
             termsObj =  CRMTermsAndConditions.objects.get(pk = int(self.context['request'].data['termsAndCondition']))
             c.termsAndCondition = termsObj
-            c.uniqueId = termsObj.prefix + str(termsObj.counter)
-            print c.uniqueId,'uniqueIduniqueIduniqueId'
-            termsObj.counter = termsObj.counter + 1
-            termsObj.save()
+            try:
+                c.uniqueId = termsObj.prefix + str(termsObj.counter)
+                termsObj.counter = termsObj.counter + 1
+                termsObj.save()
+            except:
+                pass
         c.division = self.context['request'].user.designation.division
         c.save()
         contract = c

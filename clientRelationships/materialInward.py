@@ -331,15 +331,21 @@ def genMaterialIssueNote(response, ticket, request):
     if termsObj.count()>0:
         termsData = termsObj.first()
         if ticket.uniqueId is None:
-            ticket.uniqueId = termsData.prefix + str(termsData.counter)
-            termsData.counter = termsData.counter+1
-            termsData.save()
+            try:
+                ticket.uniqueId = termsData.prefix + str(termsData.counter)
+                termsData.counter = termsData.counter+1
+                termsData.save()
+            except:
+                pass
             ticket.save()
         tncBody = termsData.body
 
     year = ticket.created.year
     nextYear = ticket.created.year + 1
-    srno = str(ticket.uniqueId)
+    if ticket.uniqueId is not None:
+        srno = str(ticket.uniqueId)
+    else:
+        srno = str(ticket.pk)
     if ticket.name is not None:
         name = ticket.name
     if ticket.phone is not None:

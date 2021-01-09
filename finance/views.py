@@ -1036,12 +1036,16 @@ def invoice(response , inv , invdetails , typ, request):
     <b> %s</b></font>
     </para>
     """ %(title),styles['Normal'])
+    if inv.uniqueId is not None:
+        docId = inv.uniqueId
+    else:
+        docId = inv.pk
     headerId = Paragraph("""
     <para align='right'>
     <font size ='12'>
     <b>ID: %s</b></font>
     </para>
-    """ %(str(inv.uniqueId)),styles['Normal'])
+    """ %(str(docId)),styles['Normal'])
     tdheader+=[[headerDate,headerTitle,headerId]]
     t2=Table(tdheader,colWidths=(54.7*mm,100*mm,54.7*mm))
     t2.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'CENTER'),('VALIGN',(0,0),(-1,-1),'MIDDLE'),('BOX',(0,0),(-1,-1),0.25,colors.black), ('LINEABOVE', (0,1), (-1,-1), 0.25, colors.black),]))
@@ -1623,7 +1627,6 @@ class GetExpensesAPIView(APIView):
             fromDate = fromDate - datetime.timedelta(days=1)
             toDate = date.replace(day = calendar.monthrange(int(year), int(month))[1], month = int(month), year = int(year))
             toDate = toDate + datetime.timedelta(days=1)
-            print fromDate, toDate,'ppppppppppppppppppppppppppp'
             expenseObj = ExpenseSheet.objects.filter(stage=request.GET['stage'])
             expenseObj = list(expenseObj.filter(created__range=(fromDate,toDate)).values('pk','created','user','notes','project','stage'))
             for i in expenseObj:
@@ -1646,9 +1649,9 @@ class GetExpensesAPIView(APIView):
                     pass
 
         else:
-            expenseObj = ExpenseSheet.objects.filter(stage='submitted')
+            expenseObj = InvoiceReceived.objects.filter(status='submitted', invType = 'EXPENSES')
             user = request.user
-            expenseObj = expenseObj.filter(user__designation__reportingTo = user).values('pk','created','user','notes','project','stage')
+            expenseObj = expenseObj.filter(user__designation__reportingTo = user).values('pk','created','user','title','status')
             for i in expenseObj:
                 try:
                     invoice = Expense.objects.filter(sheet = int(i['pk'])).aggregate(totAmount=Sum('amount'),gstAmount=Sum('gstVal'))
@@ -1659,11 +1662,11 @@ class GetExpensesAPIView(APIView):
                     i['total'] = invoice['totAmount'] +  invoice['gstAmount']
                 except:
                     pass
-                try:
-                    projectObj = project.objects.get(pk = i['project'])
-                    i['project_name'] = projectObj.title
-                except:
-                    pass
+                # try:
+                #     projectObj = project.objects.get(pk = i['project'])
+                #     i['project_name'] = projectObj.title
+                # except:
+                #     pass
         return Response(expenseObj,status = status.HTTP_200_OK)
 
 class DownloadExpensesAPIView(APIView):
@@ -3850,12 +3853,11 @@ class GetAllExpensesAPI(APIView):
     permission_classes = (permissions.IsAuthenticated ,)
     def get(self , request , format = None):
         from datetime import date, timedelta
-        print 'sssssssssssssssssssssss'
         tosend = []
         today = date.today()
         divsn = self.request.user.designation.division
-        purchaseObj = InvoiceReceived.objects.filter( division = divsn)
-        expenseObj = ExpenseSheet.objects.filter(stage = 'submitted' , division = divsn)
+        purchaseObj = InvoiceReceived.objects.filter( division = divsn).order_by('-created')
+        # expenseObj = ExpenseSheet.objects.filter(stage = 'submitted' , division = divsn)
         totalAmount = 0
         balanceAmount = 0
         paidAmount = 0
@@ -3864,28 +3866,27 @@ class GetAllExpensesAPI(APIView):
             search = self.request.GET['search']
             if len(search)>0:
                 purchaseObj = purchaseObj.filter(Q(companyName__icontains=search) | Q(phone__icontains=search) | Q(email__icontains=search) | Q(personName__icontains=search) | Q(pincode__icontains=search))
-                expenseObj = expenseObj.filter(Q(notes__icontains=search) )
+                # expenseObj = expenseObj.filter(Q(notes__icontains=search) )
         # if request.GET['status'] == 'invoice':
         #     purchaseObj = purchaseObj.all()
         # if request.GET['status'] == 'purchaseOrder':
         #     purchaseObj = purchaseObj.filter(isInvoice = False)
         if request.GET['status'] == 'invoice':
-            purchaseObj = purchaseObj[:limit]
+            purchaseObj = purchaseObj.filter(invType = 'INVOICE')[:limit]
             final_data = InvoiceReceivedSerializer(purchaseObj , many=True).data
-            final_data.sort(key=lambda item:item['created'], reverse=True)
+            # final_data.sort(key=lambda item:item['created'], reverse=True)
         if request.GET['status'] == 'expenseSheet':
-            expenseObj = expenseObj[:limit]
-            final_data = ExpenseSheetSerializer(expenseObj , many=True).data
-            final_data.sort(key=lambda item:item['created'], reverse=True)
+            purchaseObj = purchaseObj.filter(invType = 'EXPENSES')[:limit]
+            final_data = InvoiceReceivedSerializer(purchaseObj , many=True).data
+            # final_data.sort(key=lambda item:item['created'], reverse=True)
         if request.GET['status'] == 'all':
-            purchaseObj = purchaseObj[:limit/2]
-            expenseObj = expenseObj[:limit/2]
-            data = InvoiceReceivedSerializer(purchaseObj , many=True).data
-            data1 = ExpenseSheetSerializer(expenseObj , many=True).data
-            final_data =  data + data1
-            final_data.sort(key=lambda item:item['created'], reverse=True)
+            purchaseObj = purchaseObj[:limit]
+            # expenseObj = expenseObj[:limit/2]
+            final_data = InvoiceReceivedSerializer(purchaseObj , many=True).data
+            # data1 = ExpenseSheetSerializer(expenseObj , many=True).data
+            # final_data =  data + data1
+            # final_data.sort(key=lambda item:item['created'], reverse=True)
         tosend = {'data' : final_data , 'totalAmount' : totalAmount , 'balanceAmount' : balanceAmount , 'paidAmount' : paidAmount}
-        print tosend,'aaaaaaaaaaaaaa'
         return Response(tosend, status=status.HTTP_200_OK)
 
 class GetExpensesExcelAPI(APIView):
@@ -3962,9 +3963,12 @@ class OuttbondInvoiceAPIView(APIView):
             if 'termsandcondition' in data:
                 termsObj = TermsAndConditions.objects.get(pk = int(data['termsandcondition']))
                 outBondObj.termsandcondition = termsObj
-                outBondObj.uniqueId = termsObj.prefix + str(termsObj.counter)
-                termsObj.counter = termsObj.counter + 1
-                termsObj.save()
+                try:
+                    outBondObj.uniqueId = termsObj.prefix + str(termsObj.counter)
+                    termsObj.counter = termsObj.counter + 1
+                    termsObj.save()
+                except:
+                    pass
             if 'terms' in data:
                 outBondObj.terms = data['terms']
             if contractObj.contact.company:
@@ -4046,9 +4050,12 @@ class OuttbondInvoiceAPIView(APIView):
                 if 'termsandcondition' in data:
                     termsObj = TermsAndConditions.objects.get(pk = int(data['termsandcondition']))
                     outBondObj.termsandcondition = termsObj
-                    outBondObj.uniqueId = termsObj.prefix + str(termsObj.counter)
-                    termsObj.counter = termsObj.counter + 1
-                    termsObj.save()
+                    try:
+                        outBondObj.uniqueId = termsObj.prefix + str(termsObj.counter)
+                        termsObj.counter = termsObj.counter + 1
+                        termsObj.save()
+                    except:
+                        pass
                 if 'parent' in data:
                     outBondObj.parent = Sale.objects.get( pk = int(data['parent']))
             if 'costcenter' in data:
@@ -4208,6 +4215,7 @@ class PurchaseOrderInvoiceAPIView(APIView):
                 else:
                     qtyObj = InvoiceQty(**prodData)
                     qtyObj.invoice= poinvObj
+                    qtyObj.user= request.user
                     qtyObj.save()
         data = InvoiceReceivedAllSerializer(poinvObj ,  many = False).data
         return Response(data,status = status.HTTP_200_OK)
@@ -4269,19 +4277,19 @@ class GetExpensesDataAPIView(APIView):
         unclaimed = 0
         claimed = 0
         approved = 0
-        expenseObj = ExpenseSheet.objects.filter(user = request.user)
-        invObj = Expense.objects.filter(user = request.user)
-        unclaimedObj = invObj.filter(sheet__isnull = True)
-        unclaimedTot = unclaimedObj.aggregate(tot = Sum('amount'))
-        approvedTot = invObj.filter(sheet__stage = 'approved').aggregate(tot = Sum('amount'))
-        claimedTot = invObj.filter(sheet__isnull = False).exclude(sheet__stage = 'approved').aggregate(tot = Sum('amount'))
+        expenseObj = InvoiceReceived.objects.filter(user = request.user , invType = 'EXPENSES')
+        invObj = InvoiceQty.objects.filter(user = request.user)
+        unclaimedObj = invObj.filter(invoice__isnull = True)
+        unclaimedTot = unclaimedObj.aggregate(tot = Sum('total'))
+        approvedTot = invObj.filter(invoice__status = 'approved').aggregate(tot = Sum('total'))
+        claimedTot = invObj.filter(invoice__isnull = False).exclude(invoice__status = 'approved').aggregate(tot = Sum('total'))
         if unclaimedTot['tot']!=None:
             unclaimed = unclaimedTot['tot']
         if claimedTot['tot']!=None:
             claimed = claimedTot['tot']
         if approvedTot['tot']!=None:
             approved = approvedTot['tot']
-        data = {'unclaimed' : unclaimed, 'claimed' : claimed, 'approved' : approved,'unclaimedObj':ExpenseLiteSerializer(unclaimedObj,many=True).data,'expenseObj':ExpenseSheetLiteSerializer(expenseObj,many=True).data}
+        data = {'unclaimed' : unclaimed, 'claimed' : claimed, 'approved' : approved,'unclaimedObj':InvoiceQtySerializer(unclaimedObj,many=True).data,'expenseObj':InvoiceReceivedSerializer(expenseObj,many=True).data}
         return Response(data ,status = status.HTTP_200_OK)
 
 class GetAllTourAPI(APIView):
@@ -4638,6 +4646,8 @@ class SaveInvoiceReceived(APIView):
                 prodObj.__dict__.update(proddataSave)
             else:
                 prodObj = InvoiceQty.objects.create(**proddataSave)
+                prodObj = request.user
+                prodObj.save()
             total +=float(i['total'])
         balance = total - obj.paidAmount
         obj.totalAmount = total

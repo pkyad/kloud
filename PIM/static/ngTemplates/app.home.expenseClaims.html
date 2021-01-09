@@ -219,12 +219,12 @@
       <div class="col-md-4" ng-repeat="data in invoicesData"  >
         <div class="container-fluid" style="background:white;box-shadow:20px 20px 50px #eee, -30px -30px 60px #eee;padding:20px;min-height:100px;border-radius:20px;margin-bottom:20px;">
           <div class="col-md-8">
-            <h3>{{data.code}}</h3>
+            <h3>{{data.product}}</h3>
             {{data.created|date}}
           </div>
           <div class="col-md-4" >
           <a ng-if="data.attachment"  href="{{data.attachment}}" target="_blank" class="pull-right">  <i class="fa fa-download fa-lg"></i> </a>
-            <h3 style="color:#888484;" class="ng-binding">{{data.amount|number:0}} <small> <i class="fa fa-inr"></i></small> </h3>
+            <h3 style="color:#888484;" class="ng-binding">{{data.total|number:0}} <small> <i class="fa fa-inr"></i></small> </h3>
           </div>
 
         </div>
@@ -235,14 +235,14 @@
       <div class="row" ng-repeat="data in expenseData" style="background:white;box-shadow:20px 20px 50px #eee, -30px -30px 60px #eee;padding:20px;min-height:100px;border-radius:20px;margin-bottom:20px;" ng-click="$state.go('home.editExpenseClaims',{'id' : data.pk})">
 
         <div class="col-md-7">
-          <h3>{{data.notes}}</h3>
+          <h3>{{data.title}}</h3>
           {{data.created|date}}
         </div>
         <div class="col-md-3" >
-          <h3 style="color:#888484;" class="ng-binding">{{data.totAmount|number:0}} <small> <i class="fa fa-inr"></i></small> </h3>
+          <h3 style="color:#888484;" class="ng-binding">{{data.totalAmount|number:0}} <small> <i class="fa fa-inr"></i></small> </h3>
         </div>
         <div class="col-md-2 text-right" style="padding-top:20px;">
-          <span class="timeLabel">{{data.stage}}</span>
+          <span class="timeLabel">{{data.status}}</span>
         </div>
 
       </div>
