@@ -185,6 +185,7 @@ class ContractSerializer(serializers.ModelSerializer):
         heading = c.heading
         contObj = ContractTracker.objects.create(user = user , grandTotal = grandTotal , contract = contract , discount = discount, data = data , termsAndConditionTxts = termsAndConditionTxts , heading = heading)
         if 'tour' in self.context['request'].data:
+            print 'ttttttttttttttttttttttttttttttttttttttttttttttttttt'
             tourObj = TourPlanStop.objects.get(pk = int(self.context['request'].data['tour']))
             tourObj.contract = c
             tourObj.save()
@@ -205,6 +206,7 @@ class ContractSerializer(serializers.ModelSerializer):
             instance.termsAndCondition_id = int(self.context['request'].data['termsAndCondition'])
         instance.save()
         if 'tour' in self.context['request'].data:
+            print 'tttttttttttttttttttttttttttttttttttttttttttttttttttoooooooooooooooooooooooo'
             tourObj = TourPlanStop.objects.get(pk = int(self.context['request'].data['tour']))
             tourObj.contract = instance
             tourObj.save()
