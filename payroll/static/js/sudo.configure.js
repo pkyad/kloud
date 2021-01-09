@@ -1910,7 +1910,8 @@ app.controller("businessManagement.finance.termsAndConditions", function($scope,
         heading: '',
         body: '',
         addedPoints: [],
-        finalPoints: ''
+        finalPoints: '',
+        prefix:''
       }
     }
 
@@ -1943,6 +1944,10 @@ app.controller("businessManagement.finance.termsAndConditions", function($scope,
     }
 
     $scope.save = function() {
+      if ($scope.form.prefix == null || $scope.form.prefix == '' || $scope.form.prefix.length == 0) {
+        Flash.create("warning", "Add Prefix")
+        return
+      }
       if ($scope.form.addedPoints.length > 0) {
         for (var i = 0; i < $scope.form.addedPoints.length; i++) {
           $scope.form.finalPoints = $scope.form.finalPoints + $scope.form.addedPoints[i] + '||'
@@ -1957,7 +1962,8 @@ app.controller("businessManagement.finance.termsAndConditions", function($scope,
       dataToSend = {
         version: $scope.form.version,
         body: $scope.form.finalPoints,
-        heading: $scope.form.heading
+        heading: $scope.form.heading,
+        prefix: $scope.form.prefix,
       }
       var method = 'POST'
       var url = '/api/clientRelationships/configureTermsAndConditions/'
@@ -1999,6 +2005,7 @@ app.controller("businessManagement.finance.termsAndConditions", function($scope,
       $scope.form.version = $scope.allData[indx].version
       $scope.form.pk = $scope.allData[indx].pk
       $scope.form.heading = $scope.allData[indx].heading
+      $scope.form.prefix = $scope.allData[indx].prefix
       $scope.form.body = ''
       $scope.form.addedPoints = $scope.allData[indx].body.split('||')
       $scope.allData.splice(indx, 1)

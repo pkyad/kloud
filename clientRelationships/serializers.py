@@ -291,7 +291,7 @@ class ContractTrackerSerializer(serializers.ModelSerializer):
 class ConfigureTermsAndConditionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ConfigureTermsAndConditions
-        fields = ('pk'  , 'created' , 'body', 'heading' , 'default')
+        fields = ('pk'  , 'created' , 'body', 'heading' , 'default','prefix')
     def create(self , validated_data):
         t = ConfigureTermsAndConditions(**validated_data)
         try:
@@ -316,18 +316,19 @@ class ServiceTicketSerializer(serializers.ModelSerializer):
     allInvoices = serializers.SerializerMethodField()
     class Meta:
         model = ServiceTicket
-        fields = ('pk'  ,'name' , 'phone' , 'email' , 'productName' , 'productSerial' , 'notes' , 'address' , 'pincode', 'city' , 'state' , 'country' , 'requireOnSiteVisit','referenceContact','preferredDate','preferredTimeSlot','warrantyStatus' , 'engineer' , 'serviceType','status','allInvoices')
+        fields = ('pk'  ,'name' , 'phone' , 'email' , 'productName' , 'productSerial' , 'notes' , 'address' , 'pincode', 'city' , 'state' , 'country' , 'requireOnSiteVisit','referenceContact','preferredDate','preferredTimeSlot','warrantyStatus' , 'engineer' , 'serviceType','status','allInvoices','uniqueId')
     def create(self , validated_data):
         t = ServiceTicket(**validated_data)
         t.division = self.context['request'].user.designation.division
         t.save()
-        if t.referenceContact == None:
+        print self.context['request'].data['referenceContact'],'SSSSSSSSSSSSSSSSSSSSSSSSSSSSS'
+        if self.context['request'].data['referenceContact'] == None:
             contactObj = Contact.objects.create(user = self.context['request'].user, name = t.name, mobile = t.phone, email = t.email, street = t.address , pincode = t.pincode , state = t.state, country = t.country )
             t.referenceContact = contactObj
             t.save()
         return t
     def update(self ,instance, validated_data):
-        for key in ['name' , 'phone' , 'email' , 'productName' , 'productSerial' , 'notes' , 'address' , 'pincode', 'city' , 'state' , 'country' , 'requireOnSiteVisit','preferredDate','preferredTimeSlot' , 'status', 'serviceType','engineer','warrantyStatus' ]:
+        for key in ['name' , 'phone' , 'email' , 'productName' , 'productSerial' , 'notes' , 'address' , 'pincode', 'city' , 'state' , 'country' , 'requireOnSiteVisit','preferredDate','preferredTimeSlot' , 'status', 'serviceType','engineer','warrantyStatus' ,'uniqueId']:
             try:
                 setattr(instance , key , validated_data[key])
             except:

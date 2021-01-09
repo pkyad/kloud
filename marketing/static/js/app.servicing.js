@@ -220,9 +220,7 @@ app.controller("businessManagement.servicing", function($scope, $state, $users, 
     }).result.then(function() {
       // $scope.getAllData()
     }, function(res) {
-      if (typeof res == 'object') {
-        $scope.allServices.push(res)
-      }
+    $scope.getServices()
       // $scope.getAllData()
     });
   }
@@ -356,9 +354,10 @@ app.controller("businessManagement.marketing.addContacts", function($scope, $sta
       $scope.form.state = $scope.form.name.state
       $scope.form.pincode = $scope.form.name.pincode
       $scope.form.country = $scope.form.name.country
+      $scope.form.referenceContact = $scope.form.name.pk
       $scope.form.name = $scope.form.name.name
       // $scope.locations = [$scope.form.name.lat, $scope.form.name.lng]
-      $scope.form.referenceContact = $scope.form.name.pk
+      console.log($scope.form.name);
       // $scope.place = $scope.form.addrs
       // var pincode = $scope.form.areaCode
       // var city = $scope.form.city
@@ -451,11 +450,12 @@ app.controller("businessManagement.marketing.addContacts", function($scope, $sta
       address: $scope.form.address,
       requireOnSiteVisit: $scope.form.requireOnSiteVisit,
     }
-    if ($scope.form.referenceContact != undefined && $scope.form.referenceContact.length > 0) {
+    if ($scope.form.referenceContact != undefined) {
       dataSave.referenceContact = $scope.form.referenceContact
     } else {
       dataSave.referenceContact = null
     }
+    console.log(dataSave.referenceContact,'aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
     if ($scope.form.requireOnSiteVisit == true) {
       dataSave.preferredDate = dateToString($scope.form.preferredDate)
       dataSave.preferredTimeSlot = $scope.form.preferredTimeSlot

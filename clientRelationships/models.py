@@ -300,6 +300,8 @@ class ConfigureTermsAndConditions(models.Model):
     heading = models.TextField(max_length=100 , null=True)
     default = models.BooleanField(default = False)
     division = models.ForeignKey(Division , related_name='termsandconditions' , null = True)
+    prefix = models.CharField(null = True , blank = True, max_length = 60)
+    counter = models.PositiveIntegerField(default=1)
 
 
 TICKET_CHOICES = (
@@ -356,3 +358,4 @@ class ServiceTicket(models.Model):
     engineersNotes = models.TextField(max_length=850 , null= True)
     division =  models.ForeignKey(Division , related_name='tickets' , null = True)
     serviceType =  models.CharField(max_length=150 , null= True)
+    uniqueId = models.CharField(max_length=150 , null= True)
