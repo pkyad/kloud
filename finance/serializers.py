@@ -23,14 +23,14 @@ from assets.models import *
 class TermsAndConditionsLiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = TermsAndConditions
-        fields = ('pk'  , 'created' , 'body', 'heading', 'default' , 'division' , 'prefix' , 'counter')
+        fields = ('pk'  , 'created' , 'body', 'heading', 'default' , 'division' , 'prefix' , 'typ')
 
 
 
 class TermsAndConditionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = TermsAndConditions
-        fields = ('pk' , 'created' , 'body', 'heading' , 'default', 'division')
+        fields = ('pk' , 'created' , 'body', 'heading' , 'default', 'division','prefix' , 'typ')
 
     def create(self , validated_data):
         t = TermsAndConditions(**validated_data)
@@ -38,7 +38,7 @@ class TermsAndConditionsSerializer(serializers.ModelSerializer):
         t.save()
         return t
     def update(self ,instance, validated_data):
-        for key in ['body', 'heading' ]:
+        for key in ['body', 'heading' , 'prefix' , 'typ']:
             try:
                 setattr(instance , key , validated_data[key])
             except:

@@ -1533,6 +1533,7 @@ app.controller("businessManagement.clientRelationships.configure.files.form", fu
 
 
 app.controller("businessManagement.clientRelationships.configure.termscondition", function($scope, $state, $users, $stateParams, $http, Flash) {
+$scope.appliacableList = ['INVOICE' , 'SALES ORDER']
 
   $scope.reset = function() {
     $scope.form = {
@@ -1540,7 +1541,9 @@ app.controller("businessManagement.clientRelationships.configure.termscondition"
       body: '',
       addedPoints: [],
       finalPoints: '',
-      default: false
+      default: false,
+      prefix : '',
+      typ : $scope.appliacableList[0]
     }
   }
 
@@ -1583,10 +1586,17 @@ app.controller("businessManagement.clientRelationships.configure.termscondition"
       return
     }
 
+    if ($scope.form.prefix == null || $scope.form.prefix.length == 0) {
+      Flash.create("warning", "Add prefix")
+      return
+    }
+
     var dataToSend = {
       body: $scope.form.finalPoints,
       heading: $scope.form.heading,
-      default: $scope.form.default
+      default: $scope.form.default,
+      prefix :  $scope.form.prefix,
+      typ :  $scope.form.typ,
     }
     var method = 'POST'
     var url = '/api/finance/termsAndConditions/'
@@ -1627,6 +1637,8 @@ app.controller("businessManagement.clientRelationships.configure.termscondition"
     $scope.form.default = $scope.allData[indx].default
     $scope.form.pk = $scope.allData[indx].pk
     $scope.form.heading = $scope.allData[indx].heading
+    $scope.form.prefix = $scope.allData[indx].prefix
+    $scope.form.typ = $scope.allData[indx].typ
     $scope.form.body = ''
     $scope.form.addedPoints = $scope.allData[indx].body.split('||')
     $scope.allData.splice(indx, 1)

@@ -116,6 +116,7 @@ class TermsAndConditions(models.Model):
     division = models.ForeignKey(Division , related_name='tncs' , null = True)
     prefix = models.CharField(null = True , blank = True, max_length = 60)
     counter = models.PositiveIntegerField(default=1)
+    typ = models.TextField(max_length=100 , null=True)
 
 class Sale(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -158,6 +159,7 @@ class Sale(models.Model):
     termsandcondition = models.ForeignKey(TermsAndConditions,related_name='termsandcondition',null=True , on_delete=models.SET_NULL)
     serviceFor = models.CharField(max_length = 100 ,null = True)
     isPerforma = models.BooleanField(default = False)
+    uniqueId = models.CharField(max_length = 100 ,null = True)
 
 
 class SalesQty(models.Model):

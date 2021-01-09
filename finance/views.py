@@ -64,6 +64,8 @@ import numpy as np
 class TermsAndConditionsViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,  )
     serializer_class = TermsAndConditionsSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['typ']
     def get_queryset(self):
         divsn = self.request.user.designation.division
         return TermsAndConditions.objects.filter(division = divsn)
@@ -1039,7 +1041,7 @@ def invoice(response , inv , invdetails , typ, request):
     <font size ='12'>
     <b>ID: %s</b></font>
     </para>
-    """ %('#INV-'+str(currentYear)+'-'+str(inv.pk)),styles['Normal'])
+    """ %(str(inv.uniqueId)),styles['Normal'])
     tdheader+=[[headerDate,headerTitle,headerId]]
     t2=Table(tdheader,colWidths=(54.7*mm,100*mm,54.7*mm))
     t2.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'CENTER'),('VALIGN',(0,0),(-1,-1),'MIDDLE'),('BOX',(0,0),(-1,-1),0.25,colors.black), ('LINEABOVE', (0,1), (-1,-1), 0.25, colors.black),]))
@@ -3958,7 +3960,11 @@ class OuttbondInvoiceAPIView(APIView):
             if 'account' in data:
                 outBondObj.account = Account.objects.get(pk = int(data['account']))
             if 'termsandcondition' in data:
-                outBondObj.termsandcondition = TermsAndConditions.objects.get(pk = int(data['termsandcondition']))
+                termsObj = TermsAndConditions.objects.get(pk = int(data['termsandcondition']))
+                outBondObj.termsandcondition = termsObj
+                outBondObj.uniqueId = termsObj.prefix + str(termsObj.counter)
+                termsObj.counter = termsObj.counter + 1
+                termsObj.save()
             if 'terms' in data:
                 outBondObj.terms = data['terms']
             if contractObj.contact.company:
@@ -4031,10 +4037,18 @@ class OuttbondInvoiceAPIView(APIView):
             if 'pk' in data:
                 outBondObj = Sale.objects.get( pk = int(data['pk']))
                 outBondObj.__dict__.update(data_to_post)
+                if 'termsandcondition' in data:
+                    data_to_post['termsandcondition']  = TermsAndConditions.objects.get(pk = int(data['termsandcondition']))
             else:
                 outBondObj = Sale(**data_to_post)
                 outBondObj.user = request.user
                 outBondObj.division = request.user.designation.division
+                if 'termsandcondition' in data:
+                    termsObj = TermsAndConditions.objects.get(pk = int(data['termsandcondition']))
+                    outBondObj.termsandcondition = termsObj
+                    outBondObj.uniqueId = termsObj.prefix + str(termsObj.counter)
+                    termsObj.counter = termsObj.counter + 1
+                    termsObj.save()
                 if 'parent' in data:
                     outBondObj.parent = Sale.objects.get( pk = int(data['parent']))
             if 'costcenter' in data:
@@ -4045,8 +4059,8 @@ class OuttbondInvoiceAPIView(APIView):
                 outBondObj.gstIn = data['gstIn']
             if 'contact' in data:
                 outBondObj.contact = Contact.objects.get(pk = int(data['contact']))
-            if 'termsandcondition' in data:
-                outBondObj.termsandcondition = TermsAndConditions.objects.get(pk = int(data['termsandcondition']))
+            # if 'termsandcondition' in data:
+            #     outBondObj.termsandcondition = TermsAndConditions.objects.get(pk = int(data['termsandcondition']))
             if 'terms' in data:
                 outBondObj.terms = data['terms']
             outBondObj.save()
