@@ -284,6 +284,8 @@ app.controller('projectManagement.todo' , function($scope ,$http, $users , Flash
 
   $scope.markSubTask = function(pk , indx , taskIndx , status) {
 
+    console.log(pk , indx , taskIndx , status);
+
     if (status == 'notStarted') {
       var sts = 'complete';
     }else{
