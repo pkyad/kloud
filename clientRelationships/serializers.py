@@ -321,7 +321,6 @@ class ServiceTicketSerializer(serializers.ModelSerializer):
         t = ServiceTicket(**validated_data)
         t.division = self.context['request'].user.designation.division
         t.save()
-        print self.context['request'].data['referenceContact'],'SSSSSSSSSSSSSSSSSSSSSSSSSSSSS'
         if self.context['request'].data['referenceContact'] == None:
             contactObj = Contact.objects.create(user = self.context['request'].user, name = t.name, mobile = t.phone, email = t.email, street = t.address , pincode = t.pincode , state = t.state, country = t.country )
             t.referenceContact = contactObj

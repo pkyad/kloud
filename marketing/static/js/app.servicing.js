@@ -455,7 +455,6 @@ app.controller("businessManagement.marketing.addContacts", function($scope, $sta
     } else {
       dataSave.referenceContact = null
     }
-    console.log(dataSave.referenceContact,'aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
     if ($scope.form.requireOnSiteVisit == true) {
       dataSave.preferredDate = dateToString($scope.form.preferredDate)
       dataSave.preferredTimeSlot = $scope.form.preferredTimeSlot
