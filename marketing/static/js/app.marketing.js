@@ -1028,9 +1028,9 @@ app.controller("businessManagement.marketing.canpaign.call.explore", function($s
       },
       controller: "businessManagement.marketing.saveContacts",
     }).result.then(function() {
-      // $scope.fetch()
+      $scope.fetch()
     }, function(res) {
-      // $scope.fetch()
+      $scope.fetch()
     });
   }
 

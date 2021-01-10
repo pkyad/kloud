@@ -218,12 +218,12 @@ app.controller("businessManagement.servicing", function($scope, $state, $users, 
       },
       controller: "businessManagement.marketing.addContacts",
     }).result.then(function() {
-      // $scope.getAllData()
+      $scope.getAllData()
     }, function(res) {
       if (typeof res == 'object') {
         $scope.allServices.push(res)
       }
-      // $scope.getAllData()
+      $scope.getAllData()
     });
   }
 

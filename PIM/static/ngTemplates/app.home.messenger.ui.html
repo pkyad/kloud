@@ -403,17 +403,12 @@
         <div class="attachment col-md-1 col-sm-1">
           <input type="file" style="display : none;" file-model="form.file" id="filePicker">
           <button ng-click="openFilePicker()" type="button" name="button" style="border:none;background:transparent;padding:5px;">
-            <img src="/static/images/icons8-attach-52.png" alt="" style="height:30px;">
-            <!-- <svg width="30" height="30" viewBox="0 0 167 167" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M29.6771 77.8244C21.8735 85.6279 17.4895 96.2118 17.4895 107.248C17.4895 118.284 21.8735 128.867 29.6771 136.671C37.4806 144.474 48.0645 148.858 59.1003 148.858C70.1362 148.858 80.7201 144.474 88.5236 136.671L144.695 80.4992C150.371 74.8239 153.559 67.1266 153.559 59.1005C153.559 51.0744 150.371 43.377 144.695 37.7017C139.02 32.0264 131.323 28.8381 123.297 28.8381C115.271 28.8381 107.573 32.0264 101.898 37.7017L56.4255 83.1741C52.8784 86.7211 50.8857 91.532 50.8857 96.5483C50.8857 101.565 52.8784 106.375 56.4255 109.923C59.9726 113.47 64.7834 115.462 69.7997 115.462C74.816 115.462 79.6269 113.47 83.1739 109.923L123.297 69.7999L115.272 61.7753L75.1494 101.898C73.7306 103.317 71.8062 104.114 69.7997 104.114C67.7932 104.114 65.8689 103.317 64.45 101.898C63.0312 100.479 62.2341 98.5548 62.2341 96.5483C62.2341 94.5418 63.0312 92.6174 64.45 91.1986L109.922 45.7263C111.679 43.9699 113.764 42.5767 116.059 41.6262C118.353 40.6757 120.813 40.1865 123.297 40.1865C125.78 40.1865 128.24 40.6757 130.535 41.6262C132.829 42.5767 134.914 43.9699 136.671 45.7263C138.427 47.4826 139.82 49.5677 140.771 51.8624C141.721 54.1572 142.211 56.6167 142.211 59.1005C142.211 61.5843 141.721 64.0438 140.771 66.3386C139.82 68.6333 138.427 70.7184 136.671 72.4747L80.4991 128.646C74.8238 134.322 67.1264 137.51 59.1003 137.51C51.0743 137.51 43.3769 134.322 37.7016 128.646C32.0263 122.971 28.8379 115.274 28.8379 107.248C28.8379 99.2216 32.0263 91.5242 37.7016 85.8489L88.5236 35.0269L80.4991 27.0024L29.6771 77.8244Z"
-                fill="grey" />
-            </svg> -->
+            <img src="/static/images/icons8-attach-52.png" alt="" style="height:25px;">
           </button>
         </div>
 
         <div class="col-md-11 col-sm-11">
-          <input ng-model="form.text" ng-enter="send()" class="form-control" type="text" placeholder="Type your message...." style="border-radius:30px;padding: 19px;">
+          <input ng-model="form.text" ng-enter="send()" class="form-control" type="text" placeholder="Type your message...." style="border:none !important;border-radius:30px;padding: 19px;">
         </div>
 
       </div>
@@ -503,7 +498,7 @@
         </div>
       </div>
       <div class="row contact userMenuItem " style="padding:10px 15px;padding-bottom:0px;" ng-click="createChatThread(k)" ng-repeat="k in user.participants track by $index">
-        <div class="col-md-2 text-left" style="padding:0px;">
+        <div class="col-md-2 text-right" style="padding:0px;">
           <img src="{{k.dp}}" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
           <!-- <div class="" style="clip-path:circle(50%);background:#2edd2e;width:15px;height:15px;position: absolute;bottom: -5px;right: -5px;"></div> -->
         </div>

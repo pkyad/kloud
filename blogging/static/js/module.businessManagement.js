@@ -22,44 +22,6 @@ app.config(function($stateProvider) {
       templateUrl: '/static/ngTemplates/app.finance.configure.html',
       controller: 'businessManagement.configure'
     })
-    .state('businessManagement.KloudERP', {
-      url: "/kloudERP",
-      templateUrl: '/static/ngTemplates/app.organization.allCompanies.html',
-      controller: 'businessManagement.kloudERP',
-    })
-    .state('businessManagement.KloudERP.delails', {
-      url: "/users/:id",
-      templateUrl: '/static/ngTemplates/app.businessManagement.KloudERPdelails.html',
-      controller: 'businessManagement.KloudERPdelails',
-    })
-    .state('businessManagement.KloudERP.apps', {
-      url: "/apps",
-      templateUrl: '/static/ngTemplates/app.organization.allApps.html',
-      controller: 'businessManagement.apps',
-    })
-    .state('businessManagement.KloudERP.templates', {
-      url: "/templates",
-      templateUrl: '/static/ngTemplates/app.organization.allTemplates.html',
-      controller: 'businessManagement.templates',
-    })
-    .state('businessManagement.KloudERP.HSNandSACcodes', {
-      url: "/HSN-SAC",
-      templateUrl: '/static/ngTemplates/app.configure.hsnsacCodes.form.html',
-      controller: 'admin.settings.configure.hsnsac.form'
-    })
-    .state('businessManagement.KloudERP.holidays', {
-      url: "/holidays",
-      templateUrl: '/static/ngTemplates/app.settings.holidays.html',
-      controller: 'admin.settings.configure.calendar.form'
-    })
-    .state('businessManagement.KloudERP.appDetails', {
-      url: "/:id",
-      templateUrl: '/static/ngTemplates/app.organization.appDetails.html',
-      controller: 'businessManagement.appsDetails',
-    })
-
-
-
 
 });
 

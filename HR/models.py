@@ -8,6 +8,7 @@ from allauth.account.signals import user_signed_up
 from django.dispatch import receiver
 from django.contrib import admin
 from ERP.models import *
+from django.db.models.signals import post_save , pre_delete
 # from marketing.models import Contacts
 # from marketing.models import CampaignItem
 
@@ -148,8 +149,11 @@ class profile(models.Model):
     isManager = models.BooleanField(default=False)
     adhar = models.CharField(null = True , max_length = 100, blank = True)
     onboarding = models.BooleanField(default=False)
-    apps = models.TextField(null = True)
+    apps = models.TextField(null = True , max_length=6000)
     zoom_token = models.TextField(null=True)
+
+
+
 User.profile = property(lambda u : profile.objects.get_or_create(user = u)[0])
 
 class Team(models.Model):
@@ -171,8 +175,10 @@ class designation(models.Model):
     team = models.ForeignKey(Team , related_name = "teamName", null=True)
     apps = models.ManyToManyField(InstalledApp , blank = True, related_name = 'individualInstallations')
 
-User.designation = property(lambda u : designation.objects.get_or_create(user = u)[0])
 
+
+
+User.designation = property(lambda u : designation.objects.get_or_create(user = u)[0])
 
 
 @receiver(user_signed_up, dispatch_uid="user_signed_up")

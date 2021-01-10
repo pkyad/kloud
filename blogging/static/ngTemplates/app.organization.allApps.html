@@ -47,7 +47,7 @@
 
       </div>
   </div>
-  <div ng-repeat="app in apps" ng-click="$state.go('businessManagement.KloudERP.appDetails' , {id : app.pk})" class="container-fluid" style="padding:20px;border:solid 1px #eee;margin-bottom:20px;">
+  <div ng-repeat="app in apps" ng-click="$state.go('appDetails' , {id : app.pk})" class="container-fluid" style="padding:20px;border:solid 1px #eee;margin-bottom:20px;">
     <h3 style=margin:0px>{{app.displayName}} <a ng-click="$event.stopPropagation();" href="/api/ERP/downloadBundle/?id={{app.pk}}"  target="_blank" class="pull-right"><img style="width:30px" src="/static/images/appdownload.png"></a></h3>
   </div>
 </div>

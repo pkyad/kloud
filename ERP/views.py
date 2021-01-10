@@ -242,6 +242,8 @@ def root(request):
 @login_required(login_url = globalSettings.LOGIN_URL)
 def home(request):
     u = request.user
+    if u.is_superuser:
+        return redirect('adminView')
     division = u.designation.division
     if division == None:
         return redirect('newuser')
@@ -299,10 +301,7 @@ def home(request):
         state = '/' + app.name.replace('app.' , app.module + ".").replace('.', '/')
         homeState = app.name.replace('app.' , app.module + ".")
 
-    if u.is_superuser:
-        state = '/businessManagement/kloudERP'
-        homeState = 'businessManagement.kloudERP'
-    elif state is None:
+    if state is None:
         state = '/home/viewProfile/profile'
         homeState = 'home.viewProfile.profile'
 

@@ -656,6 +656,10 @@ class GetMyAppsView(APIView):
     def get(self, request, format=None):
         u=request.user
         adminApps = ['app.organization' , 'sudo.configure', 'app.employees' ]
+        prfl = u.profile
+        # if prfl.apps is not None:
+        #     print "returning from the profile"
+        #     return Response(json.loads(u.profile.apps), status = status.HTTP_200_OK)
 
         if 'mode' in request.GET and request.GET['mode'].startswith('app'):
             apps = application.objects.filter(name = request.GET['mode'])
@@ -668,7 +672,6 @@ class GetMyAppsView(APIView):
         except:
             pass
 
-
         if 'mode' in request.GET and request.GET['mode']== 'recent':
             apps = apps.order_by('index').filter(~Q(name__in = adminApps))[:4]
         print apps
@@ -678,14 +681,8 @@ class GetMyAppsView(APIView):
 
         appsJson = []
 
-        if u.is_superuser:
-            kloudERP = application.objects.get(name = 'app.KloudERP')
-            appsJson.append({"name" : kloudERP.name , "pk" : kloudERP.pk , "icon" : kloudERP.icon , "state" : kloudERP.name.replace('app.' , kloudERP.module + "."), "displayName" : kloudERP.displayName , 'url' : '/businessManagement/kloudERP'  })
-
         if 'displayName__icontains' in request.GET:
             apps = apps.filter(displayName__icontains = request.GET['displayName__icontains'] )
-
-        # apps = apps.order_by('index')
 
         for app in apps:
             print app.name
@@ -708,6 +705,9 @@ class GetMyAppsView(APIView):
             for child in app.menuitems.all():
                 appsJson.append({"name" : child.name , "pk" : child.pk , "icon" : child.icon , "state" : child.state, "displayName" : child.name , 'url' : ""  })
 
+        # prfl.apps = json.dumps({"apps" : appsJson , "settings" : u.is_staff })
+        # prfl.save()
+        # print "returning from the database fetch"
 
         return Response({"apps" : appsJson , "settings" : u.is_staff }, status = status.HTTP_200_OK)
 
@@ -1133,6 +1133,12 @@ class GetWelcomeDetailsAPIView(APIView):
             data['emergencyNumber'] = user.profile.emergency.split('::')[1]
         return Response(data,status=status.HTTP_200_OK)
 
+def resetAppsInProfile(user):
+    p = user.profile
+    p.apps = None
+    print "reseting the apps in the profile" , p.pk , p.user.pk
+    p.save()
+
 class AppInstallerView(APIView):
     renderer_classes = (JSONRenderer,)
     permission_classes = (permissions.IsAuthenticated,)
@@ -1140,6 +1146,7 @@ class AppInstallerView(APIView):
         app = InstalledApp.objects.get(pk = request.data['app'])
         d = designation.objects.get(pk = request.data['designation'])
         d.apps.add(app)
+        resetAppsInProfile(d.user)
         return Response({} , status = status.HTTP_200_OK)
 
     def get(self ,request ,format = None):
@@ -1153,6 +1160,7 @@ class AppInstallerView(APIView):
         app = InstalledApp.objects.get(pk = request.GET['app'])
         d = designation.objects.get(pk = request.GET['designation'])
         d.apps.remove(app)
+        resetAppsInProfile(d.user)
         return Response({} , status = status.HTTP_200_OK)
 
 

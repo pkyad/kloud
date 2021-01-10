@@ -2340,7 +2340,7 @@ class GetOutBoundCountAPI(APIView):
         val = {'name' : 'Received' , 'is_selected' : False, 'count' : received ,'title' : 'Paid Invoices'}
         toReturn.append(val)
         overdue = Sale.objects.filter(status = 'Overdue', isInvoice = True).exclude(cancelled = True).count()
-        val = {'name' : 'Overdue' , 'is_selected' : False, 'count' : overdue, 'title' : 'Deloayed Invoices'}
+        val = {'name' : 'Overdue' , 'is_selected' : False, 'count' : overdue, 'title' : 'Delayed Invoices'}
         toReturn.append(val)
         cancelled = Sale.objects.filter(cancelled = True, isInvoice = True).count()
         val = {'name' : 'Cancelled' , 'is_selected' : False, 'count' : cancelled , 'title' : 'Cancelled Invoices'}

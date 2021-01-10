@@ -1,26 +1,60 @@
-
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>admin</title>
     <link rel="stylesheet" href="/static/css/bootstrap.min.css" charset="utf-8">
     <link rel="stylesheet" href="/static/css/font-awesome.min.css" charset="utf-8">
-  </head>
-  <body ng-app="app" ng-controller="main">
-    {% verbatim %}
+    <style>
+      .menuItems {
+        padding: 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-right: solid 4px #F2F3F7;
+        padding-bottom: 15px;
+        padding-top: 15px;
+      }
 
-      <div class="row" style="margin:0px;">
-        <div class="col-md-2" style="height:100vh;background:grey;">
-          
-          <div style="margin-top:300px;background:black;padding:30px;" class="row text-center">
-            Companies
-          </div>
-          
+      .menuItems:hover {
+        background: #fbfbfb;
+        border-right: solid 4px red !important;
+      }
+
+      .activeMenu {
+        border-right: solid 4px red !important;
+        background: #fbfbfb !important;
+      }
+    </style>
+  </head>
+  <body ng-app="app" >
+  <div flash-message="4000" style="position:fixed;top:70px;right:10px;z-index:9999;min-width:300px;"></div>
+    {% verbatim %}
+      <div class="col-md-2" style="background:#eee;margin:0px;min-height:100vh;position:absolute;">
+        <div class="row text-center menuItems {{$state.is('companies') ? 'activeMenu' : ''}}" ng-click="$state.go('companies')" style="padding:20px">
+          Companies
         </div>
-        <div class="col-md-10" style="height:100vh;">
-          <ui-view></ui-view>
+        <div class="row text-center menuItems {{$state.is('apps') ? 'activeMenu' : ''}}" ng-click="$state.go('apps')" style="padding:20px">
+          Apps
         </div>
+        <div class="row text-center menuItems {{$state.is('templates') ? 'activeMenu' : ''}}" ng-click="$state.go('templates')" style="padding:20px">
+          Templates
+        </div>
+        <div class="row text-center menuItems {{$state.is('HSNandSACcodes') ? 'activeMenu' : ''}}" ng-click="$state.go('HSNandSACcodes')" style="padding:20px">
+          HSN/SAC Codes
+        </div>
+        <div class="row text-center menuItems {{$state.is('holidays') ? 'activeMenu' : ''}}" ng-click="$state.go('holidays')" style="padding:20px">
+          Holidays
+        </div>
+
+        <div class="row text-center " style="margin-top:100px;">
+          <a href="/logout" class="btn btn-danger">Logout</a>
+        </div>
+
+      </div>
+
+      <div class="col-md-10" style="margin:0px;padding:0px;position:absolute;right:0px;overflow:auto;height:100vh;">
+        <ui-view></ui-view>
       </div>
 
     {% endverbatim %}
@@ -30,6 +64,8 @@
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/angular.min.js"></script>
     <script src="/static/js/angular-flash.js"></script>
+    <script src="{% static 'js/ui-bootstrap-tpls-0.14.3.min.js' %}"></script>
+    <script src="{% static 'js/angular-bootstrap-confirm.min.js' %}"></script>
     <script src="/static/js/angular-ui-router.min.js"></script>
     <script src="/static/js/custom/app.adminView.js"></script>
 
