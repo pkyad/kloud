@@ -236,7 +236,7 @@ class Division(models.Model):
     locked = models.BooleanField(default=False)
     totalDue = models.PositiveIntegerField(default = 0)
     dueDate = models.DateTimeField(null = True)
-    
+    counter = models.PositiveIntegerField(default=1)
 
     # address
     # themeColor

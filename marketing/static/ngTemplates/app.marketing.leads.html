@@ -130,7 +130,7 @@
                 </button>
                 <div ng-if="contact.status != 'created' && contact.status != 'upcoming'" style="margin-top:15px" class="text-center"> <span ng-if="contact.engineer"> {{contact.engineer.first_name}}  {{contact.engineer.last_name}} </span>  <span ng-if="contact.preferredDate"> <br/> on {{contact.preferredDate | date}} <span>  <span ng-if="contact.preferredTimeSlot">  @ {{contact.preferredTimeSlot}} <span> </div>
               </div>
-              <button  style="border: none !important;border-radius: 64px !important;padding: 10px;font-size: 16px;z-index: 10;margin-top:15px" class="btn btn-primary" ng-click="download(contact.pk)">  Print Material Inward Note </button>
+              <button style="background:#461482;color:white;" type="button" class="btn-assign" ng-click="download(contact.pk)" style="width:100%;margin-top:15px">  Print Material Inward Note </button>
               <button type="button" class="btn-assign" ng-click="newContact($index)" style="width:100%;margin-top:15px">
                 Edit
               </button>

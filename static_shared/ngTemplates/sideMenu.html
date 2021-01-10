@@ -76,7 +76,7 @@
               </div> -->
   </div>
 
-  <div ng-if="enableMessaing" ng-click="$state.go('home.messenger')" style="padding:13px;color: white;position: fixed;bottom: 200px;left: 55px;border-radius: 10px;font-size: 27px;padding-left: 20px;padding-right: 20px;">
+  <div ng-if="enableMessaing" ng-click="$state.go('home.messenger')" style="padding:13px;color: white;position: fixed;bottom: {{enableTelephony? '200px' : '100px'}};left: 55px;border-radius: 10px;font-size: 27px;padding-left: 20px;padding-right: 20px;">
     <img src="/static/images/icons8-whatsapp-128.png" style="width:40px;">
     <div style="position: absolute;top:5px;right:10px;background:red;border-radius: 30px;color:white;padding-left: 7px;padding-right: 7px;font-size: 18px;box-shadow: 5px 10px 20px #e3e3e3;" >
                 1

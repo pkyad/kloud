@@ -23,14 +23,14 @@ from assets.models import *
 class TermsAndConditionsLiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = TermsAndConditions
-        fields = ('pk'  , 'created' , 'body', 'heading', 'default' , 'division')
+        fields = ('pk'  , 'created' , 'body', 'heading', 'default' , 'division' , 'prefix' , 'typ')
 
 
 
 class TermsAndConditionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = TermsAndConditions
-        fields = ('pk' , 'created' , 'body', 'heading' , 'default', 'division')
+        fields = ('pk' , 'created' , 'body', 'heading' , 'default', 'division','prefix' , 'typ')
 
     def create(self , validated_data):
         t = TermsAndConditions(**validated_data)
@@ -38,7 +38,7 @@ class TermsAndConditionsSerializer(serializers.ModelSerializer):
         t.save()
         return t
     def update(self ,instance, validated_data):
-        for key in ['body', 'heading' ]:
+        for key in ['body', 'heading' , 'prefix' , 'typ']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
@@ -673,25 +673,37 @@ class DisbursalSerializer(serializers.ModelSerializer):
 
 
 class InvoiceReceivedSerializer(serializers.ModelSerializer):
-    typ = serializers.SerializerMethodField()
     class Meta:
         model = InvoiceReceived
-        fields=('pk','created','user','companyName','personName','typ','totalAmount')
-    def get_typ(self, obj):
-        return 'INVOICE'
+        fields=('pk','created','user','companyName','personName','totalAmount','invType','title')
+    def create(self , validated_data):
+        u = self.context['request'].user
+        inv = InvoiceReceived(**validated_data)
+        inv.user = u
+        try:
+            inv.division = self.context['request'].user.designation.division
+        except:
+            pass
+        inv.save()
+        return inv
 
 
 class InvoiceQtySerializer(serializers.ModelSerializer):
     class Meta:
         model = InvoiceQty
-        fields=('pk','product','price','taxCode','taxPer','tax','total','receivedQty')
-
+        fields=('pk','product','created','price','taxCode','taxPer','tax','total','receivedQty','description','attachment','invoice')
+    def create(self , validated_data):
+        u = self.context['request'].user
+        inv = InvoiceQty(**validated_data)
+        inv.user = u
+        inv.save()
+        return inv
 
 class InvoiceReceivedAllSerializer(serializers.ModelSerializer):
     products = serializers.SerializerMethodField()
     companyReference = serviceSerializer(many = False , read_only = True)
     class Meta:
         model = InvoiceReceived
-        fields=('pk','created','user','companyName','personName','phone','email','address' ,'state' , 'city' ,'country','pincode' , 'deliveryDate' , 'paymentDueDate' , 'costcenter' , 'accNo' , 'ifsc' , 'bankName' , 'account'  , 'totalAmount' , 'balanceAmount' , 'paidAmount' , 'companyReference' , 'note','products','invNo','gstIn')
+        fields=('pk','created','user','companyName','personName','phone','email','address' ,'state' , 'city' ,'country','pincode' , 'deliveryDate' , 'paymentDueDate' , 'costcenter' , 'accNo' , 'ifsc' , 'bankName' , 'account'  , 'totalAmount' , 'balanceAmount' , 'paidAmount' , 'companyReference' , 'note','products','invNo','gstIn','invType','title','status')
     def get_products(self, obj):
         return InvoiceQtySerializer(obj.parentInvoice, many = True).data
