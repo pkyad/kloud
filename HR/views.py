@@ -703,7 +703,7 @@ class GetMyAppsView(APIView):
                 displayName = app.displayName
             else:
                 continue
-            appsJson.append({"name" : app.name , "pk" : app.pk , "icon" : app.icon , "state" : state, "displayName" : displayName , 'url' : app.url  })
+            appsJson.append({"name" : app.name , "pk" : app.pk , "icon" : app.icon , "state" : state, "displayName" : displayName , 'url' : app.url , 'appStoreUrl'  : app.appStoreUrl, 'playStoreUrl' : app.playStoreUrl })
 
             for child in app.menuitems.all():
                 appsJson.append({"name" : child.name , "pk" : child.pk , "icon" : child.icon , "state" : child.state, "displayName" : child.name , 'url' : ""  })
