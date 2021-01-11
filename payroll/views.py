@@ -327,9 +327,7 @@ class GetPayslip(APIView):
             tempmonth = request.GET['month']
             month = months.index(tempmonth)
             year = request.GET['year']
-            print request.GET['userid'], request.GET['month'], request.GET['year']
             report = []
-            print month,year
             response = HttpResponse(content_type='application/pdf')
             response['Content-Disposition'] = 'attachment;filename="payslip.pdf"'
             payslip(response , payrol , user ,report,month, year, request)
@@ -341,12 +339,10 @@ class GetPayslip(APIView):
                 f.close()
                 file_name = 'media/' + filePath.split('/')[-1]
                 return Response({'fileUrl' : file_name }, status = status.HTTP_200_OK)
-                print filePath,'aaaaaaaaaaaa'
 
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment;filename="payslipdownload.pdf"'
         payslip(response , payrol , user ,report,month, year, request)
-        print 'ddddddddddddddd'
         return response
 
 months = ["","January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
