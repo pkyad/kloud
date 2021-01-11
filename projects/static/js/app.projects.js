@@ -685,8 +685,43 @@ var parseNotifications = function(notifications) {
 app.controller('projectManagement.projects.project.explore', function($scope, $http, $aside, $state, Flash, $users, $filter,  $uibModal) {
 
   $scope.form = {
-    'icon': emptyFile,
+    icon: emptyFile,
+    file: emptyFile,
   }
+
+  $scope.viewFile = function(file, idx){
+    console.log(file, idx);
+    $scope.image = file.attachment
+    $scope.type = idx
+    $scope.text = 'Initial Project Proposal'
+    $scope.size = '3 MB'
+  }
+
+  $scope.$watch('form.file', function(newValue, oldValue) {
+    if (typeof newValue == 'object') {
+
+      var fd = new FormData();
+      if (newValue != emptyFile && newValue != null && typeof newValue!='string') {
+        console.log(newValue.type);
+        fd.append('files', newValue)
+        fd.append('type', newValue.type)
+      }
+
+      $http({
+        method: 'PATCH',
+        url: '/api/projects/project/' + $state.params.id + '/',
+        data: fd,
+        transformRequest: angular.identity,
+        headers: {
+          'Content-Type': undefined
+        }
+      }).
+      then(function(response) {
+        $scope.getallProjects()
+
+      })
+    }
+  })
 
   $scope.$watch('project.icon', function(newValue, oldValue) {
     if (typeof newValue == 'object') {
@@ -712,31 +747,40 @@ app.controller('projectManagement.projects.project.explore', function($scope, $h
   })
 
 
-  $http({
-    method: 'GET',
-    url: '/api/projects/project/' + $state.params.id + '/'
-  }).
-  then(function(response) {
-    $scope.project = response.data;
-    $scope.project.messages = [];
-    for (var i = 0; i < $scope.project.repos.length; i++) {
-      $scope.project.repos[i].page = 0;
-      $scope.project.repos[i].rawCommitNotifications = []
-      $scope.fetchNotifications(i);
-    }
-    $scope.fetchTasks();
+  $scope.getallProjects = function(){
     $http({
       method: 'GET',
-      url: '/api/projects/timelineItem/?category=message&project=' + $state.params.id
+      url: '/api/projects/project/' + $state.params.id + '/'
     }).
     then(function(response) {
-      $scope.project.messages = response.data;
-    })
-    $scope.mode = 'view';
+      $scope.project = response.data;
+      var fileLength = $scope.project.files.length
+      console.log(fileLength);
+      if (fileLength >= 6) {
+        $scope.fiveBoxes = $scope.project.files.splice(5, fileLength)
+      }
+      $scope.project.messages = [];
+      for (var i = 0; i < $scope.project.repos.length; i++) {
+        $scope.project.repos[i].page = 0;
+        $scope.project.repos[i].rawCommitNotifications = []
+        $scope.fetchNotifications(i);
+      }
+      $scope.fetchTasks();
+      $http({
+        method: 'GET',
+        url: '/api/projects/timelineItem/?category=message&project=' + $state.params.id
+      }).
+      then(function(response) {
+        $scope.project.messages = response.data;
+      })
+      $scope.mode = 'view';
 
-    $scope.fetchTimesheetItems();
-    $scope.fetchIssues();
-  });
+      $scope.fetchTimesheetItems();
+      $scope.fetchIssues();
+    });
+  }
+
+  $scope.getallProjects()
 
 
 

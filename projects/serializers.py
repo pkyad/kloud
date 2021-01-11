@@ -81,7 +81,7 @@ class projectSerializer(serializers.ModelSerializer):
         fields = ('pk','dueDate', 'created' , 'title' , 'description' , 'files' , 'team', 'comments', 'repos','user','costCenter','budget','projectClosed','ourBoundInvoices','totalCost','company', 'icon')
         read_only_fields = ('user', 'team',)
     def create(self , validated_data):
-        p = project(**validated_data)
+        p = project(**vaPATCHlidated_data)
         p.user = self.context['request'].user
         if 'costCenter' in self.context['request'].data:
             p.costCenter = CostCenter.objects.get(pk=int(self.context['request'].data['costCenter']))
@@ -104,15 +104,28 @@ class projectSerializer(serializers.ModelSerializer):
                 print "Error while saving " , key
                 pass
 
-        if 'files' in self.context['request'].data:
-            instance.files.clear()
-            for f in self.context['request'].data['files']:
-                instance.files.add(media.objects.get(pk = f))
-        if 'team' in self.context['request'].data:
+        # if 'files' in self.context['request'].data:
+        #     instance.files.clear()
+        #     for f in self.context['request'].data['files']:
+        #         instance.files.add(media.objects.get(pk = f))
+        data = self.context['request'].data
+        if 'files' in data:
+
+            if 'image' in data['type']:
+                type = 'image'
+            if 'application' in data['type']:
+                type = 'doc'
+            if data['type'] == 'application/pdf':
+                type = 'pdf'
+            # if data['type'] == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+            #     type = 'excel'
+
+            instance.files.add(media.objects.create(user = self.context['request'].user, attachment = data['files'], mediaType = type))
+        if 'team' in data:
             instance.team.clear()
-            for u in self.context['request'].data['team']:
+            for u in data['team']:
                 instance.team.add(User.objects.get(pk=u))
-        if 'icon' in self.context['request'].data:
+        if 'icon' in data:
             instance.icon = self.context['request'].data['icon']
         instance.save()
         return instance

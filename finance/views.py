@@ -4487,6 +4487,8 @@ class TransparentImageAPI(APIView):
     def post(self,request , format= None):
         data = request.data
 
+        print data , 'dddddddddddddddd'
+
         BLUR = 1
         CANNY_THRESH_1 = 10
         CANNY_THRESH_2 = 200
@@ -4534,15 +4536,9 @@ class TransparentImageAPI(APIView):
         b, g, r = cv2.split(masked)
         rgba = [b,g,r, alpha]
         dst = cv2.merge(rgba,4)
-        # cv2.imwrite("media_root/finance/inventory/%s" %(file.name), dst)
-        print data['file'], 'eeeeeeeee'
-        print data['file'].name, 'eeeeeeeee'
-        cv2.imwrite("media_root/finance/inventory/converted.png", dst)
-
-        # httpUrl = globalSettings.SITE_ADDRESS+'/media_root/finance/inventory/%s' %(file.name)
-        httpUrl = 'finance/inventory/converted.png'
-        print httpUrl , 'ooooooooooo'
-
+        # cv2.imwrite("media_root/finance/inventory/%s" %(data['file']), dst)
+        cv2.imwrite(data['file'], dst)
+        httpUrl = data['file']
 
         return Response({'url':httpUrl} ,status = status.HTTP_200_OK)
 

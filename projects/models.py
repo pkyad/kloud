@@ -30,6 +30,9 @@ MEDIA_TYPE_CHOICES = (
     ('image' , 'image'),
     ('onlineImage' , 'onlineImage'),
     ('doc' , 'doc'),
+    ('excel' , 'excel'),
+    ('ppt' , 'ppt'),
+    ('pdf' , 'pdf'),
 )
 
 class media(models.Model):
