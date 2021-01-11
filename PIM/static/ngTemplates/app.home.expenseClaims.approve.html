@@ -23,7 +23,7 @@
     <div class=" col-md-3 text-right" style="padding-top: 19px;" ng-if="form.pk">
     <button ng-if="form.status=='Sent'" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="changeStatus('Approved')" confirm-button-type="default" cancel-button-type="default"
       class="btn btn-success" style="background:green;color:white;border:1px solid green;border-radius:25px!important;margin-right:15px"  class="btn btn-default"> Approve </button>
-    <button ng-if="form.status=='Sent'" style="background:red;color:white;border:1px solid red;border-radius:25px!important" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="changeStatus('created')" confirm-button-type="default" cancel-button-type="default"
+    <button ng-if="form.status=='Sent'" style="background:red;color:white;border:1px solid red;border-radius:25px!important" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="changeStatus('rejected')" confirm-button-type="default" cancel-button-type="default"
       class="btn btn-default" class="btn btn-danger"> Reject </button>
       <button ng-if="form.status=='Approved'"style="background:green;color:white;border:1px solid green;border-radius:25px!important;margin-right:15px"  class="btn btn-default"> Approved </button>
       <button ng-if="form.status=='rejected'" style="background:red;color:white;border:1px solid red;border-radius:25px!important" class="btn btn-default"> Rejected </button>
