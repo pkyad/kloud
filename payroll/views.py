@@ -802,12 +802,13 @@ class sendLoanSettlementEmailAPIView(APIView):
 class AllPaySlipsAPIView(APIView):
     renderer_classes = (JSONRenderer,)
     def get(self, request, format=None):
-        payslipObj = Payslip.objects.filter(user = request.user, report__status="approved").order_by('year')
+        print Payslip.objects.filter(user = request.user, report__status="paid")
+        payslipObj = Payslip.objects.filter(user = request.user, report__status="paid").order_by('year')
         first_pay = payslipObj.first()
         last_pay =  payslipObj.last()
         data = []
         for i in range(first_pay.year , last_pay.year+1):
-            obj = Payslip.objects.filter(year = i, report__status="approved", user = request.user)
+            obj = Payslip.objects.filter(year = i, report__status="paid", user = request.user)
             if len(obj) > 0:
                 data.append({'year' : i , 'data' : payslipLiteSerializer(obj, many=True).data })
 
