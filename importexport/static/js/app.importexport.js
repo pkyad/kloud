@@ -3832,9 +3832,10 @@ app.controller("businessManagement.importexport.inventory1", function($scope, $s
           }, true)
 
           $scope.projectSearch = function(query) {
-            return $http.get('/api/importexport/projects/?searchContains=' + query + '&status__in=approved,ongoing&savedStatus=false&flag=' + value).
+            return $http.get('/api/importexport/projects/?limit=5&name=' + query + '&status__in=approved,ongoing&savedStatus=false&flag=' + value).
             then(function(response) {
-              return response.data;
+              console.log(response);
+              return response.data.results;
             })
           };
 

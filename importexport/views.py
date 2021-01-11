@@ -119,6 +119,7 @@ class ProjectsViewSet(viewsets.ModelViewSet):
         elif 'name' in params:
             return Projects.objects.filter(comm_nr__icontains= str(params['name']),division = divisionObj)
         else:
+            print 'herer', params, 'params'
             return Projects.objects.filter(division = divisionObj).order_by('-created')
 
 class VendorViewSet(viewsets.ModelViewSet):
