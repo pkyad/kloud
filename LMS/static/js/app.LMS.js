@@ -6,19 +6,24 @@ app.config(function($stateProvider) {
       controller: 'businessManagement.LMS'
     })
     .state('businessManagement.new', {
-      url: "/new",
+      url: "/new/:id",
       templateUrl: '/static/ngTemplates/app.LMS.courses.form.html',
       controller: 'businessManagement.LMS.form'
     })
     .state('businessManagement.LMS.edit', {
-      url: "/edit/:id/",
+      url: "/edit/:id",
       templateUrl: '/static/ngTemplates/app.LMS.courses.form.html',
       controller: 'businessManagement.LMS.form'
     })
     .state('businessManagement.activityLog', {
-      url: "/activityLog/:id/",
+      url: "/activityLog/:id",
       templateUrl: '/static/ngTemplates/app.LMS.courses.explore.html',
       controller: 'businessManagement.activityLog'
+    })
+    .state('businessManagement.LMS.students', {
+      url: "/students",
+      templateUrl: '/static/ngTemplates/app.LMS.students.html',
+      controller: 'LMS.students'
     })
 }); //------------------------------------------Courses ends-------------------------------------------------
 
@@ -47,9 +52,23 @@ app.config(function($stateProvider) {
       controller: 'businessManagement.LMS.evaluation'
     })
     .state('businessManagement.viewPaper', {
-      url: "/onlinetest/view/:id/",
-      templateUrl: '/static/ngTemplates/app.LMS.onlinetestview.html',
-      controller: 'businessManagement.LMS.evaluation'
+      url: "/onlinetest/view/:id",
+      views: {
+        "": {
+          templateUrl: '/static/ngTemplates/app.LMS.onlinetestview.html',
+          controller: 'businessManagement.LMS.evaluation'
+        },
+
+
+      }
+    }).state('businessManagement.viewPaper.questions', {
+      url: "/questions",
+      templateUrl: '/static/ngTemplates/app.LMS.questions.html',
+      controller: 'LMS.questions'
+    }).state('businessManagement.viewPaper.submissions', {
+      url: "/submissions",
+      templateUrl: '/static/ngTemplates/app.LMS.submissions.html',
+      controller: 'LMS.submissions'
     })
     //--------------------------new creation---------------------------------------------------------
     .state('businessManagement.LMS.newEvaluation', {
@@ -71,25 +90,229 @@ app.config(function($stateProvider) {
       url: "/LMSconfigure/allBooks",
       templateUrl: '/static/ngTemplates/app.LMS.configBook.item.html',
       controller: 'businessManagement.LMS.configureLMS'
-    }).state('businessManagement.LMS.editBook', {
+    }).state('businessManagement.editBook', {
       url: "/LMSconfigure/bookEdit/:id/",
       templateUrl: '/static/ngTemplates/app.LMS.configure.form.html',
       controller: 'businessManagement.LMS.configureLMS.form'
     })
-    .state('businessManagement.LMS.newBook', {
+    .state('businessManagement.newBook', {
       url: "/LMSconfigure/new",
       templateUrl: '/static/ngTemplates/app.LMS.configure.form.html',
       controller: 'businessManagement.LMS.configureLMS.form'
+    })
+    .state('businessManagement.viewBook', {
+      url: "/viewbook/:bookid",
+      templateUrl: '/static/ngTemplates/app.LMS.viewbook.html',
+      controller: 'viewbook'
     })
 });
 //------------------------------------------------books ends----------------------------------
 
 
-app.controller("businessManagement.LMS", function($scope, $state, $users, $stateParams, $http, Flash, $timeout,$stateParams,$uibModal) {
+app.controller("viewbook", function($scope, $state, $users, $stateParams, $http, Flash, $timeout, $stateParams, $uibModal) {
+
+
+})
+app.controller("LMS.submissions", function($scope, $state, $users, $stateParams, $http, Flash, $timeout, $stateParams, $uibModal) {
+
+})
+app.controller("LMS.questions", function($scope, $state, $users, $stateParams, $http, Flash, $timeout, $stateParams, $uibModal, $aside) {
+
+
+
+
+
+  $scope.addQuestion = function() {
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.LMS.addquestion.html',
+      size: 'xl',
+      backdrop: true,
+      resolve: {
+
+      },
+      controller: function($scope, $uibModalInstance, ) {
+        $scope.close = function() {
+          $uibModalInstance.dismiss()
+        }
+
+
+        $scope.selectChoice = function(data) {
+          $aside.open({
+            templateUrl: '/static/ngTemplates/app.LMS.questiontypes.html',
+            position: 'left',
+            size: 'xl',
+            backdrop: true,
+            resolve: {
+              data: function() {
+                return data
+              }
+            },
+            controller: 'LMS.questiontypes',
+          })
+        }
+
+
+
+
+      },
+    }).result.then(function() {
+
+    }, function() {});
+  }
+
+
+})
+
+app.controller("LMS.questiontypes", function($scope, $state, $users, $stateParams, $http, Flash, $timeout, $stateParams, $uibModal, data, $uibModalInstance) {
+  $scope.form = data
+
+  $scope.close = function() {
+    $uibModalInstance.dismiss();
+  }
+  $scope.tinymceOptions = {
+    selector: 'textarea',
+    content_css: '/static/css/bootstrap.min.css',
+    inline: false,
+    plugins: 'advlist autolink link image lists charmap preview imagetools paste table insertdatetime code searchreplace ',
+    skin: 'lightgray',
+    theme: 'modern',
+    statusbar: false,
+    height: 400,
+    menubar: false,
+    toolbar: 'undo redo | bullist numlist | alignleft aligncenter alignright alignjustify | outdent  indent | bold italic underline link | style-p style-h1 style-h2 style-h3 | addImage',
+    setup: function(editor) {
+
+      ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'].forEach(function(name) {
+        editor.addButton("style-" + name, {
+          tooltip: "Toggle " + name,
+          text: name.toUpperCase(),
+          onClick: function() {
+            editor.execCommand('mceToggleFormat', false, name);
+          },
+          onPostRender: function() {
+            var self = this,
+              setup = function() {
+                editor.formatter.formatChanged(name, function(state) {
+                  self.active(state);
+                });
+              };
+            editor.formatter ? setup() : editor.on('init', setup);
+          }
+        })
+      });
+
+      editor.addButton('addImage', {
+        text: 'Add Image',
+        icon: false,
+        onclick: function(evt) {
+          console.log(editor);
+          $uibModal.open({
+            templateUrl: '/static/ngTemplates/app.blog.modal.html',
+            size: 'sm',
+            backdrop: true,
+            controller: function($scope, $http, $uibModalInstance) {
+              $scope.form = {
+                file: emptyFile,
+                alt: ''
+              }
+
+              $scope.add = function() {
+                var fd = new FormData();
+                fd.append('file', $scope.form.file);
+                $http({
+                  method: 'POST',
+                  url: '/api/PIM/saveImage/',
+                  data: fd,
+                  transformRequest: angular.identity,
+                  headers: {
+                    'Content-Type': undefined
+                  }
+                }).
+                then(function(response) {
+                  console.log(response.data);
+
+                  $uibModalInstance.dismiss({
+                    file: response.data.link,
+                    alt: $scope.form.alt,
+                    height: response.data.height,
+                    width: response.data.width
+                  })
+                })
+              }
+            },
+          }).result.then(function() {
+
+          }, function(d) {
+            editor.editorCommands.execCommand('mceInsertContent', false, '<br><img alt="' + d.alt + '" height="' + d.height + '" width="' + d.width + '" src="' + d.file + '"/>')
+
+          });
+
+
+
+        }
+      })
+    },
+  };
+
+  $scope.cpForm = {
+    firstMessage: '',
+    isLatex: false
+  }
+
+  $scope.uploadcsvFile = function(data) {
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.LMS.uploadcsv.html',
+      size: 'sm',
+      backdrop: true,
+      resolve: {
+        data:function(){
+          return data
+        }
+      },
+      controller: function($scope, $uibModalInstance,data) {
+
+
+      }
+    }).result.then(function() {
+
+    }, function() {});
+  }
+
+
+})
+app.controller("LMS.students", function($scope, $state, $users, $stateParams, $http, Flash, $timeout, $stateParams, $uibModal) {
+
+  $scope.addStudent = function(data) {
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.LMS.students.addstudent.html',
+      size: 'lg',
+      backdrop: true,
+      resolve: {
+        data: function() {
+          return data
+        }
+      },
+      controller: function($scope, $uibModalInstance, data) {
+        $scope.close = function() {
+          $uibModalInstance.dismiss()
+        }
+
+        $scope.form = data
+
+
+
+      },
+    }).result.then(function() {
+
+    }, function() {});
+  }
+
+})
+app.controller("businessManagement.LMS", function($scope, $state, $users, $stateParams, $http, Flash, $timeout, $stateParams, $uibModal) {
 
 
   $scope.getState = {
-    state:'current'
+    state: 'current'
   }
   $scope.limit = 10
   $scope.offset = 0
@@ -128,13 +351,13 @@ app.controller("businessManagement.LMS", function($scope, $state, $users, $state
   $scope.fetchData()
 
 
-  $scope.createTest = function(){
+  $scope.createTest = function() {
     $uibModal.open({
       templateUrl: '/static/ngTemplates/app.LMS.evaluation.form.html',
       size: 'lg',
       backdrop: true,
-      controller: function($scope,   $uibModalInstance) {
-        $scope.close = function(){
+      controller: function($scope, $uibModalInstance) {
+        $scope.close = function() {
           $uibModalInstance.dismiss()
         }
 
@@ -143,8 +366,7 @@ app.controller("businessManagement.LMS", function($scope, $state, $users, $state
       },
     }).result.then(function() {
 
-    }, function() {
-    });
+    }, function() {});
   }
 });
 
@@ -346,13 +568,13 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
         },
         controller: function($scope, $uibModalInstance, data) {
 
-            $scope.paperSearch = function(query) {
-              //search for the paper
-              return $http.get('/api/LMS/paper/?name=' + query).
-              then(function(response) {
-                return response.data;
-              })
-            };
+          $scope.paperSearch = function(query) {
+            //search for the paper
+            return $http.get('/api/LMS/paper/?name=' + query).
+            then(function(response) {
+              return response.data;
+            })
+          };
 
 
 
@@ -385,8 +607,8 @@ app.controller("businessManagement.LMS.form", function($scope, $state, $users, $
       // TAs: [],
       instructor: undefined,
       title: '',
-      sellingPrice:'',
-      discount:'',
+      sellingPrice: '',
+      discount: '',
     };
   }
   $scope.resetForm()
@@ -540,10 +762,17 @@ app.controller("businessManagement.LMS.examReport", function($scope, $state, $us
 }) //-----------------------------------------------courses ends--------------------------------------------
 
 //-----------------------------------------------online tet starts--------------------------------------------
-app.controller('businessManagement.LMS.evaluation', function($scope, $http, $aside, $state, Flash, $users, $filter, $uibModal,$stateParams) {
+app.controller('businessManagement.LMS.evaluation', function($scope, $http, $aside, $state, Flash, $users, $filter, $uibModal, $stateParams) {
+
+
+  if ($state.is('businessManagement.viewPaper')) {
+    $state.go('businessManagement.viewPaper.questions')
+
+  }
+
 
   $scope.getState = {
-    state:'current'
+    state: 'current'
   }
 
 
@@ -682,43 +911,43 @@ app.controller('businessManagement.LMS.evaluation', function($scope, $http, $asi
         }
       ]
     };
-    $scope.resetForm = function(){
+    $scope.resetForm = function() {
       $scope.form = {
-        marks:'',
-        ques:'',
-        paper:'',
+        marks: '',
+        ques: '',
+        paper: '',
         // qtype:'string',
       }
     }
     $scope.resetForm()
 
-    $scope.saveMCQ = function(){
-        var qtype = 'mcq'
-        if ($scope.form.ques == null || $scope.form.ques.length == 0) {
-          Flash.create('warning', 'Please write question')
-          return;
-        }
-        if ($scope.form.marks == null || $scope.form.marks.length == 0) {
-          Flash.create('warning', 'Please add score')
-          return;
-        }
-        var datatosend = {
-          marks:$scope.form.marks,
-          ques:$scope.form.ques,
-          paper:$stateParams.id,
-          qtype:qtype,
-        }
-        $http({
-          method: 'POST',
-          url: '/api/LMS/question/',
-          data: datatosend
-        }).
-        then(function(response) {
-          $scope.form.pk=response.data.pk
-          Flash.create("success" , "Question created")
-          // $scope.resetForm()
+    $scope.saveMCQ = function() {
+      var qtype = 'mcq'
+      if ($scope.form.ques == null || $scope.form.ques.length == 0) {
+        Flash.create('warning', 'Please write question')
+        return;
+      }
+      if ($scope.form.marks == null || $scope.form.marks.length == 0) {
+        Flash.create('warning', 'Please add score')
+        return;
+      }
+      var datatosend = {
+        marks: $scope.form.marks,
+        ques: $scope.form.ques,
+        paper: $stateParams.id,
+        qtype: qtype,
+      }
+      $http({
+        method: 'POST',
+        url: '/api/LMS/question/',
+        data: datatosend
+      }).
+      then(function(response) {
+        $scope.form.pk = response.data.pk
+        Flash.create("success", "Question created")
+        // $scope.resetForm()
 
-        })
+      })
 
     }
     $scope.options = function(pk) {
@@ -728,21 +957,27 @@ app.controller('businessManagement.LMS.evaluation', function($scope, $http, $asi
         backdrop: true,
         resolve: {
           data: function() {
-            console.log(pk,"mmmmmmmmmmmmmmm");
+            console.log(pk, "mmmmmmmmmmmmmmm");
             return pk;
           }
         },
         controller: function($scope, $uibModalInstance, data) {
           $scope.statechange = function() {
-            $state.go('businessManagement.LMS.newmultiplechoice',{'id':pk})
+            $state.go('businessManagement.LMS.newmultiplechoice', {
+              'id': pk
+            })
             $uibModalInstance.dismiss()
           }
           $scope.statechange1 = function() {
-            $state.go('businessManagement.LMS.newsubjective',{'id':pk})
+            $state.go('businessManagement.LMS.newsubjective', {
+              'id': pk
+            })
             $uibModalInstance.dismiss()
           }
           $scope.statechange2 = function() {
-            $state.go('businessManagement.LMS.newfileupload',{'id':pk})
+            $state.go('businessManagement.LMS.newfileupload', {
+              'id': pk
+            })
             $uibModalInstance.dismiss()
           }
 
@@ -786,42 +1021,42 @@ app.controller('businessManagement.LMS.evaluation', function($scope, $http, $asi
         }
       ]
     };
-    $scope.resetForm = function(){
+    $scope.resetForm = function() {
       $scope.form = {
-        marks:'',
-        ques:'',
-        paper:'',
-        qtype:'string',
+        marks: '',
+        ques: '',
+        paper: '',
+        qtype: 'string',
       }
     }
     $scope.resetForm()
 
-    $scope.saveSubjective = function(){
-        var qtype = 'string'
-        if ($scope.form.ques == null || $scope.form.ques.length == 0) {
-          Flash.create('warning', 'Please write question')
-          return;
-        }
-        if ($scope.form.marks == null || $scope.form.marks.length == 0) {
-          Flash.create('warning', 'Please add score')
-          return;
-        }
-        var datatosend = {
-          marks:$scope.form.marks,
-          ques:$scope.form.ques,
-          paper:$stateParams.id,
-          qtype:qtype,
-        }
-        $http({
-          method: 'POST',
-          url: '/api/LMS/question/',
-          data: datatosend
-        }).
-        then(function(response) {
-          Flash.create("success" , "Question created")
-          $scope.resetForm()
+    $scope.saveSubjective = function() {
+      var qtype = 'string'
+      if ($scope.form.ques == null || $scope.form.ques.length == 0) {
+        Flash.create('warning', 'Please write question')
+        return;
+      }
+      if ($scope.form.marks == null || $scope.form.marks.length == 0) {
+        Flash.create('warning', 'Please add score')
+        return;
+      }
+      var datatosend = {
+        marks: $scope.form.marks,
+        ques: $scope.form.ques,
+        paper: $stateParams.id,
+        qtype: qtype,
+      }
+      $http({
+        method: 'POST',
+        url: '/api/LMS/question/',
+        data: datatosend
+      }).
+      then(function(response) {
+        Flash.create("success", "Question created")
+        $scope.resetForm()
 
-        })
+      })
 
     }
 
@@ -861,86 +1096,92 @@ app.controller('businessManagement.LMS.evaluation', function($scope, $http, $asi
 
   //---------------------------------------Paper view starts-------------------------------------
   if ($state.is('businessManagement.LMS.viewPaper')) {
-    $scope.search={
-      query:''
+    $scope.search = {
+      query: ''
     }
-     console.log($stateParams.id);
-     $scope.fetchData = function(){
-       let url = '/api/LMS/question/?paper=' + $stateParams.id
-       if ($scope.search.query.length > 0) {
-         url = url + '&name=' + $scope.search.query
-       }
-       $http({
-         method:'GET',
-         url:url
-       }).
-       then(function(response) {
-         $scope.questions = response.data
-         $scope.quesArray = []
+    console.log($stateParams.id);
+    $scope.fetchData = function() {
+      let url = '/api/LMS/question/?paper=' + $stateParams.id
+      if ($scope.search.query.length > 0) {
+        url = url + '&name=' + $scope.search.query
+      }
+      $http({
+        method: 'GET',
+        url: url
+      }).
+      then(function(response) {
+        $scope.questions = response.data
+        $scope.quesArray = []
 
-         for(var i=0;i<$scope.questions.length;i++){
-           // if($scope.questions[i].qtype == 'string'){
-             console.log("here")
-             console.log($scope.questions[i])
-             $scope.new = $scope.questions[i].ques.slice(4,$scope.questions[i].ques.length - 4)
-             console.log($scope.new)
-             $scope.quesArray.push($scope.new)
+        for (var i = 0; i < $scope.questions.length; i++) {
+          // if($scope.questions[i].qtype == 'string'){
+          console.log("here")
+          console.log($scope.questions[i])
+          $scope.new = $scope.questions[i].ques.slice(4, $scope.questions[i].ques.length - 4)
+          console.log($scope.new)
+          $scope.quesArray.push($scope.new)
 
-         // }
-         // else{
-         //     $scope.new = $scope.questions[i].ques
-         //     $scope.quesArray.push($scope.new)
-         // }
+          // }
+          // else{
+          //     $scope.new = $scope.questions[i].ques
+          //     $scope.quesArray.push($scope.new)
+          // }
         }
-         console.log($scope.quesArray,"ssss");
-       })
-     }
-     $scope.fetchData()
-       $http({
-         method:'GET',
-         url: '/api/LMS/paper/' + $stateParams.id +'/',
-       }).
-       then(function(response) {
-         $scope.paper = response.data
+        console.log($scope.quesArray, "ssss");
+      })
+    }
+    $scope.fetchData()
+    $http({
+      method: 'GET',
+      url: '/api/LMS/paper/' + $stateParams.id + '/',
+    }).
+    then(function(response) {
+      $scope.paper = response.data
 
-         console.log($scope.questions);
-       })
+      console.log($scope.questions);
+    })
 
 
-       $scope.onlineTest = function(pk) {
-         $uibModal.open({
-           templateUrl: '/static/ngTemplates/app.LMS.onlinetwstnew.html',
-           size: 'xl',
-           backdrop: true,
-           resolve: {
-             data: function() {
-               console.log(pk,"mmmmmmmmmmmmmmm");
-               return pk;
-             }
-           },
-           controller: function($scope, $uibModalInstance, data) {
-             $scope.statechange = function() {
-               $state.go('businessManagement.LMS.newmultiplechoice',{'id':pk})
-               $uibModalInstance.dismiss()
-             }
-             $scope.statechange1 = function() {
-               $state.go('businessManagement.LMS.newsubjective',{'id':pk})
-               $uibModalInstance.dismiss()
-             }
-             $scope.statechange2 = function() {
-               $state.go('businessManagement.LMS.newfileupload',{'id':pk})
-               $uibModalInstance.dismiss()
-             }
+    $scope.onlineTest = function(pk) {
+      $uibModal.open({
+        templateUrl: '/static/ngTemplates/app.LMS.onlinetwstnew.html',
+        size: 'xl',
+        backdrop: true,
+        resolve: {
+          data: function() {
+            console.log(pk, "mmmmmmmmmmmmmmm");
+            return pk;
+          }
+        },
+        controller: function($scope, $uibModalInstance, data) {
+          $scope.statechange = function() {
+            $state.go('businessManagement.LMS.newmultiplechoice', {
+              'id': pk
+            })
+            $uibModalInstance.dismiss()
+          }
+          $scope.statechange1 = function() {
+            $state.go('businessManagement.LMS.newsubjective', {
+              'id': pk
+            })
+            $uibModalInstance.dismiss()
+          }
+          $scope.statechange2 = function() {
+            $state.go('businessManagement.LMS.newfileupload', {
+              'id': pk
+            })
+            $uibModalInstance.dismiss()
+          }
 
-           }, //controller ends
-         }).result.then(function(h) {
-           $scope.fetchData()
-         }, function(h) {
-           if (typeof h == 'object') {
-             $scope.fetchData()
-           }
-         })
-       }
+        }, //controller ends
+      }).result.then(function(h) {
+        $scope.fetchData()
+      }, function(h) {
+        if (typeof h == 'object') {
+          $scope.fetchData()
+        }
+      })
+    }
 
 
   }
@@ -1134,7 +1375,7 @@ app.controller("businessManagement.LMS.evaluation.form", function($scope, $state
   $scope.fetchQuestions = function() {
 
 
-      var url = '/api/LMS/question/?bookSection=' + $scope.form.section.pk + '&ques__contains=' + $scope.form.text
+    var url = '/api/LMS/question/?bookSection=' + $scope.form.section.pk + '&ques__contains=' + $scope.form.text
 
     $http({
       method: 'GET',
@@ -1477,7 +1718,7 @@ app.controller("businessManagement.LMS.knowledgeBank.book.explore", function($sc
 
 //----------------------------------------question bank starts---------------------------------------------------
 
- //------------------------------------------------question bank ends----------------------------------
+//------------------------------------------------question bank ends----------------------------------
 
 //------------------------------------------------Books starts----------------------------------
 
@@ -1618,7 +1859,7 @@ app.controller("businessManagement.LMS.configureLMS.form", function($scope, $sta
     }
     $scope.resetForm();
 
-    $scope.addSection = function(index, position,pk) {
+    $scope.addSection = function(index, position, pk) {
       console.log('section clickeddddddddddddddddddddddd');
       console.log(index);
       $uibModal.open({

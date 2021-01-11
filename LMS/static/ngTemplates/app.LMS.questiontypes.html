@@ -1,0 +1,185 @@
+<style media="screen">
+  iframe {
+    height: 140px !important;
+  }
+</style>
+
+<div class="container-fluid" style="background-color:#fafafa;height:100%;">
+
+  <!--starting of Multiple Choice UI  -->
+  <div class="">
+    <div class="row" style="padding-top: 10px;padding-bottom: 10px;background-color:#f1f1f1;position: fixed;z-index:1;width:80%">
+      <div class="col-md-1">
+        <img ng-click="close()" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;margin-right:25px;" alt="">
+      </div>
+      <div class="col-md-8 text-center">
+        <h3 style="margin:0px;" ng-if="form=='multiple'"><b>Multiple Choice Question Creation</b></h3>
+        <h3 style="margin:0px;" ng-if="form=='subjective'"><b>Subjective Question Creation</b></h3>
+        <h3 style="margin:0px;" ng-if="form=='file'"><b>File Upload Question Creation</b></h3>
+      </div>
+      <div class="col-md-3">
+        <button type="button" class="createTestBtn btn-block" name="button" ng-click="uploadcsvFile('multiple')" style="background-color:#231654 !important;border:1px solid #231654 !important; " ng-if="form=='multiple'">Bulk Upload MCQ <img src="/static/images/uploadwhite.png" alt="" style="margin-left:15px;height:25px;"> </button>
+
+        <button type="button" class="createTestBtn btn-block" name="button" ng-click="uploadcsvFile('subjective')" style="background-color:#231654 !important;border:1px solid #231654 !important;" ng-if="form=='subjective'">Bulk Upload Subjective Questions <img src="/static/images/uploadwhite.png" alt="" style="margin-left:15px;height:25px;"></button>
+        <button type="button" class="createTestBtn btn-block" name="button" ng-click="uploadcsvFile('file')" style="background-color:#231654 !important;border:1px solid #231654 !important; " ng-if="form=='file'">Bulk File Upload Questions <img src="/static/images/uploadwhite.png" alt="" style="margin-left:15px;height:25px;"> </button>
+      </div>
+    </div>
+    <div class="row" style="margin:0px;padding:30px;padding-top:80px;">
+      <span><b>Rich text editor</b>
+        <switch ng-model="cpForm.isLatex" class="green" style="margin-bottom: -12px;margin-left: 20px;margin-right:20px"></switch> <b>Latex Editor</b>
+
+      </span>
+      <div class="row" style="margin-top:30px;">
+        <div class="{{cpForm.isLatex?'col-md-6':'col-md-12'}}">
+          <div class="form-group" style="" ng-if="form=='multiple' || form =='subjective' ||  form =='file'">
+            <label for="">Problem Description</label>
+            <textarea ui-tinymce="tinymceOptions" class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
+          </div>
+
+        </div>
+        <div class="col-md-6" ng-if="cpForm.isLatex">
+          <br>
+          <span mathjax-bind="cpForm.firstMessage"></span>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group" style="" ng-if="form=='multiple' || form =='subjective' ||  form =='file'">
+            <label for="">Score</label>
+            <input type="text" class="form-control questionInp" name="" value="">
+          </div>
+
+        </div>
+      </div>
+      <div style="" ng-if="form=='multiple'">
+        <label for="">CHOICES</label>
+        <div class="row">
+          <div class="col-md-1">
+            <h4><b>A.</b></h4>
+          </div>
+          <div class="col-md-11">
+            <div class="{{cpForm.isLatex?'col-md-6':'col-md-12'}}">
+              <div class="form-group" style="" ng-if="form=='multiple' || form =='subjective' ||  form =='file'">
+                <textarea ui-tinymce="tinymceOptions" class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
+              </div>
+
+            </div>
+            <div class="col-md-6" ng-if="cpForm.isLatex">
+              <br>
+              <span mathjax-bind="cpForm.firstMessage"></span>
+
+            </div>
+
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-1">
+            <h4><b>B.</b></h4>
+          </div>
+          <div class="col-md-11">
+            <div class="{{cpForm.isLatex?'col-md-6':'col-md-12'}}">
+              <div class="form-group" style="" ng-if="form=='multiple' || form =='subjective' ||  form =='file'">
+                <textarea ui-tinymce="tinymceOptions" class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
+              </div>
+
+            </div>
+            <div class="col-md-6" ng-if="cpForm.isLatex">
+              <br>
+              <span mathjax-bind="cpForm.firstMessage"></span>
+
+            </div>
+
+
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-1">
+            <h4><b>C.</b></h4>
+          </div>
+          <div class="col-md-11">
+            <div class="{{cpForm.isLatex?'col-md-6':'col-md-12'}}">
+              <div class="form-group" style="" ng-if="form=='multiple' || form =='subjective' ||  form =='file'">
+                <label for="">Problem Description</label>
+                <textarea ui-tinymce="tinymceOptions" class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
+              </div>
+
+            </div>
+            <div class="col-md-6" ng-if="cpForm.isLatex">
+              <br>
+              <span mathjax-bind="cpForm.firstMessage"></span>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-1">
+            <h4><b>D.</b></h4>
+          </div>
+          <div class="col-md-11">
+            <div class="{{cpForm.isLatex?'col-md-6':'col-md-12'}}">
+              <div class="form-group" style="" ng-if="form=='multiple' || form =='subjective' ||  form =='file'">
+                <label for="">Problem Description</label>
+                <textarea ui-tinymce="tinymceOptions" class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
+              </div>
+
+            </div>
+            <div class="col-md-6" ng-if="cpForm.isLatex">
+              <br>
+              <span mathjax-bind="cpForm.firstMessage"></span>
+
+            </div>
+
+          </div>
+        </div>
+        <br>
+        <p ng-click="show=true" ng-init="show=false"><b>add one more choice</b></p>
+        <div class="row" ng-if="show">
+          <div class="col-md-1">
+            <h4><b>E.</b></h4>
+          </div>
+          <div class="col-md-11">
+            <div class="{{cpForm.isLatex?'col-md-6':'col-md-12'}}">
+              <div class="form-group" style="" ng-if="form=='multiple' || form =='subjective' ||  form =='file'">
+                <label for="">Problem Description</label>
+                <textarea ui-tinymce="tinymceOptions" class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
+              </div>
+
+            </div>
+            <div class="col-md-6" ng-if="cpForm.isLatex">
+              <br>
+              <span mathjax-bind="cpForm.firstMessage"></span>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <br><br><br>
+
+
+      <div class="row">
+        <div class="col-md-2 pull-left">
+          <button type="button" class="btn1 btn-block" name="button">Save Questions</button>
+
+        </div>
+        <div class="col-md-2 pull-right">
+          <button type="button" class="createTestBtn btn-block" name="button">Save & Add another</button>
+
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+  <!--Ending of Multiple Choice UI starts -->
+
+
+
+</div>

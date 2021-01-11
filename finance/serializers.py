@@ -681,7 +681,11 @@ class InvoiceReceivedSerializer(serializers.ModelSerializer):
         inv = InvoiceReceived(**validated_data)
         inv.user = u
         try:
-            inv.division = self.context['request'].user.designation.division
+            division = self.context['request'].user.designation.division
+            inv.division = division
+            inv.uniqueId = division.counter
+            division.counter+=1
+            division.save()
         except:
             pass
         inv.save()
