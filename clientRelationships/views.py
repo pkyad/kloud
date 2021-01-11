@@ -139,7 +139,7 @@ class ContactViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny, )
     serializer_class = ContactSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filter_fields = ['name','company' , 'email' , 'mobile' , 'emailSecondary' , 'mobileSecondary']
+    filter_fields = ['name','company' , 'email' , 'mobile' , 'emailSecondary' , 'mobileSecondary','updated']
     search_fields = ('name', 'email', 'company__name', 'mobile')
     def get_queryset(self):
         divsn = self.request.user.designation.division

@@ -9,7 +9,7 @@ from finance.serializers import AccountSerializer
 class payrollSerializer(serializers.ModelSerializer):
     class Meta:
         model = payroll
-        fields = ('pk','user','created','updated','hra','special','lta','basic','taxSlab','adHoc','policyNumber','provider','amount','noticePeriodRecovery','al','ml','adHocLeaves','joiningDate','off','accountNumber','ifscCode','bankName','deboarded','lastWorkingDate','alHold','mlHold','adHocLeavesHold','notice','probation','probationNotice','pan','pfAccNo','pfUniNo','pfAmnt','esic','esicAmount','pTax','bonus','pfAdmin','esicAdmin','ctc','PFUan','activatePayroll')
+        fields = ('pk','user','created','updated','hra','special','lta','basic','taxSlab','adHoc','policyNumber','provider','amount','noticePeriodRecovery','al','ml','adHocLeaves','joiningDate','off','accountNumber','ifscCode','bankName','deboarded','lastWorkingDate','alHold','mlHold','adHocLeavesHold','notice','probation','probationNotice','pan','pfAccNo','pfUniNo','pfAmnt','esic','esicAmount','pTax','bonus','pfAdmin','esicAdmin','ctc','PFUan','activatePayroll','alCurrMonthLeaves','mlCurrMonthLeaves')
 
     def update(self ,instance, validated_data):
         print validated_data,'-------vvvvvv'
