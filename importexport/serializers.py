@@ -23,7 +23,27 @@ class ProductsSerializer(serializers.ModelSerializer):
     total_quantity = serializers.SerializerMethodField()
     class Meta:
         model = Products
-        fields = ('pk', 'created', 'part_no','description_1','description_2','replaced','customs_no','parent','weight','price','sheet','bar_code','custom','gst','total_quantity')
+        fields = ('pk', 'created', 'part_no','description_1','description_2','replaced','customs_no','parent','weight','price','sheet','bar_code','custom','gst','total_quantity','division')
+    def create(self,validated_data):
+        user = self.context['request'].user
+        divisionObj = user.designation.division
+        obj = Products(**validated_data)
+        obj.division = divisionObj
+        obj.save()
+        return obj
+    def update (self, instance, validated_data):
+        for key in ['part_no','description_1','description_2','replaced','customs_no','parent','weight','price','sheet','bar_code','custom','gst','total_quantity']:
+            try:
+                setattr(instance , key , validated_data[key])
+            except:
+                pass
+        user = self.context['request'].user
+        divisionObj = user.designation.division
+        instance.division = divisionObj
+        instance.save()
+        return instance
+
+
     def get_total_quantity(self , obj):
         qty = 0
         inventory = Inventory.objects.filter(product=obj.pk)
@@ -47,12 +67,12 @@ class VendorSerializer(serializers.ModelSerializer):
 
     def create(self,validated_data):
             user = self.context['request'].user
-            print user,'user..........................'
             divisionObj = user.designation.division
             obj = Vendor(**validated_data)
             obj.division = divisionObj
             obj.save()
             return obj
+
 
 class ProjectsSerializer(serializers.ModelSerializer):
     service = serviceLiteSerializer(many = False , read_only = True)

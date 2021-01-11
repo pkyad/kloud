@@ -2424,7 +2424,7 @@ app.controller("businessManagement.importexport.projects.service.view", function
 
 
             $scope.productSearch = function(query) {
-              return $http.get('/api/importexport/products/?limit=10&part_no__contains=' + query).
+              return $http.get('/api/importexport/products/?limit=10&search=' + query).
               then(function(response) {
                 return response.data.results;
               })
@@ -2911,7 +2911,7 @@ app.controller("businessManagement.importexport.masterSheet", function($scope, $
   });
 
   $scope.productSearch = function(query) {
-    return $http.get('/api/importexport/products/?offset=0&limit=20&part_no__contains=' + query).
+    return $http.get('/api/importexport/products/?offset=0&limit=20&search=' + query).
     then(function(response) {
       return response.data.results;
     })
@@ -3709,7 +3709,7 @@ app.controller("businessManagement.importexport.inventory1", function($scope, $s
       },
       controller: function($scope, $uibModalInstance, value) {
         $scope.productSearch = function(query) {
-          return $http.get('/api/importexport/products/?part_no__contains=' + query).
+          return $http.get('/api/importexport/products/?search=' + query).
           then(function(response) {
             return response.data;
           })
@@ -4627,7 +4627,7 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
       }
 
       $scope.productSearch = function(query) {
-        return $http.get('/api/importexport/products/?limit=10&part_no__contains=' + query).
+        return $http.get('/api/importexport/products/?limit=10&search=' + query).
         then(function(response) {
           return response.data.results;
         })
@@ -5056,7 +5056,7 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
   }
 
   $scope.productSearch = function(query) {
-    return $http.get('/api/importexport/products/?limit=10&part_no__contains=' + query).
+    return $http.get('/api/importexport/products/?limit=10&search=' + query).
     then(function(response) {
       return response.data.results;
     })
@@ -5488,7 +5488,7 @@ app.controller("businessManagement.importexport.stockReport", function($scope, $
         $scope.getAll()
 
         $scope.productSearch = function(query) {
-          return $http.get('/api/importexport/products/?part_no__contains=' + query).
+          return $http.get('/api/importexport/products/?search=' + query).
           then(function(response) {
             return response.data;
           })
