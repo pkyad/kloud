@@ -161,8 +161,8 @@
                      <img src="https://i.ya-webdesign.com/images/three-dots-menu-png-15.png" style="width:20px;" alt="">
                     </span>
                     <ul class="dropdown-menu" role="menu">
-                      <li><a style="padding:10px;" href="" ng-click="changeStatus('invoice', $index)">Convert to Invoice</a></li>
-                      <li><a style="padding:10px;" href="" ng-click="changeStatus('saleOrder', $index)">Convert to Sale Order</a></li>
+                      <li><a style="padding:10px;" href="" ng-click="changeStatus('invoice', $index)" ng-if="d.termsAndCondition__canInvoice">Convert to Invoice</a></li>
+                      <li><a style="padding:10px;" href="" ng-click="changeStatus('saleOrder', $index)" ng-if="d.termsAndCondition__canSupplyOrder">Convert to Sale Order</a></li>
                       <li><a style="padding:10px;" href="" ng-click="changeStatus('cancelled', $index)">Cancelled</a></li>
                     </ul>
                   </div>

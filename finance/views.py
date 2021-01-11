@@ -3928,6 +3928,7 @@ class OuttbondInvoiceAPIView(APIView):
     renderer_classes = (JSONRenderer,)
     permission_classes = (permissions.AllowAny ,)
     def post(self,request , format= None):
+        print request.data,'sssssssssssssssss'
         if 'invoicePk' in request.data:
             data  = request.data
             data_to_post = {}
@@ -4273,8 +4274,8 @@ class GetExpensesDataAPIView(APIView):
         invObj = InvoiceQty.objects.filter(user = request.user)
         unclaimedObj = invObj.filter(invoice__isnull = True)
         unclaimedTot = unclaimedObj.aggregate(tot = Sum('total'))
-        approvedTot = invObj.filter(invoice__status = 'approved').aggregate(tot = Sum('total'))
-        claimedTot = invObj.filter(invoice__isnull = False).exclude(invoice__status = 'approved').aggregate(tot = Sum('total'))
+        approvedTot = invObj.filter(invoice__status = 'Approved').aggregate(tot = Sum('total'))
+        claimedTot = invObj.filter(invoice__isnull = False).exclude(invoice__status = 'Approved').aggregate(tot = Sum('total'))
         if unclaimedTot['tot']!=None:
             unclaimed = unclaimedTot['tot']
         if claimedTot['tot']!=None:
