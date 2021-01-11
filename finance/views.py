@@ -4622,7 +4622,11 @@ class SaveInvoiceReceived(APIView):
         else:
             obj = InvoiceReceived.objects.create(**dataSave)
             obj.user = request.user
-            obj.division = request.user.designation.division
+            division = request.user.designation.division
+            obj.division = division
+            obj.uniqueId = division.counter
+            division.counter+=1
+            division.save()
         if 'account' in data:
             obj.account = Account.objects.get(pk = int(data['account']))
         if 'costcenter' in data:
@@ -4685,7 +4689,6 @@ class UpdateTotalAPI(APIView):
         inv.totalAmount = totalAmount
         inv.balanceAmount = totalAmount - inv.paidAmount
         inv.save()
-
         return Response({})
 
 
