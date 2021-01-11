@@ -174,32 +174,34 @@ def invoice(request, response,inv):
         a = ''
         d = ''
         txt = 'OP No.'
-        if inv.pk>17870:
-            count = Invoice.objects.filter(activePatient__outPatient=True,pk__lte=inv.pk,created__gte=aprilFst_20).count()
-            print '1'
-
-        elif inv.pk>7362 and inv.pk<=17870:
-            count = Invoice.objects.filter(activePatient__outPatient=True,pk__lte=inv.pk,created__range=['2019-04-01','2020-03-31']).count()
-            print '2'
-        else:
-            count = 1970 + Invoice.objects.filter(activePatient__outPatient=True,pk__lt=inv.pk).count() - 18
-            print '3'
-
-        twoDigitsYear = str(datetime.date.today().year)[2:]
-        billNo = str(count).zfill(4)+ '/' +twoDigitsYear
+        # if inv.pk>17870:
+        #     count = Invoice.objects.filter(activePatient__outPatient=True,pk__lte=inv.pk,created__gte=aprilFst_20).count()
+        #     print '1'
+        #
+        # elif inv.pk>7362 and inv.pk<=17870:
+        #     count = Invoice.objects.filter(activePatient__outPatient=True,pk__lte=inv.pk,created__range=['2019-04-01','2020-03-31']).count()
+        #     print '2'
+        # else:
+        #     count = 1970 + Invoice.objects.filter(activePatient__outPatient=True,pk__lt=inv.pk).count() - 18
+        #     print '3'
+        #
+        # twoDigitsYear = str(datetime.date.today().year)[2:]
+        # billNo = str(count).zfill(4)+ '/' +twoDigitsYear
+        billNo =inv.billNo
     else:
         txt = 'IP No.'
-        print 'in patient'
-        if inv.pk>17870:
-            count = Invoice.objects.filter(activePatient__outPatient=False,pk__lte=inv.pk,created__gte=aprilFst_20).count()
-
-            print count, "count"
-        elif inv.pk>7362 and inv.pk<=17870:
-            count = Invoice.objects.filter(activePatient__outPatient=False,pk__lte=inv.pk,created__range=['2019-04-01','2020-03-31']).count()
-        else:
-            count = 289 + Invoice.objects.filter(activePatient__outPatient=False,pk__lt=inv.pk).count() - 25
-        twoDigitsYear = str(datetime.date.today().year)[2:]
-        billNo = 'CB'+str(count).zfill(4)+ '/' +twoDigitsYear
+        # print 'in patient'
+        # if inv.pk>17870:
+        #     count = Invoice.objects.filter(activePatient__outPatient=False,pk__lte=inv.pk,created__gte=aprilFst_20).count()
+        #
+        #     print count, "count"
+        # elif inv.pk>7362 and inv.pk<=17870:
+        #     count = Invoice.objects.filter(activePatient__outPatient=False,pk__lte=inv.pk,created__range=['2019-04-01','2020-03-31']).count()
+        # else:
+        #     count = 289 + Invoice.objects.filter(activePatient__outPatient=False,pk__lt=inv.pk).count() - 25
+        # twoDigitsYear = str(datetime.date.today().year)[2:]
+        # billNo = 'CB'+str(count).zfill(4)+ '/' +twoDigitsYear
+        billNo =inv.billNo
         a = defaultfilters.date(inv.activePatient.inTime + timedelta(hours=5,minutes=30), "d-m-Y , h:i A")
         # d = defaultfilters.date(inv.activePatient.dateOfDischarge + timedelta(hours=5,minutes=30), "d-m-Y , h:i A")
         d = defaultfilters.date(inv.activePatient.dateOfDischarge, "d-m-Y , h:i A")

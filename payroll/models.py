@@ -35,6 +35,8 @@ class payroll(models.Model):
     noticePeriodRecovery = models.BooleanField(default=False)
     al = models.PositiveIntegerField(null = True)
     ml = models.PositiveIntegerField(null = True)
+    alCurrMonthLeaves = models.PositiveIntegerField(null = True , default = 0)
+    mlCurrMonthLeaves = models.PositiveIntegerField(null = True , default = 0)
     adHocLeaves = models.PositiveIntegerField(null = True)
     joiningDate = models.DateField(null = True)
     off = models.BooleanField(default=True)

@@ -139,7 +139,7 @@ class ContactViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny, )
     serializer_class = ContactSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filter_fields = ['name','company' , 'email' , 'mobile' , 'emailSecondary' , 'mobileSecondary']
+    filter_fields = ['name','company' , 'email' , 'mobile' , 'emailSecondary' , 'mobileSecondary','updated']
     search_fields = ('name', 'email', 'company__name', 'mobile')
     def get_queryset(self):
         divsn = self.request.user.designation.division
@@ -490,9 +490,9 @@ class ClientHomeCalAPIView(APIView):
             quotedQuote = quoted.filter(division = divsn).order_by('-created')
         else:
             quotedQuote = quoted.filter(user = request.user).order_by('-created')
-        quotedQuote = quotedQuote.values('pk', 'data', 'value','created','updated','status','deal__name','deal__pk','deal__company__name','deal__company__pk','contact__name','contact__pk','contact__company__name','contact__company__pk','contact__dp','user__pk','user__first_name','user__last_name','dueDate','termsAndCondition__heading')
-        billedQuote = Contract.objects.filter(status = 'billed',user = request.user).order_by('-value').values('pk', 'data', 'value','created','updated','status','deal__name','deal__pk','contact__name','contact__pk','deal__company__name','deal__company__pk','contact__name','contact__pk','contact__company__name','contact__dp','user__pk','user__first_name','user__last_name','dueDate')
-        dueElapsedQuote = Contract.objects.filter(status = 'dueElapsed',user = request.user).values('pk', 'data', 'value','created','updated','status','deal__name','deal__pk','contact__name','contact__pk','deal__company__name','deal__company__pk','contact__name','contact__pk','contact__company__name','contact__dp','user__pk','user__first_name','user__last_name','dueDate')
+        quotedQuote = quotedQuote.values('pk', 'data', 'value','created','updated','status','deal__name','deal__pk','deal__company__name','deal__company__pk','contact__name','contact__pk','contact__company__name','contact__company__pk','contact__dp','user__pk','user__first_name','user__last_name','dueDate','termsAndCondition__heading','termsAndCondition__canSupplyOrder' , 'termsAndCondition__canInvoice')
+        billedQuote = Contract.objects.filter(status = 'billed',user = request.user).order_by('-value').values('pk', 'data', 'value','created','updated','status','deal__name','deal__pk','contact__name','contact__pk','deal__company__name','deal__company__pk','contact__name','contact__pk','contact__company__name','contact__dp','user__pk','user__first_name','user__last_name','dueDate','termsAndCondition__canSupplyOrder' , 'termsAndCondition__canInvoice')
+        dueElapsedQuote = Contract.objects.filter(status = 'dueElapsed',user = request.user).values('pk', 'data', 'value','created','updated','status','deal__name','deal__pk','contact__name','contact__pk','deal__company__name','deal__company__pk','contact__name','contact__pk','contact__company__name','contact__dp','user__pk','user__first_name','user__last_name','dueDate','termsAndCondition__canSupplyOrder' , 'termsAndCondition__canInvoice')
 
         if 'download' in request.GET:
             response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')

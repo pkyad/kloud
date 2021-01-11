@@ -425,6 +425,8 @@ $scope.getAll()
     fd.append('isGst', formdata.isGst);
     fd.append('themeColor', formdata.themeColor);
     fd.append('version', formdata.version);
+    fd.append('canInvoice', formdata.canInvoice);
+    fd.append('canSupplyOrder', formdata.canSupplyOrder);
     if (formdata.extraFieldOne != null) {
       fd.append('extraFieldOne', formdata.extraFieldOne);
     }
