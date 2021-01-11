@@ -389,15 +389,15 @@
   .createCourseBtn {
     border: none !important;
     border-radius: 10px !important;
-    padding: 15px;
+    padding: 12px;
     font-size: 16px;
     background-color:#ffffff;
     color:      black !important;
   }
   .createTestBtn {
-    border: none !important;
+    border: 1px solid #3786D1 !important;
     border-radius: 10px !important;
-    padding: 15px;
+    padding: 12px;
     font-size: 16px;
     background-color: #3786D1;
     font-weight:700;
@@ -520,8 +520,8 @@
                 <td>5000</td>
                 <td> <img src="/static/images/edit.svg" alt=""></td>
               </tr>
-              <tr class="detailStrip">
-                <td>
+              <tr class="detailStrip" style="cursor:pointer">
+                <td ng-click="$state.go('businessManagement.activityLog',{id:1})">
                   <div class="row" style="">
                     <div class="col-md-3">
                       <img src="/static/images/img_avatar_card.png" style="height:50px;" class="img img-circle" alt="">
@@ -532,7 +532,7 @@
                     </div>
                   </div>
                 </td>
-                <td>
+                <td ng-click="$state.go('businessManagement.activityLog',{id:1})">
                   <span class="label label-default openLabel">Open</span>
                   <!-- <span class="label label-default adminLabel">Admin</span>
                   <span class="label label-default invitaionLabel">On Invitation</span>
@@ -542,7 +542,7 @@
                 <td><span><i class="fa fa-inr"></i></span> 1000</td>
                 <td>500</td>
                 <td>5000</td>
-                <td> <img src="/static/images/edit.svg" alt=""></td>
+                <td ng-click="$state.go('businessManagement.new',{id:1})"> <img src="/static/images/edit.svg" alt=""></td>
               </tr>
 
             </tbody>

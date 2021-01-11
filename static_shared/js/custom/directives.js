@@ -4,8 +4,10 @@ app.directive("mathjaxBind", function() {
     restrict: "A",
     controller: ["$scope", "$element", "$attrs",
       function($scope, $element, $attrs) {
+        console.log($scope, $element, $attrs);
         $scope.$watch($attrs.mathjaxBind, function(texExpression) {
           $element.html(texExpression);
+          console.log($element.html(texExpression),'3232');
           MathJax.Hub.Queue(["Typeset", MathJax.Hub, $element[0]]);
         });
       }

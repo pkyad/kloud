@@ -4,52 +4,128 @@
       opacity: 0.0;
       -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
       filter: alpha(opacity=0);
-      margin-top:0px;
+      margin-top: 0px;
     }
-    
+
+    .collapsiblecss {
+      width: 100%;
+      text-align: left;
+      padding: 0px;
+      background: none;
+      border: none;
+      border-bottom: 1px solid #f2f2f2;
+      padding-bottom: 10px;
+      padding-top: 10px;
+
+    }
+
+    .playicn {
+      border-radius: 50%;
+      height: 54px;
+      width: 50px;
+      margin-top: 71px;
+      margin-left: 138px;
+      -webkit-animation: playicn 1s ease-in-out infinite alternate;
+      -moz-animation: playicn 1s ease-in-out infinite alternate;
+      animation: playicn 1s ease-in-out infinite alternate;
+
+    }
+
+    @-webkit-keyframes playicn {
+      from {
+        box-shadow: 0 0 20px 30px #fc9d82, 0 0 30px 30px #fc9d82, ;
+      }
+
+      /* 30px is spread radius */
+      to {
+        box-shadow: 0 0 20px 30px #fc9d82, 0 0 30px 30px #fc9d82, 0 0 40px 30px #fc9d82, 0 0 50px 30px #fc9d82, 0 0 80px 30px #fc9d82;
+      }
+
+      /* 80px is blur radius/ratio */
+      /* 30px is spread radius */
+    }
+
+    .accordion {
+      cursor: pointer;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      transition: 0.4s;
+    }
+
+    .panel {
+      max-height: 0;
+      overflow: hidden;
+      display: initial;
+      transition: max-height 0.2s ease-out;
+      margin-bottom: 0px;
+    }
   </style>
 
   <div class="container-fluid">
     <div class="row" style="margin-top:20px;">
-      <div class="col-md-1">
-        <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" />
-      </div>
-      <div class="col-md-8 text-center">
-        <span style="font-size: 180%; "><b>Course Activity</b></span>
 
-      </div>
-      <div class="col-md-3">
-        <div class="form-group">
-          <span class="searchIcon"><i class="fa fa-search text-right"></i></span>
-          <input type="text" name="" placeholder="Search...." value="" class="form-control searchInput">
-        </div>
-      </div>
+
+
     </div>
 
     <div class="row">
       <div style="border-right:solid 2px #eeeeee;padding-top:20px;height:100vh;" class="col-md-3">
+          <div>
+        </div>
         <div class="row">
-          <div class="container-fluid">
-            <i class="fa fa-book fa-4x"></i> <strong style="font-size:20px;" class="text-muted">{{course.title}}</strong>
+          <div class="col-md-2">
+
+            <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" />
           </div>
+          <div class="col-md-2">
+
+            <strong style="font-size:20px;" class="text-muted">Java</strong>
+          </div>
+
         </div>
         <hr>
         <br><br>
         <div class="row">
-          <div class="col-md-4 text-right">
-            <strong>Created</strong>
+          <div class="col-md-6 text-right">
+            <strong>Created:</strong>
           </div>
-          <div class="col-md-8">
+          <div class="col-md-6">
             10 Days
           </div>
         </div>
         <br><br>
         <div class="row">
-          <div class="col-md-4 text-right">
-            <strong>Updated</strong>
+          <div class="col-md-6 text-right">
+            <strong>Updated:</strong>
           </div>
-          <div class="col-md-8">
+          <div class="col-md-6">
             11 Hrs
+          </div>
+        </div>
+        <br><br>
+        <div class="row">
+          <div class="col-md-6 text-right">
+            <strong>Registration Type:</strong>
+          </div>
+          <div class="col-md-6">
+            <span class="label label-default openLabel">Open</span>
+            <!-- <span class="label label-default adminLabel">Admin</span>
+            <span class="label label-default invitaionLabel">On Invitation</span>
+            <span class="label label-default requestLabel">On Request</span> -->
+          </div>
+        </div>
+        <br><br>
+        <div class="row">
+          <div class="col-md-6 text-right">
+            <strong>Registration Fees:</strong>
+          </div>
+          <div class="col-md-6">
+            <span>
+              <i class="fa fa-inr"></i> 6000
+
+            </span>
           </div>
         </div>
         <br><br>
@@ -70,34 +146,25 @@
           </div>
         </div>
         <br><br>
-        <div class="row">
-          <div class="col-md-4 text-right">
-            <strong>Teaching Assistants</strong>
-          </div>
-          <div class="col-md-8">
-            <div class="row">
-              <div class="col-md-4">
 
-                <img ng-src="{{course.instructor.profile.displayPicture}}" style="height:55px;width:55px;" class="img img-rounded">
-              </div>
-              <div class="col-md-8">
-                {{course.instructor.username}}
-              </div>
-            </div>
-          </div>
-        </div>
 
 
         <br><br>
         <hr>
         <div class="row text-center">
-          <label class="text-muted" style="font-size:20px;">Students <i class="fa fa-users fa-2x"></i></label>
+          <label class="text-muted" style="font-size:20px;">Students <img src="/static/images/Students.png " alt=""> </label>
+          <div ng-if="course.enrollments.length == 0">
+            <br><br><br> <span style="text-color:#eeeeee;">No student in this course</span>
+          </div>
+        </div>
+        <div class="row text-center">
+          <label class="text-muted" style="font-size:20px;">Courses <img src="/static/images/carbon_course.png" alt=""></label>
           <div ng-if="course.enrollments.length == 0">
             <br><br><br> <span style="text-color:#eeeeee;">No student in this course</span>
           </div>
         </div>
         <br>
-        <div class="row">
+        <!-- <div class="row">
           <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="enrollment in course.enrollments">
             <span class="info-box-icon" style="background-color:white;">
               <div class="row">
@@ -133,29 +200,31 @@
               {{b.book.title}}
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="row">
 
         </div>
       </div>
       <div class="col-md-9">
         <div class="row">
-            <div class="">
+          <div class="col-md-3">
 
-              <div class="btn-group col-md-4 pull-right">
-                <div class="row">
-                  <div class="col-md-6">
-                    <button type="button" class="btn btn-block" name="button" ng-click="createQuiz()" style="background-color:#337AB7;padding:12px;color:white;border-radius:10px !important">Add Quiz</button>
+          </div>
+          <div class="col-md-3">
+            <button type="button" class="btn btn-block" name="button" ng-click="createQuiz()" style="background-color:#337AB7;padding:12px;color:white;border-radius:10px !important">Add Quiz</button>
 
-                  </div>
-                  <div class="col-md-6">
-                    <button type="button" class="btn btn-block" name="button" ng-click="homework()" style="background-color:#231654;padding:12px;color:white;border-radius:10px !important">Add Homework</button>
+          </div>
+          <div class="col-md-3">
+            <button type="button" class="btn btn-block" name="button" ng-click="homework()" style="background-color:#231654;padding:12px;color:white;border-radius:10px !important">Add Homework</button>
 
-                  </div>
-                </div>
-              </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group">
+              <span class="searchIcon"><i class="fa fa-search text-right"></i></span>
+              <input type="text" name="" placeholder="Search...." value="" class="form-control searchInput">
             </div>
-
+          </div>
         </div>
 
         <div class="row" style="margin:0px;margin-top:30px;border:1px solid black">
@@ -167,123 +236,155 @@
 
               <img src="/static/images/icons8-attach-52.png" alt="" style="height:20px;">
 
-              <input type="file"  class="file_upload" onchange="angular.element(this).scope().fileupload(this.files)" multiple/>Attachments
+              <input type="file" class="file_upload" onchange="angular.element(this).scope().fileupload(this.files)" multiple />Attachments
             </div>
           </div>
         </div>
+        <div class="row" style="margin:20px -15px;">
+          <div class="col-md-2 pull-right">
+            <button type="button" class="btn1 btn-block" name="button"> <i class="fa fa-file" aria-hidden="true" style="padding-right:10px;"></i>Save</button>
+          </div>
+        </div>
 
-        <div class="row">
-          <div style="margin-left:0px" class="col-md-12">
-            <div style="border:none;" class="card">
-              <div  class="card-body">
-                <div class="col-md-2" style="margin-top:20px;">
-                  <img height="100px" width="100px" style="border-radius:50%;" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg" alt="">
+        <div class="row" style="margin:0px;">
+          <div class=" academy_panel" style="">
+
+            <p>Understand what is Robotic Process Automation (RPA) and why RPA is a massive career &amp; earning the opportunity. We will also be discussing the challenges &amp; risks when implementing RPA. See an RPA demo.
+
+              We will discuss various RPA tools and explain the merit of each of them. After this course, you will be able to envision a basic RPA implementation plan </p>
+            <hr style="color:#F7F7F7;">
+
+            <button class="collapsiblecss accordion " style="padding-top:20px;padding-bottom: 20px">
+              <div class="row">
+                <div class="col-lg-1 col-xs-2">
+                  <!-- <h4 style="font-weight:600;"> <span style="color:#9BC9BA;padding-right:20px;">video</span>
+                    <h4> -->
+
+                  <i class="fa fa-play-circle" style="font-size:36px;color:red"></i>
+                  <!-- {% if i.typ == 'video' %}
+                <i class="fa fa-play-circle" style="font-size:36px;color:red"></i>
+                {% endif %}
+                {% if i.typ == 'file' or i.typ == 'Notes' %}
+                <i class="fa fa-file-text" style="font-size:28px;color:#7fb7c2"></i>
+                {% endif %}
+                {% if i.typ == 'Homework' %}
+                <i class="fa fa-book" style="font-size:28px;color:#032757"></i> -->
+
+
+
                 </div>
-                <div style="margin-left:-30px;" class="col-md-10">
-                  <blockquote class="blockquote mb-0">
-                    <h3>Algebra notes in PDF {{name}}</h3>
-                    <p> This pdf will help you understand the basics of mathematics.  {{description}}</p>
-                    <footer class="blockquote-footer">
-                      <div class="col-md-4">
-                        <a href="#"> view file <img src="/static/images/fileSvg.svg" alt=""></a>
-                        file :{{file}}
-                      </div>
-                      <div class="col-md-3">
-                        created by:{{createdby}}
-                      </div>
-                      <div class="col-md-3">
-                        Date:{{created}}
-                      </div>
-                    </footer>
-                  </blockquote>
+                <div class="col-lg-11 col-xs-10">
+
+                  <h4 style="font-weight:600;margin-top:0px;margin-bottom:0px">RPA how it was ?</h4>
+
+
+                  <span style="font-size:12px;color:grey;">video</span>
+
+
+
+
+
+
+
                 </div>
+                <!-- <div class="col-lg-1 col-xs-1">
+                  <h4 style="font-weight:600;"><span class="pull-right" style="color:grey;font-size:10px;padding-top:5px;">02:00</span>
+                    <h4>
+                </div> -->
               </div>
-            </div>
-            </div>
-            </div>
-        </div>
-      </div>
-    </div>
-    <!-- explorer  section -->
-    <!-- <div class="col-md-9" style="height:100vh;">
-    <div  class="row">
-      <div class="col-md-3">
-        <button type="button" class="navbtn btn btn-success btn-block " name="button" ng-click="createQuiz()">Add Quiz</button>
-      </div>
-      <div class="col-md-3">
-      </div>
-      <div class="col-md-6">
-        <div class="input-group" style="background:#ffffff;border-radius:10px;">
-          <input type="text"  class="form-control blockquote mb-0" ng-model="search.query" placeholder="Search by course name" ng-enter="fetchData()" style="border:none !important;background:#ffffff;">
-          <div class="input-group-btn">
-            <button class="btn btn-default" type="submit" ng-click="fetchData()" style="border:none !important;background:#ffffff;">
-              <i class="glyphicon glyphicon-search"></i>
             </button>
+            <div class="panel" style="display: initial; max-height: 16px;">
+
+
+              <p>About RPA &amp; Basics &amp; What To Learn All in One Video...That Was GreateFul...Get Enroll ANd Watch Video...</p>
+
+            </div>
+            <hr style="color:#F7F7F7;margin:0px;">
+
+            <button class="collapsiblecss accordion " style="padding-top:20px;padding-bottom: 20px">
+              <div class="row">
+                <div class="col-lg-1 col-xs-2">
+                  <!-- <h4 style="font-weight:600;"> <span style="color:#9BC9BA;padding-right:20px;">file</span>
+                    <h4> -->
+
+
+                  <i class="fa fa-file-text" style="font-size:28px;color:#7fb7c2"></i>
+
+
+
+                </div>
+                <div class="col-lg-11 col-xs-10">
+
+                  <h4 style="font-weight:600;margin-top:0px;margin-bottom:0px">Uipath Full Tutorial</h4>
+
+
+
+                  <span style="font-size:12px;color:grey;">notes</span>
+
+
+
+
+
+
+
+
+                </div>
+
+              </div>
+            </button>
+            <div class="panel" style="display: initial; max-height: 16px;">
+
+
+              <p>Easily LEarn Full Tutorail with help of PDF</p>
+
+            </div>
+            <hr style="color:#F7F7F7;margin:0px;">
+
+            <button class="collapsiblecss accordion " style="padding-top:20px;padding-bottom: 20px">
+              <div class="row">
+                <div class="col-lg-1 col-xs-2">
+                  <!-- <h4 style="font-weight:600;"> <span style="color:#9BC9BA;padding-right:20px;">Notes</span>
+                    <h4> -->
+
+
+                  <i class="fa fa-file-text" style="font-size:28px;color:#7fb7c2"></i>
+
+
+
+                </div>
+                <div class="col-lg-11 col-xs-10">
+
+                  <h4 style="font-weight:600;margin-top:0px;margin-bottom:0px">Robotic Process Automation</h4>
+
+
+
+                  <span style="font-size:12px;color:grey;">notes</span>
+
+
+
+
+                </div>
+
+              </div>
+            </button>
+            <div class="panel" style="max-height: 16px;">
+
+
+              <p>Robotic Process Automation Foundation (Level 1) Robotic Process Automation Foundation (Level 2) Robotic Process</p>
+
+            </div>
+            <hr style="color:#F7F7F7;margin:0px;">
+
+
+
+
+
           </div>
         </div>
+
+
       </div>
     </div>
-    <div class="row">
 
-      <div class="col-md-12">
-        <textarea id="w3review" placeholder="Add your post here....." name="w3review" rows="15" cols="120">
-
-        </textarea>
-      </div>
-    </div>
-    <div style="" class="row">
-      <div class="col-md-2">
-      </div>
-      <div  style="margin-top:-30px;" class="col-md-10 text-right">
-        <label class="myLabel">
-          <input type="file" />
-          <span><i class="fa fa-paperclip 2x">&nbsp;&nbsp;Attachment</i></span>
-        </label>
-        <hr>
-      </div>
-
-    </div>
-    <div style="" class="row">
-      <div class="col-md-2">
-      </div>
-      <div  style="margin-top:0px;" class="col-md-10 text-right">
-        <button type="button" class="btn1 btn-success btn-lg" name="button"><i class="fa fa-floppy-o 2x">&nbsp;&nbsp;Save</i></button>
-        <hr>
-      </div>
-
-    </div>
-    <div class="row">
-
-    </div>
-    <div class="row">
-
-      <div style="margin-left:0px" class="col-md-12">
-        <div style="border:none;" class="card">
-          <div  class="card-body">
-            <div class="col-md-2" style="margin-top:20px;">
-              <img height="100px" width="100px" style="border-radius:50%;" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg" alt="">
-            </div>
-            <div style="margin-left:-30px;" class="col-md-10">
-              <blockquote class="blockquote mb-0">
-                <h3>name : {{name}}</h3>
-                <p> Description : {{description}}</p>
-                <footer class="blockquote-footer">
-                  <div class="col-md-4">
-                    file :{{file}}
-                  </div>
-                  <div class="col-md-3">
-                    created by:{{createdby}}
-                  </div>
-                  <div class="col-md-3">
-                    Date:{{created}}
-                  </div>
-                </footer>
-              </blockquote>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
 
   </div>

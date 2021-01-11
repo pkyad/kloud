@@ -1,0 +1,23 @@
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-md-2" style="margin: 0px;margin-bottom: 15px;background:#F2F3F7;height: 100%;overflow: auto;position: fixed;
+z-index: 1;">
+        <div class="row" style="margin:30px -15px;">
+          <div class="col-md-2">
+            <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 25px;" alt="">
+          </div>
+          <div class="col-md-8">
+            <h3 style="margin:0px;"><b>HC Verma</b></h3>
+            <p>Physics</p>
+          </div>
+          <div class="col-md-1">
+            <img src="/static/images/edit.svg" alt="" style="width: 25px;" ng-click="$state.go('businessManagement.editBook',{id:1})">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-10 col-md-offset-2">
+        <ui-view>  </ui-view>
+      </div>
+
+  </div>
+</div>
