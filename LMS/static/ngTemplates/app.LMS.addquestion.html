@@ -1,0 +1,37 @@
+<div class="container-fluid" style="padding:70px;">
+  <div class="modal-header" style="border:none">
+    <div class="row">
+      <div class="col-md-1">
+          <img ng-click="close()" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
+      </div>
+      <div class="col-md-11 text-center">
+        <h3 style="margin:0px;"><b>Select question type and score for that</b></h3>
+
+      </div>
+    </div>
+  </div>
+  <br><br><br>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="selectBox" ng-click="selectChoice('multiple')" >
+          <h4><b>Multiple Choice</b></h4>
+          <p>Single or Multiple Correct Answers</p>
+        </div>
+      </div>
+      <div class="col-md-4"  >
+        <div class="selectBox" ng-click="selectChoice('subjective')">
+          <h4><b>Subjective Questions</b></h4>
+          <p>open-ended questions where candidates are expected to explain their answer for a given Question.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="selectBox" ng-click="selectChoice('file')" >
+          <h4><b>File Upload</b></h4>
+          <p>File to be uploaded</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -257,7 +257,7 @@ transition-duration: 0.8s;
 
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
-        tex2jax: {inlineMath: [['$','$']]}
+          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
       });
 
       window['_fs_debug'] = false;
@@ -304,8 +304,9 @@ transition-duration: 0.8s;
     {% else %}
     <!-- <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script> -->
     <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script> -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+    <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
       <script src="{% static 'js/simplemde.min.js' %}"></script>
-      <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
       <script src="{% static 'js/jquery.cookie-1.4.1.min.js' %}"></script>
       <script src="{% static 'js/bootstrap.min.js' %}"></script>
       <script src="{% static 'js/angular.min.js' %}"></script>
@@ -322,7 +323,9 @@ transition-duration: 0.8s;
       <script src="{% static 'js/rzslider.min.js' %}"></script>
       <script src="{% static 'js/papaparse.js' %}"></script>
       <script src="{% static 'js/papaparse.min.js' %}"></script>
+      <script src="{% static 'js/markdown.min.js' %}"></script>
       <script src="{% static 'js/simplemdeng.js' %}"></script>
+
 
       <!-- <script src="{% static 'js/MathJax.js' %}"></script> -->
     {% endif %}
@@ -391,7 +394,6 @@ transition-duration: 0.8s;
     <script src="{% static 'js/angular-owl-carousel-2.js' %}"></script>
     <script src="{% static 'js/ace.js' %}"></script>
     <script src="{% static 'js/ace/ext-language_tools.js' %}"></script>
-
 
     {% for a in appsWithJs %}
       <script src="{% static '' %}js/{{a}}.js"></script>

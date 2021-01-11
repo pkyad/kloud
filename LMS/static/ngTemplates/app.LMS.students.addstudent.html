@@ -1,0 +1,55 @@
+<div class="container-fluid">
+  <div class="modal-header" style="border:none">
+    <div class="row">
+      <div class="col-md-1">
+          <img ng-click="close()" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
+      </div>
+      <div class="col-md-11 text-center">
+        <h3 style="margin:0px;"><b>{{form?'Edit':'Create'}} Student</b></h3>
+
+      </div>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="form-group">
+        <label for="">Student Name</label>
+        <input type="text" class="form-control bookInput" name="" value="">
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="form-group">
+        <label for="">Mobile Number</label>
+        <input type="text" class="form-control bookInput" name="" value="">
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="form-group">
+        <label for="">Email Id</label>
+        <input type="email" class="form-control bookInput" name="" value="">
+      </div>
+    </div>
+    <div class="row" ng-if="form=='edit'">
+      <div class="form-group">
+        <label for="">No.of courses joined</label>
+        <input type="text" class="form-control bookInput" name="" value="">
+      </div>
+    </div>
+    <br><br>
+    <div class="modal-footer" style="border:none;padding:0px;">
+      <div class="row">
+        <div class="col-md-2 pull-left">
+          <button class="newBtn btn-block" type="button" name="button" style="padding:12px;" ng-click="close()">Cancel</button>
+        </div>
+        <div class="col-md-2 pull-right">
+          <button class="btn1 btn-block" type="button" name="button">Save</button>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

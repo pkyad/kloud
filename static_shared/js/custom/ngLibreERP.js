@@ -39,15 +39,15 @@ app.controller('main', function($scope, $state, $users, $aside, $http, $timeout,
       size: 'md',
       backdrop: false,
       controller: function($scope , $uibModalInstance){
-  
+
         $scope.divisionName = DIVISION_NAME;
         $scope.dueDate = DUE_DATE;
         $scope.totalDue = TOTAL_DUE
-        
-        
+
+
       },
     }).result.then(function() {
-  
+
     }, function() {
       $scope.getallCheckins()
     });
