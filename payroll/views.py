@@ -1662,22 +1662,25 @@ class GetPaySlipDetailsAPIView(APIView):
         return Response(toRet,status = status.HTTP_200_OK)
 
 
+
+# api to update leaves on montly bases
 class DivideMontlyLeavesAPIView(APIView):
     renderer_classes = (JSONRenderer,)
     def get(self, request, format=None):
-        user = request.user
-        payroll  = user.payroll
-        if payroll.al  is not None:
-            alLeaves = int(payroll.al)/12
-            if payroll.alCurrMonthLeaves is not None:
-                payroll.alCurrMonthLeaves = payroll.alCurrMonthLeaves + int(alLeaves)
-            else:
-                payroll.alCurrMonthLeaves = int(alLeaves)
-        if payroll.ml  is not None:
-            mlLeaves = payroll.ml/12
-            if payroll.mlCurrMonthLeaves is not None:
-                payroll.mlCurrMonthLeaves = payroll.mlCurrMonthLeaves + int(mlLeaves)
-            else:
-                payroll.mlCurrMonthLeaves = int(mlLeaves)
-        payroll.save()
+        allUsers = User.objects.all()
+        for user in allUsers:
+            payroll  = user.payroll
+            if payroll.al  is not None:
+                alLeaves = int(payroll.al)/12
+                if payroll.alCurrMonthLeaves is not None:
+                    payroll.alCurrMonthLeaves = payroll.alCurrMonthLeaves + int(alLeaves)
+                else:
+                    payroll.alCurrMonthLeaves = int(alLeaves)
+            if payroll.ml  is not None:
+                mlLeaves = payroll.ml/12
+                if payroll.mlCurrMonthLeaves is not None:
+                    payroll.mlCurrMonthLeaves = payroll.mlCurrMonthLeaves + int(mlLeaves)
+                else:
+                    payroll.mlCurrMonthLeaves = int(mlLeaves)
+            payroll.save()
         return Response({},status = status.HTTP_200_OK)
