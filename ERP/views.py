@@ -148,7 +148,11 @@ def loginView(request):
                         p = user.profile
                         p.expoPushToken = request.GET['pushToken']
                         p.save()
-                    return JsonResponse({'csrf_token':csrf_token , "pk" : user.pk} , status = 200)
+                    if  user.designation.division is not None:
+                        division = user.designation.division.pk
+                    else:
+                        division = None
+                    return JsonResponse({'csrf_token':csrf_token , "pk" : user.pk , "division" : division} , status = 200)
                 return redirect('/ERP/')
             else:
                 authStatus = {'status' : 'warning' , 'message' : 'Your account is Inactive'}
@@ -164,7 +168,11 @@ def loginView(request):
                         p = user.profile
                         p.expoPushToken = request.GET['pushToken']
                         p.save()
-                    dataMobile = {'csrf_token':csrf_token , "pk" : user.pk}
+                    if  user.designation.division is not None:
+                        division = user.designation.division.pk
+                    else:
+                        division = None
+                    dataMobile = {'csrf_token':csrf_token , "pk" : user.pk , "division" : division}
                     if newUser is not None:
                         dataMobile['newUser'] = True
                     return JsonResponse(dataMobile , status = 200)

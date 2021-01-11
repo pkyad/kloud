@@ -34,4 +34,6 @@ urlpatterns = [
     url(r'getAllPayroll/$' , GetAllPayrollAPIView.as_view()),
     url(r'reCaluclate/$' , ReCalculateAPIView.as_view()),
     url(r'getPayslipDetails/$' , GetPaySlipDetailsAPIView.as_view()),
+    url(r'divideMontlyLeaves/$' , DivideMontlyLeavesAPIView.as_view()),
+
 ]

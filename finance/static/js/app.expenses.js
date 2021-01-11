@@ -76,7 +76,7 @@ app.controller('businessManagement.finance.financeExpenses', function($scope, $h
   }
 
   $scope.goTo = function(typ, id){
-    if (typ == 'EXPENSE SHEET') {
+    if (typ == 'EXPENSES') {
     $state.go('home.approveExpenseClaims' , {'id' : id})
     }
     else{

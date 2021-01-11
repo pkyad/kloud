@@ -675,7 +675,7 @@ class DisbursalSerializer(serializers.ModelSerializer):
 class InvoiceReceivedSerializer(serializers.ModelSerializer):
     class Meta:
         model = InvoiceReceived
-        fields=('pk','created','user','companyName','personName','totalAmount','invType','title')
+        fields=('pk','created','user','companyName','personName','totalAmount','invType','title','status')
     def create(self , validated_data):
         u = self.context['request'].user
         inv = InvoiceReceived(**validated_data)
@@ -686,6 +686,28 @@ class InvoiceReceivedSerializer(serializers.ModelSerializer):
             pass
         inv.save()
         return inv
+    def update(self , instance , validated_data):
+        for key in ['status']:
+            try:
+                setattr(instance , key , validated_data[key])
+            except:
+                pass
+        instance.save()
+        try:
+            if instance.status == 'Approved' and instance.invType == 'EXPENSES':
+                today = datetime.now().date()
+                transObj = Disbursal.objects.create(sourcePk = instance.pk , amount = instance.totalAmount , date = today , source = 'EXPENSES', division = self.context['request'].user.designation.division)
+                # transObj.accountNumber = purchaseObj.accNo
+                # transObj.ifscCode = purchaseObj.ifsc
+                # transObj.bankName = purchaseObj.bankName
+                transObj.narration = 'Expenses ' + str(round(float(instance.totalAmount))) +' Rs , ' + str(transObj.date.strftime("%B")) + '-' + str(transObj.date.year)
+                transObj.save()
+                instance.paidAmount = float(instance.paidAmount) + float(instance.totalAmount)
+                instance.balanceAmount = float(instance.totalAmount) - float(instance.paidAmount)
+                instance.save()
+        except:
+            pass
+        return instance
 
 
 class InvoiceQtySerializer(serializers.ModelSerializer):
@@ -697,7 +719,34 @@ class InvoiceQtySerializer(serializers.ModelSerializer):
         inv = InvoiceQty(**validated_data)
         inv.user = u
         inv.save()
+        if inv.invoice is not None:
+            invoice = inv.invoice
+            total = invoice.parentInvoice.aggregate(tot = Sum('total'))
+            totalAmount = 0
+            if total['tot'] is not None:
+                totalAmount = total['tot']
+            invoice.totalAmount = totalAmount
+            invoice.balanceAmount = totalAmount - invoice.paidAmount
+            invoice.save()
         return inv
+    def update(self , instance , validated_data):
+        for key in ['invoice']:
+            try:
+                setattr(instance , key , validated_data[key])
+            except:
+                pass
+        instance.save()
+        if instance.invoice is not None:
+            invoice = instance.invoice
+            total = invoice.parentInvoice.aggregate(tot = Sum('total'))
+            totalAmount = 0
+            if total['tot'] is not None:
+                totalAmount = total['tot']
+            invoice.totalAmount = totalAmount
+            invoice.balanceAmount = totalAmount - invoice.paidAmount
+            invoice.save()
+        instance.save()
+        return instance
 
 class InvoiceReceivedAllSerializer(serializers.ModelSerializer):
     products = serializers.SerializerMethodField()

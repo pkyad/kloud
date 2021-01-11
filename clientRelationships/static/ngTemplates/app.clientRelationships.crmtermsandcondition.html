@@ -133,6 +133,25 @@
                 <div class="col-md-8">
                   <div class="row">
                     <div class="col-md-10">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <label>Can create Invoice?</label>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <switch ng-model="d.canInvoice" class="green" style="margin-bottom: -12px;"></switch>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <label>Can create Supply Order?</label>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <switch ng-model="d.canSupplyOrder" class="green" style="margin-bottom: -12px;"></switch>
+                        </div>
+                      </div>
+                    </div>
+                      <div class="row" style="margin-top:15px">
                       <div class="col-md-2">
                         <label>Theme Color</label>
                       </div>
@@ -146,7 +165,7 @@
                       </div>
                       <div class="col-md-2">
                         <div class="form-group">
-                          <switch ng-model="d.isGst" class="green" style="margin-bottom: -12px;margin-left: 40px;"></switch>
+                          <switch ng-model="d.isGst" class="green" style="margin-bottom: -12px"></switch>
                         </div>
                       </div>
                       <div class="col-md-1">
@@ -156,6 +175,7 @@
                         <div class="form-group">
                           <input ng-model="d.prefix" type="text" class="form-control" style="border-radius:25px;background:#e0e0e0">
                         </div>
+                      </div>
                       </div>
                     </div>
 
