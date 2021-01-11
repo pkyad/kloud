@@ -661,34 +661,20 @@ class GetMyAppsView(APIView):
         #     print "returning from the profile"
         #     return Response(json.loads(u.profile.apps), status = status.HTTP_200_OK)
 
-        if 'mode' in request.GET and request.GET['mode'].startswith('app'):
-            apps = application.objects.filter(name = request.GET['mode'])
-            modules = module.objects.filter(~Q(name='public'))
-        else:
-            apps = getApps(u)
-            apps = apps.filter(parent__isnull = True , published = True)
-        try:
-            apps = apps.filter(~Q(name__in = globalSettings.DISABLED_APPS))
-        except:
-            pass
 
         if 'mode' in request.GET and request.GET['mode']== 'recent':
-            apps = apps.order_by('index').filter(~Q(name__in = adminApps))[:4]
-        print apps
+            apps = u.menuapps.all()[:4]
+
         if 'mode' in request.GET and request.GET['mode']== 'others':
-            if u.is_staff:
-                apps = getApps(u).filter(~Q(name__in = adminApps))
+            apps = u.menuapps.all()
 
         appsJson = []
 
         if 'displayName__icontains' in request.GET:
-            apps = apps.filter(displayName__icontains = request.GET['displayName__icontains'] )
+            apps = apps.filter(app__displayName__icontains = request.GET['displayName__icontains'] )
 
-        for app in apps:
-            print app.name
-            if len(app.name.split('.')) > 2 or app.name in ['app.dashboard' , 'app.users' , 'app.messenger']:
-                continue
-
+        for userapp in apps:
+            app = userapp.app
             state = None
             if app.name.startswith('app.'):
                 if app.url == None:
@@ -700,10 +686,8 @@ class GetMyAppsView(APIView):
                 displayName = app.displayName
             else:
                 continue
-            appsJson.append({"name" : app.name , "pk" : app.pk , "icon" : app.icon , "state" : state, "displayName" : displayName , 'url' : app.url  })
 
-            for child in app.menuitems.all():
-                appsJson.append({"name" : child.name , "pk" : child.pk , "icon" : child.icon , "state" : child.state, "displayName" : child.name , 'url' : ""  })
+            appsJson.append({"name" : app.name , "pk" : app.pk , "icon" : app.icon , "state" : state, "displayName" : displayName , 'url' : app.url , 'index' : userapp.index  })
 
         # prfl.apps = json.dumps({"apps" : appsJson , "settings" : u.is_staff })
         # prfl.save()
@@ -713,6 +697,7 @@ class GetMyAppsView(APIView):
 
 from rest_framework.request import Request
 from rest_framework.test import APIRequestFactory
+from ERP.serializers import UserAppsLiteSerializer
 class UpdatepayrollDesignationMasterAccountAPI(APIView):
     # permission_classes = (permissions.IsAuthenticated)
     def post(self, request, format=None):
@@ -732,21 +717,6 @@ class UpdatepayrollDesignationMasterAccountAPI(APIView):
                 profObj.otherDocs = request.data['otherDocs']
             if 'IDPhoto' in request.data:
                 profObj.IDPhoto = request.data['IDPhoto']
-            # print request.data['resignation']
-            # if 'resignation' in request.data:
-            #     profObj.resignation = request.data['resignation']
-            # if 'vehicleRegistration' in request.data:
-            #     profObj.vehicleRegistration = request.data['vehicleRegistration']
-            # if 'appointmentAcceptance' in request.data:
-            #     profObj.appointmentAcceptance = request.data['appointmentAcceptance']
-            # if 'pan' in request.data:
-            #     profObj.pan = request.data['pan']
-            # if 'drivingLicense' in request.data:
-            #     profObj.drivingLicense = request.data['drivingLicense']
-            # if 'cheque' in request.data:
-            #     profObj.cheque = request.data['cheque']
-            # if 'passbook' in request.data:
-            #     profObj.passbook = request.data['passbook']
             profObj.save()
             return JsonResponse({}, status = status.HTTP_200_OK,safe=False)
         if 'basic' in request.data:
@@ -864,13 +834,6 @@ class UpdatepayrollDesignationMasterAccountAPI(APIView):
             masterUser.save()
 
 
-
-
-        factory = APIRequestFactory()
-        # request = factory.get('/api/HR/users/')
-        # request = factory.get('/')
-
-
         serializer_context = {
             'request': Request(request),
         }
@@ -905,6 +868,7 @@ class UpdatepayrollDesignationMasterAccountAPI(APIView):
 
         return JsonResponse({
             'designation':userDesignationSerializer(desigObj,many=False).data,
+            'apps':UserAppsLiteSerializer(masterUser.menuapps.all(),many=True).data,
             'payroll':payrollSerializer(payObj,many=False).data,
             'profile':userProfileSerializer(profObj,many=False).data,
             'master':userAdminSerializer(masterUser,context=serializer_context).data,
@@ -1143,24 +1107,22 @@ class AppInstallerView(APIView):
     renderer_classes = (JSONRenderer,)
     permission_classes = (permissions.IsAuthenticated,)
     def post(self, request, format=None):
-        app = InstalledApp.objects.get(pk = request.data['app'])
-        d = designation.objects.get(pk = request.data['designation'])
-        d.apps.add(app)
-        resetAppsInProfile(d.user)
+
+        app = InstalledApp.objects.get(pk = request.data['app']).app
+        ua = UserApp(app = app , user = designation.objects.get(pk = request.data['designation']).user )
+        ua.save()
+
         return Response({} , status = status.HTTP_200_OK)
 
     def get(self ,request ,format = None):
-        installations = request.user.designation.division.installations.all()
+        installations = request.user.designation.division.installations.filter(~Q(app__name__in =  ['app.dashboard' , 'app.messenger'] ))
         if 'search' in request.GET:
             installations = installations.filter(app__displayName__icontains = request.GET['search'])
         data = InstalledAppSerializer(installations , many = True).data
         return Response(data , status = status.HTTP_200_OK)
 
     def delete(self , request, format = None):
-        app = InstalledApp.objects.get(pk = request.GET['app'])
-        d = designation.objects.get(pk = request.GET['designation'])
-        d.apps.remove(app)
-        resetAppsInProfile(d.user)
+        app = UserApp.objects.get(pk = request.GET['app']).delete()
         return Response({} , status = status.HTTP_200_OK)
 
 

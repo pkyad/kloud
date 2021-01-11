@@ -150,7 +150,7 @@ class DealSerializer(serializers.ModelSerializer):
 class CRMTermsAndConditionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = CRMTermsAndConditions
-        fields = ('pk'  , 'created' , 'body', 'heading', 'default' , 'division','extraFieldOne','extraFieldTwo','isGst','companyPamphlet','themeColor','message','version','name')
+        fields = ('pk'  , 'created' , 'body', 'heading', 'default' , 'division','extraFieldOne','extraFieldTwo','isGst','companyPamphlet','themeColor','message','version','name' , 'prefix' , 'counter' , 'canSupplyOrder' , 'canInvoice')
     def create(self , validated_data):
         t = CRMTermsAndConditions(**validated_data)
         t.division = self.context['request'].user.designation.division
@@ -162,7 +162,7 @@ class ContractSerializer(serializers.ModelSerializer):
     contact = ContactSerializer(many = False, read_only = True)
     class Meta:
         model = Contract
-        fields = ('pk'  ,'user' , 'created' , 'updated', 'value','deal', 'status', 'details' , 'data', 'dueDate','billedDate','recievedDate','archivedDate','approvedDate','grandTotal','totalTax','read','frm','templateName','files','trackingCode','readDateAndTime','contact','termsAndCondition' , 'termsAndConditionTxts' , 'discount', 'heading')
+        fields = ('pk'  ,'user' , 'created' , 'updated', 'value','deal', 'status', 'details' , 'data', 'dueDate','billedDate','recievedDate','archivedDate','approvedDate','grandTotal','totalTax','read','frm','templateName','files','trackingCode','readDateAndTime','contact','termsAndCondition' , 'termsAndConditionTxts' , 'discount', 'heading' ,'uniqueId')
         read_only_fields = ('user',)
     def create(self , validated_data):
         c = Contract(**validated_data)
@@ -172,9 +172,15 @@ class ContractSerializer(serializers.ModelSerializer):
         if 'contact' in self.context['request'].data:
             c.contact_id = int(self.context['request'].data['contact'])
         if 'termsAndCondition' in self.context['request'].data:
-            c.termsAndCondition_id = int(self.context['request'].data['termsAndCondition'])
+            termsObj =  CRMTermsAndConditions.objects.get(pk = int(self.context['request'].data['termsAndCondition']))
+            c.termsAndCondition = termsObj
+            try:
+                c.uniqueId = termsObj.prefix + str(termsObj.counter)
+                termsObj.counter = termsObj.counter + 1
+                termsObj.save()
+            except:
+                pass
         c.division = self.context['request'].user.designation.division
-
         c.save()
         contract = c
         user = self.context['request'].user
@@ -184,13 +190,13 @@ class ContractSerializer(serializers.ModelSerializer):
         termsAndConditionTxts = c.termsAndConditionTxts
         heading = c.heading
         contObj = ContractTracker.objects.create(user = user , grandTotal = grandTotal , contract = contract , discount = discount, data = data , termsAndConditionTxts = termsAndConditionTxts , heading = heading)
-        if 'tour' in self.context['request'].data:
-            tourObj = TourPlanStop.objects.get(pk = int(self.context['request'].data['tour']))
-            tourObj.contract = c
-            tourObj.save()
+        # if 'tour' in self.context['request'].data:
+        #     tourObj = TourPlanStop.objects.get(pk = int(self.context['request'].data['tour']))
+        #     tourObj.contract = c
+        #     tourObj.save()
         return c
     def update(self ,instance, validated_data):
-        for key in ['user' , 'created' , 'updated', 'value','deal', 'status', 'details' , 'data', 'dueDate','billedDate','recievedDate','archivedDate','approvedDate','grandTotal','totalTax','read','frm','templateName','files','trackingCode','readDateAndTime','contact','termsAndCondition', 'termsAndConditionTxts' , 'discount', 'heading']:
+        for key in ['user' , 'created' , 'updated', 'value','deal', 'status', 'details' , 'data', 'dueDate','billedDate','recievedDate','archivedDate','approvedDate','grandTotal','totalTax','read','frm','templateName','files','trackingCode','readDateAndTime','contact','termsAndCondition', 'termsAndConditionTxts' , 'discount', 'heading','uniqueId']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
@@ -201,13 +207,14 @@ class ContractSerializer(serializers.ModelSerializer):
             instance.deal_id = int(self.context['request'].data['deal'])
         if 'contact' in self.context['request'].data:
             instance.contact_id = int(self.context['request'].data['contact'])
-        if 'termsAndCondition' in self.context['request'].data:
-            instance.termsAndCondition_id = int(self.context['request'].data['termsAndCondition'])
+        # if 'termsAndCondition' in self.context['request'].data:
+        #     instance.termsAndCondition = int(self.context['request'].data['termsAndCondition'])
         instance.save()
-        if 'tour' in self.context['request'].data:
-            tourObj = TourPlanStop.objects.get(pk = int(self.context['request'].data['tour']))
-            tourObj.contract = instance
-            tourObj.save()
+        # if 'tour' in self.context['request'].data:
+        #     print 'tttttttttttttttttttttttttttttttttttttttttttttttttttoooooooooooooooooooooooo'
+        #     tourObj = TourPlanStop.objects.get(pk = int(self.context['request'].data['tour']))
+        #     tourObj.contract = instance
+        #     tourObj.save()
         return instance
 
 class ActivitySerializer(serializers.ModelSerializer):
@@ -286,7 +293,7 @@ class ContractTrackerSerializer(serializers.ModelSerializer):
 class ConfigureTermsAndConditionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ConfigureTermsAndConditions
-        fields = ('pk'  , 'created' , 'body', 'heading' , 'default')
+        fields = ('pk'  , 'created' , 'body', 'heading' , 'default','prefix')
     def create(self , validated_data):
         t = ConfigureTermsAndConditions(**validated_data)
         try:
@@ -311,18 +318,18 @@ class ServiceTicketSerializer(serializers.ModelSerializer):
     allInvoices = serializers.SerializerMethodField()
     class Meta:
         model = ServiceTicket
-        fields = ('pk'  ,'name' , 'phone' , 'email' , 'productName' , 'productSerial' , 'notes' , 'address' , 'pincode', 'city' , 'state' , 'country' , 'requireOnSiteVisit','referenceContact','preferredDate','preferredTimeSlot','warrantyStatus' , 'engineer' , 'serviceType','status','allInvoices')
+        fields = ('pk'  ,'name' , 'phone' , 'email' , 'productName' , 'productSerial' , 'notes' , 'address' , 'pincode', 'city' , 'state' , 'country' , 'requireOnSiteVisit','referenceContact','preferredDate','preferredTimeSlot','warrantyStatus' , 'engineer' , 'serviceType','status','allInvoices','uniqueId')
     def create(self , validated_data):
         t = ServiceTicket(**validated_data)
         t.division = self.context['request'].user.designation.division
         t.save()
-        if t.referenceContact == None:
+        if self.context['request'].data['referenceContact'] == None:
             contactObj = Contact.objects.create(user = self.context['request'].user, name = t.name, mobile = t.phone, email = t.email, street = t.address , pincode = t.pincode , state = t.state, country = t.country )
             t.referenceContact = contactObj
             t.save()
         return t
     def update(self ,instance, validated_data):
-        for key in ['name' , 'phone' , 'email' , 'productName' , 'productSerial' , 'notes' , 'address' , 'pincode', 'city' , 'state' , 'country' , 'requireOnSiteVisit','preferredDate','preferredTimeSlot' , 'status', 'serviceType','engineer','warrantyStatus' ]:
+        for key in ['name' , 'phone' , 'email' , 'productName' , 'productSerial' , 'notes' , 'address' , 'pincode', 'city' , 'state' , 'country' , 'requireOnSiteVisit','preferredDate','preferredTimeSlot' , 'status', 'serviceType','engineer','warrantyStatus' ,'uniqueId']:
             try:
                 setattr(instance , key , validated_data[key])
             except:

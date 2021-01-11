@@ -302,7 +302,7 @@ RefurbishedBind = (
 )
 class ComplaintManagement(models.Model):
     date = models.DateTimeField(auto_now_add=True , null = True)
-    customer = models.ForeignKey(Vendor ,related_name='lastnamee', null=True)
+    customer = models.ForeignKey(service ,related_name='lastnamee', null=True)
     contact = models.CharField(max_length = 100 , null = True ,blank=True)
     complaintRef = models.CharField( max_length = 50  , null=True , blank=True)
     machine = models.CharField( max_length = 50 , null=True , blank=True)

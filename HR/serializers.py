@@ -80,10 +80,10 @@ class userDesignationSerializer(serializers.ModelSerializer):
     team = TeamSerializer(many = False , read_only = True)
     reportingTo = userSearchViewSerializer(many = False , read_only = True)
     hrApprover = userSearchViewSerializer(many = False , read_only = True)
-    apps = InstalledAppSerializer(many = True , read_only = True)
+    # apps = InstalledAppSerializer(many = True , read_only = True)
     class Meta:
         model = designation
-        fields = ('pk' , 'user','reportingTo' ,'hrApprover', 'primaryApprover' , 'division','secondaryApprover' ,'unit' ,'role','team', 'apps')
+        fields = ('pk' , 'user','reportingTo' ,'hrApprover', 'primaryApprover' , 'division','secondaryApprover' ,'unit' ,'role','team')
         read_only_fields=('user',)
         def create(self , validated_data):
             d = designation()

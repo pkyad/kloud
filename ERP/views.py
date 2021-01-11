@@ -709,6 +709,8 @@ class serviceViewSet(viewsets.ModelViewSet):
     search_fields = ('name','web')
     def get_queryset(self):
         divsn = self.request.user.designation.division
+        print divsn.pk, 'division pk'
+
         if 'get_service' in self.request.GET:
             if self.request.user.is_staff:
                 return service.objects.filter(division = divsn)
@@ -727,6 +729,7 @@ class serviceViewSet(viewsets.ModelViewSet):
             return toReturn
         if 'name__icontains' in self.request.GET:
             queryset = service.objects.filter(name__icontains = str(self.rquest.GET['name__icontains']),division = divsn )
+
             return queryset
 
 

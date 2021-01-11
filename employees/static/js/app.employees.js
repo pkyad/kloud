@@ -1529,10 +1529,13 @@ app.controller('sudo.manageUsers.profile', function($scope, $http, Flash, $users
   }
 
   $scope.remove = function(installedApp, indx) {
-    $http({method : 'DELETE' , url : '/api/HR/appInstaller/' ,params : {designation : $scope.form.designation.pk , app :  installedApp.pk }}).then(function(response) {
-      Flash.create('success' , 'App uninstalled');
-      $scope.form.designation.apps.splice(indx, 1);
-    })
+    $http({method : 'DELETE' , url : '/api/HR/appInstaller/' ,params : { app :  installedApp.pk }}).
+    then((function(indx){
+      return function(response) {
+        Flash.create('success' , 'App uninstalled');
+        $scope.form.apps.splice(indx, 1);
+      }
+    })(indx))
   }
 
   $scope.addApplication = function() {
@@ -1624,6 +1627,7 @@ app.controller('sudo.manageUsers.profile', function($scope, $http, Flash, $users
       $scope.form.designation = response.data.designation;
       $scope.form.profile = response.data.profile;
       $scope.form.basic = response.data.basic;
+      $scope.form.apps = response.data.apps;
       $scope.form.simpleMode = response.data.simpleMode;
       $scope.form.telephony = response.data.telephony;
       $scope.form.canChangeStaffStatus = response.data.canChangeStaffStatus;

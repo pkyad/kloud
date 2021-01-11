@@ -14,6 +14,13 @@ from fabric.api import *
 import os
 from django.conf import settings as globalSettings
 
+
+class ApplicationLiteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = application
+        fields = ('pk' , 'name', 'module' , 'description' , 'icon' , 'displayName','stateAlias')
+
+
 class addressSerializer(serializers.ModelSerializer):
     class Meta:
         model = address
@@ -24,6 +31,7 @@ class ServiceLiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = service
         fields = ('pk' , 'created' ,'name' , 'address' , 'telephone' , 'logo' , 'web',)
+
 
 class serviceSerializer(serializers.ModelSerializer):
     user = userSearchSerializer(many = False , read_only = True)
@@ -288,3 +296,16 @@ class ProductMetaSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductMeta
         fields = ('pk'  ,'description' , 'typ' , 'code' , 'taxRate')
+
+
+class UserAppsSerializer(serializers.ModelSerializer):
+    app = ApplicationLiteSerializer(many = False , read_only=True)
+    class Meta:
+        model = UserApp
+        fields = ('pk'  ,'updated' , 'locked' , 'notificationCount' , 'index', 'app' , 'user')
+
+class UserAppsLiteSerializer(serializers.ModelSerializer):
+    app = ApplicationLiteSerializer(many = False , read_only=True)
+    class Meta:
+        model = UserApp
+        fields = ('pk' ,'app' )

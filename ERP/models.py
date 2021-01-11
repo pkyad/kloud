@@ -236,7 +236,7 @@ class Division(models.Model):
     locked = models.BooleanField(default=False)
     totalDue = models.PositiveIntegerField(default = 0)
     dueDate = models.DateTimeField(null = True)
-    
+    counter = models.PositiveIntegerField(default=1)
 
     # address
     # themeColor
@@ -332,3 +332,14 @@ class ProductMeta(models.Model):
     typ = models.CharField(max_length = 5 , default = 'HSN' , choices = PRODUCT_META_TYPE_CHOICES)
     code = models.PositiveIntegerField(null=False)
     taxRate = models.PositiveIntegerField(null = False)
+
+class UserApp(models.Model):
+    user = models.ForeignKey(User, related_name='menuapps' , null = False)
+    app = models.ForeignKey(application , related_name='userApps' , null = False)
+    index = models.PositiveIntegerField(default = 0)
+    notificationCount = models.PositiveIntegerField(default = 0)
+    locked = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add = True)
+    updated = models.DateTimeField(auto_now=True)
+    class Meta:
+            unique_together = ('app', 'user',)

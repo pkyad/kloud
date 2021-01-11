@@ -27,7 +27,7 @@ DISABLED_APPS = ['app.social' , 'app.advances']
 
 ON_REGISTRATION_SUCCESS_REDIRECT = '/ERP' # when signup using google the user will be redirected to this url
 MATERIAL_INWARD = False
-SITE_ADDRESS = 'http://localhost:9000' # the url prefix of the site
+SITE_ADDRESS = 'http://192.168.1.115:9000' # the url prefix of the site
 LIMIT_EXPENSE_COUNT= False
 ROOT_APP = 'index' # the default app
 ECOMMERCE_APP = {
@@ -130,8 +130,9 @@ def SEND_SMS(number , txt):
 
 from twilio.rest import Client
 def SEND_WHATSAPP_MSG(number , msg):
-    client = Client(TWILLIO_SID ,TWILLIO_AUTH_TOKEN )
-    message = client.messages.create(body= msg ,from_='whatsapp:+%s'%(DEFAULT_WHATSAPP_NUMBER ),to='whatsapp:+91%s'%(number))
+  return
+  client = Client(TWILLIO_SID ,TWILLIO_AUTH_TOKEN )
+  message = client.messages.create(body= msg ,from_='whatsapp:+%s'%(DEFAULT_WHATSAPP_NUMBER ),to='whatsapp:+91%s'%(number))
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -442,7 +443,7 @@ AUTHENTICATION_BACKENDS = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'kloud_new',
+        'NAME': 'sdpl',
         'USER': 'newuser',
         'PASSWORD': 'titan@1234',
         'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
