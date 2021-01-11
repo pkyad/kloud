@@ -702,7 +702,6 @@ app.controller('projectManagement.projects.project.explore', function($scope, $h
 
       var fd = new FormData();
       if (newValue != emptyFile && newValue != null && typeof newValue!='string') {
-        console.log(newValue.type);
         fd.append('files', newValue)
         fd.append('type', newValue.type)
       }

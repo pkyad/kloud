@@ -110,15 +110,14 @@ class projectSerializer(serializers.ModelSerializer):
         #         instance.files.add(media.objects.get(pk = f))
         data = self.context['request'].data
         if 'files' in data:
-
             if 'image' in data['type']:
                 type = 'image'
-            if 'application' in data['type']:
-                type = 'doc'
-            if data['type'] == 'application/pdf':
+            if 'spreadsheetml' in data['type']:
+                type = 'excel'
+            if 'pdf' in data['type']:
                 type = 'pdf'
-            # if data['type'] == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-            #     type = 'excel'
+            if 'document' in data['type']:
+                type = 'pdf'
 
             instance.files.add(media.objects.create(user = self.context['request'].user, attachment = data['files'], mediaType = type))
         if 'team' in data:

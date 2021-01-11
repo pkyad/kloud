@@ -212,18 +212,16 @@
           </div>
 
           <div class="row">
-            {{project.files[0].mediaType}}
             <div class="col-md-6" style="height:400px;" ng-if="project.files.length > 0">
-              <div ng-if="project.files[0].mediaType == 'doc'" class="fileCardXl" style="background:linear-gradient(135deg, #65799b 0%,#5e2563 100%);background-size:contain;background-repeat:no-repeat">
-              <div ng-if="project.files[0].mediaType == 'image'" class="fileCardXl" style="background-image: linear-gradient(45deg,#02050b,transparent), url({{project.files[0].attachment}});background-size:contain;background-repeat:no-repeat">
+              <div class="fileCardXl" style="background-image: linear-gradient(45deg,#02050b,transparent), url({{project.files[0].attachment}});background-size:contain;background-repeat:no-repeat">
                 <div class="row">
                   <div class="col-md-2">
-                    <img ng-if="project.files[0].mediaType == 'doc'" src="https://img.icons8.com/fluent/96/microsoft-powerpoint-2019.png" style="width:70px;margin-left:10px;" alt="">
-                    <img ng-if="type == 1" src="https://img.icons8.com/fluent/96/pdf-2.png" style="width:70px;margin-left:10px;" alt="">
-                    <img ng-if="type == 2" src="https://img.icons8.com/ultraviolet/2x/stack-of-photos.png" style="width:70px;margin-left:10px;" alt="">
-                    <img ng-if="type == 3" src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
-                    <img ng-if="type == 4" src="https://img.icons8.com/fluent/96/microsoft-excel-2019.png" style="width:70px;margin-left:10px;" alt="">
-                    <img ng-if="type > 4" src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
+                    <img ng-if="a.mediaType == 'image'" src="https://img.icons8.com/fluent/96/microsoft-powerpoint-2019.png" style="width:70px;margin-left:10px;" alt="">
+                    <img ng-if="a.mediaType == 'pdf'" src="https://img.icons8.com/fluent/96/pdf-2.png" style="width:70px;margin-left:10px;" alt="">
+                    <img ng-if="a.mediaType == 'ppt'" src="https://img.icons8.com/ultraviolet/2x/stack-of-photos.png" style="width:70px;margin-left:10px;" alt="">
+                    <img ng-if="a.mediaType == 'doc'" src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
+                    <img ng-if="a.mediaType == 'excel'" src="https://img.icons8.com/fluent/96/microsoft-excel-2019.png" style="width:70px;margin-left:10px;" alt="">
+                    <img ng-if="a.mediaType == 'doc'" src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
                   </div>
                   <div class="col-md-10" style="color: white;font-size:17px;padding-top:10px;">
                     {{text}} <br>
@@ -240,12 +238,12 @@
                     <i class="fa fa-thumb-tack" style="float:right;font-size:20px;color:white" ng-click="viewFile(file, $index)"></i>
                     <div class="row">
                       <div class="row">
-                        <img ng-if="$index == 0" src="https://img.icons8.com/fluent/96/microsoft-powerpoint-2019.png" style="width:70px;margin-left:10px;" alt="">
-                        <img ng-if="$index == 1" src="https://img.icons8.com/fluent/96/pdf-2.png" style="width:70px;margin-left:10px;" alt="">
-                        <img ng-if="$index == 2" src="https://img.icons8.com/ultraviolet/2x/stack-of-photos.png" style="width:70px;margin-left:10px;" alt="">
-                        <img ng-if="$index == 3" src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
-                        <img ng-if="$index == 4" src="https://img.icons8.com/fluent/96/microsoft-excel-2019.png" style="width:70px;margin-left:10px;" alt="">
-                        <img ng-if="$index > 4" src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
+                        <img ng-if="a.mediaType == 'image'" src="https://img.icons8.com/fluent/96/microsoft-powerpoint-2019.png" style="width:70px;margin-left:10px;" alt="">
+                        <img ng-if="a.mediaType == 'pdf'" src="https://img.icons8.com/fluent/96/pdf-2.png" style="width:70px;margin-left:10px;" alt="">
+                        <img ng-if="a.mediaType == 'ppt'" src="https://img.icons8.com/ultraviolet/2x/stack-of-photos.png" style="width:70px;margin-left:10px;" alt="">
+                        <img ng-if="a.mediaType == 'doc'" src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
+                        <img ng-if="a.mediaType == 'excel'" src="https://img.icons8.com/fluent/96/microsoft-excel-2019.png" style="width:70px;margin-left:10px;" alt="">
+                        <img ng-if="a.mediaType == 'doc'" src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
                       </div>
                       <div class="row" style="color: white;font-size:17px;padding-top:10px;margin:0px;">
                         Initial Project Proposal <br>
@@ -262,12 +260,12 @@
                   <i class="fa fa-thumb-tack" style="float:right;font-size:20px;color:white" ng-click="viewFile(file, $index)"></i>
                   <div class="row">
                     <div class="row">
-                      <img ng-if="$index == 0" src="https://img.icons8.com/fluent/96/microsoft-powerpoint-2019.png" style="width:70px;margin-left:10px;" alt="">
-                      <img ng-if="$index == 1" src="https://img.icons8.com/fluent/96/pdf-2.png" style="width:70px;margin-left:10px;" alt="">
-                      <img ng-if="$index == 2" src="https://img.icons8.com/ultraviolet/2x/stack-of-photos.png" style="width:70px;margin-left:10px;" alt="">
-                      <img ng-if="$index == 3" src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
-                      <img ng-if="$index == 4" src="https://img.icons8.com/fluent/96/microsoft-excel-2019.png" style="width:70px;margin-left:10px;" alt="">
-                      <img ng-if="$index > 4" src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
+                      <img ng-if="a.mediaType == 'image'" src="https://img.icons8.com/fluent/96/microsoft-powerpoint-2019.png" style="width:70px;margin-left:10px;" alt="">
+                      <img ng-if="a.mediaType == 'pdf'" src="https://img.icons8.com/fluent/96/pdf-2.png" style="width:70px;margin-left:10px;" alt="">
+                      <img ng-if="a.mediaType == 'ppt'" src="https://img.icons8.com/ultraviolet/2x/stack-of-photos.png" style="width:70px;margin-left:10px;" alt="">
+                      <img ng-if="a.mediaType == 'doc'" src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
+                      <img ng-if="a.mediaType == 'excel'" src="https://img.icons8.com/fluent/96/microsoft-excel-2019.png" style="width:70px;margin-left:10px;" alt="">
+                      <img ng-if="a.mediaType == 'doc'" src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
                     </div>
                     <div class="row" style="color: white;font-size:17px;padding-top:10px;margin:0px;">
                       Initial Project Proposal <br>
