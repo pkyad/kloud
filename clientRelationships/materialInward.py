@@ -325,11 +325,27 @@ def genMaterialIssueNote(response, ticket, request):
     country = ''
     pincode = ''
     warrantyStatus = ''
-
+    tncBody = None
+    bullts = ''
+    termsObj = ConfigureTermsAndConditions.objects.filter(division = request.user.designation.division)
+    if termsObj.count()>0:
+        termsData = termsObj.first()
+        if ticket.uniqueId is None:
+            try:
+                ticket.uniqueId = termsData.prefix + str(termsData.counter)
+                termsData.counter = termsData.counter+1
+                termsData.save()
+            except:
+                pass
+            ticket.save()
+        tncBody = termsData.body
 
     year = ticket.created.year
     nextYear = ticket.created.year + 1
-    srno = str(year) +'-'+ str(nextYear) + '/'+ str(ticket.pk)
+    if ticket.uniqueId is not None:
+        srno = str(ticket.uniqueId)
+    else:
+        srno = str(ticket.pk)
     if ticket.name is not None:
         name = ticket.name
     if ticket.phone is not None:
@@ -414,12 +430,7 @@ def genMaterialIssueNote(response, ticket, request):
     story.append(t)
     story.append(Spacer(2.5, 0.75 * cm))
 
-    tncBody = None
-    bullts = ''
-    termsObj = ConfigureTermsAndConditions.objects.filter(division = request.user.designation.division)
-    print  termsObj.first().body
-    if termsObj.count()>0:
-        tncBody = termsObj.first().body
+
 
 
     if tncBody is not None:

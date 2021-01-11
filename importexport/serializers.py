@@ -23,7 +23,27 @@ class ProductsSerializer(serializers.ModelSerializer):
     total_quantity = serializers.SerializerMethodField()
     class Meta:
         model = Products
-        fields = ('pk', 'created', 'part_no','description_1','description_2','replaced','customs_no','parent','weight','price','sheet','bar_code','custom','gst','total_quantity')
+        fields = ('pk', 'created', 'part_no','description_1','description_2','replaced','customs_no','parent','weight','price','sheet','bar_code','custom','gst','total_quantity','division')
+    def create(self,validated_data):
+        user = self.context['request'].user
+        divisionObj = user.designation.division
+        obj = Products(**validated_data)
+        obj.division = divisionObj
+        obj.save()
+        return obj
+    def update (self, instance, validated_data):
+        for key in ['part_no','description_1','description_2','replaced','customs_no','parent','weight','price','sheet','bar_code','custom','gst','total_quantity']:
+            try:
+                setattr(instance , key , validated_data[key])
+            except:
+                pass
+        user = self.context['request'].user
+        divisionObj = user.designation.division
+        instance.division = divisionObj
+        instance.save()
+        return instance
+
+
     def get_total_quantity(self , obj):
         qty = 0
         inventory = Inventory.objects.filter(product=obj.pk)
@@ -47,12 +67,12 @@ class VendorSerializer(serializers.ModelSerializer):
 
     def create(self,validated_data):
             user = self.context['request'].user
-            print user,'user..........................'
             divisionObj = user.designation.division
             obj = Vendor(**validated_data)
             obj.division = divisionObj
             obj.save()
             return obj
+
 
 class ProjectsSerializer(serializers.ModelSerializer):
     service = serviceLiteSerializer(many = False , read_only = True)
@@ -448,7 +468,7 @@ class StockCheckItemSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 class complaintManagementSerializer(serializers.ModelSerializer):
-    customer = VendorSerializer(many = False , read_only = True)
+    customer = serviceLiteSerializer(many = False , read_only = True)
     registeredBy = userSearchSerializer(many = False , read_only = True)
     closedBy = userSearchSerializer(many = False , read_only = True)
     division = DivisionSerializer(many = False , read_only = True)
@@ -463,7 +483,7 @@ class complaintManagementSerializer(serializers.ModelSerializer):
         divisionObj = user.designation.division
         data = self.context['request'].data
         if 'customer' in data:
-            obj.customer = Vendor.objects.get(pk = int(data['customer']))
+            obj.customer = service.objects.get(pk = int(data['customer']))
 
         obj.registeredBy = user
         obj.division = divisionObj
@@ -481,7 +501,7 @@ class complaintManagementSerializer(serializers.ModelSerializer):
                 pass
         data = self.context['request'].data
         if 'customer' in data:
-            instance.customer = Vendor.objects.get(pk = int(data['customer']))
+            instance.customer = service.objects.get(pk = int(data['customer']))
             print(instance.customer)
         if 'registeredBy' in data:
             instance.registeredBy = User.objects.get(pk = int(data['registeredBy']))

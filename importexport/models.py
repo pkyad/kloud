@@ -56,6 +56,7 @@ class Products(models.Model):
     bar_code = models.CharField(max_length=50, null=True,blank =True)
     gst = models.FloatField(default = 18.0)
     custom = models.FloatField(default = 0.0)
+    division = models.ForeignKey(Division, related_name = 'imProducts', null = True)
 
 class Test(models.Model):
     created = models.DateTimeField(auto_now_add = True)
@@ -107,7 +108,7 @@ class Projects(models.Model):
     profitMargin =  models.FloatField( default = 0)
     poNumber =  models.CharField( max_length = 20 , null=True,blank=True)
     poDate = models.DateField(null = True)
-    invoiceNumber = models.CharField( max_length = 20 , null=True,blank=True)
+    invoiceNumber = models.CharField( max_length = 50 , null=True,blank=True)
     boeRefNumber =  models.CharField( max_length = 20 , null=True,blank=True)
     quoteRefNumber = models.CharField( max_length = 20 , null=True,blank=True)
     quoteDate = models.DateField(null = True)
@@ -148,7 +149,6 @@ class BoM(models.Model):
     division = models.ForeignKey(Division, related_name = 'boms', null = True)
 
 class Inventory(models.Model):
-    created = models.DateTimeField(auto_now_add  = True )
     created = models.DateTimeField(auto_now_add=True)
     project =  models.ForeignKey(Projects , null = True)
     product = models.ForeignKey(Products , null = True)
@@ -162,7 +162,7 @@ class MaterialIssue(models.Model):
     product = models.ForeignKey( Products , null = True)
     qty = models.PositiveIntegerField(null=True , default=0)
     price = models.FloatField(null = True)
-    stock = models.CharField(max_length = 500 , null = True , blank =True)
+    stock = models.CharField(max_length = 1000 , null = True , blank =True)
     division = models.ForeignKey(Division, related_name = 'materialIssues', null = True)
 
 class MaterialIssueMain(models.Model):
@@ -302,7 +302,7 @@ RefurbishedBind = (
 )
 class ComplaintManagement(models.Model):
     date = models.DateTimeField(auto_now_add=True , null = True)
-    customer = models.ForeignKey(Vendor ,related_name='lastnamee', null=True)
+    customer = models.ForeignKey(service ,related_name='lastnamee', null=True)
     contact = models.CharField(max_length = 100 , null = True ,blank=True)
     complaintRef = models.CharField( max_length = 50  , null=True , blank=True)
     machine = models.CharField( max_length = 50 , null=True , blank=True)

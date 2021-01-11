@@ -272,7 +272,7 @@ $scope.allTransactions = []
     $scope.getTermsandCondition = function(){
       $http({
         method: 'GET',
-        url: '/api/finance/termsAndConditions/',
+        url: '/api/finance/termsAndConditions/?typ=INVOICE',
       }).
       then(function(response) {
         $scope.allTermsandCondition = response.data
@@ -387,18 +387,19 @@ $scope.allTransactions = []
       total : 0,
       account : $scope.form.account,
       contact : $scope.form.contact,
-      terms : $scope.form.terms,
+      // terms : $scope.form.terms,
       serviceFor : $scope.form.serviceFor,
       isPerforma : $scope.form.isPerforma,
+      // termsandcondition: $scope.form.termsandcondition
     }
     $scope.documents.push($scope.newData)
     $scope.inView = $scope.documents.length-1
-    $scope.allTransactions = []
-    for (var i = 0; i < $scope.allTermsandCondition.length; i++) {
-      if ($scope.allTermsandCondition[i].pk == $scope.form.termsandcondition) {
-         $scope.form.termsandcondition = $scope.allTermsandCondition[i]
-      }
-    }
+    // $scope.allTransactions = []
+    // for (var i = 0; i < $scope.allTermsandCondition.length; i++) {
+    //   if ($scope.allTermsandCondition[i].pk == $scope.form.termsandcondition) {
+    //      $scope.form.termsandcondition = $scope.allTermsandCondition[i]
+    //   }
+    // }
     if ($scope.newData.serviceFor!=null) {
     $uibModal.open({
       templateUrl: '/static/ngTemplates/app.finance.soAdd.html',
@@ -546,6 +547,11 @@ $scope.save = function(){
     Flash.create('danger','Enter the valid pincode')
     return
   }
+  console.log(fromData,'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+  if (fromData.termsandcondition==undefined||fromData.termsandcondition==null||fromData.termsandcondition.length==0) {
+    Flash.create('danger','Add terms and conditions')
+    return
+  }
   var dataToSend ={
     'name' : fromData.name,
     'poNumber' : fromData.poNumber,
@@ -588,8 +594,12 @@ $scope.save = function(){
   if(fromData.parent){
     dataToSend.parent = fromData.parent
   }
-  if (typeof fromData.termsandcondition == 'object') {
+
+  if (fromData.termsandcondition!=null&&fromData.termsandcondition!=undefined&&typeof fromData.termsandcondition == 'object') {
       dataToSend.termsandcondition = fromData.termsandcondition.pk
+      dataToSend.terms = fromData.terms
+  }else{
+      dataToSend.termsandcondition = fromData.termsandcondition
       dataToSend.terms = fromData.terms
   }
   var products = []
@@ -704,6 +714,7 @@ console.log('ggg');
       $scope.form = response.data
       $scope.inWords  = price_in_words($scope.form.total)
       $scope.getCurrentAccounts()
+      $scope.getTermsandCondition()
     })
   }
   $scope.contactSearch = function(query) {
@@ -747,18 +758,6 @@ $scope.assetsAccounts = []
 
 
 
-    $scope.allTermsandCondition = []
-      $scope.getTermsandCondition = function(){
-        $http({
-          method: 'GET',
-          url: '/api/finance/termsAndConditions/',
-        }).
-        then(function(response) {
-          $scope.allTermsandCondition = response.data
-        })
-      }
-
-        $scope.getTermsandCondition()
 
     $scope.selectTerms = function(){
       $scope.form.terms = $scope.form.termsandcondition.body
@@ -774,6 +773,27 @@ $scope.assetsAccounts = []
   //     }
   //   })
   // }
+
+
+      $scope.allTermsandCondition = []
+        $scope.getTermsandCondition = function(){
+          var url = '/api/finance/termsAndConditions/'
+          if ($scope.form.isInvoice == true) {
+              url +='?typ=INVOICE'
+          }
+          else{
+            url +='?typ=SALES ORDER'
+          }
+          $http({
+            method: 'GET',
+            url: url,
+          }).
+          then(function(response) {
+            $scope.allTermsandCondition = response.data
+          })
+        }
+
+
 
   $scope.$watch('form.personName', function(newValue, oldValue) {
     if (typeof newValue == 'object') {
@@ -855,6 +875,7 @@ $scope.assetsAccounts = []
        $scope.showPerforma = true
      }
      $scope.getCurrentAccounts()
+     $scope.getTermsandCondition()
   }
   $scope.$watch('form.pincode', function(newValue, oldValue) {
     if (newValue != null && newValue.length > 0) {
@@ -989,6 +1010,11 @@ $scope.save = function(){
   }
   if ($scope.form.account == null || typeof $scope.form.account != 'object') {
     Flash.create('danger','Select Sales Category')
+    return
+  }
+
+  if ($scope.form.termsandcondition == null || $scope.form.termsandcondition.length == 0) {
+    Flash.create('danger','Select Terms and Conditions')
     return
   }
   var dataToSend ={

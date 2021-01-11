@@ -914,6 +914,10 @@ app.directive('appdetailedView', function() {
         var id = window.location.href.split('=')[1]
       }
 
+      $scope.openApp = function(){
+        $state.go($scope.app.module  + '.' + $scope.app.name.replace('app.' , ''))
+      }
+
       $scope.getInstalledApp = function(){
         $http({
           method: 'GET',
