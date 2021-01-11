@@ -83,8 +83,17 @@ app.config(function($stateProvider) {
     })
 });
 //------------------------------------------------books ends----------------------------------
+$stateProvider.state('businessManagement.LMS.students', {
+  url: "/students",
+  templateUrl: '/static/ngTemplates/app.LMS.students.html',
+  controller: 'LMS.students'
+})
 
 
+app.controller("LMS.students", function($scope, $state, $users, $stateParams, $http, Flash, $timeout,$stateParams,$uibModal) {
+
+
+}
 app.controller("businessManagement.LMS", function($scope, $state, $users, $stateParams, $http, Flash, $timeout,$stateParams,$uibModal) {
 
 
