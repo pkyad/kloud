@@ -1,54 +1,60 @@
-<div class="container-fluid" style="background-color:#fafafa;height:100%" >
+<div class="container-fluid" style="background-color:#fafafa;height:100vh" >
 
   <div class="row" style="margin:30px 30px;" >
-    <div class="col-md-3">
+    <div class="col-md-2">
       <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" />
+
+    </div>
+    <div class="col-md-4 text-left">
       <span ng-if="!form.pk" style="font-size: 180%;padding-left:30px; "><b>Create Book</b></span>
       <span style="font-size: 180%; " ng-if="form.pk"><b>Edit Book</b></span>
+
     </div>
+
+  </div>
+  <div class="row" style="margin:0px 60px;">
+
     <div class="col-md-6">
 
 
-    <div class="form-group">
-      <label>Title</label>
-      <input ng-model="form.title" type="text" class="form-control bookInput">
-    </div>
-    <div class="form-group">
-      <label>Description</label>
-      <textarea ng-model="form.description" name="name" class="form-control bookInput" class="textarea" rows="8" cols="80" style="resize:none;"></textarea>
-    </div>
-    <div class="form-group">
       <div class="form-group">
-        <label>Display Pic</label>
-        <div class="" style="background:white;color:black;border-radius: 15px;padding: 10px;border: 1px solid black;width:110px;height:43px;">
+        <label>Title</label>
+        <input ng-model="form.title" type="text" class="form-control bookInput">
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea ng-model="form.description" name="name" class="form-control bookInput" class="textarea" rows="8" cols="80" style="resize:none;"></textarea>
+      </div>
+      <div class="form-group">
+        <div class="form-group">
+          <label>Display Pic</label>
+          <div class="" style="background:white;color:black;border-radius: 15px;padding: 10px;border: 1px solid black;width:110px;height:43px;">
 
-          Choose Dp
+            Choose Dp
 
-          <input type="file" file-model="form.dp" class="file_upload" onchange="angular.element(this).scope().fileupload(this.files)" />
+            <input type="file" file-model="form.dp" class="file_upload" onchange="angular.element(this).scope().fileupload(this.files)" />
+          </div>
         </div>
       </div>
-    </div>
-    <div class="form-group">
-      <label>Subject</label>
-      <input ng-model="form.subject" type="text" class="form-control bookInput">
-    </div>
-    <div class="form-group">
-      <label>Topic</label>
-      <input ng-model="form.topic" type="text" class="form-control bookInput">
-    </div>
-    <div class="form-group">
-      <label>Author</label>
-      <input ng-model="form.author" type="text" class="form-control bookInput">
-    </div>
-
-
-    <button type="button" class="btn1 btn-success" ng-click="save()">
-      Save
-    </button>
+      <div class="form-group">
+        <label>Subject</label>
+        <input ng-model="form.subject" type="text" class="form-control bookInput">
       </div>
+      <div class="form-group">
+        <label>Topic</label>
+        <input ng-model="form.topic" type="text" class="form-control bookInput">
+      </div>
+      <div class="form-group">
+        <label>Author</label>
+        <input ng-model="form.author" type="text" class="form-control bookInput">
+      </div>
+
+
+      <button type="button" class="btn1 btn-success" ng-click="save()">
+        Save
+      </button>
+    </div>
   </div>
 
-
-</div>
 
 </div>

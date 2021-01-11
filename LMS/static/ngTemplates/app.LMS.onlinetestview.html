@@ -17,6 +17,15 @@
     border-right: solid 4px red !important;
     background: #fbfbfb !important;
   }
+  .createTestBtn {
+    border: 1px solid #3786D1 !important;
+    border-radius: 10px !important;
+    padding: 12px;
+    font-size: 16px;
+    background-color: #3786D1;
+    font-weight:700;
+    color:      white !important;
+  }
 </style>
 
 <div class="container-fluid">
@@ -28,21 +37,25 @@
         </div>
         <br><br><br><br>
         <h4><b>Total Marks:00</b></h4>
-        <h4><b>Total Limit:30:00 min</b></h4>
-
-        <div class="row menuItems {{$state.is('businessManagement.LMS.Configureallbooks')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.LMS.Configureallbooks')">
+        <h4 style="color:#ccc"><b>Total Limit:30:00 min</b></h4>
+        <br>
+        <div class="row menuItems {{$state.is('businessManagement.viewPaper.questions')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.viewPaper.questions')">
           <strong> Questions </strong>
         </div>
-        <div  class="row menuItems {{$state.is('businessManagement.LMS.Configureallbooks')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.LMS.Configureallbooks')">
+        <div  class="row menuItems {{$state.is('businessManagement.viewPaper.submissions')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.viewPaper.submissions')">
           <strong> Submissions </strong>
         </div>
         <div class="row" style="margin:0px;position: absolute;width: 90%;bottom: 10px;">
-          <button type="button" class="createCourseBtn btn-block" name="button" ng-click="$state.go('businessManagement.new')"><img src="/static/images/icons8-plus-math-96.png" style="height:18px;padding-right:20px;" alt="">Preview Test</button>
+          <button type="button" class="createTestBtn btn-block" name="button"style="background-color:transparent;color:black !important" >Preview Test </button>
           <br>
-          <button type="button" class="createTestBtn btn-block" name="button" ng-click="createTest()"><img src="/static/images/icons8-plus-48.png" style="height:18px;padding-right:20px;" alt="">Send Link To Student</button>
+          <button type="button" class="createTestBtn btn-block" name="button" ng-click="createTest()" style="background-color:#231654 !important;border:1px solid #231654 !important; "> Send Link To Student</button>
         </div>
 
       </div>
+    </div>
+
+    <div class="col-md-10 col-md-offset-2" style="padding:0px;">
+      <ui-view> </ui-view>
     </div>
   </div>
 </div>

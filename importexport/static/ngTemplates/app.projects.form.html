@@ -26,10 +26,10 @@
       <label>Customer</label>
       <div class="{{(showCreateCompanyBtn || companyExist) && !showCompanyForm ? 'input-group':''}}">
         <input uib-typeahead="company as company.name for company in companySearch($viewValue)" ng-model="form.service" type="text" class="form-control" placeholder="Search using name">
-        <span ng-click="openCreateService(mode)" ng-if="(showCreateCompanyBtn || companyExist) && !showCompanyForm" class="input-group-addon btn btn-primary"><i class="glyphicon glyphicon-{{!companyExist ? 'plus':'pencil'}}"></i>
-          {{ !companyExist?  'New':'Update'}}</span>
+        <!-- <span ng-click="openCreateService(mode)" ng-if="(showCreateCompanyBtn || companyExist) && !showCompanyForm" class="input-group-addon btn btn-primary"><i class="glyphicon glyphicon-{{!companyExist ? 'plus':'pencil'}}"></i>
+          {{ !companyExist?  'New':'Update'}}</span> -->
       </div>
-      <p ng-if="showCreateCompanyBtn && !companyExist" class="help-block">No company with this name exist!. Click <span class="badge">new</span> to create.</p>
+      <!-- <p ng-if="showCreateCompanyBtn && !companyExist" class="help-block">No company with this name exist!. Click <span class="badge">new</span> to create.</p> -->
     </div>
     <div class="form-group">
       <label>Title</label>

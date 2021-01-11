@@ -119,6 +119,7 @@ class ProjectsViewSet(viewsets.ModelViewSet):
         elif 'name' in params:
             return Projects.objects.filter(comm_nr__icontains= str(params['name']),division = divisionObj)
         else:
+            print 'herer', params, 'params'
             return Projects.objects.filter(division = divisionObj).order_by('-created')
 
 class VendorViewSet(viewsets.ModelViewSet):
@@ -4264,6 +4265,8 @@ def complaintPdf(request):
         [Paragraph('Complaint closed on :', styleT), Paragraph(str(complaintObj.closedDate), styleN),Paragraph('Nature of complaint :', styleT), Paragraph(str(complaintObj.attr1), styleN)],
 
         [Paragraph('Interim action :', styleT), Paragraph(str(complaintObj.attr2), styleN),Paragraph('Disposition :', styleT), Paragraph(str(complaintObj.attr3), styleN)],
+
+        [Paragraph('Comm nr :', styleT), Paragraph(str(complaintObj.comm_nr), styleN),Paragraph('', styleT), Paragraph('', styleN)],
 
         ]
     emptyLine1 = Paragraph('', styleT)
