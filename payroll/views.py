@@ -327,9 +327,7 @@ class GetPayslip(APIView):
             tempmonth = request.GET['month']
             month = months.index(tempmonth)
             year = request.GET['year']
-            print request.GET['userid'], request.GET['month'], request.GET['year']
             report = []
-            print month,year
             response = HttpResponse(content_type='application/pdf')
             response['Content-Disposition'] = 'attachment;filename="payslip.pdf"'
             payslip(response , payrol , user ,report,month, year, request)
@@ -341,12 +339,10 @@ class GetPayslip(APIView):
                 f.close()
                 file_name = 'media/' + filePath.split('/')[-1]
                 return Response({'fileUrl' : file_name }, status = status.HTTP_200_OK)
-                print filePath,'aaaaaaaaaaaa'
 
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment;filename="payslipdownload.pdf"'
         payslip(response , payrol , user ,report,month, year, request)
-        print 'ddddddddddddddd'
         return response
 
 months = ["","January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -802,12 +798,13 @@ class sendLoanSettlementEmailAPIView(APIView):
 class AllPaySlipsAPIView(APIView):
     renderer_classes = (JSONRenderer,)
     def get(self, request, format=None):
-        payslipObj = Payslip.objects.filter(user = request.user, report__status="approved").order_by('year')
+        print Payslip.objects.filter(user = request.user, report__status="paid")
+        payslipObj = Payslip.objects.filter(user = request.user, report__status="paid").order_by('year')
         first_pay = payslipObj.first()
         last_pay =  payslipObj.last()
         data = []
         for i in range(first_pay.year , last_pay.year+1):
-            obj = Payslip.objects.filter(year = i, report__status="approved", user = request.user)
+            obj = Payslip.objects.filter(year = i, report__status="paid", user = request.user)
             if len(obj) > 0:
                 data.append({'year' : i , 'data' : payslipLiteSerializer(obj, many=True).data })
 
@@ -1471,67 +1468,70 @@ class GetAllPayrollAPIView(APIView):
         allUsers = User.objects.filter(is_active = True, payrollAuthored__activatePayroll = True, designation__division = divsn)
         toRet = []
         for user in allUsers:
-            itDec = ITDecaration.objects.filter(user = user, year = year, group_name = 'income' , month = month)
             try:
-                basic = itDec.get( title = 'Basic').amount
+                itDec = ITDecaration.objects.filter(user = user, year = year, group_name = 'income' , month = month)
+                try:
+                    basic = itDec.get( title = 'Basic').amount
+                except:
+                    basic = 0
+                try:
+                    hra = itDec.get(title = 'HRA').amount
+                except:
+                    hra = 0
+                try:
+                    special = itDec.get(title = 'Special Allownace').amount
+                except:
+                    special = 0
+                try:
+                    lta = itDec.get( title = 'LTA').amount
+                except:
+                    lta = 0
+                try:
+                    adHoc = itDec.get( title = 'Fixed Variable').amount
+                except:
+                    adHoc = 0
+                try:
+                    bonus =  itDec.get( title = 'Statutory Bonus').amount
+                except:
+                    bonus = 0
+                try:
+                    pfAmnt =  itDec.get( title = 'PF (Employee)').amount
+                except:
+                    pfAmnt = 0
+                try:
+                    pfAdmin =  itDec.get( title = 'PF (Company)').amount
+                except:
+                    pfAdmin = 0
+                deduction = 0
+                miscellaneous = 0
+                reimbursement = 0
+                amount = hra + special + lta + basic + adHoc + bonus
+                # totalPayable = amount - adHoc
+                totalMonths =  ITDecaration.objects.filter(user = user, year = year, group_name = 'income', month__isnull = False, amount__gt=0,  title = 'Basic').count()
+                taxAmount = ITDecaration.objects.get(group_name = 'FINAL TOTAL' , title = 'Total Tax',  year = year ,user = user).amount
+                totalTaxable = amount  + reimbursement - miscellaneous  - pfAmnt - deduction
+                tds = taxAmount/totalMonths
+                # if totalTaxable<250000:
+                #     tds = 0
+                # if totalTaxable>250000 and totalTaxable<=500000:
+                #     tds = (totalTaxable*5)/100
+                # if totalTaxable>500000 and totalTaxable<=750000:
+                #     tds = (totalTaxable*10)/100 + 12500
+                # if totalTaxable>750000 and totalInc<=1000000:
+                #     tds = (totalTaxable*15)/100 + 37500
+                # if totalTaxable>1000000 and totalTaxable<=1250000:
+                #     tds = (totalTaxable*20)/100 + 75000
+                # if totalTaxable>1250000 and totalTaxable<=1500000:
+                #     tds = (totalTaxable*30)/100 + 125000
+                # if totalTaxable>1500000:
+                #     tds = (totalTaxable*25)/100 + 187500
+                totalPayable = totalTaxable - tds
+                grandTotal = totalPayable + pfAdmin
+                userObj = userSerializer(user, many = False).data
+                data = {'user' : userObj, 'basic' : basic , 'hra' : hra, 'special' : special, 'lta' : lta , 'adHoc' : adHoc , 'bonus' : bonus, 'amount' : amount ,'miscellaneous' : miscellaneous , 'reimbursement' : reimbursement , 'pfAmnt' : pfAmnt, 'deduction' : deduction,'totalTaxable' : totalTaxable , 'tds' : tds , 'totalPayable' : totalPayable, 'pfAdmin' : pfAdmin , 'grandTotal' : grandTotal}
+                toRet.append(data)
             except:
-                basic = 0
-            try:
-                hra = itDec.get(title = 'HRA').amount
-            except:
-                hra = 0
-            try:
-                special = itDec.get(title = 'Special Allownace').amount
-            except:
-                special = 0
-            try:
-                lta = itDec.get( title = 'LTA').amount
-            except:
-                lta = 0
-            try:
-                adHoc = itDec.get( title = 'Fixed Variable').amount
-            except:
-                adHoc = 0
-            try:
-                bonus =  itDec.get( title = 'Statutory Bonus').amount
-            except:
-                bonus = 0
-            try:
-                pfAmnt =  itDec.get( title = 'PF (Employee)').amount
-            except:
-                pfAmnt = 0
-            try:
-                pfAdmin =  itDec.get( title = 'PF (Company)').amount
-            except:
-                pfAdmin = 0
-            deduction = 0
-            miscellaneous = 0
-            reimbursement = 0
-            amount = hra + special + lta + basic + adHoc + bonus
-            # totalPayable = amount - adHoc
-            totalMonths =  ITDecaration.objects.filter(user = user, year = year, group_name = 'income', month__isnull = False, amount__gt=0,  title = 'Basic').count()
-            taxAmount = ITDecaration.objects.get(group_name = 'FINAL TOTAL' , title = 'Total Tax',  year = year ,user = user).amount
-            totalTaxable = amount  + reimbursement - miscellaneous  - pfAmnt - deduction
-            tds = taxAmount/totalMonths
-            # if totalTaxable<250000:
-            #     tds = 0
-            # if totalTaxable>250000 and totalTaxable<=500000:
-            #     tds = (totalTaxable*5)/100
-            # if totalTaxable>500000 and totalTaxable<=750000:
-            #     tds = (totalTaxable*10)/100 + 12500
-            # if totalTaxable>750000 and totalInc<=1000000:
-            #     tds = (totalTaxable*15)/100 + 37500
-            # if totalTaxable>1000000 and totalTaxable<=1250000:
-            #     tds = (totalTaxable*20)/100 + 75000
-            # if totalTaxable>1250000 and totalTaxable<=1500000:
-            #     tds = (totalTaxable*30)/100 + 125000
-            # if totalTaxable>1500000:
-            #     tds = (totalTaxable*25)/100 + 187500
-            totalPayable = totalTaxable - tds
-            grandTotal = totalPayable + pfAdmin
-            userObj = userSerializer(user, many = False).data
-            data = {'user' : userObj, 'basic' : basic , 'hra' : hra, 'special' : special, 'lta' : lta , 'adHoc' : adHoc , 'bonus' : bonus, 'amount' : amount ,'miscellaneous' : miscellaneous , 'reimbursement' : reimbursement , 'pfAmnt' : pfAmnt, 'deduction' : deduction,'totalTaxable' : totalTaxable , 'tds' : tds , 'totalPayable' : totalPayable, 'pfAdmin' : pfAdmin , 'grandTotal' : grandTotal}
-            toRet.append(data)
+                pass
         return Response(toRet,status = status.HTTP_200_OK)
 
 class Form16ViewSet(viewsets.ModelViewSet):
@@ -1657,3 +1657,27 @@ class GetPaySlipDetailsAPIView(APIView):
 
 
         return Response(toRet,status = status.HTTP_200_OK)
+
+
+
+# api to update leaves on montly bases
+class DivideMontlyLeavesAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    def get(self, request, format=None):
+        allUsers = User.objects.all()
+        for user in allUsers:
+            payroll  = user.payroll
+            if payroll.al  is not None:
+                alLeaves = int(payroll.al)/12
+                if payroll.alCurrMonthLeaves is not None:
+                    payroll.alCurrMonthLeaves = payroll.alCurrMonthLeaves + int(alLeaves)
+                else:
+                    payroll.alCurrMonthLeaves = int(alLeaves)
+            if payroll.ml  is not None:
+                mlLeaves = payroll.ml/12
+                if payroll.mlCurrMonthLeaves is not None:
+                    payroll.mlCurrMonthLeaves = payroll.mlCurrMonthLeaves + int(mlLeaves)
+                else:
+                    payroll.mlCurrMonthLeaves = int(mlLeaves)
+            payroll.save()
+        return Response({},status = status.HTTP_200_OK)

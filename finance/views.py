@@ -1726,8 +1726,8 @@ class DownloadExpensesAPIView(APIView):
 class DownloadSheetAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated , isAdmin)
     def get(self, request, format=None):
-        expenseSheet = ExpenseSheet.objects.get(pk=request.GET['pkVal'])
-        expenseObj =  Expense.objects.filter(sheet = expenseSheet.pk)
+        expenseSheet = InvoiceReceived.objects.get(pk=request.GET['pkVal'])
+        expenseObj =  expenseSheet.parentInvoice.all()
         workbook = Workbook()
         Sheet1 = workbook.active
         hdFont = Font(size=12,bold=True)
@@ -1742,7 +1742,10 @@ class DownloadSheetAPIView(APIView):
 
         count = 2
         for i in expenseObj:
-            expense = [i.created,i.code,i.description,i.amount]
+            description = ''
+            if i.description is not None:
+                description = i.description
+            expense = [i.created,i.product,description,i.total]
             Sheet1.append(expense)
             for idx,i in enumerate(expense):
                 cl = str(alphaChars[idx])+str(count)
@@ -1754,9 +1757,9 @@ class DownloadSheetAPIView(APIView):
             for character in alphaChars[0:Sheet1.max_column]:
                 Sheet1.column_dimensions[character].width = 20
         try:
-            fileName = str(expenseSheet.notes.replace(" ","")) + '.xlsx'
+            fileName = str(expenseSheet.title.replace(" ","")) + '.xlsx'
         except:
-            fileName = str(expenseSheet.notes) + '.xlsx'
+            fileName = str(expenseSheet.title) + '.xlsx'
         print fileName
         response = HttpResponse(content=save_virtual_workbook(workbook),content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = 'attachment; filename='+fileName
@@ -3856,8 +3859,9 @@ class GetAllExpensesAPI(APIView):
         tosend = []
         today = date.today()
         divsn = self.request.user.designation.division
-        purchaseObj = InvoiceReceived.objects.filter( division = divsn).order_by('-created')
-        # expenseObj = ExpenseSheet.objects.filter(stage = 'submitted' , division = divsn)
+        allObj = InvoiceReceived.objects.filter( division = divsn).order_by('-created')
+        purchaseObj = allObj.filter(invType = 'INVOICE')
+        expenseObj = allObj.filter(invType = 'EXPENSES', status = 'Sent')
         totalAmount = 0
         balanceAmount = 0
         paidAmount = 0
@@ -3866,26 +3870,14 @@ class GetAllExpensesAPI(APIView):
             search = self.request.GET['search']
             if len(search)>0:
                 purchaseObj = purchaseObj.filter(Q(companyName__icontains=search) | Q(phone__icontains=search) | Q(email__icontains=search) | Q(personName__icontains=search) | Q(pincode__icontains=search))
-                # expenseObj = expenseObj.filter(Q(notes__icontains=search) )
-        # if request.GET['status'] == 'invoice':
-        #     purchaseObj = purchaseObj.all()
-        # if request.GET['status'] == 'purchaseOrder':
-        #     purchaseObj = purchaseObj.filter(isInvoice = False)
+                expenseObj = expenseObj.filter(Q(companyName__icontains=search) | Q(phone__icontains=search) | Q(email__icontains=search) | Q(personName__icontains=search) | Q(pincode__icontains=search))
         if request.GET['status'] == 'invoice':
-            purchaseObj = purchaseObj.filter(invType = 'INVOICE')[:limit]
-            final_data = InvoiceReceivedSerializer(purchaseObj , many=True).data
-            # final_data.sort(key=lambda item:item['created'], reverse=True)
+            final_data = InvoiceReceivedSerializer(purchaseObj[:limit] , many=True).data
         if request.GET['status'] == 'expenseSheet':
-            purchaseObj = purchaseObj.filter(invType = 'EXPENSES')[:limit]
-            final_data = InvoiceReceivedSerializer(purchaseObj , many=True).data
-            # final_data.sort(key=lambda item:item['created'], reverse=True)
+            final_data = InvoiceReceivedSerializer(expenseObj[:limit] , many=True).data
         if request.GET['status'] == 'all':
-            purchaseObj = purchaseObj[:limit]
-            # expenseObj = expenseObj[:limit/2]
-            final_data = InvoiceReceivedSerializer(purchaseObj , many=True).data
-            # data1 = ExpenseSheetSerializer(expenseObj , many=True).data
-            # final_data =  data + data1
-            # final_data.sort(key=lambda item:item['created'], reverse=True)
+            allData =  purchaseObj | expenseObj
+            final_data = InvoiceReceivedSerializer(allData.order_by('-created')[:limit] ,  many=True).data
         tosend = {'data' : final_data , 'totalAmount' : totalAmount , 'balanceAmount' : balanceAmount , 'paidAmount' : paidAmount}
         return Response(tosend, status=status.HTTP_200_OK)
 
@@ -3936,6 +3928,7 @@ class OuttbondInvoiceAPIView(APIView):
     renderer_classes = (JSONRenderer,)
     permission_classes = (permissions.AllowAny ,)
     def post(self,request , format= None):
+        print request.data,'sssssssssssssssss'
         if 'invoicePk' in request.data:
             data  = request.data
             data_to_post = {}
@@ -4281,8 +4274,8 @@ class GetExpensesDataAPIView(APIView):
         invObj = InvoiceQty.objects.filter(user = request.user)
         unclaimedObj = invObj.filter(invoice__isnull = True)
         unclaimedTot = unclaimedObj.aggregate(tot = Sum('total'))
-        approvedTot = invObj.filter(invoice__status = 'approved').aggregate(tot = Sum('total'))
-        claimedTot = invObj.filter(invoice__isnull = False).exclude(invoice__status = 'approved').aggregate(tot = Sum('total'))
+        approvedTot = invObj.filter(invoice__status = 'Approved').aggregate(tot = Sum('total'))
+        claimedTot = invObj.filter(invoice__isnull = False).exclude(invoice__status = 'Approved').aggregate(tot = Sum('total'))
         if unclaimedTot['tot']!=None:
             unclaimed = unclaimedTot['tot']
         if claimedTot['tot']!=None:
@@ -4512,6 +4505,8 @@ class TransparentImageAPI(APIView):
     def post(self,request , format= None):
         data = request.data
 
+        print data , 'dddddddddddddddd'
+
         BLUR = 1
         CANNY_THRESH_1 = 10
         CANNY_THRESH_2 = 200
@@ -4559,15 +4554,9 @@ class TransparentImageAPI(APIView):
         b, g, r = cv2.split(masked)
         rgba = [b,g,r, alpha]
         dst = cv2.merge(rgba,4)
-        # cv2.imwrite("media_root/finance/inventory/%s" %(file.name), dst)
-        print data['file'], 'eeeeeeeee'
-        print data['file'].name, 'eeeeeeeee'
-        cv2.imwrite("media_root/finance/inventory/converted.png", dst)
-
-        # httpUrl = globalSettings.SITE_ADDRESS+'/media_root/finance/inventory/%s' %(file.name)
-        httpUrl = 'finance/inventory/converted.png'
-        print httpUrl , 'ooooooooooo'
-
+        # cv2.imwrite("media_root/finance/inventory/%s" %(data['file']), dst)
+        cv2.imwrite(data['file'], dst)
+        httpUrl = data['file']
 
         return Response({'url':httpUrl} ,status = status.HTTP_200_OK)
 
@@ -4629,7 +4618,11 @@ class SaveInvoiceReceived(APIView):
         else:
             obj = InvoiceReceived.objects.create(**dataSave)
             obj.user = request.user
-            obj.division = request.user.designation.division
+            division = request.user.designation.division
+            obj.division = division
+            obj.uniqueId = division.counter
+            division.counter+=1
+            division.save()
         if 'account' in data:
             obj.account = Account.objects.get(pk = int(data['account']))
         if 'costcenter' in data:
@@ -4692,5 +4685,16 @@ class UpdateTotalAPI(APIView):
         inv.totalAmount = totalAmount
         inv.balanceAmount = totalAmount - inv.paidAmount
         inv.save()
-
         return Response({})
+
+
+class getAllExpensesAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def get(self,request , format= None):
+        data = {}
+        if 'id' in request.GET:
+            inv = InvoiceReceived.objects.get(pk = int(request.GET['id']))
+            data = InvoiceReceivedAllSerializer(inv, many=False).data
+            data['unapproved'] = InvoiceQtySerializer(InvoiceQty.objects.filter(invoice__isnull = True), many = True).data
+        return Response(data ,status = status.HTTP_200_OK)

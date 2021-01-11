@@ -75,20 +75,22 @@ class ProductsViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['parent','created' , 'bar_code',]
     def get_queryset(self):
-        if 'search' in self.request.GET:
+        divisionObj = self.request.user.designation.division
+        params = self.request.GET
+        if 'search' in params:
             print 'herrrrrrrrrrreeeee'
-            objs = Products.objects.all()
-            product = objs.filter(part_no__contains=str(self.request.GET['search']))
-            product1  = objs.filter(replaced__icontains=str(self.request.GET['search']))
+            objs = Products.objects.filter(division = divisionObj)
+            product = objs.filter(part_no__contains=str(params['search']))
+            product1  = objs.filter(replaced__icontains=str(params['search']))
             return product | product1
-        elif 'searchContains' in self.request.GET:
-            productList = list(Inventory.objects.filter(product__part_no__icontains = self.request.GET['searchContains']).distinct().values_list('product',flat=True))
-            return Products.objects.filter(pk__in=productList)
-        elif 'searchBom' in self.request.GET and 'project' in self.request.GET:
-            productList=list(BoM.objects.filter(products__part_no__icontains=str(self.request.GET['searchBom']),project__pk=self.request.GET['project']).distinct().values_list('products',flat=True))
-            return Products.objects.filter(pk__in=productList)
+        elif 'searchContains' in params:
+            productList = list(Inventory.objects.filter(product__part_no__icontains = params['searchContains'],division = divisionObj).distinct().values_list('product',flat=True))
+            return Products.objects.filter(pk__in=productList,division = divisionObj)
+        elif 'searchBom' in params and 'project' in params:
+            productList=list(BoM.objects.filter(products__part_no__icontains=str(params['searchBom']),project__pk=params['project'],division = divisionObj).distinct().values_list('products',flat=True))
+            return Products.objects.filter(pk__in=productList,division = divisionObj)
         else:
-            return Products.objects.all()
+            return Products.objects.filter(division = divisionObj)
 
 
 
@@ -117,6 +119,7 @@ class ProjectsViewSet(viewsets.ModelViewSet):
         elif 'name' in params:
             return Projects.objects.filter(comm_nr__icontains= str(params['name']),division = divisionObj)
         else:
+            print 'herer', params, 'params'
             return Projects.objects.filter(division = divisionObj).order_by('-created')
 
 class VendorViewSet(viewsets.ModelViewSet):
@@ -4262,6 +4265,8 @@ def complaintPdf(request):
         [Paragraph('Complaint closed on :', styleT), Paragraph(str(complaintObj.closedDate), styleN),Paragraph('Nature of complaint :', styleT), Paragraph(str(complaintObj.attr1), styleN)],
 
         [Paragraph('Interim action :', styleT), Paragraph(str(complaintObj.attr2), styleN),Paragraph('Disposition :', styleT), Paragraph(str(complaintObj.attr3), styleN)],
+
+        [Paragraph('Comm nr :', styleT), Paragraph(str(complaintObj.comm_nr), styleN),Paragraph('', styleT), Paragraph('', styleN)],
 
         ]
     emptyLine1 = Paragraph('', styleT)

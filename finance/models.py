@@ -391,6 +391,7 @@ class InvoiceReceived(models.Model):
     note = models.TextField(max_length=500 , null = True)
     invType =  models.CharField(default = 'INVOICE',choices = TYPE_CHOICES ,max_length = 30)
     title = models.CharField(max_length = 200 , null = True)
+    uniqueId = models.CharField(max_length = 200 , null = True)
 
 
 class InvoiceQty(models.Model):

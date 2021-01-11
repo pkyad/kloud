@@ -686,8 +686,8 @@ class GetMyAppsView(APIView):
                 displayName = app.displayName
             else:
                 continue
+            appsJson.append({"name" : app.name , "pk" : app.pk , "icon" : app.icon , "state" : state, "displayName" : displayName , 'url' : app.url , 'appStoreUrl'  : app.appStoreUrl, 'playStoreUrl' : app.playStoreUrl , 'index' : userapp.index })
 
-            appsJson.append({"name" : app.name , "pk" : app.pk , "icon" : app.icon , "state" : state, "displayName" : displayName , 'url' : app.url , 'index' : userapp.index  })
 
         # prfl.apps = json.dumps({"apps" : appsJson , "settings" : u.is_staff })
         # prfl.save()

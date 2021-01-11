@@ -2424,7 +2424,7 @@ app.controller("businessManagement.importexport.projects.service.view", function
 
 
             $scope.productSearch = function(query) {
-              return $http.get('/api/importexport/products/?limit=10&part_no__contains=' + query).
+              return $http.get('/api/importexport/products/?limit=10&search=' + query).
               then(function(response) {
                 return response.data.results;
               })
@@ -2911,7 +2911,7 @@ app.controller("businessManagement.importexport.masterSheet", function($scope, $
   });
 
   $scope.productSearch = function(query) {
-    return $http.get('/api/importexport/products/?offset=0&limit=20&part_no__contains=' + query).
+    return $http.get('/api/importexport/products/?offset=0&limit=20&search=' + query).
     then(function(response) {
       return response.data.results;
     })
@@ -3709,7 +3709,7 @@ app.controller("businessManagement.importexport.inventory1", function($scope, $s
       },
       controller: function($scope, $uibModalInstance, value) {
         $scope.productSearch = function(query) {
-          return $http.get('/api/importexport/products/?part_no__contains=' + query).
+          return $http.get('/api/importexport/products/?search=' + query).
           then(function(response) {
             return response.data;
           })
@@ -3832,9 +3832,10 @@ app.controller("businessManagement.importexport.inventory1", function($scope, $s
           }, true)
 
           $scope.projectSearch = function(query) {
-            return $http.get('/api/importexport/projects/?searchContains=' + query + '&status__in=approved,ongoing&savedStatus=false&flag=' + value).
+            return $http.get('/api/importexport/projects/?limit=5&name=' + query + '&status__in=approved,ongoing&savedStatus=false&flag=' + value).
             then(function(response) {
-              return response.data;
+              console.log(response);
+              return response.data.results;
             })
           };
 
@@ -4627,7 +4628,7 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
       }
 
       $scope.productSearch = function(query) {
-        return $http.get('/api/importexport/products/?limit=10&part_no__contains=' + query).
+        return $http.get('/api/importexport/products/?limit=10&search=' + query).
         then(function(response) {
           return response.data.results;
         })
@@ -5056,7 +5057,7 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
   }
 
   $scope.productSearch = function(query) {
-    return $http.get('/api/importexport/products/?limit=10&part_no__contains=' + query).
+    return $http.get('/api/importexport/products/?limit=10&search=' + query).
     then(function(response) {
       return response.data.results;
     })
@@ -5488,7 +5489,7 @@ app.controller("businessManagement.importexport.stockReport", function($scope, $
         $scope.getAll()
 
         $scope.productSearch = function(query) {
-          return $http.get('/api/importexport/products/?part_no__contains=' + query).
+          return $http.get('/api/importexport/products/?search=' + query).
           then(function(response) {
             return response.data;
           })
@@ -5831,9 +5832,8 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
       attr2: '',
       attr3: '',
       closedDate: '',
-      machineRunning: ''
-
-
+      machineRunning: '',
+      comm_nr: ''
     }
     console.log("MMMMMMMMMMMMMMMMMMMMMMMMMMM", $stateParams.id);
     $http({
@@ -5867,10 +5867,11 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
           attr1: $scope.form.attr1,
           attr2: $scope.form.attr2,
           attr3: $scope.form.attr3,
-          machineRunning: $scope.form.machineRunning
-
+          machineRunning: $scope.form.machineRunning,
+          comm_nr: $scope.form.comm_nr
 
         }
+        console.log(data, 'data');
 
         var url = '/api/importexport/complaintManagement/' + $stateParams.id + "/"
         method = 'PATCH';
@@ -5931,9 +5932,8 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
       attr3: '',
       closedDate: '',
       machineRunning: '',
-      RefurbishedBind: ''
-
-
+      RefurbishedBind: '',
+      comm_nr: ''
     }
   }
   $scope.resetForm()
@@ -5974,9 +5974,8 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
       attr2: $scope.form.attr2,
       attr3: $scope.form.attr3,
       machineRunning: $scope.form.machineRunning,
-      RefurbishedBind: $scope.form.RefurbishedBind
-
-
+      RefurbishedBind: $scope.form.RefurbishedBind,
+      comm_nr: $scope.form.comm_nr
     }
     var method = 'POST'
     var url = '/api/importexport/complaintManagement/'
@@ -6024,10 +6023,12 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
       attr2: $scope.form.attr2,
       attr3: $scope.form.attr3,
       machineRunning: $scope.form.machineRunning,
-      RefurbishedBind: $scope.form.RefurbishedBind
+      RefurbishedBind: $scope.form.RefurbishedBind,
+      comm_nr: $scope.form.comm_nr
 
 
     }
+    console.log(data, 'data');
     var method = 'PATCH'
     var url = '/api/importexport/complaintManagement/' + pk + "/"
 
