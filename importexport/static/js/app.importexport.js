@@ -5832,9 +5832,8 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
       attr2: '',
       attr3: '',
       closedDate: '',
-      machineRunning: ''
-
-
+      machineRunning: '',
+      comm_nr: ''
     }
     console.log("MMMMMMMMMMMMMMMMMMMMMMMMMMM", $stateParams.id);
     $http({
@@ -5868,10 +5867,11 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
           attr1: $scope.form.attr1,
           attr2: $scope.form.attr2,
           attr3: $scope.form.attr3,
-          machineRunning: $scope.form.machineRunning
-
+          machineRunning: $scope.form.machineRunning,
+          comm_nr: $scope.form.comm_nr
 
         }
+        console.log(data, 'data');
 
         var url = '/api/importexport/complaintManagement/' + $stateParams.id + "/"
         method = 'PATCH';
@@ -5932,9 +5932,8 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
       attr3: '',
       closedDate: '',
       machineRunning: '',
-      RefurbishedBind: ''
-
-
+      RefurbishedBind: '',
+      comm_nr: ''
     }
   }
   $scope.resetForm()
@@ -5975,9 +5974,8 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
       attr2: $scope.form.attr2,
       attr3: $scope.form.attr3,
       machineRunning: $scope.form.machineRunning,
-      RefurbishedBind: $scope.form.RefurbishedBind
-
-
+      RefurbishedBind: $scope.form.RefurbishedBind,
+      comm_nr: $scope.form.comm_nr
     }
     var method = 'POST'
     var url = '/api/importexport/complaintManagement/'
@@ -6025,10 +6023,12 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
       attr2: $scope.form.attr2,
       attr3: $scope.form.attr3,
       machineRunning: $scope.form.machineRunning,
-      RefurbishedBind: $scope.form.RefurbishedBind
+      RefurbishedBind: $scope.form.RefurbishedBind,
+      comm_nr: $scope.form.comm_nr
 
 
     }
+    console.log(data, 'data');
     var method = 'PATCH'
     var url = '/api/importexport/complaintManagement/' + pk + "/"
 

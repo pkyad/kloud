@@ -4266,6 +4266,8 @@ def complaintPdf(request):
 
         [Paragraph('Interim action :', styleT), Paragraph(str(complaintObj.attr2), styleN),Paragraph('Disposition :', styleT), Paragraph(str(complaintObj.attr3), styleN)],
 
+        [Paragraph('Comm nr :', styleT), Paragraph(str(complaintObj.comm_nr), styleN),Paragraph('', styleT), Paragraph('', styleN)],
+
         ]
     emptyLine1 = Paragraph('', styleT)
 
