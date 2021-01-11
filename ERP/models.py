@@ -236,7 +236,13 @@ class Division(models.Model):
     locked = models.BooleanField(default=False)
     totalDue = models.PositiveIntegerField(default = 0)
     dueDate = models.DateTimeField(null = True)
-    
+    counter = models.PositiveIntegerField(default=1)
+    hospUHIDCounter = models.PositiveIntegerField(default=1)
+    hospPatientInCounter = models.PositiveIntegerField(default=1)
+    hospPatientOutCounter = models.PositiveIntegerField(default=1)
+    hospPatientInBillCounter = models.PositiveIntegerField(default=1)
+    hospPatientOutBillCounter = models.PositiveIntegerField(default=1)
+    hospPatientCounter = models.PositiveIntegerField(default=1)
 
     # address
     # themeColor

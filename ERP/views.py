@@ -148,7 +148,11 @@ def loginView(request):
                         p = user.profile
                         p.expoPushToken = request.GET['pushToken']
                         p.save()
-                    return JsonResponse({'csrf_token':csrf_token , "pk" : user.pk} , status = 200)
+                    if  user.designation.division is not None:
+                        division = user.designation.division.pk
+                    else:
+                        division = None
+                    return JsonResponse({'csrf_token':csrf_token , "pk" : user.pk , "division" : division} , status = 200)
                 return redirect('/ERP/')
             else:
                 authStatus = {'status' : 'warning' , 'message' : 'Your account is Inactive'}
@@ -164,7 +168,11 @@ def loginView(request):
                         p = user.profile
                         p.expoPushToken = request.GET['pushToken']
                         p.save()
-                    dataMobile = {'csrf_token':csrf_token , "pk" : user.pk}
+                    if  user.designation.division is not None:
+                        division = user.designation.division.pk
+                    else:
+                        division = None
+                    dataMobile = {'csrf_token':csrf_token , "pk" : user.pk , "division" : division}
                     if newUser is not None:
                         dataMobile['newUser'] = True
                     return JsonResponse(dataMobile , status = 200)
@@ -710,6 +718,8 @@ class serviceViewSet(viewsets.ModelViewSet):
     search_fields = ('name','web')
     def get_queryset(self):
         divsn = self.request.user.designation.division
+        print divsn.pk, 'division pk'
+
         if 'get_service' in self.request.GET:
             if self.request.user.is_staff:
                 return service.objects.filter(division = divsn)
@@ -728,6 +738,7 @@ class serviceViewSet(viewsets.ModelViewSet):
             return toReturn
         if 'name__icontains' in self.request.GET:
             queryset = service.objects.filter(name__icontains = str(self.rquest.GET['name__icontains']),division = divsn )
+
             return queryset
 
 

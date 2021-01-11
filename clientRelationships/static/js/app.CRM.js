@@ -425,8 +425,13 @@ $scope.getAll()
     fd.append('isGst', formdata.isGst);
     fd.append('themeColor', formdata.themeColor);
     fd.append('version', formdata.version);
+    fd.append('canInvoice', formdata.canInvoice);
+    fd.append('canSupplyOrder', formdata.canSupplyOrder);
     if (formdata.extraFieldOne != null) {
       fd.append('extraFieldOne', formdata.extraFieldOne);
+    }
+    if (formdata.prefix != null) {
+      fd.append('prefix', formdata.prefix);
     }
     if (formdata.extraFieldTwo != null) {
       fd.append('extraFieldTwo', formdata.extraFieldTwo);
@@ -462,7 +467,7 @@ $scope.getAll()
         $scope.allData[indx].addedPoints.push({'txt' : points[j]})
       }
       // $scope.allData.push(response.data)
-      $scope.reset()
+      // $scope.reset()
     }, function(error) {
 
 
@@ -766,7 +771,9 @@ app.controller('businessManagement.clientRelationships.contacts.quote', function
           contract: response.data.pk
         })
       }
-      $scope.getVersions()
+      if ($scope.contract.pk) {
+        $scope.getVersions()
+      }
 
 
     })
@@ -1021,8 +1028,10 @@ app.controller('businessManagement.clientRelationships.contacts.delatils', funct
   }).
   then(function(response) {
     $scope.contact = response.data;
-    $scope.lat = parseFloat(response.data.company.address.lat)
-    $scope.lon = parseFloat(response.data.company.address.lon)
+    if (response.data.company!=undefined&&response.data.company!=null) {
+      $scope.lat = parseFloat(response.data.company.address.lat)
+      $scope.lon = parseFloat(response.data.company.address.lon)
+    }
     $scope.fetchContracts();
     $scope.fetchCoworkers();
   })

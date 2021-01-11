@@ -322,10 +322,10 @@ class leaveSerializer(serializers.ModelSerializer):
         if self.context['request'].data['category'] == 'ML':
             print 'mlllllllllllll',payrollObj.ml
             payrollObj.mlHold = payrollObj.mlHold + int(self.context['request'].data['holdDays'])
-            payrollObj.ml = payrollObj.ml - int(self.context['request'].data['holdDays'])
+            payrollObj.mlCurrMonthLeaves = payrollObj.mlCurrMonthLeaves - int(self.context['request'].data['holdDays'])
         elif self.context['request'].data['category'] == 'AL':
             payrollObj.alHold = payrollObj.alHold + int(self.context['request'].data['holdDays'])
-            payrollObj.al = payrollObj.al - int(self.context['request'].data['holdDays'])
+            payrollObj.alCurrMonthLeaves = payrollObj.alCurrMonthLeaves - int(self.context['request'].data['holdDays'])
         elif self.context['request'].data['category'] == 'casual':
             payrollObj.adHocLeavesHold = payrollObj.adHocLeavesHold + int(self.context['request'].data['holdDays'])
             payrollObj.adHocLeaves = payrollObj.adHocLeaves - int(self.context['request'].data['holdDays'])
@@ -376,10 +376,10 @@ class leaveSerializer(serializers.ModelSerializer):
                 elif self.context['request'].data['typ'] == 'reject':
                     instance.status = 'rejected'
                     if instance.category == 'AL':
-                        payrolobj.al = payrolobj.al + instance.leavesCount
+                        payrolobj.alCurrMonthLeaves = payrolobj.alCurrMonthLeaves + instance.leavesCount
                         payrolobj.alHold = payrolobj.alHold - instance.leavesCount
                     elif instance.category == 'ML':
-                        payrolobj.ml = payrolobj.ml + instance.leavesCount
+                        payrolobj.mlCurrMonthLeaves = payrolobj.mlCurrMonthLeaves + instance.leavesCount
                         payrolobj.mlHold = payrolobj.mlHold - instance.leavesCount
                     elif instance.category == 'casual':
                         payrolobj.adHocLeaves = payrolobj.adHocLeaves + instance.leavesCount

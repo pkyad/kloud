@@ -118,7 +118,7 @@ app.config(function($stateProvider ){
 
   .state('home.approveExpenseClaims', {
     url: "/approveExpenseClaims/:id",
-    templateUrl: '/static/ngTemplates/app.home.expenseClaims.newForm.html',
+    templateUrl: '/static/ngTemplates/app.home.expenseClaims.approve.html',
     controller: 'app.home.expenseClaims.newForm'
   })
 
@@ -175,7 +175,6 @@ $scope.resetAll()
     url: '/api/payroll/payroll/?user='+$scope.me.pk
   }).
   then(function(response) {
-    console.log($scope.payrollData,'aaaaaaaaaaaaaaaaaaaaa');
     $scope.payrollData = response.data[0]
   })
 }
@@ -194,12 +193,12 @@ $scope.checkLeaves()
   $scope.saveUserLeaves = function(){
     var totalDays = calcDays($scope.form.fromDate ,$scope.form.toDate )
     if ($scope.form.selected == 'ML') {
-      if (totalDays>$scope.payrollData.ml) {
+      if (totalDays>$scope.payrollData.mlCurrMonthLeaves) {
         Flash.create('warning', 'You cannot apply for ML leaves more than ' + $scope.payrollData.ml )
       }
     }
     if ($scope.form.selected == 'AL') {
-      if (totalDays>$scope.payrollData.al) {
+      if (totalDays>$scope.payrollData.alCurrMonthLeaves) {
         Flash.create('warning', 'You cannot apply for AL leaves more than ' + $scope.payrollData.ml )
       }
     }
@@ -207,6 +206,7 @@ $scope.checkLeaves()
       Flash.create('warning' , 'Add Reason')
       return
     }
+
     var dataToSend = {
         category:$scope.form.selected,
         comment:$scope.form.comment,
@@ -1048,9 +1048,10 @@ app.controller('controller.home.expense.claims', function($scope, $http, $aside,
 
           $http({
             method: 'POST',
-            url: '/api/finance/expenseSheet/',
+            url: '/api/finance/invoiceReceived/',
             data: {
-              notes: $scope.form.notes,
+              title: $scope.form.title,
+              invType : 'EXPENSES'
             }
           }).
           then(function(response) {
@@ -1089,7 +1090,7 @@ app.controller('controller.home.expense.claims', function($scope, $http, $aside,
 
         console.log(fileUrl);
 
-        $scope.form = {code:'',description:'',amount:0,attachment:emptyFile  , selection : 'file'}
+        $scope.form = {product:'',description:'',total:0,attachment:emptyFile  , selection : 'file'}
 
         if (fileUrl != undefined && fileUrl != null) {
           $scope.form.fileUrl = fileUrl;
@@ -1116,17 +1117,17 @@ app.controller('controller.home.expense.claims', function($scope, $http, $aside,
               fd.append('scan', f.fileUrl)
             }
 
-            if (f.code != null && f.code.pk != undefined) {
-              fd.append('code', f.code.title);
-            } else {
-              fd.append('code', f.code);
-            }
-
-            fd.append('amount', f.amount);
+            // if (f.code != null && f.code.pk != undefined) {
+            //   fd.append('code', f.code.title);
+            // } else {
+            //   fd.append('code', f.code);
+            // }
+            fd.append('product', f.product);
+            fd.append('total', f.total);
             fd.append('description', f.description);
           $http({
             method: 'POST',
-            url: '/api/finance/expense/',
+            url: '/api/finance/invoiceQty/',
             data: fd,
             transformRequest: angular.identity,
             headers: {
@@ -1135,7 +1136,7 @@ app.controller('controller.home.expense.claims', function($scope, $http, $aside,
           }).
           then(function(response) {
             Flash.create('success', 'Expense Created Successfilly');
-            $scope.form = {code:'',description:'',amount:0,attachment:emptyFile  , selection : 'file'}
+            $scope.form = {product:'',description:'',total:0,attachment:emptyFile  , selection : 'file'}
 
             // $uibModalInstance.dismiss()
           })

@@ -113,5 +113,5 @@ urlpatterns = [
     url(r'saveInvoice/$' , SaveInvoiceReceived.as_view()),
     url(r'makeImageTransparent/$' , TransparentImageAPI.as_view()),
     url(r'updateInvTotal/$' , UpdateTotalAPI.as_view()),
-
+    url(r'getAllExpenses/$' , getAllExpensesAPIView.as_view()),
 ]

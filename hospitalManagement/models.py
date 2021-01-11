@@ -70,6 +70,10 @@ class ActivePatient(models.Model):
     opNo = models.CharField(max_length = 100 , null = True  , blank = True)
     docName = models.ForeignKey(Doctor , null= True , blank = True, related_name='primaryDoctor')
     msg = models.CharField(max_length = 100 , null = True  , blank = True ,default = 'Thank You')
+    # inPatientId = models.CharField(max_length = 20 , null= True, blank = True )
+    # outPatientId = models.CharField(max_length = 20 , null= True, blank = True )
+    # inBillNo = models.CharField(max_length = 20 , null= True, blank = True )
+    # outBillNo = models.CharField(max_length = 20 , null= True, blank = True )
     class Meta:
         ordering = ('-created',)
 
@@ -113,3 +117,4 @@ class Invoice(models.Model):
     products = models.CharField(max_length=10000,null=True)
     billed = models.BooleanField(default = False)
     discount = models.PositiveIntegerField(default=0)
+    billNo = models.CharField(max_length = 20 , null= True, blank = True )

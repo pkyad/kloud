@@ -245,7 +245,11 @@ class PageNumCanvas(canvas.Canvas):
         tabHeader2.drawOn(self, 30 * mm, self._pagesize[1] - 23 * mm)
         toData1  = Paragraph("<para><strong>QUOTE # </strong></para>", tableparaStyle2)
         toData2  = Paragraph("<para><strong>DATE </strong></para>", tableparaStyle2)
-        toData3  = Paragraph("<para>%s</para>"%(self.contract.pk ), tableparaStyle2)
+        if self.contract.uniqueId is not None:
+            docID = self.contract.uniqueId
+        else:
+            docID = self.contract.pk
+        toData3  = Paragraph("<para>%s</para>"%(docID ), tableparaStyle2)
         toData4  = Paragraph("<para>%s</para>"%(self.contract.created.date() ), tableparaStyle2)
         toData5  = Paragraph("<para><strong>CUSTOMER ID </strong></para>", tableparaStyle2)
         toData6  = Paragraph("<para><strong>VALID UNTIL</strong></para>", tableparaStyle2)

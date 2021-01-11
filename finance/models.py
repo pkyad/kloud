@@ -114,6 +114,9 @@ class TermsAndConditions(models.Model):
     heading = models.TextField(max_length=100 , null=True)
     default = models.BooleanField(default = False)
     division = models.ForeignKey(Division , related_name='tncs' , null = True)
+    prefix = models.CharField(null = True , blank = True, max_length = 60)
+    counter = models.PositiveIntegerField(default=1)
+    typ = models.TextField(max_length=100 , null=True)
 
 class Sale(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -156,6 +159,7 @@ class Sale(models.Model):
     termsandcondition = models.ForeignKey(TermsAndConditions,related_name='termsandcondition',null=True , on_delete=models.SET_NULL)
     serviceFor = models.CharField(max_length = 100 ,null = True)
     isPerforma = models.BooleanField(default = False)
+    uniqueId = models.CharField(max_length = 100 ,null = True)
 
 
 class SalesQty(models.Model):
@@ -351,7 +355,10 @@ STATUS_CHOICES_INVOICE = (
     # ('Reconciled' , 'Reconciled'),
 )
 
-
+TYPE_CHOICES = (
+    ('INVOICE' , 'INVOICE'),
+    ('EXPENSES' , 'EXPENSES'),
+)
 
 
 class InvoiceReceived(models.Model):
@@ -382,16 +389,21 @@ class InvoiceReceived(models.Model):
     paidAmount = models.FloatField(default=0)
     companyReference = models.ForeignKey(service,related_name='invoiceCompany',null=True)
     note = models.TextField(max_length=500 , null = True)
+    invType =  models.CharField(default = 'INVOICE',choices = TYPE_CHOICES ,max_length = 30)
+    title = models.CharField(max_length = 200 , null = True)
+    uniqueId = models.CharField(max_length = 200 , null = True)
 
 
 class InvoiceQty(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     invoice = models.ForeignKey(InvoiceReceived , related_name='parentInvoice' , null = True)
-    product = models.CharField(max_length = 100 , null = True)
-    qty = models.PositiveIntegerField(default=1)
+    product = models.CharField(max_length = 100 , null = True) #USED AS TITLE IF EXPENSES
+    description = models.TextField(max_length = 200 , null = True) #REQUIRED IF EXPENSES
     price = models.FloatField(default=1)
     taxCode =  models.CharField(max_length = 100 , null = True)
     taxPer = models.FloatField(null = True)
     tax = models.FloatField(null = True)
     total = models.FloatField(null = True)
     receivedQty = models.PositiveIntegerField(default=0)
+    user = models.ForeignKey(User , related_name='invoiceQtyUsers' , null = True)
+    attachment = models.FileField(upload_to = getInvoicesPath ,  null = True) #REQUIRED IF EXPENSES

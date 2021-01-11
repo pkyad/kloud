@@ -7,6 +7,15 @@
           <input type="text" class="form-control" ng-model="form.heading">
         </div>
         <div class="form-group">
+          <label>Prefix</label>
+            <input ng-model="form.prefix" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Applicable for</label>
+          <select  class="form-control darkInput" ng-model="form.typ" ng-options="a for a in appliacableList" >
+          </select>
+        </div>
+        <div class="form-group">
           <label>Body</label>
           <div class="input-group">
             <input ng-model="form.body" type="text" class="form-control">

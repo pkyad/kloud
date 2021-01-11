@@ -389,15 +389,16 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
     $scope.mode = 'new';
     $scope.form = {
       'notes': '',
-      'stage': 'created'
+      'stage': 'created',
+      'invoices' : []
     }
   }
   $scope.resetForm()
 
   $scope.refreshInvoice = function() {
     $scope.invoiceForm = {
-      'code': '',
-      'amount': 0,
+      'title': '',
+      'total': 0,
       'attachment': emptyFile,
       'description': '',
     }
@@ -405,9 +406,10 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
   $scope.refreshInvoice();
   $scope.is_approver = false
   $scope.getData = function(){
-    $http.get('/api/finance/expenseSheet/' + $state.params.id+'/').
+    $http.get('/api/finance/getAllExpenses/?id=' + $state.params.id).
     then(function(response) {
       $scope.form = response.data;
+      $scope.form.invoices =   $scope.form.products
     })
   }
   if ($state.is('home.editExpenseClaims') || $state.is('home.approveExpenseClaims')) {
@@ -447,11 +449,11 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
   $scope.saveInvoice = function() {
     var f = $scope.invoiceForm;
     console.log(f);
-    if (f.code.length == 0) {
+    if (f.product.length == 0) {
       Flash.create('danger', 'Expense Particular Is Required');
       return
     }
-    if (f.amount.length == 0 || f.amount == 0) {
+    if (f.total.length == 0 || f.total == 0) {
       Flash.create('danger', 'Amount Is Required');
       return
     }
@@ -459,7 +461,7 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
     //   Flash.create('danger', 'Description Is Required');
     //   return
     // }
-    var url = '/api/finance/expense/';
+    var url = '/api/finance/invoiceQty/';
     var method = 'POST';
     if ($scope.invoiceForm.pk) {
       method = 'PATCH';
@@ -470,14 +472,14 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
       fd.append('attachment', f.attachment)
     }
 
-    if (f.code != null && f.code.pk != undefined) {
-      fd.append('code', f.code.title);
-    } else {
-      fd.append('code', f.code);
-    }
+    // if (f.code != null && f.code.pk != undefined) {
+    //   fd.append('code', f.code.title);
+    // } else {
+    // }
 
-    fd.append('amount', f.amount);
-    fd.append('sheet', $scope.form.pk);
+    fd.append('product', f.product);
+    fd.append('total', f.total);
+    fd.append('invoice', $scope.form.pk);
     fd.append('description', f.description);
     $http({
       method: method,
@@ -489,6 +491,9 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
       }
     }).
     then(function(response) {
+      if ($scope.form.invoices == undefined) {
+        $scope.form.invoices = []
+      }
       $scope.form.invoices.push(response.data);
       Flash.create('success', 'Saved');
       $scope.showEdit = false
@@ -499,13 +504,13 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
   $scope.approveInvoice = function(indx){
     console.log($scope.form.unapproved[indx]);
     if ($scope.form.unapproved[indx].accepted) {
-        var url = '/api/finance/expense/'+$scope.form.unapproved[indx].pk+'/';
+        var url = '/api/finance/invoiceQty/'+$scope.form.unapproved[indx].pk+'/';
         var method = 'PATCH';
         $http({
           method: method,
           url: url,
           data: {
-          sheet : $scope.form.pk
+          invoice : $scope.form.pk
         },
         }).
         then(function(response) {
@@ -520,18 +525,19 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
   $scope.undo = function(indx){
     console.log($scope.form.invoices[indx]);
     // if ($scope.form.invoices[indx].accepted) {
-        var url = '/api/finance/expense/'+$scope.form.invoices[indx].pk+'/';
+        var url = '/api/finance/invoiceQty/'+$scope.form.invoices[indx].pk+'/';
         var method = 'PATCH';
         $http({
           method: method,
           url: url,
           data: {
-          sheet : null
+          invoice : null
         },
         }).
         then(function(response) {
           $scope.form.invoices.splice(indx, 1);
           $scope.form.unapproved.push(response.data);
+          $scope.calc()
         })
     // }
 
@@ -553,21 +559,32 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
   }
 
   $scope.editInvoice = function(ind, pk) {
-    if($scope.mode=='edit'&&($scope.form.stage=='created' || $scope.form.stage=='submitted') && !$scope.is_approver){
+    if($scope.mode=='edit'&&($scope.form.status=='created' || $scope.form.status=='rejected') && !$scope.is_approver){
       $scope.showEdit = true
       $scope.invoiceForm = $scope.form.invoices[ind];
       $scope.form.invoices.splice(ind, 1);
     }
   }
 
+  $scope.calc = function(){
+    $http({
+      method: 'GET',
+      url: '/api/finance/updateInvTotal/?id='+$scope.form.pk,
+    }).
+    then(function(response) {
+
+    })
+  }
+
   $scope.deleteInvoice = function(ind, pk) {
     $http({
       method: 'DELETE',
-      url: '/api/finance/expense/' + pk + '/'
+      url: '/api/finance/invoiceQty/' + pk + '/'
     }).
     then((function(ind) {
       return function(response) {
         $scope.form.invoices.splice(ind, 1);
+        $scope.calc()
       }
     })(ind))
 
@@ -576,15 +593,15 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
   $scope.changeStatus = function(status){
     console.log(status,'aaaaaaaaaaaaaaaa');
     dataToSend = {
-        stage:status
+        status:status
     }
     $http({
       method: 'PATCH',
-      url:  '/api/finance/expenseSheet/'+$scope.form.pk+'/',
+      url:  '/api/finance/invoiceReceived/'+$scope.form.pk+'/',
       data: dataToSend
     }).
     then(function(response) {
-      $scope.form.stage = response.data.stage
+      $scope.form.status = response.data.status
     })
   }
 });

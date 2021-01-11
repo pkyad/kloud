@@ -314,9 +314,8 @@
                         <div class="col-md-6">
                           ok
                         </div> -->
-                        <li><a style="padding:10px;" href="" ng-click="changeStatus('invoice', $index)">Convert to Invoice</a></li>
-                        <li><a style="padding:10px;" href="" ng-click="changeStatus('saleOrder', $index)">Convert to Sale Order</a></li>
-                        <li><a style="padding:10px;" href="" ng-click="changeStatus('performa', $index)">Convert to Performa</a></li>
+                        <li><a style="padding:10px;" href="" ng-click="changeStatus('invoice', $index)" ng-if="c.termsAndCondition.canInvoice">Convert to Invoice</a></li>
+                        <li><a style="padding:10px;" href="" ng-click="changeStatus('saleOrder', $index)" ng-if="c.termsAndCondition.canSupplyOrder">Convert to Sale Order</a></li>
                         <li><a style="padding:10px;" href="" ng-click="changeStatus('cancelled', $index)">Cancelled</a></li>
                       </ul>
                     </div>
