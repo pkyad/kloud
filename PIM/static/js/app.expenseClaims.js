@@ -559,7 +559,7 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
   }
 
   $scope.editInvoice = function(ind, pk) {
-    if($scope.mode=='edit'&&($scope.form.stage=='created' || $scope.form.stage=='submitted') && !$scope.is_approver){
+    if($scope.mode=='edit'&&($scope.form.status=='created' || $scope.form.status=='rejected') && !$scope.is_approver){
       $scope.showEdit = true
       $scope.invoiceForm = $scope.form.invoices[ind];
       $scope.form.invoices.splice(ind, 1);
