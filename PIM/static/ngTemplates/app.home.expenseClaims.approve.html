@@ -1,0 +1,59 @@
+<style>
+  .tableNew th{
+    padding:17px !important;
+  }
+
+  .tableNew {
+    border-radius: 1em;
+    overflow: hidden;
+  }
+  table, th, td{
+    border-color:#f2f2f2 !important;
+  }
+</style>
+<div class="container-fluid">
+  <div class="row"  style="background:black;color:white;padding-top:30px;padding-bottom:30px">
+    <div class=" col-md-3" style="">
+        <p > {{form.title}} </p>
+    </div>
+    <div class=" col-md-6" >
+      <p> On : {{form.created | date}} </p>
+    </div>
+
+    <div class=" col-md-3 text-right" style="padding-top: 19px;" ng-if="form.pk">
+    <button ng-if="form.status=='Sent'" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="changeStatus('Approved')" confirm-button-type="default" cancel-button-type="default"
+      class="btn btn-success" style="background:green;color:white;border:1px solid green;border-radius:25px!important;margin-right:15px"  class="btn btn-default"> Approve </button>
+    <button ng-if="form.status=='Sent'" style="background:red;color:white;border:1px solid red;border-radius:25px!important" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="changeStatus('created')" confirm-button-type="default" cancel-button-type="default"
+      class="btn btn-default" class="btn btn-danger"> Reject </button>
+      <button ng-if="form.status=='Approved'"style="background:green;color:white;border:1px solid green;border-radius:25px!important;margin-right:15px"  class="btn btn-default"> Approved </button>
+      <button ng-if="form.status=='rejected'" style="background:red;color:white;border:1px solid red;border-radius:25px!important" class="btn btn-default"> Rejected </button>
+      <a ng-if="form.status=='Approved'" class="btn btn-default" style="background:#0026c6;color:white;border:1px solid #0026c6;border-radius:25px!important" href="/api/finance/downloadSheet/?pkVal={{form.pk}}" class="btn btn-default" >Download </a>
+    </div>
+  </div>
+  <div> <span style="padding:15px;background:#e3e3e3;position:absolute;top:64px;border-radius:25px"> Claimed Expenses</span> </div>
+  <div class="row" style="margin:20px" ng-if="form.pk">
+    <div class="{{form.pk && is_approver?'col-md-offset-1 col-md-10':'col-md-12'}}" style="margin-bottom:20px;margin-top:20px">
+      <table class="table table-hover tableNew">
+        <thead >
+          <tr style="background: #f2f2f2;padding: 10px;">
+            <!-- <th scope="col">Date</th> -->
+            <th scope="col">Particular</th>
+            <th scope="col">Description</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Attachment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="d in form.invoices" ng-click="editInvoice($index,d.pk)">
+            <!-- <td scope="row">{{d.dated}}</td> -->
+            <td>{{d.product}}</td>
+            <td>{{d.description}}</td>
+            <td>{{d.total}}</td>
+          </tr>
+
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

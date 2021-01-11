@@ -675,7 +675,7 @@ class DisbursalSerializer(serializers.ModelSerializer):
 class InvoiceReceivedSerializer(serializers.ModelSerializer):
     class Meta:
         model = InvoiceReceived
-        fields=('pk','created','user','companyName','personName','totalAmount','invType','title')
+        fields=('pk','created','user','companyName','personName','totalAmount','invType','title','status')
     def create(self , validated_data):
         u = self.context['request'].user
         inv = InvoiceReceived(**validated_data)
@@ -697,7 +697,35 @@ class InvoiceQtySerializer(serializers.ModelSerializer):
         inv = InvoiceQty(**validated_data)
         inv.user = u
         inv.save()
+        if inv.invoice is not None:
+            invoice = inv.invoice
+            total = invoice.parentInvoice.aggregate(tot = Sum('total'))
+            totalAmount = 0
+            if total['tot'] is not None:
+                totalAmount = total['tot']
+            invoice.totalAmount = totalAmount
+            invoice.balanceAmount = totalAmount - invoice.paidAmount
+            invoice.save()
         return inv
+    def update(self , instance , validated_data):
+        for key in ['invoice']:
+            try:
+                setattr(instance , key , validated_data[key])
+            except:
+                pass
+        print  instance.invoice,'aaaaaaaaaaaaaaaaaaaaaaaaaaa'
+        instance.save()
+        if instance.invoice is not None:
+            invoice = instance.invoice
+            total = invoice.parentInvoice.aggregate(tot = Sum('total'))
+            totalAmount = 0
+            if total['tot'] is not None:
+                totalAmount = total['tot']
+            invoice.totalAmount = totalAmount
+            invoice.balanceAmount = totalAmount - invoice.paidAmount
+            invoice.save()
+        instance.save()
+        return instance
 
 class InvoiceReceivedAllSerializer(serializers.ModelSerializer):
     products = serializers.SerializerMethodField()

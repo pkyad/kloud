@@ -406,7 +406,7 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
   $scope.refreshInvoice();
   $scope.is_approver = false
   $scope.getData = function(){
-    $http.get('/api/finance/invoiceReceivedAll/' + $state.params.id+'/').
+    $http.get('/api/finance/getAllExpenses/?id=' + $state.params.id).
     then(function(response) {
       $scope.form = response.data;
       $scope.form.invoices =   $scope.form.products
@@ -504,13 +504,13 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
   $scope.approveInvoice = function(indx){
     console.log($scope.form.unapproved[indx]);
     if ($scope.form.unapproved[indx].accepted) {
-        var url = '/api/finance/expense/'+$scope.form.unapproved[indx].pk+'/';
+        var url = '/api/finance/invoiceQty/'+$scope.form.unapproved[indx].pk+'/';
         var method = 'PATCH';
         $http({
           method: method,
           url: url,
           data: {
-          sheet : $scope.form.pk
+          invoice : $scope.form.pk
         },
         }).
         then(function(response) {
@@ -531,12 +531,13 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
           method: method,
           url: url,
           data: {
-          sheet : null
+          invoice : null
         },
         }).
         then(function(response) {
           $scope.form.invoices.splice(indx, 1);
           $scope.form.unapproved.push(response.data);
+          $scope.calc()
         })
     // }
 
@@ -565,6 +566,16 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
     }
   }
 
+  $scope.calc = function(){
+    $http({
+      method: 'GET',
+      url: '/api/finance/updateInvTotal/?id='+$scope.form.pk,
+    }).
+    then(function(response) {
+
+    })
+  }
+
   $scope.deleteInvoice = function(ind, pk) {
     $http({
       method: 'DELETE',
@@ -573,6 +584,7 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
     then((function(ind) {
       return function(response) {
         $scope.form.invoices.splice(ind, 1);
+        $scope.calc()
       }
     })(ind))
 
@@ -581,15 +593,15 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
   $scope.changeStatus = function(status){
     console.log(status,'aaaaaaaaaaaaaaaa');
     dataToSend = {
-        stage:status
+        status:status
     }
     $http({
       method: 'PATCH',
-      url:  '/api/finance/expenseSheet/'+$scope.form.pk+'/',
+      url:  '/api/finance/invoiceReceived/'+$scope.form.pk+'/',
       data: dataToSend
     }).
     then(function(response) {
-      $scope.form.stage = response.data.stage
+      $scope.form.status = response.data.status
     })
   }
 });

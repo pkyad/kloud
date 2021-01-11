@@ -118,7 +118,7 @@ app.config(function($stateProvider ){
 
   .state('home.approveExpenseClaims', {
     url: "/approveExpenseClaims/:id",
-    templateUrl: '/static/ngTemplates/app.home.expenseClaims.newForm.html',
+    templateUrl: '/static/ngTemplates/app.home.expenseClaims.approve.html',
     controller: 'app.home.expenseClaims.newForm'
   })
 
