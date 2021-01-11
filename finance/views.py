@@ -4689,7 +4689,6 @@ class UpdateTotalAPI(APIView):
         inv.totalAmount = totalAmount
         inv.balanceAmount = totalAmount - inv.paidAmount
         inv.save()
-
         return Response({})
 
 
