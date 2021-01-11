@@ -4,7 +4,7 @@
   }
 </style>
 
-<div class="container-fluid" style="background-color:#fafafa;height:200vh;">
+<div class="container-fluid" style="background-color:#fafafa;height:100%;">
 
   <!--starting of Multiple Choice UI  -->
   <div class="">
@@ -18,10 +18,10 @@
         <h3 style="margin:0px;" ng-if="form=='file'"><b>File Upload Question Creation</b></h3>
       </div>
       <div class="col-md-3">
-        <button type="button" class="createTestBtn btn-block" name="button" ng-click="uploadcsvFile('multiple')" style="background-color:#231654 !important;border:1px solid #231654 !important; " ng-if="form=='multiple'">Bulk Upload MCQ </button>
+        <button type="button" class="createTestBtn btn-block" name="button" ng-click="uploadcsvFile('multiple')" style="background-color:#231654 !important;border:1px solid #231654 !important; " ng-if="form=='multiple'">Bulk Upload MCQ <img src="/static/images/uploadwhite.png" alt="" style="margin-left:15px;height:25px;"> </button>
 
-        <button type="button" class="createTestBtn btn-block" name="button" ng-click="uploadcsvFile('subjective')" style="background-color:#231654 !important;border:1px solid #231654 !important;" ng-if="form=='subjective'">Bulk Upload Subjective Questions </button>
-        <button type="button" class="createTestBtn btn-block" name="button" ng-click="uploadcsvFile('file')" style="background-color:#231654 !important;border:1px solid #231654 !important; " ng-if="form=='file'">Bulk File Upload Questions </button>
+        <button type="button" class="createTestBtn btn-block" name="button" ng-click="uploadcsvFile('subjective')" style="background-color:#231654 !important;border:1px solid #231654 !important;" ng-if="form=='subjective'">Bulk Upload Subjective Questions <img src="/static/images/uploadwhite.png" alt="" style="margin-left:15px;height:25px;"></button>
+        <button type="button" class="createTestBtn btn-block" name="button" ng-click="uploadcsvFile('file')" style="background-color:#231654 !important;border:1px solid #231654 !important; " ng-if="form=='file'">Bulk File Upload Questions <img src="/static/images/uploadwhite.png" alt="" style="margin-left:15px;height:25px;"> </button>
       </div>
     </div>
     <div class="row" style="margin:0px;padding:30px;padding-top:80px;">
