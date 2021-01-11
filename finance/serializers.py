@@ -685,7 +685,6 @@ class InvoiceReceivedSerializer(serializers.ModelSerializer):
             inv.division = division
             inv.uniqueId = division.counter
             division.counter+=1
-            print division.counter,'division.counterdivision.counterdivision.counter'
             division.save()
         except:
             pass
