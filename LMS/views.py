@@ -44,6 +44,13 @@ class BookViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['title']
 
+class CourseActivityViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated, isAdmin, )
+    serializer_class = CourseActivitySerializer
+    queryset = CourseActivty.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['typ','paper']
+
 class BookLiteViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, isAdmin, )
     serializer_class = BookLiteSerializer

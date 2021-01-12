@@ -5,19 +5,34 @@ from rest_framework.exceptions import *
 from .models import *
 import random, string
 from HR.serializers import userSearchSerializer,userSerializer,userLiteSerializer
+from clientRelationships.serializers import ContactSerializer
 
-class SectionSerializer(serializers.ModelSerializer):
+
+
+class RecursiveField(serializers.Serializer):
+    def to_representation(self, value):
+        serializer = self.parent.parent.__class__(value, context=self.context)
+        return serializer.data
+
+class SectionLiteSerializer(serializers.ModelSerializer):
+    children = RecursiveField(many=True)
     class Meta:
         model = Section
-        fields = ('pk' , 'title' , 'book','sequence' ,'shortUrl','description','seoTitle')
+        fields = ( 'pk' , 'children', 'name' )
+
+
+class SectionSerializer(serializers.ModelSerializer):
+    parent = SectionLiteSerializer()
+    class Meta:
+        model = Section
+        fields = ('pk' , 'title' , 'book','sequence' ,'parent''shortUrl','description','seoTitle','children')
 
 
 class BookSerializer(serializers.ModelSerializer):
-    sections = SectionSerializer(many = True , read_only = True)
     class Meta:
         model = Book
 
-        fields = ('pk' , 'title' , 'description', 'dp', 'author', 'ISSN'  , 'volume', 'version', 'license' ,'sections','topic','subject', )
+        fields = ('pk' , 'title' , 'description', 'dp', 'author', 'ISSN'  , 'volume', 'version', 'license' ,'topic','subject', )
 
     def create(self , validated_data):
         b = Book(**validated_data)
@@ -100,10 +115,11 @@ class QuestionSerializer(serializers.ModelSerializer):
         return instance
 
 class PaperSerializer(serializers.ModelSerializer):
+    user = userSearchSerializer(many = False , read_only = True)
     class Meta:
         model = Paper
         fields = ('pk' , 'created' , 'updated', 'active' , 'user','name','timelimit','description')
-        read_only_fields = ('user', 'questions')
+        read_only_fields = ('user',)
     def create(self , validated_data):
         m = Paper(**validated_data)
         m.user = self.context['request'].user
@@ -113,11 +129,6 @@ class PaperSerializer(serializers.ModelSerializer):
             m.timelimit = self.context['request'].data['timelimit']
         if 'description' in self.context['request'].data:
             m.description = self.context['request'].data['description']
-        m.save()
-        print self.context['request'].data['questions']
-        for i in self.context['request'].data['questions']:
-            i['ques']=Question.objects.get(id=i['ques'])
-
         m.save()
         return m
 
@@ -152,12 +163,12 @@ class EnrollmentSerializer(serializers.ModelSerializer):
         return e
 
 class CourseSerializer(serializers.ModelSerializer):
-    enrollments = EnrollmentSerializer(many = True , read_only = True)
     instructor = userSearchSerializer(many = False , read_only = True)
+    contacts = ContactSerializer(many = True , read_only = True)
     class Meta:
         model = Course
 
-        fields = ('pk' , 'created' , 'updated', 'enrollmentStatus', 'instructor' , 'user' , 'description' , 'title' , 'enrollments' ,'dp','urlSuffix','sellingPrice','discount')
+        fields = ('pk' , 'created' , 'updated', 'enrollmentStatus', 'instructor' , 'user' , 'description' , 'title'  ,'dp','urlSuffix','sellingPrice','discount','contacts')
         read_only_fields = ('user', 'TAs')
     def create(self , validated_data):
         c = Course(**validated_data)
@@ -167,12 +178,39 @@ class CourseSerializer(serializers.ModelSerializer):
         c.save()
         return c
     def update(self , instance , validated_data):
-        for key in ['enrollmentStatus', 'description' , 'title' , 'enrollments' ,'user','dp','urlSuffix','sellingPrice','discount']:
+        for key in ['enrollmentStatus', 'description' , 'title' , 'enrollments' ,'user','dp','urlSuffix','sellingPrice','discount','contacts']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
                 pass
         if 'instructor' in self.context['request'].data:
             instance.instructor = User.objects.get(pk =self.context['request'].data['instructor'])
+        if 'contacts' in self.context['request'].data:
+            instance.contacts.clear()
+            for c in self.context['request'].data['contacts']:
+                instance.contacts.add(Contact.objects.get(pk = c))
         instance.save()
         return instance
+
+
+
+
+class CourseActivitySerializer(serializers.ModelSerializer):
+    course = CourseSerializer(many=False,read_only=True)
+    paper = PaperSerializer(many=False,read_only=True)
+    class Meta:
+        model = CourseActivty
+        fields = ('pk' , 'created' , 'course', 'attachment', 'thumbnail', 'announcer' , 'typ','paper','paperDueDate','time','venue','txt','meetingId','date','paper','course','title','description')
+        read_only_fields = ('announcer',)
+    def create(self , validated_data):
+        e = CourseActivty(**validated_data)
+        data = self.context['request'].data
+        e.announcer = self.context['request'].user
+        if 'paper' in data:
+            paperObj =  Paper.objects.get(pk=data['paper'])
+            e.paper = paperObj
+        if 'course' in data:
+            courseObj =  Course.objects.get(pk=data['course'])
+            e.course = courseObj
+        e.save()
+        return e
