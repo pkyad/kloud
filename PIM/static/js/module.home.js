@@ -442,8 +442,60 @@ app.controller('controller.home.itDeclaration' , function($scope , $http , $time
     }
   }
 
-  $scope.saveRent = function(){
+  $scope.addHome = function(){
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.view.addRent.html',
+      placement: 'right',
+      size: 'md',
+      backdrop: true,
+      controller: function($scope,$http, Flash, $users, $uibModalInstance){
+        $scope.form = {
+          rent:0
+        }
+        $scope.save = function(){
+          if ($scope.form.rent.length == 0 || $scope.form.rent == 0) {
+            Flash.create('warning' ,'Add rent')
+            return
+          }
+          $uibModalInstance.dismiss($scope.form.rent)
+        }
+        $scope.close = function(){
+          $uibModalInstance.dismiss()
+        }
+      }
+    }).result.then(function() {
+    }, function(res) {
+      if (res!=undefined&&res>0) {
+          $scope.form.rent = res
+          $scope.saveRent()
+      }
+    })
+  }
 
+  $scope.updatePayroll = function(typ , val){
+    var data = {}
+    if (typ == 'isExtraIncome') {
+      data['isExtraIncome'] = val
+    }
+    else if(typ == 'isOwnHouse'){
+        data['isOwnHouse'] = val
+    }
+    $http({
+      method: 'PATCH',
+      url: '/api/payroll/payroll/'+$scope.payroll.pk+'/',
+      data : data
+    }).
+    then(function(response) {
+      $scope.payroll.isOwnHouse = response.data.isOwnHouse
+      $scope.payroll.isExtraIncome = response.data.isExtraIncome
+    })
+
+  }
+
+
+
+
+  $scope.saveRent = function(){
     var dataToSend = {
     rent :$scope.form.rent,
     // travel : $scope.form.travel,

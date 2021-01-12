@@ -1075,8 +1075,9 @@ class GetITDecarationAPIView(APIView):
 
 
 
+        payroll = {'pk' : user.payroll.pk, 'isOwnHouse' : user.payroll.isOwnHouse , 'isExtraIncome':user.payroll.isExtraIncome}
         totalData = CalculateItDeclaration(financialYear, user)
-        return Response({'incomeData' : incomeData , 'deductionData' : deductionData , 'deductionSixAData' : deductionSixAData , 'otherIncomesAData' : otherIncomesAData , 'housePropertyData' : housePropertyData , 'prevEmpData' : prevEmpData  , 'annualExcemptionData' : annualExcemptionData , 'propertyOwnerDetails' : propertyOwnerDetails , 'selfOccupiedDetails' : selfOccupiedDetails , 'totalData' : totalData},status = status.HTTP_200_OK)
+        return Response({'incomeData' : incomeData , 'deductionData' : deductionData , 'deductionSixAData' : deductionSixAData , 'otherIncomesAData' : otherIncomesAData , 'housePropertyData' : housePropertyData , 'prevEmpData' : prevEmpData  , 'annualExcemptionData' : annualExcemptionData , 'propertyOwnerDetails' : propertyOwnerDetails , 'selfOccupiedDetails' : selfOccupiedDetails , 'totalData' : totalData , 'payroll' : payroll},status = status.HTTP_200_OK)
 
 
 class GetLimitAPIView(APIView):
