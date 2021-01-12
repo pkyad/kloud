@@ -496,52 +496,28 @@
             </thead>
             <tbody>
 
-              <tr class="detailStrip">
+              <tr class="detailStrip" ng-repeat="k in allData track by $index" ng-click="$state.go('businessManagement.activityLog',{id:k.pk})">
                 <td>
                   <div class="row" style="">
                     <div class="col-md-3">
-                      <img src="/static/images/img_avatar_card.png" style="height:50px;" class="img img-circle" alt="">
+                      <img ng-src="{{k.dp}}" src="" onerror="this.src='/static/images/img_avatar_card.png'" style="height:50px;" class="img img-circle" alt="">
                     </div>
                     <div class="col-md-9">
-                      <h5>Java</h5>
-                      <p>Description</p>
+                      <h5>{{k.title}}</h5>
+                      <p>{{k.description}}</p>
                     </div>
                   </div>
                 </td>
                 <td>
-                  <span class="label label-default openLabel">Open</span>
-                  <!-- <span class="label label-default adminLabel">Admin</span>
-                  <span class="label label-default invitaionLabel">On Invitation</span>
-                  <span class="label label-default requestLabel">On Request</span> -->
+                  <span class="label label-default openLabel" ng-if="k.enrollmentStatus=='open'">Open</span>
+                  <span class="label label-default adminLabel" ng-if="k.enrollmentStatus=='admin'">Admin</span>
+                  <span class="label label-default invitaionLabel" ng-if="k.enrollmentStatus=='onInvitation'">On Invitation</span>
+                  <span class="label label-default requestLabel" ng-if="k.enrollmentStatus=='onRequest'">On Request</span>
 
                 </td>
-                <td><span><i class="fa fa-inr"></i></span> 1000</td>
-                <td>500</td>
-                <td>5000</td>
-                <td> <img src="/static/images/edit.svg" alt=""></td>
-              </tr>
-              <tr class="detailStrip" style="cursor:pointer">
-                <td ng-click="$state.go('businessManagement.activityLog',{id:1})">
-                  <div class="row" style="">
-                    <div class="col-md-3">
-                      <img src="/static/images/img_avatar_card.png" style="height:50px;" class="img img-circle" alt="">
-                    </div>
-                    <div class="col-md-9">
-                      <h5>Java</h5>
-                      <p>Description</p>
-                    </div>
-                  </div>
-                </td>
-                <td ng-click="$state.go('businessManagement.activityLog',{id:1})">
-                  <span class="label label-default openLabel">Open</span>
-                  <!-- <span class="label label-default adminLabel">Admin</span>
-                  <span class="label label-default invitaionLabel">On Invitation</span>
-                  <span class="label label-default requestLabel">On Request</span> -->
-
-                </td>
-                <td><span><i class="fa fa-inr"></i></span> 1000</td>
-                <td>500</td>
-                <td>5000</td>
+                <td><span><i class="fa fa-inr"></i></span> {{k.sellingPrice}}</td>
+                <td>{{k.contacts.length}}</td>
+                <td><i class="fa fa-inr"></i>{{k.sellingPrice*k.contacts.length}}</td>
                 <td ng-click="$state.go('businessManagement.new',{id:1})"> <img src="/static/images/edit.svg" alt=""></td>
               </tr>
 

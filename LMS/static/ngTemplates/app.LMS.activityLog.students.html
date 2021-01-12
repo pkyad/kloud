@@ -1,0 +1,41 @@
+<div class="container-fluid" style="background-color:#fafafa;height: 100vh;">
+  <div class="row" style="margin-top:30px;margin-bottom:30px;">
+    <div class="col-md-5">
+
+    </div>
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-3">
+      <button type="button" class="createTestBtn btn-block" name="button" ng-click="createStudent()"><img src="/static/images/icons8-plus-48.png"  style="height:18px;padding-right:20px;"alt="">Add new student</button>
+    </div>
+
+
+  </div>
+
+  <div class="row" style="margin:0px;margin-left:30px">
+    <table class="table tableNew " cellpadding="4">
+      <thead class="headStrip">
+        <tr>
+          <th class="">Student Name</th>
+          <th>Mobile</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr class="detailStrip" ng-repeat="k in course.contacts track by $index">
+
+
+          <td>{{k.name}}</td>
+          <td>{{k.mobile}}</td>
+          <td>{{k.email}}</td>
+        </tr>
+
+
+      </tbody>
+    </table>
+
+  </div>
+
+</div>

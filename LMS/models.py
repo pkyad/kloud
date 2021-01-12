@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 from time import time
-
+from clientRelationships.models import Contact
 # Create your models here.
 def getQAttachmentPath(instance , filename ):
     return 'lms/questions/%s_%s' % (str(time()).replace('.', '_'), filename)
@@ -48,6 +48,7 @@ class Section(models.Model):
     shortUrl = models.CharField(max_length = 100 , null = True , unique = True)
     description = models.TextField(max_length=2000 , null = True)
     seoTitle = models.CharField(max_length = 100 , null = True , unique = True)
+    parent = models.ForeignKey("self" , null = True, related_name="children")
 
     def get_absolute_url(self):
         return '/'+ self.shortUrl + '/'
@@ -152,7 +153,7 @@ class Course(models.Model):
     urlSuffix = models.CharField(max_length = 100 , null = True)
     sellingPrice = models.CharField(max_length = 100 , null = True)
     discount = models.CharField(max_length = 100 , null = True)
-
+    contacts = models.ManyToManyField(Contact , related_name='students' )
 
 class Enrollment(models.Model):
     created = models.DateTimeField(auto_now_add = True)
@@ -179,9 +180,12 @@ class CourseActivty(models.Model):
     typ = models.CharField(choices = ACTIVITY_TYP_CHOICES , max_length = 10 , null = True)
     paper = models.ForeignKey(Paper , null = True , related_name="paper")
     paperDueDate =  models.DateField(auto_now = False,null = True)
-    time = models.DateTimeField(auto_now = False,null = True)
+    time = models.PositiveIntegerField(default=0)
     venue =  models.CharField(max_length = 100 , null = True)
     txt =  models.TextField(null = True)
     meetingId = models.CharField(max_length = 100 , null = True)
     date = models.DateTimeField(auto_now = False,null= True)
     paper = models.ForeignKey(Paper , null = True , related_name="homeworkPaper")
+    course = models.ForeignKey(Course , null = True , related_name='courseActivities')
+    title =  models.CharField(max_length = 250 , null = True)
+    description =  models.TextField(null = True)

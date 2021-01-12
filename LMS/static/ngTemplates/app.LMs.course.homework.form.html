@@ -4,19 +4,20 @@
   <hr>
   <div class="form-group">
     <label>Paper </label>
-    <input type="text" class="form-control" ng-model="form.paper" uib-typeahead="paper as getPaper(paper) for paper in paperSearch($viewValue)" placeholder="Search for a Paper and Select">
+    <input type="text" class="form-control bookInput" ng-model="form.paper" uib-typeahead="paper as paper.name for paper in paperSearch($viewValue)" placeholder="Search for a Paper and Select">
   </div>
-  <div >
+  <div class="form-group" >
     <label>Comment </label>
-    <textarea type="text"  rows="5" ng-model="form.comment" placeholder="Add a Comment" style="resize:none;"></textarea>
+    <textarea type="text"  rows="5" class="form-control bookInput" ng-model="form.txt" placeholder="Add a Comment" style="resize:none;"></textarea>
   </div>
-  <div class="input-group">
-    <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.date" is-open="end.opened" />
-    <span class="input-group-btn">
-    <button type="button" class="btn1 " ng-click="end.opened = true;"><i class="glyphicon glyphicon-calendar" ng-init="today"></i></button>
-  </span>
+  <div class="form-group">
+    <label>Due Date </label>
+    <span style="position: absolute;right: 15px;padding: 40px 15px;"><i class="glyphicon glyphicon-calendar"  ng-click="end.opened = true;" ng-init="today"></i></span>
+    <input type="text" class="form-control bookInput " show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.paperDueDate" is-open="end.opened" />
+
   </div>
-  <div style="margin-top:20px;" class="form-group">
-    <button type="button" class="btn"  ng-click="saveHomework()">Save</button>
+  <div style="margin-top:20px;" >
+    <button type="button" class="btn"  ng-click="saveHomework()" style="background-color:#337AB7;
+padding: 12px;color: white; border-radius: 10px !important;">Save</button>
   </div>
 </div>

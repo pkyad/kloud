@@ -15,18 +15,24 @@
     <div class="row">
       <div class="form-group">
         <label for="">Paper Name</label>
-        <input type="text" class="form-control bookInput" name="" value="">
+        <input type="text" class="form-control bookInput" ng-model="form.name"name="" value="">
       </div>
     </div>
     <div class="row">
       <label>Time Limit</label>
       <div class="" style="display:flex">
-        <div class="newBtn" style="background-color:#3786D1;margin-right:20px">30 Minutes      </div>
-        <div class="newBtn" style="background-color:#F0F3FF;color:black !important;margin-right:20px;">1 Hour      </div>
-        <div class="newBtn" style="background-color:#F0F3FF;color:black !important;margin-right:20px;">1 Hour 30 Minutes      </div>
-        <div class="newBtn" style="background-color:#F0F3FF;color:black !important;margin-right:20px;">2 Hour      </div>
-        <div class="newBtn" style="background-color:#F0F3FF;color:black !important;margin-right:20px;">2 Hour 30 Minutes      </div>
-        <div class="newBtn" style="background-color:#F0F3FF;color:black !important;margin-right:20px;">3 Hour      </div>
+        <div class="newBtn" ng-click="selectTime.duration=30" style="{{selectTime.duration==30?'background-color:#3786D1':
+      'background-color:#F0F3FF;color:black !important'}};margin-right:20px;">30 Minutes      </div>
+        <div class="newBtn" ng-click="selectTime.duration=60" style="{{selectTime.duration==60?'background-color:#3786D1':
+      'background-color:#F0F3FF;color:black !important'}};margin-right:20px" >1 Hour      </div>
+        <div class="newBtn" ng-click="selectTime.duration=90" style="{{selectTime.duration==90?'background-color:#3786D1':
+      'background-color:#F0F3FF;color:black !important'}};margin-right:20px">1 Hour 30 Minutes      </div>
+        <div class="newBtn" ng-click="selectTime.duration=120"  style="{{selectTime.duration==120?'background-color:#3786D1':
+      'background-color:#F0F3FF;color:black !important'}};margin-right:20px">2 Hour      </div>
+        <div class="newBtn" ng-click="selectTime.duration=150"  style="{{selectTime.duration==150?'background-color:#3786D1':
+      'background-color:#F0F3FF;color:black !important'}};margin-right:20px">2 Hour 30 Minutes      </div>
+        <div class="newBtn" ng-click="selectTime.duration=180"  style="{{selectTime.duration==180?'background-color:#3786D1':
+      'background-color:#F0F3FF;color:black !important'}};margin-right:20px">3 Hour      </div>
 
       </div>
     </div>
@@ -34,7 +40,7 @@
     <div class="row">
       <div class="form-group">
         <label for="">Paper Description(instruction)</label>
-        <textarea name="name" class="form-control bookInput" placeholder="(Optional)" rows="8" cols="80" style="resize:none;"></textarea>
+        <textarea name="name" class="form-control bookInput" ng-model="form.description" placeholder="(Optional)" rows="8" cols="80" style="resize:none;"></textarea>
       </div>
     </div>
     <div class="row">
@@ -42,7 +48,7 @@
         <button class="newBtn btn-block" type="button" name="button" style="padding:12px;" ng-click="close()">Cancel</button>
       </div>
       <div class="col-md-2 pull-right">
-        <button class="btn1 btn-block" type="button" name="button">Save</button>
+        <button class="btn1 btn-block" type="button" name="button" ng-click="saveTest()">Save</button>
 
       </div>
     </div>

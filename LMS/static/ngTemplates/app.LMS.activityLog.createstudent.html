@@ -1,0 +1,26 @@
+<div class="container-fluid">
+  <div class="modal-body">
+    <div class="row text-center">
+      <h3><b>Add Student</b></h3>
+    </div>
+    <div class="row">
+      <div class="form-group">
+        <label for=""></label>
+        <input type="text" class="form-control bookInput" ng-model="form.contact" placeholder="Search the contact and click enter to add"uib-typeahead="p as p.name for p in getContactsearch($viewValue)" name="" value="" ng-enter="addContacts()">
+      </div>
+
+      <div class="row" style="margin:0px;display:flex">
+        <div class="" style="box-shadow: 0px 0px 10px #ccc;padding:10px;margin-right:10px;" ng-repeat="k in form.contactsList track by $index">
+          <h4 style="margin:0px;">{{k.name}}</h4>
+        </div>
+      </div>
+
+      <div class="row" style="margin:0px;">
+        <button type="button" class="createTestBtn pull-right"  ng-click="save()"name="button">Save</button>
+      </div>
+
+
+    </div>
+
+  </div>
+</div>

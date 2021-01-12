@@ -11,7 +11,7 @@
 
   <div class="col-md-6">
     <h2 ng-if="!form.pk"> <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="height:35px;padding-right:20px;" alt=""> Create a course</h2>
-    <h2 ng-if="form.pk">Edit this course</h2>
+    <h2 ng-if="form.pk"> <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="height:35px;padding-right:20px;" alt=""> Edit this course</h2>
 
     <div class="" style="padding-left:65px;">
 
@@ -62,6 +62,7 @@ border-bottom-right-radius: 10px !important;" type="submit">
 
           <input type="file" file-model="form.dp" class="file_upload" onchange="angular.element(this).scope().fileupload(this.files)" />
         </div>
+        <img src="{{form.dp}}" ng-if="form.pk"alt="" style="width:50px;height:50px;margin-top:30px;">
       </div>
       <div class="form-group">
         <label> Fee</label>
@@ -73,18 +74,18 @@ border-bottom-right-radius: 10px !important;" type="submit">
       </div> -->
       <div class="form-group">
         <label> Instructor</label>
-        <input class="form-control courseInput" type="text" ng-model="form.instructor" uib-typeahead="user as getInstructor(user) for user in userSearch($viewValue)" placeholder="Search and select a Instructor" style="background-color:#E7EBFF;">
+        <input class="form-control courseInput" type="text" ng-model="form.instructor" uib-typeahead="user as user.first_name+' '+user.last_name for user in userSearch($viewValue)" placeholder="Search and select a Instructor" style="background-color:#E7EBFF;">
       </div>
       <br>
       <div class="row" style="margin:0px;">
         <button type="button" name="button" class="newBtn" style="border-radius: 50px !important;
 padding: 15px 25px;">Cancel</button>
-        <button type="button" ng-click="saveCourse()" ng-if="!form.pk" class="newBtn pull-right" style="background-color:rgb(14, 67, 136);border-radius: 50px !important;padding: 15px 25px;">
+        <button type="button" ng-click="saveCourse()"  class="newBtn pull-right" style="background-color:rgb(14, 67, 136);border-radius: 50px !important;padding: 15px 25px;">
           Save
         </button>
-        <button type="button" ng-click="editCourses()" ng-if="form.pk" class="newBtn pull-right" style="background-color:rgb(14, 67, 136);border-radius: 50px !important;padding: 15px 25px;">
+        <!-- <button type="button" ng-click="editCourses()" ng-if="form.pk" class="newBtn pull-right" style="background-color:rgb(14, 67, 136);border-radius: 50px !important;padding: 15px 25px;">
           Update
-        </button>
+        </button> -->
       </div>
 
     </div>
