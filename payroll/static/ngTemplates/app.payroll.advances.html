@@ -73,6 +73,8 @@
             <th>Reason</th>
             <th>Date Of Return</th>
             <th>Amount</th>
+            <th>Balance</th>
+            <th>Return Method</th>
           </tr>
         </thead>
         <tbody>
@@ -82,6 +84,8 @@
             <td class="contentTd">{{p.reason}}</td>
             <td class="contentTd">{{p.dateOfReturn | date}}</td>
             <td class="contentTd" style="font-size:20px;">{{p.amount}}</td>
+            <td class="contentTd" style="font-size:20px;">{{p.balance}}</td>
+            <td class="contentTd" style="font-size:20px;">{{p.returnMethod.replace('_',' ')}}</td>
           </tr>
         </tbody>
       </table>

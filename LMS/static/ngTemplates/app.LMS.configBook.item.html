@@ -10,7 +10,7 @@
   </div>
   <div class="row" style="margin:25px 30px;">
     <div class="col-md-3 ">
-      <div class="addBook" ng-click="$state.go('businessManagement.LMS.newBook')">
+      <div class="addBook" ng-click="$state.go('businessManagement.newBook')">
         <div class="newBook">
         </div>
         <div class="row text-center" style="padding:100px 0px;color:white;">
@@ -19,14 +19,14 @@
         </div>
       </div>
     </div>
-    <div class="col-md-3 ">
-      <div class="bookCard" ng-click="$state.go('businessManagement.viewBook',{bookid:1})">
-        <div class="bookImg">
+    <div class="col-md-3 " ng-repeat="k in data track by $index" style="margin-bottom:10px;">
+      <div class="bookCard" ng-click="$state.go('businessManagement.viewBook',{bookid:k.pk})" >
+        <div class="bookImg" style="background-image:url({{k.dp}})">
         </div>
         <div class="row text-left" style="margin:0px;padding:20px;color:white;">
 
-          <h4>New Book</h4>
-          <p>By:</p>
+          <h4>{{k.title}}</h4>
+          <p>By:{{k.author}}</p>
         </div>
       </div>
     </div>

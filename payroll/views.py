@@ -102,7 +102,7 @@ class advancesViewSet(viewsets.ModelViewSet):
     queryset = Advances.objects.all()
     serializer_class = advancesSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['typ','user','settled','approved']
+    filter_fields = ['user','settled']
 
 
 
@@ -286,7 +286,7 @@ def payslip(response ,paySlip,userObj,report,month, year, request):
     p1=Paragraph("<para fontSize=8><strong>Bank Details : </strong>Salary Has Been Credited To "+str(userObj.payroll.accountNumber)+' '+str(userObj.payroll.bankName)+ "</para>",styles['Normal'])
     data1 = [[a],['']]
     data=[['Emp Code : %s'%(empCode)],['Name : %s'%(name)], ['Location : %s'%(location),'Department :%s'%(department)],['Grade : %s'%(grade),'Designation : %s'%(designation)],['PF No : %s'%(pfNo),'ESIC No : %s'%(escisNo)], ['PAN : %s'%(pan),'Standard Basic Salary : %s %d'%(s,sbs)],['Days Paid : %d'%(daysPresent),'Days Present : %d'%(daysPresent)],['Paid Holidays : %d'%(paidHolidays),'Lwp/Absent : %d'%(absent)],['Sick Leaves : %d'%(ml),'Annual Leaves : %d'%(al)],['Compensatory Leaves : %d'%(cl),'AdHoc Leaves : %d'%(adHocLeaves)],['Balance SL : %d'%(balanceSL),'Balance CL : %d'%(balanceCL)],['Balance CO : %d'%(balanceCO),''],['Earnings Amount '],['Basic Salary + DA' ,s+' '+str(basic)], ['HRA',s+' '+str(hra)],['Special Allowances',s+' '+str(special)],['LTA',s+' '+str(lta)],['Statutory Bonus',s+' '+str(int(bonus))],['Variable Incentives',s+' '+str(payObj.reimbursement)], ['Fixed Variable',s+' '+str(adHoc)],
-    ['Total Earnings ',s+' '+str(int(totalEarnings))], ['Deductions Amount'],['Provident Fund',s+' '+str(int(pfAmnt))],['Miscellaneous Deductions',s+' '+str(int(payObj.miscellaneous))],['Total Deduction',s+' '+str(int(deductions))],['Net Pay',s+' '+str(float(total))],[p1]]
+    ['Total Earnings ',s+' '+str(int(totalEarnings))], ['Deductions Amount'],['Provident Fund',s+' '+str(int(pfAmnt))],['Miscellaneous Deductions',s+' '+str(int(payObj.miscellaneous))],['Advance Deduction',s+' '+str(float(payObj.advanceDeduction))],['Total Deduction',s+' '+str(int(deductions))],['Net Pay',s+' '+str(round(total,2))],[p1]]
 
     lines=[('LINEBELOW',(0,5),(-1,5),0.5,black),
            # ('LINEBELOW',(0,4),(-1,4),0.5,black),
@@ -296,9 +296,9 @@ def payslip(response ,paySlip,userObj,report,month, year, request):
            ('LINEBELOW',(0,19),(-1,19),0.5,black),
            ('LINEBELOW',(0,20),(-1,20),0.5,black),
            ('LINEBELOW',(0,21),(-1,21),0.5,black),
-           ('LINEBELOW',(0,23),(-1,23),0.5,black),
            ('LINEBELOW',(0,24),(-1,24),0.5,black),
            ('LINEBELOW',(0,25),(-1,25),0.5,black),
+           ('LINEBELOW',(0,26),(-1,26),0.5,black),
 
            ]
     spans=[('SPAN',(0,0),(-1,1)),('SPAN',(1,2),(-1,2)),('SPAN',(0,-1),(-1,-1)),('SPAN',(0,12),(-1,12)),('SPAN',(0,21),(-1,21))]
@@ -1075,8 +1075,9 @@ class GetITDecarationAPIView(APIView):
 
 
 
+        payroll = {'pk' : user.payroll.pk, 'isOwnHouse' : user.payroll.isOwnHouse , 'isExtraIncome':user.payroll.isExtraIncome}
         totalData = CalculateItDeclaration(financialYear, user)
-        return Response({'incomeData' : incomeData , 'deductionData' : deductionData , 'deductionSixAData' : deductionSixAData , 'otherIncomesAData' : otherIncomesAData , 'housePropertyData' : housePropertyData , 'prevEmpData' : prevEmpData  , 'annualExcemptionData' : annualExcemptionData , 'propertyOwnerDetails' : propertyOwnerDetails , 'selfOccupiedDetails' : selfOccupiedDetails , 'totalData' : totalData},status = status.HTTP_200_OK)
+        return Response({'incomeData' : incomeData , 'deductionData' : deductionData , 'deductionSixAData' : deductionSixAData , 'otherIncomesAData' : otherIncomesAData , 'housePropertyData' : housePropertyData , 'prevEmpData' : prevEmpData  , 'annualExcemptionData' : annualExcemptionData , 'propertyOwnerDetails' : propertyOwnerDetails , 'selfOccupiedDetails' : selfOccupiedDetails , 'totalData' : totalData , 'payroll' : payroll},status = status.HTTP_200_OK)
 
 
 class GetLimitAPIView(APIView):
@@ -1610,9 +1611,13 @@ class GetPaySlipDetailsAPIView(APIView):
             toRet['tds'] = paySlip.tds
         except:
             pass
-        deductions = pfAmnt + toRet['miscellaneous'] + toRet['tds']
-        print deductions
+        advanceDeduction = 0
+        advanceDeductiontot = Advances.objects.filter(user = user, settled = False, returnMethod = 'SALARY_ADVANCE').aggregate(tot = Sum('amount'))
+        if advanceDeductiontot['tot'] is not None:
+            advanceDeduction = advanceDeductiontot['tot']
+        deductions = pfAmnt + toRet['miscellaneous'] + toRet['tds'] + advanceDeduction
         total = totalEarnings - deductions
+        toRet['advanceDeduction'] = advanceDeduction
         toRet['totalEarnings'] = totalEarnings
         toRet['deductions'] = deductions
         toRet['total'] = total

@@ -18,6 +18,7 @@ from organization.serializers import UnitsLiteSerializer
 from organization.models import Division , Unit
 from assets.serializers import CheckinLiteSerializer
 from assets.models import *
+from payroll.models import  Advances
 
 
 class TermsAndConditionsLiteSerializer(serializers.ModelSerializer):
@@ -678,6 +679,7 @@ class InvoiceReceivedSerializer(serializers.ModelSerializer):
         fields=('pk','created','user','companyName','personName','totalAmount','invType','title','status')
     def create(self , validated_data):
         u = self.context['request'].user
+        print u.first_name,'aaaaaaaaaaaaaaaaaaaaaaaaa'
         inv = InvoiceReceived(**validated_data)
         inv.user = u
         try:
@@ -711,6 +713,26 @@ class InvoiceReceivedSerializer(serializers.ModelSerializer):
                 instance.save()
         except:
             pass
+        advObj = Advances.objects.filter(user = instance.user, settled = False, returnMethod = 'SALARY_ADVANCE')
+        # advanceDeductiontot = advObj.aggregate(tot = Sum('amount'))
+        # if advanceDeductiontot['tot'] is not None:
+        #     pr.advanceDeduction = advanceDeductiontot['tot']
+        advanceIds = ''
+        totalAmount = instance.totalAmount
+        for a in advObj:
+            if totalAmount>0:
+                # advanceIds + str(a.pk)+','
+                if a.balance>instance.totalAmount:
+                    a.balance = a.balance - totalAmount
+                elif a.balance<instance.totalAmount:
+                    totalAmount =  totalAmount - a.balance
+                    a.balance = 0
+                    a.settled = True
+                elif a.balance==instance.totalAmount:
+                    totalAmount = 0
+                    a.balance = 0
+                    a.settled = True
+            a.save()
         return instance
 
 

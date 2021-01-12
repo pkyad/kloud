@@ -19,11 +19,11 @@ z-index: 1;">
             <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 25px;" alt="">
           </div>
           <div class="col-md-8">
-            <h3 style="margin:0px;"><b>HC Verma</b></h3>
-            <p>Physics</p>
+            <h3 style="margin:0px;"><b>{{data.author}}</b></h3>
+            <p>{{data.subject}} </p>
           </div>
           <div class="col-md-1">
-            <img src="/static/images/edit.svg" alt="" style="width: 25px;" ng-click="$state.go('businessManagement.editBook',{id:1})">
+            <img src="/static/images/edit.svg" alt="" style="width: 25px;" ng-click="$state.go('businessManagement.newBook',{id:$state.params.bookid})">
           </div>
         </div>
         <div class="row" style="margin:0px;">

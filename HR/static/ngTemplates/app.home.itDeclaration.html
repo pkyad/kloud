@@ -287,19 +287,31 @@
         </table>
       </div>
       <div>
-        <div class="row" ng-if="allData.annualExcemptionData.data.length<=2">
+        <!-- <div class="row" ng-if="allData.annualExcemptionData.data.length<=2">
           <div class="form-group col-md-4">
             <label> Monthly Rent </label>
             <input type="text" class="form-control" ng-model="form.rent" style="border: none;border-radius: 10px" placeholder="Rent">
           </div>
-          <!-- <div class="form-group col-md-4">
-            <label> Travel Assistance </label>
-            <input type="text" class="form-control" ng-model="form.travel" style="border: none;border-radius: 10px" placeholder="Travel Expenses">
-          </div> -->
           <div class="col-md-2" style="margin-top: 30px;">
             <i class="fa fa-floppy-o  fa-2x" ng-click="saveRent()"> </i>
           </div>
+        </div> -->
+        <div class="row" ng-if="allData.annualExcemptionData.data.length<=2" >
+          <div class="col-md-3">
+            <h3>Where do you stay?</h3>
+          </div>
+          <div class="col-md-2" style="margin-top:15px">
+            <button style="background:#e3dddd;color:#585858" type="button" name="button" mwl-confirm title="Confirm" message="Are you sure?" data-placement="top" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="saveRent()"
+              confirm-button-type="default" cancel-button-type="default" class="btn btn-default btn-block"> Home</button>
+
+          </div>
+          <div class="col-md-2" style="margin-top:15px">
+            <button style="background:#e3dddd;color:#585858"   type="button" mwl-confirm title="Confirm" message="Are you sure?" data-placement="top" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="addHome()"
+              confirm-button-type="default" cancel-button-type="default" class="btn btn-default btn-block"> Rented House</button>
+
+          </div>
         </div>
+
       </div>
 
 
@@ -340,8 +352,19 @@
       </table>
 
 
-      <h2>Income from other sources ( except from house proprties )</h2>
-      <table class="table table-bordered">
+      <div class="row" >
+        <div class="col-md-3">
+          <h3>Do you own house?</h3>
+        </div>
+        <div class="col-md-1" style="margin-top:15px">
+          <button type="button" name="button" ng-click="updatePayroll('isExtraIncome',true)" class="btn btn-block"  style="{{payroll.isExtraIncome?'background:#a6a6a6;color:#e3dddd':'background:#e3dddd;color:#585858'}}"> YES</button>
+        </div>
+        <div class="col-md-1" style="margin-top:15px">
+          <button type="button" name="button" ng-click="updatePayroll('isExtraIncome',false)"  class="btn btn-block" style="{{!payroll.isExtraIncome?'background:#a6a6a6;color:#e3dddd':'background:#e3dddd;color:#585858'}}"> NO</button>
+        </div>
+      </div>
+      <h2 ng-if="payroll.isExtraIncome">Income from other sources ( except from house proprties )</h2>
+      <table class="table table-bordered" ng-if="payroll.isExtraIncome">
         <thead>
           <tr>
             <th>Description</th>
@@ -384,7 +407,18 @@
           </tr>
         </tbody>
       </table>
-
+      <div class="row">
+        <div class="col-md-5">
+          <h3>Do you have source of extra income?</h3>
+        </div>
+        <div class="col-md-1" style="margin-top:15px">
+          <button type="button" name="button" ng-click="updatePayroll('isOwnHouse',true)" class="btn btn-block"  style="{{payroll.isOwnHouse?'background:#a6a6a6;color:#e3dddd':'background:#e3dddd;color:#585858'}}"> YES</button>
+        </div>
+        <div class="col-md-1" style="margin-top:15px">
+          <button type="button" name="button" ng-click="updatePayroll('isOwnHouse',false)"  class="btn btn-block" style="{{!payroll.isOwnHouse?'background:#a6a6a6;color:#e3dddd':'background:#e3dddd;color:#585858'}}"> NO</button>
+        </div>
+      </div>
+      <div ng-if="payroll.isOwnHouse">
       <h2>Income / Loss from house property</h2>
       <p>If (i+ii) is less than 200000 then 200000 will be exempted else (i+ii) will be expempted</p>
 
@@ -461,6 +495,7 @@
           </tr>
         </tbody>
       </table>
+      </div>
       <h2>Income From Previous Employer</h2>
       <table class="table table-bordered">
         <thead>

@@ -17,7 +17,25 @@ app.config(function($stateProvider) {
     })
     .state('businessManagement.activityLog', {
       url: "/activityLog/:id",
-      templateUrl: '/static/ngTemplates/app.LMS.courses.explore.html',
+      views: {
+        "": {
+          templateUrl: '/static/ngTemplates/app.LMS.courses.explore.html',
+          controller: 'businessManagement.activityLog'
+
+        },
+        "@businessManagement.activityLog": {
+          templateUrl: '/static/ngTemplates/app.LMS.activityLog.students.html',
+          controller: 'businessManagement.activityLog'
+
+        },
+      }
+    }).state('businessManagement.activityLog.students', {
+      url: "/activestudents",
+      templateUrl: '/static/ngTemplates/app.LMS.activityLog.students.html',
+      controller: 'businessManagement.activityLog'
+    }).state('businessManagement.activityLog.courses', {
+      url: "/courses",
+      templateUrl: '/static/ngTemplates/app.LMS.activityLog.courses.html',
       controller: 'businessManagement.activityLog'
     })
     .state('businessManagement.LMS.students', {
@@ -96,7 +114,7 @@ app.config(function($stateProvider) {
       controller: 'businessManagement.LMS.configureLMS.form'
     })
     .state('businessManagement.newBook', {
-      url: "/LMSconfigure/new",
+      url: "/LMSconfigure/new/:id",
       templateUrl: '/static/ngTemplates/app.LMS.configure.form.html',
       controller: 'businessManagement.LMS.configureLMS.form'
     })
@@ -110,6 +128,16 @@ app.config(function($stateProvider) {
 
 
 app.controller("viewbook", function($scope, $state, $users, $stateParams, $http, Flash, $timeout, $stateParams, $uibModal) {
+
+
+
+  $http({
+    method: 'GET',
+    url: '/api/LMS/book/' + $state.params.bookid + '/'
+  }).
+  then(function(response) {
+    $scope.data = response.data
+  })
 
 
 })
@@ -265,11 +293,11 @@ app.controller("LMS.questiontypes", function($scope, $state, $users, $stateParam
       size: 'sm',
       backdrop: true,
       resolve: {
-        data:function(){
+        data: function() {
           return data
         }
       },
-      controller: function($scope, $uibModalInstance,data) {
+      controller: function($scope, $uibModalInstance, data) {
 
 
       }
@@ -351,21 +379,43 @@ app.controller("businessManagement.LMS", function($scope, $state, $users, $state
   $scope.fetchData()
 
 
+
+
   $scope.createTest = function() {
     $uibModal.open({
       templateUrl: '/static/ngTemplates/app.LMS.evaluation.form.html',
       size: 'lg',
       backdrop: true,
-      controller: function($scope, $uibModalInstance) {
+      controller: function($scope, $http, $uibModalInstance) {
         $scope.close = function() {
           $uibModalInstance.dismiss()
+        }
+        $scope.selectTime = {
+          duration: 30
+        }
+        $scope.form = {
+          name: '',
+          description: '',
+          timelimit: $scope.selectTime.duration
+        }
+
+        $scope.saveTest = function() {
+          $http({
+            method: 'POST',
+            url: '/api/LMS/paper/',
+            data: $scope.form
+          }).
+          then(function(response) {
+            Flash.create('success', 'Paper Created')
+            $uibModalInstance.dismiss()
+          })
         }
 
 
 
       },
     }).result.then(function() {
-
+      $state.go('businessManagement.LMS.evaluation')
     }, function() {});
   }
 });
@@ -511,31 +561,59 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
           }
         },
         controller: function($scope, $uibModalInstance, data) {
+          // console.log('ccccccclllll----in-----homeeeeee save', data.pk, '-----------', $scope.form.paper.pk);
+          // var fd = new FormData();
+          // if ($scope.form.pdf != emptyFile && typeof $scope.form.pdf != 'string' && $scope.form.pdf != null) {
+          //   fd.append('pdf', $scope.form.pdf);
+          // }
+          // if ($scope.form.date == '') {
+          //   Flash.create('warning', 'Please Add Tentative Closing Date')
+          //   return
+          // } else if (typeof $scope.form.date == 'object') {
+          //   $scope.form.date = $scope.form.date.toJSON().split('T')[0]
+          // }
+          // fd.append('created', $scope.form.date);
+          // fd.append('course', data.pk);
+          // fd.append('paper', $scope.form.paper.pk);
+
+          $scope.form = {
+            paper: '',
+            typ: 'homework',
+            txt: '',
+            paperDueDate: new Date()
+          }
+
+          $scope.paperSearch = function(query) {
+            return $http.get('/api/LMS/paper/?name=' + query).
+            then(function(response) {
+              return response.data;
+            })
+          };
+
+          $scope.$watch('form.paper', function(query) {
+            return $http.get('/api/LMS/paper/?name=' + query.name).
+            then(function(response) {
+              return response.data;
+            })
+
+          })
+
+
           $scope.saveHomework = function() {
-            console.log('ccccccclllll----in-----homeeeeee save', data.pk, '-----------', $scope.form.paper.pk);
-            var fd = new FormData();
-            if ($scope.form.pdf != emptyFile && typeof $scope.form.pdf != 'string' && $scope.form.pdf != null) {
-              fd.append('pdf', $scope.form.pdf);
+            console.log($scope.form, '32323232');
+            var data = {
+              paper: $scope.form.paper.pk,
+              txt: $scope.form.txt,
+              typ: $scope.form.typ,
             }
-            if ($scope.form.date == '') {
-              Flash.create('warning', 'Please Add Tentative Closing Date')
-              return
-            } else if (typeof $scope.form.date == 'object') {
-              $scope.form.date = $scope.form.date.toJSON().split('T')[0]
+            if ($scope.form.paperDueDate != null && typeof $scope.form.paperDueDate == 'object') {
+              data.paperDueDate = $scope.form.paperDueDate.toISOString().split('T')[0]
             }
-            fd.append('created', $scope.form.date);
-            fd.append('course', data.pk);
-            fd.append('paper', $scope.form.paper.pk);
-            var method = 'POST'
-            var url = '/api/LMS/homework/'
             $http({
-              method: method,
-              url: url,
-              data: fd,
-              transformRequest: angular.identity,
-              headers: {
-                'Content-Type': undefined
-              }
+              method: 'POST',
+              url: '/api/LMS/courseactivity/',
+              data: data,
+
             }).
             then(function(response) {
               Flash.create('success', 'Saved Successfully');
@@ -548,7 +626,6 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
 
       }, function(h) {
         if (typeof h == 'object') {
-          $scope.homwrkData.push(h)
           $scope.refreshData();
         }
       })
@@ -561,21 +638,52 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
         templateUrl: '/static/ngTemplates/app.LMS.addquiz.html',
         size: 'md',
         backdrop: true,
-        resolve: {
-          data: function() {
-            return $scope.course;
+
+        controller: function($scope, $http, $uibModalInstance) {
+          $scope.form = {
+            paper: '',
+            txt: '',
+            time: 0,
+            course: $state.params.id,
+            typ: 'quiz'
           }
-        },
-        controller: function($scope, $uibModalInstance, data) {
 
           $scope.paperSearch = function(query) {
-            //search for the paper
             return $http.get('/api/LMS/paper/?name=' + query).
             then(function(response) {
               return response.data;
             })
           };
 
+          $scope.$watch('form.paper', function(query) {
+            return $http.get('/api/LMS/paper/?name=' + query.name).
+            then(function(response) {
+              return response.data;
+            })
+
+          })
+
+
+          $scope.saveQuiz = function() {
+            console.log($scope.form, '32323232');
+            var data = {
+              paper: $scope.form.paper.pk,
+              time: $scope.form.paper.timelimit,
+              txt: $scope.form.txt,
+              typ: $scope.form.typ
+            }
+            console.log(data, '4334');
+            $http({
+              method: 'POST',
+              url: '/api/LMS/courseactivity/',
+              data: data,
+
+            }).
+            then(function(response) {
+              Flash.create('success', 'Saved Successfully');
+              $uibModalInstance.dismiss(response.data);
+            })
+          }
 
 
 
@@ -592,6 +700,114 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
       })
     } //quiz ends...........................
   });
+
+
+
+  $scope.getContacts = function() {
+    $http({
+      method: 'GET',
+      url: '/api/clientRelationships/contact/'
+    }).
+    then(function(response) {
+      $scope.data = response.data
+    })
+  }
+  $scope.getContacts()
+
+  $scope.createStudent = function() {
+
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.LMS.activityLog.createstudent.html',
+      size: 'md',
+      backdrop: true,
+      resolve: {
+
+      },
+      controller: function($scope, $uibModalInstance) {
+        $scope.form = {
+          contact: '',
+          contacts: [],
+          contactsList: []
+        }
+        $scope.addContacts = function() {
+          for (var i = 0; i < $scope.form.contactsList.length; i++) {
+            if ($scope.form.contactsList[i].pk == $scope.form.contact.pk) {
+              Flash.create('danger', 'Already Added ');
+              $scope.form.contact = ''
+              return;
+            }
+          }
+          if ($scope.form.contact.pk != undefined) {
+            $scope.form.contacts.push($scope.form.contact.pk)
+            $scope.form.contactsList.push($scope.form.contact)
+            $scope.form.contact = ''
+
+          }
+        }
+        $scope.getContactsearch = function(query) {
+          console.log(query);
+          //search for the user
+          return $http.get('/api/clientRelationships/contact/?name__contains=' + query).
+          then(function(response) {
+            return response.data;
+          })
+        };
+
+        $scope.save = function() {
+          $http({
+            method: 'PATCH',
+            url: '/api/LMS/course/' + $state.params.id + '/',
+            data: {
+              contacts: $scope.form.contacts
+            }
+          }).
+          then(function(response) {
+            Flash.create('success', 'Added')
+            $uibModalInstance.dismiss()
+
+          })
+        }
+
+
+
+      }, //controller ends
+    }).result.then(function() {
+
+    }, function() {})
+  }
+
+
+  $scope.studyMaterialForm = {
+    attachment: emptyFile
+  }
+
+  // $scope.saveFile = function() {
+  //   if ($scope.studyMaterialForm.attachment == emptyFile) {
+  //     Flash.create('warning' , 'No file selected');
+  //     return;
+  //   }
+  //
+  //   var fd = new FormData();
+  //
+  //   fd.append('attachment' , $scope.studyMaterialForm.attachment)
+  //   fd.append('course' , $scope.course.pk)
+  //   if ($scope.activeTab == 0) {
+  //     fd.append('typ' , 'file')
+  //   }else {
+  //     fd.append('typ' , 'video')
+  //   }
+  //
+  //   $http({method : 'POST' , url : '/api/LMS/studyMaterial/' , data : fd , transformRequest: angular.identity, headers: { 'Content-Type': undefined }}).
+  //   then(function(response) {
+  //     $scope.course.studyMaterials.push(response.data);
+  //     Flash.create('success' , 'File added');
+  //   })
+  //
+  // }
+
+
+
+
 })
 
 
@@ -626,18 +842,31 @@ app.controller("businessManagement.LMS.form", function($scope, $state, $users, $
     })
   };
 
-  $scope.getInstructor = function(user) {
-    if (typeof user == 'undefined') {
-      return;
-    }
-    return user.first_name + '  ' + user.last_name;
-  }
+  // $scope.getInstructor = function(user) {
+  //   if (typeof user == 'undefined') {
+  //     return;
+  //   }
+  //   return user.first_name + '  ' + user.last_name;
+  // }
 
+
+  $http({
+    method: 'GET',
+    url: '/api/LMS/course/' + $stateParams.id + '/'
+  }).
+  then(function(response) {
+    $scope.form = response.data
+
+  })
 
   $scope.saveCourse = function() {
 
     var method = 'POST'
     var url = '/api/LMS/course/'
+    if ($state.params.id != undefined) {
+      method = "PATCH"
+      url = "/api/LMS/course/" + $state.params.id + '/'
+    }
 
     var fd = new FormData();
     if ($scope.form.dp != emptyFile && typeof $scope.form.dp != 'string' && $scope.form.dp != null) {
@@ -668,45 +897,7 @@ app.controller("businessManagement.LMS.form", function($scope, $state, $users, $
 
   }
 
-  if ($state.is('businessManagement.LMS.edit')) {
-    console.log($stateParams.id, "course");
-    $http({
-      method: 'GET',
-      url: '/api/LMS/course/' + $stateParams.id + '/'
-    }).
-    then(function(response) {
-      $scope.form = response.data
 
-    })
-    $scope.editCourses = function() {
-      var fd = new FormData();
-      if ($scope.form.dp != emptyFile && typeof $scope.form.dp != 'string' && $scope.form.dp != null) {
-        fd.append('dp', $scope.form.dp);
-      }
-      fd.append('title', $scope.form.title);
-      fd.append('enrollmentStatus', $scope.form.enrollmentStatus);
-      fd.append('description', $scope.form.description);
-      // fd.append('TAs', $scope.form.TAs);
-      fd.append('instructor', $scope.form.instructor.pk);
-      fd.append('sellingPrice', $scope.form.sellingPrice);
-      fd.append('discount', $scope.form.discount);
-      $http({
-        method: 'PATCH',
-        url: '/api/LMS/course/' + $stateParams.id + '/',
-        data: fd,
-        transformRequest: angular.identity,
-        headers: {
-          'Content-Type': undefined
-        }
-      }).
-      then(function(response) {
-        Flash.create('success', 'Updated Course successfully')
-        $scope.resetForm();
-
-      })
-    }
-
-  }
 
 });
 
@@ -811,6 +1002,9 @@ app.controller('businessManagement.LMS.evaluation', function($scope, $http, $asi
     })
   }
   $scope.fetchData()
+
+
+
 
 
 
@@ -1187,6 +1381,19 @@ app.controller('businessManagement.LMS.evaluation', function($scope, $http, $asi
   }
 
   //---------------------------------------paper view ends-------------------------------------
+
+  $scope.fetchData = function() {
+    $http({
+      method: 'GET',
+      url: '/api/LMS/paper/' + $stateParams.id+'/'
+    }).
+    then(function(response) {
+      $scope.paper = response.data
+
+    })
+  }
+  $scope.fetchData()
+
 });
 
 app.controller("businessManagement.LMS.evaluation.explore", function($scope, $state, $users, $stateParams, $http, Flash) {
@@ -1805,856 +2012,936 @@ app.controller("businessManagement.LMS.configureLMS", function($scope, $state, $
 
 app.controller("businessManagement.LMS.configureLMS.form", function($scope, $state, $users, $stateParams, $filter, $uibModal, $http, Flash) {
 
+  $scope.form = {
+    title: '',
+    description: '',
+    seoTitle: '',
+    syllabus: '',
+    dp: emptyFile,
+    author: '',
+    subject: '',
+    topic: '',
+  }
 
-  if ($state.is('businessManagement.LMS.editBook')) {
-    $scope.mode = 'book';
+
+  $http({
+    method: 'GET',
+    url: '/api/LMS/book/' + $state.params.id + '/'
+  }).then(function(res) {
+    $scope.form = res.data
+  })
+
+  $scope.save = function() {
+
+    var toSend = new FormData();
+    var method = 'POST'
+    var url = '/api/LMS/book/'
+    if ($state.params.id != undefined) {
+      method = 'PATCH'
+      url += $state.params.id + '/'
+    }
+    console.log('fileeeeeeeeeeeeeee', typeof $scope.form.dp, $scope.form);
+    if ($scope.form.title.length == 0) {
+      Flash.create('warning', 'Title is required');
+      return;
+    }
+    toSend.append('title', $scope.form.title)
+    toSend.append('description', $scope.form.description)
+    if ($scope.form.dp != emptyFile && typeof $scope.form.dp != 'string') {
+      toSend.append('dp', $scope.form.dp)
+    }
+    if ($scope.form.author != null && $scope.form.author.length > 0) {
+      toSend.append('author', $scope.form.author)
+    }
+
+    toSend.append('subject', $scope.form.subject)
+
+    toSend.append('topic', $scope.form.topic)
+
+
+
 
     $http({
-      method: 'GET',
-      url: '/api/LMS/book/' + $stateParams.id + '/'
+      method: method,
+      url: url,
+      data: toSend,
+      transformRequest: angular.identity,
+      headers: {
+        'Content-Type': undefined
+      }
     }).
     then(function(response) {
-      $scope.form = response.data
-      console.log(response.data);
+      if ($scope.mode == 'book') {
+        $scope.hideBook = 'yes'
+        $scope.bookDetails = response.data
+        $scope.bookDetails.sections = $filter('orderBy')($scope.bookDetails.sections, 'sequence')
+        console.log('bookkkkkkkkkkkkkkkk', $scope.bookDetails);
+        if ($scope.form.pk) {
+          Flash.create('success', 'Book Is created');
+        } else {
+          Flash.create('success', 'Book Is Created');
+        }
+      } else {
+        if ($scope.form.pk) {
+          Flash.create('success', 'Created');
+        } else {
+          $scope.resetForm();
+          Flash.create('success', 'Saved');
+        }
+      }
     })
-
-
-    if ($scope.dataPK != undefined) {
-      $http({
-        method: 'GET',
-        url: '/api/PIM/blog/?contentType=book&&header=' + $scope.dataPK,
-      }).
-      then(function(response) {
-        console.log($scope.dataPK);
-        if (response.data.length > 0) {
-          console.log('editttttt');
-          $scope.blogType = 'edit'
-          $scope.blogData = response.data[0]
-        } else {
-          console.log('newwwwwwwwww');
-          $scope.blogType = 'new'
-          $scope.blogData = {}
-        }
-      })
-    }
-
-
-    $scope.resetForm = function() {
-      $scope.form = {
-        title: '',
-        description: '',
-        seoTitle: '',
-        syllabus: '',
-        dp: emptyFile,
-        level: 0,
-        author: '',
-        ISSN: '',
-        volume: '',
-        version: '',
-        license: '',
-        subject: '',
-        topic: '',
-        sections: []
-      }
-    }
-    $scope.resetForm();
-
-    $scope.addSection = function(index, position, pk) {
-      console.log('section clickeddddddddddddddddddddddd');
-      console.log(index);
-      $uibModal.open({
-        templateUrl: '/static/ngTemplates/app.LMS.book.section.html',
-        size: 'md',
-        backdrop: true,
-        resolve: {
-          bookData: function() {
-            return $scope.bookDetails;
-          },
-        },
-        controller: function($scope, bookData, $uibModalInstance) {
-          $scope.editmode = false;
-          console.log('bbbbbbbbb', bookData);
-          $scope.Sectionform = {
-            title: '',
-            shortUrl: '',
-            description: '',
-            seoTitle: '',
-          }
-          $scope.cancelSection = function() {
-            $uibModalInstance.dismiss()
-          }
-          $scope.saveSection = function() {
-            console.log('clickedddddddddddddddddd');
-            console.log($scope.Sectionform.title);
-            if ($scope.Sectionform.title == null || $scope.Sectionform.title.length == 0) {
-              Flash.create('warning', 'Please Mention Some Title')
-              return;
-            }
-            if ($scope.Sectionform.shortUrl == null || $scope.Sectionform.shortUrl.length == 0) {
-              Flash.create('warning', 'Please Mention Some Short Url')
-              return;
-            }
-            var secData = {
-              title: $scope.Sectionform.title,
-              shortUrl: $scope.Sectionform.shortUrl,
-              book: $stateParams.id,
-              description: $scope.Sectionform.description,
-              seoTitle: $scope.Sectionform.seoTitle,
-            }
-
-            $http({
-              method: 'POST',
-              url: '/api/LMS/section/',
-              data: secData
-            }).
-            then(function(response) {
-              $uibModalInstance.dismiss(response.data)
-
-            })
-          }
-
-        },
-      }).result.then(function() {
-
-      }, function(reason) {
-
-        if (reason != undefined) {
-          if (typeof reason == 'object') {
-            if (position == 'bottom') {
-              $scope.form.sections.splice(index + 1, 0, reason)
-            } else {
-              $scope.form.sections.splice(0, 0, reason)
-            }
-            $scope.secArr = true
-          }
-        }
-
-      });
-    }
-
-    $scope.editSection = function(index) {
-      $uibModal.open({
-        templateUrl: '/static/ngTemplates/app.LMS.book.section.html',
-        size: 'md',
-        backdrop: true,
-        resolve: {
-          bookData: function() {
-            return $scope.bookDetails;
-          },
-          secItem: function() {
-            return $scope.form.sections[index]
-          },
-        },
-        controller: function($scope, bookData, secItem, $uibModalInstance) {
-          $scope.editmode = true;
-          console.log(secItem, "----------------getting");
-          console.log(secItem.pk, "----------------getting pkkkkkkkkkkk");
-          $scope.Sectionform = secItem
-          $scope.cancelSection = function() {
-            $uibModalInstance.dismiss()
-          }
-          $scope.saveSection = function() {
-            console.log(secItem.shortUrl, '----------ssss');
-            if ($scope.Sectionform.title == null || $scope.Sectionform.title.length == 0) {
-              Flash.create('warning', 'Please Mention Some Title')
-              return;
-            }
-            var secData = {
-              title: $scope.Sectionform.title,
-              shortUrl: $scope.Sectionform.shortUrl,
-              book: bookData.pk,
-              description: $scope.Sectionform.description,
-              seoTitle: $scope.Sectionform.seoTitle,
-            }
-
-            $http({
-              method: 'PATCH',
-              url: '/api/LMS/section/' + secItem.pk + '/',
-              data: secData
-            }).
-            then(function(response) {
-              $uibModalInstance.dismiss(response.data)
-              Flash.create('success', 'Updated successfully')
-            })
-          }
-
-        },
-      })
-    }
-
-
-
-    console.log('typpppppppppp', $scope.blogType);
-
-    $scope.blogPopup = function(bookId) {
-
-      $uibModal.open({
-        templateUrl: '/static/ngTemplates/app.LMS.book.blogForm.html',
-        size: 'md',
-        backdrop: true,
-        resolve: {
-          blogData: function() {
-            return $scope.blogData;
-          },
-          bookId: function() {
-            return bookId;
-          },
-        },
-        controller: function($scope, blogData, bookId, $uibModalInstance) {
-          console.log('bbbbbbbbb', blogData, bookId);
-
-          if (blogData.pk) {
-            $scope.blogForm = blogData
-          } else {
-            $scope.blogForm = {
-              contentType: 'book',
-              tags: [],
-              ogimage: emptyFile,
-              ogimageUrl: '',
-              description: '',
-              tagsCSV: '',
-              section: '',
-              author: '',
-              title: '',
-            }
-          }
-          console.log($scope.blogForm);
-          $scope.cancelBlog = function() {
-            $uibModalInstance.dismiss()
-          }
-          $scope.saveBlog = function() {
-            console.log('clickedddddddddddddddddd');
-            console.log($scope.blogForm);
-
-            var tags = [];
-            for (var i = 0; i < $scope.blogForm.tags.length; i++) {
-              tags.push($scope.blogForm.tags[i].pk)
-            }
-
-            var fd = new FormData();
-
-            if ($scope.blogForm.ogimage == emptyFile && ($scope.blogForm.ogimageUrl == '' || $scope.blogForm.ogimageUrl == undefined)) {
-              Flash.create('danger', 'Either the OG image file OR og image url is required')
-              return;
-            }
-            if ($scope.blogForm.tagsCSV == '' || $scope.blogForm.section == '' || $scope.blogForm.author == '' || $scope.blogForm.description == '') {
-              Flash.create('danger', 'Please check the All SEO related fields');
-              return;
-            }
-
-            if ($scope.blogForm.ogimage != emptyFile && typeof $scope.blogForm.ogimage != 'string' && $scope.blogForm.ogimage != null) {
-              fd.append('ogimage', $scope.blogForm.ogimage);
-
-            } else {
-              fd.append('ogimageUrl', $scope.blogForm.ogimageUrl);
-            }
-
-
-            fd.append('tagsCSV', $scope.blogForm.tagsCSV);
-            fd.append('section', $scope.blogForm.section);
-            fd.append('author', $scope.blogForm.author);
-            fd.append('description', $scope.blogForm.description);
-            fd.append('header', bookId)
-            fd.append('contentType', 'book');
-            fd.append('tags', tags);
-            fd.append('title', $scope.blogForm.title);
-            fd.append('shortUrl', $scope.blogForm.shortUrl);
-
-            if ($scope.blogForm.pk) {
-              method = 'PATCH';
-              url = '/api/PIM/blog/' + $scope.blogForm.pk + '/';
-            } else {
-              method = 'POST';
-              url = '/api/PIM/blog/';
-            }
-
-            $http({
-              method: method,
-              url: url,
-              data: fd,
-              transformRequest: angular.identity,
-              headers: {
-                'Content-Type': undefined
-              }
-            }).
-            then(function(response) {
-              if ($scope.blogForm.pk) {
-                Flash.create('success', 'Updated');
-              } else {
-                Flash.create('success', 'Created');
-              }
-              $uibModalInstance.dismiss(response.data)
-            });
-
-          }
-
-        },
-      }).result.then(function() {
-
-      }, function(reason) {
-
-        if (reason != undefined) {
-          $scope.blogType = 'edit'
-          $scope.blogData = reason
-        }
-
-      });
-    }
-
-
-    $scope.secMove = function(index, position) {
-      console.log('clickkkkkkk', index, position);
-      if ($scope.form.sections.length > 1) {
-        var a = $scope.form.sections[index]
-        if (position == 'up') {
-          if (index > 0) {
-            $scope.form.sections.splice(index, 1)
-            $scope.form.sections.splice(index - 1, 0, a)
-          }
-        } else {
-          if (index < $scope.form.sections.length - 1) {
-            $scope.form.sections.splice(index, 1)
-            $scope.form.sections.splice(index + 1, 0, a)
-          }
-        }
-      }
-    }
-    $scope.saveSecSeq = function() {
-      for (var i = 0; i < $scope.form.sections.length; i++) {
-        $http({
-          method: 'PATCH',
-          url: '/api/LMS/section/' + $scope.form.sections[i].pk + '/',
-          data: {
-            sequence: i
-          }
-        }).
-        then(function(response) {
-          Flash.create('success', 'Saved');
-        })
-      }
-    }
-    $scope.subjectSearch = function(query) {
-      return $http.get('/api/LMS/subject/?title__contains=' + query).
-      then(function(response) {
-        return response.data;
-      })
-    };
-
-    $scope.bookShow = true
-    // $scope.subjectShow = true
-    // $scope.topicShow = true
-    // $scope.form.subject = '';
-    // console.log('**********************',action,appType);
-    if ($scope.clickOn != undefined) {
-      console.log('***********', $scope.clickOn);
-      if ($scope.clickOn == 'book') {
-        $scope.form = $scope.booksData
-        console.log('kkkkkkkkkkkkkkkk', $scope.form);
-        $scope.form.sections = $filter('orderBy')($scope.booksData.sections, 'sequence')
-        $scope.bookDetails = $scope.booksData
-        $scope.mode = 'book';
-        $scope.bookShow = true
-        // $scope.subjectShow = false
-        // $scope.topicShow = false
-        if ($scope.form.sections.length > 0) {
-          $scope.secArr = true
-        }
-      }
-
-    }
-    $scope.save = function() {
-
-      var toSend = new FormData();
-      var method = 'POST'
-      var url = '/api/LMS/' + $scope.mode + '/'
-      if ($scope.form.pk) {
-        var method = 'PATCH'
-        var url = '/api/LMS/' + $scope.mode + '/' + $scope.form.pk + '/'
-      }
-      console.log('fileeeeeeeeeeeeeee', typeof $scope.form.dp, $scope.form);
-      if ($scope.form.title.length == 0) {
-        Flash.create('warning', 'Title is required');
-        return;
-      }
-      toSend.append('title', $scope.form.title)
-      toSend.append('description', $scope.form.description)
-
-
-      if ($scope.mode == 'subject') {
-        if ($scope.form.dp != emptyFile && typeof $scope.form.dp != 'string') {
-          toSend.append('dp', $scope.form.dp)
-        }
-        toSend.append('level', $scope.form.level)
-      } else if ($scope.mode == 'book') {
-
-        if ($scope.form.dp != emptyFile && typeof $scope.form.dp != 'string') {
-          toSend.append('dp', $scope.form.dp)
-        }
-        if ($scope.form.author != null && $scope.form.author.length > 0) {
-          toSend.append('author', $scope.form.author)
-        }
-
-        toSend.append('subject', $scope.form.subject)
-
-        toSend.append('topic', $scope.form.topic)
-
-        if ($scope.form.ISSN != null && $scope.form.ISSN.length > 0) {
-          toSend.append('ISSN', $scope.form.ISSN)
-        }
-        if ($scope.form.volume != null && $scope.form.volume.length > 0) {
-          toSend.append('volume', $scope.form.volume)
-        }
-        if ($scope.form.version != null && $scope.form.version.length > 0) {
-          toSend.append('version', $scope.form.version)
-        }
-        if ($scope.form.license != null && $scope.form.license.length > 0) {
-          toSend.append('license', $scope.form.license)
-        }
-      } else {
-
-        if ($scope.form.syllabus != null && $scope.form.syllabus.length > 0) {
-          toSend.append('syllabus', $scope.form.syllabus)
-        }
-      }
-
-      $http({
-        method: method,
-        url: url,
-        data: toSend,
-        transformRequest: angular.identity,
-        headers: {
-          'Content-Type': undefined
-        }
-      }).
-      then(function(response) {
-        if ($scope.mode == 'book') {
-          $scope.hideBook = 'yes'
-          $scope.bookDetails = response.data
-          $scope.bookDetails.sections = $filter('orderBy')($scope.bookDetails.sections, 'sequence')
-          console.log('bookkkkkkkkkkkkkkkk', $scope.bookDetails);
-          if ($scope.form.pk) {
-            Flash.create('success', 'Book Is updated');
-          } else {
-            Flash.create('success', 'Book Is Created');
-          }
-        } else {
-          if ($scope.form.pk) {
-            Flash.create('success', 'updated');
-          } else {
-            $scope.resetForm();
-            Flash.create('success', 'Saved');
-          }
-        }
-      })
-    }
   }
-  if ($state.is('businessManagement.LMS.newBook')) {
-    $scope.mode = 'book';
-
-    $scope.resetForm = function() {
-      $scope.form = {
-        title: '',
-        description: '',
-        seoTitle: '',
-        syllabus: '',
-        dp: emptyFile,
-        level: 0,
-        author: '',
-        ISSN: '',
-        volume: '',
-        version: '',
-        license: '',
-        subject: '',
-        topic: '',
-        sections: []
-      }
-    }
-    $scope.resetForm();
-    $scope.addSection = function(index, position, pk) {
-      console.log('section clickeddddddddddddddddddddddd');
-      console.log(index);
-      $uibModal.open({
-        templateUrl: '/static/ngTemplates/app.LMS.book.section.html',
-        size: 'md',
-        backdrop: true,
-        resolve: {
-          bookData: function() {
-            return $scope.bookDetails;
-          },
-        },
-        controller: function($scope, bookData, $uibModalInstance) {
-          $scope.editmode = false;
-          console.log('bbbbbbbbb', bookData);
-          $scope.Sectionform = {
-            title: '',
-            shortUrl: '',
-            description: '',
-            seoTitle: '',
-          }
-          $scope.cancelSection = function() {
-            $uibModalInstance.dismiss()
-          }
-          $scope.saveSection = function() {
-            console.log('clickedddddddddddddddddd');
-            console.log($scope.Sectionform.title);
-            if ($scope.Sectionform.title == null || $scope.Sectionform.title.length == 0) {
-              Flash.create('warning', 'Please Mention Some Title')
-              return;
-            }
-            if ($scope.Sectionform.shortUrl == null || $scope.Sectionform.shortUrl.length == 0) {
-              Flash.create('warning', 'Please Mention Some Short Url')
-              return;
-            }
-            var secData = {
-              title: $scope.Sectionform.title,
-              shortUrl: $scope.Sectionform.shortUrl,
-              book: bookData.pk,
-              description: $scope.Sectionform.description,
-              seoTitle: $scope.Sectionform.seoTitle,
-            }
-
-            $http({
-              method: 'POST',
-              url: '/api/LMS/section/',
-              data: secData
-            }).
-            then(function(response) {
-              $uibModalInstance.dismiss(response.data)
-            }, function(err) {
-              Flash.create('danger', 'This Short Url Already Exist Select Another')
-            })
-          }
-
-        },
-      }).result.then(function() {
-
-      }, function(reason) {
-
-        if (reason != undefined) {
-          if (typeof reason == 'object') {
-            if (position == 'bottom') {
-              $scope.form.sections.splice(index + 1, 0, reason)
-            } else {
-              $scope.form.sections.splice(0, 0, reason)
-            }
-            $scope.secArr = true
-          }
-        }
-
-      });
-    }
-
-    $scope.editSection = function(index) {
-      $uibModal.open({
-        templateUrl: '/static/ngTemplates/app.LMS.book.section.html',
-        size: 'md',
-        backdrop: true,
-        resolve: {
-          bookData: function() {
-            return $scope.bookDetails;
-          },
-          secItem: function() {
-            return $scope.form.sections[index]
-          },
-        },
-        controller: function($scope, bookData, secItem, $uibModalInstance) {
-          $scope.editmode = true;
-          console.log(secItem, "----------------getting");
-          console.log(secItem.pk, "----------------getting pkkkkkkkkkkk");
-          $scope.Sectionform = secItem
-          $scope.cancelSection = function() {
-            $uibModalInstance.dismiss()
-          }
-          $scope.saveSection = function() {
-            console.log(secItem.shortUrl, '----------ssss');
-            if ($scope.Sectionform.title == null || $scope.Sectionform.title.length == 0) {
-              Flash.create('warning', 'Please Mention Some Title')
-              return;
-            }
-            var secData = {
-              title: $scope.Sectionform.title,
-              shortUrl: $scope.Sectionform.shortUrl,
-              book: bookData.pk,
-              description: $scope.Sectionform.description,
-              seoTitle: $scope.Sectionform.seoTitle,
-            }
-
-            $http({
-              method: 'PATCH',
-              url: '/api/LMS/section/' + secItem.pk + '/',
-              data: secData
-            }).
-            then(function(response) {
-              $uibModalInstance.dismiss(response.data)
-              Flash.create('success', 'Updated successfully')
-            })
-          }
-
-        },
-      })
-    }
 
 
-
-    console.log('typpppppppppp', $scope.blogType);
-
-    $scope.blogPopup = function(bookId) {
-
-      $uibModal.open({
-        templateUrl: '/static/ngTemplates/app.LMS.book.blogForm.html',
-        size: 'md',
-        backdrop: true,
-        resolve: {
-          blogData: function() {
-            return $scope.blogData;
-          },
-          bookId: function() {
-            return bookId;
-          },
-        },
-        controller: function($scope, blogData, bookId, $uibModalInstance) {
-          console.log('bbbbbbbbb', blogData, bookId);
-
-          if (blogData.pk) {
-            $scope.blogForm = blogData
-          } else {
-            $scope.blogForm = {
-              contentType: 'book',
-              tags: [],
-              ogimage: emptyFile,
-              ogimageUrl: '',
-              description: '',
-              tagsCSV: '',
-              section: '',
-              author: '',
-              title: '',
-            }
-          }
-          console.log($scope.blogForm);
-          $scope.cancelBlog = function() {
-            $uibModalInstance.dismiss()
-          }
-          $scope.saveBlog = function() {
-            console.log('clickedddddddddddddddddd');
-            console.log($scope.blogForm);
-
-            var tags = [];
-            for (var i = 0; i < $scope.blogForm.tags.length; i++) {
-              tags.push($scope.blogForm.tags[i].pk)
-            }
-
-            var fd = new FormData();
-
-            if ($scope.blogForm.ogimage == emptyFile && ($scope.blogForm.ogimageUrl == '' || $scope.blogForm.ogimageUrl == undefined)) {
-              Flash.create('danger', 'Either the OG image file OR og image url is required')
-              return;
-            }
-            if ($scope.blogForm.tagsCSV == '' || $scope.blogForm.section == '' || $scope.blogForm.author == '' || $scope.blogForm.description == '') {
-              Flash.create('danger', 'Please check the All SEO related fields');
-              return;
-            }
-
-            if ($scope.blogForm.ogimage != emptyFile && typeof $scope.blogForm.ogimage != 'string' && $scope.blogForm.ogimage != null) {
-              fd.append('ogimage', $scope.blogForm.ogimage);
-
-            } else {
-              fd.append('ogimageUrl', $scope.blogForm.ogimageUrl);
-            }
-
-
-            fd.append('tagsCSV', $scope.blogForm.tagsCSV);
-            fd.append('section', $scope.blogForm.section);
-            fd.append('author', $scope.blogForm.author);
-            fd.append('description', $scope.blogForm.description);
-            fd.append('header', bookId)
-            fd.append('contentType', 'book');
-            fd.append('tags', tags);
-            fd.append('title', $scope.blogForm.title);
-            fd.append('shortUrl', $scope.blogForm.shortUrl);
-
-            if ($scope.blogForm.pk) {
-              method = 'PATCH';
-              url = '/api/PIM/blog/' + $scope.blogForm.pk + '/';
-            } else {
-              method = 'POST';
-              url = '/api/PIM/blog/';
-            }
-
-            $http({
-              method: method,
-              url: url,
-              data: fd,
-              transformRequest: angular.identity,
-              headers: {
-                'Content-Type': undefined
-              }
-            }).
-            then(function(response) {
-              if ($scope.blogForm.pk) {
-                Flash.create('success', 'Updated');
-              } else {
-                Flash.create('success', 'Created');
-              }
-              $uibModalInstance.dismiss(response.data)
-            });
-
-          }
-
-        },
-      }).result.then(function() {
-
-      }, function(reason) {
-
-        if (reason != undefined) {
-          $scope.blogType = 'edit'
-          $scope.blogData = reason
-        }
-
-      });
-    }
-
-
-    $scope.secMove = function(index, position) {
-      console.log('clickkkkkkk', index, position);
-      if ($scope.form.sections.length > 1) {
-        var a = $scope.form.sections[index]
-        if (position == 'up') {
-          if (index > 0) {
-            $scope.form.sections.splice(index, 1)
-            $scope.form.sections.splice(index - 1, 0, a)
-          }
-        } else {
-          if (index < $scope.form.sections.length - 1) {
-            $scope.form.sections.splice(index, 1)
-            $scope.form.sections.splice(index + 1, 0, a)
-          }
-        }
-      }
-    }
-    $scope.saveSecSeq = function() {
-      for (var i = 0; i < $scope.form.sections.length; i++) {
-        $http({
-          method: 'PATCH',
-          url: '/api/LMS/section/' + $scope.form.sections[i].pk + '/',
-          data: {
-            sequence: i
-          }
-        }).
-        then(function(response) {
-          Flash.create('success', 'Saved');
-        })
-      }
-    }
-    $scope.subjectSearch = function(query) {
-      return $http.get('/api/LMS/subject/?title__contains=' + query).
-      then(function(response) {
-        return response.data;
-      })
-    };
-
-    $scope.bookShow = true
-    $scope.subjectShow = true
-    $scope.topicShow = true
-    $scope.form.subject = '';
-    // console.log('**********************',action,appType);
-    if ($scope.clickOn != undefined) {
-      console.log('***********', $scope.clickOn);
-      if ($scope.clickOn == 'book') {
-        $scope.form = $scope.booksData
-        console.log('kkkkkkkkkkkkkkkk', $scope.form);
-        $scope.form.sections = $filter('orderBy')($scope.booksData.sections, 'sequence')
-        $scope.bookDetails = $scope.booksData
-        $scope.mode = 'book';
-        $scope.bookShow = true
-        $scope.subjectShow = false
-        $scope.topicShow = false
-        if ($scope.form.sections.length > 0) {
-          $scope.secArr = true
-        }
-      }
-
-    }
-    $scope.save = function() {
-
-      var toSend = new FormData();
-      var method = 'POST'
-      var url = '/api/LMS/' + $scope.mode + '/'
-      console.log('fileeeeeeeeeeeeeee', typeof $scope.form.dp, $scope.form);
-      if ($scope.form.title.length == 0) {
-        Flash.create('warning', 'Title is required');
-        return;
-      }
-      toSend.append('title', $scope.form.title)
-      toSend.append('description', $scope.form.description)
-
-
-      if ($scope.mode == 'subject') {
-        if ($scope.form.dp != emptyFile && typeof $scope.form.dp != 'string') {
-          toSend.append('dp', $scope.form.dp)
-        }
-        toSend.append('level', $scope.form.level)
-      } else if ($scope.mode == 'book') {
-
-        if ($scope.form.dp != emptyFile && typeof $scope.form.dp != 'string') {
-          toSend.append('dp', $scope.form.dp)
-        }
-        if ($scope.form.author != null && $scope.form.author.length > 0) {
-          toSend.append('author', $scope.form.author)
-        }
-
-        toSend.append('subject', $scope.form.subject)
-
-        toSend.append('topic', $scope.form.topic)
-
-        if ($scope.form.ISSN != null && $scope.form.ISSN.length > 0) {
-          toSend.append('ISSN', $scope.form.ISSN)
-        }
-        if ($scope.form.volume != null && $scope.form.volume.length > 0) {
-          toSend.append('volume', $scope.form.volume)
-        }
-        if ($scope.form.version != null && $scope.form.version.length > 0) {
-          toSend.append('version', $scope.form.version)
-        }
-        if ($scope.form.license != null && $scope.form.license.length > 0) {
-          toSend.append('license', $scope.form.license)
-        }
-      } else {
-
-        if ($scope.form.syllabus != null && $scope.form.syllabus.length > 0) {
-          toSend.append('syllabus', $scope.form.syllabus)
-        }
-      }
-
-      $http({
-        method: method,
-        url: url,
-        data: toSend,
-        transformRequest: angular.identity,
-        headers: {
-          'Content-Type': undefined
-        }
-      }).
-      then(function(response) {
-        if ($scope.mode == 'book') {
-          $scope.hideBook = 'yes'
-          $scope.bookDetails = response.data
-          $scope.bookDetails.sections = $filter('orderBy')($scope.bookDetails.sections, 'sequence')
-          console.log('bookkkkkkkkkkkkkkkk', $scope.bookDetails);
-          if ($scope.form.pk) {
-            Flash.create('success', 'Book Is created');
-          } else {
-            Flash.create('success', 'Book Is Created');
-          }
-        } else {
-          if ($scope.form.pk) {
-            Flash.create('success', 'Created');
-          } else {
-            $scope.resetForm();
-            Flash.create('success', 'Saved');
-          }
-        }
-      })
-    }
-  }
+  // if ($state.is('businessManagement.LMS.editBook')) {
+  //   $scope.mode = 'book';
+  //
+  //   $http({
+  //     method: 'GET',
+  //     url: '/api/LMS/book/' + $stateParams.id + '/'
+  //   }).
+  //   then(function(response) {
+  //     $scope.form = response.data
+  //     console.log(response.data);
+  //   })
+  //
+  //
+  //   if ($scope.dataPK != undefined) {
+  //     $http({
+  //       method: 'GET',
+  //       url: '/api/PIM/blog/?contentType=book&&header=' + $scope.dataPK,
+  //     }).
+  //     then(function(response) {
+  //       console.log($scope.dataPK);
+  //       if (response.data.length > 0) {
+  //         console.log('editttttt');
+  //         $scope.blogType = 'edit'
+  //         $scope.blogData = response.data[0]
+  //       } else {
+  //         console.log('newwwwwwwwww');
+  //         $scope.blogType = 'new'
+  //         $scope.blogData = {}
+  //       }
+  //     })
+  //   }
+  //
+  //
+  //   $scope.resetForm = function() {
+  //     $scope.form = {
+  //       title: '',
+  //       description: '',
+  //       seoTitle: '',
+  //       syllabus: '',
+  //       dp: emptyFile,
+  //       level: 0,
+  //       author: '',
+  //       ISSN: '',
+  //       volume: '',
+  //       version: '',
+  //       license: '',
+  //       subject: '',
+  //       topic: '',
+  //       sections: []
+  //     }
+  //   }
+  //   $scope.resetForm();
+  //
+  //   $scope.addSection = function(index, position, pk) {
+  //     console.log('section clickeddddddddddddddddddddddd');
+  //     console.log(index);
+  //     $uibModal.open({
+  //       templateUrl: '/static/ngTemplates/app.LMS.book.section.html',
+  //       size: 'md',
+  //       backdrop: true,
+  //       resolve: {
+  //         bookData: function() {
+  //           return $scope.bookDetails;
+  //         },
+  //       },
+  //       controller: function($scope, bookData, $uibModalInstance) {
+  //         $scope.editmode = false;
+  //         console.log('bbbbbbbbb', bookData);
+  //         $scope.Sectionform = {
+  //           title: '',
+  //           shortUrl: '',
+  //           description: '',
+  //           seoTitle: '',
+  //         }
+  //         $scope.cancelSection = function() {
+  //           $uibModalInstance.dismiss()
+  //         }
+  //         $scope.saveSection = function() {
+  //           console.log('clickedddddddddddddddddd');
+  //           console.log($scope.Sectionform.title);
+  //           if ($scope.Sectionform.title == null || $scope.Sectionform.title.length == 0) {
+  //             Flash.create('warning', 'Please Mention Some Title')
+  //             return;
+  //           }
+  //           if ($scope.Sectionform.shortUrl == null || $scope.Sectionform.shortUrl.length == 0) {
+  //             Flash.create('warning', 'Please Mention Some Short Url')
+  //             return;
+  //           }
+  //           var secData = {
+  //             title: $scope.Sectionform.title,
+  //             shortUrl: $scope.Sectionform.shortUrl,
+  //             book: $stateParams.id,
+  //             description: $scope.Sectionform.description,
+  //             seoTitle: $scope.Sectionform.seoTitle,
+  //           }
+  //
+  //           $http({
+  //             method: 'POST',
+  //             url: '/api/LMS/section/',
+  //             data: secData
+  //           }).
+  //           then(function(response) {
+  //             $uibModalInstance.dismiss(response.data)
+  //
+  //           })
+  //         }
+  //
+  //       },
+  //     }).result.then(function() {
+  //
+  //     }, function(reason) {
+  //
+  //       if (reason != undefined) {
+  //         if (typeof reason == 'object') {
+  //           if (position == 'bottom') {
+  //             $scope.form.sections.splice(index + 1, 0, reason)
+  //           } else {
+  //             $scope.form.sections.splice(0, 0, reason)
+  //           }
+  //           $scope.secArr = true
+  //         }
+  //       }
+  //
+  //     });
+  //   }
+  //
+  //   $scope.editSection = function(index) {
+  //     $uibModal.open({
+  //       templateUrl: '/static/ngTemplates/app.LMS.book.section.html',
+  //       size: 'md',
+  //       backdrop: true,
+  //       resolve: {
+  //         bookData: function() {
+  //           return $scope.bookDetails;
+  //         },
+  //         secItem: function() {
+  //           return $scope.form.sections[index]
+  //         },
+  //       },
+  //       controller: function($scope, bookData, secItem, $uibModalInstance) {
+  //         $scope.editmode = true;
+  //         console.log(secItem, "----------------getting");
+  //         console.log(secItem.pk, "----------------getting pkkkkkkkkkkk");
+  //         $scope.Sectionform = secItem
+  //         $scope.cancelSection = function() {
+  //           $uibModalInstance.dismiss()
+  //         }
+  //         $scope.saveSection = function() {
+  //           console.log(secItem.shortUrl, '----------ssss');
+  //           if ($scope.Sectionform.title == null || $scope.Sectionform.title.length == 0) {
+  //             Flash.create('warning', 'Please Mention Some Title')
+  //             return;
+  //           }
+  //           var secData = {
+  //             title: $scope.Sectionform.title,
+  //             shortUrl: $scope.Sectionform.shortUrl,
+  //             book: bookData.pk,
+  //             description: $scope.Sectionform.description,
+  //             seoTitle: $scope.Sectionform.seoTitle,
+  //           }
+  //
+  //           $http({
+  //             method: 'PATCH',
+  //             url: '/api/LMS/section/' + secItem.pk + '/',
+  //             data: secData
+  //           }).
+  //           then(function(response) {
+  //             $uibModalInstance.dismiss(response.data)
+  //             Flash.create('success', 'Updated successfully')
+  //           })
+  //         }
+  //
+  //       },
+  //     })
+  //   }
+  //
+  //
+  //
+  //   console.log('typpppppppppp', $scope.blogType);
+  //
+  //   $scope.blogPopup = function(bookId) {
+  //
+  //     $uibModal.open({
+  //       templateUrl: '/static/ngTemplates/app.LMS.book.blogForm.html',
+  //       size: 'md',
+  //       backdrop: true,
+  //       resolve: {
+  //         blogData: function() {
+  //           return $scope.blogData;
+  //         },
+  //         bookId: function() {
+  //           return bookId;
+  //         },
+  //       },
+  //       controller: function($scope, blogData, bookId, $uibModalInstance) {
+  //         console.log('bbbbbbbbb', blogData, bookId);
+  //
+  //         if (blogData.pk) {
+  //           $scope.blogForm = blogData
+  //         } else {
+  //           $scope.blogForm = {
+  //             contentType: 'book',
+  //             tags: [],
+  //             ogimage: emptyFile,
+  //             ogimageUrl: '',
+  //             description: '',
+  //             tagsCSV: '',
+  //             section: '',
+  //             author: '',
+  //             title: '',
+  //           }
+  //         }
+  //         console.log($scope.blogForm);
+  //         $scope.cancelBlog = function() {
+  //           $uibModalInstance.dismiss()
+  //         }
+  //         $scope.saveBlog = function() {
+  //           console.log('clickedddddddddddddddddd');
+  //           console.log($scope.blogForm);
+  //
+  //           var tags = [];
+  //           for (var i = 0; i < $scope.blogForm.tags.length; i++) {
+  //             tags.push($scope.blogForm.tags[i].pk)
+  //           }
+  //
+  //           var fd = new FormData();
+  //
+  //           if ($scope.blogForm.ogimage == emptyFile && ($scope.blogForm.ogimageUrl == '' || $scope.blogForm.ogimageUrl == undefined)) {
+  //             Flash.create('danger', 'Either the OG image file OR og image url is required')
+  //             return;
+  //           }
+  //           if ($scope.blogForm.tagsCSV == '' || $scope.blogForm.section == '' || $scope.blogForm.author == '' || $scope.blogForm.description == '') {
+  //             Flash.create('danger', 'Please check the All SEO related fields');
+  //             return;
+  //           }
+  //
+  //           if ($scope.blogForm.ogimage != emptyFile && typeof $scope.blogForm.ogimage != 'string' && $scope.blogForm.ogimage != null) {
+  //             fd.append('ogimage', $scope.blogForm.ogimage);
+  //
+  //           } else {
+  //             fd.append('ogimageUrl', $scope.blogForm.ogimageUrl);
+  //           }
+  //
+  //
+  //           fd.append('tagsCSV', $scope.blogForm.tagsCSV);
+  //           fd.append('section', $scope.blogForm.section);
+  //           fd.append('author', $scope.blogForm.author);
+  //           fd.append('description', $scope.blogForm.description);
+  //           fd.append('header', bookId)
+  //           fd.append('contentType', 'book');
+  //           fd.append('tags', tags);
+  //           fd.append('title', $scope.blogForm.title);
+  //           fd.append('shortUrl', $scope.blogForm.shortUrl);
+  //
+  //           if ($scope.blogForm.pk) {
+  //             method = 'PATCH';
+  //             url = '/api/PIM/blog/' + $scope.blogForm.pk + '/';
+  //           } else {
+  //             method = 'POST';
+  //             url = '/api/PIM/blog/';
+  //           }
+  //
+  //           $http({
+  //             method: method,
+  //             url: url,
+  //             data: fd,
+  //             transformRequest: angular.identity,
+  //             headers: {
+  //               'Content-Type': undefined
+  //             }
+  //           }).
+  //           then(function(response) {
+  //             if ($scope.blogForm.pk) {
+  //               Flash.create('success', 'Updated');
+  //             } else {
+  //               Flash.create('success', 'Created');
+  //             }
+  //             $uibModalInstance.dismiss(response.data)
+  //           });
+  //
+  //         }
+  //
+  //       },
+  //     }).result.then(function() {
+  //
+  //     }, function(reason) {
+  //
+  //       if (reason != undefined) {
+  //         $scope.blogType = 'edit'
+  //         $scope.blogData = reason
+  //       }
+  //
+  //     });
+  //   }
+  //
+  //
+  //   $scope.secMove = function(index, position) {
+  //     console.log('clickkkkkkk', index, position);
+  //     if ($scope.form.sections.length > 1) {
+  //       var a = $scope.form.sections[index]
+  //       if (position == 'up') {
+  //         if (index > 0) {
+  //           $scope.form.sections.splice(index, 1)
+  //           $scope.form.sections.splice(index - 1, 0, a)
+  //         }
+  //       } else {
+  //         if (index < $scope.form.sections.length - 1) {
+  //           $scope.form.sections.splice(index, 1)
+  //           $scope.form.sections.splice(index + 1, 0, a)
+  //         }
+  //       }
+  //     }
+  //   }
+  //   $scope.saveSecSeq = function() {
+  //     for (var i = 0; i < $scope.form.sections.length; i++) {
+  //       $http({
+  //         method: 'PATCH',
+  //         url: '/api/LMS/section/' + $scope.form.sections[i].pk + '/',
+  //         data: {
+  //           sequence: i
+  //         }
+  //       }).
+  //       then(function(response) {
+  //         Flash.create('success', 'Saved');
+  //       })
+  //     }
+  //   }
+  //   $scope.subjectSearch = function(query) {
+  //     return $http.get('/api/LMS/subject/?title__contains=' + query).
+  //     then(function(response) {
+  //       return response.data;
+  //     })
+  //   };
+  //
+  //   $scope.bookShow = true
+  //   // $scope.subjectShow = true
+  //   // $scope.topicShow = true
+  //   // $scope.form.subject = '';
+  //   // console.log('**********************',action,appType);
+  //   if ($scope.clickOn != undefined) {
+  //     console.log('***********', $scope.clickOn);
+  //     if ($scope.clickOn == 'book') {
+  //       $scope.form = $scope.booksData
+  //       console.log('kkkkkkkkkkkkkkkk', $scope.form);
+  //       $scope.form.sections = $filter('orderBy')($scope.booksData.sections, 'sequence')
+  //       $scope.bookDetails = $scope.booksData
+  //       $scope.mode = 'book';
+  //       $scope.bookShow = true
+  //       // $scope.subjectShow = false
+  //       // $scope.topicShow = false
+  //       if ($scope.form.sections.length > 0) {
+  //         $scope.secArr = true
+  //       }
+  //     }
+  //
+  //   }
+  //   $scope.save = function() {
+  //
+  //     var toSend = new FormData();
+  //     var method = 'POST'
+  //     var url = '/api/LMS/' + $scope.mode + '/'
+  //     if ($scope.form.pk) {
+  //       var method = 'PATCH'
+  //       var url = '/api/LMS/' + $scope.mode + '/' + $scope.form.pk + '/'
+  //     }
+  //     console.log('fileeeeeeeeeeeeeee', typeof $scope.form.dp, $scope.form);
+  //     if ($scope.form.title.length == 0) {
+  //       Flash.create('warning', 'Title is required');
+  //       return;
+  //     }
+  //     toSend.append('title', $scope.form.title)
+  //     toSend.append('description', $scope.form.description)
+  //
+  //
+  //     if ($scope.mode == 'subject') {
+  //       if ($scope.form.dp != emptyFile && typeof $scope.form.dp != 'string') {
+  //         toSend.append('dp', $scope.form.dp)
+  //       }
+  //       toSend.append('level', $scope.form.level)
+  //     } else if ($scope.mode == 'book') {
+  //
+  //       if ($scope.form.dp != emptyFile && typeof $scope.form.dp != 'string') {
+  //         toSend.append('dp', $scope.form.dp)
+  //       }
+  //       if ($scope.form.author != null && $scope.form.author.length > 0) {
+  //         toSend.append('author', $scope.form.author)
+  //       }
+  //
+  //       toSend.append('subject', $scope.form.subject)
+  //
+  //       toSend.append('topic', $scope.form.topic)
+  //
+  //       if ($scope.form.ISSN != null && $scope.form.ISSN.length > 0) {
+  //         toSend.append('ISSN', $scope.form.ISSN)
+  //       }
+  //       if ($scope.form.volume != null && $scope.form.volume.length > 0) {
+  //         toSend.append('volume', $scope.form.volume)
+  //       }
+  //       if ($scope.form.version != null && $scope.form.version.length > 0) {
+  //         toSend.append('version', $scope.form.version)
+  //       }
+  //       if ($scope.form.license != null && $scope.form.license.length > 0) {
+  //         toSend.append('license', $scope.form.license)
+  //       }
+  //     } else {
+  //
+  //       if ($scope.form.syllabus != null && $scope.form.syllabus.length > 0) {
+  //         toSend.append('syllabus', $scope.form.syllabus)
+  //       }
+  //     }
+  //
+  //     $http({
+  //       method: method,
+  //       url: url,
+  //       data: toSend,
+  //       transformRequest: angular.identity,
+  //       headers: {
+  //         'Content-Type': undefined
+  //       }
+  //     }).
+  //     then(function(response) {
+  //       if ($scope.mode == 'book') {
+  //         $scope.hideBook = 'yes'
+  //         $scope.bookDetails = response.data
+  //         $scope.bookDetails.sections = $filter('orderBy')($scope.bookDetails.sections, 'sequence')
+  //         console.log('bookkkkkkkkkkkkkkkk', $scope.bookDetails);
+  //         if ($scope.form.pk) {
+  //           Flash.create('success', 'Book Is updated');
+  //         } else {
+  //           Flash.create('success', 'Book Is Created');
+  //         }
+  //       } else {
+  //         if ($scope.form.pk) {
+  //           Flash.create('success', 'updated');
+  //         } else {
+  //           $scope.resetForm();
+  //           Flash.create('success', 'Saved');
+  //         }
+  //       }
+  //     })
+  //   }
+  // }
+  // if ($state.is('businessManagement.newBook')) {
+  //   $scope.mode = 'book';
+  //
+  //   $scope.resetForm = function() {
+  //     $scope.form = {
+  //       title: '',
+  //       description: '',
+  //       seoTitle: '',
+  //       syllabus: '',
+  //       dp: emptyFile,
+  //       level: 0,
+  //       author: '',
+  //       ISSN: '',
+  //       volume: '',
+  //       version: '',
+  //       license: '',
+  //       subject: '',
+  //       topic: '',
+  //       sections: []
+  //     }
+  //   }
+  //   $scope.resetForm();
+  //   $scope.addSection = function(index, position, pk) {
+  //     console.log('section clickeddddddddddddddddddddddd');
+  //     console.log(index);
+  //     $uibModal.open({
+  //       templateUrl: '/static/ngTemplates/app.LMS.book.section.html',
+  //       size: 'md',
+  //       backdrop: true,
+  //       resolve: {
+  //         bookData: function() {
+  //           return $scope.bookDetails;
+  //         },
+  //       },
+  //       controller: function($scope, bookData, $uibModalInstance) {
+  //         $scope.editmode = false;
+  //         console.log('bbbbbbbbb', bookData);
+  //         $scope.Sectionform = {
+  //           title: '',
+  //           shortUrl: '',
+  //           description: '',
+  //           seoTitle: '',
+  //         }
+  //         $scope.cancelSection = function() {
+  //           $uibModalInstance.dismiss()
+  //         }
+  //         $scope.saveSection = function() {
+  //           console.log('clickedddddddddddddddddd');
+  //           console.log($scope.Sectionform.title);
+  //           if ($scope.Sectionform.title == null || $scope.Sectionform.title.length == 0) {
+  //             Flash.create('warning', 'Please Mention Some Title')
+  //             return;
+  //           }
+  //           if ($scope.Sectionform.shortUrl == null || $scope.Sectionform.shortUrl.length == 0) {
+  //             Flash.create('warning', 'Please Mention Some Short Url')
+  //             return;
+  //           }
+  //           var secData = {
+  //             title: $scope.Sectionform.title,
+  //             shortUrl: $scope.Sectionform.shortUrl,
+  //             book: bookData.pk,
+  //             description: $scope.Sectionform.description,
+  //             seoTitle: $scope.Sectionform.seoTitle,
+  //           }
+  //
+  //           $http({
+  //             method: 'POST',
+  //             url: '/api/LMS/section/',
+  //             data: secData
+  //           }).
+  //           then(function(response) {
+  //             $uibModalInstance.dismiss(response.data)
+  //           }, function(err) {
+  //             Flash.create('danger', 'This Short Url Already Exist Select Another')
+  //           })
+  //         }
+  //
+  //       },
+  //     }).result.then(function() {
+  //
+  //     }, function(reason) {
+  //
+  //       if (reason != undefined) {
+  //         if (typeof reason == 'object') {
+  //           if (position == 'bottom') {
+  //             $scope.form.sections.splice(index + 1, 0, reason)
+  //           } else {
+  //             $scope.form.sections.splice(0, 0, reason)
+  //           }
+  //           $scope.secArr = true
+  //         }
+  //       }
+  //
+  //     });
+  //   }
+  //
+  //   $scope.editSection = function(index) {
+  //     $uibModal.open({
+  //       templateUrl: '/static/ngTemplates/app.LMS.book.section.html',
+  //       size: 'md',
+  //       backdrop: true,
+  //       resolve: {
+  //         bookData: function() {
+  //           return $scope.bookDetails;
+  //         },
+  //         secItem: function() {
+  //           return $scope.form.sections[index]
+  //         },
+  //       },
+  //       controller: function($scope, bookData, secItem, $uibModalInstance) {
+  //         $scope.editmode = true;
+  //         console.log(secItem, "----------------getting");
+  //         console.log(secItem.pk, "----------------getting pkkkkkkkkkkk");
+  //         $scope.Sectionform = secItem
+  //         $scope.cancelSection = function() {
+  //           $uibModalInstance.dismiss()
+  //         }
+  //         $scope.saveSection = function() {
+  //           console.log(secItem.shortUrl, '----------ssss');
+  //           if ($scope.Sectionform.title == null || $scope.Sectionform.title.length == 0) {
+  //             Flash.create('warning', 'Please Mention Some Title')
+  //             return;
+  //           }
+  //           var secData = {
+  //             title: $scope.Sectionform.title,
+  //             shortUrl: $scope.Sectionform.shortUrl,
+  //             book: bookData.pk,
+  //             description: $scope.Sectionform.description,
+  //             seoTitle: $scope.Sectionform.seoTitle,
+  //           }
+  //
+  //           $http({
+  //             method: 'PATCH',
+  //             url: '/api/LMS/section/' + secItem.pk + '/',
+  //             data: secData
+  //           }).
+  //           then(function(response) {
+  //             $uibModalInstance.dismiss(response.data)
+  //             Flash.create('success', 'Updated successfully')
+  //           })
+  //         }
+  //
+  //       },
+  //     })
+  //   }
+  //
+  //
+  //
+  //   console.log('typpppppppppp', $scope.blogType);
+  //
+  //   $scope.blogPopup = function(bookId) {
+  //
+  //     $uibModal.open({
+  //       templateUrl: '/static/ngTemplates/app.LMS.book.blogForm.html',
+  //       size: 'md',
+  //       backdrop: true,
+  //       resolve: {
+  //         blogData: function() {
+  //           return $scope.blogData;
+  //         },
+  //         bookId: function() {
+  //           return bookId;
+  //         },
+  //       },
+  //       controller: function($scope, blogData, bookId, $uibModalInstance) {
+  //         console.log('bbbbbbbbb', blogData, bookId);
+  //
+  //         if (blogData.pk) {
+  //           $scope.blogForm = blogData
+  //         } else {
+  //           $scope.blogForm = {
+  //             contentType: 'book',
+  //             tags: [],
+  //             ogimage: emptyFile,
+  //             ogimageUrl: '',
+  //             description: '',
+  //             tagsCSV: '',
+  //             section: '',
+  //             author: '',
+  //             title: '',
+  //           }
+  //         }
+  //         console.log($scope.blogForm);
+  //         $scope.cancelBlog = function() {
+  //           $uibModalInstance.dismiss()
+  //         }
+  //         $scope.saveBlog = function() {
+  //           console.log('clickedddddddddddddddddd');
+  //           console.log($scope.blogForm);
+  //
+  //           var tags = [];
+  //           for (var i = 0; i < $scope.blogForm.tags.length; i++) {
+  //             tags.push($scope.blogForm.tags[i].pk)
+  //           }
+  //
+  //           var fd = new FormData();
+  //
+  //           if ($scope.blogForm.ogimage == emptyFile && ($scope.blogForm.ogimageUrl == '' || $scope.blogForm.ogimageUrl == undefined)) {
+  //             Flash.create('danger', 'Either the OG image file OR og image url is required')
+  //             return;
+  //           }
+  //           if ($scope.blogForm.tagsCSV == '' || $scope.blogForm.section == '' || $scope.blogForm.author == '' || $scope.blogForm.description == '') {
+  //             Flash.create('danger', 'Please check the All SEO related fields');
+  //             return;
+  //           }
+  //
+  //           if ($scope.blogForm.ogimage != emptyFile && typeof $scope.blogForm.ogimage != 'string' && $scope.blogForm.ogimage != null) {
+  //             fd.append('ogimage', $scope.blogForm.ogimage);
+  //
+  //           } else {
+  //             fd.append('ogimageUrl', $scope.blogForm.ogimageUrl);
+  //           }
+  //
+  //
+  //           fd.append('tagsCSV', $scope.blogForm.tagsCSV);
+  //           fd.append('section', $scope.blogForm.section);
+  //           fd.append('author', $scope.blogForm.author);
+  //           fd.append('description', $scope.blogForm.description);
+  //           fd.append('header', bookId)
+  //           fd.append('contentType', 'book');
+  //           fd.append('tags', tags);
+  //           fd.append('title', $scope.blogForm.title);
+  //           fd.append('shortUrl', $scope.blogForm.shortUrl);
+  //
+  //           if ($scope.blogForm.pk) {
+  //             method = 'PATCH';
+  //             url = '/api/PIM/blog/' + $scope.blogForm.pk + '/';
+  //           } else {
+  //             method = 'POST';
+  //             url = '/api/PIM/blog/';
+  //           }
+  //
+  //           $http({
+  //             method: method,
+  //             url: url,
+  //             data: fd,
+  //             transformRequest: angular.identity,
+  //             headers: {
+  //               'Content-Type': undefined
+  //             }
+  //           }).
+  //           then(function(response) {
+  //             if ($scope.blogForm.pk) {
+  //               Flash.create('success', 'Updated');
+  //             } else {
+  //               Flash.create('success', 'Created');
+  //             }
+  //             $uibModalInstance.dismiss(response.data)
+  //           });
+  //
+  //         }
+  //
+  //       },
+  //     }).result.then(function() {
+  //
+  //     }, function(reason) {
+  //
+  //       if (reason != undefined) {
+  //         $scope.blogType = 'edit'
+  //         $scope.blogData = reason
+  //       }
+  //
+  //     });
+  //   }
+  //
+  //
+  //   $scope.secMove = function(index, position) {
+  //     console.log('clickkkkkkk', index, position);
+  //     if ($scope.form.sections.length > 1) {
+  //       var a = $scope.form.sections[index]
+  //       if (position == 'up') {
+  //         if (index > 0) {
+  //           $scope.form.sections.splice(index, 1)
+  //           $scope.form.sections.splice(index - 1, 0, a)
+  //         }
+  //       } else {
+  //         if (index < $scope.form.sections.length - 1) {
+  //           $scope.form.sections.splice(index, 1)
+  //           $scope.form.sections.splice(index + 1, 0, a)
+  //         }
+  //       }
+  //     }
+  //   }
+  //   $scope.saveSecSeq = function() {
+  //     for (var i = 0; i < $scope.form.sections.length; i++) {
+  //       $http({
+  //         method: 'PATCH',
+  //         url: '/api/LMS/section/' + $scope.form.sections[i].pk + '/',
+  //         data: {
+  //           sequence: i
+  //         }
+  //       }).
+  //       then(function(response) {
+  //         Flash.create('success', 'Saved');
+  //       })
+  //     }
+  //   }
+  //   $scope.subjectSearch = function(query) {
+  //     return $http.get('/api/LMS/subject/?title__contains=' + query).
+  //     then(function(response) {
+  //       return response.data;
+  //     })
+  //   };
+  //
+  //   $scope.bookShow = true
+  //   $scope.subjectShow = true
+  //   $scope.topicShow = true
+  //   $scope.form.subject = '';
+  //   // console.log('**********************',action,appType);
+  //   if ($scope.clickOn != undefined) {
+  //     console.log('***********', $scope.clickOn);
+  //     if ($scope.clickOn == 'book') {
+  //       $scope.form = $scope.booksData
+  //       console.log('kkkkkkkkkkkkkkkk', $scope.form);
+  //       $scope.form.sections = $filter('orderBy')($scope.booksData.sections, 'sequence')
+  //       $scope.bookDetails = $scope.booksData
+  //       $scope.mode = 'book';
+  //       $scope.bookShow = true
+  //       $scope.subjectShow = false
+  //       $scope.topicShow = false
+  //       if ($scope.form.sections.length > 0) {
+  //         $scope.secArr = true
+  //       }
+  //     }
+  //
+  //   }
+  //   $scope.save = function() {
+  //
+  //     var toSend = new FormData();
+  //     var method = 'POST'
+  //     var url = '/api/LMS/' + $scope.mode + '/'
+  //     console.log('fileeeeeeeeeeeeeee', typeof $scope.form.dp, $scope.form);
+  //     if ($scope.form.title.length == 0) {
+  //       Flash.create('warning', 'Title is required');
+  //       return;
+  //     }
+  //     toSend.append('title', $scope.form.title)
+  //     toSend.append('description', $scope.form.description)
+  //
+  //
+  //     if ($scope.mode == 'subject') {
+  //       if ($scope.form.dp != emptyFile && typeof $scope.form.dp != 'string') {
+  //         toSend.append('dp', $scope.form.dp)
+  //       }
+  //       toSend.append('level', $scope.form.level)
+  //     } else if ($scope.mode == 'book') {
+  //
+  //       if ($scope.form.dp != emptyFile && typeof $scope.form.dp != 'string') {
+  //         toSend.append('dp', $scope.form.dp)
+  //       }
+  //       if ($scope.form.author != null && $scope.form.author.length > 0) {
+  //         toSend.append('author', $scope.form.author)
+  //       }
+  //
+  //       toSend.append('subject', $scope.form.subject)
+  //
+  //       toSend.append('topic', $scope.form.topic)
+  //
+  //       if ($scope.form.ISSN != null && $scope.form.ISSN.length > 0) {
+  //         toSend.append('ISSN', $scope.form.ISSN)
+  //       }
+  //       if ($scope.form.volume != null && $scope.form.volume.length > 0) {
+  //         toSend.append('volume', $scope.form.volume)
+  //       }
+  //       if ($scope.form.version != null && $scope.form.version.length > 0) {
+  //         toSend.append('version', $scope.form.version)
+  //       }
+  //       if ($scope.form.license != null && $scope.form.license.length > 0) {
+  //         toSend.append('license', $scope.form.license)
+  //       }
+  //     } else {
+  //
+  //       if ($scope.form.syllabus != null && $scope.form.syllabus.length > 0) {
+  //         toSend.append('syllabus', $scope.form.syllabus)
+  //       }
+  //     }
+  //
+  //     $http({
+  //       method: method,
+  //       url: url,
+  //       data: toSend,
+  //       transformRequest: angular.identity,
+  //       headers: {
+  //         'Content-Type': undefined
+  //       }
+  //     }).
+  //     then(function(response) {
+  //       if ($scope.mode == 'book') {
+  //         $scope.hideBook = 'yes'
+  //         $scope.bookDetails = response.data
+  //         $scope.bookDetails.sections = $filter('orderBy')($scope.bookDetails.sections, 'sequence')
+  //         console.log('bookkkkkkkkkkkkkkkk', $scope.bookDetails);
+  //         if ($scope.form.pk) {
+  //           Flash.create('success', 'Book Is created');
+  //         } else {
+  //           Flash.create('success', 'Book Is Created');
+  //         }
+  //       } else {
+  //         if ($scope.form.pk) {
+  //           Flash.create('success', 'Created');
+  //         } else {
+  //           $scope.resetForm();
+  //           Flash.create('success', 'Saved');
+  //         }
+  //       }
+  //     })
+  //   }
+  // }
 });
 //------------------------------------------------Book ends----------------------------------
