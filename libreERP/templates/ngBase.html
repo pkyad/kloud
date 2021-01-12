@@ -129,10 +129,11 @@
 
         <div class="col-md-10" style="padding-left: 240px;padding-right: 10px;">
 
-          <div class="col-md-3 text-center " style="padding:20px;" ng-repeat="res in globalSearch.results">
+          <div class="col-md-{{globalSearch.results.length > 8 ? '2': '3'}} text-center " style="padding:20px;" ng-repeat="res in globalSearch.results">
             <div class="hoverDarkZoom" style="background:#ffffff;border-radius:20px;padding:20px;padding-top:30px;min-height:220px;" ng-click="$state.go(res.state);globalSearch.active = false;">
               <img ng-src="{{res.icon}}" alt="" style="width:95px;">
-              <h3>{{res.displayName}}</h3>
+              <h4 ng-if="globalSearch.results.length > 8">{{res.displayName}}</h4>
+              <h3 ng-if="globalSearch.results.length <= 8">{{res.displayName}}</h3>
             </div>
           </div>
 
