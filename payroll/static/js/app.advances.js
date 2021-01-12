@@ -1,4 +1,13 @@
-
+function dateToString(date) {
+    if (typeof date == 'object') {
+      day = date.getDate()
+      month = date.getMonth() + 1
+      year = date.getFullYear()
+      return year + '-' + month + '-' + day
+    } else {
+      return date
+    }
+  }
 app.controller("workforceManagement.payroll.advances", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal) {
 
   $scope.search = ''
@@ -20,7 +29,7 @@ app.controller("workforceManagement.payroll.advances", function($scope, $state, 
   }
 
 $scope.getall = function(){
-  var url = '/api/payroll/advances/?limit='+$scope.limit+'&offset='+$scope.offset+'&user__first_name__icontains='+$scope.search 
+  var url = '/api/payroll/advances/?limit='+$scope.limit+'&offset='+$scope.offset+'&user__first_name__icontains='+$scope.search
 
   $http({
     method: 'GET',
@@ -327,48 +336,38 @@ app.controller("workforceManagement.payroll.advances.form", function($scope, $st
       return response.data.results;
     })
   }
-  $scope.resetForm = function() {
-    $scope.form = {
-      'typ': 'advance',
-      'user': '',
-      'reason': '',
-      'returnDate': new Date(),
-      'doc': emptyFile,
-      'amount': '',
-    }
-  }
   $scope.today = new Date()
-
-  if ($scope.tab != undefined) {
-    console.log($scope.data.tableData[$scope.tab.data.index]);
-    $scope.form = $scope.data.tableData[$scope.tab.data.index]
-  } else {
-    $scope.resetForm();
+  $scope.reset = function() {
+    $scope.form = {
+      user: '',
+      reason: '',
+      dateOfReturn: $scope.today,
+      document: emptyFile,
+      returnMethod: 'SALARY_ADVANCE',
+      amount : 0
+    }
   }
+  $scope.reset()
   $scope.save = function() {
+    if ($scope.form.user == undefined || $scope.form.user == null || typeof $scope.form.user != 'object'  ) {
+      Flash.create('warning' ,'Add user')
+      return
+    }
+    if ($scope.form.reason == undefined || $scope.form.reason == null || $scope.form.reason.length == 0 ) {
+      Flash.create('warning' ,'Add reason')
+      return
+    }
+    if ($scope.form.amount == undefined || $scope.form.amount == null || $scope.form.amount.length == 0 || $scope.form.amount==0 ) {
+      Flash.create('warning' ,'Add amount')
+      return
+    }
     var f = $scope.form;
-    console.log(typeof f.amount);
     var fd = new FormData();
-    if (f.user != null && typeof f.user == 'object') {
-      fd.append('user', f.user.pk);
-    } else {
-      Flash.create('warning', 'User is Required');
-      return;
-    }
-    if (f.document != null && f.document != emptyFile) {
-      fd.append('document', f.document);
-    }
-    if (f.typ == 'advance') {
-      fd.append('dateOfReturn', f.returnDate.toJSON().split('T')[0]);
-    }
-    fd.append('typ', f.typ);
+    fd.append('user', f.user.pk);
     fd.append('reason', f.reason);
-    if (f.amount != null && f.amount != 0 && typeof f.amount != 'string') {
-      fd.append('amount', f.amount);
-    } else {
-      Flash.create('warning', 'Enter a proper Amount');
-      return;
-    }
+    fd.append('amount', f.amount);
+    fd.append('returnMethod', f.returnMethod);
+    fd.append('dateOfReturn', dateToString(f.dateOfReturn));
     $http({
       method: 'POST',
       url: '/api/payroll/advances/',
@@ -380,9 +379,12 @@ app.controller("workforceManagement.payroll.advances.form", function($scope, $st
     }).
     then(function(response) {
       Flash.create('success', 'Saved');
-      $scope.resetForm();
-      $rootScope.$broadcast('forceRefetch', {});
+        $scope.reset()
+      // $scope.advData = response.data;
+      // $scope.checkApprove();
+      // $rootScope.$broadcast('forceRefetch', {});
     })
   }
+
 
 });

@@ -1199,6 +1199,7 @@ $scope.fileDropzone = function(){
       $scope.unclaimed = response.data.unclaimed;
       $scope.claimed = response.data.claimed;
       $scope.approved = response.data.approved;
+      $scope.advance = response.data.advance;
     }, function(error) {
     })
   }

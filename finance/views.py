@@ -50,7 +50,7 @@ from openpyxl.writer.excel import save_virtual_workbook
 from openpyxl.styles import PatternFill , Font
 from ERP.models import appSettingsField, service, address
 from projects.models import *
-from payroll.models import PayrollReport
+from payroll.models import PayrollReport, Advances
 # Create your views here.
 import ast
 import json
@@ -4282,7 +4282,11 @@ class GetExpensesDataAPIView(APIView):
             claimed = claimedTot['tot']
         if approvedTot['tot']!=None:
             approved = approvedTot['tot']
-        data = {'unclaimed' : unclaimed, 'claimed' : claimed, 'approved' : approved,'unclaimedObj':InvoiceQtySerializer(unclaimedObj,many=True).data,'expenseObj':InvoiceReceivedSerializer(expenseObj,many=True).data}
+        advance = 0
+        advanceDeductiontot = Advances.objects.filter(user = request.user, settled = False, returnMethod = 'PROJECT_ADVANCE').aggregate(tot = Sum('amount'))
+        if advanceDeductiontot['tot'] is not None:
+            advance = advanceDeductiontot['tot']
+        data = {'unclaimed' : unclaimed, 'claimed' : claimed, 'advance':advance, 'approved' : approved,'unclaimedObj':InvoiceQtySerializer(unclaimedObj,many=True).data,'expenseObj':InvoiceReceivedSerializer(expenseObj,many=True).data}
         return Response(data ,status = status.HTTP_200_OK)
 
 class GetAllTourAPI(APIView):

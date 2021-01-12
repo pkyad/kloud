@@ -144,6 +144,9 @@ class ContactViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         divsn = self.request.user.designation.division
         toReturn = Contact.objects.filter(user__designation__division = divsn).order_by('-created')
+        if 'lastUpdate' in self.request.GET:
+            lastUpdate = datetime.datetime.strptime(self.request.GET['lastUpdate'], '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+            toReturn = toReturn.filter(updated__gte = lastUpdate)
         if 'search' in self.request.GET:
             val = self.request.GET['search']
             toReturn = toReturn.filter(Q(name__icontains =val)|Q(email__icontains = val)|Q(company__name__icontains = val)|Q(mobile__icontains = val))
