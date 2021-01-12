@@ -9,6 +9,7 @@ from django.dispatch import receiver
 from django.db.models.signals import pre_save
 from django.db.models.signals import post_save
 # Create your models here.
+from ERP.models import Division
 
 def getDocsPath(instance , filename ):
     return 'payroll/advances/%s_%s_%s' % (str(time()).replace('.', '_'), instance.user, filename)
@@ -131,48 +132,30 @@ class Payslip(models.Model):
     pfAmnt =  models.FloatField(default = 0)
     pfAdmin =  models.FloatField(default = 0)
     tds = models.FloatField(default = 0)
+    advanceIds = models.CharField(max_length = 100 , null = True)
+    advanceDeduction =  models.FloatField(default = 0)
     class Meta:
         unique_together = ('year', 'month', 'user')
 
 
-ADVANCE_TYPE_CHOICE = (
-    ('advance' , 'advance'),
-    ('loan' , 'loan'),
-    )
 
-MODE_OF_RETURN_CHOICE = (
-    ('salary_deduct' , 'salary_deduct'),
-    ('cash' , 'cash'),
-    ('cheque' , 'cheque'),
-    ('online' , 'online'),
+ADVANCE_TYPE_CHOICE = (
+    ('SALARY_ADVANCE' , 'SALARY_ADVANCE'),
+    ('PROJECT_ADVANCE' , 'PPROJECT_ADVANCE'),
+
     )
 
 class Advances(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User , related_name = "lender" , null=False)
-    typ = models.CharField(max_length = 30 , choices = ADVANCE_TYPE_CHOICE, )
-    created = models.DateTimeField(auto_now_add = True)
-    reason = models.TextField(max_length=400 , null=True)
-    amount = models.FloatField(null=False)
-    approved = models.BooleanField(default = False)
-    approvers = models.ManyToManyField(User , related_name='approvers' , blank = True)
-    disbursed = models.BooleanField(default = False)
+    returnMethod = models.CharField(max_length = 30 , choices = ADVANCE_TYPE_CHOICE , default = 'SALARY_ADVANCE')
+    amount =  models.FloatField(default = 0)
+    balance =  models.FloatField(default = 0)
     settled = models.BooleanField(default = False)
-    dateOfReturn = models.DateField(null = True)
-    tenure = models.PositiveIntegerField(default = 1)
     document = models.FileField(upload_to = getDocsPath ,  null = True , blank = True)
-    settlementDate = models.DateField(null = True)
-    settlementUser = models.ForeignKey(User , related_name = "settler" , null=True)
-    returnBalance = models.FloatField(null=True, default= 0)
-    modeOfReturn = models.CharField(max_length = 30 , choices = MODE_OF_RETURN_CHOICE, default = 'salary_deduct' )
-    referenceNumber = models.CharField(max_length = 50 , null = True)
-    emiStartOffset = models.PositiveIntegerField(default = 0)
-    emi = models.PositiveIntegerField(default = 1)
-    invoice = models.FileField(upload_to = getInvsPath ,  null = True , blank = True)
-    invoiceAmt = models.FloatField(null=True, default= 0)
-    loanStarted = models.BooleanField(default = False)
-    loanStartedDate = models.DateField(null=True)
-
-
+    dateOfReturn = models.DateField(null = True)
+    reason = models.TextField(max_length=400 , null=True)
+    division = models.ForeignKey(Division , related_name = 'advances' , null = True)
 
 class MonthlyPayslip(models.Model):
     created = models.DateTimeField(auto_now_add=True)
