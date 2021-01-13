@@ -554,3 +554,13 @@ class JobUploadAPIView(APIView):
                 except:
                     pass
         return Response(status=status.HTTP_200_OK)
+
+
+class GetAllJobsAPIVieww(APIView):
+    renderer_classes = (JSONRenderer,)
+    def get(self, request, format=None):
+        allJobsApp = JobApplication.objects.filter(job__pk = int(request.GET['id']))
+        pendingObj = JobApplicationSerializer(allJobsApp.filter(status = 'Created'), many = True).data
+        selectedObj = JobApplicationSerializer(allJobsApp.filter(status = 'Shortlisted'), many = True).data
+        data = {'pendingObj' : pendingObj , 'selectedObj' : selectedObj}
+        return Response(data,status=status.HTTP_200_OK)

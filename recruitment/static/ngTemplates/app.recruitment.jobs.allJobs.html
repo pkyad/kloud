@@ -1,0 +1,60 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 " style="padding:10px">
+      <div class="row">
+        <div class="col-md-12 " style="padding:10px">
+        <h3>  Selected </h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 " style="padding:10px">
+          <table class="table table-striped pad10">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Offer Letter</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="a in allCandidates.selectedObj" ng-click="$state.go('workforceManagement.exploreJob.viewprofile')">
+                <td style="width:22.5%;padding:10px;">{{a.firstname}} {{a.lastname}}</td>
+                <td style="width:22.5%;padding:10px;">{{a.email}}</td>
+                <td style="width:22.5%;padding:10px;">{{a.mobile}}</td>
+                <td style="width:22.5%;padding:10px;"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 " style="padding:10px">
+        <h3>  Pending </h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 " style="padding:10px">
+          <table class="table table-striped pad10">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Resume</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="a in allCandidates.pendingObj" ng-click="$state.go('workforceManagement.exploreJob.viewprofile')">
+                <td style="width:22.5%;padding:10px;">{{a.firstname}} {{a.lastname}}</td>
+                <td style="width:22.5%;padding:10px;">{{a.email}}</td>
+                <td style="width:22.5%;padding:10px;">{{a.mobile}}</td>
+                <td style="width:22.5%;padding:10px;"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

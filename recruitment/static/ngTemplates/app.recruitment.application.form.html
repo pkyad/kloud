@@ -22,12 +22,11 @@
             <label><i style="color:#e27160">*</i> Mobile</label>
             <input type="text" class="form-control" ng-model="form.mobile" required>
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label>Cover Letter</label>
             <textarea type="text" class="form-control" ng-model="form.coverletter"></textarea>
-            <!-- <textarea ui-tinymce="tinymceOptions" ng-model="form.coverletter"></textarea> -->
           </div>
-          <br/>
+          <br/> -->
           <div class="form-group">
             <label><i style="color:#e27160">*</i> Resume</label>
             <input type="file" file-model="form.resume">
@@ -35,10 +34,10 @@
               {{rsD.length>0?rsD:'Upload In PDF Format'}}
             </div>
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <input type="checkbox" ng-model="form.aggree" required></input>
             <label>I Agree To The Terms And Conditions</label>
-          </div>
+          </div> -->
           <div class="btn-group">
             <button type="submit" class="btn btn-primary" ng-click="save()">Save</button>
             <button type="button" class="btn btn-default" ng-click="cancel()">

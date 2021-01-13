@@ -11,34 +11,34 @@ from HR.serializers import userSearchSerializer
 
 class JobsSerializer(serializers.ModelSerializer):
     unit = UnitsLiteSerializer(many = False , read_only = True)
-    role = RoleSerializer(many = False , read_only = True)
     total_app = serializers.SerializerMethodField()
     class Meta:
         model = Jobs
-        fields = ('created','pk', 'jobtype','unit', 'role' , 'contacts', 'skill' , 'approved' , 'maximumCTC' , 'status','description','total_app' )
+        fields = ('created','pk', 'jobtype','unit', 'role' , 'skill' , 'approved' , 'maximumCTC' , 'status','description','total_app' )
     def create(self , validated_data):
-        del validated_data['contacts']
+        # del validated_data['contacts']
         inv = Jobs(**validated_data)
         inv.unit = Unit.objects.get(pk = self.context['request'].data['unit'])
-        inv.role = Role.objects.get(pk = self.context['request'].data['role'])
+        inv.division = request.user.designation.division
+        # inv.role = Role.objects.get(pk = self.context['request'].data['role'])
         inv.save()
-        for i in self.context['request'].data['contacts']:
-            inv.contacts.add(User.objects.get(pk = i))
+        # for i in self.context['request'].data['contacts']:
+        #     inv.contacts.add(User.objects.get(pk = i))
         return inv
 
     def update(self ,instance, validated_data):
-        for key in ['jobtype',  'contacts' , 'skill', 'approved' , 'maximumCTC' , 'status','description']:
+        for key in ['jobtype',  'contacts' , 'skill', 'approved' , 'maximumCTC' , 'status','description','role']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
                 pass
         if 'unit' in self.context['request'].data:
             instance.unit = Unit.objects.get(pk = self.context['request'].data['unit'])
-        if 'role' in self.context['request'].data:
-            instance.role = Role.objects.get(pk = self.context['request'].data['role'])
-        if 'contacts' in self.context['request'].data:
-            for i in self.context['request'].data['contacts']:
-                instance.contacts.add(User.objects.get(pk = i))
+        # if 'role' in self.context['request'].data:
+        #     instance.role = self.context['request'].data['role']
+        # if 'contacts' in self.context['request'].data:
+        #     for i in self.context['request'].data['contacts']:
+        #         instance.contacts.add(User.objects.get(pk = i))
         instance.save()
         return instance
     def get_total_app(self, obj):

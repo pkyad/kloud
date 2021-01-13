@@ -624,7 +624,7 @@ def genInvoice(response, contract, request):
 
     if tncBody is not None:
         for i , cond in enumerate(tncBody.split('||')):
-            bullts += "<strong>%s.</strong> %s <br/>"%(i+1 , cond)
+            bullts += "<strong>%s.</strong> %s <br/>"%(i+1 , cond.replace("<br/>", " "))
         story.append(Paragraph(bullts, styleN))
 
     if  contract.termsAndCondition is not None and contract.termsAndCondition.message is not None:
