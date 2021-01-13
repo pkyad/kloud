@@ -57,7 +57,7 @@ import json
 from clientRelationships.models import *
 from marketing.models import TourPlanStop
 from svglib.svglib import svg2rlg
-import cv2
+# import cv2
 import numpy as np
 
 
