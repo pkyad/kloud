@@ -35,14 +35,15 @@ class Jobs(models.Model):
 
 STATUS_LIST_CHOICES = (
         ('Created' , 'Created'),
-        ('Screening' , 'Screening'),
-        ('SelfAssesmenent' , 'SelfAssesmenent'),
-        ('TechicalInterview' , 'TechicalInterviewing'),
-        ('HRInterview' , 'HRInterview'),
-        ('Shortlisted' , 'Shortlisted'),
-        ('Negotiation' , 'Negotiation'),
-        ('Onboarding' , 'Onboarding'),
-        ('Closed' , 'Closed'),
+        ('Selected' , 'Selected'),
+        # ('Screening' , 'Screening'),
+        # ('SelfAssesmenent' , 'SelfAssesmenent'),
+        # ('TechicalInterview' , 'TechicalInterviewing'),
+        # ('HRInterview' , 'HRInterview'),
+        # ('Shortlisted' , 'Shortlisted'),
+        # ('Negotiation' , 'Negotiation'),
+        # ('Onboarding' , 'Onboarding'),
+        # ('Closed' , 'Closed'),
 )
 
 REASON_CHOICES_LIST = (

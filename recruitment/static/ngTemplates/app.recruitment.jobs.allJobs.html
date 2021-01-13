@@ -18,11 +18,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="a in allCandidates.selectedObj" ng-click="$state.go('workforceManagement.exploreJob.viewprofile')">
+              <tr ng-repeat="a in allCandidates.selectedObj" ng-click="$state.go('workforceManagement.exploreJob.viewprofile',{'cand':a.pk})">
                 <td style="width:22.5%;padding:10px;">{{a.firstname}} {{a.lastname}}</td>
                 <td style="width:22.5%;padding:10px;">{{a.email}}</td>
                 <td style="width:22.5%;padding:10px;">{{a.mobile}}</td>
-                <td style="width:22.5%;padding:10px;"></td>
+                <td style="width:22.5%;padding:10px;" ng-click="$event.stopPropagation()"><a href="/api/recruitment/downloadCallLeter/?value={{a.pk}}" target="_blank"><i class="fa fa-download fa-lg"></i></a></td>
               </tr>
             </tbody>
           </table>
@@ -45,11 +45,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="a in allCandidates.pendingObj" ng-click="$state.go('workforceManagement.exploreJob.viewprofile')">
+              <tr ng-repeat="a in allCandidates.pendingObj" ng-click="$state.go('workforceManagement.exploreJob.viewprofile',{'cand':a.pk})">
                 <td style="width:22.5%;padding:10px;">{{a.firstname}} {{a.lastname}}</td>
                 <td style="width:22.5%;padding:10px;">{{a.email}}</td>
                 <td style="width:22.5%;padding:10px;">{{a.mobile}}</td>
-                <td style="width:22.5%;padding:10px;"></td>
+                <td style="width:22.5%;padding:10px;" ng-click="$event.stopPropagation()"><a ng-if="a.resume" href="{{a.resume}}"  target="_blank"><i class="fa fa-download fa-lg"></i></a></td>
               </tr>
             </tbody>
           </table>
