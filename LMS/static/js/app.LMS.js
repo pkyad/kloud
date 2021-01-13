@@ -325,7 +325,9 @@ app.controller("LMS.students", function($scope, $state, $users, $stateParams, $h
           $uibModalInstance.dismiss()
         }
 
-        $scope.form = data
+        $scope.form = {
+          name:'',mobile:'',email:''
+        }
 
 
 

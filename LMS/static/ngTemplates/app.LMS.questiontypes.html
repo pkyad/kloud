@@ -18,10 +18,10 @@
         <h3 style="margin:0px;" ng-if="form=='file'"><b>File Upload Question Creation</b></h3>
       </div>
       <div class="col-md-3">
-        <button type="button" class="createTestBtn btn-block" name="button" ng-click="uploadcsvFile('multiple')" style="background-color:#231654 !important;border:1px solid #231654 !important; " ng-if="form=='multiple'">Bulk Upload MCQ <img src="/static/images/uploadwhite.png" alt="" style="margin-left:15px;height:25px;"> </button>
+        <!-- <button type="button" class="createTestBtn btn-block" name="button" ng-click="uploadcsvFile('multiple')" style="background-color:#231654 !important;border:1px solid #231654 !important; " ng-if="form=='multiple'">Bulk Upload MCQ <img src="/static/images/uploadwhite.png" alt="" style="margin-left:15px;height:25px;"> </button>
 
         <button type="button" class="createTestBtn btn-block" name="button" ng-click="uploadcsvFile('subjective')" style="background-color:#231654 !important;border:1px solid #231654 !important;" ng-if="form=='subjective'">Bulk Upload Subjective Questions <img src="/static/images/uploadwhite.png" alt="" style="margin-left:15px;height:25px;"></button>
-        <button type="button" class="createTestBtn btn-block" name="button" ng-click="uploadcsvFile('file')" style="background-color:#231654 !important;border:1px solid #231654 !important; " ng-if="form=='file'">Bulk File Upload Questions <img src="/static/images/uploadwhite.png" alt="" style="margin-left:15px;height:25px;"> </button>
+        <button type="button" class="createTestBtn btn-block" name="button" ng-click="uploadcsvFile('file')" style="background-color:#231654 !important;border:1px solid #231654 !important; " ng-if="form=='file'">Bulk File Upload Questions <img src="/static/images/uploadwhite.png" alt="" style="margin-left:15px;height:25px;"> </button> -->
       </div>
     </div>
     <div class="row" style="margin:0px;padding:30px;padding-top:80px;">
@@ -33,7 +33,8 @@
         <div class="{{cpForm.isLatex?'col-md-6':'col-md-12'}}">
           <div class="form-group" style="" ng-if="form=='multiple' || form =='subjective' ||  form =='file'">
             <label for="">Problem Description</label>
-            <textarea ui-tinymce="tinymceOptions" class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
+            <textarea ui-tinymce="tinymceOptions" ng-if="!cpForm.isLatex" class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
+            <textarea  ng-if="cpForm.isLatex" class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
           </div>
 
         </div>
@@ -62,7 +63,8 @@
           <div class="col-md-11">
             <div class="{{cpForm.isLatex?'col-md-6':'col-md-12'}}">
               <div class="form-group" style="" ng-if="form=='multiple' || form =='subjective' ||  form =='file'">
-                <textarea ui-tinymce="tinymceOptions" class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
+                <textarea ui-tinymce="tinymceOptions" ng-if="!cpForm.isLatex"  class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
+                <textarea ng-if="cpForm.isLatex" class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
               </div>
 
             </div>
@@ -82,7 +84,8 @@
           <div class="col-md-11">
             <div class="{{cpForm.isLatex?'col-md-6':'col-md-12'}}">
               <div class="form-group" style="" ng-if="form=='multiple' || form =='subjective' ||  form =='file'">
-                <textarea ui-tinymce="tinymceOptions" class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
+                <textarea ui-tinymce="tinymceOptions" ng-if="!cpForm.isLatex" class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
+                <textarea ng-if="cpForm.isLatex" class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
               </div>
 
             </div>
@@ -103,8 +106,8 @@
           <div class="col-md-11">
             <div class="{{cpForm.isLatex?'col-md-6':'col-md-12'}}">
               <div class="form-group" style="" ng-if="form=='multiple' || form =='subjective' ||  form =='file'">
-                <label for="">Problem Description</label>
-                <textarea ui-tinymce="tinymceOptions" class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
+                <textarea ui-tinymce="tinymceOptions" ng-if="!cpForm.isLatex"  class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
+                <textarea  ng-if="cpForm.isLatex" class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
               </div>
 
             </div>
@@ -123,8 +126,9 @@
           <div class="col-md-11">
             <div class="{{cpForm.isLatex?'col-md-6':'col-md-12'}}">
               <div class="form-group" style="" ng-if="form=='multiple' || form =='subjective' ||  form =='file'">
-                <label for="">Problem Description</label>
-                <textarea ui-tinymce="tinymceOptions" class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
+                <textarea ui-tinymce="tinymceOptions" ng-if="!cpForm.isLatex" class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
+                <textarea  ng-if="cpForm.isLatex" class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
+
               </div>
 
             </div>
@@ -145,8 +149,8 @@
           <div class="col-md-11">
             <div class="{{cpForm.isLatex?'col-md-6':'col-md-12'}}">
               <div class="form-group" style="" ng-if="form=='multiple' || form =='subjective' ||  form =='file'">
-                <label for="">Problem Description</label>
-                <textarea ui-tinymce="tinymceOptions" class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
+                <textarea ui-tinymce="tinymceOptions"ng-if="cpForm.isLatex"  class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
+                <textarea  ng-if="cpForm.isLatex" class="cleanInput form-control" ng-model="cpForm.firstMessage" ></textarea>
               </div>
 
             </div>
