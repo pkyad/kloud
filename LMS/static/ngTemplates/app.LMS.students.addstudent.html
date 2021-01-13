@@ -5,7 +5,7 @@
           <img ng-click="close()" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
       </div>
       <div class="col-md-11 text-center">
-        <h3 style="margin:0px;"><b>{{form?'Edit':'Create'}} Student</b></h3>
+        <h3 style="margin:0px;"><b>{{form.pk?'Edit':'Create'}} Student</b></h3>
 
       </div>
     </div>
@@ -14,29 +14,24 @@
     <div class="row">
       <div class="form-group">
         <label for="">Student Name</label>
-        <input type="text" class="form-control bookInput" name="" value="">
+        <input type="text" ng-model="form.name"class="form-control bookInput" name="" value="">
       </div>
     </div>
     <br>
     <div class="row">
       <div class="form-group">
         <label for="">Mobile Number</label>
-        <input type="text" class="form-control bookInput" name="" value="">
+        <input type="text" ng-model="form.mobile" class="form-control bookInput" name="" value="">
       </div>
     </div>
     <br>
     <div class="row">
       <div class="form-group">
         <label for="">Email Id</label>
-        <input type="email" class="form-control bookInput" name="" value="">
+        <input type="email" ng-model="form.email" class="form-control bookInput" name="" value="">
       </div>
     </div>
-    <div class="row" ng-if="form=='edit'">
-      <div class="form-group">
-        <label for="">No.of courses joined</label>
-        <input type="text" class="form-control bookInput" name="" value="">
-      </div>
-    </div>
+
     <br><br>
     <div class="modal-footer" style="border:none;padding:0px;">
       <div class="row">
@@ -44,7 +39,7 @@
           <button class="newBtn btn-block" type="button" name="button" style="padding:12px;" ng-click="close()">Cancel</button>
         </div>
         <div class="col-md-2 pull-right">
-          <button class="btn1 btn-block" type="button" name="button">Save</button>
+          <button class="btn1 btn-block" type="button" name="button" ng-click="save()">Save</button>
 
         </div>
       </div>
