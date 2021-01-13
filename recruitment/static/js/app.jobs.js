@@ -46,15 +46,15 @@ app.config(function($stateProvider) {
         }
       }
     })
-    .state('workforceManagement.exploreJob.viewprofile', {
-      url: "/viewprofile/:cand",
-      views: {
-        "": {
-          templateUrl: '/static/ngTemplates/app.recruitment.jobs.viewProfile.html',
-          controller: 'workforceManagement.recruitment.jobs.viewProfile',
-        }
+  .state('workforceManagement.exploreJob.viewprofile', {
+    url: "/viewprofile",
+    views: {
+      "": {
+        templateUrl: '/static/ngTemplates/app.recruitment.jobs.viewProfile.html',
+        controller: 'workforceManagement.recruitment.jobs.viewProfile',
       }
-    })
+    }
+  })
     // .state('workforceManagement.viewApplication', {
     //   url: "/viewApplication/:id",
     //   views: {
