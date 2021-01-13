@@ -1,4 +1,4 @@
-
+<!--
       <div class="container-fluid contactList" style="background:#FAFAFA;min-height:100vh;">
         <div class="row" style="background:rgb(18, 46, 99);padding:15px;padding-top:20px;padding-bottom:20px;">
           <div class="col-md-2">
@@ -151,4 +151,233 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
+        <div class="container-fluid contactList" style="background:#FAFAFA;min-height:100vh;">
+              <div class="row" style="background:rgb(18, 46, 99);padding:15px;padding-top:20px;padding-bottom:20px;">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-4">
+                  <ul class="nav navbar-nav navbar-left">
+                    <li style="padding-bottom:1.5vh;margin-top:5px;">
+                      <strong style="margin-left:-10px;color:white;font-size:20px;">BIND</strong>
+                    </li>
+                    <li style="margin-right:100px;margin-top:5px;">
+                      <switch ng-model="formToggle.toggleMain"></switch>
+                    </li>
+                    <li style="padding-bottom:1.5vh;margin-top:5px;">
+                      <strong style="margin-left:-90px;color:white;font-size:20px;">Trading</strong>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="row" style="background:rgb(18, 46, 99);color:white;padding-bottom:20px;padding:30px;">
+                <div class="col-md-4"> </div>
+                <div class="col-md-4 text-center">
+                  <h3>Reports</h3>
+                </div>
+                <div class="col-md-4"> </div>
+              </div>
+              <div class="row" style="margin-top:10px">
+                <div class="shaddowed card bg-white" style="min-height:95vh;">
+                  <div class="container-fluid">
+                    <div class="container">
+                      <div class="row" style="margin-top:4em;padding-bottom:2em;border-bottom:2px solid #e1e1e1;">
+                        <div class="col-md-3" style="">
+                          <strong style="font-size:20px;">Purchasewise Report</strong>
+                        </div>
+                        <div class="col-md-3">
+                          <select name="options1" class="form-control1" ng-model="form.comm_nr" ng-options="option as option for option in options ">
+                            <option value="">Select Comm No</option>
+                          </select>
+                        </div>
+                        <div class="col-md-3">
+                          <select name="options2" class="form-control1" ng-model="form.supplier" ng-options="b.pk as b.name for b in supplier">
+                            <option value="">Select Supplier</option>
+                          </select>
+                        </div>
+                        <div class="col-md-2">
+                          <button class="btn btn-primary pull-right" ng-click="downloadPurchase()" ng-if="form.comm_nr == null || form.supplier == null"><i class="fa fa-download"></i> Download</button>
+                          <a class="btn btn-primary pull-right" target="_blank" href="/api/importexport/purchasewiseReport/?commnr={{form.comm_nr}}&supplier={{form.supplier}}&flag={{flagValue}}" ng-if="form.comm_nr != null && form.supplier != null"><i
+                              class="fa fa-download"></i> Download</a>
+                        </div>
+                      </div>
+                      <div class="row" style="margin-top:2em;padding-bottom:2em;border-bottom:2px solid #e1e1e1;">
+                        <div class="col-md-3" style="">
+                          <strong style="font-size:20px;">Consumtionewise Report</strong>
+                        </div>
+                        <div class="col-md-3">
+                          <select name="options3" class="form-control1" ng-model="formConsumtion.comm_nr" ng-options="option as option for option in options " ng-change="selectConsumtion(formConsumtion.comm_nr)">
+                            <option value="">Select Comm No</option>
+                          </select>
+                        </div>
+                        <div class="col-md-3">
+
+                          <select name="options4" class="form-control1" ng-model="formConsumtion.supplier" ng-options="b.pk as b.name for b in supplierAll" ng-change="selectAll(formConsumtion.supplier)">
+                            <option value="">Select Supplier</option>
+                          </select>
+                        </div>
+                        <div class="col-md-2">
+                          <button class="btn btn-primary pull-right" ng-click="downloadPurchase1()" ng-if="formConsumtion.comm_nr == null || formConsumtion.supplier == null"><i class="fa fa-download"></i> Download</button>
+
+                          <a class="btn btn-primary pull-right" target="_blank" ng-href="{{url}}" ng-if="formConsumtion.comm_nr != null && formConsumtion.supplier != null"><i class="fa fa-download"></i> Download</a>
+                        </div>
+                      </div>
+                      <div class="row" style="margin-top:2em;padding-bottom:2em;border-bottom:2px solid #e1e1e1;">
+                        <div class="col-md-3" style="">
+                          <strong style="font-size:20px;">Stock available Report</strong>
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-3">
+                          <select name="options5" class="form-control1" ng-model="formStock.supplier" ng-options="b.pk as b.name for b in supplier">
+                            <option value="">Select Supplier</option>
+                          </select>
+                        </div>
+                        <div class="col-md-2">
+                          <button class="btn btn-primary pull-right" ng-click="downloadPurchase2()" ng-if=" formStock.supplier == null"><i class="fa fa-download"></i> Download</button>
+
+                          <a class="btn btn-primary pull-right" target="_blank" href="/api/importexport/stockAvailableReport/?supplier={{formStock.supplier}}&flag={{flagValue}}" ng-if=" formStock.supplier != null"><i class="fa fa-download"></i>
+                            Download</a>
+                        </div>
+                      </div>
+                      <div class="row" style="margin-top:2em;padding-bottom:2em;border-bottom:2px solid #e1e1e1;">
+                        <div class="col-md-3" style="">
+                          <strong style="font-size:20px;">Create Stock Summary</strong>
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-2">
+                          <button class="btn btn-primary pull-right" ng-click="createReportData()"> Create Stock Summary</button>
+                        </div>
+                      </div>
+                      <div class="row" style="margin-top:2em;padding-bottom:2em;border-bottom:2px solid #e1e1e1;">
+                        <div class="col-md-3" style="">
+                          <strong style="font-size:20px;">Download Stock Summary</strong>
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-2">
+                          <a class="btn btn-primary pull-right" target="_blank" href="/api/importexport/downloadStockReport/?flag={{flagValue}}"> Download </a>
+                        </div>
+                      </div>
+                      <div class="row" style="margin-top:2em;padding-bottom:2em;border-bottom:2px solid #e1e1e1;">
+                        <div class="col-md-3" style="">
+                          <strong style="font-size:20px;">Product Stock Consumed </strong>
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-2">
+                          <a class="btn btn-primary pull-right" target="_blank" href="/api/importexport/projectStockConsumption/?flag={{flagValue}}""> Download  </a>
+                        </div>
+                      </div>
+                      <div class=" row" style="margin-top:2em;padding-bottom:2em;border-bottom:2px solid #e1e1e1;">
+                            <div class="col-md-3" style="">
+                              <strong style="font-size:20px;">Invoice BOE</strong>
+                            </div>
+                            <div class="col-md-3">
+                            </div>
+                            <div class="col-md-3">
+                            </div>
+                            <div class="col-md-2">
+                              <a class="btn btn-primary pull-right" target="_blank" href="/api/importexport/downloadInvoiceReport/?flag={{flagValue}}"> Download </a>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:2em;padding-bottom:2em;border-bottom:2px solid #e1e1e1;">
+                          <div class="col-md-3" style="">
+                            <strong style="font-size:20px;">Stock Detail</strong>
+                          </div>
+                          <div class="col-md-3">
+                          </div>
+                          <div class="col-md-3">
+                          </div>
+                          <div class="col-md-2">
+                            <a class="btn btn-primary pull-right" target="_blank" href="/api/importexport/stockDetial/?flag={{flagValue}}"> Download </a>
+                          </div>
+                        </div>
+
+
+
+
+
+
+                        <div class="row" style="margin-top:2em;padding-bottom:2em;border-bottom:2px solid #e1e1e1;">
+                          <div class="col-md-3" style="">
+                            <strong style="font-size:20px;">Customer Complaints</strong>
+                          </div>
+                          <div class="col-md-3">
+                            <!-- <select  ng-model="form.status" name="">
+                              <option value="Open" selected>Open</option>
+                              <option value="Closed">Closed</option>
+                              <option value="Sent for closing approval">Sent for closing approval</option>
+
+                            </select> -->
+
+                            <select name="cars" ng-model="form.status" id="cars">
+                              <option value="">Complaint status</option>
+                              <option value="Open" selected>Open</option>
+                              <option value="Closed">Closed</option>
+                              <option value="Sent for closing approval">Sent for closing approval</option>
+                            </select>
+                          </div>
+                          <div class="col-md-3">
+                          </div>
+                          <div class="col-md-2">
+
+                            <a class="btn btn-primary pull-right" target="_blank" href="/api/importexport/customercomplaintReport/?status={{form.status}}&flag={{flagValue}}"> Download </a>
+                          </div>
+                        </div>
+                        <div class="row" style="margin-top:2em;padding-bottom:2em;border-bottom:2px solid #e1e1e1;">
+                          <div class="col-md-3" style="">
+                            <strong style="font-size:20px;">Customerwise Complaints</strong>
+                          </div>
+                          <div class="col-md-3">
+                            <select name="options2" class="form-control1" ng-model="form.supplier" ng-options="b.pk as b.name for b in options1">
+                              <option value="">Select Customer</option>
+                            </select>
+                          </div>
+                          <div class="col-md-3">
+                          </div>
+                          <div class="col-md-2">
+                            <a class="btn btn-primary pull-right" target="_blank" href="/api/importexport/customercomplaintReport/?customer={{form.supplier}}&flag={{flagValue}}"> Download </a>
+                          </div>
+                        </div>
+                        <div class="row" style="margin-top:2em;padding-bottom:2em;border-bottom:2px solid #e1e1e1;">
+                          <div class="col-md-3" style="">
+                            <strong style="font-size:20px;">Comm_nrwise Complaints</strong>
+                          </div>
+                          <div class="col-md-3">
+                            <select name="options3" class="form-control1" ng-model="formConsumtion.comm_nr" ng-options="option as option.comm_nr for option in options2 " ng-change="selectConsumtion(formConsumtion.comm_nr)">
+                              <option value="">Select Comm No</option>
+                            </select>
+                          </div>
+                          <div class="col-md-3">
+                          </div>
+                          <div class="col-md-2">
+                            <a class="btn btn-primary pull-right" target="_blank" href="/api/importexport/customercomplaintReport/?comm_nr={{formConsumtion.comm_nr.comm_nr}}&flag={{flagValue}}"> Download </a>
+                          </div>
+                        </div>
+                        <div class="row" style="margin-top:2em;padding-bottom:2em;border-bottom:2px solid #e1e1e1;">
+                          <div class="col-md-3" style="">
+                            <strong style="font-size:20px;">Complaint Id</strong>
+                          </div>
+                          <div class="col-md-3">
+                            <input uib-typeahead="option as option.pk for option in idSearch($viewValue)" ng-model="form.complaintId" type="text" class="form-control" placeholder="Search by complaint id"
+                               type="text" class="form-control" style="border:1px !important;background:#ffffff;">
+                          </div>
+                          <div class="col-md-3">
+                          </div>
+                          <div class="col-md-2">
+                            <a class="btn btn-primary pull-right" target="_blank" href="/api/importexport/customercomplaintReport/?complaintId={{form.complaintId.pk}}&flag={{flagValue}}"> Download </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>

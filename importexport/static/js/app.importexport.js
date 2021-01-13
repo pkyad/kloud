@@ -705,8 +705,7 @@ app.controller("businessManagement.importexport.projects.form", function($scope,
         return
       }
 
-      var method = 'PATCH'
-      var Url = '/api/importexport/projects/'
+
       var dataToSend = {
         service: $scope.form.service.pk,
         vendor: $scope.form.vendor.pk,
@@ -723,7 +722,7 @@ app.controller("businessManagement.importexport.projects.form", function($scope,
 
       $http({
         method: 'PATCH',
-        url: Url,
+        url: '/api/importexport/projects/'+ $stateParams.id +'/',
         data: dataToSend,
 
       }).
@@ -5679,6 +5678,13 @@ app.controller("businessManagement.importexport.report", function($scope, $sce, 
   then(function(response) {
     $scope.options = response.data
   })
+  $http({
+    method: 'GET',
+    url: '/api/ERP/service/',
+  }).
+  then(function(response) {
+    $scope.options1 = response.data
+  })
 
   $http({
     method: 'GET',
@@ -5700,6 +5706,21 @@ app.controller("businessManagement.importexport.report", function($scope, $sce, 
       $scope.supplierAll.push(obj)
     }
   })
+
+  $http({
+  method: 'GET',
+  url: '/api/importexport/complaintManagement/'
+}).
+then(function(response) {
+  $scope.options2 = response.data
+})
+
+$scope.idSearch = function(query) {
+return $http.get('/api/importexport/complaintManagement/?complaintId=' + query).
+then(function(response) {
+  return response.data;
+})
+};
 
   $scope.downloadPurchase = function() {
     Flash.create('danger', 'Please Select Purchase Report Comm No & Supplier');
@@ -5897,24 +5918,23 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
       return response.data;
     })
   };
-  $scope.genericUserSearch()
 
 
-  $scope.genericUserSearch1 = function(query) {
-    return $http.get('/api/HR/users/?registeredBy=' + query).
-    then(function(response) {
-      return response.data;
-    })
-  };
-  $scope.genericUserSearch1()
-
-  $scope.genericUserSearch22 = function(query) {
-    return $http.get('/api/organization/divisions/?division=' + query).
-    then(function(response) {
-      return response.data;
-    })
-  };
-  $scope.genericUserSearch22()
+  // $scope.genericUserSearch1 = function(query) {
+  //   return $http.get('/api/HR/users/?registeredBy=' + query).
+  //   then(function(response) {
+  //     return response.data;
+  //   })
+  // };
+  // $scope.genericUserSearch1()
+  //
+  // $scope.genericUserSearch22 = function(query) {
+  //   return $http.get('/api/organization/divisions/?division=' + query).
+  //   then(function(response) {
+  //     return response.data;
+  //   })
+  // };
+  // $scope.genericUserSearch22()
 
   $scope.resetForm = function() {
     $scope.form = {
@@ -6144,24 +6164,7 @@ app.controller("businessManagement.importexport.CMSView", function($scope, $stat
       $scope.fetchData()
     })
   }
-  // $scope.refurbishedBind = function(pk) {
-  //   console.log(pk, "innnnnnnnnnn");
-  //   var sendStatus = {
-  //
-  //     is_RefurbishedBind: 'true',
-  //   }
-  //   $http({
-  //     method: 'PATCH',
-  //     url: '/api/importexport/complaintManagement/' + pk + '/',
-  //     data: sendStatus,
-  //   }).
-  //   then(function(response) {
-  //     $scope.refurbishedBind = response.data
-  //     console.log($scope.refurbishedBind);
-  //     Flash.create('success', 'refurbished by BIND');
-  //
-  //   })
-  // }
+
   $scope.closeForm = function(pk) {
     $uibModal.open({
       templateUrl: '/static/ngTemplates/app.CMS.closeform.html',
@@ -6190,7 +6193,7 @@ app.controller("businessManagement.importexport.CMSView", function($scope, $stat
           })
         };
 
-        $scope.genericUserSearch1()
+        // $scope.genericUserSearch1()
         $scope.complaintClose = function() {
           if ($scope.form.date == '') {
             Flash.create('warning', 'Please Add Tentative Closing Date')
