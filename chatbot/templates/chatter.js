@@ -718,7 +718,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var videoOpened = false
   var audioOpened = false
   var getFrameContent;
-  
+
   singleService.style.display = "none";
   function checkCookie() {
     uid = getCookie("uid");
@@ -1546,7 +1546,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   videoBtn.addEventListener("click",function(){
 
 
-    
+
     // togglingActive(videoBtn,isVideoClicked,'video')
   })
 

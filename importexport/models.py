@@ -78,11 +78,11 @@ class Vendor(models.Model):
 
 class Projects(models.Model):
     created = models.DateTimeField(auto_now_add  = True )
-    title = models.CharField(max_length = 20)
+    title = models.CharField(max_length = 200)
     service = models.ForeignKey(service , related_name = 'service' ,null = False)
     date = models.DateField(null = True)
     machinemodel = models.CharField(max_length = 20 , null = True , blank =True)
-    comm_nr = models.CharField(max_length = 20 ,default='null', blank =True)
+    comm_nr = models.CharField(max_length = 200 ,default='null', blank =True)
     quote_ref = models.CharField(max_length = 50 , null = True , blank =True)
     enquiry_ref = models.CharField(max_length = 50 , null = True , blank =True)
     responsible = models.ManyToManyField(User , related_name = 'managingService' , blank = True)
@@ -129,6 +129,8 @@ class Projects(models.Model):
     grnDate = models.DateField(null = True)
     flag = models.BooleanField(default = False)
     division = models.ForeignKey(Division, related_name = 'projects', null = True)
+    class Meta:
+        unique_together = ('title', 'comm_nr','division')
 
 
 class BoM(models.Model):
@@ -304,7 +306,7 @@ class ComplaintManagement(models.Model):
     date = models.DateTimeField(auto_now_add=True , null = True)
     customer = models.ForeignKey(service ,related_name='lastnamee', null=True)
     contact = models.CharField(max_length = 100 , null = True ,blank=True)
-    comm_nr = models.CharField(max_length = 50 , null = True)
+    comm_nr = models.CharField(max_length = 100 , null = True)
     complaintRef = models.CharField( max_length = 50  , null=True , blank=True)
     machine = models.CharField( max_length = 50 , null=True , blank=True)
     description = models.TextField(max_length=2000, null=True,blank =True)

@@ -1,7 +1,7 @@
 <div class="container-fluid" style="padding:20px;">
   <span></span>
   <div ng repeat="data in form" class="col-md-3" style="border-right:solid 2px #eeeeee;">
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3><img id="back" onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt=""> &nbsp;&nbsp;<u>Invoice Deatils</u></h3>
+   <h3> &nbsp;&nbsp;<u>Invoice Deatils</u></h3>
     <div class="row">
 
       <div class="col-md-12" style="padding-top:8px;font-size:18px">
@@ -58,10 +58,21 @@
     </div>
   </div>
   <div class="col-md-9">
+    <div class="row">
+      <div class="col-md-12">
+        <h3><u>Details</u></h3>
+<hr>
+      </div>
+
+    </div>
     <div class="row" style="margin-bottom:20px" ng-if="data.pk">
       <div class="col-md-12 text-right">
-        <span><a class="btn btn-primary" target="_blank" href="/api/importexport/invoiceDownload/?pkVal={{data.pk}}&potrait=True" style="min-width:50px"><i class="fa fa-download"></i> Download Invoice Portrait</a></span>
-        <span><a class="btn btn-primary" target="_blank" href="/api/importexport/invoiceDownload/?pkVal={{data.pk}}&potrait=False" style="min-width:50px"><i class="fa fa-download"></i> Download Invoice Landscape </a></span>
+        <span ng-if="!data.lockInvoice" style="margin-top:10px;" class="pull-left">
+             <a mwl-confirm title="Lock invoice" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="lockInvoice(data.pk)"
+              confirm-button-type="default" cancel-button-type="default" class="btn btn-warning" target="_blank" style="min-width:50px;position:relative;">lock invoice&nbsp;&nbsp;<i class="fa fa-lock"></i>  </a>
+          </span>
+        <span style=""><a class="btn btn-primary" target="_blank" href="/api/importexport/invoiceDownload/?pkVal={{data.pk}}&potrait=True" style="min-width:50px;margin-top:10px;"><i class="fa fa-download"></i> Download Invoice Portrait</a></span>
+        <span style=""><a class="btn btn-primary" target="_blank" href="/api/importexport/invoiceDownload/?pkVal={{data.pk}}&potrait=False" style="min-width:50px;margin-top:10px;"><i class="fa fa-download"></i> Download Invoice Landscape </a></span>
       </div>
     </div>
     <table class="invoiceTable" style=" width: 100%;">
@@ -100,9 +111,6 @@
         </tr>
       </tbody>
     </table>
-      <span ng-if="!data.lockInvoice" style="margin-top:20px;" class="pull-left">
-           <a mwl-confirm title="Lock invoice" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="lockInvoice(data.pk)"
-            confirm-button-type="default" cancel-button-type="default" class="btn btn-warning" target="_blank" style="min-width:50px">lock invoice&nbsp;&nbsp;<i class="fa fa-lock"></i>  </a>
-        </span>
+    
   </div>
 </div>

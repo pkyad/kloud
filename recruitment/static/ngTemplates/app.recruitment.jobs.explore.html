@@ -1,183 +1,65 @@
-<div class="container-fluid" >
+<div class="container-fluid">
   <div class="row">
-    <div class="col-md-3" style="height:100vh">
-              <div class="container-fluid" style="padding-top:20px;margin-top:5%">
-                <div class="row">
-                  <div class="col-md-5 text-right">
-                    <strong>Job Type :</strong>
-                  </div>
-                  <div class="col-md-7">
-                    {{jobDetails.jobtype}}
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-5 text-right">
-                    <strong>Unit :</strong>
-                  </div>
-                  <div class="col-md-7">
-                    {{jobDetails.unit.name}}
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-5 text-right">
-                    <strong>Department :</strong>
-                  </div>
-                  <div class="col-md-7">
-                    {{jobDetails.department.dept_name}}
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-5  text-right">
-                    <strong>Position :</strong>
-                  </div>
-                  <div class="col-md-7">
-                    {{jobDetails.role.name}}
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-5 text-right">
-                    <strong>Maximum CTC :</strong>
-                  </div>
-                  <div class="col-md-7">
-                    {{jobDetails.maximumCTC}}
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-5 text-right">
-                    <strong>Skill :</strong>
-                  </div>
-                  <div class="col-md-7">
-                    <div ng-bind-html="jobDetails.skill"></div>
-                  </div>
-                </div>
-                <!-- <div class="row">
+    <div class="col-md-3" style="height:100vh;background:#FAFAFA">
+      <div class="container-fluid" style="padding-top:20px;margin-top:5%">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <h2> {{jobDetails.jobtype}} </h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 text-right">
+          <h3>  <strong>Unit :</strong></h3>
+          </div>
+          <div class="col-md-8">
+            <h3>{{jobDetails.unit.name}}</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4  text-right">
+            <h3><strong>Position :</strong></h3>
+          </div>
+          <div class="col-md-8">
+            <h3>{{jobDetails.role}}</h3>
+          </div>
+        </div>
+        <!-- <div class="row">
+          <div class="col-md-5 text-right">
+            <strong>Maximum CTC :</strong>
+          </div>
+          <div class="col-md-7">
+            {{jobDetails.maximumCTC}}
+          </div>
+        </div> -->
+        <div class="row">
+          <div class="col-md-4 text-right">
+            <h3><strong>Skill :</strong></h3>
+          </div>
+          <div class="col-md-8">
+            <h3 ng-bind-html="jobDetails.skill"></h3>
+          </div>
+        </div>
+        <!-- <div class="row">
                   <label>Description</label>
                 </div> -->
-              </div>
-
-                <div class="row" style="position: absolute;bottom: 5%;" >
-                  <div class="" >
-                    <div class=" col-md-4" ng-if="jobDetails.status=='Active'" style="display:inline-flex; margin-left:2%">
-                    <button class="btn btn-default" ng-click="newApplicant()" ><i class="fa fa-plus"> Add Candidate</i></button>
-                      <button class="btn btn-default" ng-click="listData()"><i class="fa fa-refresh"></i></button>
-                  </div>
-                    <div class=" col-md-4" style="margin-left:25%" >
-                    <button class="btn btn-default" ng-click="bulkupload()" ><i class="fa fa-plus">Bulk Upload</i></button>
-                  </div>
-                  </div>
-                  <div class="col-md-4 text-right" ng-if="jobApplied.length>0">
-                    <div class="btn-group">
-
-                    <button class="btn btn-danger" ng-click="rejected()"> Reject </button>
-                    <button class="btn btn-primary" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>"
-                      cancel-text="No" on-confirm="selected()" confirm-button-type="success" cancel-button-type="default"><i class="fa fa-tick">Shortlist</i></button>
-                  </div>
-                  </div>
-                </div><br/>
-
-    </div>
-    <!-- <div class="col-md-7">
-      <div class="row">
-        <div class="col-md-4">
-        </div>
-        <div class="col-md-4">
-          <i class="fa fa-check-circle fa-3x text-{{jobDetails.approved ? 'success': 'danger'}} pull-right" ng-model="jobDetails.approved" style="padding-top:10px" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>"
-            cancel-text="No" on-confirm="approve()" confirm-button-type="success" cancel-button-type="default"></i><span class="pull-right" style="margin-top:10px;margin-right:20px;">Approved :</span>
-        </div>
-        <div class="col-md-4" ng-if="jobDetails.approved">
-          <i class="fa  fa-check-circle fa-3x text-{{jobDetails.status=='Active' ? 'success': 'danger'}} pull-right" ng-model="jobDetails.status" style="padding-top:10px" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>"
-            cancel-text="No" on-confirm="active()" confirm-button-type="success" cancel-button-type="default"></i><span class="pull-right" style="margin-top:10px;margin-right:20px;">Active :</span>
-        </div>
-      </div>
-    </div> -->
-    <div class="col-md-9" style="padding:15px">
-      <div class="row" style="padding:1rem">
-        <div class="text-center col-md-4 boardHeader {{$index | rainbow}}" ng-repeat="c in columns">
-          <span style="font-size:17px;"><i class="fa {{c.icon}} fa-lg" style="margin-right:15px;"></i> {{c.text}}</span>
-        </div>
       </div>
 
-    </div>
-    <div class="row" style="padding:15px">
-      <div class="col-md-3" ng-repeat="col in columns" style="padding:1rem;">
-        <div class="row" style="min-height:30vh;max-width: 100%;margin-left:8px;padding:1rem;" ng-drop="true" ng-drop-success="onDropComplete($data,$event , $index);">
-          <div ng-click="$state.go('workforceManagement.viewApplication',{'id':c.pk})" class="card draggable dealCard " ng-drag="true" ng-drag-data="c" data-allow-transform="true" ng-repeat="c in data[col.cat]" style="font-size:18px;padding-left:25px;height:20%">
-            <i class="fa fa-user"></i> {{c.firstname | humanize}}<br>
-            <i class="fa fa-envelope"></i> {{c.email}}<br>
-            <i class="fa fa-phone"></i> {{c.mobile}}<br>
+      <div class="row" style="position:absolute;bottom:10px;width:100%">
+          <div class=" col-md-12" >
+            <button class="btn btn-default btn-block" ng-click="newApplicant()" style="background: #103F8D;color: white;border: none !important;border-radius: 10px !important;padding: 15px;"> <img src="/static/images/download-from-cloud.png" style="width: 25px;margin-right: 40px;" > Add Candidate </button>
           </div>
         </div>
+
+          <div class="row" style="position:absolute;bottom:75px;width:100%">
+          <div class=" col-md-12" >
+            <button class="btn btn-default btn-block" ng-click="bulkupload()"  style="background: #ffffff;border: none !important;border-radius: 10px !important;padding: 15px;">  <img src="/static/images/download-from-cloud.png" style="width: 25px;margin-right: 40px;" > Bulk Upload</button>
+          </div>
+        </div>
+
+      </div>
+    <div class="col-md-9">
+      <ui-view >
+      </ui-view>
       </div>
     </div>
   </div>
-
-
-
-
-  </div><br/>
-
-    <!-- <div class="row" >
-      <div class="col-md-6" >
-        <div class="btn-group" ng-if="jobDetails.status=='Active'">
-        <button class="btn btn-default" ng-click="newApplicant()"><i class="fa fa-plus"> Add Candidate</i></button>
-          <button class="btn btn-default" ng-click="listData()"><i class="fa fa-refresh"></i></button>
-      </div>
-        <div class="btn-group" >
-        <button class="btn btn-default" ng-click="bulkupload()" ><i class="fa fa-plus">Bulk Upload</i></button>
-      </div>
-      </div>
-      <div class="col-md-6 text-right" ng-if="jobApplied.length>0">
-        <div class="btn-group">
-
-        <button class="btn btn-danger" ng-click="rejected()"> Reject </button>
-        <button class="btn btn-primary" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>"
-          cancel-text="No" on-confirm="selected()" confirm-button-type="success" cancel-button-type="default"><i class="fa fa-tick">Shortlist</i></button>
-      </div>
-      </div>
-    </div><br/> -->
-
-  <div class="row" ng-if="jobApplied.length>0">
-    <table class="ui fixed single  celled table striped sortable compact"  id="mytable" >
-  <thead>
-    <tr>
-      <th class="width-checkbox"><input type="checkbox" ng-model="form.checkAll" /></th>
-      <th class="width-120">Name</th>
-      <th class="width-120">Email</th>
-      <th class="width-120">Mobile</th>
-      <th class="width-120">Status</th>
-      <th class="width-120">Resume</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="i in jobApplied">
-      <td><input type="checkbox" ng-model="i.select"></td>
-      <td>{{i.firstname}} {{i.lastname}}</td>
-      <td>{{i.email}}</td>
-      <td>{{i.mobile}}</td>
-      <td>{{i.status}}</td>
-      <td ><button class="btn btn-primary" ng-if="i.resume!=none" ng-click="resumeView(i.pk)"> View <i class="fa fa-eye"></i></button></td>
-    </tr>
-  </tbody>
-</table>
-  </div>
-
-  <div >
-    <!-- <div class="row" style="padding:15px">
-      <div class="text-center col-md-4 boardHeader {{$index | rainbow}}" ng-repeat="c in columns">
-        <span style="font-size:17px;"><i class="fa {{c.icon}} fa-lg" style="margin-right:15px;"></i> {{c.text}}</span>
-      </div>
-    </div>
-    <div class="row" style="padding:15px">
-      <div class="col-md-4" ng-repeat="col in columns">
-        <div class="row" style="min-height:50vh;" ng-drop="true" ng-drop-success="onDropComplete($data,$event , $index);">
-          <div ng-click="$state.go('workforceManagement.viewApplication',{'id':c.pk})" class="card draggable dealCard" ng-drag="true" ng-drag-data="c" data-allow-transform="true" ng-repeat="c in data[col.cat]" style="font-size:24px;padding-left:25px;">
-            <i class="fa fa-user"></i> {{c.firstname | humanize}}<br>
-            <i class="fa fa-envelope"></i> {{c.email}}<br>
-            <i class="fa fa-phone"></i> {{c.mobile}}<br>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
-</div>
-</div>

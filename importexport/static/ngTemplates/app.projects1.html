@@ -229,7 +229,7 @@
             </div>
             <div class="col-md-4">
               <div class="input-group" style="background:#ffffff;border-radius:10px;">
-                <input type="text" class="form-control" ng-model="search.query" placeholder="Search" ng-enter="fetchData()" style="border:none !important;background:#ffffff;">
+                <input type="text" class="form-control" ng-model="search.query" placeholder="Search by Comm_nr" ng-enter="fetchData()" style="border:none !important;background:#ffffff;">
                 <div class="input-group-btn">
                   <button class="btn btn-default" type="submit" ng-click="fetchData()" style="border:none !important;background:#ffffff;">
                     <i class="glyphicon glyphicon-search"></i>
@@ -247,7 +247,7 @@
         </div>
         <div class="row" style="background:rgb(18, 46, 99);color:white;padding-bottom:20px;padding:30px;">
 
-          <div class="col-md-4"> <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.importexport')">Projects</button></div>
+          <div class="col-md-4"> <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.importexport.projects')">Projects</button></div>
           <div class="col-md-4"> <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.importexport.archieveProject')">Archieve</button></div>
           <div class="col-md-4"> <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.importexport.junkProject')">Junk</button></div>
         </div>
