@@ -33,6 +33,20 @@ import os
 class SectionViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, isAdmin, )
     serializer_class = SectionSerializer
+    # queryset = Section.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['id','title' , 'book','parent']
+
+    def get_queryset(self):
+        toReturn = Section.objects.all()
+        if 'parent' in self.request.GET:
+            return toReturn.filter(parent__isnull = True)
+        else:
+            return toReturn
+
+class SectionliteViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated, isAdmin, )
+    serializer_class = SectionLiteSerializer
     queryset = Section.objects.all()
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['id','title' , 'book']
@@ -49,7 +63,7 @@ class CourseActivityViewSet(viewsets.ModelViewSet):
     serializer_class = CourseActivitySerializer
     queryset = CourseActivty.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['typ','paper']
+    filter_fields = ['typ','paper','course']
 
 class BookLiteViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, isAdmin, )
@@ -67,7 +81,8 @@ class QuestionViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, isAdmin, )
     serializer_class = QuestionSerializer
     queryset = Question.objects.all()
-
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['paper']
     def get_queryset(self):
         if 'name' in self.request.GET:
             return Question.objects.filter(ques__icontains = self.request.GET['name'])

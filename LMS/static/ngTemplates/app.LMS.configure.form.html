@@ -26,13 +26,19 @@
         <textarea ng-model="form.description" name="name" class="form-control bookInput" class="textarea" rows="8" cols="80" style="resize:none;"></textarea>
       </div>
       <div class="form-group">
-        <div class="form-group">
-          <label>Display Pic</label>
-          <div class="" style="background:white;color:black;border-radius: 15px;padding: 10px;border: 1px solid black;width:110px;height:43px;">
+        <div class="row">
+          <div class="col-md-3">
+            <label>Display Pic</label>
+            <div class="" style="background:white;color:black;border-radius: 15px;padding: 10px;border: 1px solid black;width:110px;height:43px;">
 
-            Choose Dp
+              Choose Dp
 
-            <input type="file" file-model="form.dp" class="file_upload"  />
+              <input type="file" file-model="form.dp" class="file_upload"  />
+            </div>
+
+          </div>
+          <div class="col-md-2">
+            <img src="{{form.dp}}" ng-if="form.pk" style="height:100px;" alt="">
           </div>
         </div>
       </div>

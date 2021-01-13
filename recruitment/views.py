@@ -86,6 +86,7 @@ class JobsList(APIView):
         return Response(toReturn )
     def post(self , request , format = None):
         data = request.POST
+        print request.FILES['resume']
         d = {'firstname':data['firstname'],'email':data['email'],'mobile':data['mobile'],'job':Jobs.objects.get(pk = int(data['job'])),'resume':request.FILES['resume']}
         if 'lastname' in data:
             d['lastname'] = data['lastname']
@@ -405,7 +406,7 @@ def genInvoice(response, contract, request):
     <font size='10'>Thanks</font> <br/> <br/>
     <font size='10'>Regards</font> <br/>
     <font size='10'>%s %s</font> <br/>
-    """%(contract.firstname,contract.lastname,contract.job.role.name,contract.job.jobtype,contract.joiningDate,contract.job.role.name,contract.job.jobtype,contract.joiningDate,leave,contract.notice,recovery,contract.probation,contract.probationNotice,contract.basic,contract.hra,contract.lta,contract.special,contract.adHoc,contract.taxSlab,contract.amount,contract.al,contract.ml,contract.adHocLeaves,pdf_doc.request.user.first_name,pdf_doc.request.user.last_name)
+    """%(contract.firstname,contract.lastname,contract.job.role,contract.job.jobtype,contract.joiningDate,contract.job.role,contract.job.jobtype,contract.joiningDate,leave,contract.notice,recovery,contract.probation,contract.probationNotice,contract.basic,contract.hra,contract.lta,contract.special,contract.adHoc,contract.taxSlab,contract.amount,contract.al,contract.ml,contract.adHocLeaves,pdf_doc.request.user.first_name,pdf_doc.request.user.last_name)
     story.append(Paragraph(summryParaSrc, styleN))
     story.append(Spacer(2.5, 0.5 * cm))
 
@@ -525,32 +526,46 @@ class JobUploadAPIView(APIView):
             for i in range(2,ws.max_row+1):
                 try:
                     try:
-                        name = ws['A' + str(i)].value
+                        firstname = ws['A' + str(i)].value
                     except:
-                        name = None
+                        firstname = None
+                    try:
+                        lastname = ws['B' + str(i)].value
+                    except:
+                        lastname = None
 
                     try:
-                        email = ws['B' + str(i)].value
+                        email = ws['C' + str(i)].value
                     except:
                         email = None
 
                     try:
-                        mobile = ws['C' + str(i)].value
+                        mobile = ws['D' + str(i)].value
                     except:
                         mobile = None
 
-                    try:
-                        coverletter = ws['D' + str(i)].value
-                    except:
-                        coverletter = None
+                    # try:
+                    #     coverletter = ws['D' + str(i)].value
+                    # except:
+                    #     coverletter = None
 
                     try:
                         resume = ws['E' + str(i)].value
                     except:
                         resume = None
 
-                    JobApplication.objects.create(email=email,mobile=mobile,firstname=name,lastname=name,resumetext=resume,coverletter=coverletter,job=jobObj)
+                    JobApplication.objects.create(email=email,mobile=mobile,firstname=firstname,lastname=lastname,resume=resume,job=jobObj)
 
                 except:
                     pass
         return Response(status=status.HTTP_200_OK)
+
+
+class GetAllJobsAPIVieww(APIView):
+    renderer_classes = (JSONRenderer,)
+    def get(self, request, format=None):
+        allJobsApp = JobApplication.objects.filter(job__pk = int(request.GET['id']))
+        pendingObj = JobApplicationSerializer(allJobsApp.filter(status = 'Created'), many = True).data
+        selectedObj = JobApplicationSerializer(allJobsApp.filter(status = 'Selected'), many = True).data
+        data = {'pendingObj' : pendingObj , 'selectedObj' : selectedObj}
+        return Response(data,status=status.HTTP_200_OK)

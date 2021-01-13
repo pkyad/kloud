@@ -24,24 +24,26 @@ class Jobs(models.Model):
     created = models.DateTimeField(auto_now_add = True)
     jobtype = models.CharField(max_length = 15 , choices = JOB_TYPE_CHOICES  , default = 'Intern' )
     unit = models.ForeignKey(Unit , null = True , related_name = "unit_a")
-    role = models.ForeignKey(Role , null = True , related_name = "position_a")
+    role =  models.CharField(max_length = 200 , null = True)
     contacts = models.ManyToManyField(User , related_name='jobHeading' )
     skill = models.CharField(max_length = 200 , null = False)
     approved = models.BooleanField(default = False)
     maximumCTC = models.CharField(max_length = 15 , null = True)
     status = models.CharField(max_length = 15 , choices = STATUS_TYPE_CHOICES  , default = 'Created' )
     description = models.TextField(max_length = 10000 , null = True)
+    division = models.ForeignKey(Division, related_name = 'jobdivision', null = True)
 
 STATUS_LIST_CHOICES = (
         ('Created' , 'Created'),
-        ('Screening' , 'Screening'),
-        ('SelfAssesmenent' , 'SelfAssesmenent'),
-        ('TechicalInterview' , 'TechicalInterviewing'),
-        ('HRInterview' , 'HRInterview'),
-        ('Shortlisted' , 'Shortlisted'),
-        ('Negotiation' , 'Negotiation'),
-        ('Onboarding' , 'Onboarding'),
-        ('Closed' , 'Closed'),
+        ('Selected' , 'Selected'),
+        # ('Screening' , 'Screening'),
+        # ('SelfAssesmenent' , 'SelfAssesmenent'),
+        # ('TechicalInterview' , 'TechicalInterviewing'),
+        # ('HRInterview' , 'HRInterview'),
+        # ('Shortlisted' , 'Shortlisted'),
+        # ('Negotiation' , 'Negotiation'),
+        # ('Onboarding' , 'Onboarding'),
+        # ('Closed' , 'Closed'),
 )
 
 REASON_CHOICES_LIST = (

@@ -18,4 +18,6 @@ urlpatterns = [
      url(r'saveDetails/$' , SaveDetails.as_view() ),
      url(r'dashboardRecruit/$' , DashboardDataRecruitAPIView.as_view() ),
      url(r'jobupload/$' , JobUploadAPIView.as_view() ),
+     url(r'getAllJobs/$' , GetAllJobsAPIVieww.as_view() ),
+
  ]

@@ -7,21 +7,29 @@
     </div>
   </div>
   <div class="row" style="padding:15px; margin-top:3%">
-    <div class="col-md-12">
-      <div class="row card" ng-repeat="j in allJobs" style="margin-bottom:15px;padding:15px;border-radius:15px;height: 84px;" ng-click="$state.go('workforceManagement.exploreJob',{'id' : j.pk})">
-        <div class="col-md-5">
-          <h3 style="font-size:1.8rem;margin:auto;">{{j.role.name}}</h3>
-          <h5>{{j.unit.city}}, {{j.unit.country}}  </h5>
-        </div>
-        <div class="col-md-3" style="margin-top:7px">
-          <h4 style="font-size:1.8rem">{{j.created | date}}</h4>
-        </div>
-        <div class="col-md-3" style="margin-top:7px">
-          <h4 style="font-size:1.8rem">{{j.total_app}} Candidates</h4>
-        </div>
-        <div class="col-md-1" style="margin-top:7px">
-          <i class="fa fa-pencil fa-2x pull-down" style="cursor:pointer;" ng-click="$state.go('workforceManagement.editJob',{'id' : j.pk});$event.stopPropagation()"></i>
-          <!-- <i class="fa fa-sticky-note fa-2x text-primary pull-right" style="cursor:pointer;" ng-click="action(j.pk ,'selected')" ng-if="data.screening.length>0"></i> -->
+    <div class="col-md-4">
+      <div class="row" ng-repeat="j in allJobs">
+        <div class="pullOnHover" style="background-color:white;padding:30px;height:250px;margin-bottom:20px;border-radius:30px;" ng-click="$state.go('workforceManagement.exploreJob',{'id' : j.pk})">
+          <div class="row">
+
+            <div class="col-md-6">
+              <span style="font-size:22px;">  {{j.jobtype}} </span>
+            </div>
+            <div class="col-md-6 text-right">
+              <span style="font-size:22px;">{{j.created|date}}</span>
+            </div>
+          </div>
+          <div class="row" style="margin-top:15px;">
+
+            <div class="col-md-6 text-left" style="position:absolute;bottom:30px">
+              <h3> {{j.total_app}} </h3>
+              <h2>Selected</h2>
+            </div>
+            <div class="col-md-6 text-right" style="position:absolute;bottom:30px;right:0px">
+              <h3> {{j.total_pending}} </h3>
+              <h2>Pending</h2>
+            </div>
+          </div>
         </div>
       </div>
     </div>

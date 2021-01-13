@@ -5,6 +5,7 @@ from rest_framework.exceptions import *
 from .models import *
 from PIM.serializers import *
 from HR.serializers import userSearchSerializer
+
 from ERP.serializers import serviceLiteSerializer , serviceSerializer , addressSerializer
 from rest_framework.response import Response
 from fabric.api import *
@@ -13,6 +14,7 @@ from django.conf import settings as globalSettings
 from django.db.models import Q, F , Sum
 import datetime
 from marketing.models import TourPlanStop
+from LMS.models import Course
 # from assets.serializers import ContactProductsSerializer
 
 class userMinLiteSerializer(serializers.ModelSerializer):
@@ -30,9 +32,10 @@ class ContactLiteSerializer(serializers.ModelSerializer):
 
 class ContactSerializer(serializers.ModelSerializer):
     company = serviceSerializer(many = False , read_only = True)
+    courseCount = serializers.SerializerMethodField()
     class Meta:
         model = Contact
-        fields = ('pk' , 'user' ,'name', 'created' , 'updated' , 'company', 'email' , 'emailSecondary', 'mobile' , 'mobileSecondary' , 'designation' , 'notes' , 'linkedin', 'facebook', 'dp', 'male' , 'city' , 'street' , 'pincode' , 'country' , 'state','isGst')
+        fields = ('pk' , 'user' ,'name', 'created' , 'updated' , 'company', 'email' , 'emailSecondary', 'mobile' , 'mobileSecondary' , 'designation' , 'notes' , 'linkedin', 'facebook', 'dp', 'male' , 'city' , 'street' , 'pincode' , 'country' , 'state','isGst','courseCount')
         read_only_fields = ('user', )
     def create(self , validated_data):
         c = Contact(**validated_data)
@@ -55,7 +58,10 @@ class ContactSerializer(serializers.ModelSerializer):
                 instance.company_id = int(compID)
         instance.save()
         return instance
-
+    def get_courseCount(self , obj):
+        from LMS.serializers import CourseSerializer
+        data = CourseSerializer(obj.students.all(),many=True).data
+        return len(data)
 
 class ContactAllSerializer(serializers.ModelSerializer):
     company = serviceSerializer(many = False , read_only = True)

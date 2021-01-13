@@ -37,16 +37,128 @@ app.config(function($stateProvider) {
         }
       }
     })
-    .state('workforceManagement.viewApplication', {
-      url: "/viewApplication/:id",
+    .state('workforceManagement.exploreJob.allJob', {
+      url: "/allJob",
       views: {
         "": {
-          templateUrl: '/static/ngTemplates/app.recruitment.jobs.applicant.html',
-          controller: 'recruitment.applicant.view',
+          templateUrl: '/static/ngTemplates/app.recruitment.jobs.allJobs.html',
+          controller: 'workforceManagement.recruitment.jobs.explore',
         }
       }
     })
+    .state('workforceManagement.exploreJob.viewprofile', {
+      url: "/viewprofile/:cand",
+      views: {
+        "": {
+          templateUrl: '/static/ngTemplates/app.recruitment.jobs.viewProfile.html',
+          controller: 'workforceManagement.recruitment.jobs.viewProfile',
+        }
+      }
+    })
+
 });
+
+function dateToString(date) {
+    if (typeof date == 'object') {
+      day = date.getDate()
+      month = date.getMonth() + 1
+      year = date.getFullYear()
+      return year + '-' + month + '-' + day
+    } else {
+      return date
+    }
+  }
+app.controller("workforceManagement.recruitment.jobs.viewProfile", function($scope, $http, $uibModal, $aside, $state, Flash, $users, $filter, $rootScope ){
+
+  $scope.getCandidateDetails = function() {
+    $http({
+      method: 'GET',
+      url: '/api/recruitment/applyJob/' + $state.params.cand+'/'
+    }).
+    then(function(response) {
+      $scope.candidateDetails = response.data;
+    });
+  }
+
+  $scope.getCandidateDetails();
+
+  $scope.sendViaMail = function() {
+    $rootScope.$broadcast('scheduleInterview', {
+      email: $scope.candidateDetails.email,
+      name: $scope.candidateDetails.firstname + ' ' +$scope.candidateDetails.lastname
+    })
+  }
+
+  $scope.addasSelected = function(){
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.recruitment.candidate.selection.html',
+      size: 'md',
+      backdrop: false,
+      // resolve: {
+      //   job: function() {
+      //     return $scope.jobDetails.pk;
+      //   },
+      // },
+      controller: function($scope, $uibModalInstance) {
+        $scope.form = {
+          joiningDate:new Date(),
+          basic:0,
+          hra : 0,
+          lta : 0,
+          special : 0,
+          taxSlab : 0,
+          adHoc : 0,
+          al : 0,
+          ml : 0,
+        }
+
+        $scope.save = function(){
+          var dataSave = {
+            status : 'Selected',
+            joiningDate:dateToString($scope.form.joiningDate),
+            basic:$scope.form.basic,
+            hra : $scope.form.hra,
+            lta : $scope.form.lta,
+            special : $scope.form.special,
+            taxSlab : $scope.form.taxSlab,
+            adHoc : $scope.form.adHoc,
+            al : $scope.form.al,
+            ml : $scope.form.ml,
+          }
+          $http({
+            method: 'PATCH',
+            url: '/api/recruitment/applyJob/'+$state.params.cand +'/',
+            data:dataSave
+          }).
+          then(function(response) {
+              $uibModalInstance.dismiss(response.data);
+          });
+        }
+        $scope.close = function(){
+          $uibModalInstance.dismiss();
+        }
+      },
+    }).result.then(function() {
+
+    }, function(data) {
+      if (data!=undefined) {
+        $scope.candidateDetails.status  = data.status
+        // downloadCallLeter
+          // window.location.href = "/api/recruitment/downloadCallLeter/?value=" + $scope.candidateDetails.pk
+      }
+    });
+
+
+  }
+
+})
+
+
+// app.controller("workforceManagement.recruitment.jobs.allJob", function($scope, $http, $uibModal, $aside, $state, Flash, $users, $filter ){
+//
+//
+//
+// })
 app.controller("workforceManagement.recruitment.jobs", function($scope, $http, $uibModal, $aside, $state, Flash, $users, $filter ){
   //
   // $scope.data = {
@@ -161,12 +273,23 @@ app.controller("workforceManagement.recruitment.roles.form", function($scope, $s
     })
   };
   $scope.unitsSearch = function(query) {
-    return $http.get('/api/organization/unit/?name__contains=' + query).
+    $http.get('/api/organization/unitFull/').
     then(function(response) {
-      return response.data;
+      $scope.allUnits =  response.data;
+      if ($scope.form.pk) {
+        for (var i = 0; i < $scope.allUnits.length; i++) {
+          if ($scope.allUnits[i].pk == $scope.form.unit) {
+             $scope.form.unit = $scope.allUnits[i]
+          }
+        }
+      }
+      else{
+        $scope.form.unit =  $scope.allUnits[0]
+      }
     })
   };
-  $scope.roleSearch = function(query) {
+    $scope.unitsSearch()
+  $scope.roleSearch = function() {
     return $http.get('/api/organization/role/?name__contains=' + query).
     then(function(response) {
       return response.data;
@@ -174,7 +297,7 @@ app.controller("workforceManagement.recruitment.roles.form", function($scope, $s
   };
   $scope.resetForm = function() {
     $scope.form = {
-      'jobtype': '',
+      'jobtype': 'Full Time',
       'unit': '',
       'department': '',
       'role': '',
@@ -182,6 +305,7 @@ app.controller("workforceManagement.recruitment.roles.form", function($scope, $s
       'skill': '',
       'description':''
     }
+    $scope.unitsSearch()
   }
 
   $scope.getJob = function() {
@@ -191,6 +315,7 @@ app.controller("workforceManagement.recruitment.roles.form", function($scope, $s
     }).
     then(function(response) {
       $scope.form = response.data;
+      $scope.unitsSearch()
     });
   }
 
@@ -208,12 +333,9 @@ app.controller("workforceManagement.recruitment.roles.form", function($scope, $s
     var toSend = {
       jobtype: f.jobtype,
       unit: f.unit.pk,
-      department: f.department.pk,
-      role: f.role.pk,
-      contacts: f.contacts,
+      role: f.role,
       skill: f.skill,
       description: f.description,
-      maximumCTC: f.maximumCTC,
       status:'Active'
     }
     console.log(toSend);
@@ -255,6 +377,24 @@ app.controller("workforceManagement.recruitment.jobs.explore", function($scope, 
     });
   }
   $scope.getJob()
+  if ($state.is('workforceManagement.exploreJob')) {
+    $state.go('workforceManagement.exploreJob.allJob')
+  }
+
+  $scope.allCandidates = []
+    $scope.fetchCandidates = function() {
+      $http({
+        method: 'GET',
+        url: '/api/recruitment/getAllJobs/?id=' + $state.params.id
+      }).
+      then(function(response) {
+        $scope.allCandidates = response.data;
+      });
+    }
+
+    $scope.fetchCandidates();
+
+
   $scope.approve = function() {
     $scope.jobDetails.approved = true;
     $scope.jobDetails.status = 'Approved'
@@ -461,7 +601,11 @@ app.controller("workforceManagement.recruitment.jobs.explore", function($scope, 
         },
       },
       controller: 'recruitment.application.form'
-    })
+    }).result.then(function() {
+
+    }, function(res) {
+        $scope.fetchCandidates();
+    });
 
   }
 
@@ -492,27 +636,7 @@ app.controller("workforceManagement.recruitment.jobs.explore", function($scope, 
     },
 
   ]
-$scope.List = []
-  $scope.fetchDeals = function() {
-    $http({
-      method: 'GET',
-      url: '/api/recruitment/applyJob/?job=' + $state.params.pk + '&status__in!=Created,Closed,Onboarding'
-    }).
-    then(function(response) {
-      $scope.List = response.data;
-      $scope.data = {
-        TechicalInterview: [],
-        HRInterview: [],
-        Negotiation: []
-      }
-      console.log(response.data);
-      for (var i = 0; i < response.data.length; i++) {
-        $scope.data[response.data[i].status].push(response.data[i])
-      }
-    });
-  }
 
-  $scope.fetchDeals();
   $scope.isDragging = false;
 
   // $scope.$on('exploreDeal', function(event, input) {
@@ -676,9 +800,9 @@ app.controller("recruitment.application.form", function($scope, $state, $users, 
       if (response.data.res == 'Sucess') {
         $scope.resetForm();
         $scope.msg = 'Applied Sucessfully'
-        $timeout(function() {
-          $uibModalInstance.dismiss();
-        }, 3000);
+        $uibModalInstance.dismiss(response.data);
+        // $timeout(function() {
+        // }, 3000);
       } else {
         $scope.msg = 'Errors In The Form'
       }

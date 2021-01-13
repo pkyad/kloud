@@ -10,7 +10,9 @@
             </div>
 
             <div class="col-md-2">
-              <input uib-typeahead="product as product.part_no for product in productSearch($viewValue)" ng-model="search.query" type="text" class="form-control" placeholder="Serach by product part no">
+              <input uib-typeahead="product as product.part_no for product in productSearch($viewValue)" ng-model="search.query" type="text" class="form-control" placeholder="Serach by product part no"><div class="input-group-btn">
+
+              </div>
               </div>
               <div class="col-md-1">
                 <button class="btn btn-default" type="submit" ng-click="productResetFunction()" style="border:none !important;background:#ffffff;">

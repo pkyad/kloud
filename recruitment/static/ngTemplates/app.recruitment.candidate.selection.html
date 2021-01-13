@@ -1,0 +1,97 @@
+<style>
+  .adv_input {
+    border: none !important;
+    background: #EAEAEA;
+    border-radius: 10px;
+    padding: 15px;
+  }
+
+  .adv_select {
+    border: none !important;
+    background: #EAEAEA;
+    border-radius: 10px;
+    /* padding: 15px; */
+  }
+</style>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <h3> Add Details </h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+          <label>  Date of joining </label>
+            <div class="input-group">
+              <input type="text" class="form-control adv_input" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.joiningDate" is-open="status.opened" ng-change="enterFunmaterial()" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="status.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group" >
+            <label>Basic</label>
+            <input type="text " class="form-control adv_input" ng-model="form.basic"  placeholder=" Position">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group" >
+            <label>HRA</label>
+            <input type="text " class="form-control adv_input" ng-model="form.hra"  placeholder=" Position">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group" >
+            <label>Special Allowance</label>
+            <input type="text " class="form-control adv_input" ng-model="form.special"  placeholder=" Position">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group" >
+            <label>LTA</label>
+            <input type="text " class="form-control adv_input" ng-model="form.lta"  placeholder=" Position">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group" >
+            <label>Tax</label>
+            <input type="text " class="form-control adv_input" ng-model="form.taxSlab"  placeholder=" Position">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group" >
+            <label>Annual Leave</label>
+            <input type="text " class="form-control adv_input" ng-model="form.al"  placeholder="Annual Leave">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group" >
+            <label>Medical leave</label>
+            <input type="text " class="form-control adv_input" ng-model="form.ml"  placeholder="Medical Leave">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class=" col-md-3">
+          <button ng-click="close()" type="button" class="btn btn-danger btn-block" style="background: #e40000;color:#ffffff;border: none !important;border-radius: 10px !important;padding: 15px;">
+            Close
+          </button>
+        </div>
+        <div class=" col-md-6 col-md-offset-3">
+          <button class="btn btn-default btn-block" ng-click="save()"  style="background: #103F8D;color:#ffffff;border: none !important;border-radius: 10px !important;padding: 15px;">  Save and mark as selected</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

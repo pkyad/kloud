@@ -107,17 +107,18 @@ class ProjectsViewSet(viewsets.ModelViewSet):
     # queryset = Projects.objects.all().order_by('-created')
     serializer_class = ProjectsSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['status','title','savedStatus','junkStatus','comm_nr','flag']
+    filter_fields = ['status','savedStatus','junkStatus','comm_nr','flag']
 
     def get_queryset(self):
         user = self.request.user
         divisionObj = user.designation.division
         params = self.request.GET
-        if 'searchContains' in params:
-            product = Projects.objects.filter(title__contains=str(params['searchContains']),division = divisionObj)
-            return product
-        elif 'name' in params:
-            return Projects.objects.filter(comm_nr__icontains= str(params['name']),division = divisionObj)
+        # if 'searchContains' in params:
+        #     product = Projects.objects.filter(title__contains=str(params['searchContains']),division = divisionObj)
+        #     return product
+        if 'title' in params:
+            print 'herer', params, 'params'
+            return Projects.objects.filter(title__icontains= str(params['title']),division = divisionObj)
         else:
             print 'herer', params, 'params'
             return Projects.objects.filter(division = divisionObj).order_by('-created')
@@ -4213,6 +4214,25 @@ from django.core.files.storage import FileSystemStorage
 def complaintPdf(request):
     complaintObj = ComplaintManagement.objects.get(pk = request.GET.get('pk'))
     print complaintObj,'oooooooooddddddddddfffffffffff'
+    if complaintObj.closedBy==None:
+        object = ""
+    else:
+        object = complaintObj.closedBy.username
+    date = complaintObj.date
+    if date == None:
+        date1 = ''
+    else:
+        date1 = date.strftime('%d /%m /%Y')
+    date = complaintObj.closedDate
+    if date == None:
+        date2 = ''
+    else:
+        date2 = date.strftime('%d /%m /%Y')
+    if complaintObj.is_CloseApproved == True:
+        status = 'Yes'
+    else:
+        status = 'No'
+
     doc=SimpleDocTemplate("/tmp/somefilename.pdf")
     styles=getSampleStyleSheet()
     story=[]
@@ -4231,42 +4251,32 @@ def complaintPdf(request):
     styleB.alignment =  TA_CENTER
     styleB.fontSize = 8
 
-    title = ''
-    registeredBy = ''
-    closedBy = ''
-    if complaintObj.division is not None:
-        title = complaintObj.division.name
-    if complaintObj.registeredBy is not None:
-        registeredBy = complaintObj.registeredBy.first_name +' '+complaintObj.registeredBy.last_name
-    if complaintObj.closedBy is not None:
-        closedBy = complaintObj.closedBy.first_name +' '+complaintObj.closedBy.last_name
-
     tableSpecs = [
         ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
         ('BOX', (0,0), (-1,-1), 1, colors.black),
         ]
     emptyLine = Paragraph('', styleT)
-    sheetName = Paragraph(title, styleC)
+    sheetName = Paragraph("BRUDERER PRESSES INDIA PVT LTD", styleC)
     addressData = [
 
-        [Paragraph('Complaint No:', styleT), Paragraph(str(complaintObj.pk), styleN),Paragraph('Complaint Registered on:', styleT), Paragraph(str(complaintObj.date.date()), styleN)],
+        [Paragraph('Complaint No:', styleT), Paragraph(str(complaintObj.pk), styleN),Paragraph('Complaint Registered on:', styleT), Paragraph(str(date1), styleN)],
         [Paragraph('Customer  :', styleT), Paragraph(str(complaintObj.customer.name), styleN),Paragraph('Customer Representative :', styleT), Paragraph(str(complaintObj.contact), styleN)],
 
         [Paragraph('Complaint reference :', styleT), Paragraph(str(complaintObj.complaintRef), styleN),Paragraph('Machine :', styleT), Paragraph(str(complaintObj.machine), styleN)],
 
         [Paragraph('Complaint type :', styleT), Paragraph(str(complaintObj.complaintType), styleN),Paragraph('Whether machine running:', styleT), Paragraph(str(complaintObj.machineRunning), styleN)],
 
-        [Paragraph('Complaint registered by :', styleT), Paragraph(str(registeredBy), styleN),Paragraph('Complaint   closed by  :', styleT), Paragraph(str(closedBy), styleN)],
+
+
+        [Paragraph('Complaint registered by :', styleT), Paragraph(str(complaintObj.registeredBy.username), styleN),Paragraph('Complaint   closed by  :', styleT), Paragraph(str(object), styleN)],
 
         [Paragraph('Refurbished by BIND :', styleT), Paragraph(str(complaintObj.RefurbishedBind), styleN),Paragraph('Service Report number :', styleT), Paragraph(str(complaintObj.serviceReportNo), styleN)],
 
-        [Paragraph('Error Code :', styleT), Paragraph(str(complaintObj.errorCode), styleN),Paragraph('Complaint closed :', styleT), Paragraph(str(complaintObj.is_CloseApproved), styleN)],
+        [Paragraph('Error Code :', styleT), Paragraph(str(complaintObj.errorCode), styleN),Paragraph('Complaint closed :', styleT), Paragraph(str(status), styleN)],
 
-        [Paragraph('Complaint closed on :', styleT), Paragraph(str(complaintObj.closedDate), styleN),Paragraph('Nature of complaint :', styleT), Paragraph(str(complaintObj.attr1), styleN)],
+        [Paragraph('Complaint closed on :', styleT), Paragraph(str(date2), styleN),Paragraph('Nature of complaint :', styleT), Paragraph(str(complaintObj.attr1), styleN)],
 
         [Paragraph('Interim action :', styleT), Paragraph(str(complaintObj.attr2), styleN),Paragraph('Disposition :', styleT), Paragraph(str(complaintObj.attr3), styleN)],
-
-        [Paragraph('Comm nr :', styleT), Paragraph(str(complaintObj.comm_nr), styleN),Paragraph('', styleT), Paragraph('', styleN)],
 
         ]
     emptyLine1 = Paragraph('', styleT)
@@ -4285,13 +4295,14 @@ def complaintPdf(request):
 
 
 class getProjObjViewset(APIView):
-    renderer_classes = (JSONRenderer,)
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['comm_nr']
     def get(self , request , format = None):
-
+        print "nnnnnnnnnn",request.GET
         toRet = []
-        projObj =  Projects.objects.all()
+
+        if 'comm_nr' in request.GET:
+            projObj =  Projects.objects.filter(comm_nr__icontains = str(request.GET['comm_nr']))
+        else:
+            projObj =  Projects.objects.all()
         commNo = projObj.values_list('comm_nr', flat = True).distinct()
         for c in commNo:
             data = {'comm_nr' : c}
@@ -4300,6 +4311,93 @@ class getProjObjViewset(APIView):
             data['pending'] = projObj.filter(comm_nr = c).exclude(status = 'approved').count()
             toRet.append(data)
         return Response(toRet,status = status.HTTP_200_OK)
+
+def customercomplaintReport(request):
+    status = request.GET.get('status')
+    customer = request.GET.get('customer')
+    comm_nr = request.GET.get('comm_nr')
+    complaintId = request.GET.get('complaintId')
+
+    wb = Workbook(write_only = True)
+    ws = wb.create_sheet()
+
+    if "status" in request.GET:
+        testData1 = ComplaintManagement.objects.filter(status = status)
+        print testData1,"nnnnnnnnnnnnnnnnnnn"
+        empty3 = ["Complaints Status:"+status]
+        empty4 = []
+        ws.append(empty3)
+        ws.append(empty4)
+
+    if "customer" in request.GET:
+        testData1 = ComplaintManagement.objects.filter(customer__pk = customer)
+
+
+    if "comm_nr" in request.GET:
+        testData1 = ComplaintManagement.objects.filter(comm_nr = comm_nr)
+        empty3 = ["Commission No:"+comm_nr]
+        empty4 = []
+        ws.append(empty3)
+        ws.append(empty4)
+
+    if "complaintId" in request.GET:
+        testData1 = ComplaintManagement.objects.filter(pk = complaintId)
+        empty3 = ["Complaint Id:"+complaintId]
+        empty4 = []
+        ws.append(empty3)
+        ws.append(empty4)
+    list=[entry for entry in testData1]
+    print list,"kkkkkkkkkk"
+
+    column=["id","Date","Contact","Complaint Ref.","Machine Model","Complaint type","Error Code","Status","Close Approved","service Report No.","Machine Running","RefurbishedBind","comm_nr","Closed by","Customer Name","Registered By","Nature of complaint","Interim action","Disposition","Closed date"]
+    ws.append(column)
+    for line in list:
+
+        data=[]
+        data.append(line.pk)
+        date = line.date
+        date1 = date.strftime('%d /%m /%Y')
+        data.append(date1)
+        data.append(line.contact)
+        data.append(line.complaintRef)
+        data.append(line.machine)
+        data.append(line.complaintType)
+        data.append(line.errorCode)
+        data.append(line.status)
+        if line.is_CloseApproved==True:
+            data.append("Yes")
+        else:
+            data.append("No")
+        data.append(line.serviceReportNo)
+        data.append(line.machineRunning)
+        data.append(line.RefurbishedBind)
+        data.append(line.comm_nr)
+        if line.closedBy==None:
+            data.append("")
+        else:
+            data.append(line.closedBy.username)
+        data.append(line.customer.name)
+        data.append(line.registeredBy.username)
+        data.append(line.attr1)
+        data.append(line.attr2)
+        data.append(line.attr3)
+        date = line.closedDate
+        if date == None:
+            data.append("")
+        else:
+            date2 = date.strftime('%d /%m /%Y')
+            data.append(date2)
+
+
+        ws.append(data)
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=Complaints.xlsx'
+    wb.save(response)
+
+    return response
+
+
 
 
 class ImportExportDataMigrationsAPIView(APIView):
