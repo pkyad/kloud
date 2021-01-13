@@ -234,6 +234,7 @@ app.controller("businessManagement.importexport", function($rootScope, $scope, $
     console.log($rootScope.formToggle.toggleMain, 'jjjjjjjjjjjjjjj')
     $state.reload()
   });
+
   if ($state.is('businessManagement.importexport.viewProject1')) {
     $scope.limit = 10
     $scope.offset = 0
@@ -258,7 +259,7 @@ app.controller("businessManagement.importexport", function($rootScope, $scope, $
     $scope.fetchData = function() {
       let url = '/api/importexport/projects/?savedStatus=false&junkStatus=false&comm_nr=' + $stateParams.id + '&flag=' + $rootScope.formToggle.toggleMain + '&limit=' + $scope.limit + '&offset=' + $scope.offset
       if ($scope.search.query.length > 0) {
-        url = url + '&comm_nr=' + $scope.search.query
+        url = url + '&title=' + $scope.search.query
 
       }
       $http({
@@ -306,9 +307,9 @@ app.controller("businessManagement.importexport", function($rootScope, $scope, $
     }
     $scope.fetchData = function() {
       $scope.true = 'true'
-      let url = '/api/importexport/getCommnr/?limit=' + $scope.limit + '&offset=' + $scope.offset
+      let url = '/api/importexport/getCommnr/'
       if ($scope.search.query.length > 0) {
-        url = url + '&comm_nr=' + $scope.search.query
+        url = url + '?comm_nr=' + $scope.search.query
       }
       $http({
         method: 'GET',
@@ -325,122 +326,122 @@ app.controller("businessManagement.importexport", function($rootScope, $scope, $
   }
 
   $scope.me = $users.get('mySelf');
-  $scope.cmrTableAction = function(idx, action) {
-    console.log(idx, action);
-    $scope.selectedData = $scope.cmrData.serializerData[idx]
-    console.log($scope.selectedData);
-    if (action == 'edit') {
-      var title = 'Edit Project : ';
-      var appType = 'projectEditor';
-    } else if (action == 'details') {
-      var title = 'Project Details : ';
-      var appType = 'projectDetails';
-    } else if (action == 'delete') {
-      var dataSend = {
-        junkStatus: true
-      }
-      console.log($scope.selectedData);
-      $http({
-        method: 'PATCH',
-        data: dataSend,
-        url: '/api/importexport/projects/' + $scope.selectedData.pk + '/'
-      }).
-      then(function(response) {
-        Flash.create('success', 'Item Deleted');
-      })
-      $scope.cmrData.serializerData.splice(idx, 1)
-      return;
-    }
+  // $scope.cmrTableAction = function(idx, action) {
+  //   console.log(idx, action);
+  //   $scope.selectedData = $scope.cmrData.serializerData[idx]
+  //   console.log($scope.selectedData);
+  //   if (action == 'edit') {
+  //     var title = 'Edit Project : ';
+  //     var appType = 'projectEditor';
+  //   } else if (action == 'details') {
+  //     var title = 'Project Details : ';
+  //     var appType = 'projectDetails';
+  //   } else if (action == 'delete') {
+  //     var dataSend = {
+  //       junkStatus: true
+  //     }
+  //     console.log($scope.selectedData);
+  //     $http({
+  //       method: 'PATCH',
+  //       data: dataSend,
+  //       url: '/api/importexport/projects/' + $scope.selectedData.pk + '/'
+  //     }).
+  //     then(function(response) {
+  //       Flash.create('success', 'Item Deleted');
+  //     })
+  //     $scope.cmrData.serializerData.splice(idx, 1)
+  //     return;
+  //   }
+  //
+  //   $scope.addTab({
+  //     title: title + $scope.selectedData.title,
+  //     cancel: true,
+  //     app: appType,
+  //     data: {
+  //       pk: $scope.selectedData.pk,
+  //       index: idx,
+  //       cmData: $scope.selectedData
+  //     },
+  //     active: true
+  //   })
+  //
+  // }
 
-    $scope.addTab({
-      title: title + $scope.selectedData.title,
-      cancel: true,
-      app: appType,
-      data: {
-        pk: $scope.selectedData.pk,
-        index: idx,
-        cmData: $scope.selectedData
-      },
-      active: true
-    })
+  //
+  // $scope.tableActionArchieve = function(target, action, mode) {
+  //   for (var i = 0; i < $scope.data.archieveData.length; i++) {
+  //     if ($scope.data.archieveData[i].pk == parseInt(target)) {
+  //       if (action == 'details') {
+  //         var title = 'Details :';
+  //         var appType = 'projectarchieveDetails';
+  //       }
+  //
+  //       $scope.addTab({
+  //         title: title + $scope.data.archieveData[i].title,
+  //         cancel: true,
+  //         app: appType,
+  //         data: {
+  //           pk: target,
+  //           index: i
+  //         },
+  //         active: true
+  //       })
+  //     }
+  //   }
+  //
+  // }
+  // $scope.tableActionJunk = function(target, action, mode) {
+  //   console.log("heeeeeeeerrrrrrrrrrrreeeeeeeee");
+  //   for (var i = 0; i < $scope.data.junkData.length; i++) {
+  //     if ($scope.data.junkData[i].pk == parseInt(target)) {
+  //       if (action == 'details') {
+  //         var title = 'Details :';
+  //         var appType = 'projectjunkDetails';
+  //       }
+  //
+  //       $scope.addTab({
+  //         title: title + $scope.data.junkData[i].title,
+  //         cancel: true,
+  //         app: appType,
+  //         data: {
+  //           pk: target,
+  //           index: i
+  //         },
+  //         active: true
+  //       })
+  //     }
+  //   }
+  //
+  // }
+  //
+  //
+  // $scope.tabs = [];
+  // $scope.searchTabActive = {
+  //   'active': true
+  // };
 
-  }
-
-
-  $scope.tableActionArchieve = function(target, action, mode) {
-    for (var i = 0; i < $scope.data.archieveData.length; i++) {
-      if ($scope.data.archieveData[i].pk == parseInt(target)) {
-        if (action == 'details') {
-          var title = 'Details :';
-          var appType = 'projectarchieveDetails';
-        }
-
-        $scope.addTab({
-          title: title + $scope.data.archieveData[i].title,
-          cancel: true,
-          app: appType,
-          data: {
-            pk: target,
-            index: i
-          },
-          active: true
-        })
-      }
-    }
-
-  }
-  $scope.tableActionJunk = function(target, action, mode) {
-    console.log("heeeeeeeerrrrrrrrrrrreeeeeeeee");
-    for (var i = 0; i < $scope.data.junkData.length; i++) {
-      if ($scope.data.junkData[i].pk == parseInt(target)) {
-        if (action == 'details') {
-          var title = 'Details :';
-          var appType = 'projectjunkDetails';
-        }
-
-        $scope.addTab({
-          title: title + $scope.data.junkData[i].title,
-          cancel: true,
-          app: appType,
-          data: {
-            pk: target,
-            index: i
-          },
-          active: true
-        })
-      }
-    }
-
-  }
-
-
-  $scope.tabs = [];
-  $scope.searchTabActive = {
-    'active': true
-  };
-
-  $scope.closeTab = function(index) {
-    $scope.tabs.splice(index, 1)
-    if ($scope.tabs.length == 0) {
-      $scope.searchTabActive.active = true;
-    }
-  }
-
-  $scope.addTab = function(input) {
-    $scope.searchTabActive.active = false;
-    alreadyOpen = false;
-    for (var i = 0; i < $scope.tabs.length; i++) {
-      if ($scope.tabs[i].data.pk == input.data.pk && $scope.tabs[i].app == input.app) {
-        $scope.tabs[i].active = true;
-        alreadyOpen = true;
-      } else {
-        $scope.tabs[i].active = false;
-      }
-    }
-    if (!alreadyOpen) {
-      $scope.tabs.push(input)
-    }
-  }
+  // $scope.closeTab = function(index) {
+  //   $scope.tabs.splice(index, 1)
+  //   if ($scope.tabs.length == 0) {
+  //     $scope.searchTabActive.active = true;
+  //   }
+  // }
+  //
+  // $scope.addTab = function(input) {
+  //   $scope.searchTabActive.active = false;
+  //   alreadyOpen = false;
+  //   for (var i = 0; i < $scope.tabs.length; i++) {
+  //     if ($scope.tabs[i].data.pk == input.data.pk && $scope.tabs[i].app == input.app) {
+  //       $scope.tabs[i].active = true;
+  //       alreadyOpen = true;
+  //     } else {
+  //       $scope.tabs[i].active = false;
+  //     }
+  //   }
+  //   if (!alreadyOpen) {
+  //     $scope.tabs.push(input)
+  //   }
+  // }
 
   if ($state.is('businessManagement.importexport.archieveProject')) {
     $scope.limit = 10
@@ -465,9 +466,9 @@ app.controller("businessManagement.importexport", function($rootScope, $scope, $
     }
     $scope.fetchData = function() {
       $scope.true = 'true'
-      let url = '/api/importexport/projects/?limit=' + $scope.limit + '&offset=' + $scope.offset + '&savedStatus=' + $scope.true + 'status=ongoing&flag=' + $rootScope.formToggle.toggleMain
+      let url = '/api/importexport/projects/?limit=' + $scope.limit + '&offset=' + $scope.offset + '&savedStatus=' + $scope.true + '&status=ongoing&flag=' + $rootScope.formToggle.toggleMain
       if ($scope.search.query.length > 0) {
-        url = url + '&comm_nr=' + $scope.search.query
+        url = url + '&title=' + $scope.search.query
       }
       $http({
         method: 'GET',
@@ -509,7 +510,7 @@ app.controller("businessManagement.importexport", function($rootScope, $scope, $
       $scope.true = 'true'
       let url = '/api/importexport/projects/?limit=' + $scope.limit + '&offset=' + $scope.offset + '&junkStatus=true&flag=' + $rootScope.formToggle.toggleMain
       if ($scope.search.query.length > 0) {
-        url = url + '&comm_nr=' + $scope.search.query
+        url = url + '&title=' + $scope.search.query
       }
       $http({
         method: 'GET',
@@ -3333,6 +3334,7 @@ app.controller("businessManagement.importexport.inventory1", function($scope, $s
   $scope.$watch('modeToggle', function(newValue, oldValue) {
     console.log("truuuuuuuuuuuu");
     if (newValue == true) {
+      console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
       $scope.getMaterialIssue($scope.offsetmaterial)
     }
   });
@@ -3434,6 +3436,7 @@ app.controller("businessManagement.importexport.inventory1", function($scope, $s
   }
 
   $scope.prev = function() {
+    console.log("kkk");
     if ($scope.offset == 0) {
       return
     }
