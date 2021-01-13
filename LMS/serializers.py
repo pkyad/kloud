@@ -5,7 +5,7 @@ from rest_framework.exceptions import *
 from .models import *
 import random, string
 from HR.serializers import userSearchSerializer,userSerializer,userLiteSerializer
-from clientRelationships.serializers import ContactSerializer
+from clientRelationships.models import *
 
 
 
@@ -18,14 +18,14 @@ class SectionLiteSerializer(serializers.ModelSerializer):
     children = RecursiveField(many=True)
     class Meta:
         model = Section
-        fields = ( 'pk' , 'children', 'name' )
+        fields = ( 'pk' , 'children', 'title' )
 
 
 class SectionSerializer(serializers.ModelSerializer):
-    parent = SectionLiteSerializer()
+    children = SectionLiteSerializer(many=True,read_only=True)
     class Meta:
         model = Section
-        fields = ('pk' , 'title' , 'book','sequence' ,'parent''shortUrl','description','seoTitle','children')
+        fields = ('pk' , 'title' , 'book','sequence' ,'parent','shortUrl','description','seoTitle','children')
 
 
 class BookSerializer(serializers.ModelSerializer):
@@ -161,6 +161,11 @@ class EnrollmentSerializer(serializers.ModelSerializer):
         e.accepted = True
         e.save()
         return e
+
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = ('pk' , 'created' , 'name', 'mobile', 'email' )
 
 class CourseSerializer(serializers.ModelSerializer):
     instructor = userSearchSerializer(many = False , read_only = True)

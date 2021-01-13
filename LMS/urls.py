@@ -13,6 +13,7 @@ router.register(r'enrollment' , EnrollmentViewSet , base_name ='enrollment')
 router.register(r'book' , BookViewSet , base_name ='book')
 router.register(r'bookLite' , BookLiteViewSet , base_name ='bookLite')
 router.register(r'section' , SectionViewSet , base_name ='section')
+router.register(r'sectionlite' , SectionliteViewSet , base_name ='sectionlite')
 router.register(r'courseactivity' , CourseActivityViewSet , base_name ='courseactivity')
 
 urlpatterns = [

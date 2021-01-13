@@ -7,15 +7,16 @@
       <button type="button" class="createTestBtn btn-block" name="button" ng-click="addStudent('')"><img src="/static/images/icons8-plus-48.png"  style="height:18px;padding-right:20px;"alt="">Add new student</button>
     </div>
     <div class="col-md-1">
-      <button type="button" class="createTestBtn btn-block" name="button"style="background-color:transparent;color:#3786D1 !important" >Previous </button>
+      <button type="button" class="createTestBtn btn-block" name="button"style="background-color:transparent;color:#3786D1 !important" ng-click="previous()">Previous </button>
     </div>
     <div class="col-md-1">
-      <button type="button" class="createTestBtn btn-block" name="button"  style="background-color:transparent;color:#3786D1 !important;">Next </button>
+      <button type="button" class="createTestBtn btn-block" name="button"  style="background-color:transparent;color:#3786D1 !important;"  ng-click="Next()">Next </button>
     </div>
     <div class="col-md-4">
       <div class="form-group">
-        <span class="searchIcon"><i class="fa fa-search text-right"></i></span>
-        <input type="text" name="" placeholder="Search...." value="" class="form-control searchInput">
+        <span class="searchIcon"   ng-click="fetchContacts()"><i class="fa fa-search text-right"></i></span>
+        <input type="text" name="" ng-model="form.search" placeholder="Search...." value="" class="form-control searchInput"
+        ng-enter="fetchContacts()">
       </div>
     </div>
 
@@ -33,13 +34,13 @@
       </thead>
       <tbody>
 
-        <tr class="detailStrip" ng-click="addStudent('edit')">
+        <tr class="detailStrip" ng-click="addStudent(k)" ng-repeat = "k in data track by $index">
 
 
-          <td>Abhishek Kumar</td>
-          <td>9876654321</td>
-          <td>dee@mail.com</td>
-          <td> 3</td>
+          <td>{{k.name}}</td>
+          <td>{{k.mobile}}</td>
+          <td>{{k.email}}</td>
+          <td> {{k.courseCount}}</td>
         </tr>
 
 

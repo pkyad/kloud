@@ -107,17 +107,18 @@ class ProjectsViewSet(viewsets.ModelViewSet):
     # queryset = Projects.objects.all().order_by('-created')
     serializer_class = ProjectsSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['status','title','savedStatus','junkStatus','comm_nr','flag']
+    filter_fields = ['status','savedStatus','junkStatus','comm_nr','flag']
 
     def get_queryset(self):
         user = self.request.user
         divisionObj = user.designation.division
         params = self.request.GET
-        if 'searchContains' in params:
-            product = Projects.objects.filter(title__contains=str(params['searchContains']),division = divisionObj)
-            return product
-        elif 'name' in params:
-            return Projects.objects.filter(comm_nr__icontains= str(params['name']),division = divisionObj)
+        # if 'searchContains' in params:
+        #     product = Projects.objects.filter(title__contains=str(params['searchContains']),division = divisionObj)
+        #     return product
+        if 'title' in params:
+            print 'herer', params, 'params'
+            return Projects.objects.filter(title__icontains= str(params['title']),division = divisionObj)
         else:
             print 'herer', params, 'params'
             return Projects.objects.filter(division = divisionObj).order_by('-created')
@@ -4294,13 +4295,14 @@ def complaintPdf(request):
 
 
 class getProjObjViewset(APIView):
-    renderer_classes = (JSONRenderer,)
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['comm_nr']
     def get(self , request , format = None):
-
+        print "nnnnnnnnnn",request.GET
         toRet = []
-        projObj =  Projects.objects.all()
+
+        if 'comm_nr' in request.GET:
+            projObj =  Projects.objects.filter(comm_nr__icontains = str(request.GET['comm_nr']))
+        else:
+            projObj =  Projects.objects.all()
         commNo = projObj.values_list('comm_nr', flat = True).distinct()
         for c in commNo:
             data = {'comm_nr' : c}
