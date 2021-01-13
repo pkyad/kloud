@@ -56,9 +56,10 @@ class UnitLiteViewSet(viewsets.ModelViewSet):
 
 class UnitFullViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, readOnly)
-    queryset = Unit.objects.all()
+    # queryset = Unit.objects.all()
     serializer_class = UnitFullSerializer
-
+    def get_queryset(self):
+        return self.request.user.designation.division.units.all()
 
 class UnitSuperliteViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, readOnly)

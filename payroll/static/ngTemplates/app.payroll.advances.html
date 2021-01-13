@@ -69,20 +69,20 @@
         <thead>
           <tr style="background:#f2f2f2;padding:10px;">
             <th>ID</th>
+            <th>Date</th>
             <th>User</th>
             <th>Reason</th>
-            <th>Date Of Return</th>
             <th>Amount</th>
             <th>Balance</th>
             <th>Return Method</th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="p in advances" style="padding:10px;background:white;" ng-click="$state.go('businessManagement.advanceexplore' , {'id':p.pk})">
-            <td class="contentTd" >#{{p.pk}}</td>
+          <tr ng-repeat="p in advances" style="padding:10px;background:white;">
+            <td class="contentTd" style="font-size:20px;">#{{p.pk}}</td>
+            <td class="contentTd" style="font-size:20px;">{{p.created | date}}</td>
             <td class="contentTd" style="font-size:20px;">{{p.user.first_name}} {{p.user.last_name}}</td>
-            <td class="contentTd">{{p.reason}}</td>
-            <td class="contentTd">{{p.dateOfReturn | date}}</td>
+            <td class="contentTd" >{{p.reason}}</td>
             <td class="contentTd" style="font-size:20px;">{{p.amount}}</td>
             <td class="contentTd" style="font-size:20px;">{{p.balance}}</td>
             <td class="contentTd" style="font-size:20px;">{{p.returnMethod.replace('_',' ')}}</td>

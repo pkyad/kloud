@@ -24,7 +24,9 @@
       <div class="col-md-12">
         <div class="form-group">
           <label>User</label>
-          <input type="text" class="form-control adv_input" ng-model="form.user" uib-typeahead="user as user.username for user in userSearch($viewValue)" placeholder="Search For user">
+          <!-- <input type="text" class="form-control adv_input" ng-model="form.user" uib-typeahead="user as user.username for user in userSearch($viewValue)" placeholder="Search For user"> -->
+          <select class="form-control adv_select" ng-model="form.user"  ng-options="u.first_name+' '+u.last_name for u in allUsers">
+          </select>
         </div>
       </div>
     </div>
@@ -36,7 +38,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-md-6">
         <label>Date of Return</label>
         <div class="input-group">
@@ -52,7 +54,7 @@
           <input type="file" file-model="form.document">
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">

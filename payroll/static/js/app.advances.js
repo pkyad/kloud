@@ -331,18 +331,19 @@ app.controller("workforceManagement.payroll.advances.explore", function($scope, 
 app.controller("workforceManagement.payroll.advances.form", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal, $rootScope) {
 
   $scope.userSearch = function(query) {
-    return $http.get('/api/HR/userSearch/?limit=10&username__contains=' + query).
+    $http.get('/api/HR/userSearch/').
     then(function(response) {
-      return response.data.results;
+      $scope.allUsers = response.data;
     })
   }
+  $scope.userSearch()
   $scope.today = new Date()
   $scope.reset = function() {
     $scope.form = {
       user: '',
       reason: '',
-      dateOfReturn: $scope.today,
-      document: emptyFile,
+      // dateOfReturn: $scope.today,
+      // document: emptyFile,
       returnMethod: 'SALARY_ADVANCE',
       amount : 0
     }
@@ -367,7 +368,7 @@ app.controller("workforceManagement.payroll.advances.form", function($scope, $st
     fd.append('reason', f.reason);
     fd.append('amount', f.amount);
     fd.append('returnMethod', f.returnMethod);
-    fd.append('dateOfReturn', dateToString(f.dateOfReturn));
+    // fd.append('dateOfReturn', dateToString(f.dateOfReturn));
     $http({
       method: 'POST',
       url: '/api/payroll/advances/',
