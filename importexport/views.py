@@ -1713,37 +1713,40 @@ class ConsumptionewiseReportAPIView(APIView):
                             except Exception as e:
                                 i = None
                             if len(bomObjs)>0:
+                                try:
+                                    bom = bomObjs.get(project = it["project"],products = it["product"])
+                                except Exception as e:
+                                    bom = None 
+                                if bom is not None:
+                                    print bom , 'bomfilter'
+                                    print i.vendor.name , 'vendor name'
+                                    print bom.landed_price, 'landed price'
+                                    itemList.append(i.vendor.name)
+                                    itemList.append(i.title)
+                                    itemList.append(bom.products.part_no)
+                                    itemList.append(bom.products.description_1)
+                                    itemList.append(it['addedqty'])
+                                    itemList.append(round(bom.landed_price))
+                                    itemList.append(round(it['addedqty']*bom.landed_price))
+                                    itemList.append(i.invoiceNumber)
+                                    itemList.append(it['comm_nr'])
 
-                                bom = bomObjs.get(project = it["project"],products = it["product"])
-                                print bom , 'bomfilter'
-                                print i.vendor.name , 'vendor name'
-                                print bom.landed_price, 'landed price'
-                                itemList.append(i.vendor.name)
-                                itemList.append(i.title)
-                                itemList.append(bom.products.part_no)
-                                itemList.append(bom.products.description_1)
-                                itemList.append(it['addedqty'])
-                                itemList.append(round(bom.landed_price))
-                                itemList.append(round(it['addedqty']*bom.landed_price))
-                                itemList.append(i.invoiceNumber)
-                                itemList.append(it['comm_nr'])
+                                    if len(data)>0:
+                                        for id, i in enumerate(data):
+                                            print i[1], i[2],'data items'
+                                            if i[1] == itemList[1] and i[2] == itemList[2]:
+                                                print data[id][4], 'data[id][4]'
+                                                data[id][4] += itemList[4]
+                                                data[id][6]  += itemList[6]
 
-                                if len(data)>0:
-                                    for id, i in enumerate(data):
-                                        print i[1], i[2],'data items'
-                                        if i[1] == itemList[1] and i[2] == itemList[2]:
-                                            print data[id][4], 'data[id][4]'
-                                            data[id][4] += itemList[4]
-                                            data[id][6]  += itemList[6]
-
-                                            print data[id][4], 'data[id][4]'
-                                            flag = True
-                                    if(flag == False):
-                                        print itemList[6],'itemmmmmmmmmmmmmmmmmmm'
+                                                print data[id][4], 'data[id][4]'
+                                                flag = True
+                                        if(flag == False):
+                                            print itemList[6],'itemmmmmmmmmmmmmmmmmmm'
+                                            data.append(itemList)
+                                    else:
+                                        print itemList, 'ListItem'
                                         data.append(itemList)
-                                else:
-                                    print itemList, 'ListItem'
-                                    data.append(itemList)
 
         else:
             print request.GET['supplier'],'supplierrrrrrrrrr'
