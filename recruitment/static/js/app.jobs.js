@@ -29,7 +29,7 @@ app.config(function($stateProvider) {
       }
     })
     .state('workforceManagement.exploreJob', {
-      url: "/exploreJob/:id",
+      url: "/exploreJob",
       views: {
         "": {
           templateUrl: '/static/ngTemplates/app.recruitment.jobs.explore.html',
@@ -38,23 +38,18 @@ app.config(function($stateProvider) {
       }
     })
     .state('workforceManagement.exploreJob.allJob', {
-      url: "/allJob",
-      views: {
-        "": {
-          templateUrl: '/static/ngTemplates/app.recruitment.jobs.allJobs.html',
-          controller: 'workforceManagement.recruitment.jobs.explore',
-        }
-      }
+      url: "/:id",
+      templateUrl: '/static/ngTemplates/app.recruitment.jobs.allJobs.html',
+      controller: 'workforceManagement.recruitment.jobs.explore',
     })
     .state('workforceManagement.exploreJob.viewprofile', {
-      url: "/viewprofile/:cand",
-      views: {
-        "": {
-          templateUrl: '/static/ngTemplates/app.recruitment.jobs.viewProfile.html',
-          controller: 'workforceManagement.recruitment.jobs.viewProfile',
-        }
-      }
+      url: "/viewprofile/:id/:cand",
+      templateUrl: '/static/ngTemplates/app.recruitment.jobs.viewProfile.html',
+      controller: 'workforceManagement.recruitment.jobs.viewProfile',
     })
+
+
+
 
 });
 
@@ -377,9 +372,9 @@ app.controller("workforceManagement.recruitment.jobs.explore", function($scope, 
     });
   }
   $scope.getJob()
-  if ($state.is('workforceManagement.exploreJob')) {
-    $state.go('workforceManagement.exploreJob.allJob')
-  }
+  // if ($state.is('workforceManagement.exploreJob')) {
+  //   $state.go('workforceManagement.exploreJob.allJob')
+  // }
 
   $scope.allCandidates = []
     $scope.fetchCandidates = function() {

@@ -894,6 +894,32 @@ app.directive('appstoreView', function() {
   };
 });
 
+app.directive('forumMain', function() {
+  return {
+    templateUrl: '/static/ngTemplates/forumMain.html',
+     // css: '/static/css/appstoreview.css',
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    // scope: {
+    //   data: '=',
+    //   // addCart: '='
+    // },
+    controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
+      console.log($scope.allApplication);
+      $http({
+        method: 'GET',
+        url: '/api/ERP/getapplication/',
+      }).
+      then(function(response) {
+        $scope.allApplication = response.data
+      })
+
+
+    },
+  };
+});
+
 
 app.directive('appdetailedView', function() {
   return {
@@ -1081,3 +1107,23 @@ app.directive('careerView', function() {
     },
   };
 });
+
+
+// app.directive('forumMain', function() {
+//   return {
+//     templateUrl: '/static/ngTemplates/forumMain.html',
+//      // css: '/static/css/careerview.css',
+//     restrict: 'E',
+//     transclude: true,
+//     replace: true,
+//     controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
+//       $http({
+//         method: 'GET',
+//         url: '/api/forum/allForums/',
+//       }).
+//       then(function(response) {
+//         $scope.allForums = response.data
+//       })
+//     },
+//   };
+// });
