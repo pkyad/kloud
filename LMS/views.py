@@ -56,7 +56,12 @@ class BookViewSet(viewsets.ModelViewSet):
     serializer_class = BookSerializer
     queryset = Book.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['title']
+    filter_fields = ['title','author']
+    def get_queryset(self):
+        if 'search' in self.request.GET:
+            val = self.request.GET['search']
+            return Book.objects.filter(Q(title__icontains = val) | Q(author__icontains = val) )
+        return Book.objects.all()
 
 class CourseActivityViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, isAdmin, )
@@ -77,12 +82,17 @@ class QPartViewSet(viewsets.ModelViewSet):
     serializer_class = QPartSerializer
     queryset = QPart.objects.all()
 
+class OptionsPartViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated, isAdmin, )
+    serializer_class = OptionsPartSerializer
+    queryset = OptionsPart.objects.all()
+
 class QuestionViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, isAdmin, )
     serializer_class = QuestionSerializer
-    queryset = Question.objects.all()
+    queryset = Question.objects.all().order_by('-created')
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['paper']
+    filter_fields = ['paper','bookSection','qtype']
     def get_queryset(self):
         if 'name' in self.request.GET:
             return Question.objects.filter(ques__icontains = self.request.GET['name'])
@@ -203,8 +213,9 @@ class CourseViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, isAdmin, )
     serializer_class = CourseSerializer
     def get_queryset(self):
-        if 'title' in self.request.GET:
-            return Course.objects.filter(title__icontains = str(self.request.GET['title']))
+        if 'search' in self.request.GET:
+            val = self.request.GET['search']
+            return Course.objects.filter(Q(title__icontains = val)|Q(enrollmentStatus = val))
         else:
             return Course.objects.all()
 

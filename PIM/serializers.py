@@ -223,7 +223,9 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
                 name = obj.vistor.name
         else:
             if obj.title == None:
-                name = obj.participants.exclude(pk = self.context['request'].user.pk)[0].first_name
+                name = ''
+                if len(obj.participants.exclude(pk = self.context['request'].user.pk)) > 0:
+                    name = obj.participants.exclude(pk = self.context['request'].user.pk)[0].first_name
             else:
                 name = obj.title
         return name
@@ -231,7 +233,7 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
 
     def create(self ,  validated_data):
         c = ChatThread(**validated_data)
-        
+
         if 'company' in self.context['request'].data :
             c.company = Division.objects.get(pk=int(self.context['request'].data['company']))
         c.save()

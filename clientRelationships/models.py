@@ -41,6 +41,10 @@ class CRMTermsAndConditions(models.Model):
     canSupplyOrder =  models.BooleanField(default = False)
     canInvoice =  models.BooleanField(default = False)
 
+CONTACTS_CHOICES = (
+    ('b2b' , 'b2b'),
+    ('student' , 'student')
+)
 
 class Contact(models.Model):
     user = models.ForeignKey(User , related_name = 'contacts' , null = False) # the user created it
@@ -67,6 +71,7 @@ class Contact(models.Model):
     started = models.DateField(null = True)
     ended = models.DateField(null = True)
     division = models.ForeignKey(Division , related_name='divisionContacts' , null = True)
+    typ = models.CharField(choices = CONTACTS_CHOICES , max_length = 50 , default = 'b2b')
 
 class CustomerSession(models.Model):
     created = models.DateTimeField(auto_now_add = True)
