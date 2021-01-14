@@ -1,0 +1,486 @@
+<style media="screen">
+  .popover-title {
+    display: none
+  }
+
+  .popover {
+    background-color: #00064b;
+    box-shadow: none;
+    border-radius: 3px;
+    boder: 0px solid transparent;
+  }
+
+  .popover-content {
+    padding: 5px 14px;
+    color: white;
+  }
+
+  .popover.top>.arrow::after {
+    border-top-color: #00064b;
+  }
+
+  .popover .top {
+    margin-top: -20px;
+  }
+
+  .badge-slider {
+    max-height: 100px;
+    -webkit-transition: max-height linear 0.1s;
+    -moz-transition: max-height linear 0.1s;
+    -o-transition: max-height linear 0.1s;
+    transition: max-height linear 0.1s;
+    overflow: hidden;
+  }
+  a:hover,a:focus{
+    text-decoration:none;
+  }
+
+  .navbar-dark{
+    background:#a5b6d4;
+  }
+  .navbar-dark .navLink{
+    color:black !important;
+    outline:none !important;
+  }
+  .navbar-dark .navLink:hover, .navbar-dark .navLink:focus{
+    color:#ff6900 !important;
+    background: none !important;
+  }
+  .navbar-dark .btn-default{
+    background: none !important;
+  }
+  .lightIcon{
+    display:None;
+    color:white
+  }
+  .darkIcon{
+    display:initial;
+  }
+  .lightic{
+    display:none !important;
+  }
+  .darkic{
+    display:initial !important;
+  }
+  .link{
+    color:black;
+  }
+  .link:hover{
+    color:black;
+    background-color:transparent !important;
+  }
+  .btn_call {
+    background: #e44241 !important;
+    border: 2px solid #e44241;
+  }
+
+  .btn_call:hover,
+  .btn_call:focus {
+    background: white !important;
+    border: 2px solid #e44241;
+    color: #e44241
+  }
+</style>
+
+<div class="container-fluid forum_container" style="padding-left:0px;padding-right:0px;background-color:#eee;overflow-x:hidden" >
+  <div class="" style="background-image:url('/static/images/header-bg.jpg');background-size:cover;min-height:350px;position:relative">
+    <div class="row" >
+      <div class="col-lg-12" style="margin-top:215px">
+        <div class=" col-lg-3 col-xs-6  forum_head" >
+          <h2 style="margin-top:0px;font-weight:bold">Forums</h2>
+        </div>
+        <div class="col-lg-3 col-xs-6 pull-right hidden-lg hidden-md">
+          <a href="/forum/new" type="button" class="btn btn-lg btn-default btn-rounded btn_call" >
+            Create Post
+          </a>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="row">
+
+  </div>
+  <div class="forum_strting">
+
+    <div class="col-md-12  col-lg-12 forum_div">
+
+      <div class="col-md-8 col-lg-9 forum_main" style="box-shadow:0px 5px #eeeeee;padding-left:0px;padding-right:0px;">
+        <div class="row hidden-lg hidden-md" style="padding-top:10px;background-color:#FFFFFF;height:100%;position:relative;margin-left:0px;margin-right:0px;">
+          <h2 style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;padding-left:25px;padding-right:25px;color:#00064b;font-weight:bold;padding-top:15px;margin-bottom:0px;margin-top:0px;">Main forums</h2>
+
+
+
+          <div class="row" style="padding-left:25px;padding-right:15px;margin-left:0px;margin-right:0px;border-top: 1px solid #eeeeee;padding-top: 20px;padding-bottom: 20px;" ng-repeat="o in allForums.forumoabj1">
+            <div class="flex-container" style="display:flex;">
+              <div style="width: 60px;height: 60px;background-color: #39B54A;border-radius: 50%;">
+                <i class="fa fa-industry" aria-hidden="true" style="padding:16px;font-size: 26px;color: white;"></i>
+
+              </div>
+              <div class="" style="padding-left:15px;">
+
+                <a    href="/forum/{{o.pk}}" style="color:#00064b;margin-bottom:0px;font-size:16px;letter-spacing:0.5px;line-height:1.5;">{{ o.title }} <br><span style="color:#857f99;margin-bottom:0px;font-size:16px;letter-spacing:0.5px;">{{o.description}}</span></a>
+                <div class="row" style="margin:0px;display:flex; padding-top:10px;padding-bottom:10px">
+
+
+                  <div style="margin-right:15px;" >
+                    <p style="color:#857f99;margin-bottom:0px;font-size:16px;letter-spacing:0.5px;">{{o.commentCount}} </p>
+
+                  </div>
+                  <div >
+
+                    <img src="/static/images/blog.jpg" style="width:20px;height:20px;border-radius:50%;" alt="">
+                    <p style="color:#006cfb;margin-bottom:0px;font-size:14px;letter-spacing:0.5px;padding-left:10px;padding-top:4px;padding-bottom:4px;display:inline">{{o.first_name}} {{o.last_name}}</p>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- {% endfor %} -->
+
+        </div>
+        <!-- <div class="row hidden-lg hidden-md" style="margin-top:50px;padding-top:10px;background-color:#FFFFFF;height:100%;position:relative;margin-left:0px;margin-right:0px;">
+          <h2 style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;padding-left:25px;padding-right:25px;color:#00064b;font-weight:bold;margin-top:0px;margin-bottom:5px;margin-top:0px;padding-top:15px;">Custom forums</h2>
+          {% for o in posts2 %}
+
+          <div class="row" style="padding-left:25px;padding-right:15px;margin-left:0px;margin-right:0px;border-top: 1px solid #eeeeee;padding-top: 20px;padding-bottom: 20px;">
+            <div class="flex-container" style="display:flex;">
+              <div style="width: 60px;height: 60px;background-color: #eaeaea;border-radius: 50%;">
+                <i class="fa fa-folder-open" aria-hidden="true" style="padding:16px;font-size: 26px;color:#bdc4ce;"></i>
+
+              </div>
+              <div class="" style="padding-left:15px;">
+
+                <a href="/forum/{{o.pk}}" style="color:#00064b;margin-bottom:0px;font-size:16px;letter-spacing:0.5px;line-height:1.5;">{{ o.title }}<br><span style="color:#857f99;margin-bottom:0px;font-size:16px;letter-spacing:0.5px;">{{o.description|safe}}</span></a>
+                <div class="row" style="margin:0px;display:flex; padding-top:10px;padding-bottom:10px">
+
+
+                  <div style="margin-right:15px;">
+                    <p style="color:#857f99;margin-bottom:0px;font-size:16px;letter-spacing:0.5px;">{{o.commentCount}}</p>
+
+                  </div>
+                  <div >
+
+                    <img src="/static/images/blog.jpg" style="width:20px;height:20px;border-radius:50%;" alt="">
+                    <p style="color:#006cfb;margin-bottom:0px;font-size:14px;letter-spacing:0.5px;padding-left:10px;padding-top:4px;padding-bottom:4px;display:inline">{{o.first_name}} {{o.last_name}}</p>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          {% endfor %}
+
+
+        </div>
+        <div class="row hidden-lg hidden-md hidden-xs hidden-sm" style="margin-top:50px;padding-top:10px;background-color:#FFFFFF;height:100%;position:relative;margin-left:0px;margin-right:0px;">
+          <h2 style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;padding-left:25px;padding-right:25px;color:#00064b;font-weight:bold;margin-top:0px;margin-bottom:5px;margin-top:0px;padding-top:15px;">Online user:<span
+              style="color:#60c06c;"> 31</span></h2>
+
+          <div class="row" style="padding-left:25px;padding-right:15px;margin-left:0px;margin-right:0px;border-top: 1px solid #eeeeee;padding-top: 20px;padding-bottom: 20px;">
+            <div style="padding-top:30px;padding-bottom:30px;">
+              <div class="col-xs-12" style="padding-left:0px;padding-right:0px;" >
+                <div class="col-xs-3 col-sm-1 " style="padding-left:0px;padding-right:0px;">
+                  <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;" alt="">
+
+                </div>
+                <div class="col-xs-3 col-sm-1" style="padding-left:0px;padding-right:0px;">
+                  <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;" alt="" class="image">
+
+                </div>
+                <div class="col-xs-3 col-sm-1" style="padding-left:0px;padding-right:0px;">
+                  <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;" alt="">
+
+                </div>
+                <div class="col-xs-3 col-sm-1 visible-sm" style="padding-left:0px;padding-right:0px;">
+                  <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;" alt="">
+
+                </div>
+                <div class="col-xs-3 col-sm-1 visible-sm" style="padding-left:0px;padding-right:0px;">
+                  <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;" alt="">
+
+                </div>
+                <div class="col-xs-3 col-sm-1 visible-sm" style="padding-left:0px;padding-right:0px;">
+                  <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;" alt="">
+
+                </div>
+                <div class="col-xs-3 col-sm-1 visible-sm" style="padding-left:0px;padding-right:0px;">
+                  <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;" alt="">
+
+                </div>
+                <div class="col-xs-3 col-sm-1" style="padding-left:0px;padding-right:0px;">
+                  <div type="button" ng-click="ShowHide()" style="width:55px;height:55px;background-color: #eaeaea;border-radius: 50%;padding:16px;border:none;">
+                    <span>
+
+                      <i class="fa fa-circle" aria-hidden="true" style="font-size: 5px;color:#bdc4ce;"></i>
+                      <i class="fa fa-circle" aria-hidden="true" style="font-size: 5px;color:#bdc4ce;"></i>
+                      <i class="fa fa-circle" aria-hidden="true" style="font-size: 5px;color:#bdc4ce;"></i>
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </div>
+              <div class="" ng-show="IsVisible">
+                <div class="col-xs-12" style="padding-left:0px;padding-right:0px;margin-top:10px;" >
+                  <div class="col-xs-3 col-sm-1 " style="padding-left:0px;padding-right:0px;">
+                    <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;" alt="">
+
+                  </div>
+                  <div class="col-xs-3 col-sm-1" style="padding-left:0px;padding-right:0px;">
+                    <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;" alt="">
+
+                  </div>
+                  <div class="col-xs-3 col-sm-1" style="padding-left:0px;padding-right:0px;">
+                    <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;" alt="">
+
+                  </div>
+                  <div class="col-xs-3 col-sm-1" style="padding-left:0px;padding-right:0px;">
+                    <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;" alt="">
+
+                  </div>
+
+
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+
+
+        <div class="table-responsive forum_table hidden-xs hidden-sm" style="padding-top:10px;background-color:#FFFFFF;height:100%;position:relative;">
+          <table class="table">
+            <thead>
+              <tr>
+                <div class="col-md-12">
+                  <th style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;padding-left:25px;padding-right:25px;color:#00064b">Main forums</th>
+                  <th class="hidden-xs" style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;color:#00064b">Replies</th>
+                  <th class="hidden-xs" style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;color:#00064b">Last post</th>
+
+                </div>
+              </tr>
+            </thead>
+            <tbody>
+              {% for o in posts1 %}
+              <tr style="cursor:pointer;" >
+                <td style="padding-top:30px;padding-bottom:30px;padding-left:25px;padding-right:25px;">
+                  <div class="flex-container" style="display:flex">
+                    <div style="width: 60px;height: 60px;background-color: #39B54A;border-radius: 50%;">
+                      <i class="fa fa-industry" aria-hidden="true" style="padding:16px;font-size: 26px;color: white;"></i>
+
+                    </div>
+                    <div style="padding-top:4px;padding-bottom:4px;padding-left:16px;">
+                      <a style="color:#00064b;margin-bottom:0px;font-size:16px;letter-spacing:0.5px;line-height:1.5" href="/forum/{{o.pk}}">{{ o.title }}</a>
+                      <p style="color:#857f99;margin-bottom:0px;font-size:16px;letter-spacing:0.5px;">{{o.description|safe}}</p>
+                    </div>
+
+                  </div>
+                </td>
+                <td class="hidden-xs" style="padding-top:30px;padding-bottom:30px;color:#857f99;text-align:center;padding-left: 0px;padding-right: 15px;">{{o.commentCount}}</td>
+                <td class="hidden-xs" style="padding-top:30px;padding-bottom:30px;padding-right:25px;">
+                  <div class="flex-container" style="display:flex;">
+                    <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;" alt="">
+                    <p style="color:#006cfb;margin-bottom:0px;font-size:16px;letter-spacing:0.5px;padding-left:10px;padding-top:4px;padding-bottom:4px;">{{o.first_name}} {{o.last_name}}<br><span
+                        style="color:#857f99;margin-bottom:0px;font-size:16px;letter-spacing:0.5px;">{{o.lstcomcreated}}</span></p>
+                  </div>
+
+
+                </td>
+              </tr>
+
+
+              {% endfor %}
+
+            </tbody>
+          </table>
+
+        </div>
+        <div class="row forum_cards" style="margin-top:40px;">
+          {% for o in forumarticles %}
+          <div class="col-md-3 col-lg-3 forum_card_gap" style="margin-bottom:20px">
+            <a href="/{{o.articleUrl}}">
+            {% if o.introSectionImg %}
+
+              <div style="background:linear-gradient(rgba(128, 128, 128, 0), rgb(72, 72, 72)),url('{{o.introSectionImg.url}}');background-size:cover;min-height:300px;padding:30px;border-radius:5px;" >
+                {% else %}
+
+                <div style="background-image:url('static/images/b01.png');background-size:cover;min-height:300px;padding:30px;border-radius:5px;" >
+                  {% endif %}
+              <div >
+                <div style="min-height:27vh;">
+                 <p style="color:white;font-weight:bold;font-size:20px;text-shadow: 0px 0px 1px whitesmoke;letter-spacing:0.5px;">{{o.title | truncatechars:50}} </p>
+                </div>
+                <div class="flex-container" style="display:flex;">
+                  <img src="/static/images/blog.jpg" style="width:20px;height:20px;border-radius:50%;" alt="">
+                  <p style="color:white;margin-bottom:0px;font-size:14px;letter-spacing:0.5px;padding-left:10px;padding-bottom:4px;display:inline;font-weight:bold;opacity:0.8">by {{o.author.first_name}} </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          </a>
+{% endfor %}
+        </div>
+
+
+        <div class="table-responsive hidden-xs hidden-sm" style="padding-top:10px;margin-top:40px;background-color:#FFFFFF;height:100%;position:relative;">
+          <table class="table">
+            <thead>
+              <tr>
+                <div class="col-md-12">
+                  <th style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;padding-left:25px;padding-right:25px;color:#00064b">Custom forums</th>
+                  <th style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;color:#00064b">Posts</th>
+                  <th style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;color:#00064b">Last post</th>
+
+                </div>
+              </tr>
+            </thead>
+            <tbody>
+              {% for o in posts2 %}
+
+
+
+              <tr style="cursor:pointer;" >
+                <td style="padding-top:30px;padding-bottom:30px;padding-left:25px;padding-right:25px;">
+                  <div class="flex-container" style="display:flex">
+                    <div style="width: 60px;height: 60px;background-color: #eaeaea;border-radius: 50%;">
+                      <i class="fa fa-folder-open" aria-hidden="true" style="padding:16px;font-size: 26px;color:#bdc4ce;"></i>
+
+                    </div>
+                    <div style="padding-top:4px;padding-bottom:4px;padding-left:16px;">
+
+                      <a style="color:#00064b;margin-bottom:0px;font-size:16px;letter-spacing:0.5px;" href="/forum/{{o.pk}}">{{ o.title }}</a>
+                      <p style="color:#857f99;margin-bottom:0px;font-size:16px;letter-spacing:0.5px;">{{o.description|safe}}</p>
+                    </div>
+
+                  </div>
+                </td>
+                <td style="padding-top:30px;padding-bottom:30px;color:#857f99;text-align:center;padding-left: 0px;padding-right: 15px;">{{o.commentCount}}</td>
+                <td style="padding-top:30px;padding-bottom:30px;padding-right:25px;">
+                  {% if o.lstcomcreated%}
+                  <div class="flex-container" style="display:flex;">
+                    <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;" alt="">
+                    <p style="color:#006cfb;margin-bottom:0px;font-size:16px;letter-spacing:0.5px;padding-left:10px;padding-top:4px;padding-bottom:4px;">{{o.first_name}} {{o.last_name}}<br><span
+                        style="color:#857f99;margin-bottom:0px;font-size:16px;letter-spacing:0.5px;">{{o.lstcomcreated}}</span></p>
+                  </div>
+                  {% endif %}
+
+
+                </td>
+
+              </tr>
+              {% endfor %}
+
+
+
+            </tbody>
+          </table>
+
+        </div>
+        <div class="table-responsive hidden-xs hidden-sm hidden-md hidden-lg" style="padding-top:10px;margin-top:40px;background-color:#FFFFFF;height:100%;position:relative;">
+          <table class="table">
+            <thead>
+              <tr>
+                <div class="col-md-12">
+                  <th style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;padding-left:25px;padding-right:25px;color:#00064b;">Online users:<span style="color:#60c06c;">31</span></th>
+
+
+                </div>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+
+
+                <td style="padding-top:30px;padding-bottom:30px;padding-right:25px;padding-left:25px">
+                  <div class="flex-container" style="display:flex;">
+                    <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;" alt="">
+                    <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;margin-left:10px" alt="">
+                    <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;margin-left:10px" alt="">
+                    <img src="/static/images/blog.jpg" style="width:55px;height:55px;;border-radius:50%;margin-left:10px" alt="">
+                    <img src="/static/images/blog.jpg" style="width:55px;height:55px;;border-radius:50%;margin-left:10px" alt="">
+                    <img src="/static/images/blog.jpg" style="width:55px;height:55px;;border-radius:50%;margin-left:10px" alt="">
+                    <img src="/static/images/blog.jpg" style="width:55px;height:55px;;border-radius:50%;margin-left:10px" alt="">
+                    <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;margin-left:10px" alt="">
+                    <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;margin-left:10px" alt="">
+                    <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;margin-left:10px" alt="">
+                    <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;margin-left:10px" alt="">
+                    <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;margin-left:10px" alt="">
+                    <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;margin-left:10px" alt="" class="image">
+
+                    <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;margin-left:10px" alt="">
+                    <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;margin-left:10px" alt="">
+                    <div style="width:55px;height:55px;background-color: #eaeaea;border-radius: 50%;margin-left:10px;padding:16px">
+                      <span>
+
+                        <i class="fa fa-circle" aria-hidden="true" style="font-size: 5px;color:#bdc4ce;"></i>
+                        <i class="fa fa-circle" aria-hidden="true" style="font-size: 5px;color:#bdc4ce;"></i>
+                        <i class="fa fa-circle" aria-hidden="true" style="font-size: 5px;color:#bdc4ce;"></i>
+                      </span>
+
+                    </div>
+
+                  </div>
+
+
+                </td>
+
+              </tr>
+
+
+
+            </tbody>
+          </table>
+
+        </div>
+
+      </div>
+      <div class="col-md-4 col-lg-3 forum_posting hidden-xs">
+        <div class="text-center">
+
+          <a href="/forum/new">
+            <button type="button" class="forum_btn" name="button" >Create Post</button>
+          </a>
+
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- {% verbatim %}
+<div ng-include="'/ngTemplates/app.homepage.subscribe.html'">
+</div>
+
+{% endverbatim %} -->
+</div>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("[data-toggle='popover']").popover('show');
+    $('.image').popover({
+      content: "ChristineMay",
+      placement: "top"
+    });
+
+  });
+  $(".image")
+    .on('click', function(e) {
+      e.preventDefault();
+    })
+    .popover('show');
+</script>

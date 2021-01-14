@@ -20,7 +20,7 @@ class JobsSerializer(serializers.ModelSerializer):
         # del validated_data['contacts']
         inv = Jobs(**validated_data)
         inv.unit = Unit.objects.get(pk = self.context['request'].data['unit'])
-        inv.division = request.user.designation.division
+        inv.division =  self.context['request'].user.designation.division
         # inv.role = Role.objects.get(pk = self.context['request'].data['role'])
         inv.save()
         # for i in self.context['request'].data['contacts']:
