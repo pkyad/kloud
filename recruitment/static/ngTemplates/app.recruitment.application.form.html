@@ -1,3 +1,18 @@
+<style>
+  .adv_input {
+    border: none !important;
+    background: #EAEAEA;
+    border-radius: 10px;
+    padding: 15px;
+  }
+
+  .adv_select {
+    border: none !important;
+    background: #EAEAEA;
+    border-radius: 10px;
+    /* padding: 15px; */
+  }
+</style>
 <div class="modal-header text-center" style="font-size:18px;color:{{msg.length>0?'#35e031':''}}">
   <h3>{{msg.length>0?msg:'Apply'}}</h3>
 </div>
@@ -8,19 +23,19 @@
         <form >
           <div class="form-group">
             <label><i style="color:#e27160">*</i> First Name </label>
-            <input type="text" class="form-control" ng-model="form.firstname" required>
+            <input type="text" class="form-control adv_input" ng-model="form.firstname" required>
           </div>
           <div class="form-group">
             <label>Last Name</label>
-            <input type="text" class="form-control" ng-model="form.lastname">
+            <input type="text" class="form-control adv_input" ng-model="form.lastname">
           </div>
           <div class="form-group">
             <label><i style="color:#e27160">*</i> Email</label>
-            <input type="email" class="form-control" ng-model="form.email" required>
+            <input type="email" class="form-control adv_input" ng-model="form.email" required>
           </div>
           <div class="form-group">
             <label><i style="color:#e27160">*</i> Mobile</label>
-            <input type="text" class="form-control" ng-model="form.mobile" required>
+            <input type="text" class="form-control adv_input" ng-model="form.mobile" required>
           </div>
           <!-- <div class="form-group">
             <label>Cover Letter</label>
@@ -38,11 +53,15 @@
             <input type="checkbox" ng-model="form.aggree" required></input>
             <label>I Agree To The Terms And Conditions</label>
           </div> -->
-          <div class="btn-group">
-            <button type="submit" class="btn btn-primary" ng-click="save()">Save</button>
-            <button type="button" class="btn btn-default" ng-click="cancel()">
-              Close
-            </button>
+          <div class="row">
+            <div class="col-md-4">
+              <button type="submit" class="btn btn-primary btn-block" ng-click="save()"  style="background: #103F8D;color:#ffffff;border: none !important;border-radius: 10px !important;padding: 15px;">Save</button>
+            </div>
+            <div class="col-md-4">
+              <button type="button" class="btn btn-default btn-block" ng-click="cancel()"  style="background: #f51600;color:#ffffff;border: none !important;border-radius: 10px !important;padding: 15px;">
+                Close
+              </button>
+            </div>
           </div>
         </form>
       </div>

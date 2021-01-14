@@ -78,7 +78,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-TRUSTED_DOMAINS = ['http://192.168.1.152', 'http://192.168.0.105','http://127.0.0.1','http://localhost','https://essgi.cioc.in']
+TRUSTED_DOMAINS = ['http://192.168.1.152','http://192.168.1.127', 'http://192.168.0.105','http://127.0.0.1','http://localhost','https://essgi.cioc.in']
 
 SOURCE_LIST = ['OEM','WEBSITE','BNI']
 

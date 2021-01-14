@@ -7,9 +7,9 @@
     </div>
   </div>
   <div class="row" style="padding:15px; margin-top:3%">
-    <div class="col-md-4">
-      <div class="row" ng-repeat="j in allJobs">
-        <div class="pullOnHover" style="background-color:white;padding:30px;height:250px;margin-bottom:20px;border-radius:30px;" ng-click="$state.go('workforceManagement.exploreJob',{'id' : j.pk})">
+    <div class="col-md-4" ng-repeat="j in allJobs">
+      <div class="row" style="margin: 15px;">
+        <div class="pullOnHover col-md-12" style="background-color:white;padding:30px;height:250px;margin-bottom:20px;border-radius:30px;" ng-click="$state.go('workforceManagement.exploreJob.allJob',{'id' : j.pk})">
           <div class="row">
 
             <div class="col-md-6">
@@ -23,10 +23,10 @@
 
             <div class="col-md-6 text-left" style="position:absolute;bottom:30px">
               <h3> {{j.total_app}} </h3>
-              <h2>Short Listed</h2>
+              <h2>Selected</h2>
             </div>
             <div class="col-md-6 text-right" style="position:absolute;bottom:30px;right:0px">
-              <h3> {{j.total_app}} </h3>
+              <h3> {{j.total_pending}} </h3>
               <h2>Pending</h2>
             </div>
           </div>

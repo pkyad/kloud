@@ -12,14 +12,15 @@ from HR.serializers import userSearchSerializer
 class JobsSerializer(serializers.ModelSerializer):
     unit = UnitsLiteSerializer(many = False , read_only = True)
     total_app = serializers.SerializerMethodField()
+    total_pending = serializers.SerializerMethodField()
     class Meta:
         model = Jobs
-        fields = ('created','pk', 'jobtype','unit', 'role' , 'skill' , 'approved' , 'maximumCTC' , 'status','description','total_app' )
+        fields = ('created','pk', 'jobtype','unit', 'role' , 'skill' , 'approved' , 'maximumCTC' , 'status','description','total_app' , 'total_pending')
     def create(self , validated_data):
         # del validated_data['contacts']
         inv = Jobs(**validated_data)
         inv.unit = Unit.objects.get(pk = self.context['request'].data['unit'])
-        inv.division = request.user.designation.division
+        inv.division =  self.context['request'].user.designation.division
         # inv.role = Role.objects.get(pk = self.context['request'].data['role'])
         inv.save()
         # for i in self.context['request'].data['contacts']:
@@ -42,7 +43,10 @@ class JobsSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
     def get_total_app(self, obj):
-        tot = JobApplication.objects.filter(job=obj).count()
+        tot = JobApplication.objects.filter(job=obj, status = 'Selected').count()
+        return tot
+    def get_total_pending(self, obj):
+        tot = JobApplication.objects.filter(job=obj, status = 'Created').count()
         return tot
 
 
@@ -56,6 +60,15 @@ class JobApplicationSerializer(serializers.ModelSerializer):
         i.job = Jobs.objects.get(pk = self.context['request'].data['job'])
         i.save()
         return i
+    # def update(self ,instance, validated_data):
+    #     for key in ['hra' , 'basic' , 'lta' , 'special' , 'taxSlab' , 'adHoc' , 'al' , 'ml' , 'status' ]:
+    #         try:
+    #             setattr(instance , key , validated_data[key])
+    #         except:
+    #             pass
+    #     instance.save()
+    #     return instance
+
 
 class InterviewSerializer(serializers.ModelSerializer):
     candidate = JobApplicationSerializer(many = False , read_only = True)

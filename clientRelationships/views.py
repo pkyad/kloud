@@ -950,12 +950,12 @@ def createOpportunity(contObj,newOpp,user):
         try:
             companyObj = service.objects.get(name=str(newOpp['Company Name']))
         except:
-            companyObj = service.objects.create(name=str(newOpp['Company Name']),user=user)
+            companyObj = service.objects.create(name=str(newOpp['Company Name']),user=user, division = request.user.designation.division)
     else:
         try:
             companyObj = service.objects.get(name='Unknown')
         except:
-            companyObj = service.objects.create(name='Unknown',user=user)
+            companyObj = service.objects.create(name='Unknown',user=user, division = request.user.designation.division)
     oppObj= Deal.objects.create(name = str(newOpp['Name']),user=user,company=companyObj)
     oppObj.value = newOpp['Value']
     oppObj.state = newOpp['State']
@@ -1541,7 +1541,7 @@ class CreateContactView(APIView):
                     addressObj.street = data['street']
                     addressObj.save()
         elif 'company' in data:
-            companyObj = service.objects.create(name = data['company'], user = request.user)
+            companyObj = service.objects.create(name = data['company'], user = request.user , division = request.user.designation.division)
             contactObj.company = companyObj
             if 'street' in data:
                 addressObj = address.objects.create(street = data['street'])
@@ -1606,7 +1606,7 @@ class SaveDealView(APIView):
         if 'companyPk' in data:
             companyObj = service.objects.get(pk = int(data['companyPk']))
         else:
-            companyObj = service.objects.create(name = data['company'] , user = request.user)
+            companyObj = service.objects.create(name = data['company'] , user = request.user, division = request.user.designation.division)
         dealObj = Deal.objects.create(name = data['name'] ,  user = request.user, company = companyObj)
         if 'contactPk' in data:
             contactObj = Contact.objects.get(pk = int(data['contactPk']))

@@ -19,38 +19,43 @@ z-index: 1;">
             <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 25px;" alt="">
           </div>
           <div class="col-md-8">
-            <h3 style="margin:0px;"><b>{{data.author}}</b></h3>
-            <p>{{data.subject}} </p>
+            <h3 style="margin:0px;"><b>{{data.title}}</b></h3>
+            <p>{{data.author}} </p>
           </div>
           <div class="col-md-1">
             <img src="/static/images/edit.svg" alt="" style="width: 25px;" ng-click="$state.go('businessManagement.newBook',{id:$state.params.bookid})">
           </div>
         </div>
-        <div class="row" style="margin:0px;">
+        <div class="row" style="margin:10px 0px;">
           <h4><b>Chapters</b></h4>
         </div>
-        <div class="row" style="background-color:white;padding:5px 15px;margin-bottom:5px;" ng-click="show=true" ng-init="show=false">
-          <h4><b>Introduction to physics</b></h4>
+        <div class="row"   ng-repeat="k in chapters track by $index">
+          <div class="row" style="background-color:white;padding:5px 15px;margin:0px;margin-bottom:5px;" ng-click="k.show= !k.show" ng-init="k.show=false">
+            <h4><b>{{k.title}}</b></h4>
+
+          </div>
+          <div class="row" ng-if="k.show" style="margin:0px;margin-left:30px;padding:10px;">
+            <ul class="list-unstyled">
+              <li  ng-repeat="l in k.children track by $index" ng-click="l.seq=$index" style="{{l.seq?'font-weight:700':'font-weight:normal'}};padding-bottom:10px;">{{l.title}}</li>
+
+              <li ng-if="showInput">
+                <div class="form-group">
+                  <input type="text" class="form-control" style="width:90%;border:none;" ng-model="sectionform.title" ng-enter="createSection(k.pk,$index)" name="" value="">
+                </div>
+              </li>
+              <li style="color:#3786D1;" ng-click="showInput=true" ng-init="showInput=false">Add New Section <i class="fa fa-plus"></i></li>
+            </ul>
+          </div>
         </div>
-        <div class="row" ng-if="show" style="margin:0px;margin-left:30px;">
-          <ul class="list-unstyled">
-            <li style="padding-bottom:10px;"><b>Unit of Measurements</b></li>
-            <li>Mathematics for scientists</li>
-            <li>n-dimensional space theory</li>
-          </ul>
-        </div>
-        <div class="row" style="background-color:white;padding:5px 15px;margin-bottom:5px;">
-          <h4><b>Introduction to physics</b></h4>
-        </div>
+
         <div class="row" ng-if="showNew">
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Enter the Chapter name" name="" value="" style="border: none;
-padding: 5px 15px;
-height: 45px;">
+            <input type="text" class="form-control" ng-model="form.title" ng-enter="createChapter()" placeholder="Enter the Chapter name" name="" value="" style="border: none;
+padding: 5px 15px;height: 45px;">
           </div>
         </div>
         <div class="row">
-          <button type="button" class="createTestBtn btn-block" name="button" style="border-radius:0px !important"><img src="/static/images/icons8-plus-48.png" style="height:18px;padding-right:20px;" alt="" ng-click="showNew=true" ng-init="showNew=false">Add Chapter</button>
+          <button type="button" class="createTestBtn btn-block" name="button" style="border-radius:0px !important" ng-click="showNew=true"><img src="/static/images/icons8-plus-48.png" style="height:18px;padding-right:20px;" alt=""  ng-init="showNew=false">Add Chapter</button>
         </div>
       </div>
       <div class="col-md-10 col-md-offset-2">

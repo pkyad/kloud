@@ -1247,6 +1247,30 @@ app.controller('sideMenu', function($scope, $http, $aside, $state, Flash, $users
     }
   });
 
+  $rootScope.$on('scheduleInterview', function(evt, candidate) {
+    console.log(evt , candidate);
+    // if (contract.contract != undefined) {
+      // $scope.mailer.contact = contract.contact
+      $scope.mailer.contactName = candidate.name
+      // var url = '/api/clientRelationships/sendEmailAttach/?contract=' + contract.contract
+      // $http({
+      //   method: 'GET',
+      //   url: url
+      // }).
+      // then(function(response) {
+        if (candidate.email.length > 0) {
+          $scope.mailer.toAddress.push({
+            'email': candidate.email
+          })
+        }
+        $scope.mailer.files = []
+        $scope.mailer.file = new File([""], "");
+        $scope.mailer.toggle = true
+        $scope.mailer.active = true
+      // })
+    // }
+  });
+
   $scope.attach = function() {
     $('#attach').click()
   };
