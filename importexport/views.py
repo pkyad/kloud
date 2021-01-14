@@ -4431,9 +4431,7 @@ def datewiseInvoicereport(request):
     print 'reportssssssssssssssssss', request.GET
     start = request.GET['start']
     end = request.GET['end']
-    print start,end, '000000000000000000000000000'
     invoiceObj = Invoice.objects.filter(created__range = (start,end))
-    print invoiceObj,"nnnnnnnnnnnn"
     workbook = Workbook()
     toReturn = workbook.active
     hdFont = Font(size=12,bold=True)
@@ -4455,7 +4453,6 @@ def datewiseInvoicereport(request):
         toReturn[cl].font = hdFont
     for p in invoiceObj:
         invoiceqtyObj = InvoiceQty.objects.filter(invoice__pk = p.pk)
-        print invoiceqtyObj,"dattttttttttttrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"
 
         for i in invoiceqtyObj:
             data = []
