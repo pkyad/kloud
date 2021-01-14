@@ -460,7 +460,7 @@
 
       <div class="container-fluid" style="background-color:#fafafa;height:100%">
         <div class="row" style="margin-top:30px;margin-left:15px;">
-          <div class="col-md-4">
+          <div class="col-md-3">
             <h3 class="courseColor">Courses you are offering......</h3>
           </div>
           <div class="col-md-4">
@@ -472,11 +472,17 @@
 
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <div class="form-group">
-              <span class="searchIcon"><i class="fa fa-search text-right"></i></span>
-              <input type="text" name="" placeholder="Search...." value="" class="form-control searchInput">
+              <span class="searchIcon" ng-click="fetchData()"><i class="fa fa-search text-right"></i></span>
+              <input type="text" name="" ng-model="search.query" ng-enter="fetchData()" placeholder="Search...." value="" class="form-control searchInput">
             </div>
+          </div>
+          <div class="col-md-1">
+            <button type="button" class="createTestBtn" name="button" ng-click="privious()">Previous</button>
+          </div>
+          <div class="col-md-1">
+            <button type="button" class="createTestBtn" name="button" ng-click="next()">Next</button>
           </div>
         </div>
 
@@ -500,7 +506,7 @@
                 <td>
                   <div class="row" style="">
                     <div class="col-md-3">
-                      <img ng-src="{{k.dp}}" src="" onerror="this.src='/static/images/img_avatar_card.png'" style="height:50px;" class="img img-circle" alt="">
+                      <img ng-src="{{k.dp}}" src="" onerror="this.src='/static/images/img_avatar_card.png'" style="height:50px;width:50px;" class="img img-circle" alt="">
                     </div>
                     <div class="col-md-9">
                       <h4>{{k.title}}</h4>

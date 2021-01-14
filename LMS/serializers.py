@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User , Group
 from django.contrib.auth import authenticate
 from rest_framework import serializers
+from django.db.models import Sum, Count
 from rest_framework.exceptions import *
 from .models import *
 import random, string
@@ -21,18 +22,12 @@ class SectionLiteSerializer(serializers.ModelSerializer):
         fields = ( 'pk' , 'children', 'title' )
 
 
-class SectionSerializer(serializers.ModelSerializer):
-    children = SectionLiteSerializer(many=True,read_only=True)
-    class Meta:
-        model = Section
-        fields = ('pk' , 'title' , 'book','sequence' ,'parent','shortUrl','description','seoTitle','children')
-
 
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
 
-        fields = ('pk' , 'title' , 'description', 'dp', 'author', 'ISSN'  , 'volume', 'version', 'license' ,'topic','subject', )
+        fields = ('pk' , 'title' , 'description', 'dp', 'author', 'ISSN'  , 'volume', 'version', 'license' ,'topic','subject','shortUrl' )
 
     def create(self , validated_data):
         b = Book(**validated_data)
@@ -40,7 +35,7 @@ class BookSerializer(serializers.ModelSerializer):
         return b
 
     def update(self , instance , validated_data):
-        for key in ['title' , 'description', 'dp', 'author', 'ISSN'  , 'volume', 'version', 'license' ,'topic','subject', ]:
+        for key in ['title' , 'description', 'dp', 'author', 'ISSN'  , 'volume', 'version', 'license' ,'topic','subject', 'shortUrl']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
@@ -65,14 +60,21 @@ class SectionLiteSerializer(serializers.ModelSerializer):
         model = Section
         fields = ('pk', 'title' , 'book' ,'shortUrl')
 
+class OptionsPartSerializer(serializers.ModelSerializer):
+    is_Selected = serializers.SerializerMethodField()
+    class Meta:
+        model = OptionsPart
+        fields = ( 'pk' , 'mode', 'rtxt','parent','image','sequence','answer','is_Selected' )
+    def get_is_Selected(self,obj):
+        return False
+
 class QuestionSerializer(serializers.ModelSerializer):
     bookSection = SectionLiteSerializer(many = False , read_only = True)
-
+    options = serializers.SerializerMethodField()
     class Meta:
         model = Question
 
-        fields = ('pk' , 'created' , 'updated',  'marks' , 'qtype','ques'  ,'bookSection', 'paper'   )
-        read_only_fields = ('archived', 'approved', 'reviewed', 'forReview' , 'user')
+        fields = ('pk' , 'created' , 'updated',  'marks' , 'qtype','ques'  ,'bookSection', 'paper' ,'options'  )
 
     def create(self , validated_data):
         print '*****************'
@@ -113,12 +115,29 @@ class QuestionSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+    def get_options(self,obj):
+        return OptionsPartSerializer(obj.options.all(),many=True).data
+
+
+
+
+class SectionSerializer(serializers.ModelSerializer):
+    children = SectionLiteSerializer(many=True,read_only=True)
+    questions = serializers.SerializerMethodField()
+    class Meta:
+        model = Section
+        fields = ('pk' , 'title' , 'book','sequence' ,'parent','shortUrl','description','seoTitle','children','questions')
+    def get_questions(self,obj):
+        # data = Question.objects.filter(bookSection__pk = obj.pk)
+        return QuestionSerializer(Question.objects.filter(bookSection__pk = obj.pk),many=True).data
 
 class PaperSerializer(serializers.ModelSerializer):
     user = userSearchSerializer(many = False , read_only = True)
+    quesCount = serializers.SerializerMethodField()
+    marks = serializers.SerializerMethodField()
     class Meta:
         model = Paper
-        fields = ('pk' , 'created' , 'updated', 'active' , 'user','name','timelimit','description')
+        fields = ('pk' , 'created' , 'updated', 'active' , 'user','name','timelimit','description','quesCount','marks')
         read_only_fields = ('user',)
     def create(self , validated_data):
         m = Paper(**validated_data)
@@ -149,6 +168,16 @@ class PaperSerializer(serializers.ModelSerializer):
             instance.description = self.context['request'].data['description']
         instance.save()
         return instance
+    def get_quesCount(self,obj):
+        data = Question.objects.filter(paper__id = obj.pk)
+        return len(data)
+    def get_marks(self,obj):
+        marks =  Question.objects.filter(paper__id = obj.pk).aggregate(Sum('marks'))
+        if marks['marks__sum'] != None:
+            marks = marks['marks__sum']
+        else:
+            marks = 0
+        return marks
 
 class EnrollmentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -165,7 +194,7 @@ class EnrollmentSerializer(serializers.ModelSerializer):
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
-        fields = ('pk' , 'created' , 'name', 'mobile', 'email' )
+        fields = ('pk' , 'created' , 'name', 'mobile', 'email','typ' )
 
 class CourseSerializer(serializers.ModelSerializer):
     instructor = userSearchSerializer(many = False , read_only = True)

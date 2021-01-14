@@ -31,16 +31,16 @@
       </span>
       <div class="row" style="margin-top:30px;">
         <div class="{{cpForm.isLatex?'col-md-6':'col-md-12'}}">
-          <div class="form-group" style="" ng-if="form =='subjective' ||  form =='file'">
+          <div class="form-group" style="" ng-if="form =='multiple' ||form =='subjective' ||  form =='file'">
             <label for="">Problem Description</label>
             <textarea ui-tinymce="tinymceOptions" ng-if="!cpForm.isLatex" class="cleanInput form-control" ng-model="queform.ques" ></textarea>
             <textarea  ng-if="cpForm.isLatex" class="cleanInput form-control" ng-model="queform.ques" ></textarea>
           </div>
-          <div class="form-group" style="" ng-if="form =='multiple'">
+          <!-- <div class="form-group" style="" ng-if="form =='multiple'">
             <label for="">Problem Description</label>
             <textarea ui-tinymce="tinymceOptions" ng-if="!cpForm.isLatex" class="cleanInput form-control" ng-model="queform.ques.question" ></textarea>
             <textarea  ng-if="cpForm.isLatex" class="cleanInput form-control" ng-model="queform.ques.question" ></textarea>
-          </div>
+          </div> -->
 
         </div>
         <div class="col-md-6" ng-if="cpForm.isLatex">
@@ -58,6 +58,13 @@
           </div>
 
         </div>
+        <div class="col-md-6">
+          <div class="form-group" style="" ng-if="form=='multiple' || form =='subjective' ||  form =='file'">
+            <label for="">Sections</label>
+            <input type="text" uib-typeahead="option as option.title for option in sectionSearch($viewValue)" class="form-control questionInp" ng-model="queform.bookSection" name="" value="">
+          </div>
+
+        </div>
       </div>
       <div style="" ng-if="form=='multiple'">
         <label for="">CHOICES</label>
@@ -69,15 +76,15 @@
               </div>
               <div class="col-md-11" style="margin-top:-15px;">
                 <div class="{{cpForm.isLatex?'col-md-6':'col-md-11'}}">
-                  <div class="form-group" style="" ng-if="form=='multiple'">
-                    <textarea ui-tinymce="tinymceOptions" ng-if="!cpForm.isLatex"  class="cleanInput form-control" ng-model="k.option" ></textarea>
-                    <textarea ng-if="cpForm.isLatex" class="cleanInput form-control" ng-model="k.option" ></textarea>
+                  <div class="form-group" style="" >
+                    <textarea ui-tinymce="tinymceOptions" ng-if="!cpForm.isLatex"  class="cleanInput form-control" ng-model="k.rtxt" ></textarea>
+                    <textarea ng-if="cpForm.isLatex" class="cleanInput form-control" ng-model="k.rtxt" ></textarea>
                   </div>
 
                 </div>
                 <div class="col-md-5" ng-if="cpForm.isLatex">
                   <br>
-                  <span mathjax-bind="k.option"></span>
+                  <span mathjax-bind="k.rtxt"></span>
 
                 </div>
                 <div class="col-md-1">

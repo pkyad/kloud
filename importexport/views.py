@@ -4216,7 +4216,7 @@ from django.core.files.storage import FileSystemStorage
 
 def complaintPdf(request):
     complaintObj = ComplaintManagement.objects.get(pk = request.GET.get('pk'))
-    print complaintObj,'oooooooooddddddddddfffffffffff'
+    print complaintObj,'ooooooooodddddddddd'
     if complaintObj.closedBy==None:
         object = ""
     else:
@@ -4321,86 +4321,178 @@ def customercomplaintReport(request):
     comm_nr = request.GET.get('comm_nr')
     complaintId = request.GET.get('complaintId')
 
-    wb = Workbook(write_only = True)
-    ws = wb.create_sheet()
+    workbook = Workbook()
+    toReturn = workbook.active
+    alphaChars = list(string.ascii_uppercase)
+    hdFont = Font(size=12,bold=True)
+
 
     if "status" in request.GET:
         testData1 = ComplaintManagement.objects.filter(status = status)
         print testData1,"nnnnnnnnnnnnnnnnnnn"
         empty3 = ["Complaints Status:"+status]
         empty4 = []
-        ws.append(empty3)
-        ws.append(empty4)
+        toReturn.append(empty3)
+        toReturn.append(empty4)
 
     if "customer" in request.GET:
         testData1 = ComplaintManagement.objects.filter(customer__pk = customer)
-
+        testData2 = ComplaintManagement.objects.filter(customer__pk = customer).values()
+        empty3 = ["Customer wise Report:" +  customer]
+        empty4 = []
+        toReturn.append(empty3)
+        toReturn.append(empty4)
 
     if "comm_nr" in request.GET:
         testData1 = ComplaintManagement.objects.filter(comm_nr = comm_nr)
         empty3 = ["Commission No:"+comm_nr]
         empty4 = []
-        ws.append(empty3)
-        ws.append(empty4)
+        toReturn.append(empty3)
+        toReturn.append(empty4)
 
     if "complaintId" in request.GET:
         testData1 = ComplaintManagement.objects.filter(pk = complaintId)
         empty3 = ["Complaint Id:"+complaintId]
         empty4 = []
-        ws.append(empty3)
-        ws.append(empty4)
-    list=[entry for entry in testData1]
-    print list,"kkkkkkkkkk"
+        toReturn.append(empty3)
+        toReturn.append(empty4)
 
-    column=["id","Date","Contact","Complaint Ref.","Machine Model","Complaint type","Error Code","Status","Close Approved","service Report No.","Machine Running","RefurbishedBind","comm_nr","Closed by","Customer Name","Registered By","Nature of complaint","Interim action","Disposition","Closed date"]
-    ws.append(column)
-    for line in list:
+    hd = ["id","Date","Contact","Complaint Ref.","Machine Model","Complaint type","Error Code","Status","Close Approved","service Report No.","Machine Running","RefurbishedBind","comm_nr","Closed by","Customer Name","Registered By","Nature of complaint","Interim action","Disposition","Closed date"]
+    hdWidth = [10,10,10]
+    toReturn.append(hd)
+    for idx,i in enumerate(hd):
+        cl = str(alphaChars[idx])+'3'
+        cl1 = str(alphaChars[idx])+'1'
+        toReturn[cl1].fill = PatternFill(start_color="48dce0", end_color="48dce0", fill_type = "solid")
+        toReturn[cl1].font = hdFont
+        toReturn[cl].fill = PatternFill(start_color="48dce0", end_color="48dce0", fill_type = "solid")
+        toReturn[cl].font = hdFont
+    for line in testData1:
+         data=[]
+         data.append(line.pk)
+         date = line.date
+         date1 = date.strftime('%d /%m /%Y')
+         data.append(date1)
+         data.append(line.contact)
+         data.append(line.complaintRef)
+         data.append(line.machine)
+         data.append(line.complaintType)
+         data.append(line.errorCode)
+         data.append(line.status)
+         if line.is_CloseApproved==True:
+             data.append("Yes")
+         else:
+             data.append("No")
+         data.append(line.serviceReportNo)
+         data.append(line.machineRunning)
+         data.append(line.RefurbishedBind)
+         data.append(line.comm_nr)
+         if line.closedBy==None:
+             data.append("")
+         else:
+             data.append(line.closedBy.username)
+         data.append(line.customer.name)
+         data.append(line.registeredBy.username)
+         data.append(line.attr1)
+         data.append(line.attr2)
+         data.append(line.attr3)
+         date = line.closedDate
+         if date == None:
+             data.append("")
+         else:
+             date2 = date.strftime('%d /%m /%Y')
+             data.append(date2)
 
-        data=[]
-        data.append(line.pk)
-        date = line.date
-        date1 = date.strftime('%d /%m /%Y')
-        data.append(date1)
-        data.append(line.contact)
-        data.append(line.complaintRef)
-        data.append(line.machine)
-        data.append(line.complaintType)
-        data.append(line.errorCode)
-        data.append(line.status)
-        if line.is_CloseApproved==True:
-            data.append("Yes")
-        else:
-            data.append("No")
-        data.append(line.serviceReportNo)
-        data.append(line.machineRunning)
-        data.append(line.RefurbishedBind)
-        data.append(line.comm_nr)
-        if line.closedBy==None:
-            data.append("")
-        else:
-            data.append(line.closedBy.username)
-        data.append(line.customer.name)
-        data.append(line.registeredBy.username)
-        data.append(line.attr1)
-        data.append(line.attr2)
-        data.append(line.attr3)
-        date = line.closedDate
-        if date == None:
-            data.append("")
-        else:
-            date2 = date.strftime('%d /%m /%Y')
-            data.append(date2)
 
-
-        ws.append(data)
-
-    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename=Complaints.xlsx'
-    wb.save(response)
-
+         toReturn.append(data)
+    toReturn.column_dimensions['A'].width = 10
+    toReturn.column_dimensions['B'].width = 20
+    toReturn.column_dimensions['C'].width = 25
+    toReturn.column_dimensions['D'].width = 20
+    toReturn.column_dimensions['E'].width = 20
+    toReturn.column_dimensions['F'].width = 20
+    toReturn.column_dimensions['G'].width = 20
+    toReturn.column_dimensions['H'].width = 20
+    toReturn.column_dimensions['I'].width = 10
+    toReturn.column_dimensions['J'].width = 20
+    toReturn.column_dimensions['K'].width = 10
+    toReturn.column_dimensions['L'].width = 10
+    toReturn.column_dimensions['M'].width = 20
+    toReturn.column_dimensions['N'].width = 20
+    toReturn.column_dimensions['O'].width = 40
+    toReturn.column_dimensions['P'].width = 20
+    toReturn.column_dimensions['Q'].width = 60
+    toReturn.column_dimensions['R'].width = 60
+    toReturn.column_dimensions['S'].width = 60
+    toReturn.column_dimensions['T'].width = 20
+    response = HttpResponse(content=save_virtual_workbook(workbook),content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=Invoice_BOE.xlsx'
     return response
 
 
+def datewiseInvoicereport(request):
+    print 'reportssssssssssssssssss', request.GET
+    start = request.GET['start']
+    end = request.GET['end']
+    invoiceObj = Invoice.objects.filter(created__range = (start,end))
+    workbook = Workbook()
+    toReturn = workbook.active
+    hdFont = Font(size=12,bold=True)
+    alphaChars = list(string.ascii_uppercase)
+    hd = ['Customer Name','Comm nr','Invoice No.','Invoice Date','HSN No.','Part No.','Description','Qty.','Taxable Value','IGST','CGST','SGST','Total Invoice Value']
+    hdWidth = [10,10,10]
+
+    empty3 = ["Starting Date:" +start+ "        Ending Date:"+end]
+    empty4 = []
+    toReturn.append(empty3)
+    toReturn.append(empty4)
+    toReturn.append(hd)
+    for idx,i in enumerate(hd):
+        cl = str(alphaChars[idx])+'3'
+        cl1 = str(alphaChars[idx])+'1'
+        toReturn[cl1].fill = PatternFill(start_color="48dce0", end_color="48dce0", fill_type = "solid")
+        toReturn[cl1].font = hdFont
+        toReturn[cl].fill = PatternFill(start_color="48dce0", end_color="48dce0", fill_type = "solid")
+        toReturn[cl].font = hdFont
+    for p in invoiceObj:
+        invoiceqtyObj = InvoiceQty.objects.filter(invoice__pk = p.pk)
+
+        for i in invoiceqtyObj:
+            data = []
+            data.append(i.invoice.billName)
+            data.append(i.invoice.comm_nr)
+            data.append(i.invoice.invoiceNumber)
+            data.append(i.invoice.invoiceDate)
+            data.append(i.customs_no)
+            data.append(i.part_no)
+            data.append(i.description_1)
+            data.append(i.qty)
+            data.append(i.taxableprice)
+            data.append(i.igstVal)
+            data.append(i.cgstVal)
+            data.append(i.sgstVal)
+            data.append(i.total)
+
+
+            toReturn.append(data)
+
+    toReturn.column_dimensions['A'].width = 30
+    toReturn.column_dimensions['B'].width = 20
+    toReturn.column_dimensions['C'].width = 20
+    toReturn.column_dimensions['D'].width = 20
+    toReturn.column_dimensions['E'].width = 10
+    toReturn.column_dimensions['F'].width = 20
+    toReturn.column_dimensions['G'].width = 40
+    toReturn.column_dimensions['H'].width = 5
+    toReturn.column_dimensions['I'].width = 10
+    toReturn.column_dimensions['J'].width = 10
+    toReturn.column_dimensions['K'].width = 10
+    toReturn.column_dimensions['L'].width = 10
+    toReturn.column_dimensions['M'].width = 20
+
+    response = HttpResponse(content=save_virtual_workbook(workbook),content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=Invoice.xlsx'
+    return response
 
 
 class ImportExportDataMigrationsAPIView(APIView):

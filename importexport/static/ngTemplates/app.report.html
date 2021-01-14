@@ -158,13 +158,6 @@
               <strong style="font-size:20px;">Customer Complaints</strong>
             </div>
             <div class="col-md-3">
-              <!-- <select  ng-model="form.status" name="">
-                <option value="Open" selected>Open</option>
-                <option value="Closed">Closed</option>
-                <option value="Sent for closing approval">Sent for closing approval</option>
-
-              </select> -->
-
               <select name="cars" ng-model="form.status" id="cars">
                 <option value="">Complaint status</option>
                 <option value="Open" selected>Open</option>
@@ -221,6 +214,43 @@
             </div>
             <div class="col-md-2">
               <a class="btn btn-primary pull-right" target="_blank" href="/api/importexport/customercomplaintReport/?complaintId={{form.complaintId.pk}}&flag={{flagValue}}"> Download </a>
+            </div>
+          </div>
+          <div class="row" style="margin-top:4em;padding-bottom:2em;border-bottom:2px solid #e1e1e1;">
+            <div class="col-md-3" style="">
+              <strong style="font-size:20px;">Invoice Report</strong>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <!-- <label style="color:black;">Starting Date</label> -->
+                <div style="margin-top:0px;" class="input-group">
+                  <input  type="text" placeholder="Starting Date"  show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="dateForm.start" is-open="start.opened" />
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary btn-block " ng-click="start.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <!-- <label style="color:black;">Ending Date</label> -->
+                <div style="margin-top:0px;" class="input-group">
+                  <input type="text" placeholder="Ending Date"  show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="dateForm.end" is-open="end.opened" />
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary btn-block " ng-click="end.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-1">
+
+            </div>
+            <div class="col-md-2">
+
+              <!-- <a class="btn btn-primary pull-right" target="_blank" href="/api/importexport/datewiseinvoiceReport/?start=2021-01-14&end=2021-01-14'"  ng-click="datewiseInvoice()"><i
+                  class="fa fa-download"></i> Download</a> -->
+                  <a class="btn btn-primary pull-right" target="_blank"  ng-click="datewiseInvoice()"><i
+                      class="fa fa-download"></i> Download</a>
             </div>
           </div>
         </div>

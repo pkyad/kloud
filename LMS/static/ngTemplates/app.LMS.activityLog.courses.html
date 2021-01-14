@@ -37,12 +37,12 @@
 
 
     <div class="row" style="margin:30px 0px;" >
-      <div class="academy_panel" style=""  ng-if="data.length>0" >
+      <div class="academy_panel" style=""  ng-if="activitydata.length>0" >
 
-        <p ng-if="data[0].txt.length>0">{{data[0].txt}}</p>
+        <p ng-if="data[0].txt.length>0">{{activitydata[0].txt}}</p>
           <hr style="color:#F7F7F7;">
 
-          <div class="row" style="margin:0px;" ng-repeat="k in data track by $index">
+          <div class="row" style="margin:0px;" ng-repeat="k in activitydata track by $index">
             <button class="collapsiblecss accordion " style="padding-top:20px;padding-bottom: 20px">
               <div class="row" data-toggle="collapse" data-target="#{{$index}}">
                 <div class="col-lg-1 col-xs-2">

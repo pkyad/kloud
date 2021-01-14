@@ -5662,6 +5662,42 @@ app.controller("businessManagement.importexport.report", function($scope, $sce, 
     comm_nr: null,
     supplier: null,
   }
+  var toDay = new Date()
+  $scope.dateForm = {
+    'start': toDay,
+    'end': toDay
+  }
+  $scope.datewiseInvoice = function(){
+    var s = $scope.dateForm.start
+    s = new Date(s.getFullYear(), s.getMonth(), s.getDate() + 1)
+    console.log(s,"toddddd");
+
+    var d = $scope.dateForm.end
+    d = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1)
+    console.log(d,"toddddd");
+  
+     window.location.href = '/api/importexport/datewiseinvoiceReport/?start='+ s.toJSON().split('T')[0] + '&end=' + d.toJSON().split('T')[0]
+    // $http({
+    //   method: 'POST',
+    //   url: '/api/importexport/datewiseinvoiceReport/?start='+ s.toJSON().split('T')[0] + '&end=' + d.toJSON().split('T')[0],
+    // }).
+    // then(function(response) {
+    //   console.log(response.data,"jjjj");
+    //   // $scope.options1 = response.data
+    // })
+  }
+  // $scope.$watch('[dateForm.start,dateForm.end]', function(newValue, oldValue) {
+  //
+  //   console.log($scope.dateForm);
+  //   var s = $scope.dateForm.start
+  //   s = new Date(s.getFullYear(), s.getMonth(), s.getDate() + 1)
+  //   console.log(s);
+  //
+  //   var d = $scope.dateForm.end
+  //   d = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 2)
+  //   console.log(d);
+  //
+  // }, true)
 
   $rootScope.$on('customEvent', function(event, message) {
     console.log($rootScope.formToggle.toggleMain, 'jjjjjjjjjjjjjjj')

@@ -48,3 +48,37 @@ class ForumCommentViewSet(viewsets.ModelViewSet):
     queryset = ForumComment.objects.all()
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['verified','user']
+
+
+class GetAccountsTotalAPIView(APIView):
+    permission_classes = (permissions.IsAuthenticated ,)
+    def get(self , request , format = None):
+        forumObj = ForumThread.objects.all()
+        forumoabj1 = ForumThreadSerializer(forumObj, many = True).data
+        for value in forumoabj1:
+            postDataCount = 0
+            postData = ForumComment.objects.filter(parent = value['pk'])
+            postDataCount = postData.count()
+            value['commentCount'] = postDataCount
+            try:
+                dataObj = postData.order_by('created').last()
+                value['first_name'] = dataObj.user.first_name
+                value['last_name'] = dataObj.user.last_name
+                value['lstcomcreated'] = dataObj.created
+            except:
+                pass
+            postData = sorted(posts1, key = lambda i: i['commentCount'],reverse=True)[:5]
+            posts2 = list(Forum.objects.all().order_by('created').values('pk','title','description','category'))
+            # to delete repeating post1 in post2
+            deleteofpost2 = []
+            for i in range(len(postData)):
+                deleteofpost2.append(postData[i]["pk"])
+            for i in range(len(deleteofpost2)):
+                for j in range(len(deleteofpost2)):
+                    try:
+                        if posts2[j]['pk'] == deleteofpost2[i]:
+                            del posts2[j]
+                    except:
+                        pass
+        data = {'forumoabj1' : forumoabj1}
+        return Response(data, status=status.HTTP_200_OK)
