@@ -145,6 +145,7 @@ app.controller("viewbook", function($scope, $state,$sce, $users, $stateParams, $
     }).
     then(function(response) {
       $scope.chapters = response.data
+
     })
 
   }
@@ -197,12 +198,14 @@ app.controller("viewbook", function($scope, $state,$sce, $users, $stateParams, $
 
 
 $scope.getSection = function(k){
+  $scope.index = k
   $http({
     method: 'GET',
     url: '/api/LMS/section/' + k+'/',
   }).
   then(function(response) {
     $scope.section = response.data
+
 
   })
 }
@@ -379,7 +382,7 @@ app.controller("LMS.questiontypes", function($scope, $state, $users, $stateParam
           }).result.then(function() {
 
           }, function(d) {
-            editor.editorCommands.execCommand('mceInsertContent', false, '<br><img alt="' + d.alt + '" height="' + d.height + '" width="' + d.width + '" src="' + d.file + '"/>')
+            editor.editorCommands.execCommand('mceInsertContent', false, '<img alt="' + d.alt + '" height="' + d.height + '" width="' + d.width + '" src="' + d.file + '"/>')
 
           });
 
@@ -482,14 +485,13 @@ app.controller("LMS.questiontypes", function($scope, $state, $users, $stateParam
     }
     console.log($scope.form.length,'32323');
     $scope.queform.bookSection = $scope.queform.bookSection.pk
-    return
     $http({
       method: 'POST',
       url: '/api/LMS/question/',
       data: $scope.queform
     }).
     then(function(response) {
-
+      if (data != 'upload') {
         for (var i = 0; i < $scope.data.length; i++) {
           if ($scope.data[i].rtxt != undefined || $scope.data[i].rtxt != '') {
             var data = {
@@ -510,6 +512,8 @@ app.controller("LMS.questiontypes", function($scope, $state, $users, $stateParam
 
           }
         }
+
+      }
 
       $scope.data = []
         $scope.queform = ''
@@ -2399,8 +2403,8 @@ app.controller("businessManagement.LMS.configureLMS.form", function($scope, $sta
     }
     toSend.append('title', $scope.form.title)
     toSend.append('description', $scope.form.description)
+    toSend.append('dp', $scope.form.dp)
     if ($scope.form.dp != emptyFile && typeof $scope.form.dp != 'string') {
-      toSend.append('dp', $scope.form.dp)
     }
     if ($scope.form.author != null && $scope.form.author.length > 0) {
       toSend.append('author', $scope.form.author)

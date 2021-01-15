@@ -32,7 +32,7 @@
       <div class="row" style="margin-top:30px;">
         <div class="{{queform.isLatex?'col-md-6':'col-md-12'}}">
           <div class="form-group" style="" ng-if="form =='multiple' ||form =='subjective' ||  form =='file'">
-            <label for="">Problem Description</label>
+            <label for="">Problem Description {{queform.ques}}</label>
             <textarea ui-tinymce="tinymceOptions" ng-if="!queform.isLatex" class="cleanInput form-control" ng-model="queform.ques" ></textarea>
             <textarea  ng-if="queform.isLatex" class="cleanInput form-control" ng-model="queform.ques" ></textarea>
           </div>
@@ -66,7 +66,7 @@
 
         </div>
       </div>
-      <div style="" >
+      <div style="" ng-if="form=='multiple' || form=='subjective'" >
         <label for="">{{form=='multiple'?'CHOICES':'Answers'}}</label>
         <ol type="A">
           <li style="font-weight:700;padding:20px;margin:10px 0px;" ng-repeat="k in data track by $index" >

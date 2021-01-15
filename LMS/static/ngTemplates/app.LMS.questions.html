@@ -1,3 +1,9 @@
+<style media="screen">
+  .newOption img{
+    width:100% !important;height:400px !important;
+  }
+</style>
+
 <div class="container-fluid" style="padding:30px 15px;background-color:#fafafa;height:100%;">
   <hr>
   <div class="row" style="margin:0px 30px;">
@@ -12,7 +18,8 @@
         </h4>
       </div>
       <div class="col-md-11">
-        <span  ng-bind-html="k.ques" ng-if="!k.isLatex" style="font-size:18px"></span>
+        <p  class="newOption"ng-if="k.qtype == 'upload'" ng-bind-html="k.ques">{{k.ques}}</p>
+        <span  ng-bind-html="k.ques" ng-if="k.qtype == 'mcc' || k.qtype == 'subjective'"  ng-if="!k.isLatex" style="font-size:18px"></span>
         <span mathjax-bind="k.ques" ng-if="k.isLatex" style="font-size:18px"> </span>
         <ol type="A" ng-if="k.qtype == 'mcc'" style="margin-left:10px;">
           <li ng-repeat="l in k.options" style="font-size:18px">
@@ -25,7 +32,7 @@
             </li>
 
         </ol>
-        
+
       </div>
     </div>
   </div>
