@@ -686,7 +686,31 @@ app.controller("businessManagement.LMS", function($scope, $state, $users, $state
   $scope.fetchData()
 
 
+  $scope.delCourse = function(indx){
+    $http({
+      method: 'DELETE',
+      url: '/api/LMS/course/'+$scope.allData[indx].pk+'/'
+    }).
+    then(function(response) {
+      $scope.allData.splice(indx,1)
+      Flash.create('success','Deleted...')
+    })
+  }
 
+  $scope.limit =15
+  $scope.offset =0
+  $scope.fetchData = function() {
+    let url = '/api/LMS/paper/?limit=' + $scope.limit + '&offset=' + $scope.offset
+
+    $http({
+      method: 'GET',
+      url: url
+    }).
+    then(function(response) {
+      $scope.allData = response.data.results
+    })
+  }
+  $scope.fetchData()
 
   $scope.createTest = function() {
     $uibModal.open({
@@ -2325,7 +2349,16 @@ app.controller("businessManagement.LMS.configureLMS", function($scope, $state, $
   }
   $scope.fetchData()
 
-
+  $scope.delBook = function(indx){
+    $http({
+      method: 'DELETE',
+      url: '/api/LMS/book/'+$scope.data[indx].pk+'/'
+    }).
+    then(function(response) {
+      $scope.data.splice(indx,1)
+      Flash.create('success','Deleted')
+    })
+  }
 
 
 

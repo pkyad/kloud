@@ -131,10 +131,16 @@ class SectionSerializer(serializers.ModelSerializer):
         # data = Question.objects.filter(bookSection__pk = obj.pk)
         return QuestionSerializer(Question.objects.filter(bookSection__pk = obj.pk),many=True).data
 
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = ('pk' , 'created' , 'name', 'mobile', 'email','typ' )
+
 class PaperSerializer(serializers.ModelSerializer):
     user = userSearchSerializer(many = False , read_only = True)
     quesCount = serializers.SerializerMethodField()
     marks = serializers.SerializerMethodField()
+    contacts = ContactSerializer(many=True,read_only = True)
     class Meta:
         model = Paper
         fields = ('pk' , 'created' , 'updated', 'active' , 'user','name','timelimit','description','quesCount','marks','contacts')
@@ -195,10 +201,7 @@ class EnrollmentSerializer(serializers.ModelSerializer):
         e.save()
         return e
 
-class ContactSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Contact
-        fields = ('pk' , 'created' , 'name', 'mobile', 'email','typ' )
+
 
 class CourseSerializer(serializers.ModelSerializer):
     instructor = userSearchSerializer(many = False , read_only = True)

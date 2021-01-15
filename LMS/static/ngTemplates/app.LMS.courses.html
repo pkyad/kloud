@@ -497,13 +497,13 @@
                 <th>Course Fee</th>
                 <th>No.of Students</th>
                 <th>Total Income</th>
-                <th></th>
+                <th colspan="2"></th>
               </tr>
             </thead>
             <tbody>
 
-              <tr class="detailStrip" ng-repeat="k in allData track by $index" ng-click="$state.go('businessManagement.activityLog',{id:k.pk})">
-                <td>
+              <tr class="detailStrip" ng-repeat="k in allData track by $index" >
+                <td ng-click="$state.go('businessManagement.activityLog',{id:k.pk})">
                   <div class="row" style="">
                     <div class="col-md-3">
                       <img ng-src="{{k.dp}}" src="" onerror="this.src='/static/images/img_avatar_card.png'" style="height:50px;width:50px;" class="img img-circle" alt="">
@@ -514,17 +514,18 @@
                     </div>
                   </div>
                 </td>
-                <td>
+                <td ng-click="$state.go('businessManagement.activityLog',{id:k.pk})">
                   <span class="label label-default openLabel" ng-if="k.enrollmentStatus=='open'">Open</span>
                   <span class="label label-default adminLabel" ng-if="k.enrollmentStatus=='admin'">Admin</span>
                   <span class="label label-default invitaionLabel" ng-if="k.enrollmentStatus=='onInvitation'">On Invitation</span>
                   <span class="label label-default requestLabel" ng-if="k.enrollmentStatus=='onRequest'">On Request</span>
 
                 </td>
-                <td><span><i class="fa fa-inr"></i></span> {{k.sellingPrice}}</td>
-                <td>{{k.contacts.length}}</td>
-                <td><i class="fa fa-inr"></i>{{k.sellingPrice*k.contacts.length}}</td>
+                <td ng-click="$state.go('businessManagement.activityLog',{id:k.pk})"><span><i class="fa fa-inr"></i></span> {{k.sellingPrice}}</td>
+                <td ng-click="$state.go('businessManagement.activityLog',{id:k.pk})">{{k.contacts.length}}</td>
+                <td ng-click="$state.go('businessManagement.activityLog',{id:k.pk})"><i class="fa fa-inr"></i>{{k.sellingPrice*k.contacts.length}}</td>
                 <td ng-click="$state.go('businessManagement.new',{id:k.pk})"> <img src="/static/images/edit.svg" alt=""></td>
+                <td ng-click="delCourse($index)"> <i class="fa fa-trash" style="font-size: 20px;color:#ccc;"></i></td>
               </tr>
 
             </tbody>
