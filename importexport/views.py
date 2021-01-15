@@ -1717,37 +1717,40 @@ class ConsumptionewiseReportAPIView(APIView):
                             except Exception as e:
                                 i = None
                             if len(bomObjs)>0:
+                                try:
+                                    bom = bomObjs.get(project = it["project"],products = it["product"])
+                                except Exception as e:
+                                    bom = None
+                                if bom is not None:
+                                    print bom , 'bomfilter'
+                                    print i.vendor.name , 'vendor name'
+                                    print bom.landed_price, 'landed price'
+                                    itemList.append(i.vendor.name)
+                                    itemList.append(i.title)
+                                    itemList.append(bom.products.part_no)
+                                    itemList.append(bom.products.description_1)
+                                    itemList.append(it['addedqty'])
+                                    itemList.append(round(bom.landed_price))
+                                    itemList.append(round(it['addedqty']*bom.landed_price))
+                                    itemList.append(i.invoiceNumber)
+                                    itemList.append(it['comm_nr'])
 
-                                bom = bomObjs.get(project = it["project"],products = it["product"])
-                                print bom , 'bomfilter'
-                                print i.vendor.name , 'vendor name'
-                                print bom.landed_price, 'landed price'
-                                itemList.append(i.vendor.name)
-                                itemList.append(i.title)
-                                itemList.append(bom.products.part_no)
-                                itemList.append(bom.products.description_1)
-                                itemList.append(it['addedqty'])
-                                itemList.append(round(bom.landed_price))
-                                itemList.append(round(it['addedqty']*bom.landed_price))
-                                itemList.append(i.invoiceNumber)
-                                itemList.append(it['comm_nr'])
+                                    if len(data)>0:
+                                        for id, i in enumerate(data):
+                                            print i[1], i[2],'data items'
+                                            if i[1] == itemList[1] and i[2] == itemList[2]:
+                                                print data[id][4], 'data[id][4]'
+                                                data[id][4] += itemList[4]
+                                                data[id][6]  += itemList[6]
 
-                                if len(data)>0:
-                                    for id, i in enumerate(data):
-                                        print i[1], i[2],'data items'
-                                        if i[1] == itemList[1] and i[2] == itemList[2]:
-                                            print data[id][4], 'data[id][4]'
-                                            data[id][4] += itemList[4]
-                                            data[id][6]  += itemList[6]
-
-                                            print data[id][4], 'data[id][4]'
-                                            flag = True
-                                    if(flag == False):
-                                        print itemList[6],'itemmmmmmmmmmmmmmmmmmm'
+                                                print data[id][4], 'data[id][4]'
+                                                flag = True
+                                        if(flag == False):
+                                            print itemList[6],'itemmmmmmmmmmmmmmmmmmm'
+                                            data.append(itemList)
+                                    else:
+                                        print itemList, 'ListItem'
                                         data.append(itemList)
-                                else:
-                                    print itemList, 'ListItem'
-                                    data.append(itemList)
 
         else:
             print request.GET['supplier'],'supplierrrrrrrrrr'
@@ -4175,7 +4178,7 @@ class complaintManagementViewSet(viewsets.ModelViewSet):
             return queryset
         else:
             queryset = ComplaintManagement.objects.filter(division = divisionObj)
-        return queryset
+        return queryset.order_by('-pk')
 
 class complaintEmailApi(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -4302,21 +4305,23 @@ def complaintPdf(request):
 
 class getProjObjViewset(APIView):
     def get(self , request , format = None):
-        print "nnnnnnnnnn",request.GET
         toRet = []
-
+        divisionObj = request.user.designation.division
+        params = request.GET
+        print params, 'params'
         if 'comm_nr' in request.GET:
-            projObj =  Projects.objects.filter(comm_nr__icontains = str(request.GET['comm_nr']))
+            projObj =  Projects.objects.filter(flag = params['flag'],comm_nr__icontains = str(params['comm_nr']), division = divisionObj)
         else:
-            projObj =  Projects.objects.all()
+            projObj =  Projects.objects.filter(flag = params['flag'],division = divisionObj)
         commNo = projObj.values_list('comm_nr', flat = True).distinct()
         for c in commNo:
             data = {'comm_nr' : c}
-            data['totalProjects'] = projObj.filter(comm_nr = c).count()
-            data['approved'] = projObj.filter(comm_nr = c, status = 'approved').count()
-            data['pending'] = projObj.filter(comm_nr = c).exclude(status = 'approved').count()
+            data['totalProjects'] = projObj.filter(comm_nr = c,junkStatus = False).count()
+            data['approved'] = projObj.filter(comm_nr = c, status = 'approved',junkStatus = False).count()
+            data['pending'] = projObj.filter(comm_nr = c,junkStatus = False).exclude(status = 'approved').count()
             toRet.append(data)
         return Response(toRet,status = status.HTTP_200_OK)
+
 
 def customercomplaintReport(request):
     status = request.GET.get('status')

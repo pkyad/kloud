@@ -8,6 +8,9 @@
     font-weight:700;
     color:      white !important;
   }
+  .newOption img {
+    width:100% !important;height:400px; !important
+  }
 </style>
 
 <div class="container-fluid">
@@ -29,14 +32,14 @@ z-index: 1;">
         <div class="row" style="margin:10px 0px;">
           <h4><b>Chapters</b></h4>
         </div>
-        <div class="row"   ng-repeat="k in chapters track by $index">
+        <div class="row"   ng-repeat="k in chapters track by $index" ng-click="mainIndex = $index">
           <div class="row" style="background-color:white;padding:5px 15px;margin:0px;margin-bottom:5px;" ng-click="k.show= !k.show" ng-init="k.show=false">
             <h4><b>{{k.title}}</b></h4>
 
           </div>
           <div class="row" ng-if="k.show" style="margin:0px;margin-left:30px;padding:10px;">
             <ul class="list-unstyled">
-              <li  ng-repeat="l in k.children track by $index" ng-click="l.seq=$index" style="{{l.seq?'font-weight:700':'font-weight:normal'}};padding-bottom:10px;">{{l.title}}</li>
+              <li  ng-repeat="l in k.children track by l.pk " ng-click="getQuestions(l.pk);getSection(l.pk)" style="padding-bottom:10px;{{index==l.pk?'font-weight:700':'font-weight:normal'}};font-size:16px;">{{l.title}} </li>
 
               <li ng-if="showInput">
                 <div class="form-group">
@@ -59,7 +62,42 @@ padding: 5px 15px;height: 45px;">
         </div>
       </div>
       <div class="col-md-10 col-md-offset-2">
-        <ui-view>  </ui-view>
+        <div class="row text-center" style="margin:20px 0px;">
+
+          <hr>
+          <h3><b>{{section.title}}</b></h3>
+          <hr>
+        </div>
+        <div class="row" style="margin: 15px 5px;">
+
+          <div class="row" ng-repeat="k in questions track by $index " style="margin:0px 10px;margin-bottom:30px;">
+            <div class="col-md-1" style="width:2%">
+              <h4 style="margin:0px;">
+                  {{$index+1}}.
+              </h4>
+            </div>
+            <div class="col-md-11">
+              <p class="newOption" ng-bind-html="k.ques"  ng-if="!k.isLatex" style="font-size:18px"></p>
+              <p mathjax-bind="k.ques"  ng-if="k.isLatex" style="font-size:18px"></p>
+
+              <ol type="A" ng-if="k.qtype == 'mcc'">
+                <li ng-repeat="l in k.options" style="font-size:18px"  ng-if="!k.isLatex">
+                  <p ng-bind-html="l.rtxt" style="display:inline-flex;padding-right:10px;"></p>  <span class="{{l.answer?'fa fa-check':''}}" style="{{l.answer?'color:green':''}}"></span>
+                  </li>
+                <li ng-repeat="l in k.options" style="font-size:18px"  ng-if="k.isLatex">
+                  <span mathjax-bind="l.rtxt"></span>
+                  <span class="{{l.answer?'fa fa-check':''}}" style="{{l.answer?'color:green':''}}"></span>
+                  </li>
+
+              </ol>
+              <div class="" ng-repeat="l in k.options"  ng-if="k.qtype == 'mcq'|| k.qtype == 'upload'">
+                <p ng-bind-html="l.rtxt" ng-if="!k.isLatex"></p>
+                <p  mathjax-bind="l.rtxt" ng-if="k.isLatex"></p>
+
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
   </div>

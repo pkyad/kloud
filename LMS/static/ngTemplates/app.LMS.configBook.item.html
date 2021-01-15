@@ -1,10 +1,19 @@
 
 <div class="container-fluid">
   <div class="row" style="margin-top:25px ">
+    <div class="col-md-7">
+
+    </div>
+    <div class="col-md-1">
+      <button type="button" class="createTestBtn btn-block" name="button" ng-click="privious()">Prev</button>
+    </div>
+    <div class="col-md-1">
+      <button type="button" class="createTestBtn btn-block" name="button" ng-click="next()">Next</button>
+    </div>
     <div class="col-md-3 pull-right">
       <div class="form-group">
-        <span class="searchIcon"><i class="fa fa-search text-right"></i></span>
-        <input type="text" name="" placeholder="Search...." value="" class="form-control searchInput">
+        <span class="searchIcon" ng-click="fetchData()"><i class="fa fa-search text-right"></i></span>
+        <input type="text" name="" ng-model="search.query" ng-enter="fetchData()" placeholder="Search...." value="" class="form-control searchInput">
       </div>
     </div>
   </div>
@@ -19,14 +28,22 @@
         </div>
       </div>
     </div>
-    <div class="col-md-3 " ng-repeat="k in data track by $index" style="margin-bottom:10px;">
-      <div class="bookCard" ng-click="$state.go('businessManagement.viewBook',{bookid:k.pk})" >
-        <div class="bookImg" style="background-image:url({{k.dp}})">
+    <div class="col-md-3 " ng-repeat="k in data track by $index" style="margin-bottom:15px;">
+      <div class="bookCard"  >
+        <div class="bookImg" style="background-image:url({{k.dp}})" ng-click="$state.go('businessManagement.viewBook',{bookid:k.pk})">
         </div>
         <div class="row text-left" style="margin:0px;padding:20px;color:white;">
+          <div class="col-md-9" ng-click="$state.go('businessManagement.viewBook',{bookid:k.pk})">
+            <h4>{{k.title}}</h4>
+            <p>By:{{k.author}}</p>
 
-          <h4>{{k.title}}</h4>
-          <p>By:{{k.author}}</p>
+          </div>
+          <div class="col-md-1" style="padding:25px 0px">
+            <img src="/static/images/edit.svg" alt="" style="width: 25px;" ng-click="$state.go('businessManagement.newBook',{id:k.pk})">
+          </div>
+          <div class="col-md-1" style="padding:25px 15px;font-size:20px;">
+            <i class="fa fa-trash" ng-click="delBook($index)"></i>
+          </div>
         </div>
       </div>
     </div>

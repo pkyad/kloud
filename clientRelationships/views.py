@@ -130,7 +130,7 @@ class ContactLiteViewSet(viewsets.ModelViewSet):
     permission_classes = (isOwner, )
     serializer_class = ContactLiteSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['name', 'company', 'mobile', 'email']
+    filter_fields = ['name', 'company', 'mobile', 'email','typ']
 
     def get_queryset(self):
         return Contact.objects.all()
@@ -139,8 +139,8 @@ class ContactViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny, )
     serializer_class = ContactSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filter_fields = ['name','company' , 'email' , 'mobile' , 'emailSecondary' , 'mobileSecondary','updated']
-    search_fields = ('name', 'email', 'company__name', 'mobile')
+    filter_fields = ['name','company' , 'email' , 'mobile' , 'emailSecondary' , 'mobileSecondary','updated','typ']
+    search_fields = ('name', 'email', 'company__name', 'mobile','typ')
     def get_queryset(self):
         divsn = self.request.user.designation.division
         toReturn = Contact.objects.filter(user__designation__division = divsn).order_by('-created')

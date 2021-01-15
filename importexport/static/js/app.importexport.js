@@ -289,6 +289,17 @@ app.controller("businessManagement.importexport", function($rootScope, $scope, $
     $scope.offset = 0
     $scope.count = 0
 
+    $scope.search = {
+      query: '',
+      flag:false
+    }
+
+    if($rootScope.formToggle.toggleMain){
+      $scope.search.flag = 'True'
+    }else{
+      $scope.search.flag = 'False'
+    }
+
     $scope.privious = function() {
       if ($scope.offset > 0) {
         $scope.offset -= $scope.limit
@@ -302,14 +313,12 @@ app.controller("businessManagement.importexport", function($rootScope, $scope, $
         $scope.fetchData()
       }
     }
-    $scope.search = {
-      query: ''
-    }
+
     $scope.fetchData = function() {
       $scope.true = 'true'
-      let url = '/api/importexport/getCommnr/'
+      let url = '/api/importexport/getCommnr/?flag='+$scope.search.flag
       if ($scope.search.query.length > 0) {
-        url = url + '?comm_nr=' + $scope.search.query
+        url = url + '&comm_nr=' + $scope.search.query
       }
       $http({
         method: 'GET',
@@ -319,10 +328,18 @@ app.controller("businessManagement.importexport", function($rootScope, $scope, $
         $scope.allData = response.data
 
         $scope.count = response.data.count
-        console.log($scope.allData, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
       })
     }
     $scope.fetchData()
+
+    $scope.commSearch = function(query) {
+      return $http.get('/api/importexport/getCommnr/?flag='+$scope.search.flag+'&comm_nr=' + query).
+      then(function(response) {
+        return response.data;
+      })
+    };
+
+
   }
 
   $scope.me = $users.get('mySelf');

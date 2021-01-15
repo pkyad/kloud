@@ -27,7 +27,7 @@ class ContactLiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
         fields = ('pk' , 'user' ,'name', 'company', 'email', 'mobile' , 'designation', 'dp', 'male','isGst')
-        read_only_fields = ( 'user' ,'name', 'company', 'email', 'mobile' , 'designation', 'dp', 'male', 'city' , 'street' , 'pincode' , 'country' , 'state')
+        read_only_fields = ( 'user' ,'name', 'company', 'email', 'mobile' , 'designation', 'dp', 'male', 'city' , 'street' , 'pincode' , 'country' , 'state','typ')
 
 
 class ContactSerializer(serializers.ModelSerializer):
@@ -35,7 +35,7 @@ class ContactSerializer(serializers.ModelSerializer):
     courseCount = serializers.SerializerMethodField()
     class Meta:
         model = Contact
-        fields = ('pk' , 'user' ,'name', 'created' , 'updated' , 'company', 'email' , 'emailSecondary', 'mobile' , 'mobileSecondary' , 'designation' , 'notes' , 'linkedin', 'facebook', 'dp', 'male' , 'city' , 'street' , 'pincode' , 'country' , 'state','isGst','courseCount')
+        fields = ('pk' , 'user' ,'name', 'created' , 'updated' , 'company', 'email' , 'emailSecondary', 'mobile' , 'mobileSecondary' , 'designation' , 'notes' , 'linkedin', 'facebook', 'dp', 'male' , 'city' , 'street' , 'pincode' , 'country' , 'state','isGst','courseCount','typ')
         read_only_fields = ('user', )
     def create(self , validated_data):
         c = Contact(**validated_data)
@@ -45,7 +45,7 @@ class ContactSerializer(serializers.ModelSerializer):
         c.save()
         return c
     def update(self ,instance, validated_data):
-        for key in ['name', 'email' , 'emailSecondary', 'mobile' , 'mobileSecondary' , 'designation' , 'notes' , 'linkedin', 'facebook', 'dp', 'male', 'city' , 'street' , 'pincode' , 'country' , 'state','isGst']:
+        for key in ['name', 'email' , 'emailSecondary', 'mobile' , 'mobileSecondary' , 'designation' , 'notes' , 'linkedin', 'facebook', 'dp', 'male', 'city' , 'street' , 'pincode' , 'country' , 'state','isGst','typ']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
