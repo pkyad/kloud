@@ -3334,7 +3334,7 @@ app.controller("businessManagement.importexport.inventory1", function($scope, $s
   $scope.$watch('modeToggle', function(newValue, oldValue) {
     console.log("truuuuuuuuuuuu");
     if (newValue == true) {
-      console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+      console.log("aaaaaaaaaaaaaaaaaaaaaajjjjjjjjjjjjjj");
       $scope.getMaterialIssue($scope.offsetmaterial)
     }
   });
@@ -3718,7 +3718,7 @@ app.controller("businessManagement.importexport.inventory1", function($scope, $s
         };
 
         $scope.projectSearch = function(query) {
-          return $http.get('/api/importexport/projects/?title__contains=' + query + '&status=ongoing&flag=' + value).
+          return $http.get('/api/importexport/projects/?title__contains=' + query + '&status=ongoing&flag='+  $scope.flagValue).
           then(function(response) {
             return response.data;
           })
@@ -3834,7 +3834,7 @@ app.controller("businessManagement.importexport.inventory1", function($scope, $s
           }, true)
 
           $scope.projectSearch = function(query) {
-            return $http.get('/api/importexport/projects/?limit=5&name=' + query + '&status__in=approved,ongoing&savedStatus=false&flag=' + value).
+            return $http.get('/api/importexport/projects/?limit=30&name=' + query + '&status__in=ongoing&savedStatus=false&flag=' + value).
             then(function(response) {
               console.log(response);
               return response.data.results;
@@ -5675,7 +5675,7 @@ app.controller("businessManagement.importexport.report", function($scope, $sce, 
     var d = $scope.dateForm.end
     d = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1)
     console.log(d,"toddddd");
-  
+
      window.location.href = '/api/importexport/datewiseinvoiceReport/?start='+ s.toJSON().split('T')[0] + '&end=' + d.toJSON().split('T')[0]
     // $http({
     //   method: 'POST',
@@ -5958,22 +5958,6 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
     })
   };
 
-
-  // $scope.genericUserSearch1 = function(query) {
-  //   return $http.get('/api/HR/users/?registeredBy=' + query).
-  //   then(function(response) {
-  //     return response.data;
-  //   })
-  // };
-  // $scope.genericUserSearch1()
-  //
-  // $scope.genericUserSearch22 = function(query) {
-  //   return $http.get('/api/organization/divisions/?division=' + query).
-  //   then(function(response) {
-  //     return response.data;
-  //   })
-  // };
-  // $scope.genericUserSearch22()
 
   $scope.resetForm = function() {
     $scope.form = {

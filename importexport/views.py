@@ -106,8 +106,8 @@ class ProjectsViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny , )
     # queryset = Projects.objects.all().order_by('-created')
     serializer_class = ProjectsSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['status','savedStatus','junkStatus','comm_nr','flag']
+    # filter_backends = [DjangoFilterBackend]
+    # filter_fields = ['status','savedStatus','junkStatus','comm_nr','flag']
 
     def get_queryset(self):
         user = self.request.user
@@ -116,9 +116,13 @@ class ProjectsViewSet(viewsets.ModelViewSet):
         # if 'searchContains' in params:
         #     product = Projects.objects.filter(title__contains=str(params['searchContains']),division = divisionObj)
         #     return product
+        # if 'name' in self.request.GET:
+        #     return Projects.objects.filter(comm_nr= str(params['name']),division = divisionObj)
         if 'title' in params:
             print 'herer', params, 'params'
             return Projects.objects.filter(title__icontains= str(params['title']),division = divisionObj)
+        elif 'name' in params:
+            return Projects.objects.filter(comm_nr__icontains= str(params['name']),status = "ongoing" ,savedStatus = False,division = divisionObj)
         else:
             print 'herer', params, 'params'
             return Projects.objects.filter(division = divisionObj).order_by('-created')
@@ -2085,15 +2089,17 @@ class MaterialIssueMainViewSet(viewsets.ModelViewSet):
     permissions_classes  = (permissions.AllowAny , )
     serializer_class = MaterialIssueMainSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['project','created']
-
+    # filter_fields = ['project','created']
+    # queryset = MaterialIssueMain.objects.all()
     def get_queryset(self):
         user = self.request.user
         divisionObj = user.designation.division
         if 'search' in self.request.GET:
-            return MaterialIssueMain.objects.filter(project__title__icontains=self.request.GET['search'],division = divisionObj).order_by('-id')
+            return MaterialIssueMain.objects.filter(project__title__icontains=self.request.GET['search'], division = divisionObj).order_by('-id')
+        # elif 'created' and 'project__flag' in self.request.GET:
+        #     return MaterialIssueMain.objects.filter(created = self.request.GET['created'],project__flag = self.request.GET['project__flag'] ,division = divisionObj).order_by('-id')
         else:
-            return MaterialIssueMain.objects.filter(division = divisionObj)
+            return MaterialIssueMain.objects.filter(division = divisionObj).order_by('-id')
 
 
 class MaterialIssuedNoteAPIView(APIView):
@@ -4423,7 +4429,7 @@ def customercomplaintReport(request):
     toReturn.column_dimensions['S'].width = 60
     toReturn.column_dimensions['T'].width = 20
     response = HttpResponse(content=save_virtual_workbook(workbook),content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename=Invoice_BOE.xlsx'
+    response['Content-Disposition'] = 'attachment; filename=Complaints.xlsx'
     return response
 
 
@@ -4456,10 +4462,10 @@ def datewiseInvoicereport(request):
 
         for i in invoiceqtyObj:
             data = []
-            data.append(i.invoice.billName)
-            data.append(i.invoice.comm_nr)
-            data.append(i.invoice.invoiceNumber)
-            data.append(i.invoice.invoiceDate)
+            data.append(p.billName)
+            data.append(p.comm_nr)
+            data.append(p.invoiceNumber)
+            data.append(p.invoiceDate)
             data.append(i.customs_no)
             data.append(i.part_no)
             data.append(i.description_1)
@@ -4481,7 +4487,7 @@ def datewiseInvoicereport(request):
     toReturn.column_dimensions['F'].width = 20
     toReturn.column_dimensions['G'].width = 40
     toReturn.column_dimensions['H'].width = 5
-    toReturn.column_dimensions['I'].width = 10
+    toReturn.column_dimensions['I'].width = 20
     toReturn.column_dimensions['J'].width = 10
     toReturn.column_dimensions['K'].width = 10
     toReturn.column_dimensions['L'].width = 10
