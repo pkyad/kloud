@@ -79,6 +79,9 @@ border-bottom-right-radius: 10px !important;" type="submit">
         <label> Instructor</label>
         <input class="form-control courseInput" type="text" ng-model="form.instructor" uib-typeahead="user as user.first_name+' '+user.last_name for user in userSearch($viewValue)" placeholder="Search and select a Instructor" style="background-color:#E7EBFF;">
       </div>
+      <div class="form-group">
+        <label for="">is Active ? <input type="checkbox" ng-model="form.activeCourse" name="" value=""></label>
+      </div>
       <br>
       <div class="row" style="margin:0px;">
         <button type="button" name="button" class="newBtn" style="border-radius: 50px !important;

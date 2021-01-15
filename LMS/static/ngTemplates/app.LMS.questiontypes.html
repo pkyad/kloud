@@ -26,26 +26,26 @@
     </div>
     <div class="row" style="margin:0px;padding:30px;padding-top:80px;">
       <span><b>Rich text editor</b>
-        <switch ng-model="cpForm.isLatex" class="green" style="margin-bottom: -12px;margin-left: 20px;margin-right:20px"></switch> <b>Latex Editor</b>
+        <switch ng-model="queform.isLatex" class="green" style="margin-bottom: -12px;margin-left: 20px;margin-right:20px"></switch> <b>Latex Editor</b>
 
       </span>
       <div class="row" style="margin-top:30px;">
-        <div class="{{cpForm.isLatex?'col-md-6':'col-md-12'}}">
+        <div class="{{queform.isLatex?'col-md-6':'col-md-12'}}">
           <div class="form-group" style="" ng-if="form =='multiple' ||form =='subjective' ||  form =='file'">
             <label for="">Problem Description</label>
-            <textarea ui-tinymce="tinymceOptions" ng-if="!cpForm.isLatex" class="cleanInput form-control" ng-model="queform.ques" ></textarea>
-            <textarea  ng-if="cpForm.isLatex" class="cleanInput form-control" ng-model="queform.ques" ></textarea>
+            <textarea ui-tinymce="tinymceOptions" ng-if="!queform.isLatex" class="cleanInput form-control" ng-model="queform.ques" ></textarea>
+            <textarea  ng-if="queform.isLatex" class="cleanInput form-control" ng-model="queform.ques" ></textarea>
           </div>
           <!-- <div class="form-group" style="" ng-if="form =='multiple'">
             <label for="">Problem Description</label>
-            <textarea ui-tinymce="tinymceOptions" ng-if="!cpForm.isLatex" class="cleanInput form-control" ng-model="queform.ques.question" ></textarea>
-            <textarea  ng-if="cpForm.isLatex" class="cleanInput form-control" ng-model="queform.ques.question" ></textarea>
+            <textarea ui-tinymce="tinymceOptions" ng-if="!queform.isLatex" class="cleanInput form-control" ng-model="queform.ques.question" ></textarea>
+            <textarea  ng-if="queform.isLatex" class="cleanInput form-control" ng-model="queform.ques.question" ></textarea>
           </div> -->
 
         </div>
-        <div class="col-md-6" ng-if="cpForm.isLatex">
+        <div class="col-md-6" ng-if="queform.isLatex">
           <br>
-          <span mathjax-bind="cpForm.firstMessage"></span>
+          <span mathjax-bind="queform.ques"></span>
 
         </div>
       </div>
@@ -66,8 +66,8 @@
 
         </div>
       </div>
-      <div style="" ng-if="form=='multiple'">
-        <label for="">CHOICES</label>
+      <div style="" >
+        <label for="">{{form=='multiple'?'CHOICES':'Answers'}}</label>
         <ol type="A">
           <li style="font-weight:700;padding:20px;margin:10px 0px;" ng-repeat="k in data track by $index" >
             <div class="row">
@@ -75,14 +75,14 @@
                 <input type="checkbox" ng-model="k.answer" name="" value="">
               </div>
               <div class="col-md-11" style="margin-top:-15px;">
-                <div class="{{cpForm.isLatex?'col-md-6':'col-md-11'}}">
+                <div class="{{queform.isLatex?'col-md-6':'col-md-11'}}">
                   <div class="form-group" style="" >
-                    <textarea ui-tinymce="tinymceOptions" ng-if="!cpForm.isLatex"  class="cleanInput form-control" ng-model="k.rtxt" ></textarea>
-                    <textarea ng-if="cpForm.isLatex" class="cleanInput form-control" ng-model="k.rtxt" ></textarea>
+                    <textarea ui-tinymce="tinymceOptions" ng-if="!queform.isLatex"  class="cleanInput form-control" ng-model="k.rtxt" ></textarea>
+                    <textarea ng-if="queform.isLatex" class="cleanInput form-control" ng-model="k.rtxt" ></textarea>
                   </div>
 
                 </div>
-                <div class="col-md-5" ng-if="cpForm.isLatex">
+                <div class="col-md-5" ng-if="queform.isLatex">
                   <br>
                   <span mathjax-bind="k.rtxt"></span>
 
@@ -98,7 +98,7 @@
         </ol>
         <br>
 
-        <p ng-click="addOption()" ng-init="show=false" style="color:#3786D1"><b>add one more choice</b></p>
+        <p ng-click="addOption()" ng-init="show=false" style="color:#3786D1" ng-if="form=='multiple'"><b>add one more choice</b></p>
 
       </div>
       <br><br><br>

@@ -466,8 +466,8 @@
           <div class="col-md-4">
             <div class="toggledBtn">
               <div class="btn-group btn-group-justified">
-                <a class="btn  {{getState.state=='current'?'courseBtn':'courseBtnText'}} btn-default" ng-click="getState.state='current'">Currently Running Courses</a>
-                <a  class="btn  {{getState.state=='old'?'oldcourseBtn':'oldcourseBtnText'}} btn-default" ng-click="getState.state='old'">Old Courses</a>
+                <a class="btn  {{getState.state=='current'?'courseBtn':'courseBtnText'}} btn-default" ng-click="getState.state='current';fetchData()">Currently Running Courses</a>
+                <a  class="btn  {{getState.state=='old'?'oldcourseBtn':'oldcourseBtnText'}} btn-default" ng-click="getState.state='old';fetchData()">Old Courses</a>
               </div>
 
             </div>
@@ -479,10 +479,10 @@
             </div>
           </div>
           <div class="col-md-1">
-            <button type="button" class="createTestBtn" name="button" ng-click="privious()">Previous</button>
+            <button type="button" class="createTestBtn btn-block" name="button" ng-click="privious()">Previous</button>
           </div>
           <div class="col-md-1">
-            <button type="button" class="createTestBtn" name="button" ng-click="next()">Next</button>
+            <button type="button" class="createTestBtn  btn-block" name="button" ng-click="next()">Next</button>
           </div>
         </div>
 
@@ -524,7 +524,7 @@
                 <td><span><i class="fa fa-inr"></i></span> {{k.sellingPrice}}</td>
                 <td>{{k.contacts.length}}</td>
                 <td><i class="fa fa-inr"></i>{{k.sellingPrice*k.contacts.length}}</td>
-                <td ng-click="$state.go('businessManagement.new',{id:1})"> <img src="/static/images/edit.svg" alt=""></td>
+                <td ng-click="$state.go('businessManagement.new',{id:k.pk})"> <img src="/static/images/edit.svg" alt=""></td>
               </tr>
 
             </tbody>

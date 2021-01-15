@@ -12,19 +12,20 @@
         </h4>
       </div>
       <div class="col-md-11">
-        <span  ng-bind-html="k.ques" ng-if="k.qtype == 'mcc'" style="font-size:18px"></span>
-
+        <span  ng-bind-html="k.ques" ng-if="!k.isLatex" style="font-size:18px"></span>
+        <span mathjax-bind="k.ques" ng-if="k.isLatex" style="font-size:18px"> </span>
         <ol type="A" ng-if="k.qtype == 'mcc'" style="margin-left:10px;">
           <li ng-repeat="l in k.options" style="font-size:18px">
             <div class="checkbox">
               <input type="checkbox" value="" ng-model="l.is_Selected" style="margin-left: -50px;">
-              <span ng-bind-html="l.rtxt" style="font-size:18px"></span>
+              <span ng-bind-html="l.rtxt" ng-if="!k.isLatex" style="font-size:18px"></span>
+              <span mathjax-bind="l.rtxt" ng-if="k.isLatex"> </span>
 
             </div>
             </li>
 
         </ol>
-        <p ng-bind-html="k.ques" ng-if="k.qtype == 'mcq'" style="font-size:18px"></p>
+        
       </div>
     </div>
   </div>

@@ -204,7 +204,14 @@ class PaperViewSet(viewsets.ModelViewSet):
         if 'groupId' in self.request.GET:
             return Paper.objects.filter(group = int(self.request.GET['groupId']))
         if 'name' in self.request.GET:
-            return Paper.objects.filter(name__icontains = str(self.request.GET['name']))
+            return Paper.objects.filter(name__icontains = str(self.request.GET['name']),active=True)
+        
+        if 'state' in self.request.GET :
+            val = self.request.GET['state']
+            if val == 'old':
+                return Paper.objects.filter(active = False)
+            if val == 'current':
+                return Paper.objects.filter(active = True)
         else:
             return Paper.objects.all()
 
@@ -212,13 +219,19 @@ class PaperViewSet(viewsets.ModelViewSet):
 class CourseViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, isAdmin, )
     serializer_class = CourseSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['activeCourse']
     def get_queryset(self):
         if 'search' in self.request.GET:
             val = self.request.GET['search']
             return Course.objects.filter(Q(title__icontains = val)|Q(enrollmentStatus = val))
-        else:
-            return Course.objects.all()
-
+        if 'state' in self.request.GET :
+            val = self.request.GET['state']
+            if val == 'old':
+                return Course.objects.filter(activeCourse = False)
+            if val == 'current':
+                return Course.objects.filter(activeCourse = True)
+        return Course.objects.all()
 
 class EnrollmentViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, isAdmin, )

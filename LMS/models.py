@@ -79,12 +79,12 @@ QUESTION_TYPE_CHOICES = (
 class Paper(models.Model):
     created = models.DateTimeField(auto_now_add = True)
     updated = models.DateField(auto_now=True)
-    active = models.BooleanField(default = False)
+    active = models.BooleanField(default = True)
     user = models.ForeignKey(User , null = False , related_name='papersAuthored')
     name = models.CharField(null = True , max_length = 100)
     description = models.TextField(null = True)
     timelimit = models.PositiveIntegerField(default= 0)
-
+    contacts = models.ManyToManyField(Contact , related_name='papers' )
 class Question(models.Model):
     created = models.DateTimeField(auto_now_add = True)
     updated = models.DateField(auto_now=True)
@@ -93,6 +93,7 @@ class Question(models.Model):
     marks = models.PositiveIntegerField(null=True)
     paper = models.ForeignKey(Paper , null = True , related_name = 'questions')
     bookSection = models.ForeignKey(Section , null = True , related_name='questionss')
+    isLatex = models.BooleanField(default = False)
 
 
 class OptionsPart(models.Model):
@@ -154,6 +155,7 @@ class Course(models.Model):
     sellingPrice = models.CharField(max_length = 100 , null = True)
     discount = models.CharField(max_length = 100 , null = True)
     contacts = models.ManyToManyField(Contact , related_name='students' )
+    activeCourse = models.BooleanField(default = True)
 
 class Enrollment(models.Model):
     created = models.DateTimeField(auto_now_add = True)

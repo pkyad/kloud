@@ -2103,7 +2103,7 @@ app.controller("businessManagement.clientRelationships.default", function($scope
   $scope.searchContacts = function() {
     $http({
       method: 'GET',
-      url: '/api/clientRelationships/contact/?name__icontains=' + $scope.form.usrSearch + '&limit=4'
+      url: '/api/clientRelationships/contact/?typ=b2b&name__icontains=' + $scope.form.usrSearch + '&limit=4'
     }).
     then(function(response) {
       $scope.form.contacts = response.data.results;

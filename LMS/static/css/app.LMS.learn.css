@@ -149,7 +149,7 @@ video {
 
 .courseBtn {
   height: 50px;
-  border: none;
+  border: 1px solid #00AD11;
   border-radius: 50px !important;
   color: white !important;
   background-color: #00AD11 !important;
