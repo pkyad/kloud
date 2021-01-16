@@ -3851,7 +3851,7 @@ app.controller("businessManagement.importexport.inventory1", function($scope, $s
           }, true)
 
           $scope.projectSearch = function(query) {
-            return $http.get('/api/importexport/projectSearch/?limit=30&search=' + query + '&flag=' + value+'&type=materialIssue').
+            return $http.get('/api/importexport/projectSearch/?limit=30&comm_nr=' + query + '&flag=' + value+'&type=materialIssue').
             then(function(response) {
               console.log(response);
               return response.data.results;
