@@ -106,8 +106,8 @@ class ProjectsViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny , )
     # queryset = Projects.objects.all().order_by('-created')
     serializer_class = ProjectsSerializer
-    # filter_backends = [DjangoFilterBackend]
-    # filter_fields = ['status','savedStatus','junkStatus','comm_nr','flag']
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['status','savedStatus','junkStatus','comm_nr','flag']
 
     def get_queryset(self):
         user = self.request.user
@@ -116,16 +116,30 @@ class ProjectsViewSet(viewsets.ModelViewSet):
         # if 'searchContains' in params:
         #     product = Projects.objects.filter(title__contains=str(params['searchContains']),division = divisionObj)
         #     return product
-        # if 'name' in self.request.GET:
-        #     return Projects.objects.filter(comm_nr= str(params['name']),division = divisionObj)
         if 'title' in params:
             print 'herer', params, 'params'
             return Projects.objects.filter(title__icontains= str(params['title']),division = divisionObj)
-        elif 'name' in params:
-            return Projects.objects.filter(comm_nr__icontains= str(params['name']),status = "ongoing" ,savedStatus = False,division = divisionObj)
         else:
             print 'herer', params, 'params'
             return Projects.objects.filter(division = divisionObj).order_by('-created')
+
+class ProjectSearchViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny , )
+    # queryset = Projects.objects.all().order_by('-created')
+    serializer_class = ProjectsSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = []
+
+    def get_queryset(self):
+        user = self.request.user
+        divisionObj = user.designation.division
+        params = self.request.GET
+        toReturn = None
+        if 'type' in params:
+            if params['type'] == 'materialIssue':
+                toReturn = Projects.objects.filter(comm_nr = str(params['comm_nr']),junkStatus = False, status = "ongoing", division = divisionObj,flag = params['flag'])
+
+        return toReturn
 
 class VendorViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny , )
