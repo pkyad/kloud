@@ -8,6 +8,7 @@ router.register(r'products' , ProductsViewSet , base_name = 'products')
 router.register(r'vendor' , VendorViewSet , base_name = 'vendor')
 router.register(r'productsheet' , ProductSheetViewSet , base_name = 'productsheet')
 router.register(r'projects' , ProjectsViewSet , base_name = 'projects')
+router.register(r'projectSearch' , ProjectSearchViewSet , base_name = 'projectSearch')
 router.register(r'bom' , BoMViewSet , base_name = 'bom')
 router.register(r'inventory' , InventoryViewSet , base_name = 'inventory')
 router.register(r'materialqty' , MaterialIssueViewSet , base_name = 'materialIssue')
@@ -60,6 +61,7 @@ urlpatterns = [
     url(r'getCommnr/$' , getProjObjViewset.as_view(), name="getCommnr" ),
     url(r'complaintPdf/$' , complaintPdf, name="complaintPdf"),
     url(r'customercomplaintReport/$' ,customercomplaintReport),
+    url(r'datewiseinvoiceReport/$' ,datewiseInvoicereport),
     url(r'importExportDataMigrations/$' , ImportExportDataMigrationsAPIView.as_view()),
     # url(r'stock/$' , StockAPIView.as_view() ),
 ]

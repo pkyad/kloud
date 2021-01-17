@@ -289,6 +289,17 @@ app.controller("businessManagement.importexport", function($rootScope, $scope, $
     $scope.offset = 0
     $scope.count = 0
 
+    $scope.search = {
+      query: '',
+      flag:false
+    }
+
+    if($rootScope.formToggle.toggleMain){
+      $scope.search.flag = 'True'
+    }else{
+      $scope.search.flag = 'False'
+    }
+
     $scope.privious = function() {
       if ($scope.offset > 0) {
         $scope.offset -= $scope.limit
@@ -302,14 +313,12 @@ app.controller("businessManagement.importexport", function($rootScope, $scope, $
         $scope.fetchData()
       }
     }
-    $scope.search = {
-      query: ''
-    }
+
     $scope.fetchData = function() {
       $scope.true = 'true'
-      let url = '/api/importexport/getCommnr/'
+      let url = '/api/importexport/getCommnr/?flag='+$scope.search.flag
       if ($scope.search.query.length > 0) {
-        url = url + '?comm_nr=' + $scope.search.query
+        url = url + '&comm_nr=' + $scope.search.query
       }
       $http({
         method: 'GET',
@@ -319,10 +328,18 @@ app.controller("businessManagement.importexport", function($rootScope, $scope, $
         $scope.allData = response.data
 
         $scope.count = response.data.count
-        console.log($scope.allData, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
       })
     }
     $scope.fetchData()
+
+    $scope.commSearch = function(query) {
+      return $http.get('/api/importexport/getCommnr/?flag='+$scope.search.flag+'&comm_nr=' + query).
+      then(function(response) {
+        return response.data;
+      })
+    };
+
+
   }
 
   $scope.me = $users.get('mySelf');
@@ -3334,7 +3351,7 @@ app.controller("businessManagement.importexport.inventory1", function($scope, $s
   $scope.$watch('modeToggle', function(newValue, oldValue) {
     console.log("truuuuuuuuuuuu");
     if (newValue == true) {
-      console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+      console.log("aaaaaaaaaaaaaaaaaaaaaajjjjjjjjjjjjjj");
       $scope.getMaterialIssue($scope.offsetmaterial)
     }
   });
@@ -3718,7 +3735,7 @@ app.controller("businessManagement.importexport.inventory1", function($scope, $s
         };
 
         $scope.projectSearch = function(query) {
-          return $http.get('/api/importexport/projects/?title__contains=' + query + '&status=ongoing&flag=' + value).
+          return $http.get('/api/importexport/projects/?title__contains=' + query + '&status=ongoing&flag='+  $scope.flagValue).
           then(function(response) {
             return response.data;
           })
@@ -3834,7 +3851,7 @@ app.controller("businessManagement.importexport.inventory1", function($scope, $s
           }, true)
 
           $scope.projectSearch = function(query) {
-            return $http.get('/api/importexport/projects/?limit=5&name=' + query + '&status__in=approved,ongoing&savedStatus=false&flag=' + value).
+            return $http.get('/api/importexport/projectSearch/?limit=30&comm_nr=' + query + '&flag=' + value+'&type=materialIssue').
             then(function(response) {
               console.log(response);
               return response.data.results;
@@ -5662,6 +5679,42 @@ app.controller("businessManagement.importexport.report", function($scope, $sce, 
     comm_nr: null,
     supplier: null,
   }
+  var toDay = new Date()
+  $scope.dateForm = {
+    'start': toDay,
+    'end': toDay
+  }
+  $scope.datewiseInvoice = function(){
+    var s = $scope.dateForm.start
+    s = new Date(s.getFullYear(), s.getMonth(), s.getDate() + 1)
+    console.log(s,"toddddd");
+
+    var d = $scope.dateForm.end
+    d = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1)
+    console.log(d,"toddddd");
+
+     window.location.href = '/api/importexport/datewiseinvoiceReport/?start='+ s.toJSON().split('T')[0] + '&end=' + d.toJSON().split('T')[0]
+    // $http({
+    //   method: 'POST',
+    //   url: '/api/importexport/datewiseinvoiceReport/?start='+ s.toJSON().split('T')[0] + '&end=' + d.toJSON().split('T')[0],
+    // }).
+    // then(function(response) {
+    //   console.log(response.data,"jjjj");
+    //   // $scope.options1 = response.data
+    // })
+  }
+  // $scope.$watch('[dateForm.start,dateForm.end]', function(newValue, oldValue) {
+  //
+  //   console.log($scope.dateForm);
+  //   var s = $scope.dateForm.start
+  //   s = new Date(s.getFullYear(), s.getMonth(), s.getDate() + 1)
+  //   console.log(s);
+  //
+  //   var d = $scope.dateForm.end
+  //   d = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 2)
+  //   console.log(d);
+  //
+  // }, true)
 
   $rootScope.$on('customEvent', function(event, message) {
     console.log($rootScope.formToggle.toggleMain, 'jjjjjjjjjjjjjjj')
@@ -5922,22 +5975,6 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
     })
   };
 
-
-  // $scope.genericUserSearch1 = function(query) {
-  //   return $http.get('/api/HR/users/?registeredBy=' + query).
-  //   then(function(response) {
-  //     return response.data;
-  //   })
-  // };
-  // $scope.genericUserSearch1()
-  //
-  // $scope.genericUserSearch22 = function(query) {
-  //   return $http.get('/api/organization/divisions/?division=' + query).
-  //   then(function(response) {
-  //     return response.data;
-  //   })
-  // };
-  // $scope.genericUserSearch22()
 
   $scope.resetForm = function() {
     $scope.form = {

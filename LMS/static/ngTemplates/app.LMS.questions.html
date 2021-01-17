@@ -1,25 +1,16 @@
-<div class="container-fluid" style="padding:30px 15px;background-color:#fafafa;height:100vh;">
+<style media="screen">
+  .newOption img{
+    width:100% !important;height:400px !important;
+  }
+</style>
+
+<div class="container-fluid" style="padding:30px 15px;background-color:#fafafa;height:100%;">
   <hr>
   <div class="row" style="margin:0px 30px;">
     <h4><b>Instructions:</b></h4>
   </div>
   <div class="row" style="margin: 15px 5px;">
-    <!-- <ol type="1">
-      <li ng-repeat="k in data track by $index ">
-        <span ng-bind-html="k.text.question" ng-if="k.qtype == 'mcc'"></span>
-        <span ng-bind-html="k.ques" ng-if="k.qtype == 'mcq'"></span>
 
-        <ol type="A" ng-if="k.qtype == 'mcc'">
-          <li ng-repeat="l in k.text.choices">
-            <div class="checkbox">
-              <label><input type="checkbox" value="" ng-model="l.isSelected"><span ng-bind-html="l.option"></span></label>
-            </div>
-            </li>
-
-        </ol>
-
-      </li>
-    </ol> -->
     <div class="row" ng-repeat="k in data track by $index " style="margin:0px 10px;margin-bottom:30px;">
       <div class="col-md-1" style="width:2%">
         <h4 style="margin:0px;">
@@ -27,29 +18,27 @@
         </h4>
       </div>
       <div class="col-md-11">
-        <p ng-bind-html="k.text.question"  ng-if="k.qtype == 'mcc'" style="font-size:18px"></p>
-
-        <ol type="A" ng-if="k.qtype == 'mcc'">
-          <li ng-repeat="l in k.text.choices" style="font-size:18px">
+        <p  class="newOption"ng-if="k.qtype == 'upload'" ng-bind-html="k.ques">{{k.ques}}</p>
+        <span  ng-bind-html="k.ques" ng-if="k.qtype == 'mcc' || k.qtype == 'subjective'"  ng-if="!k.isLatex" style="font-size:18px"></span>
+        <span mathjax-bind="k.ques" ng-if="k.isLatex" style="font-size:18px"> </span>
+        <ol type="A" ng-if="k.qtype == 'mcc'" style="margin-left:10px;">
+          <li ng-repeat="l in k.options" style="font-size:18px">
             <div class="checkbox">
-              <input type="checkbox" value="" ng-model="l.isSelected" style="margin-left: -50px;">
-              <span ng-bind-html="l.option" style="font-size:18px"></span>
+              <input type="checkbox" value="" ng-model="l.is_Selected" style="margin-left: -50px;">
+              <span ng-bind-html="l.rtxt" ng-if="!k.isLatex" style="font-size:18px"></span>
+              <span mathjax-bind="l.rtxt" ng-if="k.isLatex"> </span>
 
             </div>
             </li>
 
         </ol>
-        <p ng-bind-html="k.ques" ng-if="k.qtype == 'mcq'" style="font-size:18px"></p>
+
       </div>
     </div>
   </div>
   <div class="row" style="margin:0px 30px;">
-    <div class="col-md-1 pull-left">
-      <button type="button" class="btn1 btn-block " name="button" ng-click="$state.go('businessManagement.viewPaper.submissions')" style="position: fixed;
-left: 28%;bottom: 30px;width: inherit;">Done</button>
 
-    </div>
-    <div class="col-md-2 pull-right">
+    <div class="col-md-1 pull-right">
       <button type="button" class="createTestBtn btn-block " name="button" ng-click="addQuestion()" style="position: fixed;
 right: 20px;bottom: 30px;width: inherit;">Add Question</button>
 

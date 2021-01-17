@@ -27,7 +27,7 @@ DISABLED_APPS = ['app.social' , 'app.advances']
 
 ON_REGISTRATION_SUCCESS_REDIRECT = '/ERP' # when signup using google the user will be redirected to this url
 MATERIAL_INWARD = False
-SITE_ADDRESS = 'http://192.168.1.115:9000' # the url prefix of the site
+SITE_ADDRESS = 'http://localhost:8000' # the url prefix of the site
 LIMIT_EXPENSE_COUNT= False
 ROOT_APP = 'index' # the default app
 ECOMMERCE_APP = {

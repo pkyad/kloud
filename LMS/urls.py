@@ -15,6 +15,7 @@ router.register(r'bookLite' , BookLiteViewSet , base_name ='bookLite')
 router.register(r'section' , SectionViewSet , base_name ='section')
 router.register(r'sectionlite' , SectionliteViewSet , base_name ='sectionlite')
 router.register(r'courseactivity' , CourseActivityViewSet , base_name ='courseactivity')
+router.register(r'optionspart' , OptionsPartViewSet , base_name ='optionspart')
 
 urlpatterns = [
     url(r'^', include(router.urls)),

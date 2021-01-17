@@ -130,7 +130,7 @@ class ContactLiteViewSet(viewsets.ModelViewSet):
     permission_classes = (isOwner, )
     serializer_class = ContactLiteSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['name', 'company', 'mobile', 'email']
+    filter_fields = ['name', 'company', 'mobile', 'email','typ']
 
     def get_queryset(self):
         return Contact.objects.all()
@@ -139,8 +139,8 @@ class ContactViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny, )
     serializer_class = ContactSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filter_fields = ['name','company' , 'email' , 'mobile' , 'emailSecondary' , 'mobileSecondary','updated']
-    search_fields = ('name', 'email', 'company__name', 'mobile')
+    filter_fields = ['name','company' , 'email' , 'mobile' , 'emailSecondary' , 'mobileSecondary','updated','typ']
+    search_fields = ('name', 'email', 'company__name', 'mobile','typ')
     def get_queryset(self):
         divsn = self.request.user.designation.division
         toReturn = Contact.objects.filter(user__designation__division = divsn).order_by('-created')
@@ -950,12 +950,12 @@ def createOpportunity(contObj,newOpp,user):
         try:
             companyObj = service.objects.get(name=str(newOpp['Company Name']))
         except:
-            companyObj = service.objects.create(name=str(newOpp['Company Name']),user=user)
+            companyObj = service.objects.create(name=str(newOpp['Company Name']),user=user, division = request.user.designation.division)
     else:
         try:
             companyObj = service.objects.get(name='Unknown')
         except:
-            companyObj = service.objects.create(name='Unknown',user=user)
+            companyObj = service.objects.create(name='Unknown',user=user, division = request.user.designation.division)
     oppObj= Deal.objects.create(name = str(newOpp['Name']),user=user,company=companyObj)
     oppObj.value = newOpp['Value']
     oppObj.state = newOpp['State']
@@ -1541,7 +1541,7 @@ class CreateContactView(APIView):
                     addressObj.street = data['street']
                     addressObj.save()
         elif 'company' in data:
-            companyObj = service.objects.create(name = data['company'], user = request.user)
+            companyObj = service.objects.create(name = data['company'], user = request.user , division = request.user.designation.division)
             contactObj.company = companyObj
             if 'street' in data:
                 addressObj = address.objects.create(street = data['street'])
@@ -1606,7 +1606,7 @@ class SaveDealView(APIView):
         if 'companyPk' in data:
             companyObj = service.objects.get(pk = int(data['companyPk']))
         else:
-            companyObj = service.objects.create(name = data['company'] , user = request.user)
+            companyObj = service.objects.create(name = data['company'] , user = request.user, division = request.user.designation.division)
         dealObj = Deal.objects.create(name = data['name'] ,  user = request.user, company = companyObj)
         if 'contactPk' in data:
             contactObj = Contact.objects.get(pk = int(data['contactPk']))

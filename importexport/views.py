@@ -123,6 +123,24 @@ class ProjectsViewSet(viewsets.ModelViewSet):
             print 'herer', params, 'params'
             return Projects.objects.filter(division = divisionObj).order_by('-created')
 
+class ProjectSearchViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny , )
+    # queryset = Projects.objects.all().order_by('-created')
+    serializer_class = ProjectsSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = []
+
+    def get_queryset(self):
+        user = self.request.user
+        divisionObj = user.designation.division
+        params = self.request.GET
+        toReturn = None
+        if 'type' in params:
+            if params['type'] == 'materialIssue':
+                toReturn = Projects.objects.filter(comm_nr = str(params['comm_nr']),junkStatus = False, status = "ongoing", division = divisionObj,flag = params['flag'])
+
+        return toReturn
+
 class VendorViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny , )
     serializer_class = VendorSerializer
@@ -1713,37 +1731,40 @@ class ConsumptionewiseReportAPIView(APIView):
                             except Exception as e:
                                 i = None
                             if len(bomObjs)>0:
+                                try:
+                                    bom = bomObjs.get(project = it["project"],products = it["product"])
+                                except Exception as e:
+                                    bom = None
+                                if bom is not None:
+                                    print bom , 'bomfilter'
+                                    print i.vendor.name , 'vendor name'
+                                    print bom.landed_price, 'landed price'
+                                    itemList.append(i.vendor.name)
+                                    itemList.append(i.title)
+                                    itemList.append(bom.products.part_no)
+                                    itemList.append(bom.products.description_1)
+                                    itemList.append(it['addedqty'])
+                                    itemList.append(round(bom.landed_price))
+                                    itemList.append(round(it['addedqty']*bom.landed_price))
+                                    itemList.append(i.invoiceNumber)
+                                    itemList.append(it['comm_nr'])
 
-                                bom = bomObjs.get(project = it["project"],products = it["product"])
-                                print bom , 'bomfilter'
-                                print i.vendor.name , 'vendor name'
-                                print bom.landed_price, 'landed price'
-                                itemList.append(i.vendor.name)
-                                itemList.append(i.title)
-                                itemList.append(bom.products.part_no)
-                                itemList.append(bom.products.description_1)
-                                itemList.append(it['addedqty'])
-                                itemList.append(round(bom.landed_price))
-                                itemList.append(round(it['addedqty']*bom.landed_price))
-                                itemList.append(i.invoiceNumber)
-                                itemList.append(it['comm_nr'])
+                                    if len(data)>0:
+                                        for id, i in enumerate(data):
+                                            print i[1], i[2],'data items'
+                                            if i[1] == itemList[1] and i[2] == itemList[2]:
+                                                print data[id][4], 'data[id][4]'
+                                                data[id][4] += itemList[4]
+                                                data[id][6]  += itemList[6]
 
-                                if len(data)>0:
-                                    for id, i in enumerate(data):
-                                        print i[1], i[2],'data items'
-                                        if i[1] == itemList[1] and i[2] == itemList[2]:
-                                            print data[id][4], 'data[id][4]'
-                                            data[id][4] += itemList[4]
-                                            data[id][6]  += itemList[6]
-
-                                            print data[id][4], 'data[id][4]'
-                                            flag = True
-                                    if(flag == False):
-                                        print itemList[6],'itemmmmmmmmmmmmmmmmmmm'
+                                                print data[id][4], 'data[id][4]'
+                                                flag = True
+                                        if(flag == False):
+                                            print itemList[6],'itemmmmmmmmmmmmmmmmmmm'
+                                            data.append(itemList)
+                                    else:
+                                        print itemList, 'ListItem'
                                         data.append(itemList)
-                                else:
-                                    print itemList, 'ListItem'
-                                    data.append(itemList)
 
         else:
             print request.GET['supplier'],'supplierrrrrrrrrr'
@@ -2085,15 +2106,17 @@ class MaterialIssueMainViewSet(viewsets.ModelViewSet):
     permissions_classes  = (permissions.AllowAny , )
     serializer_class = MaterialIssueMainSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['project','created']
-
+    # filter_fields = ['project','created']
+    # queryset = MaterialIssueMain.objects.all()
     def get_queryset(self):
         user = self.request.user
         divisionObj = user.designation.division
         if 'search' in self.request.GET:
-            return MaterialIssueMain.objects.filter(project__title__icontains=self.request.GET['search'],division = divisionObj).order_by('-id')
+            return MaterialIssueMain.objects.filter(project__title__icontains=self.request.GET['search'], division = divisionObj).order_by('-id')
+        # elif 'created' and 'project__flag' in self.request.GET:
+        #     return MaterialIssueMain.objects.filter(created = self.request.GET['created'],project__flag = self.request.GET['project__flag'] ,division = divisionObj).order_by('-id')
         else:
-            return MaterialIssueMain.objects.filter(division = divisionObj)
+            return MaterialIssueMain.objects.filter(division = divisionObj).order_by('-id')
 
 
 class MaterialIssuedNoteAPIView(APIView):
@@ -4169,7 +4192,7 @@ class complaintManagementViewSet(viewsets.ModelViewSet):
             return queryset
         else:
             queryset = ComplaintManagement.objects.filter(division = divisionObj)
-        return queryset
+        return queryset.order_by('-pk')
 
 class complaintEmailApi(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -4213,7 +4236,7 @@ from django.core.files.storage import FileSystemStorage
 
 def complaintPdf(request):
     complaintObj = ComplaintManagement.objects.get(pk = request.GET.get('pk'))
-    print complaintObj,'oooooooooddddddddddfffffffffff'
+    print complaintObj,'ooooooooodddddddddd'
     if complaintObj.closedBy==None:
         object = ""
     else:
@@ -4296,21 +4319,23 @@ def complaintPdf(request):
 
 class getProjObjViewset(APIView):
     def get(self , request , format = None):
-        print "nnnnnnnnnn",request.GET
         toRet = []
-
+        divisionObj = request.user.designation.division
+        params = request.GET
+        print params, 'params'
         if 'comm_nr' in request.GET:
-            projObj =  Projects.objects.filter(comm_nr__icontains = str(request.GET['comm_nr']))
+            projObj =  Projects.objects.filter(flag = params['flag'],comm_nr__icontains = str(params['comm_nr']), division = divisionObj)
         else:
-            projObj =  Projects.objects.all()
+            projObj =  Projects.objects.filter(flag = params['flag'],division = divisionObj)
         commNo = projObj.values_list('comm_nr', flat = True).distinct()
         for c in commNo:
             data = {'comm_nr' : c}
-            data['totalProjects'] = projObj.filter(comm_nr = c).count()
-            data['approved'] = projObj.filter(comm_nr = c, status = 'approved').count()
-            data['pending'] = projObj.filter(comm_nr = c).exclude(status = 'approved').count()
+            data['totalProjects'] = projObj.filter(comm_nr = c,junkStatus = False).count()
+            data['approved'] = projObj.filter(comm_nr = c, status = 'approved',junkStatus = False).count()
+            data['pending'] = projObj.filter(comm_nr = c,junkStatus = False).exclude(status = 'approved').count()
             toRet.append(data)
         return Response(toRet,status = status.HTTP_200_OK)
+
 
 def customercomplaintReport(request):
     status = request.GET.get('status')
@@ -4318,86 +4343,178 @@ def customercomplaintReport(request):
     comm_nr = request.GET.get('comm_nr')
     complaintId = request.GET.get('complaintId')
 
-    wb = Workbook(write_only = True)
-    ws = wb.create_sheet()
+    workbook = Workbook()
+    toReturn = workbook.active
+    alphaChars = list(string.ascii_uppercase)
+    hdFont = Font(size=12,bold=True)
+
 
     if "status" in request.GET:
         testData1 = ComplaintManagement.objects.filter(status = status)
         print testData1,"nnnnnnnnnnnnnnnnnnn"
         empty3 = ["Complaints Status:"+status]
         empty4 = []
-        ws.append(empty3)
-        ws.append(empty4)
+        toReturn.append(empty3)
+        toReturn.append(empty4)
 
     if "customer" in request.GET:
         testData1 = ComplaintManagement.objects.filter(customer__pk = customer)
-
+        testData2 = ComplaintManagement.objects.filter(customer__pk = customer).values()
+        empty3 = ["Customer wise Report:" +  customer]
+        empty4 = []
+        toReturn.append(empty3)
+        toReturn.append(empty4)
 
     if "comm_nr" in request.GET:
         testData1 = ComplaintManagement.objects.filter(comm_nr = comm_nr)
         empty3 = ["Commission No:"+comm_nr]
         empty4 = []
-        ws.append(empty3)
-        ws.append(empty4)
+        toReturn.append(empty3)
+        toReturn.append(empty4)
 
     if "complaintId" in request.GET:
         testData1 = ComplaintManagement.objects.filter(pk = complaintId)
         empty3 = ["Complaint Id:"+complaintId]
         empty4 = []
-        ws.append(empty3)
-        ws.append(empty4)
-    list=[entry for entry in testData1]
-    print list,"kkkkkkkkkk"
+        toReturn.append(empty3)
+        toReturn.append(empty4)
 
-    column=["id","Date","Contact","Complaint Ref.","Machine Model","Complaint type","Error Code","Status","Close Approved","service Report No.","Machine Running","RefurbishedBind","comm_nr","Closed by","Customer Name","Registered By","Nature of complaint","Interim action","Disposition","Closed date"]
-    ws.append(column)
-    for line in list:
+    hd = ["id","Date","Contact","Complaint Ref.","Machine Model","Complaint type","Error Code","Status","Close Approved","service Report No.","Machine Running","RefurbishedBind","comm_nr","Closed by","Customer Name","Registered By","Nature of complaint","Interim action","Disposition","Closed date"]
+    hdWidth = [10,10,10]
+    toReturn.append(hd)
+    for idx,i in enumerate(hd):
+        cl = str(alphaChars[idx])+'3'
+        cl1 = str(alphaChars[idx])+'1'
+        toReturn[cl1].fill = PatternFill(start_color="48dce0", end_color="48dce0", fill_type = "solid")
+        toReturn[cl1].font = hdFont
+        toReturn[cl].fill = PatternFill(start_color="48dce0", end_color="48dce0", fill_type = "solid")
+        toReturn[cl].font = hdFont
+    for line in testData1:
+         data=[]
+         data.append(line.pk)
+         date = line.date
+         date1 = date.strftime('%d /%m /%Y')
+         data.append(date1)
+         data.append(line.contact)
+         data.append(line.complaintRef)
+         data.append(line.machine)
+         data.append(line.complaintType)
+         data.append(line.errorCode)
+         data.append(line.status)
+         if line.is_CloseApproved==True:
+             data.append("Yes")
+         else:
+             data.append("No")
+         data.append(line.serviceReportNo)
+         data.append(line.machineRunning)
+         data.append(line.RefurbishedBind)
+         data.append(line.comm_nr)
+         if line.closedBy==None:
+             data.append("")
+         else:
+             data.append(line.closedBy.username)
+         data.append(line.customer.name)
+         data.append(line.registeredBy.username)
+         data.append(line.attr1)
+         data.append(line.attr2)
+         data.append(line.attr3)
+         date = line.closedDate
+         if date == None:
+             data.append("")
+         else:
+             date2 = date.strftime('%d /%m /%Y')
+             data.append(date2)
 
-        data=[]
-        data.append(line.pk)
-        date = line.date
-        date1 = date.strftime('%d /%m /%Y')
-        data.append(date1)
-        data.append(line.contact)
-        data.append(line.complaintRef)
-        data.append(line.machine)
-        data.append(line.complaintType)
-        data.append(line.errorCode)
-        data.append(line.status)
-        if line.is_CloseApproved==True:
-            data.append("Yes")
-        else:
-            data.append("No")
-        data.append(line.serviceReportNo)
-        data.append(line.machineRunning)
-        data.append(line.RefurbishedBind)
-        data.append(line.comm_nr)
-        if line.closedBy==None:
-            data.append("")
-        else:
-            data.append(line.closedBy.username)
-        data.append(line.customer.name)
-        data.append(line.registeredBy.username)
-        data.append(line.attr1)
-        data.append(line.attr2)
-        data.append(line.attr3)
-        date = line.closedDate
-        if date == None:
-            data.append("")
-        else:
-            date2 = date.strftime('%d /%m /%Y')
-            data.append(date2)
 
-
-        ws.append(data)
-
-    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+         toReturn.append(data)
+    toReturn.column_dimensions['A'].width = 10
+    toReturn.column_dimensions['B'].width = 20
+    toReturn.column_dimensions['C'].width = 25
+    toReturn.column_dimensions['D'].width = 20
+    toReturn.column_dimensions['E'].width = 20
+    toReturn.column_dimensions['F'].width = 20
+    toReturn.column_dimensions['G'].width = 20
+    toReturn.column_dimensions['H'].width = 20
+    toReturn.column_dimensions['I'].width = 10
+    toReturn.column_dimensions['J'].width = 20
+    toReturn.column_dimensions['K'].width = 10
+    toReturn.column_dimensions['L'].width = 10
+    toReturn.column_dimensions['M'].width = 20
+    toReturn.column_dimensions['N'].width = 20
+    toReturn.column_dimensions['O'].width = 40
+    toReturn.column_dimensions['P'].width = 20
+    toReturn.column_dimensions['Q'].width = 60
+    toReturn.column_dimensions['R'].width = 60
+    toReturn.column_dimensions['S'].width = 60
+    toReturn.column_dimensions['T'].width = 20
+    response = HttpResponse(content=save_virtual_workbook(workbook),content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename=Complaints.xlsx'
-    wb.save(response)
-
     return response
 
 
+def datewiseInvoicereport(request):
+    print 'reportssssssssssssssssss', request.GET
+    start = request.GET['start']
+    end = request.GET['end']
+    invoiceObj = Invoice.objects.filter(created__range = (start,end))
+    workbook = Workbook()
+    toReturn = workbook.active
+    hdFont = Font(size=12,bold=True)
+    alphaChars = list(string.ascii_uppercase)
+    hd = ['Customer Name','Comm nr','Invoice No.','Invoice Date','HSN No.','Part No.','Description','Qty.','Taxable Value','IGST','CGST','SGST','Total Invoice Value']
+    hdWidth = [10,10,10]
+
+    empty3 = ["Starting Date:" +start+ "        Ending Date:"+end]
+    empty4 = []
+    toReturn.append(empty3)
+    toReturn.append(empty4)
+    toReturn.append(hd)
+    for idx,i in enumerate(hd):
+        cl = str(alphaChars[idx])+'3'
+        cl1 = str(alphaChars[idx])+'1'
+        toReturn[cl1].fill = PatternFill(start_color="48dce0", end_color="48dce0", fill_type = "solid")
+        toReturn[cl1].font = hdFont
+        toReturn[cl].fill = PatternFill(start_color="48dce0", end_color="48dce0", fill_type = "solid")
+        toReturn[cl].font = hdFont
+    for p in invoiceObj:
+        invoiceqtyObj = InvoiceQty.objects.filter(invoice__pk = p.pk)
+
+        for i in invoiceqtyObj:
+            data = []
+            data.append(p.billName)
+            data.append(p.comm_nr)
+            data.append(p.invoiceNumber)
+            data.append(p.invoiceDate)
+            data.append(i.customs_no)
+            data.append(i.part_no)
+            data.append(i.description_1)
+            data.append(i.qty)
+            data.append(i.taxableprice)
+            data.append(i.igstVal)
+            data.append(i.cgstVal)
+            data.append(i.sgstVal)
+            data.append(i.total)
+
+
+            toReturn.append(data)
+
+    toReturn.column_dimensions['A'].width = 30
+    toReturn.column_dimensions['B'].width = 20
+    toReturn.column_dimensions['C'].width = 20
+    toReturn.column_dimensions['D'].width = 20
+    toReturn.column_dimensions['E'].width = 10
+    toReturn.column_dimensions['F'].width = 20
+    toReturn.column_dimensions['G'].width = 40
+    toReturn.column_dimensions['H'].width = 5
+    toReturn.column_dimensions['I'].width = 20
+    toReturn.column_dimensions['J'].width = 10
+    toReturn.column_dimensions['K'].width = 10
+    toReturn.column_dimensions['L'].width = 10
+    toReturn.column_dimensions['M'].width = 20
+
+    response = HttpResponse(content=save_virtual_workbook(workbook),content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=Invoice.xlsx'
+    return response
 
 
 class ImportExportDataMigrationsAPIView(APIView):
