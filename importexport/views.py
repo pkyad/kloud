@@ -78,7 +78,6 @@ class ProductsViewSet(viewsets.ModelViewSet):
         divisionObj = self.request.user.designation.division
         params = self.request.GET
         if 'search' in params:
-            print 'herrrrrrrrrrreeeee'
             objs = Products.objects.filter(division = divisionObj)
             product = objs.filter(part_no__contains=str(params['search']))
             product1  = objs.filter(replaced__icontains=str(params['search']))
