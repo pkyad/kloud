@@ -62,6 +62,6 @@ urlpatterns = [
     url(r'complaintPdf/$' , complaintPdf, name="complaintPdf"),
     url(r'customercomplaintReport/$' ,customercomplaintReport),
     url(r'datewiseinvoiceReport/$' ,datewiseInvoicereport),
-    url(r'importExportDataMigrations/$' , ImportExportDataMigrationsAPIView.as_view()),
+    # url(r'importExportDataMigrations/$' , ImportExportDataMigrationsAPIView.as_view()),
     # url(r'stock/$' , StockAPIView.as_view() ),
 ]

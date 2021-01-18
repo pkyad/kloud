@@ -44,7 +44,7 @@ class ProductSheet(models.Model):
 
 class Products(models.Model):
     created = models.DateTimeField(auto_now_add = True)
-    part_no = models.CharField(max_length=20, unique=True , null=True)
+    part_no = models.CharField(max_length=60, unique=True , null=True)
     description_1 = models.TextField(max_length=2000, null=True,blank =True)
     description_2 = models.TextField(max_length=2000, null=True,blank =True)
     weight = models.FloatField(null=True,blank =True)
@@ -320,6 +320,7 @@ class ComplaintManagement(models.Model):
     attr1 = models.TextField(max_length=2000, null=True,blank=True)
     attr2 = models.TextField(max_length=2000, null=True,blank=True)
     attr3 = models.TextField(max_length=2000, null=True,blank=True)
+    attr4 = models.TextField(max_length=2000, null=True,blank=True)
     division = models.ForeignKey(Division, related_name = 'complaints', null = True)
     machineRunning = models.CharField(choices = machineRunning , max_length = 20 ,null = True)
     closedDate = models.DateField(null = True)

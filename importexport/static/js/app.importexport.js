@@ -3174,6 +3174,7 @@ app.controller('businessManagement.importexport.masterSheet.newProduct', functio
   }
   $scope.reset()
   $scope.save = function() {
+    console.log($scope.data, '$scope.data');
     var method = 'POST'
     var url = '/api/importexport/products/'
 
@@ -5908,6 +5909,7 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
       attr1: '',
       attr2: '',
       attr3: '',
+      attr4: '',
       closedDate: '',
       machineRunning: '',
       comm_nr: ''
@@ -5944,6 +5946,7 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
           attr1: $scope.form.attr1,
           attr2: $scope.form.attr2,
           attr3: $scope.form.attr3,
+          attr4: $scope.form.attr4,
           machineRunning: $scope.form.machineRunning,
           comm_nr: $scope.form.comm_nr
 
@@ -5990,6 +5993,7 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
       attr1: '',
       attr2: '',
       attr3: '',
+      attr4: '',
       closedDate: '',
       machineRunning: '',
       RefurbishedBind: '',
@@ -6033,6 +6037,7 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
       attr1: $scope.form.attr1,
       attr2: $scope.form.attr2,
       attr3: $scope.form.attr3,
+      attr4: $scope.form.attr4,
       machineRunning: $scope.form.machineRunning,
       RefurbishedBind: $scope.form.RefurbishedBind,
       comm_nr: $scope.form.comm_nr
@@ -6082,6 +6087,7 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
       attr1: $scope.form.attr1,
       attr2: $scope.form.attr2,
       attr3: $scope.form.attr3,
+      attr4: $scope.form.attr4,
       machineRunning: $scope.form.machineRunning,
       RefurbishedBind: $scope.form.RefurbishedBind,
       comm_nr: $scope.form.comm_nr

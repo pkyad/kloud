@@ -33,7 +33,7 @@
           <th class="">Paper Name</th>
           <th>Created By</th>
           <th>Status</th>
-          <th></th>
+          <th colspan="3"></th>
         </tr>
       </thead>
       <tbody>
@@ -58,6 +58,8 @@
 
             Active</span> <span ng-if="!k.active">In Active</span></td>
           <td style="color:#B6B6B6;font-size:16px;" ng-click="createStudent(k)"> <i class="fa fa-user-plus" aria-hidden="true"></i></td>
+          <td style="color:#B6B6B6;font-size:16px;" ng-click="createTest(k)"> <i class="fa fa-pencil" aria-hidden="true"></i></td>
+          <td style="color:#B6B6B6;font-size:16px;" ng-click="delTest($index)"> <i class="fa fa-trash" aria-hidden="true"></i></td>
         </tr>
 
 

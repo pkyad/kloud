@@ -476,7 +476,7 @@ class complaintManagementSerializer(serializers.ModelSerializer):
         model  = ComplaintManagement
         fields = ('pk','date','customer','contact','complaintRef','machine','description','complaintType',
         'registeredBy',
-        'errorCode','status','is_CloseApproved','serviceReportNo','closedBy','attr1','attr2','attr3','division','closedDate','RefurbishedBind',"machineRunning","comm_nr")
+        'errorCode','status','is_CloseApproved','serviceReportNo','closedBy','attr1','attr2','attr3','attr4','division','closedDate','RefurbishedBind',"machineRunning","comm_nr")
     def create(self, validated_data):
         obj = ComplaintManagement(**validated_data)
         user = self.context['request'].user
@@ -494,7 +494,7 @@ class complaintManagementSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         divisionObj = user.designation.division
         for key in ['date','customer','contact','complaintRef','machine','description','complaintType','registeredBy',
-        'errorCode','status','is_CloseApproved','serviceReportNo','closedBy','attr1','attr2','attr3','closedDate','RefurbishedBind',"machineRunning","comm_nr"]:
+        'errorCode','status','is_CloseApproved','serviceReportNo','closedBy','attr1','attr2','attr3','closedDate','RefurbishedBind',"machineRunning","comm_nr","attr4"]:
             try:
                 setattr(instance,key,validated_data[key])
             except:
