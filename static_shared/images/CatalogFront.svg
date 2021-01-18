@@ -1,9 +1,8 @@
 <svg width="595" height="842" viewBox="0 0 595 842" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="595" height="842" fill="white"/>
-<path d="M446.324 541H489.216H575V821H403.432H317.647H274.755H264L446.324 541Z" fill="#01B7CD"/>
-<rect x="416" y="172" width="15" height="15" rx="7.5" fill="#01B7CD"/>
-<rect x="435" y="172" width="15" height="15" rx="7.5" fill="#01B7CD"/>
-<rect x="454" y="172" width="15" height="15" rx="7.5" fill="#01B7CD"/>
-<rect x="454" y="191" width="15" height="15" rx="7.5" fill="#01B7CD"/>
-<rect x="435" y="191" width="15" height="15" rx="7.5" fill="#01B7CD"/>
+<path d="M461.324 557H504.216H590V837H418.432H332.647H289.755H279L461.324 557Z" fill="#010E52"/>
+<rect x="516" y="26" width="15" height="15" rx="7.5" fill="#010E52"/>
+<rect x="535" y="26" width="15" height="15" rx="7.5" fill="#010E52"/>
+<rect x="554" y="26" width="15" height="15" rx="7.5" fill="#010E52"/>
+<rect x="554" y="45" width="15" height="15" rx="7.5" fill="#010E52"/>
+<rect x="535" y="45" width="15" height="15" rx="7.5" fill="#010E52"/>
 </svg>

@@ -146,7 +146,7 @@ class Course(models.Model):
     created = models.DateTimeField(auto_now_add = True)
     updated = models.DateField(auto_now=True)
     title = models.CharField(max_length = 100 , null = False)
-    enrollmentStatus = models.CharField(choices = ENROLLMENT_STATUS_CHOICES , max_length = 20 , default = 'pdf')
+    enrollmentStatus = models.CharField(choices = ENROLLMENT_STATUS_CHOICES , max_length = 20 , default = 'open')
     instructor = models.ForeignKey(User , related_name='lmsCoursesInstructing' , null = True)
     user = models.ForeignKey(User , related_name='courseCreated' , null = False)
     description = models.TextField(max_length=2000 , null = False)
@@ -156,7 +156,8 @@ class Course(models.Model):
     discount = models.CharField(max_length = 100 , null = True)
     contacts = models.ManyToManyField(Contact , related_name='students' )
     activeCourse = models.BooleanField(default = True)
-
+    topic = models.CharField(max_length = 250 , null = True)
+    
 class Enrollment(models.Model):
     created = models.DateTimeField(auto_now_add = True)
     updated = models.DateField(auto_now=True)

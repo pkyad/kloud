@@ -43,6 +43,9 @@
         <textarea name="name" class="form-control bookInput" ng-model="form.description" placeholder="(Optional)" rows="8" cols="80" style="resize:none;"></textarea>
       </div>
     </div>
+    <div class="form-group" ng-if="form.pk">
+      <label for="">is Active ? <input type="checkbox" ng-model="form.active" name="" value=""></label>
+    </div>
     <div class="row">
       <div class="col-md-2 pull-left">
         <button class="newBtn btn-block" type="button" name="button" style="padding:12px;" ng-click="close()">Cancel</button>
