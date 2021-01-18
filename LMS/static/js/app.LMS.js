@@ -1012,7 +1012,7 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
         $scope.form = {
           contact: '',
           contacts: [],
-          contactsList: []
+          contactsList: [],name:'',email:'',mobile:''
         }
         $scope.addContacts = function() {
           for (var i = 0; i < $scope.form.contactsList.length; i++) {
@@ -1029,28 +1029,69 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
 
           }
         }
+        $scope.$watch('form.contact', function(query) {
+          console.log(query,'ewe');
+          if (query.length != 8) {
+              return $http.get('/api/clientRelationships/contact/?mobile__contains=' + query).
+              then(function(response) {
+                $scope.form.name = query.name
+                $scope.form.mobile = query.mobile
+                $scope.form.email = query.email
+                $scope.form.pk = query.pk
+                return response.data;
+              })
+
+          }
+
+        })
+
         $scope.getContactsearch = function(query) {
           console.log(query);
-          //search for the user
-          return $http.get('/api/clientRelationships/contact/?typ=student&name__contains=' + query).
+          return $http.get('/api/clientRelationships/contact/?mobile__contains=' + query).
           then(function(response) {
             return response.data;
           })
         };
 
         $scope.save = function() {
+          if ($scope.form.pk == undefined) {
+            var method = "POST"
+            var url = "/api/clientRelationships/contact/"
+          }else {
+            var method = "PATCH"
+            var url = "/api/clientRelationships/contact/"+$scope.form.pk+'/'
+
+          }
+          if ($scope.form.mobile.length < 8) {
+            Flash.create('warning','mobile proper mobile number')
+            return
+          }
+          var data = {
+            mobile:$scope.form.contact.mobile,
+            name:$scope.form.contact.name,
+            email:$scope.form.contact.email,  contacts: $scope.form.contacts
+          }
+
           $http({
-            method: 'PATCH',
-            url: '/api/LMS/course/' + $state.params.id + '/',
-            data: {
-              contacts: $scope.form.contacts
-            }
+            method: method,
+            url: url,
+            data:data
           }).
           then(function(response) {
             Flash.create('success', 'Added')
             $uibModalInstance.dismiss()
 
           })
+          // $http({
+          //   method: 'PATCH',
+          //   url: '/api/LMS/course/' + $state.params.id + '/',
+          //   data:data
+          // }).
+          // then(function(response) {
+          //   Flash.create('success', 'Added')
+          //   $uibModalInstance.dismiss()
+          //
+          // })
         }
 
 
