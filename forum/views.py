@@ -156,7 +156,6 @@ class ForumAPI(APIView):
                 forumobj.url = text
             slugme(request.data['title'])
         forumobj.save()
-        print forumobj.user,'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
         return JsonResponse(data , status =  status.HTTP_200_OK,safe=False)
     def get(self , request , format = None):
         data = {}
@@ -165,7 +164,10 @@ class ForumAPI(APIView):
             forumdata = ForumSerializer(forumObj, many = False).data
             commentObj = ForumComment.objects.filter(parent__id = int(request.GET['id']))
             forumcommentdata = ForumCommentSerializer(commentObj, many = True).data
-            profilObj = ProfileLiteSerializer(profile.objects.filter(user__designation__division = request.user.designation.division).order_by('postCount')[:10], many = True).data
+            try:
+                profilObj = ProfileLiteSerializer(profile.objects.filter(user__designation__division = request.user.designation.division).order_by('postCount')[:10], many = True).data
+            except:
+                profilObj = []
             data = {'forumdata' : forumdata , 'forumcommentdata' : forumcommentdata , 'profilObj' : profilObj}
         return JsonResponse(data , status =  status.HTTP_200_OK,safe=False)
 
@@ -212,7 +214,6 @@ class GetForumAPI(APIView):
                 value['lstcomcreated'] = dataObj.created
             except:
                 pass
-        print posts2,"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
         totalposts = Forum.objects.all().count()
         # forumarticles = Article.objects.all()[:4]
         # for i in forumarticles:
@@ -256,6 +257,5 @@ class ForumCommentAPI(APIView):
         data = ForumCommentSerializer(forumcommentobj, many = False).data
         return JsonResponse(data , status= status.HTTP_200_OK)
     def get(self , request , format = None):
-        print 'aaaaaaaaaaaaaaaaaaaassssss',ForumComment.objects.all()
         data = list(ForumComment.objects.all().values('pk'))
         return JsonResponse(data , status= status.HTTP_200_OK,safe=False)

@@ -35,7 +35,9 @@ class Jobs(models.Model):
 
 STATUS_LIST_CHOICES = (
         ('Created' , 'Created'),
+        ('Shortlisted' , 'Shortlisted'),
         ('Selected' , 'Selected'),
+        ('Rejected' , 'Rejected'),
         # ('Screening' , 'Screening'),
         # ('SelfAssesmenent' , 'SelfAssesmenent'),
         # ('TechicalInterview' , 'TechicalInterviewing'),
@@ -82,6 +84,7 @@ class JobApplication(models.Model):
     probationNotice = models.PositiveIntegerField(default=0)
     noticePeriodRecovery = models.BooleanField(default=False)
     rejectReason = models.CharField(max_length = 15 , choices = REASON_CHOICES_LIST  , default = 'Created')
+    isSelected = models.BooleanField(default=True)
 
 STATUS_INTERVIEW_CHOICES = (
         ('created' , 'created'),

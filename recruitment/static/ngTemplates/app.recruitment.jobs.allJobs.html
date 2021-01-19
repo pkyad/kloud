@@ -45,7 +45,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="a in allCandidates.pendingObj" ng-click="$state.go('workforceManagement.exploreJob.viewprofile',{'id' : a.job.pk,'cand':a.pk})">
+              <tr ng-repeat="a in allCandidates.pendingObj" ng-click="viewProfile($index)">
                 <td style="width:22.5%;padding:10px;">{{a.firstname}} {{a.lastname}} </td>
                 <td style="width:22.5%;padding:10px;">{{a.email}}</td>
                 <td style="width:22.5%;padding:10px;">{{a.mobile}}</td>

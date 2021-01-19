@@ -1,11 +1,57 @@
 <div class="modal-header bg-blue">
   <div class="container-fluid">
     <h4>
-      <span class="pull-right">
-      Resume : {{resumes.firstname}} {{resumes.lastname}}
-      </span>
       <i class="fa fa-arrow-circle-o-left pull-left fa-lg" ng-click="cancel()" style="cursor:pointer;"></i>
     </h4>
   </div>
 </div>
-<object data='{{resumes.resume}}' type='application/pdf' width='100%' height='100%'/>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-10">
+      <div class="row">
+        <div class="col-md-1 text-right">
+          <strong>
+            <h4> Name:</h4>
+          </strong>
+        </div>
+        <div class="col-md-11">
+          <strong>
+            <h4>{{resume.firstname}} {{resume.lastname}}</h4>
+          </strong>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1 text-right">
+          <strong>
+            <h4> Email:</h4>
+          </strong>
+        </div>
+        <div class="col-md-11">
+          <strong>
+            <h4>{{resume.email}}</h4>
+          </strong>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1 text-right">
+          <strong>
+            <h4> Mobile:</h4>
+          </strong>
+        </div>
+        <div class="col-md-11">
+          <strong>
+            <h4>{{resume.mobile}}</h4>
+          </strong>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <button type="button" name="button" style="background: #103F8D;color: white;border: none !important;border-radius: 10px !important;padding: 15px;" class="btn-block"  mwl-confirm title="Shortlist" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" data-placement="bottom"  on-confirm="shortlist()" confirm-button-type="default" cancel-button-type="default"> Shortlist</button>
+    </div>
+  </div>
+  <div class="row" style="margin-top:15px">
+    <div class="col-md-12">
+      <object data='{{resume.resume}}' type='application/pdf' width='100%' style="height:800px" />
+    </div>
+  </div>
+</div>
