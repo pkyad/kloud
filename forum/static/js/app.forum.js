@@ -11,10 +11,26 @@ app.config(function($stateProvider) {
       }
     })
 
+    .state('businessManagement.createForum', {
+      url: "/createForum",
+      templateUrl: '/static/ngTemplates/app.createForum.html',
+      // controller: 'businessManagement.createForum'
+    })
+    .state('businessManagement.editForum', {
+      url: "/editForum/:id",
+      templateUrl: '/static/ngTemplates/app.createForum.html',
+      // controller: 'businessManagement.createForum'
+    })
+    .state('businessManagement.viewForum', {
+      url: "/viewForum/:id",
+      templateUrl: '/static/ngTemplates/app.viewForum.html',
+      // controller: 'businessManagement.createForum'
+    })
   })
 
 
-  // app.controller('businessManagement.forum', function($scope, $http, $aside, $state, Flash, $users, $filter,$window) {
+  // app.controller('businessManagement.createForum', function($scope, $http, $aside, $state, Flash, $users, $filter,$window) {
+  //
   //
   //
   //

@@ -142,9 +142,10 @@ app.controller("workforceManagement.recruitment.jobs.viewProfile", function($sco
           // window.location.href = "/api/recruitment/downloadCallLeter/?value=" + $scope.candidateDetails.pk
       }
     });
-
-
   }
+
+
+
 
 })
 
@@ -570,20 +571,20 @@ app.controller("workforceManagement.recruitment.jobs.explore", function($scope, 
     });
   }
 
-  $scope.resumeView = function(data) {
-    console.log("will create a quote", data);
-    $aside.open({
-      templateUrl: '/static/ngTemplates/app.recruitment.resume.view.html',
-      placement: 'left',
-      size: 'xl',
-      resolve: {
-        job: function() {
-          return data;
-        },
-      },
-      controller: 'recruitment.resume.view'
-    })
-  }
+  // $scope.resumeView = function(data) {
+  //   console.log("will create a quote", data);
+  //   $aside.open({
+  //     templateUrl: '/static/ngTemplates/app.recruitment.resume.view.html',
+  //     placement: 'left',
+  //     size: 'xl',
+  //     resolve: {
+  //       job: function() {
+  //         return data;
+  //       },
+  //     },
+  //     controller: 'recruitment.resume.view'
+  //   })
+  // }
 
   $scope.newApplicant = function() {
     $uibModal.open({
@@ -711,6 +712,20 @@ app.controller("workforceManagement.recruitment.jobs.explore", function($scope, 
     console.log("drop complete");
   }
 
+  $scope.viewProfile = function(indx){
+    $aside.open({
+      templateUrl: '/static/ngTemplates/app.recruitment.resume.view.html',
+      placement: 'right',
+      size: 'xl',
+      resolve: {
+        resume: function() {
+          return $scope.allCandidates.pendingObj[indx];
+        },
+      },
+      controller: 'recruitment.resume.view'
+    })
+  }
+
 
 });
 
@@ -813,21 +828,35 @@ app.controller("recruitment.application.form", function($scope, $state, $users, 
 
 });
 
-app.controller("recruitment.resume.view", function($scope, $state, $users, $stateParams, $http, Flash, $uibModalInstance, job) {
-  $scope.job = job;
-  $scope.resumes = {}
+app.controller("recruitment.resume.view", function($scope, $state, $users, $stateParams, $http, Flash, $uibModalInstance, resume) {
+
+  $scope.resume = resume
   $scope.cancel = function(e) {
     $uibModalInstance.dismiss();
   };
 
-  $http({
-    method: 'GET',
-    url: '/api/recruitment/applyJob/' + $scope.job
-  }).
-  then(function(response) {
-    console.log(response.data, 'aaaaa');
-    $scope.resumes = response.data;
-  });
+  $scope.shortlist = function(){
+    var dataSave = {
+      status : 'Shortlisted',
+    }
+    $http({
+      method: 'PATCH',
+      url: '/api/recruitment/applyJob/'+$scope.resume.pk +'/',
+      data:dataSave
+    }).
+    then(function(response) {
+        $uibModalInstance.dismiss(response.data);
+    });
+  }
+
+  // $http({
+  //   method: 'GET',
+  //   url: '/api/recruitment/applyJob/' + $scope.job
+  // }).
+  // then(function(response) {
+  //   console.log(response.data, 'aaaaa');
+  //   $scope.resumes = response.data;
+  // });
 
 
 });
