@@ -39,7 +39,8 @@ z-index: 1;">
           </div>
           <div class="row" ng-if="k.show" style="margin:0px;margin-left:30px;padding:10px;">
             <ul class="list-unstyled">
-              <li  ng-repeat="l in k.children track by l.pk " ng-click="getQuestions(l.pk);getSection(l.pk)" style="padding-bottom:10px;{{index==l.pk?'font-weight:700':'font-weight:normal'}};font-size:16px;">{{l.title}} </li>
+              <li  ng-repeat="l in k.children track by l.pk "
+              ng-click="getQuestions(l.pk);getSection(l.pk);addQuestion('section',l.pk)" style="padding-bottom:10px;{{index==l.pk?'font-weight:700':'font-weight:normal'}};font-size:16px;">{{l.title}} </li>
 
               <li ng-if="showInput">
                 <div class="form-group">

@@ -14,7 +14,7 @@ from HR.models import designation
 from clientRelationships.models import *
 from django.db.models import Q, F , Sum , FloatField
 from organization.serializers import *
-from organization.serializers import UnitsLiteSerializer
+from organization.serializers import UnitsLiteSerializer,DivisionSerializer
 from organization.models import Division , Unit
 from assets.serializers import CheckinLiteSerializer
 from assets.models import *
@@ -597,7 +597,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 print Inventory
 class RateListSerializer(serializers.ModelSerializer):
-
+    division= DivisionSerializer(many=False,read_only = True)
     class Meta:
         model = Inventory
         fields=('pk','created','name','value','rate','qtyAdded','refurnished','refurnishedAdded','sellable','description','richtxtDesc','taxCode','img1','img2','img3','category','division','buyingPrice','sku','taxRate','mrp')

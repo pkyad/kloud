@@ -7,6 +7,10 @@ app.config(function($stateProvider) {
     url: "/product/:id",
     templateUrl: '/static/ngTemplates/app.businessmanagement.catalogmaker.html',
     controller: 'businessManagement.catalog'
+  }).state('businessManagement.catalogproducts', {
+    url: "/products/:id",
+    templateUrl: '/static/ngTemplates/app.finance.products.html',
+    controller: 'businessManagement.catalog'
   })
 
 });
@@ -94,7 +98,8 @@ app.controller('controller.addNewCategory', function($scope, $http, $aside, $sta
       })
     }
 })
-app.controller('businessManagement.catalog', function($scope, $http, $aside, $state, Flash, $users, $filter, $uibModal) {
+app.controller('businessManagement.catalog', function($scope,$users, $http, $aside, $state, Flash, $users, $filter, $uibModal) {
+    $scope.me = $users.get('mySelf')
     $scope.search = "";
     $scope.category  = $state.params.id
     $scope.dataURL = '/products/'+ $state.params.id+'/'
@@ -115,17 +120,16 @@ app.controller('businessManagement.catalog', function($scope, $http, $aside, $st
 
     $scope.getAll = function(search, searchValue) {
       if (search == true) {
-        var url = '/api/finance/inventory/?name__icontains=' + searchValue + '&limit=' + $scope.limit + '&offset=' + $scope.offset+'&category='+$state.params.id
+        var url = '/api/finance/inventory/?name__icontains=' + searchValue + '&category='+$state.params.id
       } else {
-        var url = '/api/finance/inventory/?limit=' + $scope.limit + '&offset=' + $scope.offset+'&category='+$state.params.id
+        var url = '/api/finance/inventory/?category='+$state.params.id
       }
       $http({
         method: 'GET',
         url: url
       }).
       then(function(response) {
-        $scope.inventoryData = response.data.results
-        $scope.count = response.data.count
+        $scope.inventoryData = response.data
         $scope.total = 0
         for (var i = 0; i < $scope.inventoryData.length; i++) {
           $scope.tot = $scope.inventoryData[i].rate * $scope.inventoryData[i].total
@@ -206,6 +210,49 @@ app.controller('businessManagement.catalog', function($scope, $http, $aside, $st
                 $scope.form.taxCode  = $scope.form.taxCode.code
               }
           }
+
+
+          $scope.$watch('form.img1' , function(newValue , oldValue) {
+            console.log(newValue,'334');
+            $scope.reader = new FileReader();
+
+            if (typeof newValue == 'string' && newValue.length > 0 ) {
+              $('#image1').attr('src', newValue);
+            }
+            $scope.reader.onload = function(e) {
+              $('#image1').attr('src', e.target.result);
+            }
+
+            $scope.reader.readAsDataURL(newValue);
+          })
+
+          $scope.$watch('form.img2' , function(newValue , oldValue) {
+            $scope.reader = new FileReader();
+            if (typeof newValue == 'string' && newValue.length > 0 ) {
+              $('#image2').attr('src', newValue);
+            }
+            $scope.reader.onload = function(e) {
+              $('#image2').attr('src', e.target.result);
+            }
+
+            $scope.reader.readAsDataURL(newValue);
+
+
+          })
+          $scope.$watch('form.img3' , function(newValue , oldValue) {
+            $scope.reader = new FileReader();
+            if (typeof newValue == 'string' && newValue.length > 0 ) {
+              $('#image3').attr('src', newValue);
+            }
+            $scope.reader.onload = function(e) {
+              $('#image3').attr('src', e.target.result);
+            }
+
+            $scope.reader.readAsDataURL(newValue);
+
+
+          })
+
 
           $scope.saveInventory = function() {
             if ($scope.form.name == undefined || $scope.form.name == '') {
@@ -300,7 +347,7 @@ app.controller('businessManagement.catalog', function($scope, $http, $aside, $st
 
       $uibModal.open({
         templateUrl: '/static/ngTemplates/app.finance.inventoryProductCatalog.modal.html',
-        size: 'lg',
+        size: 'xl',
         backdrop: true,
         resolve: {
           data: function() {
@@ -356,6 +403,47 @@ app.controller('businessManagement.catalog', function($scope, $http, $aside, $st
                 $scope.form.taxCode  = $scope.form.taxCode.code
               }
           }
+
+          $scope.$watch('form.img1' , function(newValue , oldValue) {
+            console.log(newValue,'334');
+            $scope.reader = new FileReader();
+
+            if (typeof newValue == 'string' && newValue.length > 0 ) {
+              $('#image1').attr('src', newValue);
+            }
+            $scope.reader.onload = function(e) {
+              $('#image1').attr('src', e.target.result);
+            }
+
+            $scope.reader.readAsDataURL(newValue);
+          })
+
+          $scope.$watch('form.img2' , function(newValue , oldValue) {
+            $scope.reader = new FileReader();
+            if (typeof newValue == 'string' && newValue.length > 0 ) {
+              $('#image2').attr('src', newValue);
+            }
+            $scope.reader.onload = function(e) {
+              $('#image2').attr('src', e.target.result);
+            }
+
+            $scope.reader.readAsDataURL(newValue);
+
+
+          })
+          $scope.$watch('form.img3' , function(newValue , oldValue) {
+            $scope.reader = new FileReader();
+            if (typeof newValue == 'string' && newValue.length > 0 ) {
+              $('#image3').attr('src', newValue);
+            }
+            $scope.reader.onload = function(e) {
+              $('#image3').attr('src', e.target.result);
+            }
+
+            $scope.reader.readAsDataURL(newValue);
+
+
+          })
 
           $scope.saveInventory = function() {
             var fd = new FormData();
