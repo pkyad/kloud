@@ -127,7 +127,7 @@ app.config(function($stateProvider) {
 //------------------------------------------------books ends----------------------------------
 
 
-app.controller("viewbook", function($scope, $state,$sce, $users, $stateParams, $http, Flash, $timeout, $stateParams, $uibModal) {
+app.controller("viewbook", function($scope, $state,$sce, $users, $stateParams, $http, Flash, $timeout, $stateParams, $uibModal,$aside) {
 
 
 
@@ -225,6 +225,67 @@ $scope.getSection = function(k){
   }
 
 
+  $scope.selectChoice = function(data) {
+    $aside.open({
+      templateUrl: '/static/ngTemplates/app.LMS.questiontypes.html',
+      position: 'left',
+      size: 'xl',
+      backdrop: true,
+      resolve: {
+        data: function() {
+          return data
+        }
+      },
+      controller: 'LMS.questiontypes',
+    })
+  }
+
+
+  $scope.addQuestion = function(data,section) {
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.LMS.addquestion.html',
+      size: 'xl',
+      backdrop: true,
+      resolve: {
+        stagedata:function(){
+          return data
+        },
+        section:function(){
+          return section
+        }
+
+      },
+      controller: function($scope, $uibModalInstance,stagedata,section) {
+        $scope.form ={
+          stage:'',typ:stagedata,section:section
+        }
+        $scope.close = function() {
+
+            $uibModalInstance.dismiss($scope.form)
+
+        }
+
+
+
+
+
+
+
+
+      },
+    }).result.then(function(data) {
+      console.log(data);
+    }, function(data) {
+      console.log(data);
+      if (data != 'backdrop click') {
+
+        $scope.selectChoice(data)
+      }
+
+    });
+  }
+
+
 })
 app.controller("LMS.submissions", function($scope, $state, $users, $stateParams, $http, Flash, $timeout, $stateParams, $uibModal) {
 
@@ -261,23 +322,28 @@ app.controller("LMS.questions", function($scope, $state, $sce, $users, $statePar
   }
 
 
-  $scope.addQuestion = function() {
+  $scope.addQuestion = function(data,section) {
     $uibModal.open({
       templateUrl: '/static/ngTemplates/app.LMS.addquestion.html',
       size: 'xl',
       backdrop: true,
       resolve: {
+        stagedata:function(){
+          return data
+        },
+        section:function(){
+          return section
+        }
 
       },
-      controller: function($scope, $uibModalInstance, ) {
-        $scope.close = function(data) {
-          if (data != undefined) {
+      controller: function($scope, $uibModalInstance,stagedata,section) {
+        $scope.form ={
+          stage:'',typ:stagedata,section:section
+        }
+        $scope.close = function() {
 
-            $uibModalInstance.dismiss(data)
-          }else {
-            $uibModalInstance.dismiss()
+            $uibModalInstance.dismiss($scope.form)
 
-          }
         }
 
 
@@ -289,8 +355,13 @@ app.controller("LMS.questions", function($scope, $state, $sce, $users, $statePar
 
       },
     }).result.then(function(data) {
+      console.log(data);
     }, function(data) {
-      $scope.selectChoice(data)
+      console.log(data);
+      if (data != 'backdrop click') {
+
+        $scope.selectChoice(data)
+      }
 
     });
   }
@@ -311,7 +382,7 @@ app.controller("LMS.questions", function($scope, $state, $sce, $users, $statePar
 })
 
 app.controller("LMS.questiontypes", function($scope, $state, $users, $stateParams, $http, Flash, $timeout, $stateParams, $uibModal, data, $uibModalInstance) {
-  $scope.form = data
+  $scope.form = data.stage
 
 
 
@@ -428,7 +499,7 @@ app.controller("LMS.questiontypes", function($scope, $state, $users, $stateParam
   }
 
 
-  if (data == 'multiple') {
+  if (data.stage == 'multiple') {
     $scope.resetform = function() {
       $scope.queform = {
         ques: '',
@@ -440,7 +511,7 @@ app.controller("LMS.questiontypes", function($scope, $state, $users, $stateParam
 
     }
     $scope.resetform()
-  } else if (data == 'subjective') {
+  } else if (data.stage == 'subjective') {
     $scope.resetform = function() {
       $scope.queform = {
         ques: '',
@@ -453,7 +524,7 @@ app.controller("LMS.questiontypes", function($scope, $state, $users, $stateParam
     }
     $scope.resetform()
 
-  } else if (data == 'file') {
+  } else if (data.stage == 'file') {
     $scope.resetform = function() {
       $scope.queform = {
         ques: '',
@@ -488,45 +559,59 @@ app.controller("LMS.questiontypes", function($scope, $state, $users, $stateParam
 
 
   $scope.save = function() {
-    if ($scope.queform.ques.length ==0 || $scope.queform.marks.length == 0 || $scope.queform.bookSection.length ==0 ) {
+    if ($scope.queform.ques.length ==0 || $scope.queform.marks.length == 0  ) {
       Flash.create('warning','Fill the Form')
       return
     }
     console.log($scope.form.length,'32323');
-    $scope.queform.bookSection = $scope.queform.bookSection.pk
+    if (data.typ == 'section') {
+
+      $scope.queform.bookSection = data.section
+    }
+
+    var method = "POST"
+    var url = '/api/LMS/question/'
+    if ($scope.queform.pk != undefined) {
+      method = "PATCH"
+      url = '/api/LMS/question/'+$scope.queform.pk+'/'
+    }
     $http({
-      method: 'POST',
-      url: '/api/LMS/question/',
+      method: method,
+      url: url,
       data: $scope.queform
     }).
     then(function(response) {
+      $scope.queform.pk = response.data.pk
       if (data != 'upload') {
-        for (var i = 0; i < $scope.data.length; i++) {
-          if ($scope.data[i].rtxt != undefined || $scope.data[i].rtxt != '') {
-            var data = {
-              rtxt: $scope.data[i].rtxt,
-              answer: $scope.data[i].answer,
-              parent: response.data.pk
+        if ($scope.data.length >0) {
+          for (var i = 0; i < $scope.data.length; i++) {
+            if ($scope.data[i].rtxt != undefined || $scope.data[i].rtxt != '') {
+              var data = {
+                rtxt: $scope.data[i].rtxt,
+                answer: $scope.data[i].answer,
+                parent: response.data.pk
+              }
+
+
+              $http({
+                method: 'POST',
+                url: '/api/LMS/optionspart/',
+                data: data
+              }).
+              then(function(response) {
+
+              })
+
             }
-
-
-            $http({
-              method: 'POST',
-              url: '/api/LMS/optionspart/',
-              data: data
-            }).
-            then(function(response) {
-
-            })
-
           }
+
         }
 
       }
 
-      $scope.data = []
-        $scope.queform = ''
-      $scope.resetform()
+      // $scope.data = []
+        // $scope.queform = ''
+      // $scope.resetform()
       Flash.create('success', 'Question Created')
     })
   }
@@ -1057,19 +1142,26 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
           if ($scope.form.pk == undefined) {
             var method = "POST"
             var url = "/api/clientRelationships/contact/"
+            var data = {
+              mobile:$scope.form.contact,
+              name:$scope.form.name,
+              email:$scope.form.email,
+              typ:'student'
+            }
           }else {
             var method = "PATCH"
             var url = "/api/clientRelationships/contact/"+$scope.form.pk+'/'
+            var data = {
+              mobile:$scope.form.contact.mobile,
+              name:$scope.form.contact.name,
+              email:$scope.form.contact.email,
+              typ: $scope.form.contact.typ
+            }
 
           }
-          if ($scope.form.mobile.length < 8) {
+          if ($scope.form.contact.length <8) {
             Flash.create('warning','mobile proper mobile number')
             return
-          }
-          var data = {
-            mobile:$scope.form.contact.mobile,
-            name:$scope.form.contact.name,
-            email:$scope.form.contact.email,  contacts: $scope.form.contacts
           }
 
           $http({
@@ -1080,18 +1172,21 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
           then(function(response) {
             Flash.create('success', 'Added')
             $uibModalInstance.dismiss()
+            $scope.form.contacts.push(response.data.pk)
+            $http({
+                method: 'PATCH',
+                url: '/api/LMS/course/' + $state.params.id + '/',
+                data:{
+                  contacts: $scope.form.contacts
+                }
+              }).
+              then(function(response) {
+                  Flash.create('success', 'Added')
+                  $uibModalInstance.dismiss()
+
+                })
 
           })
-          // $http({
-          //   method: 'PATCH',
-          //   url: '/api/LMS/course/' + $state.params.id + '/',
-          //   data:data
-          // }).
-          // then(function(response) {
-          //   Flash.create('success', 'Added')
-          //   $uibModalInstance.dismiss()
-          //
-          // })
         }
 
 

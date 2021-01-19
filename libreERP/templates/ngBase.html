@@ -41,7 +41,7 @@
 
     <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}" charset="utf-8">
     <link rel="stylesheet" href="{% static 'css/owl.theme.default.css' %}" charset="utf-8">
-
+  <link rel="stylesheet" href="{% static 'css/quill.snow.css' %}" charset="utf-8">
 
     {% for a in appsWithCss %}
       <link rel="stylesheet" href="{% static '' %}css/{{a.name}}.css" charset="utf-8">
@@ -326,6 +326,9 @@ transition-duration: 0.8s;
       <script src="{% static 'js/papaparse.min.js' %}"></script>
       <script src="{% static 'js/markdown.min.js' %}"></script>
       <script src="{% static 'js/simplemdeng.js' %}"></script>
+      <script src="{% static 'js/ng-tags-input.min.js' %}"></script>
+      <script src="{% static 'js/quill.js' %}"></script>
+      <script src="{% static 'js/quill.min.js' %}"></script>
 
 
       <!-- <script src="{% static 'js/MathJax.js' %}"></script> -->

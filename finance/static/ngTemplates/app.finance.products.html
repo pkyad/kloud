@@ -1,8 +1,4 @@
-{% extends 'base.html' %}
 
-
-
-{% block content %}
 
   <div class="">
     <div class="row">
@@ -16,17 +12,15 @@
   </div>
 
   <div class="row" style="margin-top:20px">
-    {% for k in data %}
+
         <div class="col-md-4" style="margin-bottom:15px">
           <div class="" style="background-image:url(/media/{{k.img1}});background-size:contain;height:85px;margin-bottom:15px;background-repeat:no-repeat;">
 
           </div>
-          <p><b>Product :</b> {{k.name}}</p>
-          <p><b>Price :</b> {{k.rate}} <s>{{k.mrp}}</s></p>
-          <p><b>Quantity Added : </b>{{k.qtyAdded}}</p>
+          <p><b>{{k.name}}</b> </p>
+          <p>Price :<i class="fa fa-inr" style="font-size:13px;padding-right:5px;"></i>{{k.rate}} <span> <i class="fa fa-inr" style="font-size:13px;padding-right:5px;text-decoration-line: line-through;">{{k.mrp}}</i></span></p>
+          <p style="color:gray">{{k.richtxtDesc}}</p>
         </div>
 
-    {% endfor %}
-  </div>
 
-{% endblock %}
+  </div>
