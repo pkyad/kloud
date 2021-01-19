@@ -127,7 +127,7 @@ app.config(function($stateProvider) {
 //------------------------------------------------books ends----------------------------------
 
 
-app.controller("viewbook", function($scope, $state,$sce, $users, $stateParams, $http, Flash, $timeout, $stateParams, $uibModal) {
+app.controller("viewbook", function($scope, $state,$sce, $users, $stateParams, $http, Flash, $timeout, $stateParams, $uibModal,$aside) {
 
 
 
@@ -241,7 +241,7 @@ $scope.getSection = function(k){
   }
 
 
-  $scope.addQuestion = function(data) {
+  $scope.addQuestion = function(data,section) {
     $uibModal.open({
       templateUrl: '/static/ngTemplates/app.LMS.addquestion.html',
       size: 'xl',
@@ -249,18 +249,20 @@ $scope.getSection = function(k){
       resolve: {
         stagedata:function(){
           return data
+        },
+        section:function(){
+          return section
         }
 
       },
-      controller: function($scope, $uibModalInstance) {
-        $scope.close = function(data) {
-          if (data != undefined) {
+      controller: function($scope, $uibModalInstance,stagedata,section) {
+        $scope.form ={
+          stage:'',typ:stagedata,section:section
+        }
+        $scope.close = function() {
 
-            $uibModalInstance.dismiss(data)
-          }else {
-            $uibModalInstance.dismiss()
+            $uibModalInstance.dismiss($scope.form)
 
-          }
         }
 
 
@@ -272,8 +274,13 @@ $scope.getSection = function(k){
 
       },
     }).result.then(function(data) {
+      console.log(data);
     }, function(data) {
-      $scope.selectChoice(data)
+      console.log(data);
+      if (data != 'backdrop click') {
+
+        $scope.selectChoice(data)
+      }
 
     });
   }
@@ -315,7 +322,7 @@ app.controller("LMS.questions", function($scope, $state, $sce, $users, $statePar
   }
 
 
-  $scope.addQuestion = function(data) {
+  $scope.addQuestion = function(data,section) {
     $uibModal.open({
       templateUrl: '/static/ngTemplates/app.LMS.addquestion.html',
       size: 'xl',
@@ -323,12 +330,15 @@ app.controller("LMS.questions", function($scope, $state, $sce, $users, $statePar
       resolve: {
         stagedata:function(){
           return data
+        },
+        section:function(){
+          return section
         }
 
       },
-      controller: function($scope, $uibModalInstance,stagedata) {
-        $scope.form={
-          stage:'',typ:stagedata
+      controller: function($scope, $uibModalInstance,stagedata,section) {
+        $scope.form ={
+          stage:'',typ:stagedata,section:section
         }
         $scope.close = function() {
 
@@ -372,7 +382,7 @@ app.controller("LMS.questions", function($scope, $state, $sce, $users, $statePar
 })
 
 app.controller("LMS.questiontypes", function($scope, $state, $users, $stateParams, $http, Flash, $timeout, $stateParams, $uibModal, data, $uibModalInstance) {
-  $scope.form = data
+  $scope.form = data.stage
 
 
 
@@ -489,7 +499,7 @@ app.controller("LMS.questiontypes", function($scope, $state, $users, $stateParam
   }
 
 
-  if (data == 'multiple') {
+  if (data.stage == 'multiple') {
     $scope.resetform = function() {
       $scope.queform = {
         ques: '',
@@ -501,7 +511,7 @@ app.controller("LMS.questiontypes", function($scope, $state, $users, $stateParam
 
     }
     $scope.resetform()
-  } else if (data == 'subjective') {
+  } else if (data.stage == 'subjective') {
     $scope.resetform = function() {
       $scope.queform = {
         ques: '',
@@ -514,7 +524,7 @@ app.controller("LMS.questiontypes", function($scope, $state, $users, $stateParam
     }
     $scope.resetform()
 
-  } else if (data == 'file') {
+  } else if (data.stage == 'file') {
     $scope.resetform = function() {
       $scope.queform = {
         ques: '',
@@ -554,7 +564,10 @@ app.controller("LMS.questiontypes", function($scope, $state, $users, $stateParam
       return
     }
     console.log($scope.form.length,'32323');
-    $scope.queform.bookSection = null
+    if (data.typ == 'section') {
+
+      $scope.queform.bookSection = data.section
+    }
 
     var method = "POST"
     var url = '/api/LMS/question/'
