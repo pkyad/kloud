@@ -151,6 +151,7 @@ class profile(models.Model):
     onboarding = models.BooleanField(default=False)
     apps = models.TextField(null = True , max_length=6000)
     zoom_token = models.TextField(null=True)
+    postCount = models.PositiveIntegerField(default = 0)
 
 
 

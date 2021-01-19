@@ -241,7 +241,7 @@ class CampaignSerializer(serializers.ModelSerializer):
         else:
             instance.emailBody = None
         instance.save()
-    
+
 
         return instance
 
