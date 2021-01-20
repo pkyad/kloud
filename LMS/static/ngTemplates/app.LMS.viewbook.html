@@ -26,13 +26,13 @@ z-index: 1;">
             <p>{{data.author}} </p>
           </div>
           <div class="col-md-1">
-            <img src="/static/images/edit.svg" alt="" style="width: 25px;" ng-click="$state.go('businessManagement.newBook',{id:$state.params.bookid})">
+            <img src="/static/images/edit.svg" alt="" style="width: 25px;" ng-click="$state.go('businessManagement.LMS.newBook',{id:$state.params.bookid})">
           </div>
         </div>
         <div class="row" style="margin:10px 0px;">
           <h4><b>Chapters</b></h4>
         </div>
-        <div class="row"   ng-repeat="k in chapters track by $index" ng-click="mainIndex = $index">
+        <div class="row"   ng-repeat="k in chapters track by $index" style="cursor:pointer">
           <div class="row" style="background-color:white;padding:5px 15px;margin:0px;margin-bottom:5px;" ng-click="k.show= !k.show" ng-init="k.show=false">
             <h4><b>{{k.title}}</b></h4>
 
@@ -40,7 +40,9 @@ z-index: 1;">
           <div class="row" ng-if="k.show" style="margin:0px;margin-left:30px;padding:10px;">
             <ul class="list-unstyled">
               <li  ng-repeat="l in k.children track by l.pk "
-              ng-click="getQuestions(l.pk);getSection(l.pk);addQuestion('section',l.pk)" style="padding-bottom:10px;{{index==l.pk?'font-weight:700':'font-weight:normal'}};font-size:16px;">{{l.title}} </li>
+              ng-click="getQuestions(l.pk);getSection(l.pk);" style="padding-bottom:10px;{{index==l.pk?'font-weight:700':'font-weight:normal'}};font-size:16px;cursor:pointer">{{l.title}}
+
+            </li>
 
               <li ng-if="showInput">
                 <div class="form-group">
@@ -51,7 +53,6 @@ z-index: 1;">
             </ul>
           </div>
         </div>
-
         <div class="row" ng-if="showNew">
           <div class="form-group">
             <input type="text" class="form-control" ng-model="form.title" ng-enter="createChapter()" placeholder="Enter the Chapter name" name="" value="" style="border: none;
@@ -59,7 +60,7 @@ padding: 5px 15px;height: 45px;">
           </div>
         </div>
         <div class="row">
-          <button type="button" class="createTestBtn btn-block" name="button" style="border-radius:0px !important" ng-click="showNew=true"><img src="/static/images/icons8-plus-48.png" style="height:18px;padding-right:20px;" alt=""  ng-init="showNew=false">Add Chapter</button>
+          <button type="button" class="createTestBtn btn-block" name="button" style="border-radius:0px !important" ng-click="showNew=true"><img src="/static/images/icons8-plus-48.png" style="height:18px;padding-right:20px;" alt=""  ng-init="showNew=false">Add Chapter </button>
         </div>
       </div>
       <div class="col-md-10 col-md-offset-2">
@@ -83,11 +84,13 @@ padding: 5px 15px;height: 45px;">
 
               <ol type="A" ng-if="k.qtype == 'mcc'">
                 <li ng-repeat="l in k.options" style="font-size:18px"  ng-if="!k.isLatex">
-                  <p ng-bind-html="l.rtxt" style="display:inline-flex;padding-right:10px;"></p>  <span class="{{l.answer?'fa fa-check':''}}" style="{{l.answer?'color:green':''}}"></span>
+                  <p ng-bind-html="l.rtxt" style="display:inline-flex;padding-right:10px;"></p>
+
+                   <!-- <span class="{{l.answer?'fa fa-check':''}}" style="{{l.answer?'color:green':''}}"></span> -->
                   </li>
                 <li ng-repeat="l in k.options" style="font-size:18px"  ng-if="k.isLatex">
                   <span mathjax-bind="l.rtxt"></span>
-                  <span class="{{l.answer?'fa fa-check':''}}" style="{{l.answer?'color:green':''}}"></span>
+                  <!-- <span class="{{l.answer?'fa fa-check':''}}" style="{{l.answer?'color:green':''}}"></span> -->
                   </li>
 
               </ol>
@@ -97,6 +100,12 @@ padding: 5px 15px;height: 45px;">
 
               </div>
             </div>
+          </div>
+        </div>
+        <p>{{index}}</p>
+        <div class="row" style="margin:0px" ng-if="index">
+          <div class="col-md-1 pull-right">
+            <button type="button" class="btn createTestBtn" name="button" ng-click="addQuestion('section',index);" style="position: fixed;bottom: 20px;right: 25px;">Add Questions</button>
           </div>
         </div>
       </div>
