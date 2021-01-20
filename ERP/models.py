@@ -265,9 +265,9 @@ class service(models.Model): # contains other companies datails
     vendor = models.BooleanField(default = False)
     inUseBy = models.CharField(default = "CRM" , max_length = 20)
     owner =  models.ForeignKey(User , related_name = 'servicesOwned' , null = True) # the responsible person for this service
-    bankName = models.CharField(max_length = 100 , null= True)
-    accountNumber = models.PositiveIntegerField(null=True)
-    ifscCode = models.CharField(max_length = 100 , null= True)
+    bankName = models.CharField(max_length = 100 , null= True,blank=True)
+    accountNumber = models.PositiveIntegerField(null=True,blank=True)
+    ifscCode = models.CharField(max_length = 100 , null= True,blank=True)
     paymentTerm = models.PositiveIntegerField(null=True , default=0)
     division = models.ForeignKey(Division , null = True , related_name = "divisions")
 

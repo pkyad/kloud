@@ -43,15 +43,52 @@
         <label>GSTIN</label>
         <input type="text " class="form-control" ng-model="form.tin" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;">
       </div>
+      <label style="color:#7c71f6;cursor:pointer"  ng-show="!loadmore" ng-click="loadmore=true" > <u> Add more </u> </label>
+      <div class="row" ng-if="loadmore">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Payment Term</label>
+                <input type="text " class="form-control" ng-model="form.paymentTerm" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Bank Name</label>
+                <input type="text " class="form-control" ng-model="form.bankName" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Bank Account No.</label>
+                <input type="text " class="form-control" ng-model="form.accountNumber" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Bank IFSC No.</label>
+                <input type="text " class="form-control" ng-model="form.ifscCode" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <label style="color:#7c71f6;cursor:pointer"  ng-show="loadmore" ng-click="loadmore=false" > <u> Add less </u> </label>
+
       <!-- <div class="form-group">
       <label>Website</label>
       <input type="text " class="form-control" ng-model="form.web">
     </div> -->
       <div class="btn-group pull-right">
-        <button ng-if="mode=='new'" type="button" class="btn btn-default" ng-click="resetForm()" style="background:#461482;color:white;border: none !important;border-radius: 64px !important;padding: 17px;padding-right: 17px;padding-left: 17px;right: 80px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18pxrgba(157, 157, 157, 0.94) !important;padding-right: 30px;padding-left: 30px;">
+        <button ng-if="mode=='new'" type="button" class="btn btn-default" ng-click="resetForm()"
+          style="background:#461482;color:white;border: none !important;border-radius: 64px !important;padding: 17px;padding-right: 17px;padding-left: 17px;right: 80px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18pxrgba(157, 157, 157, 0.94) !important;padding-right: 30px;padding-left: 30px;">
           Reset
         </button>
-        <button type="button" class="btn btn-primary pull-right" ng-click="createCompany()" style="background:#461482;color:white;border: none !important;border-radius: 64px !important;padding: 17px;padding-right: 17px;padding-left: 17px;right: 59px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18pxrgba(157, 157, 157, 0.94) !important;padding-right: 30px;padding-left: 30px;">Save</button>
+        <button type="button" class="btn btn-primary pull-right" ng-click="createCompany()"
+          style="background:#461482;color:white;border: none !important;border-radius: 64px !important;padding: 17px;padding-right: 17px;padding-left: 17px;right: 59px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18pxrgba(157, 157, 157, 0.94) !important;padding-right: 30px;padding-left: 30px;">Save</button>
       </div>
     </div>
   </div>

@@ -391,6 +391,12 @@ $scope.allTransactions = []
       serviceFor : $scope.form.serviceFor,
       isPerforma : $scope.form.isPerforma,
       // termsandcondition: $scope.form.termsandcondition
+      sameasbilling : $scope.form.sameasbilling,
+      billingAddress : $scope.form.billingAddress,
+      billingState : $scope.form.billingState,
+      billingCity : $scope.form.billingCity,
+      billingCountry : $scope.form.billingCountry,
+      billingPincode : $scope.form.billingPincode,
     }
     $scope.documents.push($scope.newData)
     $scope.inView = $scope.documents.length-1
@@ -567,6 +573,22 @@ $scope.save = function(){
     'gstIn' : fromData.gstIn,
     'isInvoice' : true,
     'isPerforma' : fromData.isPerforma,
+    'sameasbilling' : fromData.sameasbilling,
+  }
+  if (fromData.billingAddress !=undefined&&fromData.billingAddress !=null) {
+    dataToSend.billingAddress = fromData.billingAddress
+  }
+  if (fromData.billingPincode !=undefined&&fromData.billingPincode !=null) {
+    dataToSend.billingPincode = fromData.billingPincode
+  }
+  if (fromData.billingState !=undefined&&fromData.billingState !=null) {
+    dataToSend.billingState = fromData.billingState
+  }
+  if (fromData.billingCity !=undefined&&fromData.billingCity !=null) {
+    dataToSend.billingCity = fromData.billingCity
+  }
+  if (fromData.billingCountry !=undefined&&fromData.billingCountry !=null) {
+    dataToSend.billingCountry = fromData.billingCountry
   }
   if (fromData.pk) {
     dataToSend.pk = fromData.pk
@@ -718,9 +740,9 @@ console.log('ggg');
     })
   }
   $scope.contactSearch = function(query) {
-    return $http.get('/api/clientRelationships/contact/?name__icontains=' + query).
+    return $http.get('/api/clientRelationships/contact/?name__icontains=' + query+'&limit=10').
     then(function(response) {
-      return response.data;
+      return response.data.results;
     })
   }
 
@@ -847,7 +869,14 @@ $scope.assetsAccounts = []
       terms:'',
       termsandcondition:'',
       serviceFor : '',
-      isPerforma : false
+      isPerforma : false,
+      sameasbilling : true,
+      billingAddress:'',
+      billingPincode:'',
+      billingState:'',
+      billingCity:'',
+      billingCountry:''
+
     }
   }
   $scope.resetProdForm = function(){
@@ -891,6 +920,25 @@ $scope.assetsAccounts = []
           $scope.form.city = ''
           $scope.form.state = ''
           $scope.form.country = ''
+        }
+      })
+    }
+  },true)
+
+  $scope.$watch('form.billingPincode', function(newValue, oldValue) {
+    if (newValue != null && newValue.length > 0) {
+      $http.get('/api/ERP/genericPincode/?pincode__iexact=' + newValue).
+      then(function(response) {
+        if (response.data.length > 0) {
+          $scope.form.billingCity = response.data[0].city
+          $scope.form.billingState = response.data[0].state
+          $scope.form.billingCountry = response.data[0].country
+          $scope.form.billingPincode = response.data[0].pincode
+        }
+        else{
+          $scope.form.billingCity = ''
+          $scope.form.billingState = ''
+          $scope.form.billingCountry = ''
         }
       })
     }
@@ -982,6 +1030,9 @@ $scope.$watch('productForm', function(newValue, oldValue) {
 }, true)
 
 
+
+
+
 $scope.save = function(){
 
   // if ($scope.form.name == null || $scope.form.name.length == 0 ) {
@@ -1017,6 +1068,17 @@ $scope.save = function(){
     Flash.create('danger','Select Terms and Conditions')
     return
   }
+  if ($scope.form.sameasbilling == false) {
+    if ($scope.form.billingAddress == null || $scope.form.billingAddress.length == 0) {
+      Flash.create('danger','Enter billing Address')
+      return
+    }
+    if ($scope.form.billingPincode == null || $scope.form.billingPincode.length == 0) {
+      Flash.create('danger','Enter valid billing  pincode')
+      return
+    }
+  }
+  console.log($scope.form.city, $scope.form.state, $scope.form.country);
   var dataToSend ={
     'name' : $scope.form.name,
     'poNumber' : $scope.form.poNumber,
@@ -1032,6 +1094,22 @@ $scope.save = function(){
     'isInvoice' :  $scope.form.isInvoice,
     'terms' :  $scope.form.terms,
     'isPerforma' :  $scope.form.isPerforma,
+    'sameasbilling' : $scope.form.sameasbilling
+  }
+
+  if ($scope.form.sameasbilling == false) {
+    dataToSend.billingAddress= $scope.form.billingAddress
+    dataToSend.billingPincode= $scope.form.billingPincode
+    dataToSend.billingState= $scope.form.billingState
+    dataToSend.billingCity= $scope.form.billingCity
+    dataToSend.billingCountry= $scope.form.billingCountry
+  }
+  else{
+    dataToSend.billingAddress= $scope.form.address
+    dataToSend.billingPincode= $scope.form.pincode
+    dataToSend.billingState= $scope.form.state
+    dataToSend.billingCity= $scope.form.city
+    dataToSend.billingCountry= $scope.form.country
   }
   // if ($scope.form.contact) {
   //   dataToSend.contact = $scope.form.contact

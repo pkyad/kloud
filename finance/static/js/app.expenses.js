@@ -1246,7 +1246,7 @@ app.controller('businessManagement.finance.inboundInvoices.form', function($scop
       city: '',
       state: '',
       country: '',
-      paymentDueDate: '',
+      paymentDueDate: new Date(),
       costcenter: '',
       products: [],
       accNo: '',
@@ -1516,19 +1516,32 @@ app.controller('businessManagement.finance.inboundInvoices.form', function($scop
       }
     }
 
+    $scope.getTransaction = function(){
+      $http({
+        method: 'GET',
+        url: '/api/finance/disbursallite/?sourcePk='+ $scope.form.pk+'&source=INVOICE',
+      }).
+      then(function(response) {
+        $scope.allTransactions = response.data
+      })
+    }
+
+    $scope.getAllData = function(){
+      $http({
+        method: 'GET',
+        url: '/api/finance/invoiceReceivedAll/'+$state.params.id+'/',
+
+      }).
+      then(function(response) {
+        $scope.form = response.data
+          $scope.costCenterSearch()
+          $scope.getAccount()
+          $scope.getTransaction()
+      })
+    }
 
       if ($state.is('businessManagement.accounting.editInvoice')) {
-        $http({
-          method: 'GET',
-          url: '/api/finance/invoiceReceivedAll/'+$state.params.id+'/',
-
-        }).
-        then(function(response) {
-          $scope.form = response.data
-            $scope.costCenterSearch()
-              $scope.getAccount()
-
-        })
+        $scope.getAllData()
       }
       else{
         $scope.costCenterSearch()
@@ -1536,28 +1549,54 @@ app.controller('businessManagement.finance.inboundInvoices.form', function($scop
       }
 
 
-      $scope.pay = function(indx){
-        $uibModal.open({
-            templateUrl: '/static/ngTemplates/app.finance.payment.html',
-            size: 'md',
-            backdrop: false,
-            resolve: {
-              data: function() {
-                return $scope.form
-              },
-            },
-            controller: 'businessManagement.finance.payemnt.form',
-          })
-          .result.then(function() {}, function(res) {
-            console.log(res);
-            if (typeof res == 'object') {
-              $scope.form = res
-              $scope.costCenterSearch()
-              $scope.getAccount()
-            }
 
-          })
+      $scope.payform = {
+        amount : 0
       }
+      $scope.add = function(){
+        if (parseFloat($scope.payform.amount)<=0 || (parseFloat($scope.form.paidAmount)+parseFloat($scope.payform.amount))>parseFloat($scope.form.totalAmount)) {
+          Flash.create('warning','Add valid amount')
+          return
+        }
+        $http({
+          method: 'POST',
+          url: '/api/finance/expenseTransactionCreate/',
+          data :{
+            purchase : $scope.form.pk,
+            amount : $scope.payform.amount
+          }
+        }).
+        then(function(response) {
+          $scope.getAllData()
+        })
+      }
+
+
+
+
+
+      // $scope.pay = function(indx){
+      //   $uibModal.open({
+      //       templateUrl: '/static/ngTemplates/app.finance.payment.html',
+      //       size: 'md',
+      //       backdrop: false,
+      //       resolve: {
+      //         data: function() {
+      //           return $scope.form
+      //         },
+      //       },
+      //       controller: 'businessManagement.finance.payemnt.form',
+      //     })
+      //     .result.then(function() {}, function(res) {
+      //       console.log(res);
+      //       if (typeof res == 'object') {
+      //         $scope.form = res
+      //         $scope.costCenterSearch()
+      //         $scope.getAccount()
+      //       }
+      //
+      //     })
+      // }
 
 
 

@@ -1107,22 +1107,22 @@ def invoice(response , inv , invdetails , typ, request):
     tPH6.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'CENTER'),('VALIGN',(0,0),(-1,-1),'MIDDLE'),('BOX',(0,0),(-1,-1),0.25,colors.black),('INNERGRID', (0,0), (1,1), 0.25, colors.black)]))
     elements.append(tPH6)
 
-    try:
-        billaddr = inv.address.replace('\n', '<br />')
-    except:
-        billaddr = inv.address
+    # try:
+    #     billaddr = inv.address.replace('\n', '<br />')
+    # except:
+    #     billaddr = inv.address
     try:
         shipaddr = inv.address.replace('\n', '<br />')
     except:
         shipaddr = inv.address
     if inv.city is not None:
-        billaddr+= ' ' +inv.city
+        # billaddr+= ' ' +inv.city
         shipaddr+= ' ' +inv.city
     if inv.state is not None:
-        billaddr+= ' ' +inv.state
+        # billaddr+= ' ' +inv.state
         shipaddr+= ' ' +inv.state
     if inv.country is not None:
-        billaddr+= ' ' +inv.country
+        # billaddr+= ' ' +inv.country
         shipaddr+= ' ' +inv.country
     if inv.name is not None:
         company = inv.name
@@ -1132,6 +1132,47 @@ def invoice(response , inv , invdetails , typ, request):
         gstIn = inv.gstIn
     else:
         gstIn = 'NA'
+
+    if inv.sameasbilling == True:
+        if inv.billingAddress is not None:
+            try:
+                billaddr = inv.billingAddress.replace('\n', '<br />')
+            except:
+                billaddr = inv.billingAddress
+            if inv.billingCity is not None:
+                billaddr+= ' ' +inv.billingCity
+            if inv.billingState is not None:
+                billaddr+= ' ' +inv.billingState
+            if inv.billingCountry is not None:
+                billaddr+= ' ' +inv.billingCountry
+            if inv.billingPincode is not None:
+                billingPincode = inv.billingPincode
+        else:
+            try:
+                billaddr = inv.address.replace('\n', '<br />')
+            except:
+                billaddr = inv.address
+            if inv.city is not None:
+                billaddr+= ' ' +inv.city
+            if inv.state is not None:
+                billaddr+= ' ' +inv.state
+            if inv.country is not None:
+                billaddr+= ' ' +inv.country
+    else:
+        try:
+            billaddr = inv.billingAddress.replace('\n', '<br />')
+        except:
+            billaddr = inv.billingAddress
+        print inv.billingCity
+        if inv.billingCity is not None:
+            billaddr+= ' ' +inv.billingCity
+        if inv.billingState is not None:
+            billaddr+= ' ' +inv.billingState
+        if inv.billingCountry is not None:
+            billaddr+= ' ' +inv.billingCountry
+        if inv.billingPincode is not None:
+            billingPincode = inv.billingPincode
+
 
 
     detail51 = Paragraph("""
@@ -4031,6 +4072,18 @@ class OuttbondInvoiceAPIView(APIView):
                 data_to_post['balanceAmount'] = data['balanceAmount']
             if 'serviceFor' in data:
                 data_to_post['serviceFor'] = data['serviceFor']
+            if 'sameasbilling' in data:
+                data_to_post['sameasbilling'] = data['sameasbilling']
+            if 'billingAddress' in data:
+                data_to_post['billingAddress'] = data['billingAddress']
+            if 'billingState' in data:
+                data_to_post['billingState'] = data['billingState']
+            if 'billingPincode' in data:
+                data_to_post['billingPincode'] = data['billingPincode']
+            if 'billingCity' in data:
+                data_to_post['billingCity'] = data['billingCity']
+            if 'billingCountry' in data:
+                data_to_post['billingCountry'] = data['billingCountry']
             if 'pk' in data:
                 outBondObj = Sale.objects.get( pk = int(data['pk']))
                 outBondObj.__dict__.update(data_to_post)

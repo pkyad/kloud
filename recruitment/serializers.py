@@ -12,10 +12,10 @@ from HR.serializers import userSearchSerializer
 class JobsSerializer(serializers.ModelSerializer):
     unit = UnitsLiteSerializer(many = False , read_only = True)
     total_app = serializers.SerializerMethodField()
-    total_pending = serializers.SerializerMethodField()
+    total_selected = serializers.SerializerMethodField()
     class Meta:
         model = Jobs
-        fields = ('created','pk', 'jobtype','unit', 'role' , 'skill' , 'approved' , 'maximumCTC' , 'status','description','total_app' , 'total_pending')
+        fields = ('created','pk', 'jobtype','unit', 'role' , 'skill' , 'approved' , 'maximumCTC' , 'status','description','total_app' , 'total_selected')
     def create(self , validated_data):
         # del validated_data['contacts']
         inv = Jobs(**validated_data)
@@ -43,10 +43,10 @@ class JobsSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
     def get_total_app(self, obj):
-        tot = JobApplication.objects.filter(job=obj, status = 'Selected').count()
+        tot = obj.jobs_applied.count()
         return tot
-    def get_total_pending(self, obj):
-        tot = JobApplication.objects.filter(job=obj, status = 'Created').count()
+    def get_total_selected(self, obj):
+        tot =  obj.jobs_applied.filter(status = 'Selected').count()
         return tot
 
 

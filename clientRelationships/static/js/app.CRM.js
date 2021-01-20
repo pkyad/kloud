@@ -6222,6 +6222,10 @@ app.controller("businessManagement.clientRelationships.customer.form", function(
       tin: '',
       logo: '',
       web: '',
+      paymentTerm:0,
+      bankName:'',
+      accountNumber:'',
+      ifscCode:'',
       address: {
         street: '',
         city: '',
@@ -6256,7 +6260,7 @@ app.controller("businessManagement.clientRelationships.customer.form", function(
     if (newValue.length == 6) {
       $http({
         method: 'GET',
-        url: '/api/ERP/genericPincode/?pincode=' + $scope.form.pincode
+        url: '/api/ERP/genericPincode/?pincode=' + newValue
       }).
       then(function(response) {
         if (response.data.length > 0) {
@@ -6331,6 +6335,18 @@ app.controller("businessManagement.clientRelationships.customer.form", function(
         logo: $scope.form.logo,
         web: $scope.form.web,
       };
+      if ($scope.form.paymentTerm!=undefined&&$scope.form.paymentTerm!=null) {
+        dataToSend.paymentTerm = $scope.form.paymentTerm
+      }
+      if ($scope.form.bankName!=undefined&&$scope.form.bankName!=null) {
+        dataToSend.bankName = $scope.form.bankName
+      }
+      if ($scope.form.accountNumber!=undefined&&$scope.form.accountNumber!=null&&$scope.form.accountNumber.length>0) {
+        dataToSend.accountNumber = $scope.form.accountNumber
+      }
+      if ($scope.form.ifscCode!=undefined&&$scope.form.ifscCode!=null) {
+        dataToSend.ifscCode = $scope.form.ifscCode
+      }
       $http({
         method: method,
         url: serviceUrl,

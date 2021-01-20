@@ -174,7 +174,6 @@ class designation(models.Model):
     primaryApprover = models.ForeignKey(User, related_name = "approving" , null=True)
     secondaryApprover = models.ForeignKey(User , related_name = "alsoApproving" , null=True)
     team = models.ForeignKey(Team , related_name = "teamName", null=True)
-    apps = models.ManyToManyField(InstalledApp , blank = True, related_name = 'individualInstallations')
 
 
 

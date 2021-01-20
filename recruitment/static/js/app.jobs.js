@@ -487,16 +487,16 @@ app.controller("workforceManagement.recruitment.jobs.explore", function($scope, 
       Flash.create('success', 'Saved');
     })
   }
-  $scope.listData = function() {
-    $http({
-      method: 'GET',
-      url: '/api/recruitment/applyJob/?job=' + $state.params.id + '&status=Created'
-    }).
-    then(function(response) {
-      $scope.jobApplied = response.data;
-    });
-  }
-  $scope.listData();
+  // $scope.listData = function() {
+  //   $http({
+  //     method: 'GET',
+  //     url: '/api/recruitment/applyJob/?job=' + $state.params.id + '&status=Created'
+  //   }).
+  //   then(function(response) {
+  //     $scope.jobApplied = response.data;
+  //   });
+  // }
+  // $scope.listData();
   $scope.form = {
     checkAll: ''
   }
@@ -543,7 +543,7 @@ app.controller("workforceManagement.recruitment.jobs.explore", function($scope, 
     }).result.then(function() {
 
     }, function() {
-      $scope.listData()
+    $scope.fetchCandidates()
     });
   }
 
