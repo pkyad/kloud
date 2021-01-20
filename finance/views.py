@@ -4527,7 +4527,7 @@ def getFourProductArray(variants):
                 img.drawWidth = 1.25*inch
             rupee= u'\u20B9'
             productname = Paragraph('<para spaceBefore = 10 ><b>%s</b> </para>'%(variant.name),stylesN)
-            proprice =  Paragraph('<para spaceBefore=5>Price :%s %0.2f  <strike>%s %0.2f </strike></para>'%(format(rupee),variant.rate,format(rupee),variant.mrp),stylesN)
+            proprice =  Paragraph('<para spaceBefore=5>Price :%s %0.2f  <strike>%s %0.2f </strike> per peice</para>'%(format(rupee),variant.rate,format(rupee),variant.mrp),stylesN)
             moq =  Paragraph('<para spaceBefore = 5 color=gray>%s  </para>'%(variant.richtxtDesc),stylesN)
             imageData.append([img,productname,proprice,moq])
     return imageData

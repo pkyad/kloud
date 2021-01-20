@@ -142,7 +142,7 @@ video {
   border-spacing: 0px 5px;
 } */
 .toggledBtn {
-  background-color: #D6DEFF;
+  background-color: #F0F3FF;
   height: 50px;
   border-radius: 30px;
 }
@@ -164,7 +164,9 @@ video {
   background-color: transparent !important;
   border: none;
   box-shadow: none !important;
-  font-weight: 700
+  font-size:11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
 }
 
 .oldcourseBtn {
@@ -179,12 +181,14 @@ video {
 }
 
 .oldcourseBtnText {
-  font-weight: 700;
+  font-size:11px;
+  /* font-weight: 700; */
   outline: none;
   color: #231654 !important;
   background-color: transparent !important;
   border: none;
-  box-shadow: none !important;
+  box-shadow: none !important;text-transform: uppercase;
+  letter-spacing: 1.5px;
 }
 
 .tableNew th {

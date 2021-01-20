@@ -108,6 +108,8 @@ class QuestionSerializer(serializers.ModelSerializer):
 
         if 'typ' in validated_data:
             instance.typ = validated_data.pop('typ')
+        if 'isLatex' in validated_data:
+            instance.isLatex = validated_data.pop('isLatex')
 
         if instance.qtype not in ['mcq' , 'mcc']:
             instance.optionsParts.clear()

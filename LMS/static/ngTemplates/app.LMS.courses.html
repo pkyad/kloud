@@ -402,6 +402,7 @@
     background-color: #3786D1;
     font-weight:700;
     color:      white !important;
+
   }
 </style>
 
@@ -456,20 +457,24 @@
 
     <ui-view>
 
-      <!-- New UI starting -->
+      <!-- New UI starting .gradientBtnBlue -->
 
 
       <div class="container-fluid" style="background-color:#fafafa;height:100%">
         <div class="row" style="margin-top:30px;margin-left:15px;">
           <div class="col-md-3">
-            <h3 class="courseColor">Courses you are offering......</h3>
+            <h3 class="courseColor" style="margin:0px;">Courses you are offering......</h3>
           </div>
           <div class="col-md-4">
-            <div class="toggledBtn">
-              <div class="btn-group btn-group-justified">
-                <a class="btn  {{getState.state=='current'?'courseBtn':'courseBtnText'}} btn-default" ng-click="getState.state='current';fetchData()">Currently Running Courses</a>
-                <a  class="btn  {{getState.state=='old'?'oldcourseBtn':'oldcourseBtnText'}} btn-default" ng-click="getState.state='old';fetchData()">Old Courses</a>
+            <div class="row toggledBtn">
+              <div class="col-md-6" style="padding:0px;">
+                <button type="button" name="button" class="btn  {{getState.state=='current'?'gradientBtnBlue':'courseBtnText'}} btn-default" ng-click="getState.state='current';fetchData()" style="height:50px;outline:none;">Currently Running Courses</button>
               </div>
+              <div class="col-md-6" style="padding:0px;">
+
+                <button type="button" name="button" class="btn  {{getState.state=='old'?'gradientBtnBlue':'oldcourseBtnText'}} btn-default btn-block" ng-click="getState.state='old';fetchData()" style="height:50px;outline:none;">Old Courses</button>
+              </div>
+
 
             </div>
           </div>
