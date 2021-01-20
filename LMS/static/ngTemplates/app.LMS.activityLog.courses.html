@@ -26,11 +26,21 @@
         <textarea name="name" class="form-control" ng-model="form.txt" rows="8" cols="80" placeholder="Write your post here....." style="resize:none;border:none;border-bottom:1px solid black"></textarea>
       </div>
       <div class="pull-right" style="padding:15px 20px;">
-        <div class="" style="background:white;color:black;border-radius: 15px;padding: 10px;border: 1px solid #337AB7;width:130px;height:43px;display:flex">
+        <div class="" style="background:white;color:black;border-radius: 15px;padding: 10px;border: 1px solid #337AB7;width:130px;height:43px;">
+          <div class="row">
+            <div class="col-md-2">
+              <img src="/static/images/icons8-attach-52.png" alt="" style="height:20px;">
 
-          <img src="/static/images/icons8-attach-52.png" alt="" style="height:20px;">
+            </div>
+            <div class="col-md-6">
 
-          <input type="file" id="file" file-model="form.dp" class="file_upload"  ng-click="openFile()" />Attachments
+                <input type="file" id="file" file-model="form.dp" style="position:absolute;margin-top: -3px;
+left: -15px;" class="file_upload"  ng-click="openFile()" />Attachments
+
+
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -42,7 +52,6 @@
           <hr style="color:#F7F7F7;">
 
           <div class="row" style="margin:0px;" ng-repeat="k in activitydata track by $index">
-            <!-- <p ng-if="k.txt.length>0">{{k.txt}}</p> -->
             <button class="collapsiblecss accordion " style="padding-top:20px;padding-bottom: 20px">
               <div class="row" data-toggle="collapse" data-target="#{{$index}}">
                 <div class="col-lg-1 col-xs-2">

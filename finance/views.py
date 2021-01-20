@@ -51,6 +51,7 @@ from openpyxl.styles import PatternFill , Font
 from ERP.models import appSettingsField, service, address
 from projects.models import *
 from payroll.models import PayrollReport, Advances
+from reportlab.pdfbase.ttfonts import TTFont
 # Create your views here.
 import ast
 import json
@@ -4520,7 +4521,7 @@ class PageNumCanvas(canvas.Canvas):
             imagePath = os.path.join(globalSettings.BASE_DIR,'static_shared','images','no_tour_image.jpg' )
         f = open(imagePath, 'rb')
         ima = Image(f)
-        ima.drawHeight = 0.5*inch
+        # ima.drawHeight = 0.5*inch
         # ima.drawWidth = 1*inch
         ima.hAlign = 'RIGHT'
 
@@ -4532,14 +4533,11 @@ class PageNumCanvas(canvas.Canvas):
         imag.drawWidth = 0.25*inch
         imag.hAlign = 'RIGHT'
 
-        # address = 'WHATEVERYOUWNATTOTYPE'
-        # link = '<link href=http://www.hoboes.com/Mimsy/hacks/adding-links-to-pdf >ok</link>'
-        #
-        # print dir(self.canvas)
-        # p = Paragraph(link,styles['Normal'])
+
         p = Paragraph("<para fontSize=8  alignment='left' ><a href=''  ><b>%s</b></a></para>"%(self.unit.mobile),styles['Normal'])
-        imageTable = [[ima,imag,p]]
-        tabHeaderImage = Table(imageTable,colWidths=[6*inch,0.4*inch,1.25*inch])
+        q = Paragraph("<para></para>",styles['Normal'])
+        imageTable = [[ima,q,imag,p]]
+        tabHeaderImage = Table(imageTable,colWidths=[3*inch,3.5*inch,0.4*inch,1.25*inch])
         tabHeaderImage.setStyle(TableStyle([('FONTSIZE', (0, 0), (-1, -1), 8),('VALIGN',(0,0),(-1,-1),'TOP'),('AlIGN',(0, 0), (-1, -1),'LEFT'),('TOPPADDING', (0, 0), (-1, -1),3)]))
         tabHeaderImage.wrapOn(self ,10*mm,10*inch)
         tabHeaderImage.drawOn(self ,10*mm,10*inch)
@@ -4600,23 +4598,24 @@ def proCatalog(response, request):
     doc.division = request.user.designation.division
     doc.story = []
 
-    inventoryObj = Inventory.objects.filter(division = request.user.designation.division.pk).order_by('pk')
+    inventoryObj = list(Inventory.objects.filter(division = request.user.designation.division.pk).order_by('pk'))
     if 'id' in request.GET:
-        inventoryObj = inventoryObj.filter(category__pk = int(request.GET['id']))
+        inventoryObj = list(Inventory.objects.filter(division = request.user.designation.division.pk,category__pk = int(request.GET['id'])).order_by('pk'))
     n=3
     if len(inventoryObj) >0 :
+
         x = [inventoryObj[i:i + n] for i in range(0, len(inventoryObj), n)]
         for idx,i in enumerate(x):
-            print idx,'12121'
             if idx == 2 :
                 dataSet = getFourProductArray(x[idx][0:2])
-            else:
+                x[-1].append(x[idx][-1])
+            if idx != 2 :
                 dataSet = getFourProductArray(x[idx])
             products.append(dataSet)
         dataTabl = Table(products,spaceBefore=15,hAlign="LEFT",spaceAfter=30)
         dataTabl.setStyle(TableStyle([('FONTSIZE', (0, 0), (-1, -1), 8),('VALIGN',(0,0),(-1,-1),'TOP'),('AlIGN',(0, 0), (-1, -1),'LEFT'),('TOPPADDING', (0, 0), (-1, -1),30),('BOTTOMPADDING', (0, 0), (-1, -1),10)]))
         elements.append(dataTabl)
-        # products= []
+        products= []
         elements.append(PageBreak())
 
     doc.build(elements,onFirstPage=addPageNumbertoBrochure,canvasmaker=PageNumCanvas,onLaterPages=addPageNumbertoBrochure)

@@ -410,7 +410,7 @@
 
 <div class="container-fluid" style="padding:0px;">
 
-  <div class="col-md-2" style="margin:0px;margin-bottom:15px;background:#F2F3F7;height:100%;overflow:auto;position:fixed;z-index:1">
+  <div class="col-md-2" style="margin:0px;margin-bottom:15px;background:#F2F3F7;height:100%;overflow:auto;position:fixed;z-index:1" ng-if="!$state.is('businessManagement.LMS.activityLog') && !$state.is('businessManagement.LMS.activityLog.students') && !$state.is('businessManagement.LMS.activityLog.courses') && !$state.is('businessManagement.LMS.viewPaper') && !$state.is('businessManagement.LMS.viewPaper.questions') && !$state.is('businessManagement.LMS.viewPaper.submissions') && !$state.is('businessManagement.LMS.viewBook')">
     <div class="">
       <div class="row" style="margin-top:20px;">
 
@@ -443,7 +443,7 @@
         <div style="margin-top:20px;margin-bottom:20px;" class="row menuItems {{$state.is('businessManagement.LMS.students')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.LMS.students')">
           <strong> Students </strong>
         </div>
-        <button type="button" class="createCourseBtn btn-block" name="button" ng-click="$state.go('businessManagement.new')"><img src="/static/images/icons8-plus-math-96.png"  style="height:18px;padding-right:20px;"alt="" >Create Course</button>
+        <button type="button" class="createCourseBtn btn-block" name="button" ng-click="$state.go('businessManagement.LMS.new')"><img src="/static/images/icons8-plus-math-96.png"  style="height:18px;padding-right:20px;"alt="" >Create Course</button>
         <br>
         <button type="button" class="createTestBtn btn-block" name="button" ng-click="createTest()"><img src="/static/images/icons8-plus-48.png"  style="height:18px;padding-right:20px;"alt="">Create Test</button>
       </div>
@@ -453,7 +453,7 @@
 
 
   </div>
-  <div class="col-md-10 col-md-offset-2" style="height:100vh;padding:0px;">
+  <div class="{{$state.is('businessManagement.LMS.activityLog') || $state.is('businessManagement.LMS.activityLog.students') || $state.is('businessManagement.LMS.activityLog.courses') || $state.is('businessManagement.LMS.viewPaper') || $state.is('businessManagement.LMS.viewPaper.questions') || $state.is('businessManagement.LMS.viewPaper.submissions') ||  $state.is('businessManagement.LMS.viewBook')?'col-md-12':'col-md-10 col-md-offset-2'}}" style="height:100vh;padding:0px;">
 
     <ui-view>
 
@@ -520,17 +520,17 @@
                     </div>
                   </div>
                 </td>
-                <td ng-click="$state.go('businessManagement.activityLog',{id:k.pk})">
+                <td ng-click="$state.go('businessManagement.LMS.activityLog',{id:k.pk})">
                   <span class="label label-default openLabel" ng-if="k.enrollmentStatus=='open'">Open</span>
                   <span class="label label-default adminLabel" ng-if="k.enrollmentStatus=='admin'">Admin</span>
                   <span class="label label-default invitaionLabel" ng-if="k.enrollmentStatus=='onInvitation'">On Invitation</span>
                   <span class="label label-default requestLabel" ng-if="k.enrollmentStatus=='onRequest'">On Request</span>
 
                 </td>
-                <td ng-click="$state.go('businessManagement.activityLog',{id:k.pk})"><span><i class="fa fa-inr"></i></span> {{k.sellingPrice}}</td>
-                <td ng-click="$state.go('businessManagement.activityLog',{id:k.pk})">{{k.contacts.length}}</td>
-                <td ng-click="$state.go('businessManagement.activityLog',{id:k.pk})"><i class="fa fa-inr"></i>{{k.sellingPrice*k.contacts.length}}</td>
-                <td ng-click="$state.go('businessManagement.new',{id:k.pk})"> <img src="/static/images/edit.svg" alt=""></td>
+                <td ng-click="$state.go('businessManagement.LMS.activityLog',{id:k.pk})"><span><i class="fa fa-inr"></i></span> {{k.sellingPrice}}</td>
+                <td ng-click="$state.go('businessManagement.LMS.activityLog',{id:k.pk})">{{k.contacts.length}}</td>
+                <td ng-click="$state.go('businessManagement.LMS.activityLog',{id:k.pk})"><i class="fa fa-inr"></i>{{k.sellingPrice*k.contacts.length}}</td>
+                <td ng-click="$state.go('businessManagement.LMS.new',{id:k.pk})"> <img src="/static/images/edit.svg" alt=""></td>
                 <td ng-click="delCourse($index)"> <i class="fa fa-trash" style="font-size: 20px;color:#ccc;"></i></td>
               </tr>
 
