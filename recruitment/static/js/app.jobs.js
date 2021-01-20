@@ -101,20 +101,36 @@ app.controller("workforceManagement.recruitment.jobs.viewProfile", function($sco
           notice:0,
           al : 0,
           ml : 0,
+          basic:0,
+          hra : 0,
+          lta : 0,
+          special :0,
+          taxSlab : 0,
+          adHoc : 0,
         }
 
+
         $scope.save = function(){
+          $scope.form.ctc = parseInt($scope.form.ctc)
+          $scope.form.hra = 0.4 * $scope.form.ctc;
+          $scope.form.basic = 0.1* $scope.form.ctc;
+          $scope.form.adHoc = 0.2* $scope.form.ctc;
+          $scope.form.special = 0.1*$scope.form.ctc
+          $scope.form.lta = 0.1* $scope.form.ctc;
           var dataSave = {
             status : 'Selected',
             // joiningDate:dateToString($scope.form.joiningDate),
-            ctc:$scope.form.ctc,
-            notice : $scope.form.notice,
-            // lta : $scope.form.lta,
-            // special : $scope.form.special,
-            // taxSlab : $scope.form.taxSlab,
-            // adHoc : $scope.form.adHoc,
+            basic:$scope.form.basic,
+            hra : $scope.form.hra,
+            lta : $scope.form.lta,
+            special : $scope.form.special,
+            taxSlab : $scope.form.taxSlab,
+            adHoc : $scope.form.adHoc,
             al : $scope.form.al,
             ml : $scope.form.ml,
+            ctc : $scope.form.ctc,
+            notice : $scope.form.notice,
+            isSelected:true
           }
           $http({
             method: 'PATCH',

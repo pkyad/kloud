@@ -87,8 +87,8 @@
   }
 
 </style>
-<div class="row" style="background:#2f455c;margin:0px;">
-  <div class="col-md-2">
+<div class="row" style="margin:0px;position:relative;">
+  <div class="col-md-2" style="position: absolute;left: 0;height: 100vh;background:#2f455c">
 
 
 
@@ -99,8 +99,10 @@
     </div>
 
 
-
-    <div style="margin-top:100px;{{$state.is('home.viewProfile.leave')?'background:#1b2735;':''}}" class="row text-center menuItem" ng-click="$state.go('home.viewProfile.leave')">
+    <div style="margin-top:100px;{{$state.is('home.viewProfile.profile')?'background:#1b2735;':''}}"  class="row text-center menuItem" ng-click="$state.go('home.viewProfile.profile')">
+      My Profile
+    </div>
+    <div style="{{$state.is('home.viewProfile.leave')?'background:#1b2735;':''}}" class="row text-center menuItem" ng-click="$state.go('home.viewProfile.leave')">
       Apply for Leave
     </div>
     <div style="{{$state.is('home.viewProfile.expenseClaims')?'background:#1b2735;':''}}"  class="row text-center menuItem" ng-click="$state.go('home.viewProfile.expenseClaims')">
@@ -109,10 +111,9 @@
     <div class="row text-center menuItem" style="{{$state.is('home.viewProfile.payslips')?'background:#1b2735;':''}}" ng-click="$state.go('home.viewProfile.payslips')">
       View Payslips & Form 16
     </div>
-    <div ng-click="$state.go('home.viewProfile.itDeclaration')" class="row text-center menuItem"  style="{{$state.is('home.viewProfile.itDeclaration')?'background:#1b2735;':''}}  class="row text-center menuItem">
+    <div ng-click="$state.go('home.viewProfile.itDeclaration')" class="row text-center menuItem"  style="{{$state.is('home.viewProfile.itDeclaration')?'background:#1b2735;':''}}   class="row text-center menuItem">
       IT Declaration
     </div>
-
 
     <div class="row text-center" style="margin-top:100px;">
         <button class="btn btn-primary" style="background:#ff0007;margin-top:30px;color:white;font-size:20px;padding:10px;cursor: pointer;border-radius:20px !important;border:none !important;padding-left:50px;padding-right:50px;" onclick="window.location.href='/logout/'">
@@ -121,7 +122,7 @@
     </div>
 
   </div>
-  <div class="col-md-10" style="background:#FAFAFA;min-height:100vh;padding:50px;padding-top:0px;">
+  <div class="col-md-10" style="background:#FAFAFA;min-height:100vh;padding:50px;padding-top:0px;position: absolute;right:0px; height: 100vh;overflow: auto;">
 
 
   <div ui-view></div>

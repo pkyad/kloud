@@ -19,7 +19,7 @@
       </div>
       <div class="col-md-11">
         <p  class="newOption"ng-if="k.qtype == 'upload'" ng-bind-html="k.ques">{{k.ques}}</p>
-        <span  ng-bind-html="k.ques" ng-if="k.qtype == 'mcc' || k.qtype == 'subjective'"  ng-if="!k.isLatex" style="font-size:18px"></span>
+        <span  ng-bind-html="k.ques" ng-if="k.qtype == 'mcc' || k.qtype == 'mcq'"  ng-if="!k.isLatex" style="font-size:18px"></span>
         <span mathjax-bind="k.ques" ng-if="k.isLatex" style="font-size:18px"> </span>
         <ol type="A" ng-if="k.qtype == 'mcc'" style="margin-left:10px;">
           <li ng-repeat="l in k.options" style="font-size:18px">
