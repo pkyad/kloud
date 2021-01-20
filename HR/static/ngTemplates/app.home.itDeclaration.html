@@ -192,6 +192,21 @@
     <div ng-if="$state.is('home.viewProfile.itDeclaration')">
       <h2>Exemptions</h2>
       <div class="row">
+        <div class="col-md-3">
+          <h3>Where do you stay?</h3>
+        </div>
+        <div class="col-md-2" style="margin-top:15px">
+          <button style="background:#e3dddd;color:#585858" type="button" name="button" mwl-confirm title="Confirm" message="Are you sure?" data-placement="top" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="saveRent()"
+            confirm-button-type="default" cancel-button-type="default" class="btn btn-default btn-block"> Home</button>
+
+        </div>
+        <div class="col-md-2" style="margin-top:15px">
+          <button style="background:#e3dddd;color:#585858"   type="button" mwl-confirm title="Confirm" message="Are you sure?" data-placement="top" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="addHome()"
+            confirm-button-type="default" cancel-button-type="default" class="btn btn-default btn-block"> Rented House</button>
+
+        </div>
+      </div>
+      <div class="row">
         <div class="col-md-9">
           <p>For Delhi, Mumbai, Kolkata , Chennai its 50% and 40% in other parts ( example 40% for Bangalore )</p>
           <p> <strong> Property Owner : <strong> {{allData.propertyOwnerDetails.tenantName}}, {{allData.propertyOwnerDetails.address}} (PAN - {{allData.propertyOwnerDetails.tenantPan}})</p>
@@ -296,21 +311,7 @@
             <i class="fa fa-floppy-o  fa-2x" ng-click="saveRent()"> </i>
           </div>
         </div> -->
-        <div class="row" ng-if="allData.annualExcemptionData.data.length<=2" >
-          <div class="col-md-3">
-            <h3>Where do you stay?</h3>
-          </div>
-          <div class="col-md-2" style="margin-top:15px">
-            <button style="background:#e3dddd;color:#585858" type="button" name="button" mwl-confirm title="Confirm" message="Are you sure?" data-placement="top" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="saveRent()"
-              confirm-button-type="default" cancel-button-type="default" class="btn btn-default btn-block"> Home</button>
 
-          </div>
-          <div class="col-md-2" style="margin-top:15px">
-            <button style="background:#e3dddd;color:#585858"   type="button" mwl-confirm title="Confirm" message="Are you sure?" data-placement="top" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="addHome()"
-              confirm-button-type="default" cancel-button-type="default" class="btn btn-default btn-block"> Rented House</button>
-
-          </div>
-        </div>
 
       </div>
 
