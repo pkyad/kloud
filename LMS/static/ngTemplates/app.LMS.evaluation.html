@@ -3,11 +3,14 @@
     <div class="col-md-2">
     </div>
     <div class="col-md-4">
-      <div class="toggledBtn">
-        <div class="btn-group btn-group-justified">
-          <a class="btn  {{getState.state=='current'?'courseBtn':'courseBtnText'}} btn-default" ng-click="getState.state='current';fetchData()">Currently Running Online Test</a>
-          <a  class="btn  {{getState.state=='old'?'oldcourseBtn':'oldcourseBtnText'}} btn-default" ng-click="getState.state='old';fetchData()">Old Online Test</a>
+      <div class="row toggledBtn">
+        <div class="col-md-7" style="padding:0px;">
+          <button type="button" name="button" class="btn  {{getState.state=='current'?'gradientBtnBlue':'courseBtnText'}} btn-default " ng-click="getState.state='current';fetchData()" style="height:50px;outline:none;">Currently Running Online Test</button>
         </div>
+        <div class="col-md-5 text-center"  style="padding:0px;">
+          <button type="button" name="button"  class="btn  {{getState.state=='old'?'gradientBtnBlue':'oldcourseBtnText'}} btn-default " ng-click="getState.state='old';fetchData()" style="height:50px;outline:none;">Old Online Test</button>
+        </div>
+
 
       </div>
     </div>
