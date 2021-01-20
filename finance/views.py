@@ -4341,7 +4341,10 @@ class PageNumCanvas(canvas.Canvas):
         canvas.Canvas.__init__(self, *args, **kwargs)
         print args[0],dir(args[0]),args[0].__class__
         self.division =  args[0].division
+        self.unit =  args[0].unit
+        self.hyperLink =  args[0].hyperlink
         self.pages = []
+        self.canvas = canvas.Canvas
     #----------------------------------------------------------------------
     def showPage(self):
         """
@@ -4403,22 +4406,21 @@ class PageNumCanvas(canvas.Canvas):
             ima = Image(f)
             ima.drawHeight = 0.5*inch
             ima.drawWidth = 1*inch
-            unit = self.division.units.all()[0]
-            title = Paragraph("<para fontSize=15  align='center' color=white><b>%s  </b></para>"%(self.division.name),styles['Normal'])
-            website = Paragraph("<para fontSize=10  alignment='center' color=white><b>%s  </b></para>"%(self.division.website),styles['Normal'])
-            gstin = Paragraph("<para fontSize=10  alignment='center' color=white><b>%s  </b></para>"%(unit.gstin),styles['Normal'])
-            mobile = Paragraph("<para fontSize=10  alignment='center' color=white><b>%s  </b></para>"%(unit.mobile),styles['Normal'])
-            email = Paragraph("<para fontSize=10  alignment='center' color=white><b>%s  </b></para>"%(unit.email),styles['Normal'])
-            address = Paragraph("<para fontSize=10  alignment='center' color=white><b>%s ,%s,%s,%s,%s  </b></para>"%(unit.address,unit.city,unit.state,unit.country,unit.pincode),styles['Normal'])
-            cin = Paragraph("<para fontSize=10  alignment='center' color=white><b>%s  </b></para>"%(self.division.cin),styles['Normal'])
-            pan = Paragraph("<para fontSize=10  alignment='center' color=white><b>%s  </b></para>"%(self.division.pan),styles['Normal'])
+            title = Paragraph("<para fontSize=15  align='center' color=white><b>%s </b></para>"%(self.division.name),styles['Normal'])
+            website = Paragraph("<para fontSize=10   color=white><b>%s  </b></para>"%(self.division.website),styles['Normal'])
+            gstin = Paragraph("<para fontSize=10   color=white><b>%s  </b></para>"%(self.unit.gstin),styles['Normal'])
+            mobile = Paragraph("<para fontSize=10  color=white><b>%s  </b></para>"%(self.unit.mobile),styles['Normal'])
+            email = Paragraph("<para fontSize=10   color=white><b>%s  </b></para>"%(self.unit.email),styles['Normal'])
+            street = Paragraph("<para fontSize=10   color=white><b>%s </b></para>"%(self.unit.address),styles['Normal'])
+            city = Paragraph("<para fontSize=10   color=white><b>%s </b></para>"%(self.unit.city),styles['Normal'])
+            state = Paragraph("<para fontSize=10   color=white><b>%s-%s</b></para>"%(self.unit.state,self.unit.pincode),styles['Normal'])
+            country = Paragraph("<para fontSize=10   color=white><b>%s</b></para>"%(self.unit.country,),styles['Normal'])
+            cin = Paragraph("<para fontSize=10   color=white><b>%s  </b></para>"%(self.division.cin),styles['Normal'])
+            pan = Paragraph("<para fontSize=10  color=white><b>%s  </b></para>"%(self.division.pan),styles['Normal'])
             titleTab = [[title]]
             titleTabs = Table(titleTab,colWidths=[7*inch])
-            ts = TableStyle([('ALIGN', (1, 1), (-3, -3), 'CENTER'),
-                             ('VALIGN', (0, 1), (-1, -3), 'TOP'),
-                             ('VALIGN', (0, -2), (-1, -2), 'TOP'),
-                             ('VALIGN', (0, -1), (-1, -1), 'TOP'),
-                             ('SPAN', (1, 0), (1, 0)),
+            ts = TableStyle([('ALIGN', (0,0), (-1, -1), 'CENTER'),
+                             ('VALIGN', (0, 0), (-1, -1), 'CENTER'),
                              ('TEXTCOLOR', (0, 0), (-1, 0), colors.white)
 
 
@@ -4428,22 +4430,20 @@ class PageNumCanvas(canvas.Canvas):
             titleTabs.drawOn(self ,20*mm,2.5*inch)
 
 
-            imageTable = [[website,address],[mobile,gstin],[email,cin]]
+            imageTable = [[website,street],[mobile,city],['' , state],['' , country],['' , gstin],[email,cin]]
 
             hedaerdata = [[imageTable]]
-            header = Table(imageTable,colWidths=[4.5*inch])
+            header = Table(imageTable,colWidths=[3*inch,3*inch])
             ts = TableStyle([('ALIGN', (1, 1), (-3, -3), 'CENTER'),
-                             ('VALIGN', (0, 1), (-1, -3), 'TOP'),
-                             ('VALIGN', (0, -2), (-1, -2), 'TOP'),
-                             ('VALIGN', (0, -1), (-1, -1), 'TOP'),
-                             ('SPAN', (1, 0), (1, 0)),
-                             ('TEXTCOLOR', (0, 0), (-1, 0), colors.white)
-
+                             ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+                             ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+                             ('LEFTPADDING',(0,0),(-1,-1),10),
+                             ('RIGHTPADDING',(0,0),(-1,-1),10)
 
                              ])
             header.setStyle(ts)
-            header.wrapOn(self ,0*mm,1*inch)
-            header.drawOn(self ,0*mm,1*inch)
+            header.wrapOn(self ,50*mm,0.75*inch)
+            header.drawOn(self ,50*mm,0.75*inch)
 
 
 
@@ -4468,9 +4468,26 @@ class PageNumCanvas(canvas.Canvas):
         f = open(imagePath, 'rb')
         ima = Image(f)
         ima.drawHeight = 0.5*inch
-        ima.drawWidth = 1*inch
-        imageTable = [[ima]]
-        tabHeaderImage = Table(imageTable,colWidths=[2*inch])
+        # ima.drawWidth = 1*inch
+        ima.hAlign = 'RIGHT'
+
+        imge = os.path.join(globalSettings.BASE_DIR,'static_shared','images','whatsapp.png' )
+        # images = open(imge, 'rb')
+        imag = Image(imge)
+        ratio = imag.drawHeight / imag.drawWidth
+        imag.drawHeight = 0.25*inch
+        imag.drawWidth = 0.25*inch
+        imag.hAlign = 'RIGHT'
+
+        # address = 'WHATEVERYOUWNATTOTYPE'
+        # link = '<link href=http://www.hoboes.com/Mimsy/hacks/adding-links-to-pdf >ok</link>'
+        #
+        # print dir(self.canvas)
+        # p = Paragraph(link,styles['Normal'])
+        p = Paragraph("<para fontSize=8  alignment='left' ><a href=''  ><b>%s</b></a></para>"%(self.unit.mobile),styles['Normal'])
+        imageTable = [[ima,imag,p]]
+        tabHeaderImage = Table(imageTable,colWidths=[6*inch,0.4*inch,1.25*inch])
+        tabHeaderImage.setStyle(TableStyle([('FONTSIZE', (0, 0), (-1, -1), 8),('VALIGN',(0,0),(-1,-1),'TOP'),('AlIGN',(0, 0), (-1, -1),'LEFT'),('TOPPADDING', (0, 0), (-1, -1),3)]))
         tabHeaderImage.wrapOn(self ,10*mm,10*inch)
         tabHeaderImage.drawOn(self ,10*mm,10*inch)
 
@@ -4481,6 +4498,7 @@ stylesH = styles['Heading1']
 from reportlab.platypus import SimpleDocTemplate, Image , Spacer
 from reportlab.platypus import PageBreak, SimpleDocTemplate, Table, TableStyle
 def getFourProductArray(variants):
+
     imageData = []
     if len(variants) > 0:
         for variant in variants:
@@ -4488,28 +4506,29 @@ def getFourProductArray(variants):
                 imgg = str(variant.img1)
                 mediaImg = os.path.join(globalSettings.MEDIA_ROOT,imgg)
 
-                URL = globalSettings.SITE_ADDRESS+'/api/finance/makeImageTransparent/'
-                fileData = {'file':mediaImg}
-                r = requests.post(url = URL, data = fileData)
-                data = r.json()
-                print data,'422384092349342900990834'
-                convertedImg = os.path.join(globalSettings.MEDIA_ROOT,data['url'])
+                # URL = globalSettings.SITE_ADDRESS+'/api/finance/makeImageTransparent/'
+                # fileData = {'file':mediaImg}
+                # r = requests.post(url = URL, data = fileData)
+                # data = r.json()
+                # print data,'422384092349342900990834'
+                # convertedImg = os.path.join(globalSettings.MEDIA_ROOT,data['url'])
 
-                imgData = open(convertedImg, 'rb')
-                img = Image(convertedImg)
+                # imgData = open(mediaImg, 'rb')
+                img = Image(mediaImg)
                 ratio = img.drawHeight / img.drawWidth
                 img.drawHeight = 1.25*inch
                 img.drawWidth = 1.25*inch
             else:
                 mediaImg = os.path.join(globalSettings.BASE_DIR,'static_shared','images', "no_tour_image.jpg")
-                imgData = open(mediaImg, 'rb')
+                # imgData = open(mediaImg, 'rb')
                 img = Image(mediaImg)
                 ratio = img.drawHeight / img.drawWidth
                 img.drawHeight = 1.25*inch
                 img.drawWidth = 1.25*inch
+            rupee= u'\u20B9'
             productname = Paragraph('<para spaceBefore = 10 ><b>%s</b> </para>'%(variant.name),stylesN)
-            proprice =  Paragraph('<para spaceBefore=5>Price : %0.2f  <strike> %0.2f </strike></para>'%(variant.rate,variant.mrp),stylesN)
-            moq =  Paragraph('<para spaceBefore = 5>Quantity Added : %s  </para>'%(variant.qtyAdded),stylesN)
+            proprice =  Paragraph('<para spaceBefore=5>Price :%s %0.2f  <strike>%s %0.2f </strike></para>'%(format(rupee),variant.rate,format(rupee),variant.mrp),stylesN)
+            moq =  Paragraph('<para spaceBefore = 5 color=gray>%s  </para>'%(variant.richtxtDesc),stylesN)
             imageData.append([img,productname,proprice,moq])
     return imageData
 
@@ -4535,12 +4554,16 @@ def proCatalog(response, request):
     if len(inventoryObj) >0 :
         x = [inventoryObj[i:i + n] for i in range(0, len(inventoryObj), n)]
         for idx,i in enumerate(x):
-            dataSet = getFourProductArray(x[idx])
+            print idx,'12121'
+            if idx == 2 :
+                dataSet = getFourProductArray(x[idx][0:2])
+            else:
+                dataSet = getFourProductArray(x[idx])
             products.append(dataSet)
         dataTabl = Table(products,spaceBefore=15,hAlign="LEFT",spaceAfter=30)
         dataTabl.setStyle(TableStyle([('FONTSIZE', (0, 0), (-1, -1), 8),('VALIGN',(0,0),(-1,-1),'TOP'),('AlIGN',(0, 0), (-1, -1),'LEFT'),('TOPPADDING', (0, 0), (-1, -1),30),('BOTTOMPADDING', (0, 0), (-1, -1),10)]))
         elements.append(dataTabl)
-        products= []
+        # products= []
         elements.append(PageBreak())
 
     doc.build(elements,onFirstPage=addPageNumbertoBrochure,canvasmaker=PageNumCanvas,onLaterPages=addPageNumbertoBrochure)
@@ -4551,12 +4574,13 @@ class ProductsCatalogAPI(APIView):
     def get(self, request, format=None):
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="Catalog.pdf"'
+        if 'id' in request.GET:
+            catObj =  Category.objects.get(pk = request.GET['id'])
         response.division = request.user.designation.division
+        response.unit = request.user.designation.unit
+        response.themeColor = catObj.theme_color
+        response.hyperlink = 'https://klouderp.com/'
         proCatalog(response, request)
-        f = open(os.path.join(globalSettings.BASE_DIR, 'media_root/Catalog.pdf'), 'wb')
-        f.write(response.content)
-        f.close()
-
         return response
 
 

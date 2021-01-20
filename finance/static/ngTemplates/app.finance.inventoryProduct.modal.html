@@ -41,7 +41,8 @@
     <div class="col-md-3">
       <div class="form-group">
         <label>Tax Code</label>
-      <input type="text" class="form-control websiteInput" ng-model="form.taxCode" uib-typeahead="meta as (meta.code + ' : ' + meta.description) for meta in productMetaSearch($viewValue)" typeahead-on-select="selectedMeta()">
+      <input type="text" class="form-control websiteInput" ng-model="form.taxCode" uib-typeahead="meta as  (meta.code + ' : ' + meta.description) for meta in productMetaSearch($viewValue)" typeahead-on-select="selectedMeta()">
+
       </div>
     </div>
     <div class="col-md-3">
@@ -50,6 +51,43 @@
       <input type="text" class="form-control websiteInput" ng-model="form.taxRate">
       </div>
     </div>
+    <!-- <div class="col-md-3">
+      <div class="form-group">
+        <label>Tax Description</label>
+      <input type="text" class="form-control websiteInput" ng-model="form.taxDescription">
+      </div>
+    </div> -->
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Description</label>
+      <textarea class="form-control websiteInput" rows="3" placeholder="Description" ng-model="form.richtxtDesc"></textarea>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Image1</label>
+        <input type="file" file-model="form.img1">
+        <img src="{{form.img1}}" style="width:100px;height:100px;margin-top:10px;" id="image1" alt="image1">
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Image2</label>
+        <input type="file" file-model="form.img2">
+        <img src="" style="width:100px;height:100px;margin-top:10px;" id="image2" alt="image2">
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Image3</label>
+        <input type="file" file-model="form.img3">
+        <img src="{{form.img3}}" style="width:100px;height:100px;margin-top:10px;" id="image3" alt="image3">
+      </div>
+    </div>
+
+
+
     <div class="col-md-12" style="padding-top:25px">
       <button type="button" class="btn newBtn" ng-click="saveInventory()">Save</button>
     </div>
