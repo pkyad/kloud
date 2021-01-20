@@ -9,6 +9,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
 
 });
+
 app.config(function($stateProvider) {
 
 

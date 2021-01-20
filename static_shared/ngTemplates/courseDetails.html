@@ -1,0 +1,145 @@
+<div class="container-fluid">
+  <div class="col-md-10 col-md-offset-1" style="padding:50px 100px;">
+    <div class="row">
+      <div class="row">
+
+        <div class="row" style="margin: 0px 65px;display: flex;">
+          <a onclick="window.history.back();">
+            <div class="hidden-xs" style="border-radius:50%;border:1px solid #cccccc;padding-top:3px;padding-left: 9px;height:30px;width:30px;margin-left:-39px;margin-right:40px;cursor:pointer;">
+              <img src="/static/images/backicn.svg" alt="" style="width:10px;height:10px;transform: rotate(180deg);">
+            </div>
+          </a>
+          <div class="">
+            <p style="font-weight:600;font-size:16px;padding-top:5px">Course Details</p>
+          </div>
+        </div>
+        <div class="col-md-12 academy_padding" style="margin-top:30px;">
+
+
+          <div class="col-md-8 academy_padding">
+
+            <h1 style="font-weight:600;padding-bottom:20px;">{{activitydata.course.title}}</h1>
+            <div class="row">
+
+
+              <div class="col-md-2 col-xs-12">
+                <button type="button" name="button" class="managementbtn">
+                  Beginner
+                </button>
+              </div>
+              <div class="col-md-10 col-xs-12">
+                <div class="col-md-3 col-xs-4 academy_padding academy_common text-left" style="border-right:0 solid #D3D3D3;border-left:0 solid #D3D3D3;margin-top:5px;text-align: left">
+                  <img src="static/images/clockincourse.svg" alt="" style="width:22px;vertical-align: text-bottom;">
+                  <span style="color: grey;font-size: 14px;">10:00 Hrs </span>
+                </div>
+                <div class="col-md-3 academy_padding academy_common" ng-if="activitydata.quiz>0">
+                  <span>
+                  <i class="fa fa-file-text-o" style="font-size:22px;color:grey;padding-right:10px;"></i>{{activitydata.quiz}} Exams
+
+                </span>
+                </div>
+
+                <div class="col-md-3 col-xs-4 academy_padding academy_common text-right" style="margin-top:5px;text-align: right">
+                  <i class="fa fa-calendar" style="font-size:22px;color:grey"></i>
+                  <span style="color:grey">{{activitydata.course.created | date:'dd-MM-y'}}</span>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 hidden-xs">
+            <div class="row  " style="padding-bottom:20px;">
+
+
+              <button type="button" name="button" class="btn-rounded academy_enroll " style="margin-top:5%;background-color:#ff6900;color:#ffffff;border:2px solid #ff6900;" ng-click="payment(5)">
+                Enroll
+              </button>
+
+            </div>
+
+            <div class="row ">
+              <h1 class="academy_num" style="margin:0px;font-weight:600;color:#505763;">₹1</h1>
+            </div>
+          </div>
+
+
+          <div class="col-md-4 hidden-lg hidden-md mob_academy " style="margin-top:20px;">
+            <div class=" col-xs-6 " style="padding-top:12px;">
+              <h1 style="margin:0px;font-weight:600;color:#505763;font-size:25px;padding:5px;">₹1</h1>
+            </div>
+            <div class="col-xs-6 academy_padding  " style="padding-bottom:10px;">
+
+
+              <button type="button" name="button" class="btn-rounded pull-right " style="margin-top:5%;background-color:#ff6900;color:#ffffff;border:2px solid #ff6900;" ng-click="payment(5)">
+                Enroll
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+
+
+
+
+      </div>
+
+
+      <div class="col-md-8">
+        <div class="academy_panel" style="">
+          <p>{{activitydata.course.description}}</p>
+          <hr style="color:#F7F7F7;">
+
+          <div class="row" style="margin:0px;" ng-repeat="k in activitydata.activities track by $index">
+            <button class="collapsiblecss accordion " style="padding-top:20px;padding-bottom: 20px">
+              <div class="row" ng-click="k.show = !k.show" ng-init="k.show=true">
+                <div class="col-lg-1 col-xs-2">
+
+
+                  <i class="fa fa-play-circle" ng-if="k.typ=='video'" style="font-size:36px;color:red"></i>
+                  <i class="fa fa-file-text" ng-if="k.typ=='file' || k.typ=='notes' " style="font-size:28px;color:#7fb7c2"></i>
+                  <i class="fa fa-book" ng-if="k.typ=='homework' || k.typ=='quiz'" style="font-size:28px;color:#032757"></i>
+
+                </div>
+                <div class="col-lg-11 col-xs-10">
+
+                  <h4 style="font-weight:600;margin-top:0px;margin-bottom:0px">{{k.title}}</h4>
+
+
+                  <span style="font-size:12px;color:grey;">{{k.typ}}</span>
+
+
+
+
+
+
+
+                </div>
+
+              </div>
+            </button>
+            <div class="collapse" ng-if="k.show" style="display: initial; max-height: 16px;">
+
+
+              <p ng-if="k.typ=='file' || k.typ=='notes' ">{{k.description}}</p>
+              <p ng-if="k.typ=='homework' || k.typ=='quiz' ">{{k.paper.description}}</p>
+
+            </div>
+            <hr style="color:#F7F7F7;margin:0px;">
+
+          </div>
+
+        </div>
+
+      </div>
+      <div class="col-md-4">
+
+      </div>
+    </div>
+  </div>
+</div>

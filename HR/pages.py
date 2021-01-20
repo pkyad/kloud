@@ -10,6 +10,7 @@ from django.core.exceptions import ObjectDoesNotExist , SuspiciousOperation
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.views.decorators.cache import never_cache
 from ERP.models import *
+from LMS.models import *
 from website.models import *
 from recruitment.models import *
 from blogging.models import *
@@ -190,6 +191,15 @@ def career(request,id):
 
     return render(request, 'app.HR.careersview.html',{'finalData':finalData})
 
+def academy(request,id):
+    context = {}
+    return render(request, 'app.LMS.academy.courses.html',context)
+
+def coursedetails(request,id,urlSuffix):
+    idx = id
+    context = {}
+    return render(request, 'app.LMS.academy.coursesdetails.html',{'id':idx})
+
 
 import math
 @never_cache
@@ -198,10 +208,10 @@ def blog(request ):
     pageNumber = 1
     offset = pageNumber*6
     articlesAll = Article.objects.all()
-    totalCatg = Catrgory.objects.all()
-    for i in totalCatg:
-        articlescount = Article.objects.filter(category = i).count()
-        i.articlesCount = articlescount
+    # totalCatg = Catrgory.objects.all()
+    # for i in totalCatg:
+    #     articlescount = Article.objects.filter(category = i).count()
+    #     i.articlesCount = articlescount
 
     first_set =[]
     pageCount = math.floor(float(articlesAll.count())/float(5))
@@ -246,7 +256,7 @@ def blog(request ):
 
 
 
-    return render(request,"app.HR.blogs.html" , {"blogs" : blogs,"featuredblogs":featuredblogs,"home" : False , "pageNumber" : pageNumber ,"prevpage":prevpage, "nextPage" : nextpage , "firstArticle" : featuredblogs[0] , "pageNumbers" : pageNumbers , "pageCount" : int(pageCount) , "currentPage" : currentPage,'totalCatg':totalCatg})
+    return render(request,"app.HR.blogs.html" , {"blogs" : blogs,"featuredblogs":featuredblogs,"home" : False , "pageNumber" : pageNumber ,"prevpage":prevpage, "nextPage" : nextpage , "firstArticle" : featuredblogs[0] , "pageNumbers" : pageNumbers , "pageCount" : int(pageCount) , "currentPage" : currentPage,'totalCatg':[]})
 
 from django.urls import resolve
 def renderedArticleView(request , articleUrl):

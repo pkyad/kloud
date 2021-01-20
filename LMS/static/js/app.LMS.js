@@ -1290,7 +1290,7 @@ app.controller("businessManagement.LMS.form", function($scope, $state, $users, $
       sellingPrice: '',
       discount: '',
       activeCourse: true,
-      topic: ''
+      topic: '',urlSuffix:''
     };
   }
   $scope.resetForm()
@@ -1302,7 +1302,7 @@ app.controller("businessManagement.LMS.form", function($scope, $state, $users, $
 
   $scope.userSearch = function(query) {
     //search for the user
-    return $http.get('/api/HR/userSearch/?username__contains=' + query).
+    return $http.get('/api/HR/users/?username__contains=' + query).
     then(function(response) {
       return response.data;
     })
@@ -1340,6 +1340,31 @@ app.controller("businessManagement.LMS.form", function($scope, $state, $users, $
   })
 
 
+  $scope.$watch('form.title', function(newValue, oldValue) {
+    if (newValue) {
+
+      var space = /[ ]/;
+      var special = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+      var nonascii = /[^\x20-\x7E]/;
+      var url = $scope.form.title;
+      if (space.test(newValue)) {
+        url = newValue.replace(/\s+/g, '-').toLowerCase();
+        if (special.test(url)) {
+          url = url.replace(/[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?]+/g, '');
+          if (nonascii.test(url)) {
+            url = url.replace(/[^\x20-\x7E]/g, '');
+          }
+        }
+      } else {
+        url = url.replace(/[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?]+/g, '-').toLowerCase();;
+      }
+      url = url.replace(/-/g, ' ');
+      url = url.trim();
+      $scope.form.urlSuffix = url.replace(/-/g, ' ').trim().replace(/\s/g, '-');
+    }
+
+  })
+
   $scope.saveCourse = function() {
     if ($scope.form.title.length == 0 || $scope.form.instructor.length == 0) {
       Flash.create('warning', 'Fill all the fields')
@@ -1359,6 +1384,7 @@ app.controller("businessManagement.LMS.form", function($scope, $state, $users, $
     fd.append('title', $scope.form.title);
     fd.append('enrollmentStatus', $scope.form.enrollmentStatus);
     fd.append('description', $scope.form.description);
+    fd.append('urlSuffix', $scope.form.urlSuffix);
     // fd.append('TAs', $scope.form.TAs);
     fd.append('instructor', $scope.form.instructor.pk);
     fd.append('sellingPrice', $scope.form.sellingPrice);

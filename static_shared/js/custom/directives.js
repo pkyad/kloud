@@ -1241,6 +1241,44 @@ app.directive('forumView', function() {
 });
 
 
+app.directive('academyCourses', function() {
+  return {
+    templateUrl: '/static/ngTemplates/academyCourses.html',
+     // css: '/static/css/careerview.css',
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
+      $http({
+        method: 'GET',
+        url: '/api/LMS/course/?activeCourse=True',
+      }).
+      then(function(response) {
+        $scope.courses = response.data
+      })
+    }
+  }
+})
+
+app.directive('courseDetails', function() {
+  return {
+    templateUrl: '/static/ngTemplates/courseDetails.html',
+     // css: '/static/css/careerview.css',
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
+      console.log(id);
+      $http({
+        method: 'GET',
+        url: '/api/LMS/getCourseactivities/?course='+id,
+      }).
+      then(function(response) {
+        $scope.activitydata = response.data
+      })
+    }
+  }
+})
 app.directive('forumCreate', function() {
   return {
     templateUrl: '/static/ngTemplates/forumForm.html',
