@@ -1075,7 +1075,7 @@ class GetITDecarationAPIView(APIView):
 
 
 
-        payroll = {'pk' : user.payroll.pk, 'isOwnHouse' : user.payroll.isOwnHouse , 'isExtraIncome':user.payroll.isExtraIncome}
+        payroll = {'pk' : user.payroll.pk, 'isOwnHouse' : user.payroll.isOwnHouse , 'isExtraIncome':user.payroll.isExtraIncome,'isRentedHouse' : user.payroll.isRentedHouse}
         totalData = CalculateItDeclaration(financialYear, user)
         return Response({'incomeData' : incomeData , 'deductionData' : deductionData , 'deductionSixAData' : deductionSixAData , 'otherIncomesAData' : otherIncomesAData , 'housePropertyData' : housePropertyData , 'prevEmpData' : prevEmpData  , 'annualExcemptionData' : annualExcemptionData , 'propertyOwnerDetails' : propertyOwnerDetails , 'selfOccupiedDetails' : selfOccupiedDetails , 'totalData' : totalData , 'payroll' : payroll},status = status.HTTP_200_OK)
 
@@ -1404,6 +1404,7 @@ class AddITDeclarationAPIView(APIView):
                     for m in monthsList:
                         monthlyHra =  incomeObj.get(month = m, title = 'HRA').amount
                         monthlyLta =  incomeObj.get(month = m, title = 'LTA').amount
+                        ITDecaration.objects.create(user = user, year = year, group_name = 'exemptions' , month = m).delete()
                         hraData = ITDecaration.objects.create(user = user, year = year, group_name = 'exemptions' , month = m, title = 'HRA', amount = monthlyHra)
                         montlyBasicRent =  incomeObj.get(month = m, title = 'Basic').amount
                         basicRent = ITDecaration.objects.create(user = user, year = year, group_name = 'exemptions' , month = m, title = '40% of Basic + DA', amount = montlyBasicRent)

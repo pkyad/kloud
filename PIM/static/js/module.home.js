@@ -448,17 +448,60 @@ app.controller('controller.home.itDeclaration' , function($scope , $http , $time
       placement: 'right',
       size: 'md',
       backdrop: true,
-      controller: function($scope,$http, Flash, $users, $uibModalInstance){
-        $scope.form = {
-          rent:0
+      resolve: {
+        data: function() {
+          return   $scope.allData.propertyOwnerDetails;
         }
-        $scope.save = function(){
-          if ($scope.form.rent.length == 0 || $scope.form.rent == 0) {
+      },
+      controller: function($scope,$http, Flash, $users, $uibModalInstance, data){
+
+        $scope.rented = data
+        $scope.rented.rent = 0
+
+        if ($state.is('home.viewProfile.itDeclaration')) {
+          $scope.me = $users.get('mySelf');
+          $scope.userPk =  $scope.me.pk
+        }
+        else{
+            $scope.userPk = $state.params.id
+        }
+
+
+        $scope.addRentedData = function(){
+          if ($scope.rented.address == null || $scope.rented.address.length == 0 || $scope.rented.tenantName == null || $scope.rented.tenantName.length == 0 || $scope.rented.tenantPan == null || $scope.rented.tenantPan.length == 0 ) {
+            Flash.create('warning','Owner name and Owner Pan and Owner address is required')
+            return
+          }
+          if ($scope.rented.rent.length == 0 || $scope.rented.rent == 0) {
             Flash.create('warning' ,'Add rent')
             return
           }
-          $uibModalInstance.dismiss($scope.form.rent)
+
+          var dataToSend = $scope.rented
+          dataToSend.group_name = "propertyOwnerDetails"
+          dataToSend.user = $scope.userPk
+          var method = 'POST'
+          var url = '/api/payroll/addITDeclaration/'
+          $http({
+            method: method,
+            url: url,
+            data : dataToSend
+          }).
+          then(function(response) {
+            // $uibModalInstance.dismiss(response.data)
+              $uibModalInstance.dismiss($scope.rented.rent)
+          })
         }
+
+
+        // $scope.form = {
+        //   rent:0,
+        //
+        // }
+        // $scope.save = function(){
+        //
+        //
+        // }
         $scope.close = function(){
           $uibModalInstance.dismiss()
         }

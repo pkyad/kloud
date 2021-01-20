@@ -1,18 +1,58 @@
 <div class="modal-body">
   <div class="row">
-    <div class="col-md-11">
+    <!-- <div class="col-md-11">
       <div class="form-group ">
         <label> Monthly Rent </label>
         <input type="text" class="form-control" ng-model="form.rent" style="border: none;border-radius: 10px" placeholder="Rent">
       </div>
-    </div>
-    <div class="col-md-1 text-right">
+    </div> -->
+    <div class="col-md-12 text-right" style="margin-bottom:15px">
       <i class="fa fa-close fa-lg" ng-click="close()"></i>
     </div>
   </div>
   <div class="row">
-    <div class=" col-md-3">
-      <button class="btn btn-default btn-block" ng-click="save()"> Save </button>
+    <div class="col-md-3 text-right" style="margin-top:5px">
+      <label>Owner Name</label>
+    </div>
+    <div class="col-md-9">
+      <div class="form-group">
+        <input type="text" class="form-control" ng-model="rented.tenantName" style="border: none;border-radius: 10px;background-color: #eee;" placeholder="Owner Name">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 text-right" style="margin-top:5px">
+      <label>Owner PAN</label>
+    </div>
+    <div class="col-md-9">
+      <div class="form-group">
+        <input type="text" class="form-control" ng-model="rented.tenantPan" style="border: none;border-radius: 10px;background-color: #eee;" placeholder="Owner PAN">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 text-right" style="margin-top:5px">
+      <label>Owner Address</label>
+    </div>
+    <div class="col-md-9">
+      <div class="form-group">
+        <textarea name="name" ng-model="rented.address" class="form-control" rows="3" style="border: none;border-radius: 10px;background-color: #eee;" placeholder="Owner Address"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 text-right" style="margin-top:5px">
+      <label>Monthly Rent</label>
+    </div>
+    <div class="col-md-9">
+      <div class="form-group">
+        <input type="text" class="form-control" ng-model="rented.rent" style="border: none;border-radius: 10px;background-color: #eee;" placeholder="Montly Rent">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-offset-9 col-md-3">
+      <button class="btn btn-default btn-block" ng-click="addRentedData()"> Save </button>
     </div>
   </div>
 </div>
