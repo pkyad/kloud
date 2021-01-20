@@ -41,7 +41,7 @@ from ERP.send_email import send_email
 from ERP.views import CreateUnit
 from payroll.serializers import payrollSerializer
 import django
-
+import requests
 
 class userProfileViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
@@ -841,28 +841,28 @@ class UpdatepayrollDesignationMasterAccountAPI(APIView):
         return JsonResponse({'designation':userDesignationSerializer(desigObj,many=False).data,'payroll':payrollSerializer(payObj,many=False).data,'master':userAdminSerializer(masterUser,context=serializer_context).data, 'simpleMode' : request.user.designation.division.simpleMode}, status = status.HTTP_200_OK,safe=False)
     def get(self, request, format=None):
         masterUser = User.objects.get(pk = int(request.GET['id']))
-        desigObj = designation.objects.filter(user = masterUser).first()
+        desigObj = masterUser.designation
         profObj = masterUser.profile
-        payObj = payroll.objects.filter(user = masterUser).first()
+        payObj = masterUser.payroll
         serializer_context = {
             'request': Request(request),
         }
 
-        if profObj.sipUserName is None:
-            try:
-                import requests
-                idVal = 100 + int(profObj.user.pk)
-                URL = globalSettings.EXTERNAL_SITE +"/createAnEndpoint/?exten="+str(idVal)+"&username="+profObj.user.username
-                r = requests.get(url = URL)
-                data = r.json()
-                print data, 'datatata'
-                profObj.sipUserName = data['auths'][0]['username']
-                profObj.sipPassword = data['auths'][0]['password']
-                profObj.sipExtension = data['exten']
-                profObj.save()
-            except:
-                print 'issue in createAnEndpoint'
-                pass
+        # if profObj.sipUserName is None:
+        #     try:
+                
+        #         idVal = 100 + int(profObj.user.pk)
+        #         URL = globalSettings.EXTERNAL_SITE +"/createAnEndpoint/?exten="+str(idVal)+"&username="+profObj.user.username
+        #         r = requests.get(url = URL)
+        #         data = r.json()
+        #         print data, 'datatata'
+        #         profObj.sipUserName = data['auths'][0]['username']
+        #         profObj.sipPassword = data['auths'][0]['password']
+        #         profObj.sipExtension = data['exten']
+        #         profObj.save()
+        #     except:
+        #         print 'issue in createAnEndpoint'
+        #         pass
 
         div = request.user.designation.division
 
