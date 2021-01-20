@@ -1072,7 +1072,7 @@ body {
 	color: var(--headerNavbarHighlight);
 	background-color: #fff;
   border-left:6px solid var(--headerNavbarHighlight);
-	/* font-weight:bold; */
+	font-weight:bold;
 
 }
 

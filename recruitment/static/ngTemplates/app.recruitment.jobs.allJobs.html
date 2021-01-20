@@ -30,7 +30,7 @@
       </div>
       <div class="row">
         <div class="col-md-12 " style="padding:10px">
-        <h3>  Pending </h3>
+        <h3>  Pending Result </h3>
         </div>
       </div>
       <div class="row">
@@ -45,14 +45,50 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="a in allCandidates.pendingObj" ng-click="viewProfile($index)">
-                <td style="width:22.5%;padding:10px;">{{a.firstname}} {{a.lastname}} </td>
+              <tr ng-repeat="a in allCandidates.scheduledObj" ng-click="$state.go('workforceManagement.exploreJob.viewprofile',{'id' : a.job.pk,'cand':a.pk})">
+                <td style="width:22.5%;padding:10px;">{{a.firstname}} {{a.lastname}}</td>
                 <td style="width:22.5%;padding:10px;">{{a.email}}</td>
                 <td style="width:22.5%;padding:10px;">{{a.mobile}}</td>
                 <td style="width:22.5%;padding:10px;" ng-click="$event.stopPropagation()"><a ng-if="a.resume" href="{{a.resume}}"  target="_blank"><i class="fa fa-download fa-lg"></i></a></td>
               </tr>
             </tbody>
           </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 " style="padding:10px">
+        <h3>  New Applicants to be Screened </h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 " style="padding:10px">
+          <table class="table table-striped pad10">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Resume</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="a in allCandidates.pendingObj" ng-click="viewProfile($index)">
+                <td style="width:22.5%;padding:10px;">{{a.firstname}} {{a.lastname}} </td>
+                <td style="width:22.5%;padding:10px;">{{a.email}}</td>
+                <td style="width:22.5%;padding:10px;">{{a.mobile}}</td>
+                <td style="width:22.5%;padding:10px;" ng-click="$event.stopPropagation()"><a ng-if="a.resume" href="{{a.resume}}"  target="_blank"><i class="fa fa-download fa-lg"></i></a></td>
+                <td> <img src="/static/images/index.png"  ng-if="a.status=='Rejected'" style="width:100px"/> </td>
+                <td style="width:22.5%;padding:10px;" ng-click="$event.stopPropagation()"><button type="button" name="button" style="background: #103F8D;color: white;border: none !important;border-radius: 10px !important;padding: 15px;" class="btn-block"  mwl-confirm title="Shortlist" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" data-placement="bottom"  on-confirm="shortlist($index)" confirm-button-type="default" cancel-button-type="default"> Shortlist</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-offset-4 col-md-2">
+          <button type="button" name="button" style="background: #103F8D;color: white;border: none !important;border-radius: 10px !important;padding: 15px;" ng-click="loadMore()"> Load More</button>
         </div>
       </div>
     </div>

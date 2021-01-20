@@ -40,6 +40,7 @@ from openpyxl.utils import get_column_letter
 from openpyxl import Workbook
 from openpyxl.writer.excel import save_virtual_workbook
 from openpyxl.styles import PatternFill , Font
+from django.db.models import Q, F
 # Create your views here.
 
 
@@ -554,7 +555,7 @@ class JobUploadAPIView(APIView):
                     except:
                         resume = None
 
-                    JobApplication.objects.create(email=email,mobile=mobile,firstname=firstname,lastname=lastname,resume=resume,job=jobObj)
+                    JobApplication.objects.create(email=email,mobile=mobile,firstname=firstname,lastname=lastname,resume=resume,job=jobObj, status = 'Shortlisted')
 
                 except:
                     pass
@@ -565,7 +566,12 @@ class GetAllJobsAPIVieww(APIView):
     renderer_classes = (JSONRenderer,)
     def get(self, request, format=None):
         allJobsApp = JobApplication.objects.filter(job__pk = int(request.GET['id']))
-        pendingObj = JobApplicationSerializer(allJobsApp.filter(status = 'Created'), many = True).data
+        if 'limit' in request.GET:
+            limit = request.GET['limit']
+            data = JobApplicationSerializer(allJobsApp.filter(Q(status = 'Created') | Q(status = 'Rejected'))[:int(limit)], many = True).data
+            return Response(data,status=status.HTTP_200_OK)
+        pendingObj = JobApplicationSerializer(allJobsApp.filter(Q(status = 'Created') | Q(status = 'Rejected'))[:10], many = True).data
+        scheduledObj = JobApplicationSerializer(allJobsApp.filter(status = 'Shortlisted'), many = True).data
         selectedObj = JobApplicationSerializer(allJobsApp.filter(status = 'Selected'), many = True).data
-        data = {'pendingObj' : pendingObj , 'selectedObj' : selectedObj}
+        data = {'pendingObj' : pendingObj , 'selectedObj' : selectedObj, 'scheduledObj' : scheduledObj}
         return Response(data,status=status.HTTP_200_OK)

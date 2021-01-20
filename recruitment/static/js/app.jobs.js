@@ -97,20 +97,29 @@ app.controller("workforceManagement.recruitment.jobs.viewProfile", function($sco
       controller: function($scope, $uibModalInstance) {
         $scope.form = {
           joiningDate:new Date(),
+          ctc:0,
+          notice:0,
+          al : 0,
+          ml : 0,
           basic:0,
           hra : 0,
           lta : 0,
-          special : 0,
+          special :0,
           taxSlab : 0,
           adHoc : 0,
-          al : 0,
-          ml : 0,
         }
 
+
         $scope.save = function(){
+          $scope.form.ctc = parseInt($scope.form.ctc)
+          $scope.form.hra = 0.4 * $scope.form.ctc;
+          $scope.form.basic = 0.1* $scope.form.ctc;
+          $scope.form.adHoc = 0.2* $scope.form.ctc;
+          $scope.form.special = 0.1*$scope.form.ctc
+          $scope.form.lta = 0.1* $scope.form.ctc;
           var dataSave = {
             status : 'Selected',
-            joiningDate:dateToString($scope.form.joiningDate),
+            // joiningDate:dateToString($scope.form.joiningDate),
             basic:$scope.form.basic,
             hra : $scope.form.hra,
             lta : $scope.form.lta,
@@ -119,6 +128,9 @@ app.controller("workforceManagement.recruitment.jobs.viewProfile", function($sco
             adHoc : $scope.form.adHoc,
             al : $scope.form.al,
             ml : $scope.form.ml,
+            ctc : $scope.form.ctc,
+            notice : $scope.form.notice,
+            isSelected:true
           }
           $http({
             method: 'PATCH',
@@ -143,6 +155,25 @@ app.controller("workforceManagement.recruitment.jobs.viewProfile", function($sco
       }
     });
   }
+
+
+  $scope.reject = function(){
+    $http({
+      method: 'PATCH',
+      url: '/api/recruitment/applyJob/'+$state.params.cand+'/',
+      data:{
+        status : 'Rejected'
+      }
+    }).
+    then(function(response) {
+      $scope.candidateDetails.status  = response.data.status
+      Flash.create('warning','Saved')
+      return
+
+    });
+  }
+
+
 
 
 
@@ -376,7 +407,7 @@ app.controller("workforceManagement.recruitment.jobs.explore", function($scope, 
   // if ($state.is('workforceManagement.exploreJob')) {
   //   $state.go('workforceManagement.exploreJob.allJob')
   // }
-
+  $scope.limit = 10
   $scope.allCandidates = []
     $scope.fetchCandidates = function() {
       $http({
@@ -389,6 +420,31 @@ app.controller("workforceManagement.recruitment.jobs.explore", function($scope, 
     }
 
     $scope.fetchCandidates();
+
+    $scope.loadMore = function(){
+      $scope.limit+=10
+      $http({
+        method: 'GET',
+        url: '/api/recruitment/getAllJobs/?id=' + $state.params.id+'&limit='+$scope.limit
+      }).
+      then(function(response) {
+        $scope.allCandidates.pendingObj = response.data;
+      });
+    }
+
+    $scope.shortlist = function(indx){
+      $http({
+        method: 'PATCH',
+        url: '/api/recruitment/applyJob/'+ $scope.allCandidates.pendingObj[indx].pk+'/',
+        data:{
+          status : 'Shortlisted'
+        }
+      }).
+      then(function(response) {
+        $scope.allCandidates.pendingObj.splice(indx,1)
+        $scope.allCandidates.scheduledObj.push(response.data)
+      });
+    }
 
 
   $scope.approve = function() {
@@ -1207,7 +1263,6 @@ $scope.getName = function(u) {
 }
 
 $scope.sendSMS = function() {
-  console.log("aaaaaaaaaaaaa");
   $uibModal.open({
     templateUrl: '/static/ngTemplates/app.recruitment.jobs.applicant.sms.html',
     size: 'sm',
@@ -1225,7 +1280,6 @@ $scope.sendSMS = function() {
   });
 }
 $scope.sendMail = function() {
-  console.log("aaaaaaaaaaaaa");
   $uibModal.open({
     templateUrl: '/static/ngTemplates/app.recruitment.jobs.applicant.email.html',
     size: 'lg',

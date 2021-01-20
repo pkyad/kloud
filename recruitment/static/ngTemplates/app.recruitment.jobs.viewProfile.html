@@ -37,18 +37,21 @@
               <object data='{{candidateDetails.resume}}' type='application/pdf' width='100%' style="height:800px" />
             </div>
           </div>
-          <div class="row" style="margin-top:15px">
-            <div class="col-md-4 text-right">
+          <div class="row" style="margin-top:15px" ng-if="candidateDetails.status != 'Rejected'" >
+            <div class="col-md-3 text-right">
               <button type="button" name="button" style="background: #103F8D;color: white;border: none !important;border-radius: 10px !important;padding: 15px;" class="btn-block" ng-click="sendViaMail()"> Schdule Interview</button>
             </div>
-            <div class="col-md-4 text-center">
-              <div class="col-md-4 col-md-offset-4" style="background:white;color:#16ca16;padding:20px;padding-top: 10px;padding-bottom: 10px;font-size:20px;cursor:pointer;" ng-click="call(dialer.editor)">
+            <div class="col-md-3">
+                <button ng-if="candidateDetails.status == 'Shortlisted'" type="button" name="button" style="background: #103F8D;color: white;border: none !important;border-radius: 10px !important;padding: 15px;" class="btn-block" ng-click="addasSelected()">Select</button>
+                <a ng-if="candidateDetails.status == 'Selected'"  href="/api/recruitment/downloadCallLeter/?value={{candidateDetails.pk}}" target="_blank" type="button" name="button" style="background: #103F8D;color: white;border: none !important;border-radius: 10px !important;padding: 15px;" class="btn-block text-center">Download Offer letter</a>
+            </div>
+            <div class="col-md-3 text-right">
+              <button type="button" name="button" style="background: #c70c00;color: white;border: none !important;border-radius: 10px !important;padding: 15px;" class="btn-block"   mwl-confirm title="Reject" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" data-placement="bottom"  on-confirm="reject()" confirm-button-type="default" cancel-button-type="default">Reject</button>
+            </div>
+            <div class="col-md-3">
+              <div  style="background:white;color:#16ca16;padding:20px;padding-top: 10px;padding-bottom: 10px;font-size:20px;cursor:pointer;" ng-click="call(dialer.editor)">
                 <i class="fa fa-phone" aria-hidden="true"></i> Call
               </div>
-            </div>
-            <div class="col-md-4">
-                <button ng-if="candidateDetails.status == 'Created'" type="button" name="button" style="background: #103F8D;color: white;border: none !important;border-radius: 10px !important;padding: 15px;" class="btn-block" ng-click="addasSelected()">Select</button>
-                <a ng-if="candidateDetails.status == 'Selected'"  href="/api/recruitment/downloadCallLeter/?value={{candidateDetails.pk}}" target="_blank" type="button" name="button" style="background: #103F8D;color: white;border: none !important;border-radius: 10px !important;padding: 15px;" class="btn-block text-center">Download Offer letter</a>
             </div>
           </div>
         </div>

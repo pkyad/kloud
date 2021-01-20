@@ -68,6 +68,7 @@ class JobApplication(models.Model):
     job = models.ForeignKey(Jobs , null = True , related_name = "jobs_applied")
     aggree = models.BooleanField(default = False)
     joiningDate = models.DateField(null = True)
+    ctc = models.PositiveIntegerField(default=0)
     basic = models.PositiveIntegerField(default=0)
     hra = models.PositiveIntegerField(default=0)
     lta = models.PositiveIntegerField(default=0)
