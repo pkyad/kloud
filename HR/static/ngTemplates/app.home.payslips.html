@@ -93,12 +93,22 @@
   <div class="row" style="background:#2f455c;margin:0px;">
     <div class="col-md-12" style="background:#FAFAFA;min-height:100vh;padding:50px;padding-top:0px;">
 
-      <h2>Payslips</h2>
-      <div ng-repeat="p in allPayslips">
-      <hr>
-      <h3 >{{p.year}}</h3>
-      <div class="row" style="padding-top:20px;"  >
-        <div class="col-md-4" style="margin-top:20px;" ng-repeat="d in p.data">
+
+      <div class="row" style="margin-top:15px">
+        <div class="col-md-9">
+          <h2>Payslips</h2>
+          </div>
+      <div class="col-md-3" style="margin-top:15px">
+        <select  ng-change="getMontlyPayslips()"  class="form-control darkInput" style="padding:0px;height:45px;padding-left:15px" ng-model="currntYear" ng-options="f for f in allYears " >
+        </select>
+      </div>
+      </div>
+      <!-- <div > -->
+      <!-- <hr> -->
+      <!-- <h3 >{{p.year}}</h3> -->
+
+      <div class="row" >
+        <div class="col-md-4" style="margin-top:20px;" ng-repeat="d in allPayslips">
           <a style="text-decoration:none;color:#000000" href="/api/payroll/getPayslip/?payslip={{d.user}}&report={{d.report}}">
           <div class="container-fluid" style="padding:20px;border-radius:20px;box-shadow:0px 8px 59px rgba(204, 204, 204, 0.94) !important;">
             <h3>{{d.month | monthName }}</h3>
@@ -106,8 +116,12 @@
         </a>
         </div>
       </div>
-    </div>
-      <h2>FORM 16</h2>
+    <!-- </div> -->
+    <div class="row" style="margin-top:30px">
+      <div class="col-md-12">
+        <h2>FORM 16</h2>
+        </div>
+      </div>
     <div class="row" style="padding-top:20px;"  >
       <div class="col-md-4" style="margin-top:20px;" ng-repeat="f in allForms">
         <a style="text-decoration:none;color:#000000" href="{{f.file}}" target="_blank">

@@ -495,7 +495,6 @@ app.controller('businessManagement.activePatient.explore', function($scope, $htt
     })
   }
   $scope.createInvoice = function() {
-    console.log('hereeeee');
     $uibModal.open({
       templateUrl: '/static/ngTemplates/app.activePatients.createInvoice.html',
       size: 'md',

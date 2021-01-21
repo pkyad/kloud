@@ -66,10 +66,10 @@
         </div>
         <div class="" ng-if="is_staff">
           <div class="row" >
-            <div class="col-md-8" >
+            <div class="col-md-12" >
               <h4 ng-if="users.length>0">USERS</h4>
             </div>
-            <div class="col-md-4" >
+            <!-- <div class="col-md-4" >
 
               <div class="input-group" style="background:#ffffff;border-radius:10px;" ng-if="step=='installed'">
                 <select class="form-control" ng-model="form.user"  ng-options="u.first_name + ' ' + u.last_name for u in selectUsers" >
@@ -80,14 +80,20 @@
                   </button>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
-          <div class="row" ng-if="users.length>0">
-            <div class="col-md-3" ng-repeat="k in users track by $index">
+          <div class="row" >
+            <div class="col-md-3" ng-repeat="k in users track by $index" ng-if="users.length>0">
               <div class="" style="box-shadow: 0px 0px 10px #ccc;padding: 15px;margin:10px 0px;">
                 <h4>{{k.first_name}} {{k.last_name}}</h4>
                 <p>{{k.username}}</p>
                 <p>{{k.email}}</p>
+
+              </div>
+            </div>
+            <div class="col-md-3" ng-if="step=='installed'" >
+              <div class="text-center" style="box-shadow: 0px 0px 10px #ccc;padding: 15px;margin:10px 0px;min-height:127px;padding-top:42px" ng-click="addUser()">
+                <i class="fa fa-plus fa-3x"> </i>
 
               </div>
             </div>

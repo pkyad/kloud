@@ -798,17 +798,19 @@ class sendLoanSettlementEmailAPIView(APIView):
 class AllPaySlipsAPIView(APIView):
     renderer_classes = (JSONRenderer,)
     def get(self, request, format=None):
-        print Payslip.objects.filter(user = request.user, report__status="paid")
-        payslipObj = Payslip.objects.filter(user = request.user, report__status="paid").order_by('year')
-        first_pay = payslipObj.first()
-        last_pay =  payslipObj.last()
+        # print Payslip.objects.filter(user = request.user, report__status="paid")
+        # payslipObj = Payslip.objects.filter(user = request.user, report__status="paid").order_by('year')
+        # first_pay = payslipObj.first()
+        # last_pay =  payslipObj.last()
+        # data = []
+        # for i in range(first_pay.year , last_pay.year+1):
+        #     obj = Payslip.objects.filter(year = i, report__status="paid", user = request.user)
+        #     if len(obj) > 0:
+        #         data.append({'year' : i , 'data' : payslipLiteSerializer(obj, many=True).data })
         data = []
-        for i in range(first_pay.year , last_pay.year+1):
-            obj = Payslip.objects.filter(year = i, report__status="paid", user = request.user)
-            if len(obj) > 0:
-                data.append({'year' : i , 'data' : payslipLiteSerializer(obj, many=True).data })
-
-
+        if 'year' in request.GET:
+            obj = Payslip.objects.filter(year = request.GET['year'], report__status="paid", user = request.user)
+            data = payslipLiteSerializer(obj, many=True).data 
         return Response(data,status = status.HTTP_200_OK)
 
 class ITDeclarationViewSet(viewsets.ModelViewSet):
@@ -1724,3 +1726,19 @@ class DivideMontlyLeavesAPIView(APIView):
                     payroll.mlCurrMonthLeaves = int(mlLeaves)
             payroll.save()
         return Response({},status = status.HTTP_200_OK)
+
+
+class GetUniqueYears(APIView):
+    renderer_classes = (JSONRenderer,)
+    def get(self, request, format=None):
+        if 'id' in request.GET:
+            user = User.objects.filter(pk = int(request.GET['id']))
+        else:
+            user = request.user
+        yearLists = []
+        if 'payslip' in request.GET:
+            yearLists = PayrollReport.objects.filter(user = user).values_list('year', flat = True).distinct()
+        else:
+            yearLists = ITDecaration.objects.filter(user = user).values_list('year', flat = True).distinct()
+
+        return Response({'yearLists' : yearLists},status = status.HTTP_200_OK)

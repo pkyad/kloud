@@ -251,18 +251,26 @@ app.controller('controller.home.payslips' , function($scope , $state , $http,$us
   var d = new Date();
   $scope.currntYear = d.getFullYear();
 
+    $http({
+      method: 'GET',
+      url: '/api/payroll/getUniqueYears/?payslip=true'
+    }).
+    then(function(response) {
+      $scope.allYears =  response.data.yearLists
+        // $scope.allYears.push('2022')
+      $scope.currntYear = $scope.allYears[0]
+      $scope.getMontlyPayslips()
+    })
+
 
   $scope.getMontlyPayslips = function(){
     $http({
       method: 'GET',
-      url: '/api/payroll/allPaySlips/'
+      url: '/api/payroll/allPaySlips/?year='+$scope.currntYear
     }).
     then(function(response) {
       $scope.allPayslips = response.data
     })
-  }
-    $scope.getMontlyPayslips()
-
     $http({
       method: 'GET',
       url: '/api/payroll/form16/?year='+$scope.currntYear+'&currentUser='
@@ -271,6 +279,8 @@ app.controller('controller.home.payslips' , function($scope , $state , $http,$us
       $scope.allForms = response.data
 
     })
+  }
+
 })
 
 app.controller("controller.home.main", function($scope , $state, $users, $http) {
@@ -369,11 +379,27 @@ app.controller('controller.home.itDeclaration' , function($scope , $http , $time
     $scope.currentFinancialYear =$scope.currentYear-1  +'-'+ $scope.currentYear
   }
   $scope.allYears = []
-  for (var i = 0; i < $scope.years.length; i++) {
-    var nxtYr = $scope.years[i] + 1
-    var val = $scope.years[i] + '-' + nxtYr
-    $scope.allYears.push(val)
-  }
+
+  $http({
+    method: 'GET',
+    url: '/api/payroll/getUniqueYears/?id='+$scope.userPk
+  }).
+  then(function(response) {
+    $scope.allYears =  response.data.yearLists
+    if ($scope.currentFinancialYear.inList($scope.allYears)){
+      console.log('yes')
+    }
+    else {
+      $scope.allYears.push($scope.currentFinancialYear)
+    }
+  })
+  // for (var i = 0; i < $scope.years.length; i++) {
+  //   var nxtYr = $scope.years[i] + 1
+  //   var val = $scope.years[i] + '-' + nxtYr
+  //   $scope.allYears.push(val)
+  // }
+
+
   // for (var i = 0; i < $scope.allYears.length; i++) {
   //   console.log($scope.allYears[i] , $scope.tempcurrentFinancialYear,'aaaaaaaaaaaaaaaaaaaaaaaaaa');
   //   if ($scope.allYears[i] == $scope.tempcurrentFinancialYear) {

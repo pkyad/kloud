@@ -905,7 +905,7 @@ app.directive('appdetailedView', function() {
       id: '=',
       // addCart: '='
     },
-    controller: function($scope, $state, $http, Flash, $rootScope, $filter,$location, $users, $timeout) {
+    controller: function($scope, $state, $http, Flash, $rootScope, $filter,$location, $users, $timeout,$uibModal) {
         $scope.step = 'notinstalled'
         $scope.me = $users.get('mySelf');
         $scope.division = $scope.me.designation.division
@@ -915,22 +915,66 @@ app.directive('appdetailedView', function() {
         var id = window.location.href.split('=')[1]
       }
 
-      $scope.form = {
-        user : ''
-      }
-      $scope.getUsers = function() {
-         $http.get('/api/HR/userSearch/').
-        then(function(response) {
-          $scope.selectUsers = response.data;
-          $scope.form.user = $scope.selectUsers[0]
-        })
-      };
-      $scope.getUsers()
 
 
 
-      $scope.addPermision = function(){
+      $scope.addUser = function(){
+        $uibModal.open({
+          templateUrl: '/static/ngTemplates/app.adduser.modal.html',
+          size: 'sm',
+          backdrop: false,
+          resolve: {
+            app: function() {
+              return $scope.app;
+            },
+          },
+          controller: function($scope, $users , $uibModalInstance, app) {
+            $scope.app = app
+            $scope.form = {
+              user : ''
+            }
+            $scope.getUsers = function() {
+               $http.get('/api/HR/userSearch/').
+              then(function(response) {
+                $scope.selectUsers = response.data;
+                $scope.form.user = $scope.selectUsers[0]
+              })
+            };
+            $scope.getUsers()
 
+            $scope.addPermision = function(){
+              $http({
+                method: 'POST',
+                url: '/api/organization/intallUserApp/',
+                data:{
+                  user : $scope.form.user.pk ,
+                  app :  $scope.app.pk
+                }
+              }).
+              then(function(response) {
+                $uibModalInstance.dismiss($scope.form.user)
+                }, function(error) {
+
+                Flash.create('warning','User Already added')
+                return
+
+                })
+            }
+
+
+            $scope.closeModal = function () {
+              $uibModalInstance.close()
+            }
+
+          },
+        }).result.then(function() {
+
+        }, function(data) {
+          if (typeof data == 'object') {
+            $scope.users.push(data)
+
+          }
+        });
       }
       $scope.openApp = function(){
         $state.go($scope.app.module  + '.' + $scope.app.name.replace('app.' , ''))
@@ -1053,19 +1097,7 @@ app.directive('appdetailedView', function() {
       }
 
 
-      $scope.addPermision = function(){
-        $http({
-          method: 'POST',
-          url: '/api/organization/intallUserApp/',
-          data:{
-            user : $scope.form.user.pk ,
-            app :  $scope.app.pk
-          }
-        }).
-        then(function(response) {
-          $scope.users.push($scope.form.user)
-          })
-      }
+
 
 
       $scope.unInstall = function(){

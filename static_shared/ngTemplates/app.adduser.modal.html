@@ -1,0 +1,17 @@
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-12">
+      <select class="form-control" ng-model="form.user"  ng-options="u.first_name + ' ' + u.last_name for u in selectUsers" >
+      </select>
+    </div>
+  </div>
+  <div class="row"  style="margin-top:30px">
+    <div class=" col-md-4">
+      <button class="btn btn-block" style="border-radius:25px!important;color:#ffffff;background:rgb(14, 67, 136)" ng-click="addPermision()"> Add</button>
+    </div>
+    <div class="col-md-6 pull-right">
+      <button class="btn  btn-block" style="border-radius:25px!important;color:#ffffff;background:rgb(193, 12, 0)" ng-click="closeModal()"> Cancel</button>
+    </div>
+  </div>
+
+</div>
