@@ -157,7 +157,7 @@ class Course(models.Model):
     contacts = models.ManyToManyField(Contact , related_name='students' )
     activeCourse = models.BooleanField(default = True)
     topic = models.CharField(max_length = 250 , null = True)
-    
+
 class Enrollment(models.Model):
     created = models.DateTimeField(auto_now_add = True)
     updated = models.DateField(auto_now=True)
@@ -172,7 +172,7 @@ ACTIVITY_TYP_CHOICES = (
     ('notes','notes'),
     ('file','file'),
     ('homework','homework'),
-    ('quiz','quiz')
+    ('quiz','quiz'),('class','class')
 )
 
 class CourseActivty(models.Model):
@@ -183,7 +183,7 @@ class CourseActivty(models.Model):
     typ = models.CharField(choices = ACTIVITY_TYP_CHOICES , max_length = 10 , null = True)
     paper = models.ForeignKey(Paper , null = True , related_name="paper")
     paperDueDate =  models.DateField(auto_now = False,null = True)
-    time = models.PositiveIntegerField(default=0)
+    time = models.DateTimeField(auto_now = False,null= True)
     venue =  models.CharField(max_length = 100 , null = True)
     txt =  models.TextField(null = True)
     meetingId = models.CharField(max_length = 100 , null = True)
@@ -192,3 +192,7 @@ class CourseActivty(models.Model):
     course = models.ForeignKey(Course , null = True , related_name='courseActivities')
     title =  models.CharField(max_length = 250 , null = True)
     description =  models.TextField(null = True)
+    parent = models.ForeignKey("self" , null = True, related_name="activitychildren")
+    daily = models.BooleanField(default = False)
+    weekly = models.BooleanField(default = False)
+    monthly = models.BooleanField(default = False)

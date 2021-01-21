@@ -4,7 +4,10 @@
   <hr>
   <div class="form-group">
     <label>Paper </label>
-    <input type="text" class="form-control bookInput" ng-model="form.paper" uib-typeahead="paper as paper.name for paper in paperSearch($viewValue)" placeholder="Search for a Paper and Select">
+    <select class="form-control bookInput" name="" ng-model="form.paper" ng-options = "k.name for k in papers"  placeholder="Select the paper">
+
+    </select>
+
   </div>
   <div class="form-group" >
     <label>Comment </label>

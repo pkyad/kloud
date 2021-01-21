@@ -58,7 +58,7 @@ class SectionLiteSerializer(serializers.ModelSerializer):
     book = BookLiteSerializer(many = False , read_only = True)
     class Meta:
         model = Section
-        fields = ('pk', 'title' , 'book' ,'shortUrl')
+        fields = ('pk', 'title' , 'book' ,'shortUrl','seoTitle','description')
 
 class OptionsPartSerializer(serializers.ModelSerializer):
     is_Selected = serializers.SerializerMethodField()
@@ -108,6 +108,8 @@ class QuestionSerializer(serializers.ModelSerializer):
 
         if 'typ' in validated_data:
             instance.typ = validated_data.pop('typ')
+        if 'marks' in validated_data:
+            instance.marks = validated_data.pop('marks')
         if 'isLatex' in validated_data:
             instance.isLatex = validated_data.pop('isLatex')
 
@@ -130,7 +132,6 @@ class SectionSerializer(serializers.ModelSerializer):
         model = Section
         fields = ('pk' , 'title' , 'book','sequence' ,'parent','shortUrl','description','seoTitle','children','questions')
     def get_questions(self,obj):
-        # data = Question.objects.filter(bookSection__pk = obj.pk)
         return QuestionSerializer(Question.objects.filter(bookSection__pk = obj.pk),many=True).data
 
 class ContactSerializer(serializers.ModelSerializer):
@@ -256,7 +257,7 @@ class CourseActivitySerializer(serializers.ModelSerializer):
             e.paper = paperObj
         if 'typ' in data:
             if data['typ'] =='quiz' or data['typ'] =='homework':
-                e.title = data['txt']
+                e.title = paperObj.name
         if 'course' in data:
             courseObj =  Course.objects.get(pk=data['course'])
             e.course = courseObj

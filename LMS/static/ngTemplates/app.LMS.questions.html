@@ -17,22 +17,35 @@
             {{$index+1}}.
         </h4>
       </div>
-      <div class="col-md-11">
-        <p  class="newOption"ng-if="k.qtype == 'upload'" ng-bind-html="k.ques">{{k.ques}}</p>
-        <span  ng-bind-html="k.ques" ng-if="k.qtype == 'mcc' || k.qtype == 'mcq'"  ng-if="!k.isLatex" style="font-size:18px"></span>
-        <span mathjax-bind="k.ques" ng-if="k.isLatex" style="font-size:18px"> </span>
+      <div class="col-md-10">
+        <span class="newOption"  ng-bind-html="k.ques"  ng-if="!k.isLatex" style="font-size:18px"></span>
+        <span  mathjax-bind="k.ques" ng-if="k.isLatex" style="font-size:18px"> </span>
         <ol type="A" ng-if="k.qtype == 'mcc'" style="margin-left:10px;">
           <li ng-repeat="l in k.options" style="font-size:18px">
             <div class="checkbox">
               <input type="checkbox" value="" ng-model="l.is_Selected" style="margin-left: -50px;">
-              <span ng-bind-html="l.rtxt" ng-if="!k.isLatex" style="font-size:18px"></span>
-              <span mathjax-bind="l.rtxt" ng-if="k.isLatex"> </span>
+              <span class="newOption" ng-bind-html="l.rtxt" ng-if="!k.isLatex" style="font-size:18px"></span>
+              <span class="newOption" mathjax-bind="l.rtxt" ng-if="k.isLatex"> </span>
 
             </div>
             </li>
 
         </ol>
 
+      </div>
+      <div class="col-md-1 pull-right">
+        <span>
+          <i class="fa fa-pencil" style="padding-right:20px" ng-click="selectChoice(k)"></i>
+          <i class="fa fa-trash"  mwl-confirm
+          title="Confirm"
+          message="Are you sure?"
+          confirm-text="Yes <i class='fa fa-check'></i>"
+          cancel-text="No"
+          on-confirm="delQue($index)"
+          confirm-button-type="danger"
+          cancel-button-type="default"></i>
+
+        </span>
       </div>
     </div>
   </div>
