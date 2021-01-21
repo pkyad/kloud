@@ -240,6 +240,11 @@ app.controller("businessManagement.importexport", function($rootScope, $scope, $
     $scope.offset = 0
     $scope.count = 0
 
+    if($rootScope.formToggle.toggleMain){
+      $scope.flagValue = 'True'
+    }else{
+      $scope.flagValue = 'False'
+    }
     $scope.privious = function() {
       if ($scope.offset > 0) {
         $scope.offset -= $scope.limit
@@ -283,6 +288,14 @@ app.controller("businessManagement.importexport", function($rootScope, $scope, $
         $scope.fetchData();
       });
     }
+    $scope.projectSearch = function(query) {
+      return $http.get('/api/importexport/projectSearch/?search=' + query + '&flag='+ $scope.flagValue + '&comm_nr='+  $stateParams.id+'&type=poView').
+      then(function(response) {
+        console.log('response', response);
+        return response.data;
+      })
+    };
+
   }
   if ($state.is('businessManagement.importexport.projects')) {
     $scope.limit = 5
@@ -4500,20 +4513,22 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
       $scope.$watch('form.billName', function(newValue, oldValue) {
 
         if (typeof newValue === 'object') {
-          console.log(newValue);
+          console.log(newValue,'log herer');
+          console.log($scope.form.toggleVendor,'log herer');
           if ($scope.form.toggleVendor == false) {
             $scope.form.billName = newValue.name
             $scope.form.billAddress.street = newValue.street
             $scope.form.billAddress.city = newValue.city
             $scope.form.billAddress.pincode = newValue.pincode
             $scope.form.billState = newValue.state
+            $scope.form.billGst = newValue.gst
           } else {
             $scope.form.billName = newValue.name
             $scope.form.billAddress.street = newValue.address.street
             $scope.form.billAddress.city = newValue.address.city
             $scope.form.billAddress.pincode = newValue.address.pincode
             $scope.form.billState = newValue.address.state
-            $scope.form.billGst = newValue.gst
+            $scope.form.billGst = newValue.tin
           }
 
         }
@@ -4912,12 +4927,12 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
 
   $scope.vendorSearch = function(query) {
     if ($scope.form.toggleVendor == false) {
-      return $http.get('/api/importexport/vendor/?name__contains=' + query).
+      return $http.get('/api/importexport/vendor/?name__icontains=' + query).
       then(function(response) {
         return response.data;
       })
     } else {
-      return $http.get('/api/ERP/service/?name__contains=' + query).
+      return $http.get('/api/ERP/service/?name__icontains=' + query).
       then(function(response) {
         return response.data;
       })
@@ -4927,20 +4942,20 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
   $scope.$watch('form.billName', function(newValue, oldValue) {
 
     if (typeof newValue === 'object') {
-      console.log(newValue);
       if ($scope.form.toggleVendor == false) {
         $scope.form.billName = newValue.name
         $scope.form.billAddress.street = newValue.street
         $scope.form.billAddress.city = newValue.city
         $scope.form.billAddress.pincode = newValue.pincode
         $scope.form.billState = newValue.state
+        $scope.form.billGst = newValue.gst
       } else {
         $scope.form.billName = newValue.name
         $scope.form.billAddress.street = newValue.address.street
         $scope.form.billAddress.city = newValue.address.city
         $scope.form.billAddress.pincode = newValue.address.pincode
         $scope.form.billState = newValue.address.state
-        $scope.form.billGst = newValue.gst
+        $scope.form.billGst = newValue.tin
       }
 
     }
