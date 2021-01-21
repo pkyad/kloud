@@ -4,7 +4,6 @@ app.directive("mathjaxBind", function() {
     restrict: "A",
     controller: ["$scope", "$element", "$attrs",
       function($scope, $element, $attrs) {
-        console.log($scope, $element, $attrs);
         $scope.$watch($attrs.mathjaxBind, function(texExpression) {
           $element.html(texExpression);
           MathJax.Hub.Queue(["Typeset", MathJax.Hub, $element[0]]);
@@ -1344,12 +1343,19 @@ app.directive('academyCourses', function() {
 app.directive('courseDetails', function() {
   return {
     templateUrl: '/static/ngTemplates/courseDetails.html',
-     // css: '/static/css/careerview.css',
     restrict: 'E',
     transclude: true,
     replace: true,
-    controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
-      console.log(id);
+    controller: function($scope, $state, $http, Flash, $rootScope, $filter,$uibModal,$users) {
+      $scope.me = $users.get('mySelf')
+      $http({
+        method: 'GET',
+        url: '/api/LMS/course/'+id+'/',
+      }).
+      then(function(response) {
+        $scope.course = response.data
+      })
+
       $http({
         method: 'GET',
         url: '/api/LMS/getCourseactivities/?course='+id,
@@ -1357,6 +1363,44 @@ app.directive('courseDetails', function() {
       then(function(response) {
         $scope.activitydata = response.data
       })
+      $scope.playVid = function(typ,pk){
+        if (typ =='video') {
+          $scope.attachment =  pk.attachment
+        }
+      }
+
+
+
+      $scope.payment = function() {
+        $uibModal.open({
+          templateUrl: '/static/ngTemplates/app.LMS.enroll.html',
+          size: 'sm',
+          backdrop: true,
+          resolve:{
+            data:function(){
+              return $scope.course
+            }
+          },
+          controller: function($scope, $users , $uibModalInstance,data) {
+            $scope.me = $users.get('mySelf')
+            $scope.data  = data
+            $scope.login = function(){
+                window.location = '/login/'
+            }
+            $scope.closeModal = function () {
+              $uibModalInstance.close()
+            }
+
+            $scope.Paymentid = function(){
+              $uibModalInstance.close()
+
+            }
+
+          },
+        })
+      }
+
+
     }
   }
 })

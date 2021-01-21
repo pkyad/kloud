@@ -1,0 +1,28 @@
+<div class="container-fluid" style="background-color:#fafafa">
+  <div class="modal-header text-center">
+    <h4><b>Edit</b></h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="form-group">
+        <label for="">Title</label>
+        <input type="text" ng-model="form.title" class="form-control courseInput" name="" value="">
+      </div>
+      <div class="form-group">
+        <label for="">Short Url</label>
+        <input type="text" ng-model="form.shortUrl" class="form-control courseInput" name="" value="">
+      </div>
+      <div class="form-group">
+        <label for="">Description</label>
+        <textarea name="name" rows="8" cols="80" ng-model="form.description " class="form-control courseInput"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="">SEO Title</label>
+        <input type="text" ng-model="form.seoTitle" class="form-control courseInput" name="" value="" disabled>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" name="button"  class="createTestBtn pull-right" ng-click="save()">Save</button>
+  </div>
+</div>
