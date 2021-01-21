@@ -160,6 +160,13 @@ class Sale(models.Model):
     serviceFor = models.CharField(max_length = 100 ,null = True)
     isPerforma = models.BooleanField(default = False)
     uniqueId = models.CharField(max_length = 100 ,null = True)
+    sameasbilling =  models.BooleanField(default = False)
+    billingAddress = models.TextField(max_length=200 , null = True)
+    billingPincode = models.CharField(max_length = 50, null = True)
+    billingState = models.CharField(max_length = 50, null = True)
+    billingCity = models.CharField(max_length = 50, null = True)
+    billingCountry = models.CharField(max_length = 50, null = True)
+
 
 
 class SalesQty(models.Model):

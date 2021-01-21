@@ -14,7 +14,7 @@ from HR.models import designation
 from clientRelationships.models import *
 from django.db.models import Q, F , Sum , FloatField
 from organization.serializers import *
-from organization.serializers import UnitsLiteSerializer
+from organization.serializers import UnitsLiteSerializer,DivisionSerializer
 from organization.models import Division , Unit
 from assets.serializers import CheckinLiteSerializer
 from assets.models import *
@@ -379,7 +379,7 @@ class SaleSerializer(serializers.ModelSerializer):
     tax = serializers.SerializerMethodField()
     class Meta:
         model = Sale
-        fields=('pk','created','user','status','isInvoice','poNumber','name','personName','phone','email','address','pincode','state','city','country','pin_status','deliveryDate','payDueDate','gstIn','costcenter','bussinessunit','tax','recDate','total','totalGST','paidAmount','balanceAmount','cancelled','cancelledDate','division','isCash','paymentImage','paymentRef','isPerforma')
+        fields=('pk','created','user','status','isInvoice','poNumber','name','personName','phone','email','address','pincode','state','city','country','pin_status','deliveryDate','payDueDate','gstIn','costcenter','bussinessunit','tax','recDate','total','totalGST','paidAmount','balanceAmount','cancelled','cancelledDate','division','isCash','paymentImage','paymentRef','isPerforma','sameasbilling','billingAddress','billingPincode','billingState','billingCity','billingCountry')
     def create(self , validated_data):
         obi = Sale(**validated_data)
         try:
@@ -427,7 +427,7 @@ class SaleSerializer(serializers.ModelSerializer):
         obi.save()
         return obi
     def update(self ,instance, validated_data):
-        for key in ['status','poNumber','name','personName','phone','email','address','pincode','state','city','country','pin_status','deliveryDate','payDueDate','gstIn','recDate','isInvoice','total','totalGST','paidAmount','balanceAmount','cancelled','cancelledDate','isCash','paymentImage','paymentRef','isPerforma']:
+        for key in ['status','poNumber','name','personName','phone','email','address','pincode','state','city','country','pin_status','deliveryDate','payDueDate','gstIn','recDate','isInvoice','total','totalGST','paidAmount','balanceAmount','cancelled','cancelledDate','isCash','paymentImage','paymentRef','isPerforma','sameasbilling','billingAddress','billingPincode','billingState','billingCity','billingCountry']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
@@ -545,7 +545,7 @@ class SaleAllSerializer(serializers.ModelSerializer):
     receivedAmount = serializers.SerializerMethodField()
     class Meta:
         model = Sale
-        fields=('pk','created','user','status','isInvoice','poNumber','name','personName','phone','email','address','pincode','state','city','country','pin_status','deliveryDate','payDueDate','gstIn','total','tax','recDate','invoiceqty','parent','costcenter','balanceAmount' , 'paidAmount','account','contact','terms','termsandcondition','serviceFor','receivedAmount','isPerforma')
+        fields=('pk','created','user','status','isInvoice','poNumber','name','personName','phone','email','address','pincode','state','city','country','pin_status','deliveryDate','payDueDate','gstIn','total','tax','recDate','invoiceqty','parent','costcenter','balanceAmount' , 'paidAmount','account','contact','terms','termsandcondition','serviceFor','receivedAmount','isPerforma','sameasbilling','billingAddress','billingPincode','billingState','billingCity','billingCountry')
     def get_total(self , obj):
         objData = SalesQty.objects.filter(outBound=obj.pk).aggregate(tot=Sum('total'))
         tot = objData['tot'] if objData['tot'] else 0
@@ -597,7 +597,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 print Inventory
 class RateListSerializer(serializers.ModelSerializer):
-
+    division= DivisionSerializer(many=False,read_only = True)
     class Meta:
         model = Inventory
         fields=('pk','created','name','value','rate','qtyAdded','refurnished','refurnishedAdded','sellable','description','richtxtDesc','taxCode','img1','img2','img3','category','division','buyingPrice','sku','taxRate','mrp')

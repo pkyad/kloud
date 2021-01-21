@@ -65,8 +65,17 @@
         <input flexible-input  type="text" ng-model="form.personName"  uib-typeahead="c as c.name for c in contactSearch($viewValue)">
         ( Mobile Number <input flexible-input  type="text"ng-model="form.phone"  placeholder=""> )<input flexible-input type="text" ng-model="form.email" placeholder="Email"> <br><br>
         <strong><input flexible-input type="text" ng-model="form.name" placeholder="Company Name"> </strong> <br>
-        <span><input flexible-input type="text" ng-model="form.address" placeholder="Address"> </span> <br>
-        <span><input flexible-input type="text" ng-model="form.pincode" placeholder="Pincode">,{{form.city}}, {{form.state}},  {{form.country}} </span> <br>
+        <div class="row">
+          <div class="col-md-6">
+            <span><input flexible-input type="text" ng-model="form.address" placeholder="Shipping Address"> </span> <br>
+            <span><input flexible-input type="text" ng-model="form.pincode" placeholder="Pincode">,{{form.city}}, {{form.state}},  {{form.country}} </span> <br>
+            <span><input type="checkbox" value="" ng-model="form.sameasbilling"> Address same as shipping</span>
+          </div>
+          <div class="col-md-6" ng-if="!form.sameasbilling">
+            <span><input flexible-input type="text" ng-model="form.billingAddress" placeholder="Billing Address"> </span> <br>
+            <span><input flexible-input type="text" ng-model="form.billingPincode" placeholder="Pincode">,{{form.billingCity}}, {{form.billingState}},  {{form.billingCountry}} </span> <br>
+          </div>
+        </div>
         <strong>GSTIN : </strong><input flexible-input type="text" ng-model="form.gstIn" placeholder="GST"> <br> <br>
 
       </div>

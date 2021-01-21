@@ -151,6 +151,7 @@ class profile(models.Model):
     onboarding = models.BooleanField(default=False)
     apps = models.TextField(null = True , max_length=6000)
     zoom_token = models.TextField(null=True)
+    postCount = models.PositiveIntegerField(default = 0)
 
 
 
@@ -173,7 +174,6 @@ class designation(models.Model):
     primaryApprover = models.ForeignKey(User, related_name = "approving" , null=True)
     secondaryApprover = models.ForeignKey(User , related_name = "alsoApproving" , null=True)
     team = models.ForeignKey(Team , related_name = "teamName", null=True)
-    apps = models.ManyToManyField(InstalledApp , blank = True, related_name = 'individualInstallations')
 
 
 

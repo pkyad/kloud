@@ -7,93 +7,85 @@
   }
 </style>
 
-<div class="body container-fluid" style="background-color:#f2f3f7;height:100vh;padding-bottom:15px;">
+<div class="body container-fluid" style="background-color:#fafafa;height:120vh;padding-bottom:15px;">
+  <br><br>
+  <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-12">
+      <h2 ng-if="!form.pk"> <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="height:35px;padding-right:20px;" alt=""> Create a course</h2>
+      <h2 ng-if="form.pk"> <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="height:35px;padding-right:20px;" alt=""> Edit this course</h2>
 
-  <div class="col-md-6">
-    <h2 ng-if="!form.pk"> <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="height:35px;padding-right:20px;" alt=""> Create a course</h2>
-    <h2 ng-if="form.pk"> <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="height:35px;padding-right:20px;" alt=""> Edit this course</h2>
-
-    <div class="" style="padding-left:65px;">
+      <div class="" style="padding-left:65px;">
 
 
-      <div class="form-group">
-        <label>Title</label>
-        <input type="text" class="form-control courseInput" ng-model="form.title">
-      </div>
-      <!-- <div class="form-group">
-        <label>Topic</label>
-        <input type="text" class="form-control courseInput" ng-model="form.topic">
-      </div> -->
-      <!-- <div class="form-group">
-        <input class="form-control courseInput" type="text" ng-model="form." uib-typeahead="user as getInstructor(user) for user in userSearch($viewValue)" placeholder="Search and select a Instructor" style="background-color:#E7EBFF;">
-      </div> -->
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" class="form-control courseInput" ng-model="form.title">
+        </div>
+        <div class="form-group">
+          <label>Course Url</label>
+          <input type="text" class="form-control courseInput" ng-model="form.urlSuffix">
+        </div>
+        <div class="form-group">
+          <label>Topic</label>
+          <input type="text" class="form-control courseInput" ng-model="form.topic">
+        </div>
 
-      <!-- <div class="input-group">
-        <label> Topic</label>
-        <input type="text" class="form-control courseInput" placeholder="Search" style="border-top-right-radius: 0px !important;
-border-bottom-right-radius: 0px !important;">
-        <div class="input-group-btn">
-          <button class="btn btn-default" style="background-color:#E7EBFF;margin-top: 25px;
-height: 40px;border-top-right-radius: 10px !important;
-border-bottom-right-radius: 10px !important;" type="submit">
-            <img src="/static/images/icons8-plus-math-96.png" style="height:18px;" alt=""> New
+        <div class="form-group">
+
+
+          <label>Enrollment Type</label>
+          <span class="dropIcon"><i class="fa fa-caret-down"></i></span>
+          <select ng-model="form.enrollmentStatus" class="form-control courseInput">
+            <option value="open">Open</option>
+            <option value="onInvitation">On Invitation</option>
+            <option value="admin">Admin</option>
+            <option value="onRequest">On request</option>
+          </select>
+
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea name="name" class="form-control courseInput" rows="8" cols="80" ng-model="form.description" style="resize:none;"></textarea>
+        </div>
+        <div class="form-group">
+          <label>DP</label>
+          <div class="" style="background:white;color:black;border-radius: 15px;padding: 10px;border: 1px solid black;width:110px;height:43px;">
+
+            Choose Dp
+
+            <input type="file" file-model="form.dp" class="file_upload"  />
+          </div>
+          <img src="" id="coursedp"alt="" style="width: 25%;height: 200px;margin-top:30px;">
+        </div>
+        <div class="form-group">
+          <label> Fee</label>
+          <input class="form-control courseInput" type="text" ng-model="form.sellingPrice" placeholder="Fee for course">
+        </div>
+        <!-- <div class="form-group">
+          <label> Discount</label>
+          <input class="form-control courseInput" type="text" ng-model="form.discount" placeholder="Discount for course">
+        </div> -->
+        <div class="form-group">
+          <label> Instructor</label>
+          <input class="form-control courseInput" type="text" ng-model="form.instructor" uib-typeahead="user as user.first_name+' '+user.last_name for user in userSearch($viewValue)" placeholder="Search and select a Instructor" style="background-color:#E7EBFF;">
+        </div>
+        <div class="form-group" ng-if="form.pk">
+          <label for="">is Active ? <input type="checkbox" ng-model="form.activeCourse" name="" value=""></label>
+        </div>
+        <br>
+        <div class="row" style="margin:0px;">
+          <button type="button" name="button" class="newBtn" style="border-radius: 50px !important;
+          padding: 15px 25px;">Cancel</button>
+          <button type="button" ng-click="saveCourse()"  class="newBtn pull-right" style="background-color:rgb(14, 67, 136);border-radius: 50px !important;padding: 15px 25px;">
+            Save
           </button>
+          <!-- <button type="button" ng-click="editCourses()" ng-if="form.pk" class="newBtn pull-right" style="background-color:rgb(14, 67, 136);border-radius: 50px !important;padding: 15px 25px;">
+            Update
+          </button> -->
         </div>
-      </div> -->
-      <div class="form-group">
-
-
-        <label>Enrollment Type</label>
-        <span class="dropIcon"><i class="fa fa-caret-down"></i></span>
-        <select ng-model="form.enrollmentStatus" class="form-control courseInput">
-          <option value="open">Open</option>
-          <option value="onInvitation">On Invitation</option>
-          <option value="admin">Admin</option>
-          <option value="onRequest">On request</option>
-        </select>
 
       </div>
-      <div class="form-group">
-        <label>Description</label>
-        <textarea name="name" class="form-control courseInput" rows="8" cols="80" ng-model="form.description" style="resize:none;"></textarea>
-      </div>
-      <div class="form-group">
-        <label>DP</label>
-        <div class="" style="background:white;color:black;border-radius: 15px;padding: 10px;border: 1px solid black;width:110px;height:43px;">
-
-          Choose Dp
-
-          <input type="file" file-model="form.dp" class="file_upload" onchange="angular.element(this).scope().fileupload(this.files)" />
-        </div>
-        <img src="{{form.dp}}" ng-if="form.pk"alt="" style="width:50px;height:50px;margin-top:30px;">
-      </div>
-      <div class="form-group">
-        <label> Fee</label>
-        <input class="form-control courseInput" type="text" ng-model="form.sellingPrice" placeholder="Fee for course">
-      </div>
-      <!-- <div class="form-group">
-        <label> Discount</label>
-        <input class="form-control courseInput" type="text" ng-model="form.discount" placeholder="Discount for course">
-      </div> -->
-      <div class="form-group">
-        <label> Instructor</label>
-        <input class="form-control courseInput" type="text" ng-model="form.instructor" uib-typeahead="user as user.first_name+' '+user.last_name for user in userSearch($viewValue)" placeholder="Search and select a Instructor" style="background-color:#E7EBFF;">
-      </div>
-      <div class="form-group">
-        <label for="">is Active ? <input type="checkbox" ng-model="form.activeCourse" name="" value=""></label>
-      </div>
-      <br>
-      <div class="row" style="margin:0px;">
-        <button type="button" name="button" class="newBtn" style="border-radius: 50px !important;
-padding: 15px 25px;">Cancel</button>
-        <button type="button" ng-click="saveCourse()"  class="newBtn pull-right" style="background-color:rgb(14, 67, 136);border-radius: 50px !important;padding: 15px 25px;">
-          Save
-        </button>
-        <!-- <button type="button" ng-click="editCourses()" ng-if="form.pk" class="newBtn pull-right" style="background-color:rgb(14, 67, 136);border-radius: 50px !important;padding: 15px 25px;">
-          Update
-        </button> -->
-      </div>
-
     </div>
+
   </div>
 </div>

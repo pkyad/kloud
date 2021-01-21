@@ -87,10 +87,13 @@ class DivisionSerializer(serializers.ModelSerializer):
             if action == 'addApplication':
                 app, created = InstalledApp.objects.get_or_create(parent = instance , app = application.objects.get(pk = d['app']) , priceAsAdded = d['priceAsAdded'] , addedBy= self.context['request'].user)
                 app.save()
-                if instance.simpleMode == True:
-                    d = self.context['request'].user.designation
-                    d.apps.add(app)
-                    d.save()
+                ua = UserApp(user = self.context['request'].user , app = application.objects.get(pk = d['app'])  )
+                ua.save()
+                
+                # if instance.simpleMode == True:
+                #     d = self.context['request'].user.designation
+                #     d.apps.add(app)
+                #     d.save()
         instance.save()
         return instance
 

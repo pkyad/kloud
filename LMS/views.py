@@ -205,7 +205,7 @@ class PaperViewSet(viewsets.ModelViewSet):
             return Paper.objects.filter(group = int(self.request.GET['groupId']))
         if 'name' in self.request.GET:
             return Paper.objects.filter(name__icontains = str(self.request.GET['name']),active=True)
-        
+
         if 'state' in self.request.GET :
             val = self.request.GET['state']
             if val == 'old':
@@ -243,6 +243,18 @@ class EnrollmentViewSet(viewsets.ModelViewSet):
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
 import urllib2
+
+class GetCourseactivitiesAPI(APIView):
+    permission_classes = (permissions.AllowAny, )
+    renderer_classes = (JSONRenderer,)
+    def get(self , request , format = None):
+        if 'course' in request.GET:
+            courseObj = Course.objects.get(pk = request.GET['course'])
+            activities = courseObj.courseActivities.all()
+            quiz = courseObj.courseActivities.all().filter(typ = 'quiz').count()
+            data = {'course':CourseSerializer(courseObj,many=False).data,'activities':CourseActivitySerializer(activities,many=True).data,'quiz':quiz}
+        return Response(data , status = status.HTTP_200_OK)
+
 
 class QuestionsAutoCreate(APIView):
     permission_classes = (permissions.AllowAny, )

@@ -150,8 +150,18 @@
               <strong>Party Name : </strong> <h2>{{form.personName}}</h2>
               ( Mobile : {{form.phone}} ) (Email : {{form.email}})<br><br>
               <strong>{{form.name}} </strong> <br>
-              <span>{{form.address}} </span> <br>
-              <span>{{form.pincode}},{{form.city}}, {{form.state}},  {{form.country}} </span> <br>
+              <div class="row">
+                <div class="col-md-6">
+                  <span>SHIPPING ADDRESS </span> <br>
+                  <span>{{form.address}} </span> <br>
+                  <span>{{form.pincode}},{{form.city}}, {{form.state}},  {{form.country}} </span> <br>
+                </div>
+                <div class="col-md-6">
+                    <span>BILLING ADDRESS </span> <br>
+                  <span>{{form.billingAddress}} </span> <br>
+                  <span>{{form.billingPincode}},{{form.billingCity}}, {{form.billingState}},  {{form.billingCountry}} </span> <br>
+                </div>
+              </div>
               <strong>GSTIN : {{form.gstIn}} <br> <br>
             </div>
           </div>

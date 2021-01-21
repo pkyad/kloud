@@ -894,32 +894,6 @@ app.directive('appstoreView', function() {
   };
 });
 
-app.directive('forumMain', function() {
-  return {
-    templateUrl: '/static/ngTemplates/forumMain.html',
-     // css: '/static/css/appstoreview.css',
-    restrict: 'E',
-    transclude: true,
-    replace: true,
-    // scope: {
-    //   data: '=',
-    //   // addCart: '='
-    // },
-    controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
-      console.log($scope.allApplication);
-      $http({
-        method: 'GET',
-        url: '/api/ERP/getapplication/',
-      }).
-      then(function(response) {
-        $scope.allApplication = response.data
-      })
-
-
-    },
-  };
-});
-
 
 app.directive('appdetailedView', function() {
   return {
@@ -1109,21 +1083,342 @@ app.directive('careerView', function() {
 });
 
 
-// app.directive('forumMain', function() {
-//   return {
-//     templateUrl: '/static/ngTemplates/forumMain.html',
-//      // css: '/static/css/careerview.css',
-//     restrict: 'E',
-//     transclude: true,
-//     replace: true,
-//     controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
-//       $http({
-//         method: 'GET',
-//         url: '/api/forum/allForums/',
-//       }).
-//       then(function(response) {
-//         $scope.allForums = response.data
-//       })
-//     },
-//   };
-// });
+app.directive('forumMain', function() {
+  return {
+    templateUrl: '/static/ngTemplates/forummain.html',
+     // css: '/static/css/careerview.css',
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
+      $http({
+        method: 'GET',
+        url: '/api/forum/getForums/',
+      }).
+      then(function(response) {
+        $scope.allForums = response.data
+      })
+
+      $scope.deleteForum = function(indx, typ){
+        if (typ == 'posts1') {
+          $http({
+            method: 'DELETE',
+            url: '/api/forum/forum/'+$scope.allForums.posts1[indx].pk+'/',
+          }).
+          then(function(response) {
+            $scope.allForums.posts1.splice(indx,1)
+            return
+          })
+        }
+
+        if (typ == 'posts2') {
+          $http({
+            method: 'DELETE',
+            url: '/api/forum/forum/'+$scope.allForums.posts2[indx].pk+'/',
+          }).
+          then(function(response) {
+            $scope.allForums.posts2.splice(indx,1)
+            return
+          })
+        }
+
+      }
+      $scope.goTo = function(id){
+        $state.go('businessManagement.viewForum',{'id' : id})
+
+      }
+
+    },
+  };
+});
+
+
+app.directive('forumView', function() {
+  return {
+    templateUrl: '/static/ngTemplates/forumview.html',
+     // css: '/static/css/careerview.css',
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
+      $http({
+        method: 'GET',
+        url: '/api/forum/forumapi/?id='+$state.params.id,
+      }).
+      then(function(response) {
+        $scope.alldata = response.data
+      })
+
+      $scope.resetForm = function(){
+      $scope.data = {
+        content : '',
+        files : []
+      }
+    }
+    $scope.resetForm()
+
+    $scope.fileNameChanged = function(file) {
+        // console.log("select file",$scope.data.image,file[0]);
+        var filedata = file[0]
+        var typ = filedata['type'].split('/')[0]
+        var fd = new FormData();
+        if (filedata != null && filedata != emptyFile) {
+          fd.append('attachment', filedata)
+          fd.append('typ', typ)
+        }
+        $http({
+          method: 'POST',
+          url: '/api/forum/forumCommentfies/',
+          data: fd,
+          transformRequest: angular.identity,
+          headers: {
+            'Content-Type': undefined
+          }
+        }).
+        then(function(response) {
+          $scope.data.files.push(response.data)
+        })
+      }
+
+      $scope.delete = function(indx){
+        $http({
+          method: 'DELETE',
+          url: '/api/forum/forumComment/'+$scope.alldata.forumcommentdata[indx].pk+'/',
+        }).
+        then(function(response) {
+          $scope.alldata.forumcommentdata.splice(indx,1)
+        })
+      }
+
+
+      $scope.removeImage = function(idx) {
+        $http({
+          method: 'DELETE',
+          url: '/api/forum/forumCommentfies/' + $scope.data.files[idx].pk + '/',
+        }).
+        then(function(response) {
+          $scope.data.files.splice(idx, 1)
+        })
+      }
+
+      $scope.postcomment = function() {
+
+          var dataToSend = {
+            content: $scope.data.content,
+            parent: $state.params.id,
+          }
+
+          var filesList = []
+          for (var i = 0; i < $scope.data.files.length; i++) {
+            filesList.push($scope.data.files[i].pk)
+          }
+          if (filesList.length > 0) {
+            dataToSend.files = filesList
+          }
+
+          if ($scope.data.pk) {
+              dataToSend.id = $scope.data.pk
+          }
+
+          $http({
+            method: 'POST',
+            url: '/api/forum/forumcommentapi/',
+            data: dataToSend
+          }).
+          then(function(response) {
+            if (!$scope.data.pk) {
+              $scope.alldata.forumcommentdata.push(response.data);
+            }
+            $scope.resetForm()
+          })
+        }
+
+        $scope.edit = function(indx){
+          $scope.data = $scope.alldata.forumcommentdata[indx]
+        }
+    },
+  };
+});
+
+
+app.directive('academyCourses', function() {
+  return {
+    templateUrl: '/static/ngTemplates/academyCourses.html',
+     // css: '/static/css/careerview.css',
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
+      $http({
+        method: 'GET',
+        url: '/api/LMS/course/?activeCourse=True',
+      }).
+      then(function(response) {
+        $scope.courses = response.data
+      })
+    }
+  }
+})
+
+app.directive('courseDetails', function() {
+  return {
+    templateUrl: '/static/ngTemplates/courseDetails.html',
+     // css: '/static/css/careerview.css',
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
+      console.log(id);
+      $http({
+        method: 'GET',
+        url: '/api/LMS/getCourseactivities/?course='+id,
+      }).
+      then(function(response) {
+        $scope.activitydata = response.data
+      })
+    }
+  }
+})
+app.directive('forumCreate', function() {
+  return {
+    templateUrl: '/static/ngTemplates/forumForm.html',
+     // css: '/static/css/careerview.css',
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
+      var emptyFile = new File([""], "");
+      $scope.resetForm = function() {
+        $scope.data = {
+          title: '',
+          description: '',
+          // category: '',
+          tags: '',
+          image: emptyFile,
+          files: []
+        }
+      }
+
+      // $http({
+      //   method: 'GET',
+      //   url: '/api/articles/category/'
+      // }).then(function(response) {
+      //   console.log(response.data);
+      //   $scope.allcat = response.data;
+      // })
+      $scope.resetForm()
+      $scope.saveforum = function() {
+        console.log(document.getElementsByClassName('ql-editor')[0]);
+        var dataToSend = {
+          title: $scope.data.title,
+          description: document.getElementsByClassName('ql-editor')[0].innerHTML,
+          // category: $scope.data.category.pk,
+          tags: $scope.data.tags
+        }
+        var filesList = []
+        for (var i = 0; i < $scope.data.files.length; i++) {
+          filesList.push($scope.data.files[i].pk)
+        }
+        if (filesList.length > 0) {
+          dataToSend.files = filesList
+        }
+
+        if ($scope.data.pk) {
+          dataToSend.id = $scope.data.pk
+        }
+        $http({
+          method: 'POST',
+          url: '/api/forum/forumapi/',
+          data: dataToSend
+        }).
+        then(function(response) {
+          if ($state.is('businessManagement.createForum')) {
+            $scope.resetForm()
+            document.getElementsByClassName('ql-editor')[0].textContent = ''
+          }
+          Flash.create('success' , 'Saved')
+          return
+        })
+      }
+
+      //   $scope.$watch('data.image', function(newValue, oldValue) {
+      //     console.log(newvalue,'aaaaaaaaaaaaaa');
+      //   },true)
+      //
+      //
+
+
+
+      $scope.fileNameChanged = function(file) {
+        // console.log("select file",$scope.data.image,file[0]);
+        var filedata = file[0]
+        var typ = filedata['type'].split('/')[0]
+        var fd = new FormData();
+        if (filedata != null && filedata != emptyFile) {
+          fd.append('attachment', filedata)
+          fd.append('typ', typ)
+        }
+        $http({
+          method: 'POST',
+          url: '/api/forum/forumfiles/',
+          data: fd,
+          transformRequest: angular.identity,
+          headers: {
+            'Content-Type': undefined
+          }
+        }).
+        then(function(response) {
+          $scope.data.files.push(response.data)
+        })
+      }
+
+
+      $scope.removeImage = function(idx) {
+        $http({
+          method: 'DELETE',
+          url: '/api/forum/forumfiles/' + $scope.data.files[idx].pk + '/',
+        }).
+        then(function(response) {
+          $scope.data.files.splice(idx, 1)
+        })
+      }
+
+      setTimeout(function() {
+      if ($state.is('businessManagement.editForum')) {
+        $http({
+          method: 'GET',
+          url: '/api/forum/forum/'+$state.params.id+'/',
+        }).
+        then(function(response) {
+          $scope.data = response.data
+          document.getElementsByClassName('ql-editor')[0].innerHTML = $scope.data.description
+          $scope.data.tags = []
+          for (var i = 0; i < $scope.data.tag.length; i++) {
+            $scope.data.tags.push($scope.data.tag[i].name)
+          }
+        })
+      }
+    }, 600)
+
+      // var options = {
+      //   debug: 'info',
+      //   modules: {
+      //     toolbar: '#toolbar'
+      //   },
+      //   placeholder: 'Compose an epic...',
+      //   readOnly: true,
+      //   theme: 'snow'
+      // };
+
+      setTimeout(function() {
+        var quill = new Quill('#editor', {
+          debug: 'info',
+          placeholder: 'Description...',
+          theme: 'snow'
+        });
+      }, 500)
+
+
+    },
+  };
+});

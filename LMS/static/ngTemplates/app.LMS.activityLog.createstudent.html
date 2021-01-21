@@ -6,15 +6,29 @@
     <div class="row">
       <div class="form-group">
         <label for=""></label>
-        <input type="text" class="form-control bookInput" ng-model="form.contact" placeholder="Search the contact and click enter to add"uib-typeahead="p as p.name for p in getContactsearch($viewValue)" name="" value="" ng-enter="addContacts()">
+        <input type="text" class="form-control bookInput" ng-model="form.contact" placeholder="Search with mobile number"uib-typeahead="p as p.mobile for p in getContactsearch($viewValue)" name="" value="" ng-enter="addContacts()">
       </div>
 
-      <div class="row" style="margin:0px;display:flex">
+      <!-- <div class="row" style="margin:0px;display:flex">
         <div class="" style="box-shadow: 0px 0px 10px #ccc;padding:10px;margin-right:10px;" ng-repeat="k in form.contactsList track by $index">
           <h4 style="margin:0px;">{{k.name}}</h4>
         </div>
+      </div> -->
+      <div >
+        <div class="form-group">
+          <label for="">Student Name</label>
+          <input type="text" ng-model="form.name"class="form-control bookInput" name="" value="">
+        </div>
       </div>
+      <br>
 
+      <br>
+      <div >
+        <div class="form-group">
+          <label for="">Email Id</label>
+          <input type="email" ng-model="form.email" class="form-control bookInput" name="" value="">
+        </div>
+      </div>
       <div class="row" style="margin:0px;">
         <button type="button" class="createTestBtn pull-right"  ng-click="save()"name="button">Save</button>
       </div>

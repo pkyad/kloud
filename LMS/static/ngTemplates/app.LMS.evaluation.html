@@ -3,11 +3,14 @@
     <div class="col-md-2">
     </div>
     <div class="col-md-4">
-      <div class="toggledBtn">
-        <div class="btn-group btn-group-justified">
-          <a class="btn  {{getState.state=='current'?'courseBtn':'courseBtnText'}} btn-default" ng-click="getState.state='current';fetchData()">Currently Running Online Test</a>
-          <a  class="btn  {{getState.state=='old'?'oldcourseBtn':'oldcourseBtnText'}} btn-default" ng-click="getState.state='old';fetchData()">Old Online Test</a>
+      <div class="row toggledBtn">
+        <div class="col-md-7" style="padding:0px;">
+          <button type="button" name="button" class="btn  {{getState.state=='current'?'gradientBtnBlue':'courseBtnText'}} btn-default " ng-click="getState.state='current';fetchData()" style="height:50px;outline:none;">Currently Running Online Test</button>
         </div>
+        <div class="col-md-5 text-center"  style="padding:0px;">
+          <button type="button" name="button"  class="btn  {{getState.state=='old'?'gradientBtnBlue':'oldcourseBtnText'}} btn-block btn-default " ng-click="getState.state='old';fetchData()" style="height:50px;outline:none;">Old Online Test</button>
+        </div>
+
 
       </div>
     </div>
@@ -33,13 +36,13 @@
           <th class="">Paper Name</th>
           <th>Created By</th>
           <th>Status</th>
-          <th></th>
+          <th colspan="3"></th>
         </tr>
       </thead>
       <tbody>
 
         <tr class="detailStrip"  ng-repeat="k in allData track by $index">
-          <td ng-click="$state.go('businessManagement.viewPaper',{id:k.pk})">
+          <td ng-click="$state.go('businessManagement.LMS.viewPaper',{id:k.pk})">
             <div class="">
               <h5>{{k.name}}</h5>
 
@@ -53,11 +56,13 @@
               </div>
             </div>
           </td>
-          <td ng-click="$state.go('businessManagement.viewPaper',{id:k.pk})">{{k.user.first_name}} {{k.user.last_name}}</td>
+          <td ng-click="$state.go('businessManagement.LMS.viewPaper',{id:k.pk})">{{k.user.first_name}} {{k.user.last_name}}</td>
           <td><span ng-if="k.active">
 
             Active</span> <span ng-if="!k.active">In Active</span></td>
           <td style="color:#B6B6B6;font-size:16px;" ng-click="createStudent(k)"> <i class="fa fa-user-plus" aria-hidden="true"></i></td>
+          <td style="color:#B6B6B6;font-size:16px;" ng-click="createTest(k)"> <i class="fa fa-pencil" aria-hidden="true"></i></td>
+          <td style="color:#B6B6B6;font-size:16px;" ng-click="delTest($index)"> <i class="fa fa-trash" aria-hidden="true"></i></td>
         </tr>
 
 

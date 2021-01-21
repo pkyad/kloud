@@ -19,7 +19,7 @@
   </div>
   <div class="row" style="margin:25px 30px;">
     <div class="col-md-3 ">
-      <div class="addBook" ng-click="$state.go('businessManagement.newBook')">
+      <div class="addBook" ng-click="$state.go('businessManagement.LMS.newBook')">
         <div class="newBook">
         </div>
         <div class="row text-center" style="padding:100px 0px;color:white;">
@@ -30,16 +30,16 @@
     </div>
     <div class="col-md-3 " ng-repeat="k in data track by $index" style="margin-bottom:15px;">
       <div class="bookCard"  >
-        <div class="bookImg" style="background-image:url({{k.dp}})" ng-click="$state.go('businessManagement.viewBook',{bookid:k.pk})">
+        <div class="bookImg" style="background-image:url({{k.dp}})" ng-click="$state.go('businessManagement.LMS.viewBook',{bookid:k.pk})">
         </div>
         <div class="row text-left" style="margin:0px;padding:20px;color:white;">
-          <div class="col-md-9" ng-click="$state.go('businessManagement.viewBook',{bookid:k.pk})">
+          <div class="col-md-9" ng-click="$state.go('businessManagement.LMS.viewBook',{bookid:k.pk})">
             <h4>{{k.title}}</h4>
             <p>By:{{k.author}}</p>
 
           </div>
           <div class="col-md-1" style="padding:25px 0px">
-            <img src="/static/images/edit.svg" alt="" style="width: 25px;" ng-click="$state.go('businessManagement.newBook',{id:k.pk})">
+            <img src="/static/images/edit.svg" alt="" style="width: 25px;" ng-click="$state.go('businessManagement.LMS.newBook',{id:k.pk})">
           </div>
           <div class="col-md-1" style="padding:25px 15px;font-size:20px;">
             <i class="fa fa-trash" ng-click="delBook($index)"></i>

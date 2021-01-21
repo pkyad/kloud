@@ -701,7 +701,8 @@ class GetApplicationDetailsApi(APIView):
         feedObj = Feedback.objects.filter(app = appObj)
         appFeedbacks = FeedbackSerializer(feedObj, many = True).data
         apps = InstalledApp.objects.filter(app__pk=request.GET['app'])
-        users = User.objects.filter(designation__apps__in = apps , designation__division = division)
+        userApps = UserApp.objects.filter(app = appObj).values_list('user__pk', flat=True).distinct()
+        users = User.objects.filter(pk__in = userApps , designation__division = division)
         appUser = userSearchSerializer(users , many =True).data
         installedApp = InstalledApp.objects.filter(app = appObj , parent = division).first()
         installedAppObj = InstalledAppSerializer(installedApp , many = False).data
@@ -776,8 +777,8 @@ class AccountAdapter(DefaultAccountAdapter):
 
 
 def getApps(user):
-    print "here...." , user.designation.apps.all()
-    userApps = application.objects.filter(pk__in = user.designation.apps.all().values_list('app').distinct())
+    # print "here...." , user.designation.apps.all()
+    userApps = application.objects.filter(pk__in =  user.menuapps.all().values_list('app').distinct())
     print userApps
     if user.designation.role is None:
         return userApps
@@ -1224,7 +1225,7 @@ class getAllSettings(APIView):
         data.append(val)
         val = []
         settings = {'groupName' : 'PDF Terms and Conditions' }
-        app_ids = designation.apps.all().values_list('app__pk').distinct()
+        app_ids = UserApp.objects.filter(user = user).values_list('app__pk').distinct()
         application = appSettingsField.objects.filter(app__in = app_ids)
         val = appSettingsLiteFieldSerializer(application, many = True).data
         if len(val)>0:

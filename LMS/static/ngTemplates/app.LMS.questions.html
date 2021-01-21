@@ -19,7 +19,7 @@
       </div>
       <div class="col-md-11">
         <p  class="newOption"ng-if="k.qtype == 'upload'" ng-bind-html="k.ques">{{k.ques}}</p>
-        <span  ng-bind-html="k.ques" ng-if="k.qtype == 'mcc' || k.qtype == 'subjective'"  ng-if="!k.isLatex" style="font-size:18px"></span>
+        <span  ng-bind-html="k.ques" ng-if="k.qtype == 'mcc' || k.qtype == 'mcq'"  ng-if="!k.isLatex" style="font-size:18px"></span>
         <span mathjax-bind="k.ques" ng-if="k.isLatex" style="font-size:18px"> </span>
         <ol type="A" ng-if="k.qtype == 'mcc'" style="margin-left:10px;">
           <li ng-repeat="l in k.options" style="font-size:18px">
@@ -39,7 +39,7 @@
   <div class="row" style="margin:0px 30px;">
 
     <div class="col-md-1 pull-right">
-      <button type="button" class="createTestBtn btn-block " name="button" ng-click="addQuestion()" style="position: fixed;
+      <button type="button" class="createTestBtn btn-block " name="button" ng-click="addQuestion('paper',null)" style="position: fixed;
 right: 20px;bottom: 30px;width: inherit;">Add Question</button>
 
     </div>

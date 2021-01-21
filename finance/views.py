@@ -51,13 +51,14 @@ from openpyxl.styles import PatternFill , Font
 from ERP.models import appSettingsField, service, address
 from projects.models import *
 from payroll.models import PayrollReport, Advances
+from reportlab.pdfbase.ttfonts import TTFont
 # Create your views here.
 import ast
 import json
 from clientRelationships.models import *
 from marketing.models import TourPlanStop
 from svglib.svglib import svg2rlg
-# import cv2
+import cv2
 import numpy as np
 
 
@@ -1107,22 +1108,22 @@ def invoice(response , inv , invdetails , typ, request):
     tPH6.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'CENTER'),('VALIGN',(0,0),(-1,-1),'MIDDLE'),('BOX',(0,0),(-1,-1),0.25,colors.black),('INNERGRID', (0,0), (1,1), 0.25, colors.black)]))
     elements.append(tPH6)
 
-    try:
-        billaddr = inv.address.replace('\n', '<br />')
-    except:
-        billaddr = inv.address
+    # try:
+    #     billaddr = inv.address.replace('\n', '<br />')
+    # except:
+    #     billaddr = inv.address
     try:
         shipaddr = inv.address.replace('\n', '<br />')
     except:
         shipaddr = inv.address
     if inv.city is not None:
-        billaddr+= ' ' +inv.city
+        # billaddr+= ' ' +inv.city
         shipaddr+= ' ' +inv.city
     if inv.state is not None:
-        billaddr+= ' ' +inv.state
+        # billaddr+= ' ' +inv.state
         shipaddr+= ' ' +inv.state
     if inv.country is not None:
-        billaddr+= ' ' +inv.country
+        # billaddr+= ' ' +inv.country
         shipaddr+= ' ' +inv.country
     if inv.name is not None:
         company = inv.name
@@ -1132,6 +1133,47 @@ def invoice(response , inv , invdetails , typ, request):
         gstIn = inv.gstIn
     else:
         gstIn = 'NA'
+
+    if inv.sameasbilling == True:
+        if inv.billingAddress is not None:
+            try:
+                billaddr = inv.billingAddress.replace('\n', '<br />')
+            except:
+                billaddr = inv.billingAddress
+            if inv.billingCity is not None:
+                billaddr+= ' ' +inv.billingCity
+            if inv.billingState is not None:
+                billaddr+= ' ' +inv.billingState
+            if inv.billingCountry is not None:
+                billaddr+= ' ' +inv.billingCountry
+            if inv.billingPincode is not None:
+                billingPincode = inv.billingPincode
+        else:
+            try:
+                billaddr = inv.address.replace('\n', '<br />')
+            except:
+                billaddr = inv.address
+            if inv.city is not None:
+                billaddr+= ' ' +inv.city
+            if inv.state is not None:
+                billaddr+= ' ' +inv.state
+            if inv.country is not None:
+                billaddr+= ' ' +inv.country
+    else:
+        try:
+            billaddr = inv.billingAddress.replace('\n', '<br />')
+        except:
+            billaddr = inv.billingAddress
+        print inv.billingCity
+        if inv.billingCity is not None:
+            billaddr+= ' ' +inv.billingCity
+        if inv.billingState is not None:
+            billaddr+= ' ' +inv.billingState
+        if inv.billingCountry is not None:
+            billaddr+= ' ' +inv.billingCountry
+        if inv.billingPincode is not None:
+            billingPincode = inv.billingPincode
+
 
 
     detail51 = Paragraph("""
@@ -4031,6 +4073,18 @@ class OuttbondInvoiceAPIView(APIView):
                 data_to_post['balanceAmount'] = data['balanceAmount']
             if 'serviceFor' in data:
                 data_to_post['serviceFor'] = data['serviceFor']
+            if 'sameasbilling' in data:
+                data_to_post['sameasbilling'] = data['sameasbilling']
+            if 'billingAddress' in data:
+                data_to_post['billingAddress'] = data['billingAddress']
+            if 'billingState' in data:
+                data_to_post['billingState'] = data['billingState']
+            if 'billingPincode' in data:
+                data_to_post['billingPincode'] = data['billingPincode']
+            if 'billingCity' in data:
+                data_to_post['billingCity'] = data['billingCity']
+            if 'billingCountry' in data:
+                data_to_post['billingCountry'] = data['billingCountry']
             if 'pk' in data:
                 outBondObj = Sale.objects.get( pk = int(data['pk']))
                 outBondObj.__dict__.update(data_to_post)
@@ -4312,18 +4366,11 @@ class GetAllTourAPI(APIView):
 
 from reportlab.platypus import SimpleDocTemplate, Image , Spacer
 from reportlab.lib import utils
+
+
 def addPageNumbertoBrochure(self,doc):
-    print doc.user,'lfkdfl'
-    if doc.user.designation.division.logo:
-        logoImg = str(doc.user.designation.division.logo)
-        logoImg = os.path.join(globalSettings.BASE_DIR,'media_root',logoImg )
-        limg = utils.ImageReader(logoImg)
-        limg.hAlign ="CENTER"
-        iw, ih = limg.getSize()
-        aspect = ih / float(iw)
-        width = 1.25*inch
-        he = 1*inch
-        self.drawImage(limg,15*mm,10*inch ,width=width, height=(he * aspect),mask='auto')
+    divsn =  doc.user.designation.division
+    unt  = doc.user.designation.unit
 
     if self._pageNumber == 1:
         bgImg1 = svg2rlg(os.path.join(globalSettings.BASE_DIR,'static_shared', 'images', 'CatalogFront.svg'))
@@ -4332,18 +4379,26 @@ def addPageNumbertoBrochure(self,doc):
         bgImg1.scale(sx,sy)
         renderPDF.draw(bgImg1, self, 0*mm,0*inch)
 
-    p = Paragraph("<para fontSize=9  alignment='center'><b>%s</b><br/></para>"%(doc.user.designation.division.name),styles['Normal'])
-    p.wrapOn(self ,75*mm,10.25*inch)
-    p.drawOn(self ,75*mm,10.25*inch)
+
+
+
+
+
 
 
 class PageNumCanvas(canvas.Canvas):
 
     #----------------------------------------------------------------------
     def __init__(self, *args, **kwargs):
+
         """Constructor"""
         canvas.Canvas.__init__(self, *args, **kwargs)
+        print args[0],dir(args[0]),args[0].__class__
+        self.division =  args[0].division
+        self.unit =  args[0].unit
+        self.hyperLink =  args[0].hyperlink
         self.pages = []
+        self.canvas = canvas.Canvas
     #----------------------------------------------------------------------
     def showPage(self):
         """
@@ -4376,37 +4431,125 @@ class PageNumCanvas(canvas.Canvas):
         Add the page number
         """
 
-        if self._pageNumber == 2:
+
+        if self._pageNumber >1 :
             bgImg2 = svg2rlg(os.path.join(globalSettings.BASE_DIR,'static_shared', 'images', 'CatalogList.svg'))
             sx=sy=1.05
             bgImg2.width, bgImg2.height = bgImg2.minWidth()*sx, bgImg2.height*sy
             bgImg2.scale(sx,sy)
             renderPDF.draw(bgImg2, self, 0*mm,0*inch)
 
-        if self._pageNumber == 3:
+
+
+        if self._pageNumber == page_count:
             bgImg2 = svg2rlg(os.path.join(globalSettings.BASE_DIR,'static_shared', 'images', 'CatalogBack.svg'))
-            sx=sy=1.05
+            sx=1.05
+            sy=0.8
             bgImg2.width, bgImg2.height = bgImg2.minWidth()*sx, bgImg2.height*sy
             bgImg2.scale(sx,sy)
             renderPDF.draw(bgImg2, self, 0*mm,0*inch)
+            p = Paragraph("<para fontSize=8  alignment='center' color=white><b>We Thank You for Your Business.</b></para>",styles['Normal'])
+            p.wrapOn(self , 50*mm , 10*mm)
+            p.drawOn(self , 15*mm  , 5*mm)
+            q = Paragraph("<para fontSize=8  alignment='right' color=white><b>Page %d of %d</b></para>"%(self._pageNumber,page_count),styles['Normal'])
+            q.wrapOn(self , 50*mm , 10*mm)
+            q.drawOn(self , 158*mm  , 5*mm)
 
-        p = Paragraph("<para fontSize=8  alignment='right'><b>Page %d of %d</b></para>"%(self._pageNumber,page_count),styles['Normal'])
-        p.wrapOn(self , 50*mm , 10*mm)
-        p.drawOn(self , 158*mm  , 5*mm)
+            imagePath = os.path.join(globalSettings.BASE_DIR,'static_shared','images','no_tour_image.jpg' )
+            f = open(imagePath, 'rb')
+            ima = Image(f)
+            ima.drawHeight = 0.5*inch
+            ima.drawWidth = 1*inch
+            title = Paragraph("<para fontSize=15  align='center' color=white><b>%s </b></para>"%(self.division.name),styles['Normal'])
+            website = Paragraph("<para fontSize=10   color=white><b>%s  </b></para>"%(self.division.website),styles['Normal'])
+            gstin = Paragraph("<para fontSize=10   color=white><b>%s  </b></para>"%(self.unit.gstin),styles['Normal'])
+            mobile = Paragraph("<para fontSize=10  color=white><b>%s  </b></para>"%(self.unit.mobile),styles['Normal'])
+            email = Paragraph("<para fontSize=10   color=white><b>%s  </b></para>"%(self.unit.email),styles['Normal'])
+            street = Paragraph("<para fontSize=10   color=white><b>%s </b></para>"%(self.unit.address),styles['Normal'])
+            city = Paragraph("<para fontSize=10   color=white><b>%s </b></para>"%(self.unit.city),styles['Normal'])
+            state = Paragraph("<para fontSize=10   color=white><b>%s-%s</b></para>"%(self.unit.state,self.unit.pincode),styles['Normal'])
+            country = Paragraph("<para fontSize=10   color=white><b>%s</b></para>"%(self.unit.country,),styles['Normal'])
+            cin = Paragraph("<para fontSize=10   color=white><b>%s  </b></para>"%(self.division.cin),styles['Normal'])
+            pan = Paragraph("<para fontSize=10  color=white><b>%s  </b></para>"%(self.division.pan),styles['Normal'])
+            titleTab = [[title]]
+            titleTabs = Table(titleTab,colWidths=[7*inch])
+            ts = TableStyle([('ALIGN', (0,0), (-1, -1), 'CENTER'),
+                             ('VALIGN', (0, 0), (-1, -1), 'CENTER'),
+                             ('TEXTCOLOR', (0, 0), (-1, 0), colors.white)
+
+
+                             ])
+            titleTabs.setStyle(ts)
+            titleTabs.wrapOn(self ,20*mm,2.5*inch)
+            titleTabs.drawOn(self ,20*mm,2.5*inch)
+
+
+            imageTable = [[website,street],[mobile,city],['' , state],['' , country],['' , gstin],[email,cin]]
+
+            hedaerdata = [[imageTable]]
+            header = Table(imageTable,colWidths=[3*inch,3*inch])
+            ts = TableStyle([('ALIGN', (1, 1), (-3, -3), 'CENTER'),
+                             ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+                             ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+                             ('LEFTPADDING',(0,0),(-1,-1),10),
+                             ('RIGHTPADDING',(0,0),(-1,-1),10)
+
+                             ])
+            header.setStyle(ts)
+            header.wrapOn(self ,50*mm,0.75*inch)
+            header.drawOn(self ,50*mm,0.75*inch)
+
+
+
+        else:
+            q = Paragraph("<para fontSize=8  alignment='center' ><b>We Thank You for Your Business.</b></para>",styles['Normal'])
+            q.wrapOn(self , 50*mm , 10*mm)
+            q.drawOn(self , 15*mm  , 5*mm)
+            p = Paragraph("<para fontSize=8  alignment='right' ><b>Page %d of %d</b></para>"%(self._pageNumber,page_count),styles['Normal'])
+            p.wrapOn(self , 50*mm , 10*mm)
+            p.drawOn(self , 158*mm  , 5*mm)
+
+
+
 
 
     def drawLetterHeadFooter(self):
-        p = Paragraph("<para fontSize=8  alignment='center'><b>We Thank You for Your Business.</b></para>",styles['Normal'])
-        p.wrapOn(self , 50*mm , 10*mm)
-        p.drawOn(self , 15*mm  , 5*mm)
+        from reportlab.platypus import Image
+        if self.division :
+            imagePath = os.path.join(globalSettings.MEDIA_ROOT , str(self.division.logo))
+        else:
+            imagePath = os.path.join(globalSettings.BASE_DIR,'static_shared','images','no_tour_image.jpg' )
+        f = open(imagePath, 'rb')
+        ima = Image(f)
+        # ima.drawHeight = 0.5*inch
+        # ima.drawWidth = 1*inch
+        ima.hAlign = 'RIGHT'
 
-#----------------------------------------------------------------------
+        imge = os.path.join(globalSettings.BASE_DIR,'static_shared','images','whatsapp.png' )
+        # images = open(imge, 'rb')
+        imag = Image(imge)
+        ratio = imag.drawHeight / imag.drawWidth
+        imag.drawHeight = 0.25*inch
+        imag.drawWidth = 0.25*inch
+        imag.hAlign = 'RIGHT'
+
+
+        p = Paragraph("<para fontSize=8  alignment='left' ><a href=''  ><b>%s</b></a></para>"%(self.unit.mobile),styles['Normal'])
+        q = Paragraph("<para></para>",styles['Normal'])
+        imageTable = [[ima,q,imag,p]]
+        tabHeaderImage = Table(imageTable,colWidths=[3*inch,3.5*inch,0.4*inch,1.25*inch])
+        tabHeaderImage.setStyle(TableStyle([('FONTSIZE', (0, 0), (-1, -1), 8),('VALIGN',(0,0),(-1,-1),'TOP'),('AlIGN',(0, 0), (-1, -1),'LEFT'),('TOPPADDING', (0, 0), (-1, -1),3)]))
+        tabHeaderImage.wrapOn(self ,10*mm,10*inch)
+        tabHeaderImage.drawOn(self ,10*mm,10*inch)
+
+#-------------------------------------------------  ---------------------
 
 stylesN = styles['Normal']
 stylesH = styles['Heading1']
 from reportlab.platypus import SimpleDocTemplate, Image , Spacer
 from reportlab.platypus import PageBreak, SimpleDocTemplate, Table, TableStyle
 def getFourProductArray(variants):
+
     imageData = []
     if len(variants) > 0:
         for variant in variants:
@@ -4414,27 +4557,29 @@ def getFourProductArray(variants):
                 imgg = str(variant.img1)
                 mediaImg = os.path.join(globalSettings.MEDIA_ROOT,imgg)
 
-                URL = globalSettings.SITE_ADDRESS+'/api/finance/makeImageTransparent/'
-                fileData = {'file':mediaImg}
-                r = requests.post(url = URL, data = fileData)
-                data = r.json()
-                convertedImg = os.path.join(globalSettings.MEDIA_ROOT,data['url'])
+                # URL = globalSettings.SITE_ADDRESS+'/api/finance/makeImageTransparent/'
+                # fileData = {'file':mediaImg}
+                # r = requests.post(url = URL, data = fileData)
+                # data = r.json()
+                # print data,'422384092349342900990834'
+                # convertedImg = os.path.join(globalSettings.MEDIA_ROOT,data['url'])
 
-                imgData = open(convertedImg, 'rb')
-                img = Image(convertedImg)
+                # imgData = open(mediaImg, 'rb')
+                img = Image(mediaImg)
                 ratio = img.drawHeight / img.drawWidth
                 img.drawHeight = 1.25*inch
                 img.drawWidth = 1.25*inch
             else:
                 mediaImg = os.path.join(globalSettings.BASE_DIR,'static_shared','images', "no_tour_image.jpg")
-                imgData = open(mediaImg, 'rb')
+                # imgData = open(mediaImg, 'rb')
                 img = Image(mediaImg)
                 ratio = img.drawHeight / img.drawWidth
                 img.drawHeight = 1.25*inch
                 img.drawWidth = 1.25*inch
-            productname = Paragraph('<para spaceBefore = 10 >%s </para>'%(variant.name),stylesN)
-            proprice =  Paragraph('<para spaceBefore=5>Price : %0.2f  <strike> %0.2f </strike></para>'%(variant.rate,variant.buyingPrice),stylesN)
-            moq =  Paragraph('<para spaceBefore = 5>Quantity Added : %s  </para>'%(variant.qtyAdded),stylesN)
+            rupee= u'\u20B9'
+            productname = Paragraph('<para spaceBefore = 10 ><b>%s</b> </para>'%(variant.name),stylesN)
+            proprice =  Paragraph('<para spaceBefore=5>Price :%s %0.2f  <strike>%s %0.2f </strike> per peice</para>'%(format(rupee),variant.rate,format(rupee),variant.mrp),stylesN)
+            moq =  Paragraph('<para spaceBefore = 5 color=gray>%s  </para>'%(variant.richtxtDesc),stylesN)
             imageData.append([img,productname,proprice,moq])
     return imageData
 
@@ -4445,47 +4590,35 @@ def proCatalog(response, request):
     stylesN = styles['Normal']
     stylesH = styles['Heading1']
     styles = getSampleStyleSheet()
-    doc = SimpleDocTemplate(response,pagesize=letter, topMargin=2.5*cm,leftMargin=1*cm,rightMargin=1*cm)
+    doc = SimpleDocTemplate(response,pagesize=letter, topMargin=2.5*cm,leftMargin=2*cm,rightMargin=2*cm)
     doc.request = request
     elements = []
     products = []
     doc.user = request.user
+    doc.division = request.user.designation.division
     doc.story = []
 
-    inventoryObj = Inventory.objects.filter(division = request.user.designation.division.pk).order_by('pk')
+    inventoryObj = list(Inventory.objects.filter(division = request.user.designation.division.pk).order_by('pk'))
     if 'id' in request.GET:
-        inventoryObj = inventoryObj.filter(category__pk = int(request.GET['id']))
-    n=4
+        inventoryObj = list(Inventory.objects.filter(division = request.user.designation.division.pk,category__pk = int(request.GET['id'])).order_by('pk'))
+    n=3
     if len(inventoryObj) >0 :
+
         x = [inventoryObj[i:i + n] for i in range(0, len(inventoryObj), n)]
         for idx,i in enumerate(x):
-            dataSet = getFourProductArray(x[idx])
+            if idx == 2 :
+                dataSet = getFourProductArray(x[idx][0:2])
+                x[-1].append(x[idx][-1])
+            if idx != 2 :
+                dataSet = getFourProductArray(x[idx])
             products.append(dataSet)
         dataTabl = Table(products,spaceBefore=15,hAlign="LEFT",spaceAfter=30)
         dataTabl.setStyle(TableStyle([('FONTSIZE', (0, 0), (-1, -1), 8),('VALIGN',(0,0),(-1,-1),'TOP'),('AlIGN',(0, 0), (-1, -1),'LEFT'),('TOPPADDING', (0, 0), (-1, -1),30),('BOTTOMPADDING', (0, 0), (-1, -1),10)]))
         elements.append(dataTabl)
         products= []
+        elements.append(PageBreak())
 
-    data1=[['']]
-    t1=Table(data1)
-    elements.append(t1)
-
-    elements.append(PageBreak())
-
-    data2=[['']]
-    t2=Table(data2)
-    elements.append(t2)
-
-    elements.append(PageBreak())
-
-    data2=[['']]
-    t2=Table(data2)
-    elements.append(t2)
-
-    elements.append(PageBreak())
-
-
-    doc.build(elements,onFirstPage= addPageNumbertoBrochure,canvasmaker=PageNumCanvas)
+    doc.build(elements,onFirstPage=addPageNumbertoBrochure,canvasmaker=PageNumCanvas,onLaterPages=addPageNumbertoBrochure)
 
 
 class ProductsCatalogAPI(APIView):
@@ -4493,12 +4626,13 @@ class ProductsCatalogAPI(APIView):
     def get(self, request, format=None):
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="Catalog.pdf"'
-
+        if 'id' in request.GET:
+            catObj =  Category.objects.get(pk = request.GET['id'])
+        response.division = request.user.designation.division
+        response.unit = request.user.designation.unit
+        response.themeColor = catObj.theme_color
+        response.hyperlink = 'https://klouderp.com/'
         proCatalog(response, request)
-        f = open(os.path.join(globalSettings.BASE_DIR, 'media_root/Catalog.pdf'), 'wb')
-        f.write(response.content)
-        f.close()
-
         return response
 
 

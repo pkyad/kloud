@@ -2,20 +2,19 @@
 app.config(function($stateProvider) {
   $stateProvider.state('businessManagement.LMS', {
       url: "/LMS",
-      templateUrl: '/static/ngTemplates/app.LMS.courses.html',
-      controller: 'businessManagement.LMS'
+      views: {
+        "": {
+          templateUrl: '/static/ngTemplates/app.LMS.courses.html',
+          controller: 'businessManagement.LMS'
+        },
+      }
     })
-    .state('businessManagement.new', {
-      url: "/new/:id",
+    .state('businessManagement.LMS.new', {
+      url: "/createcourse/:id",
       templateUrl: '/static/ngTemplates/app.LMS.courses.form.html',
       controller: 'businessManagement.LMS.form'
     })
-    .state('businessManagement.LMS.edit', {
-      url: "/edit/:id",
-      templateUrl: '/static/ngTemplates/app.LMS.courses.form.html',
-      controller: 'businessManagement.LMS.form'
-    })
-    .state('businessManagement.activityLog', {
+    .state('businessManagement.LMS.activityLog', {
       url: "/activityLog/:id",
       views: {
         "": {
@@ -23,17 +22,17 @@ app.config(function($stateProvider) {
           controller: 'businessManagement.activityLog'
 
         },
-        "@businessManagement.activityLog": {
+        "@businessManagement.LMS.activityLog": {
           templateUrl: '/static/ngTemplates/app.LMS.activityLog.students.html',
           controller: 'businessManagement.activityLog'
 
         },
       }
-    }).state('businessManagement.activityLog.students', {
+    }).state('businessManagement.LMS.activityLog.students', {
       url: "/activestudents",
       templateUrl: '/static/ngTemplates/app.LMS.activityLog.students.html',
       controller: 'businessManagement.activityLog'
-    }).state('businessManagement.activityLog.courses', {
+    }).state('businessManagement.LMS.activityLog.courses', {
       url: "/courses",
       templateUrl: '/static/ngTemplates/app.LMS.activityLog.courses.html',
       controller: 'businessManagement.activityLog'
@@ -43,91 +42,51 @@ app.config(function($stateProvider) {
       templateUrl: '/static/ngTemplates/app.LMS.students.html',
       controller: 'LMS.students'
     })
-}); //------------------------------------------Courses ends-------------------------------------------------
-
-
-//----------------------------------Online test  starts-----------------------------------------------------
-app.config(function($stateProvider) {
   $stateProvider.state('businessManagement.LMS.evaluation', {
-      url: "/evaluation",
-      templateUrl: '/static/ngTemplates/app.LMS.evaluation.html',
-      controller: 'businessManagement.LMS.evaluation'
-    })
-    //--------------------------new creation---------------------------------------------------------
-    .state('businessManagement.LMS.newmultiplechoice', {
-      url: "/multiplechoice/new/:id/",
-      templateUrl: '/static/ngTemplates/app.LMS.multiplechoice.html',
-      controller: 'businessManagement.LMS.evaluation'
-    })
-    .state('businessManagement.LMS.newsubjective', {
-      url: "/subjective/new/:id/",
-      templateUrl: '/static/ngTemplates/app.LMS.subjectiveques.html',
-      controller: 'businessManagement.LMS.evaluation'
-    })
-    .state('businessManagement.LMS.newfileupload', {
-      url: "/fileupload/new/:id/",
-      templateUrl: '/static/ngTemplates/app.LMS.fileupload.html',
-      controller: 'businessManagement.LMS.evaluation'
-    })
-    .state('businessManagement.viewPaper', {
-      url: "/onlinetest/view/:id",
-      views: {
-        "": {
-          templateUrl: '/static/ngTemplates/app.LMS.onlinetestview.html',
-          controller: 'businessManagement.LMS.evaluation'
-        },
+    url: "/evaluation",
+    templateUrl: '/static/ngTemplates/app.LMS.evaluation.html',
+    controller: 'businessManagement.LMS.evaluation'
+  }).state('businessManagement.LMS.viewPaper', {
+    url: "/viewtest/:id",
+    views: {
+      "": {
+        templateUrl: '/static/ngTemplates/app.LMS.onlinetestview.html',
+        controller: 'businessManagement.LMS.evaluation'
+      },
 
-
-      }
-    }).state('businessManagement.viewPaper.questions', {
-      url: "/questions",
-      templateUrl: '/static/ngTemplates/app.LMS.questions.html',
-      controller: 'LMS.questions'
-    }).state('businessManagement.viewPaper.submissions', {
-      url: "/submissions",
-      templateUrl: '/static/ngTemplates/app.LMS.submissions.html',
-      controller: 'LMS.submissions'
-    })
-    //--------------------------new creation---------------------------------------------------------
-    .state('businessManagement.LMS.newEvaluation', {
-      url: "/evaluation/new",
-      templateUrl: '/static/ngTemplates/app.LMS.evaluation.form.html',
-      controller: 'businessManagement.LMS.evaluation.form'
-    })
-    .state('businessManagement.LMS.editEvaluation', {
-      url: "/evaluation/edit/:id/",
-      templateUrl: '/static/ngTemplates/app.LMS.evaluation.form.html',
-      controller: 'businessManagement.LMS.evaluation.form'
-    })
-
-}); //----------------------------------Online test ends-----------------------------------------------------
-
-//------------------------------------------------books starts------------------------------------
-app.config(function($stateProvider) {
+    }
+  }).state('businessManagement.LMS.viewPaper.questions', {
+    url: "/questions",
+    templateUrl: '/static/ngTemplates/app.LMS.questions.html',
+    controller: 'LMS.questions'
+  }).state('businessManagement.LMS.viewPaper.submissions', {
+    url: "/submissions",
+    templateUrl: '/static/ngTemplates/app.LMS.submissions.html',
+    controller: 'LMS.submissions'
+  })
   $stateProvider.state('businessManagement.LMS.Configureallbooks', {
-      url: "/LMSconfigure/allBooks",
+      url: "/books",
       templateUrl: '/static/ngTemplates/app.LMS.configBook.item.html',
       controller: 'businessManagement.LMS.configureLMS'
-    }).state('businessManagement.editBook', {
-      url: "/LMSconfigure/bookEdit/:id/",
+    })
+    .state('businessManagement.LMS.newBook', {
+      url: "/createbook/:id",
       templateUrl: '/static/ngTemplates/app.LMS.configure.form.html',
       controller: 'businessManagement.LMS.configureLMS.form'
     })
-    .state('businessManagement.newBook', {
-      url: "/LMSconfigure/new/:id",
-      templateUrl: '/static/ngTemplates/app.LMS.configure.form.html',
-      controller: 'businessManagement.LMS.configureLMS.form'
-    })
-    .state('businessManagement.viewBook', {
+    .state('businessManagement.LMS.viewBook', {
       url: "/viewbook/:bookid",
       templateUrl: '/static/ngTemplates/app.LMS.viewbook.html',
       controller: 'viewbook'
     })
 });
-//------------------------------------------------books ends----------------------------------
 
 
-app.controller("viewbook", function($scope, $state,$sce, $users, $stateParams, $http, Flash, $timeout, $stateParams, $uibModal) {
+
+
+
+
+app.controller("viewbook", function($scope, $state, $sce, $users, $stateParams, $http, Flash, $timeout, $stateParams, $uibModal, $aside) {
 
 
 
@@ -197,18 +156,18 @@ app.controller("viewbook", function($scope, $state,$sce, $users, $stateParams, $
   }
 
 
-$scope.getSection = function(k){
-  $scope.index = k
-  $http({
-    method: 'GET',
-    url: '/api/LMS/section/' + k+'/',
-  }).
-  then(function(response) {
-    $scope.section = response.data
+  $scope.getSection = function(k) {
+    $scope.index = k
+    $http({
+      method: 'GET',
+      url: '/api/LMS/section/' + k + '/',
+    }).
+    then(function(response) {
+      $scope.section = response.data
 
 
-  })
-}
+    })
+  }
 
 
 
@@ -225,13 +184,76 @@ $scope.getSection = function(k){
   }
 
 
+  $scope.selectChoice = function(data) {
+    $aside.open({
+      templateUrl: '/static/ngTemplates/app.LMS.questiontypes.html',
+      position: 'left',
+      size: 'xl',
+      backdrop: true,
+      resolve: {
+        data: function() {
+          return data
+        }
+      },
+      controller: 'LMS.questiontypes',
+    })
+  }
+
+
+  $scope.addQuestion = function(data, section) {
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.LMS.addquestion.html',
+      size: 'xl',
+      backdrop: true,
+      resolve: {
+        stagedata: function() {
+          return data
+        },
+        section: function() {
+          return section
+        }
+
+      },
+      controller: function($scope, $uibModalInstance, stagedata, section) {
+        $scope.form = {
+          stage: '',
+          typ: stagedata,
+          section: section
+        }
+        $scope.close = function() {
+
+          $uibModalInstance.dismiss($scope.form)
+
+        }
+
+
+
+
+
+
+
+
+      },
+    }).result.then(function(data) {
+      console.log(data);
+    }, function(data) {
+      console.log(data);
+      if (data != 'backdrop click') {
+
+        $scope.selectChoice(data)
+      }
+
+    });
+  }
+
+
 })
 app.controller("LMS.submissions", function($scope, $state, $users, $stateParams, $http, Flash, $timeout, $stateParams, $uibModal) {
 
   $scope.getSubmissions = function() {
     $http({
       method: 'GET',
-      url: '/api/LMS/paper/'+$state.params.id+'/',
+      url: '/api/LMS/paper/' + $state.params.id + '/',
     }).
     then(function(response) {
       $scope.data = response.data
@@ -245,45 +267,66 @@ app.controller("LMS.submissions", function($scope, $state, $users, $stateParams,
 app.controller("LMS.questions", function($scope, $state, $sce, $users, $stateParams, $http, Flash, $timeout, $stateParams, $uibModal, $aside) {
 
 
+  $scope.selectChoice = function(data) {
+    $aside.open({
+      templateUrl: '/static/ngTemplates/app.LMS.questiontypes.html',
+      position: 'left',
+      size: 'xl',
+      backdrop: true,
+      resolve: {
+        data: function() {
+          return data
+        }
+      },
+      controller: 'LMS.questiontypes',
+    })
+  }
 
 
-
-  $scope.addQuestion = function() {
+  $scope.addQuestion = function(data, section) {
     $uibModal.open({
       templateUrl: '/static/ngTemplates/app.LMS.addquestion.html',
       size: 'xl',
       backdrop: true,
       resolve: {
+        stagedata: function() {
+          return data
+        },
+        section: function() {
+          return section
+        }
 
       },
-      controller: function($scope, $uibModalInstance, ) {
+      controller: function($scope, $uibModalInstance, stagedata, section) {
+        $scope.form = {
+          stage: '',
+          typ: stagedata,
+          section: section
+        }
         $scope.close = function() {
-          $uibModalInstance.dismiss()
+
+          $uibModalInstance.dismiss($scope.form)
+
         }
 
 
-        $scope.selectChoice = function(data) {
-          $aside.open({
-            templateUrl: '/static/ngTemplates/app.LMS.questiontypes.html',
-            position: 'left',
-            size: 'xl',
-            backdrop: true,
-            resolve: {
-              data: function() {
-                return data
-              }
-            },
-            controller: 'LMS.questiontypes',
-          })
-        }
+
+
 
 
 
 
       },
-    }).result.then(function() {
+    }).result.then(function(data) {
+      console.log(data);
+    }, function(data) {
+      console.log(data);
+      if (data != 'backdrop click') {
 
-    }, function() {});
+        $scope.selectChoice(data)
+      }
+
+    });
   }
 
 
@@ -302,9 +345,9 @@ app.controller("LMS.questions", function($scope, $state, $sce, $users, $statePar
 })
 
 app.controller("LMS.questiontypes", function($scope, $state, $users, $stateParams, $http, Flash, $timeout, $stateParams, $uibModal, data, $uibModalInstance) {
-  $scope.form = data
+  $scope.form = data.stage
 
-
+  $scope.alldata = data
 
 
 
@@ -419,39 +462,42 @@ app.controller("LMS.questiontypes", function($scope, $state, $users, $stateParam
   }
 
 
-  if (data == 'multiple') {
+  if (data.stage == 'multiple') {
     $scope.resetform = function() {
       $scope.queform = {
         ques: '',
         marks: 0,
         paper: $state.params.id,
         qtype: 'mcc',
-        bookSection: '',isLatex: false
+        bookSection: '',
+        isLatex: false
       }
 
     }
     $scope.resetform()
-  } else if (data == 'subjective') {
+  } else if (data.stage == 'subjective') {
     $scope.resetform = function() {
       $scope.queform = {
         ques: '',
         marks: 0,
         paper: $state.params.id,
         qtype: 'mcq',
-        bookSection: '',isLatex: false
+        bookSection: '',
+        isLatex: false
       }
 
     }
     $scope.resetform()
 
-  } else if (data == 'file') {
+  } else if (data.stage == 'file') {
     $scope.resetform = function() {
       $scope.queform = {
         ques: '',
         marks: 0,
         paper: $state.params.id,
         qtype: 'upload',
-        bookSection: '',isLatex: false
+        bookSection: '',
+        isLatex: false
       }
 
     }
@@ -479,54 +525,80 @@ app.controller("LMS.questiontypes", function($scope, $state, $users, $stateParam
 
 
   $scope.save = function() {
-    if ($scope.queform.ques.length ==0 || $scope.queform.marks.length == 0 || $scope.queform.bookSection.length ==0 ) {
-      Flash.create('warning','Fill the Form')
+    if ($scope.queform.ques.length == 0 || $scope.queform.marks.length == 0) {
+      Flash.create('warning', 'Fill the Form')
       return
     }
-    console.log($scope.form.length,'32323');
-    $scope.queform.bookSection = $scope.queform.bookSection.pk
+    var formdata = {
+      ques: $scope.queform.ques,
+      marks: $scope.queform.marks,
+      paper: $state.params.id,
+      qtype: $scope.queform.qtype,
+      isLatex: $scope.queform.isLatex
+    }
+    if (data.typ == 'section') {
+
+      formdata.bookSection = data.section
+    }
+
+    var method = "POST"
+    var url = '/api/LMS/question/'
+    if ($scope.queform.pk != undefined) {
+      method = "PATCH"
+      url = '/api/LMS/question/' + $scope.queform.pk + '/'
+    }
     $http({
-      method: 'POST',
-      url: '/api/LMS/question/',
-      data: $scope.queform
+      method: method,
+      url: url,
+      data: formdata
     }).
     then(function(response) {
-      if (data != 'upload') {
-        for (var i = 0; i < $scope.data.length; i++) {
-          if ($scope.data[i].rtxt != undefined || $scope.data[i].rtxt != '') {
-            var data = {
-              rtxt: $scope.data[i].rtxt,
-              answer: $scope.data[i].answer,
-              parent: response.data.pk
+      $scope.queform.pk = response.data.pk
+      if ($scope.alldata.stage == 'multiple') {
+        if ($scope.data.length > 0) {
+          for (var i = 0; i < $scope.data.length; i++) {
+            if ($scope.data[i].rtxt != undefined || $scope.data[i].rtxt != '') {
+              var data = {
+                rtxt: $scope.data[i].rtxt,
+                answer: $scope.data[i].answer,
+                parent: response.data.pk
+              }
+
+
+              $http({
+                method: 'POST',
+                url: '/api/LMS/optionspart/',
+                data: data
+              }).
+              then(function(response) {
+                $uibModalInstance.dismiss($scope.alldata.typ);
+
+              })
+
             }
-
-
-            $http({
-              method: 'POST',
-              url: '/api/LMS/optionspart/',
-              data: data
-            }).
-            then(function(response) {
-
-            })
-
           }
+
         }
 
       }
+      if ($scope.alldata.stage != 'multiple') {
+        $uibModalInstance.dismiss($scope.alldata.typ);
 
-      $scope.data = []
-        $scope.queform = ''
-      $scope.resetform()
+      }
       Flash.create('success', 'Question Created')
-    })
+    }).result.then(function(data) {
+  }, function(data) {
+      if (data =='section') {
+          $state.go('businessManagement.LMS.viewbook')
+      }else {
+
+        $state.go('businessManagement.LMS.viewPaper')
+      }
+
+  });
   }
 
-  $scope.close = function() {
 
-      $uibModalInstance.dismiss();
-
-  }
   // $scope.uploadcsvFile = function(data) {
   //   $uibModal.open({
   //     templateUrl: '/static/ngTemplates/app.LMS.uploadcsv.html',
@@ -605,7 +677,7 @@ app.controller("LMS.students", function($scope, $state, $users, $stateParams, $h
           email: '',
           typ: 'student'
         }
-        if (data == undefined  || data == '') {
+        if (data == undefined || data == '') {
           var method = 'POST'
           var url = '/api/clientRelationships/contact/'
         } else {
@@ -618,8 +690,8 @@ app.controller("LMS.students", function($scope, $state, $users, $stateParams, $h
         }
 
         $scope.save = function() {
-          if ($scope.form.name.length == 0 || $scope.form.mobile.length == 0 || $scope.form.email.length ==0) {
-            Flash.create('warning','Fill the fields')
+          if ($scope.form.name.length == 0 || $scope.form.mobile.length == 0 || $scope.form.email.length == 0) {
+            Flash.create('warning', 'Fill the fields')
             return
           }
           $http({
@@ -628,7 +700,7 @@ app.controller("LMS.students", function($scope, $state, $users, $stateParams, $h
             data: $scope.form
           }).
           then(function(response) {
-            Flash.create('success','Created')
+            Flash.create('success', 'Created')
             $uibModalInstance.dismiss()
           })
         }
@@ -644,6 +716,7 @@ app.controller("LMS.students", function($scope, $state, $users, $stateParams, $h
 
 })
 app.controller("businessManagement.LMS", function($scope, $state, $users, $stateParams, $http, Flash, $timeout, $stateParams, $uibModal) {
+
 
 
   $scope.getState = {
@@ -670,7 +743,7 @@ app.controller("businessManagement.LMS", function($scope, $state, $users, $state
     query: ''
   }
   $scope.fetchData = function() {
-    let url = '/api/LMS/course/?limit=' + $scope.limit + '&offset=' + $scope.offset+'&state='+$scope.getState .state
+    let url = '/api/LMS/course/?limit=' + $scope.limit + '&offset=' + $scope.offset + '&state=' + $scope.getState.state
     if ($scope.search.query.length > 0) {
       url = url + '&search=' + $scope.search.query
     }
@@ -679,27 +752,27 @@ app.controller("businessManagement.LMS", function($scope, $state, $users, $state
       url: url
     }).
     then(function(response) {
-      $scope.allData = response.data.results
+      $scope.allcourseData = response.data.results
       $scope.count = response.data.count
     })
   }
   $scope.fetchData()
 
 
-  $scope.delCourse = function(indx){
+  $scope.delCourse = function(indx) {
     $http({
       method: 'DELETE',
-      url: '/api/LMS/course/'+$scope.allData[indx].pk+'/'
+      url: '/api/LMS/course/' + $scope.allcourseData[indx].pk + '/'
     }).
     then(function(response) {
-      $scope.allData.splice(indx,1)
-      Flash.create('success','Deleted...')
+      $scope.allcourseData.splice(indx, 1)
+      Flash.create('success', 'Deleted...')
     })
   }
 
-  $scope.limit =15
-  $scope.offset =0
-  $scope.fetchData = function() {
+  $scope.limit = 15
+  $scope.offset = 0
+  $scope.fetchpapersData = function() {
     let url = '/api/LMS/paper/?limit=' + $scope.limit + '&offset=' + $scope.offset
 
     $http({
@@ -710,35 +783,62 @@ app.controller("businessManagement.LMS", function($scope, $state, $users, $state
       $scope.allData = response.data.results
     })
   }
-  $scope.fetchData()
+  $scope.fetchpapersData()
 
-  $scope.createTest = function() {
+  $scope.createTest = function(data) {
     $uibModal.open({
       templateUrl: '/static/ngTemplates/app.LMS.evaluation.form.html',
       size: 'lg',
       backdrop: true,
-      controller: function($scope, $http, $uibModalInstance) {
+      resolve: {
+        data: function() {
+          return data
+        }
+      },
+      controller: function($scope, $http, $uibModalInstance, data) {
+        $scope.data = data
         $scope.close = function() {
           $uibModalInstance.dismiss()
         }
         $scope.selectTime = {
           duration: 30
         }
-        $scope.form = {
-          name: '',
-          description: '',
-          timelimit: $scope.selectTime.duration
+        if ($scope.data == undefined) {
+          var method = "POST"
+          var url = '/api/LMS/paper/'
+          $scope.form = {
+            name: '',
+            description: '',
+            timelimit: $scope.selectTime.duration,
+            active: true
+          }
+        } else {
+          $scope.form = $scope.data
+          $scope.selectTime.duration = $scope.data.timelimit
+          console.log($scope.data, $scope.form, '');
+          $scope.form.timelimit = $scope.data.timelimit
+          $scope.form.active = $scope.data.active
+          method = "PATCH"
+          url = '/api/LMS/paper/' + $scope.data.pk + '/'
+
         }
 
         $scope.saveTest = function() {
+          console.log($scope.form, $scope.selectTime.duration, '4343424343');
           if ($scope.form.name.length == 0) {
-            Flash.create('warning','Fill the fields')
+            Flash.create('warning', 'Fill the fields')
             return
           }
+          var data = {
+            name: $scope.form.name,
+            description: $scope.form.description,
+            timelimit: $scope.selectTime.duration,
+            active: $scope.form.active
+          }
           $http({
-            method: 'POST',
-            url: '/api/LMS/paper/',
-            data: $scope.form
+            method: method,
+            url: url,
+            data: data
           }).
           then(function(response) {
             Flash.create('success', 'Paper Created')
@@ -765,192 +865,192 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
     $scope.course = response.data
   })
 
-    $scope.enrollmentForm = {
-      user: undefined
+  $scope.enrollmentForm = {
+    user: undefined
+  }
+  $scope.addEnrollment = function() {
+    if ($scope.enrollmentForm.user == undefined || typeof $scope.enrollmentForm.user != 'object') {
+      Flash.create('warning', 'Please select a user first');
+      return;
     }
-    $scope.addEnrollment = function() {
-      if ($scope.enrollmentForm.user == undefined || typeof $scope.enrollmentForm.user != 'object') {
-        Flash.create('warning', 'Please select a user first');
+
+
+    for (var i = 0; i < $scope.course.enrollments.length; i++) {
+      if ($scope.course.enrollments[i].user == $scope.enrollmentForm.user.pk) {
+        Flash.create('danger', 'User already enrolled for this course');
         return;
       }
+    }
+
+    var toSend = {
+      user: $scope.enrollmentForm.user.pk,
+      course: $scope.course.pk
+    }
+
+    $http({
+      method: 'POST',
+      url: '/api/LMS/enrollment/',
+      data: toSend
+    }).
+    then(function(response) {
+      Flash.create('success', 'Added')
+      $scope.enrollmentForm.user = undefined;
+      $scope.course.enrollments.push(response.data);
+    })
+
+  }
 
 
-      for (var i = 0; i < $scope.course.enrollments.length; i++) {
-        if ($scope.course.enrollments[i].user == $scope.enrollmentForm.user.pk) {
-          Flash.create('danger', 'User already enrolled for this course');
-          return;
+
+
+
+
+
+  // //-----------adding homewoks
+  $scope.homework = function() {
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.LMs.course.homework.form.html',
+      size: 'md',
+      backdrop: true,
+      resolve: {
+        data: function() {
+          return $scope.course;
         }
-      }
+      },
+      controller: function($scope, $uibModalInstance, data) {
 
-      var toSend = {
-        user: $scope.enrollmentForm.user.pk,
-        course: $scope.course.pk
-      }
+        $scope.form = {
+          paper: '',
+          typ: 'homework',
+          txt: '',
+          paperDueDate: new Date()
+        }
 
-      $http({
-        method: 'POST',
-        url: '/api/LMS/enrollment/',
-        data: toSend
-      }).
-      then(function(response) {
-        Flash.create('success', 'Added')
-        $scope.enrollmentForm.user = undefined;
-        $scope.course.enrollments.push(response.data);
-      })
+        $scope.paperSearch = function(query) {
+          return $http.get('/api/LMS/paper/?name=' + query).
+          then(function(response) {
+            return response.data;
+          })
+        };
 
-    }
-
-
-
-
-
-
-
-    // //-----------adding homewoks
-    $scope.homework = function() {
-      $uibModal.open({
-        templateUrl: '/static/ngTemplates/app.LMs.course.homework.form.html',
-        size: 'md',
-        backdrop: true,
-        resolve: {
-          data: function() {
-            return $scope.course;
-          }
-        },
-        controller: function($scope, $uibModalInstance, data) {
-
-          $scope.form = {
-            paper: '',
-            typ: 'homework',
-            txt: '',
-            paperDueDate: new Date()
-          }
-
-          $scope.paperSearch = function(query) {
-            return $http.get('/api/LMS/paper/?name=' + query).
-            then(function(response) {
-              return response.data;
-            })
-          };
-
-          $scope.$watch('form.paper', function(query) {
-            return $http.get('/api/LMS/paper/?name=' + query.name).
-            then(function(response) {
-              return response.data;
-            })
-
+        $scope.$watch('form.paper', function(query) {
+          return $http.get('/api/LMS/paper/?name=' + query.name).
+          then(function(response) {
+            return response.data;
           })
 
+        })
 
-          $scope.saveHomework = function() {
-            console.log($scope.form, '32323232');
-            var data = {
-              paper: $scope.form.paper.pk,
-              txt: $scope.form.txt,
-              typ: $scope.form.typ,
-              course: $state.params.id
-            }
-            if ($scope.form.paperDueDate != null && typeof $scope.form.paperDueDate == 'object') {
-              data.paperDueDate = $scope.form.paperDueDate.toISOString().split('T')[0]
-            }
-            $http({
-              method: 'POST',
-              url: '/api/LMS/courseactivity/',
-              data: data,
 
-            }).
-            then(function(response) {
-              Flash.create('success', 'Saved Successfully');
-              $uibModalInstance.dismiss(response.data);
-            })
+        $scope.saveHomework = function() {
+          console.log($scope.form, '32323232');
+          var data = {
+            paper: $scope.form.paper.pk,
+            txt: $scope.form.txt,
+            typ: $scope.form.typ,
+            course: $state.params.id
           }
-
-        }, //controller ends
-      }).result.then(function(h) {
-
-      }, function(h) {
-
-      })
-    }
-    //homework ends------------
-
-    //quiz starts...........................----------------------------------------------------------------
-    $scope.createQuiz = function() {
-      $uibModal.open({
-        templateUrl: '/static/ngTemplates/app.LMS.addquiz.html',
-        size: 'md',
-        backdrop: true,
-
-        controller: function($scope, $http, $uibModalInstance) {
-          $scope.form = {
-            paper: '',
-            txt: '',
-            time: 0,
-            course: $state.params.id,
-            typ: 'quiz'
+          if ($scope.form.paperDueDate != null && typeof $scope.form.paperDueDate == 'object') {
+            data.paperDueDate = $scope.form.paperDueDate.toISOString().split('T')[0]
           }
+          $http({
+            method: 'POST',
+            url: '/api/LMS/courseactivity/',
+            data: data,
 
-          $scope.paperSearch = function(query) {
-            return $http.get('/api/LMS/paper/?name=' + query).
-            then(function(response) {
-              return response.data;
-            })
-          };
+          }).
+          then(function(response) {
+            Flash.create('success', 'Saved Successfully');
+            $uibModalInstance.dismiss(response.data);
+          })
+        }
 
-          $scope.$watch('form.paper', function(query) {
-            return $http.get('/api/LMS/paper/?name=' + query.name).
-            then(function(response) {
-              return response.data;
-            })
+      }, //controller ends
+    }).result.then(function(h) {
 
+    }, function(h) {
+
+    })
+  }
+  //homework ends------------
+
+  //quiz starts...........................----------------------------------------------------------------
+  $scope.createQuiz = function() {
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.LMS.addquiz.html',
+      size: 'md',
+      backdrop: true,
+
+      controller: function($scope, $http, $uibModalInstance) {
+        $scope.form = {
+          paper: '',
+          txt: '',
+          time: 0,
+          course: $state.params.id,
+          typ: 'quiz'
+        }
+
+        $scope.paperSearch = function(query) {
+          return $http.get('/api/LMS/paper/?name=' + query).
+          then(function(response) {
+            return response.data;
+          })
+        };
+
+        $scope.$watch('form.paper', function(query) {
+          return $http.get('/api/LMS/paper/?name=' + query.name).
+          then(function(response) {
+            return response.data;
           })
 
+        })
 
-          $scope.saveQuiz = function() {
-            console.log($scope.form, '32323232');
-            var data = {
-              paper: $scope.form.paper.pk,
-              time: $scope.form.paper.timelimit,
-              txt: $scope.form.txt,
-              typ: $scope.form.typ,
-              course: $state.params.id
-            }
-            console.log(data, '4334');
-            $http({
-              method: 'POST',
-              url: '/api/LMS/courseactivity/',
-              data: data,
 
-            }).
-            then(function(response) {
-              Flash.create('success', 'Saved Successfully');
-              $uibModalInstance.dismiss(response.data);
-            })
+        $scope.saveQuiz = function() {
+          console.log($scope.form, '32323232');
+          var data = {
+            paper: $scope.form.paper.pk,
+            time: $scope.form.paper.timelimit,
+            txt: $scope.form.txt,
+            typ: $scope.form.typ,
+            course: $state.params.id
           }
+          console.log(data, '4334');
+          $http({
+            method: 'POST',
+            url: '/api/LMS/courseactivity/',
+            data: data,
+
+          }).
+          then(function(response) {
+            Flash.create('success', 'Saved Successfully');
+            $uibModalInstance.dismiss(response.data);
+          })
+        }
 
 
 
 
 
-        }, //controller ends
-      }).result.then(function() {
+      }, //controller ends
+    }).result.then(function() {
 
-      }, function() {
+    }, function() {
 
-      })
-    } //quiz ends...........................
+    })
+  } //quiz ends...........................
 
 
-    $scope.getActivities = function() {
-      $http({
-        method: 'GET',
-        url: '/api/LMS/courseactivity/?course=' + $state.params.id
-      }).
-      then(function(response) {
-        $scope.activitydata = response.data
-      })
-    }
-    $scope.getActivities()
+  $scope.getActivities = function() {
+    $http({
+      method: 'GET',
+      url: '/api/LMS/courseactivity/?course=' + $state.params.id
+    }).
+    then(function(response) {
+      $scope.activitydata = response.data
+    })
+  }
+  $scope.getActivities()
 
 
   $scope.getContacts = function() {
@@ -977,7 +1077,10 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
         $scope.form = {
           contact: '',
           contacts: [],
-          contactsList: []
+          contactsList: [],
+          name: '',
+          email: '',
+          mobile: ''
         }
         $scope.addContacts = function() {
           for (var i = 0; i < $scope.form.contactsList.length; i++) {
@@ -994,26 +1097,77 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
 
           }
         }
+        $scope.$watch('form.contact', function(query) {
+          console.log(query, 'ewe');
+          if (query.length != 8) {
+            return $http.get('/api/clientRelationships/contact/?mobile__contains=' + query).
+            then(function(response) {
+              $scope.form.name = query.name
+              $scope.form.mobile = query.mobile
+              $scope.form.email = query.email
+              $scope.form.pk = query.pk
+              return response.data;
+            })
+
+          }
+
+        })
+
         $scope.getContactsearch = function(query) {
           console.log(query);
-          //search for the user
-          return $http.get('/api/clientRelationships/contact/?typ=student&name__contains=' + query).
+          return $http.get('/api/clientRelationships/contact/?mobile__contains=' + query).
           then(function(response) {
             return response.data;
           })
         };
 
         $scope.save = function() {
-          $http({
-            method: 'PATCH',
-            url: '/api/LMS/course/' + $state.params.id + '/',
-            data: {
-              contacts: $scope.form.contacts
+          if ($scope.form.pk == undefined) {
+            var method = "POST"
+            var url = "/api/clientRelationships/contact/"
+            var data = {
+              mobile: $scope.form.contact,
+              name: $scope.form.name,
+              email: $scope.form.email,
+              typ: 'student'
             }
+          } else {
+            var method = "PATCH"
+            var url = "/api/clientRelationships/contact/" + $scope.form.pk + '/'
+            var data = {
+              mobile: $scope.form.contact.mobile,
+              name: $scope.form.contact.name,
+              email: $scope.form.contact.email,
+              typ: $scope.form.contact.typ
+            }
+
+          }
+          if ($scope.form.contact.length == 0 || $scope.form.name.length ==0 ) {
+            Flash.create('warning', 'Enter the mobile number and name ')
+            return
+          }
+
+          $http({
+            method: method,
+            url: url,
+            data: data
           }).
           then(function(response) {
             Flash.create('success', 'Added')
             $uibModalInstance.dismiss()
+            $scope.form.contacts.push(response.data.pk)
+            $http({
+              method: 'PATCH',
+              url: '/api/LMS/course/' + $state.params.id + '/',
+              data: {
+                contacts: $scope.form.contacts
+              }
+            }).
+            then(function(response) {
+              Flash.create('success', 'Added')
+              $uibModalInstance.dismiss()
+
+            })
 
           })
         }
@@ -1024,7 +1178,7 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
     }).result.then(function() {
 
     }, function() {
-        $scope.getActivities()
+      $scope.getActivities()
     })
   }
 
@@ -1135,7 +1289,8 @@ app.controller("businessManagement.LMS.form", function($scope, $state, $users, $
       title: '',
       sellingPrice: '',
       discount: '',
-      activeCourse:true
+      activeCourse: true,
+      topic: '',urlSuffix:''
     };
   }
   $scope.resetForm()
@@ -1147,11 +1302,25 @@ app.controller("businessManagement.LMS.form", function($scope, $state, $users, $
 
   $scope.userSearch = function(query) {
     //search for the user
-    return $http.get('/api/HR/userSearch/?username__contains=' + query).
+    return $http.get('/api/HR/users/?username__contains=' + query).
     then(function(response) {
       return response.data;
     })
   };
+
+  $scope.$watch('form.dp' , function(newValue , oldValue) {
+    console.log(newValue,'334');
+    $scope.reader = new FileReader();
+
+    if (typeof newValue == 'string' && newValue.length > 0 ) {
+      $('#coursedp').attr('src', newValue);
+    }
+    $scope.reader.onload = function(e) {
+      $('#coursedp').attr('src', e.target.result);
+    }
+
+    $scope.reader.readAsDataURL(newValue);
+  })
 
   // $scope.getInstructor = function(user) {
   //   if (typeof user == 'undefined') {
@@ -1171,9 +1340,34 @@ app.controller("businessManagement.LMS.form", function($scope, $state, $users, $
   })
 
 
+  $scope.$watch('form.title', function(newValue, oldValue) {
+    if (newValue) {
+
+      var space = /[ ]/;
+      var special = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+      var nonascii = /[^\x20-\x7E]/;
+      var url = $scope.form.title;
+      if (space.test(newValue)) {
+        url = newValue.replace(/\s+/g, '-').toLowerCase();
+        if (special.test(url)) {
+          url = url.replace(/[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?]+/g, '');
+          if (nonascii.test(url)) {
+            url = url.replace(/[^\x20-\x7E]/g, '');
+          }
+        }
+      } else {
+        url = url.replace(/[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?]+/g, '-').toLowerCase();;
+      }
+      url = url.replace(/-/g, ' ');
+      url = url.trim();
+      $scope.form.urlSuffix = url.replace(/-/g, ' ').trim().replace(/\s/g, '-');
+    }
+
+  })
+
   $scope.saveCourse = function() {
     if ($scope.form.title.length == 0 || $scope.form.instructor.length == 0) {
-      Flash.create('warning','Fill all the fields')
+      Flash.create('warning', 'Fill all the fields')
     }
 
     var method = 'POST'
@@ -1190,10 +1384,12 @@ app.controller("businessManagement.LMS.form", function($scope, $state, $users, $
     fd.append('title', $scope.form.title);
     fd.append('enrollmentStatus', $scope.form.enrollmentStatus);
     fd.append('description', $scope.form.description);
+    fd.append('urlSuffix', $scope.form.urlSuffix);
     // fd.append('TAs', $scope.form.TAs);
     fd.append('instructor', $scope.form.instructor.pk);
     fd.append('sellingPrice', $scope.form.sellingPrice);
     fd.append('activeCourse', $scope.form.activeCourse);
+    fd.append('topic', $scope.form.topic);
 
     $http({
       method: method,
@@ -1218,63 +1414,14 @@ app.controller("businessManagement.LMS.form", function($scope, $state, $users, $
 
 });
 
-app.controller("businessManagement.LMS.examReport", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal) {
-  console.log($scope.tab.data.pk);
 
-  $http({
-    method: 'GET',
-    url: '/api/LMS/enrollment/?course=' + $scope.tab.data.pk
-  }).then(function(response) {
-    $scope.students = response.data;
-    for (var i = 0; i < $scope.students.length; i++) {
-      $scope.students[i].data = [100, 150, 160, 180];
-    }
-    console.log($scope.students);
-    $scope.students = $scope.students.sort(function(a, b) {
-      return (a.user) - (b.user)
-    });
-
-  })
-  $scope.labels = ["Physics", "Chemistry", "Maths", "Biology"];
-  $scope.colors = ['#f5bf78', '#9cf29c', '#9ad1f5', '#f7f5ba']
-
-  $scope.showMore = function(val, pk) {
-    $http({
-      method: 'GET',
-      url: '/api/tutors/tutors24Profile/?user=' + pk
-    }).then(function(response) {
-      $scope.info = response.data;
-      console.log($scope.info);
-    })
-
-    $uibModal.open({
-      templateUrl: '/static/ngTemplates/app.LMS.enrolled.students.html',
-      size: 'xl',
-      backdrop: true,
-      resolve: {
-        stuData: function() {
-          return $scope.info;
-        },
-      },
-      controller: function($scope, stuData, $uibModalInstance) {
-        if (val == 'info') {
-          console.log('info');
-        } else if (val == 'report') {
-          console.log('report');
-        } else {
-          console.log('resssss');
-        }
-      }
-    })
-  }
-}) //-----------------------------------------------courses ends--------------------------------------------
 
 //-----------------------------------------------online tet starts--------------------------------------------
 app.controller('businessManagement.LMS.evaluation', function($scope, $http, $aside, $state, Flash, $users, $filter, $uibModal, $stateParams) {
 
 
-  if ($state.is('businessManagement.viewPaper')) {
-      $state.go('businessManagement.viewPaper.questions')
+  if ($state.is('businessManagement.LMS.viewPaper')) {
+    $state.go('businessManagement.LMS.viewPaper.questions')
 
   }
 
@@ -1313,7 +1460,7 @@ app.controller('businessManagement.LMS.evaluation', function($scope, $http, $asi
     query: ''
   }
   $scope.fetchData = function() {
-    let url = '/api/LMS/paper/?limit=' + $scope.limit + '&offset=' + $scope.offset+'&state='+$scope.getState.state
+    let url = '/api/LMS/paper/?limit=' + $scope.limit + '&offset=' + $scope.offset + '&state=' + $scope.getState.state
     if ($scope.search.query.length > 0) {
       url = url + '&name=' + $scope.search.query
     }
@@ -1329,405 +1476,37 @@ app.controller('businessManagement.LMS.evaluation', function($scope, $http, $asi
   $scope.fetchData()
 
 
-
-
-
-
-  $scope.savePaperGroup = function() {
-    console.log($scope.paperGroupData);
-
-    var f = $scope.paperGroupData
-    if (f.title.length == 0 || f.description.length == 0) {
-      Flash.create('danger', 'All Fields Are Required')
-      return
-    }
-    if (f.blogData.ogimage == emptyFile && (f.blogData.ogimageUrl == '' || f.blogData.ogimageUrl == undefined)) {
-      Flash.create('danger', 'Either the OG image file OR og image url is required')
-      return;
-    }
-    if (f.blogData.tagsCSV == '' || f.blogData.section == '' || f.blogData.author == '' || f.blogData.description == '') {
-      Flash.create('danger', 'Please check the All SEO related fields');
-      return;
-    }
-    var toSend = {
-      title: f.title,
-      description: f.description,
-      subject: f.subject.pk
-    }
-    var method = 'PATCH'
-    var url = '/api/LMS/paperGroup/' + f.pk + '/'
+  $scope.delTest = function(indx) {
     $http({
-      method: method,
-      url: url,
-      data: toSend,
+      method: 'DELETE',
+      url: '/api/LMS/paper/' + $scope.allData[indx].pk + '/'
     }).
     then(function(response) {
-      var f = $scope.paperGroupData
-      var fd = new FormData();
-      if (f.blogData.ogimage != emptyFile && typeof f.blogData.ogimage != 'string' && f.blogData.ogimage != null) {
-        fd.append('ogimage', f.blogData.ogimage);
-      } else {
-        fd.append('ogimageUrl', f.blogData.ogimageUrl);
-      }
-      fd.append('contentType', 'paperGroup');
-      fd.append('title', f.blogData.title);
-      fd.append('shortUrl', f.blogData.shortUrl);
-      fd.append('description', f.blogData.description);
-      fd.append('tagsCSV', f.blogData.tagsCSV);
-      fd.append('section', f.blogData.section);
-      fd.append('author', f.blogData.author);
-      fd.append('header', f.pk)
-      var method = 'POST';
-      var url = '/api/PIM/blog/';
-      if (f.blogData.pk) {
-        method = 'PATCH';
-        url += f.blogData.pk + '/';
-      }
-      $http({
-        method: method,
-        url: url,
-        data: fd,
-        transformRequest: angular.identity,
-        headers: {
-          'Content-Type': undefined
-        }
-      }).
-      then(function(response) {
-        Flash.create('success', 'Saved Successfully')
-      });
+      $scope.allData.splice(indx, 1)
+      Flash.create('success', 'Deleted.....!!!')
     })
   }
 
-  //---------------------------------------online test uib modal--------------------------------------------
-
-
-
-  //---------------------------------------online test uib modal ends-------------------------------------
-
-  //---------------------------------------multiple choice new--------------------------------------------
-  if ($state.is('businessManagement.LMS.newmultiplechoice')) {
-    $scope.tinymceOptions = {
-      selector: 'textarea',
-      content_css: '/static/css/bootstrap.min.css',
-      inline: false,
-      plugins: 'advlist autolink link image lists charmap preview imagetools paste table insertdatetime code searchreplace anchor',
-      skin: 'lightgray',
-      theme: 'modern',
-      height: 400,
-      toolbar: 'undo redo | bullist numlist | alignleft aligncenter alignright alignjustify | outdent  indent blockquote | bold italic underline | image link',
-      setup: function(editor) {},
-      rel_list: [{
-          title: 'None',
-          value: 'none'
-        },
-        {
-          title: 'No Follow',
-          value: 'nofollow'
-        },
-        {
-          title: 'Table of contents',
-          value: 'toc'
-        }
-      ]
-    };
-    $scope.resetForm = function() {
-      $scope.form = {
-        marks: '',
-        ques: '',
-        paper: '',
-        // qtype:'string',
-      }
-    }
-    $scope.resetForm()
-
-    $scope.saveMCQ = function() {
-      var qtype = 'mcq'
-      if ($scope.form.ques == null || $scope.form.ques.length == 0) {
-        Flash.create('warning', 'Please write question')
-        return;
-      }
-      if ($scope.form.marks == null || $scope.form.marks.length == 0) {
-        Flash.create('warning', 'Please add score')
-        return;
-      }
-      var datatosend = {
-        marks: $scope.form.marks,
-        ques: $scope.form.ques,
-        paper: $stateParams.id,
-        qtype: qtype,
-      }
-      $http({
-        method: 'POST',
-        url: '/api/LMS/question/',
-        data: datatosend
-      }).
-      then(function(response) {
-        $scope.form.pk = response.data.pk
-        Flash.create("success", "Question created")
-        // $scope.resetForm()
-
-      })
-
-    }
-    $scope.options = function(pk) {
-      $uibModal.open({
-        templateUrl: '/static/ngTemplates/app.LMS.addoption.html',
-        size: 'md',
-        backdrop: true,
-        resolve: {
-          data: function() {
-            console.log(pk, "mmmmmmmmmmmmmmm");
-            return pk;
-          }
-        },
-        controller: function($scope, $uibModalInstance, data) {
-          $scope.statechange = function() {
-            $state.go('businessManagement.LMS.newmultiplechoice', {
-              'id': pk
-            })
-            $uibModalInstance.dismiss()
-          }
-          $scope.statechange1 = function() {
-            $state.go('businessManagement.LMS.newsubjective', {
-              'id': pk
-            })
-            $uibModalInstance.dismiss()
-          }
-          $scope.statechange2 = function() {
-            $state.go('businessManagement.LMS.newfileupload', {
-              'id': pk
-            })
-            $uibModalInstance.dismiss()
-          }
-
-        }, //controller ends
-      }).result.then(function(h) {
-        $scope.fetchData()
-      }, function(h) {
-        if (typeof h == 'object') {
-          $scope.fetchData()
-        }
-      })
-    }
-
-  }
-  //---------------------------------------multiple choice  ends-------------------------------------
-
-  //--------------------------------------- subjective starts--------------------------------------------
-
-  if ($state.is('businessManagement.LMS.newsubjective')) {
-    $scope.tinymceOptions = {
-      selector: 'textarea',
-      content_css: '/static/css/bootstrap.min.css',
-      inline: false,
-      plugins: 'advlist autolink link image lists charmap preview imagetools paste table insertdatetime code searchreplace anchor',
-      skin: 'lightgray',
-      theme: 'modern',
-      height: 400,
-      toolbar: 'undo redo | bullist numlist | alignleft aligncenter alignright alignjustify | outdent  indent blockquote | bold italic underline | image link',
-      setup: function(editor) {},
-      rel_list: [{
-          title: 'None',
-          value: 'none'
-        },
-        {
-          title: 'No Follow',
-          value: 'nofollow'
-        },
-        {
-          title: 'Table of contents',
-          value: 'toc'
-        }
-      ]
-    };
-    $scope.resetForm = function() {
-      $scope.form = {
-        marks: '',
-        ques: '',
-        paper: '',
-        qtype: 'string',
-      }
-    }
-    $scope.resetForm()
-
-    $scope.saveSubjective = function() {
-      var qtype = 'string'
-      if ($scope.form.ques == null || $scope.form.ques.length == 0) {
-        Flash.create('warning', 'Please write question')
-        return;
-      }
-      if ($scope.form.marks == null || $scope.form.marks.length == 0) {
-        Flash.create('warning', 'Please add score')
-        return;
-      }
-      var datatosend = {
-        marks: $scope.form.marks,
-        ques: $scope.form.ques,
-        paper: $stateParams.id,
-        qtype: qtype,
-      }
-      $http({
-        method: 'POST',
-        url: '/api/LMS/question/',
-        data: datatosend
-      }).
-      then(function(response) {
-        Flash.create("success", "Question created")
-        $scope.resetForm()
-
-      })
-
-    }
-
-  }
-
-  //---------------------------------------subjective new ends-------------------------------------
-
-  //---------------------------------------file upload new--------------------------------------------
-
-  if ($state.is('businessManagement.LMS.newfileupload')) {
-    $scope.tinymceOptions = {
-      selector: 'textarea',
-      content_css: '/static/css/bootstrap.min.css',
-      inline: false,
-      plugins: 'advlist autolink link image lists charmap preview imagetools paste table insertdatetime code searchreplace anchor',
-      skin: 'lightgray',
-      theme: 'modern',
-      height: 400,
-      toolbar: 'undo redo | bullist numlist | alignleft aligncenter alignright alignjustify | outdent  indent blockquote | bold italic underline | image link',
-      setup: function(editor) {},
-      rel_list: [{
-          title: 'None',
-          value: 'none'
-        },
-        {
-          title: 'No Follow',
-          value: 'nofollow'
-        },
-        {
-          title: 'Table of contents',
-          value: 'toc'
-        }
-      ]
-    };
-  }
-  //---------------------------------------file upload ends-------------------------------------
-
-  //---------------------------------------Paper view starts-------------------------------------
-  if ($state.is('businessManagement.LMS.viewPaper')) {
-    $scope.search = {
-      query: ''
-    }
-    console.log($stateParams.id);
-    $scope.fetchData = function() {
-      let url = '/api/LMS/question/?paper=' + $stateParams.id
-      if ($scope.search.query.length > 0) {
-        url = url + '&name=' + $scope.search.query
-      }
-      $http({
-        method: 'GET',
-        url: url
-      }).
-      then(function(response) {
-        $scope.questions = response.data
-        $scope.quesArray = []
-
-        for (var i = 0; i < $scope.questions.length; i++) {
-          // if($scope.questions[i].qtype == 'string'){
-          console.log("here")
-          console.log($scope.questions[i])
-          $scope.new = $scope.questions[i].ques.slice(4, $scope.questions[i].ques.length - 4)
-          console.log($scope.new)
-          $scope.quesArray.push($scope.new)
-
-          // }
-          // else{
-          //     $scope.new = $scope.questions[i].ques
-          //     $scope.quesArray.push($scope.new)
-          // }
-        }
-        console.log($scope.quesArray, "ssss");
-      })
-    }
-    $scope.fetchData()
-
-
-
-    $scope.onlineTest = function(pk) {
-      $uibModal.open({
-        templateUrl: '/static/ngTemplates/app.LMS.onlinetwstnew.html',
-        size: 'xl',
-        backdrop: true,
-        resolve: {
-          data: function() {
-            console.log(pk, "mmmmmmmmmmmmmmm");
-            return pk;
-          }
-        },
-        controller: function($scope, $uibModalInstance, data) {
-          $scope.statechange = function() {
-            $state.go('businessManagement.LMS.newmultiplechoice', {
-              'id': pk
-            })
-            $uibModalInstance.dismiss()
-          }
-          $scope.statechange1 = function() {
-            $state.go('businessManagement.LMS.newsubjective', {
-              'id': pk
-            })
-            $uibModalInstance.dismiss()
-          }
-          $scope.statechange2 = function() {
-            $state.go('businessManagement.LMS.newfileupload', {
-              'id': pk
-            })
-            $uibModalInstance.dismiss()
-          }
-
-        }, //controller ends
-      }).result.then(function(h) {
-        $scope.fetchData()
-      }, function(h) {
-        if (typeof h == 'object') {
-          $scope.fetchData()
-        }
-      })
-    }
-
-
-  }
-
-  //---------------------------------------paper view ends-------------------------------------
-
-  // $scope.fetchData = function() {
-  //   $http({
-  //     method: 'GET',
-  //     url: '/api/LMS/paper/' + $stateParams.id + '/'
-  //   }).
-  //   then(function(response) {
-  //     $scope.paper = response.data
-  //
-  //   })
-  // }
-  // $scope.fetchData()
-
   $scope.createStudent = function(data) {
-
+    console.log(data);
     $uibModal.open({
       templateUrl: '/static/ngTemplates/app.LMS.activityLog.createstudent.html',
       size: 'md',
       backdrop: true,
       resolve: {
-        data:function(){
+        data: function() {
           return data
         }
 
       },
-      controller: function($scope, $uibModalInstance,data) {
+      controller: function($scope, $uibModalInstance, data) {
         $scope.form = {
           contact: '',
           contacts: [],
-          contactsList: []
+          contactsList: [],
+          name: '',
+          mobile: '',
+          email: ''
         }
         $scope.addContacts = function() {
           for (var i = 0; i < $scope.form.contactsList.length; i++) {
@@ -1747,21 +1526,66 @@ app.controller('businessManagement.LMS.evaluation', function($scope, $http, $asi
         $scope.getContactsearch = function(query) {
           console.log(query);
           //search for the user
-          return $http.get('/api/clientRelationships/contact/?typ=student&name__contains=' + query).
+          return $http.get('/api/clientRelationships/contact/?typ=student&mobile__contains=' + query).
           then(function(response) {
             return response.data;
           })
         };
+        $scope.$watch('form.contact', function(query) {
+          console.log(query, 'ewe');
+          if (query.length != 8) {
+            return $http.get('/api/clientRelationships/contact/?mobile__contains=' + query).
+            then(function(response) {
+              $scope.form.name = query.name
+              $scope.form.mobile = query.mobile
+              $scope.form.email = query.email
+              $scope.form.pk = query.pk
+              return response.data;
+            })
+
+          }
+
+        })
 
         $scope.save = function() {
-          $http({
-            method: 'PATCH',
-            url: '/api/LMS/paper/' + data.pk + '/',
-            data: {
-              contacts: $scope.form.contacts
+          if ($scope.form.pk == undefined) {
+            var method = "POST"
+            var url = "/api/clientRelationships/contact/"
+            var data = {
+              mobile: $scope.form.contact,
+              name: $scope.form.name,
+              email: $scope.form.email,
+              typ: 'student'
             }
+          } else {
+            var method = "PATCH"
+            var url = "/api/clientRelationships/contact/" + $scope.form.pk + '/'
+            var data = {
+              mobile: $scope.form.contact.mobile,
+              name: $scope.form.contact.name,
+              email: $scope.form.contact.email,
+              typ: $scope.form.contact.typ
+            }
+
+          }
+          $http({
+            method: method,
+            url: url,
+            data: data
           }).
           then(function(response) {
+            $scope.form.contacts.push(response.data.pk)
+            $http({
+              method: 'PATCH',
+              url: '/api/LMS/paper/' + $state.params.id + '/',
+              data: {
+                contacts: $scope.form.contacts
+              }
+            }).
+            then(function(response) {
+
+
+            })
             Flash.create('success', 'Added')
             $uibModalInstance.dismiss()
 
@@ -1778,19 +1602,7 @@ app.controller('businessManagement.LMS.evaluation', function($scope, $http, $asi
 
 });
 
-app.controller("businessManagement.LMS.evaluation.explore", function($scope, $state, $users, $stateParams, $http, Flash) {
-  $scope.fetchData = function() {
-    $http({
-      method: 'GET',
-      url: '/api/LMS/paper/?groupId=' + $stateParams.id
-    }).
-    then(function(response) {
-      $scope.paper = response.data
 
-    })
-  }
-  $scope.fetchData()
-});
 
 
 app.controller("businessManagement.LMS.evaluation.form", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal) {
@@ -2226,90 +2038,7 @@ app.controller("businessManagement.LMS.evaluation.form", function($scope, $state
     }
   }
 });
-app.controller("businessManagement.LMS.knowledgeBank.book.explore", function($scope, $state, $users, $stateParams, $http, Flash) {
 
-  $scope.fetchData = function() {
-    let url = '/api/LMS/book/' + $stateParams.id + '/'
-
-    $http({
-      method: 'GET',
-      url: url
-    }).
-    then(function(response) {
-      $scope.bookData = response.data
-      console.log($scope.bookData);
-    })
-  }
-  $scope.fetchData()
-  $http({
-    method: 'GET',
-    url: '/api/LMS/section/?book=' + $stateParams.id,
-  }).
-  then(function(response) {
-    $scope.sectionsData = response.data;
-  })
-
-
-  $scope.showQues = function(idx) {
-
-    $http({
-      method: 'GET',
-      url: '/api/LMS/question/?bookSection=' + $stateParams.id,
-    }).
-    then(function(response) {
-      $scope.sectionQuestion = response.data;
-    })
-  }
-
-  $scope.editQuestion = function(idx) {
-    $scope.$parent.$parent.$parent.$parent.$parent.$parent.addTab({
-      title: 'EditBookQuestion : ' + $scope.sectionQuestion[idx].pk,
-      cancel: true,
-      app: 'questionEditor',
-      data: {
-        pk: $scope.sectionQuestion[idx].pk,
-      },
-      active: true
-    })
-    console.log($scope.$parent.$parent.$parent.$parent.$parent.$parent.addTab({
-      title: 'Edit Book Question',
-      cancel: true,
-      app: 'questionEditor',
-      data: {
-        pk: $scope.sectionQuestion[idx].pk,
-      },
-      active: true
-    }));
-  }
-  $scope.viewAnswer = function(idx) {
-    $scope.$parent.$parent.$parent.$parent.$parent.$parent.addTab({
-      title: 'View Solution : ' + $scope.sectionQuestion[idx].pk,
-      cancel: true,
-      app: 'questionExplorer',
-      data: {
-        pk: $scope.sectionQuestion[idx].pk,
-      },
-      active: true
-    })
-    console.log($scope.$parent.$parent.$parent.$parent.$parent.$parent.addTab({
-      title: 'View Solution : ' + $scope.sectionQuestion[idx].pk,
-      cancel: true,
-      app: 'questionExplorer',
-      data: {
-        pk: $scope.sectionQuestion[idx].pk,
-      },
-      active: true
-    }));
-  }
-})
-//----------------------------------------online test ends---------------------------------------------------
-
-
-//----------------------------------------question bank starts---------------------------------------------------
-
-//------------------------------------------------question bank ends----------------------------------
-
-//------------------------------------------------Books starts----------------------------------
 
 app.controller("businessManagement.LMS.configureLMS", function($scope, $state, $users, $stateParams, $http, Flash) {
 
@@ -2349,14 +2078,14 @@ app.controller("businessManagement.LMS.configureLMS", function($scope, $state, $
   }
   $scope.fetchData()
 
-  $scope.delBook = function(indx){
+  $scope.delBook = function(indx) {
     $http({
       method: 'DELETE',
-      url: '/api/LMS/book/'+$scope.data[indx].pk+'/'
+      url: '/api/LMS/book/' + $scope.data[indx].pk + '/'
     }).
     then(function(response) {
-      $scope.data.splice(indx,1)
-      Flash.create('success','Deleted')
+      $scope.data.splice(indx, 1)
+      Flash.create('success', 'Deleted')
     })
   }
 
@@ -2376,7 +2105,7 @@ app.controller("businessManagement.LMS.configureLMS.form", function($scope, $sta
     dp: emptyFile,
     author: '',
     subject: '',
-    topic: '',
+    // topic: '',
     shortUrl: ''
   }
 
@@ -2400,17 +2129,24 @@ app.controller("businessManagement.LMS.configureLMS.form", function($scope, $sta
       }
       url = url.replace(/-/g, ' ');
       url = url.trim();
-      console.log(url.replace(/-/g, ' '));
-      console.log(url.replace(/-/g, ' ').trim());
-      console.log(url.replace(/-/g, ' ').trim().replace(' ', '-'));
-      // $scope.form.articleUrl = url.replace('-' , ' ').replace(/^\s+|\s+$/gm,'');
       $scope.form.shortUrl = url.replace(/-/g, ' ').trim().replace(/\s/g, '-');
     }
-    // console.log(url);
-    // $scope.form.articleUrl = newValue.replace(/\s+/g, '-').toLowerCase();
+
   })
 
+  $scope.$watch('form.dp' , function(newValue , oldValue) {
+    console.log(newValue,'334');
+    $scope.reader = new FileReader();
 
+    if (typeof newValue == 'string' && newValue.length > 0 ) {
+      $('#bookdp').attr('src', newValue);
+    }
+    $scope.reader.onload = function(e) {
+      $('#bookdp').attr('src', e.target.result);
+    }
+
+    $scope.reader.readAsDataURL(newValue);
+  })
 
 
   $http({
@@ -2418,26 +2154,29 @@ app.controller("businessManagement.LMS.configureLMS.form", function($scope, $sta
     url: '/api/LMS/book/' + $state.params.id + '/'
   }).then(function(res) {
     $scope.form = res.data
+    // $scope.form.dp = emptyFile
   })
+  console.log($state.params)
 
   $scope.save = function() {
 
     var toSend = new FormData();
     var method = 'POST'
     var url = '/api/LMS/book/'
-    if ($state.params.id != undefined) {
+    if ($scope.form.pk != undefined) {
       method = 'PATCH'
-      url += $state.params.id + '/'
+      url += $scope.form.pk + '/'
     }
-    console.log('fileeeeeeeeeeeeeee', typeof $scope.form.dp, $scope.form);
     if ($scope.form.title.length == 0) {
       Flash.create('warning', 'Title is required');
       return;
     }
     toSend.append('title', $scope.form.title)
     toSend.append('description', $scope.form.description)
-    toSend.append('dp', $scope.form.dp)
     if ($scope.form.dp != emptyFile && typeof $scope.form.dp != 'string') {
+
+      toSend.append('dp', $scope.form.dp)
+
     }
     if ($scope.form.author != null && $scope.form.author.length > 0) {
       toSend.append('author', $scope.form.author)
@@ -2445,7 +2184,7 @@ app.controller("businessManagement.LMS.configureLMS.form", function($scope, $sta
 
     toSend.append('subject', $scope.form.subject)
 
-    toSend.append('topic', $scope.form.topic)
+    // toSend.append('topic', $scope.form.topic)
     toSend.append('shortUrl', $scope.form.shortUrl)
 
 
@@ -2461,877 +2200,17 @@ app.controller("businessManagement.LMS.configureLMS.form", function($scope, $sta
       }
     }).
     then(function(response) {
-      if ($scope.mode == 'book') {
-        $scope.hideBook = 'yes'
-        $scope.bookDetails = response.data
-        $scope.bookDetails.sections = $filter('orderBy')($scope.bookDetails.sections, 'sequence')
-        console.log('bookkkkkkkkkkkkkkkk', $scope.bookDetails);
-        if ($scope.form.pk) {
-          Flash.create('success', 'Book Is created');
-        } else {
-          Flash.create('success', 'Book Is Created');
-        }
+      if ($scope.form.pk != undefined) {
+        Flash.create('success', 'Saved');
       } else {
-        if ($scope.form.pk) {
-          Flash.create('success', 'Created');
-        } else {
-          $scope.resetForm();
-          Flash.create('success', 'Saved');
-        }
+        $scope.form = ''
+        Flash.create('success', 'Created');
       }
+
+
     })
   }
 
 
-  // if ($state.is('businessManagement.LMS.editBook')) {
-  //   $scope.mode = 'book';
-  //
-  //   $http({
-  //     method: 'GET',
-  //     url: '/api/LMS/book/' + $stateParams.id + '/'
-  //   }).
-  //   then(function(response) {
-  //     $scope.form = response.data
-  //     console.log(response.data);
-  //   })
-  //
-  //
-  //   if ($scope.dataPK != undefined) {
-  //     $http({
-  //       method: 'GET',
-  //       url: '/api/PIM/blog/?contentType=book&&header=' + $scope.dataPK,
-  //     }).
-  //     then(function(response) {
-  //       console.log($scope.dataPK);
-  //       if (response.data.length > 0) {
-  //         console.log('editttttt');
-  //         $scope.blogType = 'edit'
-  //         $scope.blogData = response.data[0]
-  //       } else {
-  //         console.log('newwwwwwwwww');
-  //         $scope.blogType = 'new'
-  //         $scope.blogData = {}
-  //       }
-  //     })
-  //   }
-  //
-  //
-  //   $scope.resetForm = function() {
-  //     $scope.form = {
-  //       title: '',
-  //       description: '',
-  //       seoTitle: '',
-  //       syllabus: '',
-  //       dp: emptyFile,
-  //       level: 0,
-  //       author: '',
-  //       ISSN: '',
-  //       volume: '',
-  //       version: '',
-  //       license: '',
-  //       subject: '',
-  //       topic: '',
-  //       sections: []
-  //     }
-  //   }
-  //   $scope.resetForm();
-  //
-  //   $scope.addSection = function(index, position, pk) {
-  //     console.log('section clickeddddddddddddddddddddddd');
-  //     console.log(index);
-  //     $uibModal.open({
-  //       templateUrl: '/static/ngTemplates/app.LMS.book.section.html',
-  //       size: 'md',
-  //       backdrop: true,
-  //       resolve: {
-  //         bookData: function() {
-  //           return $scope.bookDetails;
-  //         },
-  //       },
-  //       controller: function($scope, bookData, $uibModalInstance) {
-  //         $scope.editmode = false;
-  //         console.log('bbbbbbbbb', bookData);
-  //         $scope.Sectionform = {
-  //           title: '',
-  //           shortUrl: '',
-  //           description: '',
-  //           seoTitle: '',
-  //         }
-  //         $scope.cancelSection = function() {
-  //           $uibModalInstance.dismiss()
-  //         }
-  //         $scope.saveSection = function() {
-  //           console.log('clickedddddddddddddddddd');
-  //           console.log($scope.Sectionform.title);
-  //           if ($scope.Sectionform.title == null || $scope.Sectionform.title.length == 0) {
-  //             Flash.create('warning', 'Please Mention Some Title')
-  //             return;
-  //           }
-  //           if ($scope.Sectionform.shortUrl == null || $scope.Sectionform.shortUrl.length == 0) {
-  //             Flash.create('warning', 'Please Mention Some Short Url')
-  //             return;
-  //           }
-  //           var secData = {
-  //             title: $scope.Sectionform.title,
-  //             shortUrl: $scope.Sectionform.shortUrl,
-  //             book: $stateParams.id,
-  //             description: $scope.Sectionform.description,
-  //             seoTitle: $scope.Sectionform.seoTitle,
-  //           }
-  //
-  //           $http({
-  //             method: 'POST',
-  //             url: '/api/LMS/section/',
-  //             data: secData
-  //           }).
-  //           then(function(response) {
-  //             $uibModalInstance.dismiss(response.data)
-  //
-  //           })
-  //         }
-  //
-  //       },
-  //     }).result.then(function() {
-  //
-  //     }, function(reason) {
-  //
-  //       if (reason != undefined) {
-  //         if (typeof reason == 'object') {
-  //           if (position == 'bottom') {
-  //             $scope.form.sections.splice(index + 1, 0, reason)
-  //           } else {
-  //             $scope.form.sections.splice(0, 0, reason)
-  //           }
-  //           $scope.secArr = true
-  //         }
-  //       }
-  //
-  //     });
-  //   }
-  //
-  //   $scope.editSection = function(index) {
-  //     $uibModal.open({
-  //       templateUrl: '/static/ngTemplates/app.LMS.book.section.html',
-  //       size: 'md',
-  //       backdrop: true,
-  //       resolve: {
-  //         bookData: function() {
-  //           return $scope.bookDetails;
-  //         },
-  //         secItem: function() {
-  //           return $scope.form.sections[index]
-  //         },
-  //       },
-  //       controller: function($scope, bookData, secItem, $uibModalInstance) {
-  //         $scope.editmode = true;
-  //         console.log(secItem, "----------------getting");
-  //         console.log(secItem.pk, "----------------getting pkkkkkkkkkkk");
-  //         $scope.Sectionform = secItem
-  //         $scope.cancelSection = function() {
-  //           $uibModalInstance.dismiss()
-  //         }
-  //         $scope.saveSection = function() {
-  //           console.log(secItem.shortUrl, '----------ssss');
-  //           if ($scope.Sectionform.title == null || $scope.Sectionform.title.length == 0) {
-  //             Flash.create('warning', 'Please Mention Some Title')
-  //             return;
-  //           }
-  //           var secData = {
-  //             title: $scope.Sectionform.title,
-  //             shortUrl: $scope.Sectionform.shortUrl,
-  //             book: bookData.pk,
-  //             description: $scope.Sectionform.description,
-  //             seoTitle: $scope.Sectionform.seoTitle,
-  //           }
-  //
-  //           $http({
-  //             method: 'PATCH',
-  //             url: '/api/LMS/section/' + secItem.pk + '/',
-  //             data: secData
-  //           }).
-  //           then(function(response) {
-  //             $uibModalInstance.dismiss(response.data)
-  //             Flash.create('success', 'Updated successfully')
-  //           })
-  //         }
-  //
-  //       },
-  //     })
-  //   }
-  //
-  //
-  //
-  //   console.log('typpppppppppp', $scope.blogType);
-  //
-  //   $scope.blogPopup = function(bookId) {
-  //
-  //     $uibModal.open({
-  //       templateUrl: '/static/ngTemplates/app.LMS.book.blogForm.html',
-  //       size: 'md',
-  //       backdrop: true,
-  //       resolve: {
-  //         blogData: function() {
-  //           return $scope.blogData;
-  //         },
-  //         bookId: function() {
-  //           return bookId;
-  //         },
-  //       },
-  //       controller: function($scope, blogData, bookId, $uibModalInstance) {
-  //         console.log('bbbbbbbbb', blogData, bookId);
-  //
-  //         if (blogData.pk) {
-  //           $scope.blogForm = blogData
-  //         } else {
-  //           $scope.blogForm = {
-  //             contentType: 'book',
-  //             tags: [],
-  //             ogimage: emptyFile,
-  //             ogimageUrl: '',
-  //             description: '',
-  //             tagsCSV: '',
-  //             section: '',
-  //             author: '',
-  //             title: '',
-  //           }
-  //         }
-  //         console.log($scope.blogForm);
-  //         $scope.cancelBlog = function() {
-  //           $uibModalInstance.dismiss()
-  //         }
-  //         $scope.saveBlog = function() {
-  //           console.log('clickedddddddddddddddddd');
-  //           console.log($scope.blogForm);
-  //
-  //           var tags = [];
-  //           for (var i = 0; i < $scope.blogForm.tags.length; i++) {
-  //             tags.push($scope.blogForm.tags[i].pk)
-  //           }
-  //
-  //           var fd = new FormData();
-  //
-  //           if ($scope.blogForm.ogimage == emptyFile && ($scope.blogForm.ogimageUrl == '' || $scope.blogForm.ogimageUrl == undefined)) {
-  //             Flash.create('danger', 'Either the OG image file OR og image url is required')
-  //             return;
-  //           }
-  //           if ($scope.blogForm.tagsCSV == '' || $scope.blogForm.section == '' || $scope.blogForm.author == '' || $scope.blogForm.description == '') {
-  //             Flash.create('danger', 'Please check the All SEO related fields');
-  //             return;
-  //           }
-  //
-  //           if ($scope.blogForm.ogimage != emptyFile && typeof $scope.blogForm.ogimage != 'string' && $scope.blogForm.ogimage != null) {
-  //             fd.append('ogimage', $scope.blogForm.ogimage);
-  //
-  //           } else {
-  //             fd.append('ogimageUrl', $scope.blogForm.ogimageUrl);
-  //           }
-  //
-  //
-  //           fd.append('tagsCSV', $scope.blogForm.tagsCSV);
-  //           fd.append('section', $scope.blogForm.section);
-  //           fd.append('author', $scope.blogForm.author);
-  //           fd.append('description', $scope.blogForm.description);
-  //           fd.append('header', bookId)
-  //           fd.append('contentType', 'book');
-  //           fd.append('tags', tags);
-  //           fd.append('title', $scope.blogForm.title);
-  //           fd.append('shortUrl', $scope.blogForm.shortUrl);
-  //
-  //           if ($scope.blogForm.pk) {
-  //             method = 'PATCH';
-  //             url = '/api/PIM/blog/' + $scope.blogForm.pk + '/';
-  //           } else {
-  //             method = 'POST';
-  //             url = '/api/PIM/blog/';
-  //           }
-  //
-  //           $http({
-  //             method: method,
-  //             url: url,
-  //             data: fd,
-  //             transformRequest: angular.identity,
-  //             headers: {
-  //               'Content-Type': undefined
-  //             }
-  //           }).
-  //           then(function(response) {
-  //             if ($scope.blogForm.pk) {
-  //               Flash.create('success', 'Updated');
-  //             } else {
-  //               Flash.create('success', 'Created');
-  //             }
-  //             $uibModalInstance.dismiss(response.data)
-  //           });
-  //
-  //         }
-  //
-  //       },
-  //     }).result.then(function() {
-  //
-  //     }, function(reason) {
-  //
-  //       if (reason != undefined) {
-  //         $scope.blogType = 'edit'
-  //         $scope.blogData = reason
-  //       }
-  //
-  //     });
-  //   }
-  //
-  //
-  //   $scope.secMove = function(index, position) {
-  //     console.log('clickkkkkkk', index, position);
-  //     if ($scope.form.sections.length > 1) {
-  //       var a = $scope.form.sections[index]
-  //       if (position == 'up') {
-  //         if (index > 0) {
-  //           $scope.form.sections.splice(index, 1)
-  //           $scope.form.sections.splice(index - 1, 0, a)
-  //         }
-  //       } else {
-  //         if (index < $scope.form.sections.length - 1) {
-  //           $scope.form.sections.splice(index, 1)
-  //           $scope.form.sections.splice(index + 1, 0, a)
-  //         }
-  //       }
-  //     }
-  //   }
-  //   $scope.saveSecSeq = function() {
-  //     for (var i = 0; i < $scope.form.sections.length; i++) {
-  //       $http({
-  //         method: 'PATCH',
-  //         url: '/api/LMS/section/' + $scope.form.sections[i].pk + '/',
-  //         data: {
-  //           sequence: i
-  //         }
-  //       }).
-  //       then(function(response) {
-  //         Flash.create('success', 'Saved');
-  //       })
-  //     }
-  //   }
-  //   $scope.subjectSearch = function(query) {
-  //     return $http.get('/api/LMS/subject/?title__contains=' + query).
-  //     then(function(response) {
-  //       return response.data;
-  //     })
-  //   };
-  //
-  //   $scope.bookShow = true
-  //   // $scope.subjectShow = true
-  //   // $scope.topicShow = true
-  //   // $scope.form.subject = '';
-  //   // console.log('**********************',action,appType);
-  //   if ($scope.clickOn != undefined) {
-  //     console.log('***********', $scope.clickOn);
-  //     if ($scope.clickOn == 'book') {
-  //       $scope.form = $scope.booksData
-  //       console.log('kkkkkkkkkkkkkkkk', $scope.form);
-  //       $scope.form.sections = $filter('orderBy')($scope.booksData.sections, 'sequence')
-  //       $scope.bookDetails = $scope.booksData
-  //       $scope.mode = 'book';
-  //       $scope.bookShow = true
-  //       // $scope.subjectShow = false
-  //       // $scope.topicShow = false
-  //       if ($scope.form.sections.length > 0) {
-  //         $scope.secArr = true
-  //       }
-  //     }
-  //
-  //   }
-  //   $scope.save = function() {
-  //
-  //     var toSend = new FormData();
-  //     var method = 'POST'
-  //     var url = '/api/LMS/' + $scope.mode + '/'
-  //     if ($scope.form.pk) {
-  //       var method = 'PATCH'
-  //       var url = '/api/LMS/' + $scope.mode + '/' + $scope.form.pk + '/'
-  //     }
-  //     console.log('fileeeeeeeeeeeeeee', typeof $scope.form.dp, $scope.form);
-  //     if ($scope.form.title.length == 0) {
-  //       Flash.create('warning', 'Title is required');
-  //       return;
-  //     }
-  //     toSend.append('title', $scope.form.title)
-  //     toSend.append('description', $scope.form.description)
-  //
-  //
-  //     if ($scope.mode == 'subject') {
-  //       if ($scope.form.dp != emptyFile && typeof $scope.form.dp != 'string') {
-  //         toSend.append('dp', $scope.form.dp)
-  //       }
-  //       toSend.append('level', $scope.form.level)
-  //     } else if ($scope.mode == 'book') {
-  //
-  //       if ($scope.form.dp != emptyFile && typeof $scope.form.dp != 'string') {
-  //         toSend.append('dp', $scope.form.dp)
-  //       }
-  //       if ($scope.form.author != null && $scope.form.author.length > 0) {
-  //         toSend.append('author', $scope.form.author)
-  //       }
-  //
-  //       toSend.append('subject', $scope.form.subject)
-  //
-  //       toSend.append('topic', $scope.form.topic)
-  //
-  //       if ($scope.form.ISSN != null && $scope.form.ISSN.length > 0) {
-  //         toSend.append('ISSN', $scope.form.ISSN)
-  //       }
-  //       if ($scope.form.volume != null && $scope.form.volume.length > 0) {
-  //         toSend.append('volume', $scope.form.volume)
-  //       }
-  //       if ($scope.form.version != null && $scope.form.version.length > 0) {
-  //         toSend.append('version', $scope.form.version)
-  //       }
-  //       if ($scope.form.license != null && $scope.form.license.length > 0) {
-  //         toSend.append('license', $scope.form.license)
-  //       }
-  //     } else {
-  //
-  //       if ($scope.form.syllabus != null && $scope.form.syllabus.length > 0) {
-  //         toSend.append('syllabus', $scope.form.syllabus)
-  //       }
-  //     }
-  //
-  //     $http({
-  //       method: method,
-  //       url: url,
-  //       data: toSend,
-  //       transformRequest: angular.identity,
-  //       headers: {
-  //         'Content-Type': undefined
-  //       }
-  //     }).
-  //     then(function(response) {
-  //       if ($scope.mode == 'book') {
-  //         $scope.hideBook = 'yes'
-  //         $scope.bookDetails = response.data
-  //         $scope.bookDetails.sections = $filter('orderBy')($scope.bookDetails.sections, 'sequence')
-  //         console.log('bookkkkkkkkkkkkkkkk', $scope.bookDetails);
-  //         if ($scope.form.pk) {
-  //           Flash.create('success', 'Book Is updated');
-  //         } else {
-  //           Flash.create('success', 'Book Is Created');
-  //         }
-  //       } else {
-  //         if ($scope.form.pk) {
-  //           Flash.create('success', 'updated');
-  //         } else {
-  //           $scope.resetForm();
-  //           Flash.create('success', 'Saved');
-  //         }
-  //       }
-  //     })
-  //   }
-  // }
-  // if ($state.is('businessManagement.newBook')) {
-  //   $scope.mode = 'book';
-  //
-  //   $scope.resetForm = function() {
-  //     $scope.form = {
-  //       title: '',
-  //       description: '',
-  //       seoTitle: '',
-  //       syllabus: '',
-  //       dp: emptyFile,
-  //       level: 0,
-  //       author: '',
-  //       ISSN: '',
-  //       volume: '',
-  //       version: '',
-  //       license: '',
-  //       subject: '',
-  //       topic: '',
-  //       sections: []
-  //     }
-  //   }
-  //   $scope.resetForm();
-  //   $scope.addSection = function(index, position, pk) {
-  //     console.log('section clickeddddddddddddddddddddddd');
-  //     console.log(index);
-  //     $uibModal.open({
-  //       templateUrl: '/static/ngTemplates/app.LMS.book.section.html',
-  //       size: 'md',
-  //       backdrop: true,
-  //       resolve: {
-  //         bookData: function() {
-  //           return $scope.bookDetails;
-  //         },
-  //       },
-  //       controller: function($scope, bookData, $uibModalInstance) {
-  //         $scope.editmode = false;
-  //         console.log('bbbbbbbbb', bookData);
-  //         $scope.Sectionform = {
-  //           title: '',
-  //           shortUrl: '',
-  //           description: '',
-  //           seoTitle: '',
-  //         }
-  //         $scope.cancelSection = function() {
-  //           $uibModalInstance.dismiss()
-  //         }
-  //         $scope.saveSection = function() {
-  //           console.log('clickedddddddddddddddddd');
-  //           console.log($scope.Sectionform.title);
-  //           if ($scope.Sectionform.title == null || $scope.Sectionform.title.length == 0) {
-  //             Flash.create('warning', 'Please Mention Some Title')
-  //             return;
-  //           }
-  //           if ($scope.Sectionform.shortUrl == null || $scope.Sectionform.shortUrl.length == 0) {
-  //             Flash.create('warning', 'Please Mention Some Short Url')
-  //             return;
-  //           }
-  //           var secData = {
-  //             title: $scope.Sectionform.title,
-  //             shortUrl: $scope.Sectionform.shortUrl,
-  //             book: bookData.pk,
-  //             description: $scope.Sectionform.description,
-  //             seoTitle: $scope.Sectionform.seoTitle,
-  //           }
-  //
-  //           $http({
-  //             method: 'POST',
-  //             url: '/api/LMS/section/',
-  //             data: secData
-  //           }).
-  //           then(function(response) {
-  //             $uibModalInstance.dismiss(response.data)
-  //           }, function(err) {
-  //             Flash.create('danger', 'This Short Url Already Exist Select Another')
-  //           })
-  //         }
-  //
-  //       },
-  //     }).result.then(function() {
-  //
-  //     }, function(reason) {
-  //
-  //       if (reason != undefined) {
-  //         if (typeof reason == 'object') {
-  //           if (position == 'bottom') {
-  //             $scope.form.sections.splice(index + 1, 0, reason)
-  //           } else {
-  //             $scope.form.sections.splice(0, 0, reason)
-  //           }
-  //           $scope.secArr = true
-  //         }
-  //       }
-  //
-  //     });
-  //   }
-  //
-  //   $scope.editSection = function(index) {
-  //     $uibModal.open({
-  //       templateUrl: '/static/ngTemplates/app.LMS.book.section.html',
-  //       size: 'md',
-  //       backdrop: true,
-  //       resolve: {
-  //         bookData: function() {
-  //           return $scope.bookDetails;
-  //         },
-  //         secItem: function() {
-  //           return $scope.form.sections[index]
-  //         },
-  //       },
-  //       controller: function($scope, bookData, secItem, $uibModalInstance) {
-  //         $scope.editmode = true;
-  //         console.log(secItem, "----------------getting");
-  //         console.log(secItem.pk, "----------------getting pkkkkkkkkkkk");
-  //         $scope.Sectionform = secItem
-  //         $scope.cancelSection = function() {
-  //           $uibModalInstance.dismiss()
-  //         }
-  //         $scope.saveSection = function() {
-  //           console.log(secItem.shortUrl, '----------ssss');
-  //           if ($scope.Sectionform.title == null || $scope.Sectionform.title.length == 0) {
-  //             Flash.create('warning', 'Please Mention Some Title')
-  //             return;
-  //           }
-  //           var secData = {
-  //             title: $scope.Sectionform.title,
-  //             shortUrl: $scope.Sectionform.shortUrl,
-  //             book: bookData.pk,
-  //             description: $scope.Sectionform.description,
-  //             seoTitle: $scope.Sectionform.seoTitle,
-  //           }
-  //
-  //           $http({
-  //             method: 'PATCH',
-  //             url: '/api/LMS/section/' + secItem.pk + '/',
-  //             data: secData
-  //           }).
-  //           then(function(response) {
-  //             $uibModalInstance.dismiss(response.data)
-  //             Flash.create('success', 'Updated successfully')
-  //           })
-  //         }
-  //
-  //       },
-  //     })
-  //   }
-  //
-  //
-  //
-  //   console.log('typpppppppppp', $scope.blogType);
-  //
-  //   $scope.blogPopup = function(bookId) {
-  //
-  //     $uibModal.open({
-  //       templateUrl: '/static/ngTemplates/app.LMS.book.blogForm.html',
-  //       size: 'md',
-  //       backdrop: true,
-  //       resolve: {
-  //         blogData: function() {
-  //           return $scope.blogData;
-  //         },
-  //         bookId: function() {
-  //           return bookId;
-  //         },
-  //       },
-  //       controller: function($scope, blogData, bookId, $uibModalInstance) {
-  //         console.log('bbbbbbbbb', blogData, bookId);
-  //
-  //         if (blogData.pk) {
-  //           $scope.blogForm = blogData
-  //         } else {
-  //           $scope.blogForm = {
-  //             contentType: 'book',
-  //             tags: [],
-  //             ogimage: emptyFile,
-  //             ogimageUrl: '',
-  //             description: '',
-  //             tagsCSV: '',
-  //             section: '',
-  //             author: '',
-  //             title: '',
-  //           }
-  //         }
-  //         console.log($scope.blogForm);
-  //         $scope.cancelBlog = function() {
-  //           $uibModalInstance.dismiss()
-  //         }
-  //         $scope.saveBlog = function() {
-  //           console.log('clickedddddddddddddddddd');
-  //           console.log($scope.blogForm);
-  //
-  //           var tags = [];
-  //           for (var i = 0; i < $scope.blogForm.tags.length; i++) {
-  //             tags.push($scope.blogForm.tags[i].pk)
-  //           }
-  //
-  //           var fd = new FormData();
-  //
-  //           if ($scope.blogForm.ogimage == emptyFile && ($scope.blogForm.ogimageUrl == '' || $scope.blogForm.ogimageUrl == undefined)) {
-  //             Flash.create('danger', 'Either the OG image file OR og image url is required')
-  //             return;
-  //           }
-  //           if ($scope.blogForm.tagsCSV == '' || $scope.blogForm.section == '' || $scope.blogForm.author == '' || $scope.blogForm.description == '') {
-  //             Flash.create('danger', 'Please check the All SEO related fields');
-  //             return;
-  //           }
-  //
-  //           if ($scope.blogForm.ogimage != emptyFile && typeof $scope.blogForm.ogimage != 'string' && $scope.blogForm.ogimage != null) {
-  //             fd.append('ogimage', $scope.blogForm.ogimage);
-  //
-  //           } else {
-  //             fd.append('ogimageUrl', $scope.blogForm.ogimageUrl);
-  //           }
-  //
-  //
-  //           fd.append('tagsCSV', $scope.blogForm.tagsCSV);
-  //           fd.append('section', $scope.blogForm.section);
-  //           fd.append('author', $scope.blogForm.author);
-  //           fd.append('description', $scope.blogForm.description);
-  //           fd.append('header', bookId)
-  //           fd.append('contentType', 'book');
-  //           fd.append('tags', tags);
-  //           fd.append('title', $scope.blogForm.title);
-  //           fd.append('shortUrl', $scope.blogForm.shortUrl);
-  //
-  //           if ($scope.blogForm.pk) {
-  //             method = 'PATCH';
-  //             url = '/api/PIM/blog/' + $scope.blogForm.pk + '/';
-  //           } else {
-  //             method = 'POST';
-  //             url = '/api/PIM/blog/';
-  //           }
-  //
-  //           $http({
-  //             method: method,
-  //             url: url,
-  //             data: fd,
-  //             transformRequest: angular.identity,
-  //             headers: {
-  //               'Content-Type': undefined
-  //             }
-  //           }).
-  //           then(function(response) {
-  //             if ($scope.blogForm.pk) {
-  //               Flash.create('success', 'Updated');
-  //             } else {
-  //               Flash.create('success', 'Created');
-  //             }
-  //             $uibModalInstance.dismiss(response.data)
-  //           });
-  //
-  //         }
-  //
-  //       },
-  //     }).result.then(function() {
-  //
-  //     }, function(reason) {
-  //
-  //       if (reason != undefined) {
-  //         $scope.blogType = 'edit'
-  //         $scope.blogData = reason
-  //       }
-  //
-  //     });
-  //   }
-  //
-  //
-  //   $scope.secMove = function(index, position) {
-  //     console.log('clickkkkkkk', index, position);
-  //     if ($scope.form.sections.length > 1) {
-  //       var a = $scope.form.sections[index]
-  //       if (position == 'up') {
-  //         if (index > 0) {
-  //           $scope.form.sections.splice(index, 1)
-  //           $scope.form.sections.splice(index - 1, 0, a)
-  //         }
-  //       } else {
-  //         if (index < $scope.form.sections.length - 1) {
-  //           $scope.form.sections.splice(index, 1)
-  //           $scope.form.sections.splice(index + 1, 0, a)
-  //         }
-  //       }
-  //     }
-  //   }
-  //   $scope.saveSecSeq = function() {
-  //     for (var i = 0; i < $scope.form.sections.length; i++) {
-  //       $http({
-  //         method: 'PATCH',
-  //         url: '/api/LMS/section/' + $scope.form.sections[i].pk + '/',
-  //         data: {
-  //           sequence: i
-  //         }
-  //       }).
-  //       then(function(response) {
-  //         Flash.create('success', 'Saved');
-  //       })
-  //     }
-  //   }
-  //   $scope.subjectSearch = function(query) {
-  //     return $http.get('/api/LMS/subject/?title__contains=' + query).
-  //     then(function(response) {
-  //       return response.data;
-  //     })
-  //   };
-  //
-  //   $scope.bookShow = true
-  //   $scope.subjectShow = true
-  //   $scope.topicShow = true
-  //   $scope.form.subject = '';
-  //   // console.log('**********************',action,appType);
-  //   if ($scope.clickOn != undefined) {
-  //     console.log('***********', $scope.clickOn);
-  //     if ($scope.clickOn == 'book') {
-  //       $scope.form = $scope.booksData
-  //       console.log('kkkkkkkkkkkkkkkk', $scope.form);
-  //       $scope.form.sections = $filter('orderBy')($scope.booksData.sections, 'sequence')
-  //       $scope.bookDetails = $scope.booksData
-  //       $scope.mode = 'book';
-  //       $scope.bookShow = true
-  //       $scope.subjectShow = false
-  //       $scope.topicShow = false
-  //       if ($scope.form.sections.length > 0) {
-  //         $scope.secArr = true
-  //       }
-  //     }
-  //
-  //   }
-  //   $scope.save = function() {
-  //
-  //     var toSend = new FormData();
-  //     var method = 'POST'
-  //     var url = '/api/LMS/' + $scope.mode + '/'
-  //     console.log('fileeeeeeeeeeeeeee', typeof $scope.form.dp, $scope.form);
-  //     if ($scope.form.title.length == 0) {
-  //       Flash.create('warning', 'Title is required');
-  //       return;
-  //     }
-  //     toSend.append('title', $scope.form.title)
-  //     toSend.append('description', $scope.form.description)
-  //
-  //
-  //     if ($scope.mode == 'subject') {
-  //       if ($scope.form.dp != emptyFile && typeof $scope.form.dp != 'string') {
-  //         toSend.append('dp', $scope.form.dp)
-  //       }
-  //       toSend.append('level', $scope.form.level)
-  //     } else if ($scope.mode == 'book') {
-  //
-  //       if ($scope.form.dp != emptyFile && typeof $scope.form.dp != 'string') {
-  //         toSend.append('dp', $scope.form.dp)
-  //       }
-  //       if ($scope.form.author != null && $scope.form.author.length > 0) {
-  //         toSend.append('author', $scope.form.author)
-  //       }
-  //
-  //       toSend.append('subject', $scope.form.subject)
-  //
-  //       toSend.append('topic', $scope.form.topic)
-  //
-  //       if ($scope.form.ISSN != null && $scope.form.ISSN.length > 0) {
-  //         toSend.append('ISSN', $scope.form.ISSN)
-  //       }
-  //       if ($scope.form.volume != null && $scope.form.volume.length > 0) {
-  //         toSend.append('volume', $scope.form.volume)
-  //       }
-  //       if ($scope.form.version != null && $scope.form.version.length > 0) {
-  //         toSend.append('version', $scope.form.version)
-  //       }
-  //       if ($scope.form.license != null && $scope.form.license.length > 0) {
-  //         toSend.append('license', $scope.form.license)
-  //       }
-  //     } else {
-  //
-  //       if ($scope.form.syllabus != null && $scope.form.syllabus.length > 0) {
-  //         toSend.append('syllabus', $scope.form.syllabus)
-  //       }
-  //     }
-  //
-  //     $http({
-  //       method: method,
-  //       url: url,
-  //       data: toSend,
-  //       transformRequest: angular.identity,
-  //       headers: {
-  //         'Content-Type': undefined
-  //       }
-  //     }).
-  //     then(function(response) {
-  //       if ($scope.mode == 'book') {
-  //         $scope.hideBook = 'yes'
-  //         $scope.bookDetails = response.data
-  //         $scope.bookDetails.sections = $filter('orderBy')($scope.bookDetails.sections, 'sequence')
-  //         console.log('bookkkkkkkkkkkkkkkk', $scope.bookDetails);
-  //         if ($scope.form.pk) {
-  //           Flash.create('success', 'Book Is created');
-  //         } else {
-  //           Flash.create('success', 'Book Is Created');
-  //         }
-  //       } else {
-  //         if ($scope.form.pk) {
-  //           Flash.create('success', 'Created');
-  //         } else {
-  //           $scope.resetForm();
-  //           Flash.create('success', 'Saved');
-  //         }
-  //       }
-  //     })
-  //   }
-  // }
+
 });
-//------------------------------------------------Book ends----------------------------------

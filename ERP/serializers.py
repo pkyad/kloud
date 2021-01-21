@@ -60,6 +60,14 @@ class serviceSerializer(serializers.ModelSerializer):
             instance.doc = validated_data['doc']
         if 'web' in validated_data:
             instance.web = validated_data['web']
+        if 'accountNumber' in validated_data:
+            instance.accountNumber = validated_data['accountNumber']
+        if 'paymentTerm' in validated_data:
+            instance.paymentTerm = validated_data['paymentTerm']
+        if 'bankName' in validated_data:
+            instance.bankName = validated_data['bankName']
+        if 'ifscCode' in validated_data:
+            instance.ifscCode = validated_data['ifscCode']
         if 'address' in self.context['request'].data and self.context['request'].data['address'] is not None:
             instance.address_id = int(self.context['request'].data['address'])
         if 'contactPerson' in self.context['request'].data and self.context['request'].data['contactPerson'] is not None:
@@ -107,8 +115,9 @@ class applicationSerializer(serializers.ModelSerializer):
 
         return applicationMediaSerializer(obj.appMedia.all(),many=True).data
     def get_usersCount(self , obj):
-        apps = InstalledApp.objects.filter(app__pk=obj.pk)
-        data = User.objects.filter(designation__apps__in = apps).count()
+        apps = InstalledApp.objects.filter(app__pk=obj.pk).values_list('app__pk').distinct()
+        userapp = UserApp.objects.filter(app__in = apps).values_list('user__pk').distinct()
+        data = User.objects.filter(pk__in = userapp).count()
 
         return {'count':data,'appRating':4.3}
 

@@ -65,6 +65,7 @@ class payroll(models.Model):
     activatePayroll = models.BooleanField(default = False)
     isOwnHouse = models.BooleanField(default=False)
     isExtraIncome = models.BooleanField(default=False)
+    isRentedHouse = models.BooleanField(default=False)
 User.payroll = property(lambda u : payroll.objects.get_or_create(user = u)[0])
 
 class PayrollLogs(models.Model):

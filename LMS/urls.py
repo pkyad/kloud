@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'generateQuesPaper/$' , DownloadQuesPaper.as_view() ),
     url(r'questionsAutoCreate/$' , QuestionsAutoCreate.as_view() ),
     url(r'generatePdf/$' , GeneratePdf.as_view() ),
+    url(r'getCourseactivities/$' , GetCourseactivitiesAPI.as_view() ),
 
 ]

@@ -108,6 +108,8 @@ class QuestionSerializer(serializers.ModelSerializer):
 
         if 'typ' in validated_data:
             instance.typ = validated_data.pop('typ')
+        if 'isLatex' in validated_data:
+            instance.isLatex = validated_data.pop('isLatex')
 
         if instance.qtype not in ['mcq' , 'mcc']:
             instance.optionsParts.clear()
@@ -172,6 +174,8 @@ class PaperSerializer(serializers.ModelSerializer):
             instance.timelimit = self.context['request'].data['timelimit']
         if 'description' in self.context['request'].data:
             instance.description = self.context['request'].data['description']
+        if 'active' in self.context['request'].data:
+            instance.active = self.context['request'].data['active']
         if 'contacts' in self.context['request'].data:
             instance.contacts.clear()
             for c in self.context['request'].data['contacts']:
@@ -209,7 +213,7 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
 
-        fields = ('pk' , 'created' , 'updated', 'enrollmentStatus', 'instructor' , 'user' , 'description' , 'title'  ,'dp','urlSuffix','sellingPrice','discount','contacts','activeCourse')
+        fields = ('pk' , 'created' , 'updated', 'enrollmentStatus', 'instructor' , 'user' , 'description' , 'title'  ,'dp','urlSuffix','sellingPrice','discount','contacts','activeCourse','topic')
         read_only_fields = ('user', 'TAs')
     def create(self , validated_data):
         c = Course(**validated_data)
@@ -219,7 +223,7 @@ class CourseSerializer(serializers.ModelSerializer):
         c.save()
         return c
     def update(self , instance , validated_data):
-        for key in ['enrollmentStatus', 'description' , 'title' , 'enrollments' ,'user','dp','urlSuffix','sellingPrice','discount','contacts','activeCourse']:
+        for key in ['enrollmentStatus', 'description' , 'title' , 'enrollments' ,'user','dp','urlSuffix','sellingPrice','discount','contacts','activeCourse','topic']:
             try:
                 setattr(instance , key , validated_data[key])
             except:

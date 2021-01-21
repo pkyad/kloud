@@ -35,7 +35,9 @@ class Jobs(models.Model):
 
 STATUS_LIST_CHOICES = (
         ('Created' , 'Created'),
+        ('Shortlisted' , 'Shortlisted'),
         ('Selected' , 'Selected'),
+        ('Rejected' , 'Rejected'),
         # ('Screening' , 'Screening'),
         # ('SelfAssesmenent' , 'SelfAssesmenent'),
         # ('TechicalInterview' , 'TechicalInterviewing'),
@@ -66,6 +68,7 @@ class JobApplication(models.Model):
     job = models.ForeignKey(Jobs , null = True , related_name = "jobs_applied")
     aggree = models.BooleanField(default = False)
     joiningDate = models.DateField(null = True)
+    ctc = models.PositiveIntegerField(default=0)
     basic = models.PositiveIntegerField(default=0)
     hra = models.PositiveIntegerField(default=0)
     lta = models.PositiveIntegerField(default=0)
@@ -82,6 +85,7 @@ class JobApplication(models.Model):
     probationNotice = models.PositiveIntegerField(default=0)
     noticePeriodRecovery = models.BooleanField(default=False)
     rejectReason = models.CharField(max_length = 15 , choices = REASON_CHOICES_LIST  , default = 'Created')
+    isSelected = models.BooleanField(default=True)
 
 STATUS_INTERVIEW_CHOICES = (
         ('created' , 'created'),
