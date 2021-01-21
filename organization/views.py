@@ -24,6 +24,7 @@ from website.models import *
 from clientRelationships.models import CRMTermsAndConditions, Contact, Contract
 
 from finance.models import Inventory
+from HR.serializers import userSearchSerializer
 # Create your views here.
 
 
@@ -641,14 +642,39 @@ class UnInstallApp(APIView):
     permission_classes = (permissions.AllowAny, )
     def get(self, request, format=None):
         params = request.GET
+        div = request.user.designation.division
         app = InstalledApp.objects.get(pk =int(params['id']))
-        designation = request.user.designation
-        division = designation.division
-        try:
-            if division.simpleMode == True:
-                designation.apps.remove(app)
-                designation.save()
-        except:
-            pass
+        mainApp = app.app
         app.delete()
+        usersAppObj = UserApp.objects.filter(user__designation__division = div, app = mainApp)
+        usersAppObj.delete()
+        # designation = request.user.designation
+        # division = designation.division
+        # try:
+        #     if division.simpleMode == True:
+        #         designation.apps.remove(app)
+        #         designation.save()
+        # except:
+        #     pass
+        return Response(status=status.HTTP_200_OK)
+
+
+class InstallUserApp(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny, )
+    def post(self, request, format=None):
+        params = request.data
+        if 'type' in params:
+            user = request.user
+            div = user.designation.division
+            app, created = InstalledApp.objects.get_or_create(parent = div , app = application.objects.get(pk = params['app']) , priceAsAdded = params['priceAsAdded'] , addedBy= request.user)
+            app.save()
+            ua = UserApp(user = user , app = application.objects.get(pk = params['app'])  )
+            ua.save()
+            # userObj = userSearchSerializer(user, many = False).data
+            # userAppObj = UserAppsSerializerr(user, many = False).data
+            # data = {'userObj' : userObj, 'apps' : apps}
+            return Response(status=status.HTTP_200_OK)
+        ua = UserApp(user = User.objects.get(pk = int(params['user'])) , app = application.objects.get(pk = int(params['app']))  )
+        ua.save()
         return Response(status=status.HTTP_200_OK)

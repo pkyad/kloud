@@ -89,7 +89,7 @@ class DivisionSerializer(serializers.ModelSerializer):
                 app.save()
                 ua = UserApp(user = self.context['request'].user , app = application.objects.get(pk = d['app'])  )
                 ua.save()
-                
+
                 # if instance.simpleMode == True:
                 #     d = self.context['request'].user.designation
                 #     d.apps.add(app)

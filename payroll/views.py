@@ -1389,6 +1389,10 @@ class AddITDeclarationAPIView(APIView):
                     rent = data['rent']
                     travel = 0
                     hra = 0
+                    if 'isRentedHouse' in data:
+                        payroll = user.payroll
+                        payroll.isRentedHouse = data['isRentedHouse']
+                        payroll.save()
                     if payroll.hra is not None:
                         hra = payroll.hra
                     basicRent = 0
@@ -1401,19 +1405,50 @@ class AddITDeclarationAPIView(APIView):
                     totalExcemption = 0
                     monthlyLta = 0
                     incomeObj = ITDecaration.objects.filter(user = user, year = year, group_name = 'income')
+                    currentMonth = datetime.date.today().month - 3
+                    if currentMonth<0:
+                        currentMonth = 12 + currentMonth
+                        # for t in exctitleUniq:
+                        #     excmontlyData = {}
+                        #     count = 0
+                        #     for m in monthsList:
+                        #         count+=1
+                        #         val = excemptionObj.get(title = t, month = m)
+                        #         excmontlyData[m] = {'amount' : val.amount , 'pk' : val.pk}
+                        #         if count<currentMonth:
+                        #             excmontlyData[m]['canEdit'] = False
+                        #         else:
+                        #             excmontlyData[m]['canEdit'] = True
+
+                    count = 0
                     for m in monthsList:
+                        count+=1
                         monthlyHra =  incomeObj.get(month = m, title = 'HRA').amount
                         monthlyLta =  incomeObj.get(month = m, title = 'LTA').amount
-                        ITDecaration.objects.create(user = user, year = year, group_name = 'exemptions' , month = m).delete()
-                        hraData = ITDecaration.objects.create(user = user, year = year, group_name = 'exemptions' , month = m, title = 'HRA', amount = monthlyHra)
+                        # ITDecaration.objects.filter(user = user, year = year, group_name = 'exemptions' , month = m).delete()
                         montlyBasicRent =  incomeObj.get(month = m, title = 'Basic').amount
-                        basicRent = ITDecaration.objects.create(user = user, year = year, group_name = 'exemptions' , month = m, title = '40% of Basic + DA', amount = montlyBasicRent)
-                        rentData = ITDecaration.objects.create(user = user, year = year, group_name = 'exemptions' , month = m, title = 'Your rent', amount = monthlyRent)
-                        montlyhouseRent = min(monthlyRent, monthlyHra, montlyBasicRent)
-                        totalExcemption = montlyhouseRent + montlytravel
-                        houserentData = ITDecaration.objects.create(user = user, year = year, group_name = 'exemptions' , month = m, title = 'House Rent Allowance Section 10 (13A)', amount = montlyhouseRent)
-                        ltaData = ITDecaration.objects.create(user = user, year = year, group_name = 'exemptions' , month = m, title = 'Approved LTA Limit', amount = monthlyLta)
-                        travelData = ITDecaration.objects.create(user = user, year = year, group_name = 'exemptions' , month = m, title = 'Leave Travel Assistance Section 10(5)', amount = montlytravel)
+                        hraData,h = ITDecaration.objects.get_or_create(user = user, year = year, group_name = 'exemptions' , month = m, title = 'HRA')
+                        basicRent, b = ITDecaration.objects.get_or_create(user = user, year = year, group_name = 'exemptions' , month = m, title = '40% of Basic + DA')
+                        rentData, r = ITDecaration.objects.get_or_create(user = user, year = year, group_name = 'exemptions' , month = m, title = 'Your rent', )
+                        houserentData, ho = ITDecaration.objects.get_or_create(user = user, year = year, group_name = 'exemptions' , month = m, title = 'House Rent Allowance Section 10 (13A)')
+                        ltaData, l = ITDecaration.objects.get_or_create(user = user, year = year, group_name = 'exemptions' , month = m, title = 'Approved LTA Limit')
+                        travelData, t = ITDecaration.objects.get_or_create(user = user, year = year, group_name = 'exemptions' , month = m, title = 'Leave Travel Assistance Section 10(5)')
+                        if count>=currentMonth:
+                            print monthlyRent,'aaaaaaaaaaaaaaaaaaaaaaa'
+                            hraData.amount = monthlyHra
+                            hraData.save()
+                            basicRent.amount = montlyBasicRent
+                            basicRent.save()
+                            rentData.amount = monthlyRent
+                            rentData.save()
+                            montlyhouseRent = min(float(monthlyRent), monthlyHra, montlyBasicRent)
+                            totalExcemption = montlyhouseRent + montlytravel
+                            houserentData.amount = montlyhouseRent
+                            houserentData.save()
+                            ltaData.amount = monthlyLta
+                            ltaData.save()
+                            travelData.amount = montlytravel
+                            travelData.save()
                     resData = calculateExcemption(year, user)
             if 'id' in data:
                 amount = int(data['amount'])

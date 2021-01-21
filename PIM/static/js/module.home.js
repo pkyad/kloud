@@ -472,7 +472,7 @@ app.controller('controller.home.itDeclaration' , function($scope , $http , $time
             Flash.create('warning','Owner name and Owner Pan and Owner address is required')
             return
           }
-          if ($scope.rented.rent.length == 0 || $scope.rented.rent == 0) {
+          if ($scope.rented.amount.length == 0 || $scope.rented.amount == 0) {
             Flash.create('warning' ,'Add rent')
             return
           }
@@ -480,6 +480,7 @@ app.controller('controller.home.itDeclaration' , function($scope , $http , $time
           var dataToSend = $scope.rented
           dataToSend.group_name = "propertyOwnerDetails"
           dataToSend.user = $scope.userPk
+          // dataToSend.user = $scope.userPk
           var method = 'POST'
           var url = '/api/payroll/addITDeclaration/'
           $http({
@@ -489,7 +490,7 @@ app.controller('controller.home.itDeclaration' , function($scope , $http , $time
           }).
           then(function(response) {
             // $uibModalInstance.dismiss(response.data)
-              $uibModalInstance.dismiss($scope.rented.rent)
+              $uibModalInstance.dismiss($scope.rented.amount)
           })
         }
 
@@ -529,8 +530,8 @@ app.controller('controller.home.itDeclaration' , function($scope , $http , $time
       data : data
     }).
     then(function(response) {
-      $scope.payroll.isOwnHouse = response.data.isOwnHouse
-      $scope.payroll.isExtraIncome = response.data.isExtraIncome
+      $scope.allData.payroll.isOwnHouse = response.data.isOwnHouse
+      $scope.allData.payroll.isExtraIncome = response.data.isExtraIncome
     })
 
   }
@@ -544,6 +545,14 @@ app.controller('controller.home.itDeclaration' , function($scope , $http , $time
     // travel : $scope.form.travel,
     group_name : 'exemptions',
     user :   $scope.userPk
+  }
+  if ($scope.form.rent>0) {
+    dataToSend.isRentedHouse = true
+    $scope.allData.payroll.isRentedHouse = true
+  }
+  else{
+      dataToSend.isRentedHouse = false
+    $scope.allData.payroll.isRentedHouse = false
   }
     var method = 'POST'
     var url = '/api/payroll/addITDeclaration/'
