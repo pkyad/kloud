@@ -835,6 +835,8 @@ class GetITDecarationAPIView(APIView):
         else:
             user = request.user
         financialYear = getCurrentYear()
+        if 'currentFinancialYear' in request.GET:
+            financialYear = request.GET['currentFinancialYear']
         if 'onlyTotal' in request.GET:
             totalData = CalculateItDeclaration(financialYear, user)
             return Response(totalData,status = status.HTTP_200_OK)

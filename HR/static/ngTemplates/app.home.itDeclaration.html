@@ -124,6 +124,10 @@
       <button  ng-show="$state.is('workforceManagement.profile')" style="background:#337ab7;color:white;" ng-click="close()" type="button" name="button" class="btn btn-primary"> Close this window </button>
 
 
+      <div class="col-md-6 pull-right" ng-show="$state.is('home.viewProfile.itDeclaration')" >
+        <select  ng-change="getAllData()"  class="form-control darkInput" style="padding:0px;height:45px;padding-left:15px" ng-model="currentFinancialYear" ng-options="f for f in allYears " >
+        </select>
+      </div>
 
 
 

@@ -355,6 +355,37 @@ app.controller('controller.home.itDeclaration' , function($scope , $http , $time
   else{
       $scope.userPk = $state.params.id
   }
+  $scope.currentYear = new Date().getFullYear()
+  $scope.currentMonth = new Date().getMonth();
+  $scope.startYear = 2015;
+  $scope.years = []
+  while ($scope.startYear <= $scope.currentYear) {
+    $scope.years.push($scope.startYear++);
+  }
+  if ($scope.currentMonth+1>3) {
+    $scope.currentFinancialYear = $scope.currentYear +'-'+$scope.currentYear+1
+  }
+  else{
+    $scope.currentFinancialYear =$scope.currentYear-1  +'-'+ $scope.currentYear
+  }
+  $scope.allYears = []
+  for (var i = 0; i < $scope.years.length; i++) {
+    var nxtYr = $scope.years[i] + 1
+    var val = $scope.years[i] + '-' + nxtYr
+    $scope.allYears.push(val)
+  }
+  // for (var i = 0; i < $scope.allYears.length; i++) {
+  //   console.log($scope.allYears[i] , $scope.tempcurrentFinancialYear,'aaaaaaaaaaaaaaaaaaaaaaaaaa');
+  //   if ($scope.allYears[i] == $scope.tempcurrentFinancialYear) {
+  //     $scope.currentFinancialYear = $scope.allYears[i]
+  //   }
+  // }
+
+
+
+
+
+  // $scope.currentYear =
 
   $scope.form = {
     ishouseProperty : false,
@@ -421,7 +452,7 @@ app.controller('controller.home.itDeclaration' , function($scope , $http , $time
   $scope.getAllData = function(){
     $http({
       method: 'GET',
-      url: '/api/payroll/getITDeclaration/?user='+$scope.userPk
+      url: '/api/payroll/getITDeclaration/?user='+$scope.userPk+'&currentFinancialYear='+$scope.currentFinancialYear
     }).
     then(function(response) {
       $scope.allData = response.data
