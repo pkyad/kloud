@@ -137,6 +137,8 @@ class ProjectSearchViewSet(viewsets.ModelViewSet):
         if 'type' in params:
             if params['type'] == 'materialIssue':
                 toReturn = Projects.objects.filter(comm_nr = str(params['comm_nr']),junkStatus = False, status = "ongoing", division = divisionObj,flag = params['flag'])
+            if params['type'] == 'poView':
+                toReturn = Projects.objects.filter(comm_nr = str(params['comm_nr']),junkStatus = False, division = divisionObj,flag = params['flag'], title__icontains = params['search'])
 
         return toReturn
 
@@ -207,19 +209,19 @@ class ProjectStockSummaryViewSet(viewsets.ModelViewSet):
 
 class InvoiceViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny , )
-    queryset = Invoice.objects.all()
     serializer_class = InvoiceSerializer
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['project','invoiceNumber','flag']
     def get_queryset(self):
         user = self.request.user
         divisionObj = user.designation.division
+        toReturn = {}
         if 'invoiceno' in self.request.GET:
-            return Invoice.objects.filter(invoiceNumber__icontains = str(self.request.GET['invoiceno']))
+            toReturn = Invoice.objects.filter(invoiceNumber__icontains = str(self.request.GET['invoiceno']))
         else:
-            queryset = Invoice.objects.filter(division = divisionObj)
+            toReturn = Invoice.objects.filter(division = divisionObj)
 
-            return queryset
+        return toReturn.order_by('-pk')
 
 class InvoiceQtyViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny , )
@@ -3491,6 +3493,29 @@ def invoice(response, pkVal  , request,flag):
         """ %(inv.lrNo),styles['Normal'])
         t2data=[detail21],[detail22],[detail23],[detail24]
         td1header+=[t2data]
+        detail31Com = Paragraph("""
+        <para>
+        Comm no :
+        </para>
+        """ %(),styles['Normal'])
+        detail32Com = Paragraph("""
+        <para >
+        %s
+        </para>
+        """ %(inv.comm_nr),styles['Normal'])
+        detail33Com = Paragraph("""
+        <para >
+
+        </para>
+        """ %(),styles['Normal'])
+        detail34Com = Paragraph("""
+        <para >
+        %s
+        </para>
+        """ %(''),styles['Normal'])
+        t2dataCom=[detail31Com],[detail32Com],[detail33Com],[detail34Com]
+        td1header+=[t2dataCom]
+
         t4=Table(td1header,colWidths=(37*mm,90*mm,37*mm,90*mm))
         t4.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'CENTER'),('VALIGN',(0,0),(-1,-1),'MIDDLE'),('BOX',(0,0),(-1,-1),0.25,colors.black),('INNERGRID', (0,0), (-1,-1), 0.25, colors.black)]))
         elements.append(t4)
@@ -3766,6 +3791,28 @@ def invoice(response, pkVal  , request,flag):
         """ %(inv.lrNo),styles['Normal'])
         t2data=[detail21],[detail22],[detail23],[detail24]
         td1header+=[t2data]
+        detail31Com = Paragraph("""
+        <para>
+        Comm no :
+        </para>
+        """ %(),styles['Normal'])
+        detail32Com = Paragraph("""
+        <para >
+        %s
+        </para>
+        """ %(inv.comm_nr),styles['Normal'])
+        detail33Com = Paragraph("""
+        <para >
+
+        </para>
+        """ %(),styles['Normal'])
+        detail34Com = Paragraph("""
+        <para >
+        %s
+        </para>
+        """ %(''),styles['Normal'])
+        t2dataCom=[detail31Com],[detail32Com],[detail33Com],[detail34Com]
+        td1header+=[t2dataCom]
         t4=Table(td1header,colWidths=(30*mm,72.5*mm,30*mm,72.5*mm))
         t4.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'CENTER'),('VALIGN',(0,0),(-1,-1),'MIDDLE'),('BOX',(0,0),(-1,-1),0.25,colors.black),('INNERGRID', (0,0), (-1,-1), 0.25, colors.black)]))
         elements.append(t4)
@@ -4235,7 +4282,6 @@ from django.core.files.storage import FileSystemStorage
 
 def complaintPdf(request):
     complaintObj = ComplaintManagement.objects.get(pk = request.GET.get('pk'))
-    print complaintObj,'ooooooooodddddddddd'
     if complaintObj.closedBy==None:
         object = ""
     else:
@@ -4298,7 +4344,9 @@ def complaintPdf(request):
 
         [Paragraph('Complaint closed on :', styleT), Paragraph(str(date2), styleN),Paragraph('Nature of complaint :', styleT), Paragraph(str(complaintObj.attr1), styleN)],
 
-        [Paragraph('Interim action :', styleT), Paragraph(str(complaintObj.attr2), styleN),Paragraph('Disposition :', styleT), Paragraph(str(complaintObj.attr3), styleN)],
+        [Paragraph('Root cause :', styleT), Paragraph(str(complaintObj.attr2), styleN),Paragraph('Disposition :', styleT), Paragraph(str(complaintObj.attr3), styleN)],
+
+        [Paragraph('Parts used :', styleT), Paragraph(str(complaintObj.attr4), styleN),Paragraph('', styleT), Paragraph('', styleN)],
 
         ]
     emptyLine1 = Paragraph('', styleT)
