@@ -11,9 +11,15 @@
       file: emptyFile
     }
 
+
+
     $scope.openFilePicker = function() {
       $('#filePicker').click();
     }
+
+
+
+
 
     $scope.send = function() {
       if ($scope.form.text.length == 0 && $scope.form.file == emptyFile) {
@@ -185,6 +191,30 @@
 
     })
   }
+
+
+  $scope.$watch('user.dp', function(newValue, oldValue) {
+    console.log("ddddddddddddddddddddddddddddd", newValue);
+    if (typeof newValue == 'object') {
+
+      // var fd = new FormData();
+      // if (newValue != emptyFile && newValue != null && typeof newValue!='string') {
+      //   fd.append('logo', newValue)
+      // }
+      // $http({
+      //   method: 'PATCH',
+      //   url: '/api/organization/divisions/' + $scope.division.pk + '/',
+      //   data: fd,
+      //   transformRequest: angular.identity,
+      //   headers: {
+      //     'Content-Type': undefined
+      //   }
+      // }).
+      // then(function(response) {
+      //   $scope.division.logo = response.data.logo;
+      // })
+    }
+  })
 
 
   });

@@ -1,3 +1,25 @@
+<style>
+  .display_picture{
+    border-radius:50%;
+
+    background-size:cover;
+    height:150px;
+    width:150px;
+    text-align:center
+  }
+
+
+.display_picture:hover  .highlight{
+  display:block;
+  color:#ffffff;
+  padding-top:40px
+}
+
+.highlight{
+  display:none
+}
+
+</style>
 <div class="col-md-9 col-sm-8 pull-right " style="padding:0px;">
   <div class="row" style=";margin:0px;">
     <div class="{{user.is_show?'col-md-8':'col-md-12'}} bgImg " style="padding:0px;">
@@ -426,21 +448,29 @@
         </div>
       </div>
       <div class="row " style="background-color:white;margin-bottom:10px;">
-        <div class="text-center" style="padding:30px 0px;">
-          <img ng-src="{{user.dp}}" src="p/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:150px;height:150px;" class="img img-circle">
+        <div class="col-md-offset-3 col-md-6 text-center" style="margin-top:30px">
+        <div  class="display_picture" style="background-image:url({{user.dp?'user.dp':'/static/images/userIcon.png'}})" ng-click="openFilePicker()">
+          <!-- <img ng-src="{{user.dp}}"  onerror="this.src='/static/images/userIcon.png'" style="width:150px;height:150px;" class="img img-circle"> -->
+          <input type="file" file-model="user.dp" id="filePicker" style="display:none" >
+          <div class="highlight">
+                <i class="fa fa-camera fa-3x"></i> <br/> CHANGE ICON
+          </div>
+
+        </div>
         </div>
         <div class="col-md-12">
           <div class="col-md-10">
             <h4 ng-if="!showInput">{{user.name}}</h4>
             <div class="form-group" ng-if="showInput">
-              <input type="text" class="form-control" ng-model="user.title" name="" ng-enter="editThread()"value="" style="border:none;border-bottom:2px solid #009688">
+              <input type="text" class="form-control" ng-model="user.name" name="" ng-enter="editThread()"value="" style="border:none;border-bottom:2px solid #009688">
 
             </div>
             <p>Created on {{user.created | date:"dd/MM/y HH:MM"}} </p>
 
           </div>
           <div class="col-md-2 text-right" style="padding:20px 10px;" >
-            <i class="fa fa-pencil" style="font-size:15px;" ng-click="showInput=true" ng-init="showInput=false"></i>
+            <i class="fa fa-pencil" style="font-size:15px;" ng-click="showInput=true" ng-show="!showInput"></i>
+            <i class="fa  fa-check" style="font-size:15px;" ng-click="showInput=false" ng-show="showInput"></i>
           </div>
         </div>
       </div>
