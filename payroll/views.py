@@ -798,17 +798,19 @@ class sendLoanSettlementEmailAPIView(APIView):
 class AllPaySlipsAPIView(APIView):
     renderer_classes = (JSONRenderer,)
     def get(self, request, format=None):
-        print Payslip.objects.filter(user = request.user, report__status="paid")
-        payslipObj = Payslip.objects.filter(user = request.user, report__status="paid").order_by('year')
-        first_pay = payslipObj.first()
-        last_pay =  payslipObj.last()
+        # print Payslip.objects.filter(user = request.user, report__status="paid")
+        # payslipObj = Payslip.objects.filter(user = request.user, report__status="paid").order_by('year')
+        # first_pay = payslipObj.first()
+        # last_pay =  payslipObj.last()
+        # data = []
+        # for i in range(first_pay.year , last_pay.year+1):
+        #     obj = Payslip.objects.filter(year = i, report__status="paid", user = request.user)
+        #     if len(obj) > 0:
+        #         data.append({'year' : i , 'data' : payslipLiteSerializer(obj, many=True).data })
         data = []
-        for i in range(first_pay.year , last_pay.year+1):
-            obj = Payslip.objects.filter(year = i, report__status="paid", user = request.user)
-            if len(obj) > 0:
-                data.append({'year' : i , 'data' : payslipLiteSerializer(obj, many=True).data })
-
-
+        if 'year' in request.GET:
+            obj = Payslip.objects.filter(year = request.GET['year'], report__status="paid", user = request.user)
+            data = payslipLiteSerializer(obj, many=True).data 
         return Response(data,status = status.HTTP_200_OK)
 
 class ITDeclarationViewSet(viewsets.ModelViewSet):
@@ -835,6 +837,8 @@ class GetITDecarationAPIView(APIView):
         else:
             user = request.user
         financialYear = getCurrentYear()
+        if 'currentFinancialYear' in request.GET:
+            financialYear = request.GET['currentFinancialYear']
         if 'onlyTotal' in request.GET:
             totalData = CalculateItDeclaration(financialYear, user)
             return Response(totalData,status = status.HTTP_200_OK)
@@ -1075,7 +1079,7 @@ class GetITDecarationAPIView(APIView):
 
 
 
-        payroll = {'pk' : user.payroll.pk, 'isOwnHouse' : user.payroll.isOwnHouse , 'isExtraIncome':user.payroll.isExtraIncome}
+        payroll = {'pk' : user.payroll.pk, 'isOwnHouse' : user.payroll.isOwnHouse , 'isExtraIncome':user.payroll.isExtraIncome,'isRentedHouse' : user.payroll.isRentedHouse}
         totalData = CalculateItDeclaration(financialYear, user)
         return Response({'incomeData' : incomeData , 'deductionData' : deductionData , 'deductionSixAData' : deductionSixAData , 'otherIncomesAData' : otherIncomesAData , 'housePropertyData' : housePropertyData , 'prevEmpData' : prevEmpData  , 'annualExcemptionData' : annualExcemptionData , 'propertyOwnerDetails' : propertyOwnerDetails , 'selfOccupiedDetails' : selfOccupiedDetails , 'totalData' : totalData , 'payroll' : payroll},status = status.HTTP_200_OK)
 
@@ -1389,6 +1393,10 @@ class AddITDeclarationAPIView(APIView):
                     rent = data['rent']
                     travel = 0
                     hra = 0
+                    if 'isRentedHouse' in data:
+                        payroll = user.payroll
+                        payroll.isRentedHouse = data['isRentedHouse']
+                        payroll.save()
                     if payroll.hra is not None:
                         hra = payroll.hra
                     basicRent = 0
@@ -1401,18 +1409,50 @@ class AddITDeclarationAPIView(APIView):
                     totalExcemption = 0
                     monthlyLta = 0
                     incomeObj = ITDecaration.objects.filter(user = user, year = year, group_name = 'income')
+                    currentMonth = datetime.date.today().month - 3
+                    if currentMonth<0:
+                        currentMonth = 12 + currentMonth
+                        # for t in exctitleUniq:
+                        #     excmontlyData = {}
+                        #     count = 0
+                        #     for m in monthsList:
+                        #         count+=1
+                        #         val = excemptionObj.get(title = t, month = m)
+                        #         excmontlyData[m] = {'amount' : val.amount , 'pk' : val.pk}
+                        #         if count<currentMonth:
+                        #             excmontlyData[m]['canEdit'] = False
+                        #         else:
+                        #             excmontlyData[m]['canEdit'] = True
+
+                    count = 0
                     for m in monthsList:
+                        count+=1
                         monthlyHra =  incomeObj.get(month = m, title = 'HRA').amount
                         monthlyLta =  incomeObj.get(month = m, title = 'LTA').amount
-                        hraData = ITDecaration.objects.create(user = user, year = year, group_name = 'exemptions' , month = m, title = 'HRA', amount = monthlyHra)
+                        # ITDecaration.objects.filter(user = user, year = year, group_name = 'exemptions' , month = m).delete()
                         montlyBasicRent =  incomeObj.get(month = m, title = 'Basic').amount
-                        basicRent = ITDecaration.objects.create(user = user, year = year, group_name = 'exemptions' , month = m, title = '40% of Basic + DA', amount = montlyBasicRent)
-                        rentData = ITDecaration.objects.create(user = user, year = year, group_name = 'exemptions' , month = m, title = 'Your rent', amount = monthlyRent)
-                        montlyhouseRent = min(monthlyRent, monthlyHra, montlyBasicRent)
-                        totalExcemption = montlyhouseRent + montlytravel
-                        houserentData = ITDecaration.objects.create(user = user, year = year, group_name = 'exemptions' , month = m, title = 'House Rent Allowance Section 10 (13A)', amount = montlyhouseRent)
-                        ltaData = ITDecaration.objects.create(user = user, year = year, group_name = 'exemptions' , month = m, title = 'Approved LTA Limit', amount = monthlyLta)
-                        travelData = ITDecaration.objects.create(user = user, year = year, group_name = 'exemptions' , month = m, title = 'Leave Travel Assistance Section 10(5)', amount = montlytravel)
+                        hraData,h = ITDecaration.objects.get_or_create(user = user, year = year, group_name = 'exemptions' , month = m, title = 'HRA')
+                        basicRent, b = ITDecaration.objects.get_or_create(user = user, year = year, group_name = 'exemptions' , month = m, title = '40% of Basic + DA')
+                        rentData, r = ITDecaration.objects.get_or_create(user = user, year = year, group_name = 'exemptions' , month = m, title = 'Your rent', )
+                        houserentData, ho = ITDecaration.objects.get_or_create(user = user, year = year, group_name = 'exemptions' , month = m, title = 'House Rent Allowance Section 10 (13A)')
+                        ltaData, l = ITDecaration.objects.get_or_create(user = user, year = year, group_name = 'exemptions' , month = m, title = 'Approved LTA Limit')
+                        travelData, t = ITDecaration.objects.get_or_create(user = user, year = year, group_name = 'exemptions' , month = m, title = 'Leave Travel Assistance Section 10(5)')
+                        if count>=currentMonth:
+                            print monthlyRent,'aaaaaaaaaaaaaaaaaaaaaaa'
+                            hraData.amount = monthlyHra
+                            hraData.save()
+                            basicRent.amount = montlyBasicRent
+                            basicRent.save()
+                            rentData.amount = monthlyRent
+                            rentData.save()
+                            montlyhouseRent = min(float(monthlyRent), monthlyHra, montlyBasicRent)
+                            totalExcemption = montlyhouseRent + montlytravel
+                            houserentData.amount = montlyhouseRent
+                            houserentData.save()
+                            ltaData.amount = monthlyLta
+                            ltaData.save()
+                            travelData.amount = montlytravel
+                            travelData.save()
                     resData = calculateExcemption(year, user)
             if 'id' in data:
                 amount = int(data['amount'])
@@ -1686,3 +1726,19 @@ class DivideMontlyLeavesAPIView(APIView):
                     payroll.mlCurrMonthLeaves = int(mlLeaves)
             payroll.save()
         return Response({},status = status.HTTP_200_OK)
+
+
+class GetUniqueYears(APIView):
+    renderer_classes = (JSONRenderer,)
+    def get(self, request, format=None):
+        if 'id' in request.GET:
+            user = User.objects.filter(pk = int(request.GET['id']))
+        else:
+            user = request.user
+        yearLists = []
+        if 'payslip' in request.GET:
+            yearLists = PayrollReport.objects.filter(user = user).values_list('year', flat = True).distinct()
+        else:
+            yearLists = ITDecaration.objects.filter(user = user).values_list('year', flat = True).distinct()
+
+        return Response({'yearLists' : yearLists},status = status.HTTP_200_OK)

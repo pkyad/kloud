@@ -251,18 +251,26 @@ app.controller('controller.home.payslips' , function($scope , $state , $http,$us
   var d = new Date();
   $scope.currntYear = d.getFullYear();
 
+    $http({
+      method: 'GET',
+      url: '/api/payroll/getUniqueYears/?payslip=true'
+    }).
+    then(function(response) {
+      $scope.allYears =  response.data.yearLists
+        // $scope.allYears.push('2022')
+      $scope.currntYear = $scope.allYears[0]
+      $scope.getMontlyPayslips()
+    })
+
 
   $scope.getMontlyPayslips = function(){
     $http({
       method: 'GET',
-      url: '/api/payroll/allPaySlips/'
+      url: '/api/payroll/allPaySlips/?year='+$scope.currntYear
     }).
     then(function(response) {
       $scope.allPayslips = response.data
     })
-  }
-    $scope.getMontlyPayslips()
-
     $http({
       method: 'GET',
       url: '/api/payroll/form16/?year='+$scope.currntYear+'&currentUser='
@@ -271,6 +279,8 @@ app.controller('controller.home.payslips' , function($scope , $state , $http,$us
       $scope.allForms = response.data
 
     })
+  }
+
 })
 
 app.controller("controller.home.main", function($scope , $state, $users, $http) {
@@ -355,6 +365,53 @@ app.controller('controller.home.itDeclaration' , function($scope , $http , $time
   else{
       $scope.userPk = $state.params.id
   }
+  $scope.currentYear = new Date().getFullYear()
+  $scope.currentMonth = new Date().getMonth();
+  $scope.startYear = 2015;
+  $scope.years = []
+  while ($scope.startYear <= $scope.currentYear) {
+    $scope.years.push($scope.startYear++);
+  }
+  if ($scope.currentMonth+1>3) {
+    $scope.currentFinancialYear = $scope.currentYear +'-'+$scope.currentYear+1
+  }
+  else{
+    $scope.currentFinancialYear =$scope.currentYear-1  +'-'+ $scope.currentYear
+  }
+  $scope.allYears = []
+
+  $http({
+    method: 'GET',
+    url: '/api/payroll/getUniqueYears/?id='+$scope.userPk
+  }).
+  then(function(response) {
+    $scope.allYears =  response.data.yearLists
+    if ($scope.currentFinancialYear.inList($scope.allYears)){
+      console.log('yes')
+    }
+    else {
+      $scope.allYears.push($scope.currentFinancialYear)
+    }
+  })
+  // for (var i = 0; i < $scope.years.length; i++) {
+  //   var nxtYr = $scope.years[i] + 1
+  //   var val = $scope.years[i] + '-' + nxtYr
+  //   $scope.allYears.push(val)
+  // }
+
+
+  // for (var i = 0; i < $scope.allYears.length; i++) {
+  //   console.log($scope.allYears[i] , $scope.tempcurrentFinancialYear,'aaaaaaaaaaaaaaaaaaaaaaaaaa');
+  //   if ($scope.allYears[i] == $scope.tempcurrentFinancialYear) {
+  //     $scope.currentFinancialYear = $scope.allYears[i]
+  //   }
+  // }
+
+
+
+
+
+  // $scope.currentYear =
 
   $scope.form = {
     ishouseProperty : false,
@@ -421,7 +478,7 @@ app.controller('controller.home.itDeclaration' , function($scope , $http , $time
   $scope.getAllData = function(){
     $http({
       method: 'GET',
-      url: '/api/payroll/getITDeclaration/?user='+$scope.userPk
+      url: '/api/payroll/getITDeclaration/?user='+$scope.userPk+'&currentFinancialYear='+$scope.currentFinancialYear
     }).
     then(function(response) {
       $scope.allData = response.data
@@ -448,17 +505,61 @@ app.controller('controller.home.itDeclaration' , function($scope , $http , $time
       placement: 'right',
       size: 'md',
       backdrop: true,
-      controller: function($scope,$http, Flash, $users, $uibModalInstance){
-        $scope.form = {
-          rent:0
+      resolve: {
+        data: function() {
+          return   $scope.allData.propertyOwnerDetails;
         }
-        $scope.save = function(){
-          if ($scope.form.rent.length == 0 || $scope.form.rent == 0) {
+      },
+      controller: function($scope,$http, Flash, $users, $uibModalInstance, data){
+
+        $scope.rented = data
+        $scope.rented.rent = 0
+
+        if ($state.is('home.viewProfile.itDeclaration')) {
+          $scope.me = $users.get('mySelf');
+          $scope.userPk =  $scope.me.pk
+        }
+        else{
+            $scope.userPk = $state.params.id
+        }
+
+
+        $scope.addRentedData = function(){
+          if ($scope.rented.address == null || $scope.rented.address.length == 0 || $scope.rented.tenantName == null || $scope.rented.tenantName.length == 0 || $scope.rented.tenantPan == null || $scope.rented.tenantPan.length == 0 ) {
+            Flash.create('warning','Owner name and Owner Pan and Owner address is required')
+            return
+          }
+          if ($scope.rented.amount.length == 0 || $scope.rented.amount == 0) {
             Flash.create('warning' ,'Add rent')
             return
           }
-          $uibModalInstance.dismiss($scope.form.rent)
+
+          var dataToSend = $scope.rented
+          dataToSend.group_name = "propertyOwnerDetails"
+          dataToSend.user = $scope.userPk
+          // dataToSend.user = $scope.userPk
+          var method = 'POST'
+          var url = '/api/payroll/addITDeclaration/'
+          $http({
+            method: method,
+            url: url,
+            data : dataToSend
+          }).
+          then(function(response) {
+            // $uibModalInstance.dismiss(response.data)
+              $uibModalInstance.dismiss($scope.rented.amount)
+          })
         }
+
+
+        // $scope.form = {
+        //   rent:0,
+        //
+        // }
+        // $scope.save = function(){
+        //
+        //
+        // }
         $scope.close = function(){
           $uibModalInstance.dismiss()
         }
@@ -486,8 +587,8 @@ app.controller('controller.home.itDeclaration' , function($scope , $http , $time
       data : data
     }).
     then(function(response) {
-      $scope.payroll.isOwnHouse = response.data.isOwnHouse
-      $scope.payroll.isExtraIncome = response.data.isExtraIncome
+      $scope.allData.payroll.isOwnHouse = response.data.isOwnHouse
+      $scope.allData.payroll.isExtraIncome = response.data.isExtraIncome
     })
 
   }
@@ -501,6 +602,14 @@ app.controller('controller.home.itDeclaration' , function($scope , $http , $time
     // travel : $scope.form.travel,
     group_name : 'exemptions',
     user :   $scope.userPk
+  }
+  if ($scope.form.rent>0) {
+    dataToSend.isRentedHouse = true
+    $scope.allData.payroll.isRentedHouse = true
+  }
+  else{
+      dataToSend.isRentedHouse = false
+    $scope.allData.payroll.isRentedHouse = false
   }
     var method = 'POST'
     var url = '/api/payroll/addITDeclaration/'

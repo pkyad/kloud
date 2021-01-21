@@ -706,8 +706,12 @@ class GetApplicationDetailsApi(APIView):
         appUser = userSearchSerializer(users , many =True).data
         installedApp = InstalledApp.objects.filter(app = appObj , parent = division).first()
         installedAppObj = InstalledAppSerializer(installedApp , many = False).data
-
-        data = {'appData' : appData , 'appMedias' : appMedias , 'appFeedbacks' : appFeedbacks ,'appUser' : appUser , 'installedApp' : installedAppObj}
+        is_staff = self.request.user.is_staff
+        is_user_installed = False
+        userAppobj = UserApp.objects.filter(user = self.request.user, app = appObj)
+        if userAppobj.count()>0:
+            is_user_installed = True
+        data = {'appData' : appData , 'appMedias' : appMedias , 'appFeedbacks' : appFeedbacks ,'appUser' : appUser , 'installedApp' : installedAppObj, 'is_staff' : is_staff , 'is_user_installed' : is_user_installed}
         return Response(data,status = status.HTTP_200_OK)
 
 class serviceViewSet(viewsets.ModelViewSet):

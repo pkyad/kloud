@@ -27,4 +27,6 @@ urlpatterns = [
      url(r'getMyDivision/$', GetMyDivision.as_view()),
      url(r'getheaderandfooter/$', Getheaderandfooter.as_view()),
      url(r'uninstallApp/$', UnInstallApp.as_view()),
+     url(r'intallUserApp/$', InstallUserApp.as_view()),
+
  ]

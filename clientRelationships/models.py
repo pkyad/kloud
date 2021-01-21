@@ -47,7 +47,7 @@ CONTACTS_CHOICES = (
 )
 
 class Contact(models.Model):
-    user = models.ForeignKey(User , related_name = 'contacts' , null = False) # the user created it
+    user = models.ForeignKey(User , related_name = 'contacts' , null = True) # the user created it
     name = models.CharField(max_length = 100 , null = False)
     created = models.DateTimeField(auto_now_add = True)
     updated = models.DateTimeField(auto_now=True)

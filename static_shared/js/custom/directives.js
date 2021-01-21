@@ -904,7 +904,7 @@ app.directive('appdetailedView', function() {
       id: '=',
       // addCart: '='
     },
-    controller: function($scope, $state, $http, Flash, $rootScope, $filter,$location, $users, $timeout) {
+    controller: function($scope, $state, $http, Flash, $rootScope, $filter,$location, $users, $timeout,$uibModal) {
         $scope.step = 'notinstalled'
         $scope.me = $users.get('mySelf');
         $scope.division = $scope.me.designation.division
@@ -914,26 +914,87 @@ app.directive('appdetailedView', function() {
         var id = window.location.href.split('=')[1]
       }
 
+
+
+
+      $scope.addUser = function(){
+        $uibModal.open({
+          templateUrl: '/static/ngTemplates/app.adduser.modal.html',
+          size: 'sm',
+          backdrop: false,
+          resolve: {
+            app: function() {
+              return $scope.app;
+            },
+          },
+          controller: function($scope, $users , $uibModalInstance, app) {
+            $scope.app = app
+            $scope.form = {
+              user : ''
+            }
+            $scope.getUsers = function() {
+               $http.get('/api/HR/userSearch/').
+              then(function(response) {
+                $scope.selectUsers = response.data;
+                $scope.form.user = $scope.selectUsers[0]
+              })
+            };
+            $scope.getUsers()
+
+            $scope.addPermision = function(){
+              $http({
+                method: 'POST',
+                url: '/api/organization/intallUserApp/',
+                data:{
+                  user : $scope.form.user.pk ,
+                  app :  $scope.app.pk
+                }
+              }).
+              then(function(response) {
+                $uibModalInstance.dismiss($scope.form.user)
+                }, function(error) {
+
+                Flash.create('warning','User Already added')
+                return
+
+                })
+            }
+
+
+            $scope.closeModal = function () {
+              $uibModalInstance.close()
+            }
+
+          },
+        }).result.then(function() {
+
+        }, function(data) {
+          if (typeof data == 'object') {
+            $scope.users.push(data)
+
+          }
+        });
+      }
       $scope.openApp = function(){
         $state.go($scope.app.module  + '.' + $scope.app.name.replace('app.' , ''))
       }
 
-      $scope.getInstalledApp = function(){
-        $http({
-          method: 'GET',
-          url: '/api/organization/installedApp/?app='+$scope.app.pk+'&parent='+$scope.division,
-        }).
-        then(function(res) {
-
-          $scope.installedApp = res.data[0]
-          console.log(res.data,'343');
-          if (res.data.length>0) {
-            $scope.step = 'installed'
-            $scope.getAppName()
-            // location.reload();
-          }
-        })
-      }
+      // $scope.getInstalledApp = function(){
+      //   $http({
+      //     method: 'GET',
+      //     url: '/api/organization/installedApp/?app='+$scope.app.pk+'&parent='+$scope.division,
+      //   }).
+      //   then(function(res) {
+      //
+      //     $scope.installedApp = res.data[0]
+      //     console.log(res.data,'343');
+      //     if (res.data.length>0) {
+      //       $scope.step = 'installed'
+      //       $scope.getAppName()
+      //       // location.reload();
+      //     }
+      //   })
+      // }
 
       $scope.getAppName = function(){
         console.log("ssssssss");
@@ -955,23 +1016,30 @@ app.directive('appdetailedView', function() {
       //
       // })
 
-      $http({
-        method: 'GET',
-        url: '/api/ERP/getAppDetails/?app='+id,
-      }).
-      then(function(response) {
-        $scope.allData = response.data
-        $scope.app = $scope.allData.appData
-        $scope.users =  $scope.allData.appUser
-        $scope.appMedia =  $scope.allData.appMedias
-        $scope.appMedia =  $scope.allData.appMedias
-        $scope.app.feedback = $scope.allData.appFeedbacks
-        $scope.installedApp = $scope.allData.installedApp
-        if ($scope.installedApp.pk) {
-          $scope.step = 'installed'
-          $scope.getAppName()
-        }
-      })
+      $scope.fetchDetails = function(){
+
+        $http({
+          method: 'GET',
+          url: '/api/ERP/getAppDetails/?app='+id,
+        }).
+        then(function(response) {
+          $scope.allData = response.data
+          $scope.app = $scope.allData.appData
+          $scope.users =  $scope.allData.appUser
+          $scope.appMedia =  $scope.allData.appMedias
+          $scope.appMedia =  $scope.allData.appMedias
+          $scope.app.feedback = $scope.allData.appFeedbacks
+          $scope.installedApp = $scope.allData.installedApp
+          $scope.is_staff =  $scope.allData.is_staff
+          $scope.is_user_installed =  $scope.allData.is_user_installed
+          if ($scope.installedApp.pk) {
+            $scope.step = 'installed'
+            $scope.getAppName()
+          }
+        })
+
+      }
+      $scope.fetchDetails()
 
       // $scope.getUsers= function(){
       //
@@ -999,16 +1067,25 @@ app.directive('appdetailedView', function() {
         $timeout(function() {
           var dataToSend = {
             app: $scope.app.pk,
-            priceAsAdded: 0
+            priceAsAdded: 0,
+            type:'newintall'
           }
           $http({
-            method: 'PATCH',
-            url: '/api/organization/divisions/' + $scope.division + '/?action=addApplication',
+            method: 'POST',
+            url: '/api/organization/intallUserApp/',
             data: dataToSend
           }).
           then(function(response) {
-              $scope.step = 'installed'
-              $scope.getInstalledApp()
+            $scope.fetchDetails()
+              // $scope.step = 'installed'
+              // $scope.getInstalledApp()
+              // $scope.user = [response.data.userObj]
+              //
+              // if (res.data.length>0) {
+              //   $scope.step = 'installed'
+              //   $scope.getAppName()
+              //   // location.reload();
+              // }
             }, function(error) {
 
               $scope.step = 'notinstalled'
@@ -1017,6 +1094,9 @@ app.directive('appdetailedView', function() {
 
         }, 3000);
       }
+
+
+
 
 
       $scope.unInstall = function(){
@@ -1028,6 +1108,7 @@ app.directive('appdetailedView', function() {
         }).
         then(function(response) {
             $scope.step = 'notinstalled'
+            $scope.users =  []
           }, function(error) {
             $scope.step = 'Uninstall'
           })

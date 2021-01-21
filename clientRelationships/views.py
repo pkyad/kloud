@@ -1513,14 +1513,22 @@ class CreateContactView(APIView):
     permission_classes = (permissions.AllowAny,)
     def post(self, request, format=None):
         data = request.data
-        if 'pk' in data:
-            contactObj = Contact.objects.get(pk = int(data['pk']))
-            if 'name' in data:
-                contactObj.name = data['name']
-            if 'mobile' in data:
-                contactObj.mobile = data['mobile']
-        else:
-            contactObj = Contact.objects.create(name = data['name'] , mobile = data['mobile'] , user = request.user)
+        div = request.user.designation.division
+        try:
+            contactObj, created  = Contact.objects.get_or_create(mobile = data['mobile'], division = div)
+            if created:
+                contactObj.user = request.user
+        except:
+                contactObj  = Contact.objects.filter(mobile = data['mobile'], division = div).first()
+        contactObj.name = data['name']
+        # if 'pk' in data:
+        #     contactObj = Contact.objects.get(pk = int(data['pk']))
+        #     if 'name' in data:
+        #         contactObj.name = data['name']
+        #     if 'mobile' in data:
+        #         contactObj.mobile = data['mobile']
+        # else:
+        #     contactObj = Contact.objects.create(name = data['name'] , mobile = data['mobile'] , user = request.user)
         if 'isGst' in data:
             contactObj.isGst = data['isGst']
         if 'designation' in data:
