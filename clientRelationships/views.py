@@ -1514,9 +1514,12 @@ class CreateContactView(APIView):
     def post(self, request, format=None):
         data = request.data
         div = request.user.designation.division
-        contactObj, created  = Contact.objects.get_or_create(mobile = data['mobile'], division = div)
-        if created:
-            contactObj.user = request.user
+        try:
+            contactObj, created  = Contact.objects.get_or_create(mobile = data['mobile'], division = div)
+            if created:
+                contactObj.user = request.user
+        except:
+                contactObj  = Contact.objects.filter(mobile = data['mobile'], division = div).first()
         contactObj.name = data['name']
         # if 'pk' in data:
         #     contactObj = Contact.objects.get(pk = int(data['pk']))
