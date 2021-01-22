@@ -11,6 +11,7 @@ from rest_framework.views import APIView
 from HR.serializers import userSearchSerializer
 from django.db.models import Q,  Case, When
 from  datetime import  datetime
+from django.db.models import Count
 
 class settingsViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, isOwner, )
@@ -135,24 +136,18 @@ class ChatThreadsViewSet(viewsets.ModelViewSet):
             print "in iff"
             threadObj = ChatThread.objects.filter(uid = self.request.GET['uid'])
             if threadObj.count()>0:
-                print 'sssssssssssssssssssss',threadObj[0].status
                 if threadObj[0].status != 'started':
-                    print 'nottttttttttttttt',threadObj[0].status
                     raise ValidationError(detail={'PARAMS' : 'createCookie'})
-            print 'tttttttttttttttt',threadObj
             return threadObj
         # return ChatThread.objects.all()
         if 'companyHandelrs' in self.request.GET and 'checkThread' in self.request.GET:
             threadObj = ChatThread.objects.filter(company = self.request.GET['companyHandelrs'])
             if threadObj.count()>0:
-                print 'sssssssssssssssssssss',threadObj[0].status
                 if threadObj[0].status != 'started':
-                    print 'nottttttttttttttt',threadObj[0].status
                     raise ValidationError(detail={'PARAMS' : 'createCookie'})
-            print 'tttttttttttttttt',threadObj
             return threadObj
 
-        return ChatThread.objects.all()
+        return ChatThread.objects.filter(participants =  self.request.user)
 
 class createChatThreadAPIView(APIView):
     permission_classes = (permissions.AllowAny ,)
@@ -258,3 +253,22 @@ class NotesTitleViewSet(viewsets.ModelViewSet):
         toReturn = notesObj.order_by('-created')
 
         return toReturn
+
+
+class CreateNewChatAPIView(APIView):
+    permission_classes = (permissions.IsAuthenticated ,)
+    def post(self , request , format = None):
+        user = request.user
+        div = user.designation.division
+        c_id_list = [user.pk , int(request.data['participant'])]
+        parents = ChatThread.objects.filter(company = div, is_personal = True)
+        parents = reduce(lambda p, id: parents.filter(participants=id), c_id_list, parents)
+        if parents.count()>0:
+            data  = ChatThreadsSerializer(parents.first(), many=False).data
+        else:
+            chatObj = ChatThread.objects.create(user = user, company = div, is_personal = True)
+            for p in c_id_list:
+                chatObj.participants.add( User.objects.get(pk = int(p)))
+            chatObj.save()
+            data  = ChatThreadsSerializer(chatObj, many=False).data
+        return Response(data,status=status.HTTP_200_OK)

@@ -23,4 +23,6 @@ urlpatterns = [
     url(r'getChatThreads/$' , GetChatThreadsAPIView.as_view() ),
     url(r'createChatThread/$' , createChatThreadAPIView.as_view() ),
     url(r'createNotification/$' , CreateNotificationAPIView.as_view()),
+    url(r'createNewChat/$' , CreateNewChatAPIView.as_view()),
+
 ]

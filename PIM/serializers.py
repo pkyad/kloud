@@ -157,6 +157,8 @@ class userProfileLiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = profile
         fields = ('displayPicture' , 'prefix' ,'pk','mobile','lat','lon','isDashboard','isManager','zoom_token')
+
+
 class userSearchSerializer(serializers.ModelSerializer):
     profile = userProfileLiteSerializer(many=False , read_only=True)
     logo = serializers.SerializerMethodField()
@@ -214,34 +216,22 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
     # companyName = serializers.SerializerMethodField()
     class Meta:
         model = ChatThread
-        fields = ( 'pk' , 'created' , 'title', 'participants' , 'description','dp','lastActivity','isLate','visitor','uid','status','customerRating','customerFeedback','company','userDevice','location','userDeviceIp','firstResponseTime','typ','userAssignedTime','firstMessage','receivedBy','channel','transferred','fid','closedOn','closedBy','name','user')
-    def get_name(self , obj):
-        if obj.uid != None:
-            if obj.visitor == None:
-                name = obj.uid
-            else:
-                name = obj.vistor.name
-        else:
-            if obj.title == None:
-                name = ''
-                if len(obj.participants.exclude(pk = self.context['request'].user.pk)) > 0:
-                    name = obj.participants.exclude(pk = self.context['request'].user.pk)[0].first_name
-            else:
-                name = obj.title
-        return name
-
-
+        fields = ( 'pk' , 'created' , 'title', 'participants' , 'description','dp','lastActivity','isLate','visitor','uid','status','customerRating','customerFeedback','company','userDevice','location','userDeviceIp','firstResponseTime','typ','userAssignedTime','firstMessage','channel','transferred','fid','closedOn','closedBy','name','user','is_personal')
     def create(self ,  validated_data):
         c = ChatThread(**validated_data)
-
-        if 'company' in self.context['request'].data :
-            c.company = Division.objects.get(pk=int(self.context['request'].data['company']))
+        user = self.context['request'].user
+        c.company = user.designation.division
+        c.save()
+        c.participants.add(user)
+        if 'participants' in  self.context['request'].data:
+            for p in self.context['request'].data['participants'].split(','):
+                c.participants.add( User.objects.get(pk = int(p)))
         c.save()
         return c
     def update(self ,instance, validated_data):
 
 
-        for key in ['status' , 'customerRating' , 'customerFeedback' , 'company','typ','isLate','location', 'visitor','participants','title',  'description']:
+        for key in ['status' , 'customerRating' , 'customerFeedback' , 'company','typ','isLate','location', 'visitor','participants','title',  'description','dp']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
@@ -249,34 +239,34 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
         if 'visitor' in self.context['request'].data:
             instance.visitor = Contacts.objects.get(pk=int(self.context['request'].data['visitor']))
 
-
-
-
-
         if 'participants' in  self.context['request'].data:
-            instance.participants.clear()
+            # instance.participants.clear()
             tagged = self.context['request'].data['participants']
             for tag in tagged:
                 instance.participants.add( User.objects.get(pk = tag))
-
-
         instance.save()
-
-        # if 'email' in self.context['request'].data:
-        #     print 'getting email here' , self.context['request'].data['email']
-        #     email = self.context['request'].data['email']
-        #     uid = instance.uid
-        #     vObj = Visitor.objects.filter(uid = uid)
-        #     if len(vObj)>0:
-        #         print 'hree'
-        #         vObj[0].email = email
-        #         vObj[0].save()
-        #     else:
-        #         v = Visitor.objects.create(uid = uid , email = email)
-        #
-        #         v.save()
-
         return instance
+    def get_name(self , obj):
+        name = ''
+        if obj.title is not None:
+            name = obj.title
+        elif obj.uid != None:
+            if obj.visitor == None:
+                name = obj.uid
+            else:
+                name = obj.vistor.name
+        else:
+            if obj.title == None:
+                name = ''
+                try:
+                    if len(obj.participants.exclude(pk = self.context['request'].user.pk)) > 0:
+                        name = obj.participants.exclude(pk = self.context['request'].user.pk)[0].first_name
+                except:
+                    pass
+        return name
+
+
+
 
 
 class NotebookFullSerializer(serializers.ModelSerializer):
