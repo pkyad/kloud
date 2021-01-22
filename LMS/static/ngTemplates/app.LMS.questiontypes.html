@@ -33,7 +33,7 @@
         <div class="{{queform.isLatex?'col-md-6':'col-md-12'}}">
           <div class="form-group" style="" ng-if="form =='multiple' ||form =='subjective' ||  form =='file'">
             <label for="">Problem Description </label>
-            <textarea ui-tinymce="tinymceOptions" ng-if="!queform.isLatex" class="cleanInput form-control" ng-model="queform.ques" ></textarea>
+            <textarea id="textArea" ui-tinymce="tinymceOptions" ng-if="!queform.isLatex" class="cleanInput form-control" ng-model="queform.ques" ></textarea>
             <textarea  ng-if="queform.isLatex" class="cleanInput form-control" ng-model="queform.ques" ></textarea>
           </div>
           <!-- <div class="form-group" style="" ng-if="form =='multiple'">

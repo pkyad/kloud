@@ -509,7 +509,7 @@
             <tbody>
 
               <tr class="detailStrip" ng-repeat="k in allcourseData track by $index" >
-                <td ng-click="$state.go('businessManagement.activityLog',{id:k.pk})">
+                <td ng-click="$state.go('businessManagement.LMS.activityLog',{id:k.pk})">
                   <div class="row" style="">
                     <div class="col-md-3">
                       <img ng-src="{{k.dp}}" src="" onerror="this.src='/static/images/img_avatar_card.png'" style="height:50px;width:50px;" class="img img-circle" alt="">
@@ -531,7 +531,7 @@
                 <td ng-click="$state.go('businessManagement.LMS.activityLog',{id:k.pk})">{{k.contacts.length}}</td>
                 <td ng-click="$state.go('businessManagement.LMS.activityLog',{id:k.pk})"><i class="fa fa-inr"></i>{{k.sellingPrice*k.contacts.length}}</td>
                 <td ng-click="$state.go('businessManagement.LMS.new',{id:k.pk})"> <img src="/static/images/edit.svg" alt=""></td>
-                <td ng-click="delCourse($index)"> <i class="fa fa-trash" style="font-size: 20px;color:#ccc;"></i></td>
+                <!-- <td ng-click="delCourse($index)"> <i class="fa fa-trash" style="font-size: 20px;color:#ccc;"></i></td> -->
               </tr>
 
             </tbody>

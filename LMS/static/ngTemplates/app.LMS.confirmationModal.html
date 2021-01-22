@@ -1,0 +1,20 @@
+<div class="container-fluid">
+  <!-- <div class="modal-header" style="border:none">
+  <h4><b>Delete </b></h4>
+</div> -->
+  <div class="modal-body">
+    <div class="row">
+      <div class="form-group">
+        <label for="">Enter the exact title</label>
+        <input type="text" class="form-control bookInput" placeholder="Enter the exact title" ng-model="form.title" name="" value="">
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button  type="button" class="btn-danger pull-left" ng-click="delbookOrcourse()" style="{{isActive?'color:
+white;padding: 12px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;border-radius: 12px;margin-bottom: 10px;background-color:#d9534f;opacity:1':'color:
+white;padding: 12px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;border-radius: 12px;margin-bottom: 10px;opacity:0.6;background-color:#d9534f'}}" ng-disabled="{{isActive}}">
+      Delete
+    </button>
+  </div>
+</div>
