@@ -68,7 +68,12 @@ class CourseActivityViewSet(viewsets.ModelViewSet):
     serializer_class = CourseActivitySerializer
     queryset = CourseActivty.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['typ','paper','course']
+    filter_fields = ['typ','paper','course','title']
+    def get_queryset(self):
+        if 'title__icontains' in self.request.GET:
+            val = self.request.GET['title__icontains']
+            return CourseActivty.objects.filter(title = self.request.GET['title__icontains'],course__id = self.request.GET['course'] )
+        return CourseActivty.objects.all()
 
 class BookLiteViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, isAdmin, )
@@ -253,6 +258,42 @@ class GetCourseactivitiesAPI(APIView):
             activities = courseObj.courseActivities.all()
             quiz = courseObj.courseActivities.all().filter(typ = 'quiz').count()
             data = {'course':CourseSerializer(courseObj,many=False).data,'activities':CourseActivitySerializer(activities,many=True).data,'quiz':quiz}
+        return Response(data , status = status.HTTP_200_OK)
+
+
+class CreateClassAPI(APIView):
+    permission_classes = (permissions.AllowAny, )
+    renderer_classes = (JSONRenderer,)
+    def post(self , request , format = None):
+        from datetime import datetime,timedelta
+        from dateutil.relativedelta import relativedelta
+        val =  request.data
+        courseObj = Course.objects.get(pk = val['course'])
+        startDat = datetime.strptime(val['date'].split('T')[0], "%Y-%m-%d").date()
+        endDat = datetime.strptime(val['paperDueDate'].split('T')[0], "%Y-%m-%d").date()
+        activity =  CourseActivty.objects.create(course=courseObj ,title=val['title'],date= datetime.strptime(val['date'], "%Y-%m-%dT%H:%M:%S.%fZ"),paperDueDate=datetime.strptime(val['paperDueDate'].split('T')[0], "%Y-%m-%d").date(),typ = val['typ'],time=val['time'],daily=val['daily'],weekly=val['weekly'],monthly=val['monthly'],description=val['description'],announcer = request.user)
+        activity.save()
+        count = 0
+        d = startDat
+        print startDat, endDat,relativedelta(startDat,endDat)
+        while d < endDat:
+
+            if val['daily']:
+                d =d+timedelta(days=1)
+                print datetime.min.time()
+                actObj = CourseActivty.objects.create(parent=activity,announcer = request.user, date = datetime.combine(d, datetime.min.time()),typ="class",title=val['title'],course=courseObj,daily=val['daily'],paperDueDate=activity.paperDueDate)
+                actObj.save()
+            elif val['weekly']:
+                d =d+timedelta(days=7)
+                actObj = CourseActivty.objects.create(parent=activity,announcer = request.user, date = datetime.combine(d, datetime.min.time()),typ="class",title=val['title'],course=courseObj,daily=val['weekly'],paperDueDate=activity.paperDueDate)
+                actObj.save()
+
+            elif val['monthly']:
+                d =d+relativedelta(months=+1)
+                actObj = CourseActivty.objects.create(parent=activity,announcer = request.user, date = datetime.combine(d, datetime.min.time()),typ="class",title=val['title'],course=courseObj,daily=val['monthly'],paperDueDate=activity.paperDueDate)
+                actObj.save()
+        data = {'activities':CourseActivitySerializer(activity.activitychildren.all(),many=True).data}
+
         return Response(data , status = status.HTTP_200_OK)
 
 

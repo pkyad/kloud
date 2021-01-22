@@ -1622,3 +1622,28 @@ body {
    height: 300px;
    border: "1px solid #ddd";
   }
+.sideMenuView{
+	width: 10%;
+	background: #f7f7f7;
+	min-height: 100vh;
+	position: fixed;
+	z-index: 100;
+	box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;
+
+}
+.mainUIViewParent{
+  width: 90%;
+  padding: 0px;
+  right: 0px;
+  position: absolute;
+
+}
+@media screen and (min-width: 1446px) and (max-width:1620px) {
+  .sideMenuView{
+    width: 15%;
+
+  }
+  .mainUIViewParent{
+    width: 85%;
+  }
+}

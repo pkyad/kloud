@@ -9,7 +9,10 @@ from HR.serializers import userSearchSerializer,userSerializer,userLiteSerialize
 from clientRelationships.models import *
 
 
-
+class BookLiteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = ('pk'  , 'title', 'dp', 'author','volume')
 class RecursiveField(serializers.Serializer):
     def to_representation(self, value):
         serializer = self.parent.parent.__class__(value, context=self.context)
@@ -49,16 +52,13 @@ class QPartSerializer(serializers.ModelSerializer):
         model = QPart
         fields = ('pk' , 'mode' , 'txt', 'image' ,'sequence')
 
-class BookLiteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Book
-        fields = ('pk'  , 'title', 'dp', 'author','volume')
+
 
 class SectionLiteSerializer(serializers.ModelSerializer):
     book = BookLiteSerializer(many = False , read_only = True)
     class Meta:
         model = Section
-        fields = ('pk', 'title' , 'book' ,'shortUrl','seoTitle','description')
+        fields = ('pk', 'title' ,'parent', 'book' ,'shortUrl','seoTitle','description')
 
 class OptionsPartSerializer(serializers.ModelSerializer):
     is_Selected = serializers.SerializerMethodField()
@@ -128,6 +128,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 class SectionSerializer(serializers.ModelSerializer):
     children = SectionLiteSerializer(many=True,read_only=True)
     questions = serializers.SerializerMethodField()
+    # book = BookLiteSerializer(many=False,read_only=True)
     class Meta:
         model = Section
         fields = ('pk' , 'title' , 'book','sequence' ,'parent','shortUrl','description','seoTitle','children','questions')
@@ -246,7 +247,7 @@ class CourseActivitySerializer(serializers.ModelSerializer):
     paper = PaperSerializer(many=False,read_only=True)
     class Meta:
         model = CourseActivty
-        fields = ('pk' , 'created' , 'course', 'attachment', 'thumbnail', 'announcer' , 'typ','paper','paperDueDate','time','venue','txt','meetingId','date','paper','course','title','description')
+        fields = ('pk' , 'created' , 'course', 'attachment', 'thumbnail', 'announcer' , 'typ','paper','paperDueDate','time','venue','txt','meetingId','date','paper','course','title','description','parent','daily','weekly','monthly')
         read_only_fields = ('announcer',)
     def create(self , validated_data):
         e = CourseActivty(**validated_data)
