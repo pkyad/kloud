@@ -57,6 +57,9 @@ class Products(models.Model):
     gst = models.FloatField(default = 18.0)
     custom = models.FloatField(default = 0.0)
     division = models.ForeignKey(Division, related_name = 'imProducts', null = True)
+    class Meta:
+        unique_together = ('part_no','division')
+
 
 class Test(models.Model):
     created = models.DateTimeField(auto_now_add = True)
@@ -228,6 +231,7 @@ class Invoice(models.Model):
     comm_nr = models.CharField(max_length = 100 , null=True,blank=True)
     packing = models.TextField(max_length=2000, null=True,blank =True)
     lockInvoice = models.BooleanField(default = False)
+    machinemodel = models.CharField(max_length = 20 , null = True , blank =True)
 
 class InvoiceQty(models.Model):
     created = models.DateTimeField(auto_now_add=True)

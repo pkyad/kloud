@@ -73,6 +73,14 @@
             <input ng-model="form.comm_nr" type="text" class="form-control">
           </div>
           <div class="col-md-5 form-group">
+            <label>Machine Model</label>
+            <input ng-model="form.machinemodel" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 form-group">
+          </div>          
+          <div class="col-md-5 form-group">
             <label>Packing</label>
             <textarea rows="4" class="form-control form-control-line" ng-model="form.packing"></textarea>
           </div>
@@ -234,6 +242,7 @@
             <div class="col-md-2" style="padding-top:25px">
               <button ng-if="!form.pk" type="button" class="btn btn-primary " ng-click="saveInvoice(v.product)">Save</button>
               <button ng-if="form.pk" type="button" class="btn btn-primary " ng-click="updateInvoice()">Update</button>
+              <button ng-if="form.pk && updateProgress" type="button" class="btn btn-primary " ><i class="fas fa-spinner fa-spin"></i> Please Wait</button>
             </div>
           </div>
         </div>

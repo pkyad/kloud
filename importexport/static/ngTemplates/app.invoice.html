@@ -34,7 +34,7 @@
         </div>
         <div class="row" style="margin-top:30px">
           <div class="col-md-4" ng-repeat="data in allData" style="padding-bottom:20px;padding-left:10px;padding-right:10px;">
-            <div class="container-fluid card" ng-click="$state.go('businessManagement.importexport.viewInvoice',{'id':data.pk})" style="border: 2px solid #090a0a;cursor:pointer">
+            <div class="container-fluid card"  style="border: 2px solid #090a0a">
               <div class="row text-center" style="height:6vh;">
                 <div class="col-md-12" style="position:relative;display:block;">
                   <div class="row" style="padding-left:10px;">
@@ -83,11 +83,14 @@
                 </div>
                 <div class="col-md-2" style="padding-bottom:15px">
                   <div class="row">
-                    <span ng-if="!data.lockInvoice" class="pull-right" style="cursor:pointer;position:absolute;" ng-click="$state.go('businessManagement.importexport.editInvoice',{'id':data.pk})">
+                    <span  class="pull-right" style="cursor:pointer;position:absolute;cursor:pointer" ng-click="$state.go('businessManagement.importexport.viewInvoice',{'id':data.pk})">
+                      <i class="fa fa-eye fa-2x"></i>
+                    </span>
+                    <span ng-if="!data.lockInvoice" class="pull-right" style="cursor:pointer;position:absolute;top:4vh;cursor:pointer" ng-click="$state.go('businessManagement.importexport.editInvoice',{'id':data.pk})">
                       <i class="fa fa-pencil fa-2x"></i>
                     </span>
-                    <span ng-if="!data.lockInvoice" class="pull-right" style="cursor:pointer;position:absolute;top:4vh;" ng-click="$event.stopPropagation()" mwl-confirm title="Delete" message="Are you sure?"
-                      confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="deleteInvoice(data.pk)" confirm-button-type="default" cancel-button-type="default"></i>
+                    <span ng-if="!data.lockInvoice" class="pull-right" style="cursor:pointer;position:absolute;top:8vh;cursor:pointer" ng-click="$event.stopPropagation()" mwl-confirm title="Delete" message="Are you sure?"
+                      confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="deleteInvoice(data.pk)" confirm-button-type="default" cancel-button-type="default">
                       <i class="fa fa-trash fa-2x"></i>
                     </span>
                   </div>

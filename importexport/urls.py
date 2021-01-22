@@ -54,6 +54,7 @@ urlpatterns = [
     url(r'stockCheck/$' , StockReportAPIView.as_view() ),
     url(r'stockSheet/$' , StockSheetAPIView.as_view() ),
     url(r'addInventory/$' , AddInventoryAPIView.as_view() ),
+    url(r'addInvoiceQtys/$' , AddInvoiceQtysAPIView.as_view() ),
     url(r'bulkCreateInventory/$' , BulkCreateInventoryAPIView.as_view() ),
     url(r'purchasewiseReport/$' , PurchasewiseReportAPIView.as_view() ),
     url(r'consumptionewiseReport/$' , ConsumptionewiseReportAPIView.as_view() ),
