@@ -326,7 +326,7 @@ class InvoiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Invoice
         fields = ('pk','created','invoiceNumber','invoiceDate','poNumber','insuranceNumber','transporter','lrNo','billName','shipName','billAddress','shipAddress','billGst','shipGst','billState','shipState','billCode','shipCode','isDetails','invoiceTerms','project','flag','division','comm_nr','packing',
-        'lockInvoice')
+        'lockInvoice','machinemodel')
     def create(self, validated_data):
         i = Invoice(**validated_data)
         user = self.context['request'].user
@@ -337,7 +337,7 @@ class InvoiceSerializer(serializers.ModelSerializer):
         i.save()
         return i
     def update (self, instance, validated_data):
-        for key in ['pk','created','invoiceNumber','invoiceDate','poNumber','insuranceNumber','transporter','lrNo','billName','shipName','billAddress','shipAddress','billGst','shipGst','billState','shipState','billCode','shipCode','isDetails','invoiceTerms','project','comm_nr','packing','lockInvoice']:
+        for key in ['pk','created','invoiceNumber','invoiceDate','poNumber','insuranceNumber','transporter','lrNo','billName','shipName','billAddress','shipAddress','billGst','shipGst','billState','shipState','billCode','shipCode','isDetails','invoiceTerms','project','comm_nr','packing','lockInvoice','machinemodel']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
@@ -348,7 +348,7 @@ class InvoiceSerializer(serializers.ModelSerializer):
         return instance
 
 class InvoiceQtySerializer(serializers.ModelSerializer):
-    product = ProductsSerializer(many = False , read_only = True)
+    # product = ProductsSerializer(many = False , read_only = True)
     invoice = InvoiceSerializer(many = False , read_only = True)
     class Meta:
         model = InvoiceQty

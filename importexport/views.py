@@ -3505,14 +3505,14 @@ def invoice(response, pkVal  , request,flag):
         """ %(inv.comm_nr),styles['Normal'])
         detail33Com = Paragraph("""
         <para >
-
+        Machine Model
         </para>
         """ %(),styles['Normal'])
         detail34Com = Paragraph("""
         <para >
         %s
         </para>
-        """ %(''),styles['Normal'])
+        """ %(str(inv.machinemodel)),styles['Normal'])
         t2dataCom=[detail31Com],[detail32Com],[detail33Com],[detail34Com]
         td1header+=[t2dataCom]
 
@@ -3803,14 +3803,14 @@ def invoice(response, pkVal  , request,flag):
         """ %(inv.comm_nr),styles['Normal'])
         detail33Com = Paragraph("""
         <para >
-
+        Machine Model
         </para>
         """ %(),styles['Normal'])
         detail34Com = Paragraph("""
         <para >
         %s
         </para>
-        """ %(''),styles['Normal'])
+        """ %(str(inv.machinemodel)),styles['Normal'])
         t2dataCom=[detail31Com],[detail32Com],[detail33Com],[detail34Com]
         td1header+=[t2dataCom]
         t4=Table(td1header,colWidths=(30*mm,72.5*mm,30*mm,72.5*mm))
@@ -4989,5 +4989,38 @@ class ImportExportDataMigrationsAPIView(APIView):
         #             projectStockObj.save()
 
 
+
+        return Response({'status':'ok'}, status=status.HTTP_200_OK)
+
+class AddInvoiceQtysAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny, )
+    def post(self, request, format=None):
+        data = request.data
+        params = request.GET
+        divisionObj = request.user.designation.division
+        invoiceObj = Invoice.objects.get(pk = int(params['invoice']))
+        for item in data:
+            invoiceQtyObj = None
+            if 'pk' in item:
+                invoiceQtyObj = InvoiceQty.objects.get(pk = int(item['pk']))
+            else:
+                productObj = Products.objects.get(part_no =  item['part_no'], division = divisionObj)
+                invoiceQtyObj = InvoiceQty.objects.create(product = productObj,invoice = invoiceObj)
+
+            invoiceQtyObj.part_no = item['part_no']
+            invoiceQtyObj.description_1 = item['description_1']
+            invoiceQtyObj.customs_no = item['customs_no']
+            invoiceQtyObj.price = item['price']
+            invoiceQtyObj.qty = item['qty']
+            invoiceQtyObj.taxableprice = item['taxableprice']
+            invoiceQtyObj.cgst = item['cgst']
+            invoiceQtyObj.cgstVal = item['cgstVal']
+            invoiceQtyObj.sgst = item['sgst']
+            invoiceQtyObj.sgstVal = item['sgstVal']
+            invoiceQtyObj.igst = item['igst']
+            invoiceQtyObj.igstVal = item['igstVal']
+            invoiceQtyObj.total = item['total']
+            invoiceQtyObj.save()
 
         return Response({'status':'ok'}, status=status.HTTP_200_OK)

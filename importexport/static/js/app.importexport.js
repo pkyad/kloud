@@ -4420,7 +4420,6 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
         }).
         then(function(response) {
           $scope.products = response.data
-          console.log($scope.products);
         })
       }
       $scope.products = []
@@ -4440,6 +4439,7 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
         transporter: '',
         lrNo: '',
         billName: '',
+        machinemodel:'',
         shipName: '',
         billAddress: {
           street: '',
@@ -4544,6 +4544,7 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
             $scope.form.shipAddress.city = newValue.city
             $scope.form.shipAddress.pincode = newValue.pincode
             $scope.form.shipState = newValue.state
+            $scope.form.shipGst = newValue.gst
           } else {
             $scope.form.shipName = newValue.name
             $scope.form.shipAddress.street = newValue.address.street
@@ -4744,7 +4745,9 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
 
       }, true)
 
+      $scope.updateProgress = false;
       $scope.updateInvoice = function() {
+        $scope.updateProgress = true;
         console.log("truuuuuuuuuuu");
         if ($scope.form.invoiceNumber == null || $scope.form.invoiceNumber.length == 0) {
           Flash.create('danger', 'Invoice No. Is Required')
@@ -4766,68 +4769,23 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
           data: $scope.form,
         }).
         then(function(response) {
-          for (var i = 0; i < $scope.products.length; i++) {
-            if ($scope.products[i].description_1.length > 0) {
-              if (!$scope.products[i].pk) {
-                var sendVal = {
-                  product: $scope.products[i].product,
-                  invoice: response.data.pk,
-                  part_no: $scope.products[i].part_no,
-                  description_1: $scope.products[i].description_1,
-                  customs_no: $scope.products[i].customs_no,
-                  price: $scope.products[i].price,
-                  qty: $scope.products[i].qty,
-                  taxableprice: $scope.products[i].taxableprice,
-                  cgst: $scope.products[i].cgst,
-                  cgstVal: $scope.products[i].cgstVal,
-                  sgst: $scope.products[i].sgst,
-                  sgstVal: $scope.products[i].sgstVal,
-                  igst: $scope.products[i].igst,
-                  igstVal: $scope.products[i].igstVal,
-                  total: $scope.products[i].total,
-                  flag: $scope.form.flag
-                }
-                var url = '/api/importexport/invoiceQty/'
-                var method = 'PATCH'
-              } else {
-                var sendVal = {
-                  product: $scope.products[i].product.pk,
-                  invoice: response.data.pk,
-                  part_no: $scope.products[i].part_no,
-                  description_1: $scope.products[i].description_1,
-                  customs_no: $scope.products[i].customs_no,
-                  price: $scope.products[i].price,
-                  qty: $scope.products[i].qty,
-                  taxableprice: $scope.products[i].taxableprice,
-                  cgst: $scope.products[i].cgst,
-                  cgstVal: $scope.products[i].cgstVal,
-                  sgst: $scope.products[i].sgst,
-                  sgstVal: $scope.products[i].sgstVal,
-                  igst: $scope.products[i].igst,
-                  igstVal: $scope.products[i].igstVal,
-                  total: $scope.products[i].total,
-                }
-                var url = '/api/importexport/invoiceQty/' + $scope.products[i].pk + '/'
-                var method = 'PATCH'
-              }
-              $http({
-                method: method,
-                url: url,
-                data: sendVal,
-              }).
-              then((function(i) {
-                return function(response) {
-                  $scope.products[i].pk = response.data.pk;
-                }
-              })(i))
-            }
+          console.log($scope.products, '$scope.products');
+          if($scope.products.length>0){
+            var url = '/api/importexport/addInvoiceQtys/?invoice='+$stateParams.id
+            var method = 'POST'
+            $http({
+              method: method,
+              url: url,
+              data: $scope.products,
+            }).then(function(response) {
+            })
+
           }
-          $timeout(function() {
-            Flash.create('success', 'Updated');
-            if (!$scope.form.pk) {
-              $scope.resetData()
-            }
-          }, 1500);
+          $scope.updateProgress = false;
+          Flash.create('success', 'Updated');
+          if (!$scope.form.pk) {
+            $scope.resetData()
+          }
 
         })
       }
@@ -4862,6 +4820,7 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
       comm_nr: '',
       packing: '',
       billName: '',
+      machinemodel: '',
       shipName: '',
       billAddress: {
         street: '',
