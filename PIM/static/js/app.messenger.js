@@ -35,7 +35,7 @@
 
       var toSend = new FormData()
       toSend.append('message', $scope.form.text)
-      toSend.append('user', $state.params.id)
+      toSend.append('thread', $state.params.id)
       if ($scope.form.file != emptyFile) {
         toSend.append('attachment', $scope.form.file)
       }
@@ -60,10 +60,10 @@
          objDiv.scrollTop = objDiv.scrollHeight+40;
         // connection.session.subscribe('service.chat.' + $scope.user.username ,  onevent);
         // connection.session.publish('service.chat.' + $scope.user.username, ['M', response.data]);
+        $scope.replyMsgSelected = {
+          'replyMsg' : ''
+        }
       })
-      $scope.replyMsgSelected = {
-        'replyMsg' : ''
-      }
 
     }
 
@@ -266,12 +266,45 @@ $scope.description = false
   //   }
   // })
   $scope.allFiles = []
-  $scope.fileNameChanged = function(file) {
+  $scope.fileAdded = function(file) {
       // console.log("select file",$scope.data.image,file[0]);
       var filedata = file[0]
-      console.log(filedata);
       $scope.allFiles.push(filedata)
     }
+
+$scope.postFiles = function(){
+  $scope.count = 0
+  for (var i = 0; i < $scope.allFiles.length; i++) {
+    $scope.count+=1
+    var toSend = new FormData()
+    toSend.append('thread', $state.params.id)
+    if ($scope.allFiles[i] != emptyFile) {
+      toSend.append('attachment', $scope.allFiles[i])
+    }
+    $http({
+      method: 'POST',
+      url: '/api/PIM/chatMessage/',
+      data: toSend,
+      transformRequest: angular.identity,
+      headers: {
+        'Content-Type': undefined
+      }
+    }).
+    then(function(response) {
+      $scope.messages.push(response.data)
+      $scope.form.file = emptyFile;
+      var objDiv = document.getElementById("scrollView");
+       objDiv.scrollTop = objDiv.scrollHeight+40;
+      if ($scope.count == $scope.allFiles.length) {
+        $scope.allFiles = []
+      }
+    })
+  }
+}
+
+  $scope.closeAtachment = function(){
+      $scope.allFiles = []
+  }
 
   $scope.fileNameChanged = function(file) {
       // console.log("select file",$scope.data.image,file[0]);

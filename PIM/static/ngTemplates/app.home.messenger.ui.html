@@ -44,6 +44,21 @@
    height:100%;
 }
 
+.file_upload_add{
+  opacity: 0.0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+  -moz-opacity: 0.0;
+  -khtml-opacity: 0.0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 80%;
+  height:100%;
+}
+
 .reply_icon{
   display:none
 }
@@ -58,6 +73,22 @@
 
 .recived-text:hover .reply_icon_rec{
     display:block
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  /* background-color: DodgerBlue; */
+}
+
+.flex-container > div {
+  background-color: #f1f1f1;
+  width: 100px;
+  margin: 10px;
+  text-align: center;
+  /* line-height: 100px; */
+  font-size: 30px;
 }
 </style>
 <div class="col-md-9 col-sm-8 pull-right " style="padding:0px;">
@@ -176,15 +207,15 @@
 
           <div ng-if="me.pk != message.user.pk && message.attachment != null && message.message === null && message.fileType === 'image'" class="  m-top-5 m-bottom-5 margin-l-auto">
             <div class="" style="display:flex">
-              <div class="img-recived padding-2" style="margin-left:auto; width:300px;height:300px">
-                <img class=" " ng-src="{{message.attachment}}" alt="photo" width="289" height="289">
-              </div>
-              <div style="padding: 0px;width: 40px;margin-right: auto;margin-top: auto;height: 40px;margin-bottom: 1%;margin-left: 2%;">
+              <div style="padding: 0px;width: 40px;margin-top: auto;height: 40px;margin-bottom: 1%;margin-left: 2%;">
                 <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
+              </div>
+              <div class="img-recived padding-2" style=" width:300px;height:300px;margin-left:15px">
+                <img class=" " ng-src="{{message.attachment}}" alt="photo" width="289" height="289">
               </div>
             </div>
             <div style="display:flex;width:87%;" class=" margin-auto">
-              <p class="margin-l-auto" style="margin-top:10px;margin-right:33px">{{message.created | timeAgo}}</p>
+              <p class="margin-l-auto" style="margin-top:10px;margin-left: 15px !important;">{{message.created | timeAgo}}</p>
             </div>
           </div>
 
@@ -213,7 +244,7 @@
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
                   <img src="/static/images/icons8-pdf-96.png" alt="" width="40">
-                  <p class="margin-y-auto m-left-4" style="color:white;font-size:12px">{{message.fileName}}</p>
+                  <p class="margin-y-auto m-left-4" style="font-size:12px">{{message.fileName}}</p>
                   <a href="{{message.attachment}}" target="_blank" class="margin-l-auto padding-2 margin-y-auto">
                     <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -283,7 +314,7 @@
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
                   <img src="/static/images/icons8-word-96.png" alt="" width="40">
-                  <p class="margin-y-auto m-left-4" style="color:white;font-size:12px">{{message.fileName}}</p>
+                  <p class="margin-y-auto m-left-4" style="font-size:12px">{{message.fileName}}</p>
                   <a href="{{message.attachment}}" target="_blank" class="margin-l-auto padding-2 margin-y-auto">
                     <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -350,7 +381,7 @@
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
                   <img src="/static/images/icons8-ppt-96.png" alt="" width="40">
-                  <p class="margin-y-auto m-left-4" style="color:white;font-size:12px">{{message.fileName}}</p>
+                  <p class="margin-y-auto m-left-4" style="font-size:12px">{{message.fileName}}</p>
                   <a href="{{message.attachment}}" target="_blank" class="margin-l-auto padding-2 margin-y-auto">
                     <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -418,7 +449,7 @@
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
                   <img src="/static/images/icons8-xls-96.png" alt="" width="40">
-                  <p class="margin-y-auto m-left-4" style="color:white;font-size:12px">{{message.fileName}}</p>
+                  <p class="margin-y-auto m-left-4" style="font-size:12px">{{message.fileName}}</p>
                   <a href="{{message.attachment}}" target="_blank" class="margin-l-auto padding-2 margin-y-auto">
                     <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -484,6 +515,39 @@
 
         </div>
       </div>
+      <div class="row" ng-if="allFiles.length>0" style="height:84vh;position:absolute;background:#eeeeee;z-index:33333;top:62px;width:100%;margin-left:0px">
+        <div class="col-md-12">
+          <div class="row" style="position:relative">
+            <div class="col-md-12">
+              <div class="row" >
+                <div class="col-md-12" style="position:absolute;bottom:85px;left:900px">
+                  <div class="text-center" style="height:60px;width:60px;background-color:#009688;border-radius: 50%;padding: 10px;">
+                    <i class="fa fa-arrow-right fa-2x" aria-hidden="true" style="color:white;" ng-click="postFiles()"></i>
+                  </div>
+                </div>
+                </div>
+              <div class="row" style="height:60px;background:#01c1af">
+                  <div class="col-md-12">
+                    <h4 style="color:#ffffff;padding-top:10px"> <i class="fa fa-close" style="padding-right:15px" ng-click="closeAtachment()"></i> Preview </h4>
+                  </div>
+                </div>
+                <div class="row" style="height:65vh">
+                    <div class="col-md-12">
+
+                    </div>
+                </div>
+                <div class="row" style="background:#dedede;height:13vh">
+                    <div class="col-md-12 flex-container text-center" >
+                      <div ng-click="$event.stopPropagation()" ng-repeat="f in allFiles" style="padding-top:15px"><i class="fa fa-file"></i><br/><span style="font-size:5px!important">{{f.name}}</span></div>
+                      <div style="padding-top:30px">
+                        <i class="fa fa-plus fa-lg"></i>
+                        <input type="file" class="file_upload_add" ng-model="form.file" onchange="angular.element(this).scope().fileAdded(this.files)"/></div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="col-md-12 col-sm-12  " ng-if="replyMsgSelected.replyMsg" style="position:absolute;bottom: 55px;background-color: #ededed;">
         <div class="row"  style="padding:10px">
           <div class="col-md-offset-1 col-md-10">
@@ -500,7 +564,8 @@
       </div>
       <div class="col-md-12 col-sm-12 chat-input ">
         <div class="attachment col-md-1 col-sm-1">
-          <input type="file" style="display : none;" file-model="form.file" onchange="angular.element(this).scope().fileNameChanged(this.files)">
+            <input type="file" class="file_upload" ng-model="form.file" onchange="angular.element(this).scope().fileAdded(this.files)"/>
+          <!-- <input type="file" style="display : none;" file-model="form.file" onchange="angular.element(this).scope().fileNameChanged(this.files)"> -->
           <button  type="button" name="button" style="border:none;background:transparent;padding:5px;" >
             <img src="/static/images/icons8-attach-52.png" alt="" style="height:25px;">
           </button>
@@ -597,6 +662,22 @@
     </div>
   </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <div class=" col-md-8  " style="height:93vh ;background:#F3F6FB;overflow-y: auto;overflow-x: hidden;border-left:0.5px solid #f4f4f4;border-right:0.5px solid #f4f4f4;display:none">
   <div class=" margin-auto m-bottom-5 padding-2" style="width:95%;">
@@ -978,6 +1059,7 @@
 
     </div>
   </div>
+
   <div style="display: flex;" class="chat-input " style="width:42.5% !important;">
     <div class="attachment m-left-3 paddig-3 margin-y-auto">
       <input type="file" style="display : none;" file-model="form.file" id="filePicker">
@@ -1002,6 +1084,7 @@
       </div>
     </div>
   </div>
+
 </div>
 
 

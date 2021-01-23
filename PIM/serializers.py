@@ -188,6 +188,7 @@ class chatMessageSerializer(serializers.ModelSerializer):
     def create(self , validated_data):
         im = ChatMessage.objects.create(**validated_data)
         im.user = self.context['request'].user
+        im.save()
         try:
             im.attachment = self.context['request'].FILES['attachment']
         except:
@@ -212,10 +213,10 @@ class chatMessageSerializer(serializers.ModelSerializer):
         #     im.delete()
         #     raise ParseError(detail=None)
         # else:
+        if 'thread' in self.context['request'].data:
+            im.thread = ChatThread.objects.get(pk=self.context['request'].data['thread'])
         if 'replyTo' in self.context['request'].data:
             im.replyTo = ChatMessage.objects.get(pk=self.context['request'].data['replyTo'])
-        if 'user' in self.context['request'].data:
-            im.thread = ChatThread.objects.get(pk=self.context['request'].data['user'])
         im.save()
         return im
 
