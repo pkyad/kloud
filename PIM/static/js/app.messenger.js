@@ -35,9 +35,12 @@
 
       var toSend = new FormData()
       toSend.append('message', $scope.form.text)
-      toSend.append('user', $state.params.id)
+      toSend.append('thread', $state.params.id)
       if ($scope.form.file != emptyFile) {
         toSend.append('attachment', $scope.form.file)
+      }
+      if ($scope.replyMsgSelected.replyMsg!=null && typeof $scope.replyMsgSelected.replyMsg=='object') {
+        toSend.append('replyTo', $scope.replyMsgSelected.replyMsg.pk)
       }
 
       $http({
@@ -57,6 +60,9 @@
          objDiv.scrollTop = objDiv.scrollHeight+40;
         // connection.session.subscribe('service.chat.' + $scope.user.username ,  onevent);
         // connection.session.publish('service.chat.' + $scope.user.username, ['M', response.data]);
+        $scope.replyMsgSelected = {
+          'replyMsg' : ''
+        }
       })
 
     }
@@ -259,6 +265,46 @@ $scope.description = false
   //     // })
   //   }
   // })
+  $scope.allFiles = []
+  $scope.fileAdded = function(file) {
+      // console.log("select file",$scope.data.image,file[0]);
+      var filedata = file[0]
+      $scope.allFiles.push(filedata)
+    }
+
+$scope.postFiles = function(){
+  $scope.count = 0
+  for (var i = 0; i < $scope.allFiles.length; i++) {
+    $scope.count+=1
+    var toSend = new FormData()
+    toSend.append('thread', $state.params.id)
+    if ($scope.allFiles[i] != emptyFile) {
+      toSend.append('attachment', $scope.allFiles[i])
+    }
+    $http({
+      method: 'POST',
+      url: '/api/PIM/chatMessage/',
+      data: toSend,
+      transformRequest: angular.identity,
+      headers: {
+        'Content-Type': undefined
+      }
+    }).
+    then(function(response) {
+      $scope.messages.push(response.data)
+      $scope.form.file = emptyFile;
+      var objDiv = document.getElementById("scrollView");
+       objDiv.scrollTop = objDiv.scrollHeight+40;
+      if ($scope.count == $scope.allFiles.length) {
+        $scope.allFiles = []
+      }
+    })
+  }
+}
+
+  $scope.closeAtachment = function(){
+      $scope.allFiles = []
+  }
 
   $scope.fileNameChanged = function(file) {
       // console.log("select file",$scope.data.image,file[0]);
@@ -282,6 +328,20 @@ $scope.description = false
       })
     }
 
+    $scope.replyMsgSelected = {
+      replyMsg:''
+    }
+
+
+    $scope.replyTo = function(indx){
+      $scope.replyMsgSelected.replyMsg = $scope.messages[indx]
+    }
+
+    $scope.removeReply = function(){
+      $scope.replyMsgSelected = {
+        replyMsg:''
+      }
+    }
 
   });
 
@@ -289,9 +349,11 @@ $scope.description = false
   $scope.showUsers = 'chats'
   $scope.me = $users.get('mySelf');
 
-    $scope.form = {
+    $scope.search = {
       searchTxt: ''
     }
+
+
 
     // $scope.getUsers = function() {
     //   console.log("called");
@@ -314,16 +376,14 @@ $scope.description = false
 
 
     $scope.getAllUsers = function() {
-      var params = {}
+        url = '/api/HR/userSearch/'
 
-      if ($scope.form.searchTxt.length > 0) {
-        params.search = $scope.form.searchTxt
+      if ($scope.search.searchTxt!=null && $scope.search.searchTxt.length > 0) {
+        url = url+ '?search='+$scope.search.searchTxt
       }
-
       $http({
-        url: '/api/HR/userSearch/',
+        url: url,
         method: 'GET',
-        params: params
       }).then(function(response) {
         $scope.allUsers = response.data;
       })
@@ -334,9 +394,13 @@ $scope.description = false
 
 
     $scope.getChatthreads = function() {
+      url = '/api/PIM/chatThreads/'
+      if ($scope.search.searchTxt!=null && $scope.search.searchTxt.length > 0) {
+        url = url+ '?search='+$scope.search.searchTxt
+      }
       $http({
         method: 'GET',
-        url: '/api/PIM/chatThreads/'
+        url: url
       }).
       then(function(response) {
         $scope.chatthreads = response.data
@@ -350,6 +414,15 @@ $scope.description = false
 
     }
     $scope.getChatthreads()
+
+    $scope.searchAll = function() {
+      if ($scope.showUsers == 'chats') {
+          $scope.getChatthreads()
+      }
+      else{
+        $scope.getAllUsers();
+      }
+    }
 
 
   $scope.startnewChat = function(indx){
@@ -379,6 +452,9 @@ $scope.description = false
         title:''
       }
     }
+    $scope.search = {
+      searchTxt: ''
+    }
   }
   $scope.participants = []
   $scope.addtochatList = function(indx){
@@ -405,8 +481,17 @@ $scope.description = false
       // var fd = new FormData();
       if (filedata != null && filedata != emptyFile) {
         $scope.form.dp = filedata
-      }
+        $scope.reader = new FileReader();
+        var image1 =  document.getElementById("image1");
+        if (typeof filedata == 'string' && filedata.length > 0 ) {
+          image1.style.backgroundImage = "url("+filedata+")";
+        }
+        $scope.reader.onload = function(e) {
+            image1.style.backgroundImage = "url("+e.target.result+")";
+        }
 
+        $scope.reader.readAsDataURL(filedata);
+      }
   }
 
   $scope.createGroupChat = function(){
@@ -436,6 +521,11 @@ $scope.description = false
       $state.go('home.messenger.explore',{id:response.data.pk})
     })
   }
+
+
+
+
+
 
 
   });

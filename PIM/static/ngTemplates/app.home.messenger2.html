@@ -323,7 +323,7 @@
           <div class="contact-search" style="padding:1.35rem 1rem;background-color:#f6f6f6;">
             <div class="form-group" style="margin:0px;">
               <i class="fa fa-search " style="position:absolute;padding:11px;color: #777;font-size: 14px;"></i>
-              <input class="form-control searchInp" type="text" ng-enter="getUsers()" ng-model="form.searchTxt" placeholder="Search..." style="border:none;padding:1rem 4rem ; border-radius:20px;width:100%;">
+              <input class="form-control searchInp" type="text" ng-change="searchAll()" ng-model="search.searchTxt" placeholder="Search..." style="border:none;padding:1rem 4rem ; border-radius:20px;width:100%;">
             </div>
           </div>
         </div>
@@ -436,7 +436,7 @@
             </div>
             <div class="row"  style="margin-top:60px">
               <div class="col-md-offset-3 col-md-6">
-                <div  class="display_picture" style="background-image:url({{form.dp.length>0?form.dp:'/static/images/userIcon.png'}})">
+                <div  class="display_picture" style="background-image:url({{form.dp.length>0?form.dp:'/static/images/userIcon.png'}})" id="image1">
                   <!-- <img ng-src="{{user.dp}}"  onerror="this.src='/static/images/userIcon.png'" style="width:150px;height:150px;" class="img img-circle"> -->
                   <input type="file" class="file_upload" ng-model="form.dp" onchange="angular.element(this).scope().fileNameChanged(this.files)" />
                   <div class="highlight" >
@@ -522,8 +522,8 @@
   }
 
   .sent-text {
-    background-color: #1A233B;
-    color: white;
+    background-color: #cfe9ba;
+    color: black;
     padding: 1rem;
     font-size: 14px;
     font-weight: lighter;
@@ -562,7 +562,8 @@
   }
 
   .file-sent {
-    background-color: #1A233B;
+    background-color: #cfe9ba;
+    color:black!important
   }
 
   * {

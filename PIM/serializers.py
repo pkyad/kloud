@@ -171,14 +171,24 @@ class userSearchSerializer(serializers.ModelSerializer):
     def get_division(self, obj):
         return obj.designation.division.pk
 
-class chatMessageSerializer(serializers.ModelSerializer):
+
+class chatMessageLiteSerializer(serializers.ModelSerializer):
     user = userSearchSerializer(read_only=True,many=False)
     class Meta:
         model = ChatMessage
-        fields = ('pk' , 'thread' ,'uid', 'attachment' , 'created' , 'read' , 'user','message','attachmentType','sentByAgent','responseTime','logs','delivered','read','is_hidden','fileType','fileSize','fileName')
+        fields = ('pk' , 'user','message','fileType','fileSize','fileName')
+
+
+class chatMessageSerializer(serializers.ModelSerializer):
+    user = userSearchSerializer(read_only=True,many=False)
+    replyTo = chatMessageLiteSerializer(read_only=True,many=False)
+    class Meta:
+        model = ChatMessage
+        fields = ('pk' , 'thread' ,'uid', 'attachment' , 'created' , 'read' , 'user','message','attachmentType','sentByAgent','responseTime','logs','delivered','read','is_hidden','fileType','fileSize','fileName','replyTo')
     def create(self , validated_data):
         im = ChatMessage.objects.create(**validated_data)
         im.user = self.context['request'].user
+        im.save()
         try:
             im.attachment = self.context['request'].FILES['attachment']
         except:
@@ -203,8 +213,10 @@ class chatMessageSerializer(serializers.ModelSerializer):
         #     im.delete()
         #     raise ParseError(detail=None)
         # else:
-        if 'user' in self.context['request'].data:
-            im.thread = ChatThread.objects.get(pk=self.context['request'].data['user'])
+        if 'thread' in self.context['request'].data:
+            im.thread = ChatThread.objects.get(pk=self.context['request'].data['thread'])
+        if 'replyTo' in self.context['request'].data:
+            im.replyTo = ChatMessage.objects.get(pk=self.context['request'].data['replyTo'])
         im.save()
         return im
 

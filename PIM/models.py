@@ -151,6 +151,7 @@ class ChatMessage(models.Model):
     fileType = models.TextField(max_length = 10 , null=True)
     fileSize = models.TextField(max_length = 10 , null=True)
     fileName = models.TextField(max_length = 20 , null=True)
+    replyTo = models.ForeignKey("self" , null = True, related_name="children")
 
 def getCalendarAttachment(instance , filename ):
     return 'calendar/%s_%s_%s' % (str(time()).replace('.', '_'), instance.user.username, instance.originator.username, filename)
