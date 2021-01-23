@@ -265,6 +265,13 @@ $scope.description = false
   //     // })
   //   }
   // })
+  $scope.allFiles = []
+  $scope.fileNameChanged = function(file) {
+      // console.log("select file",$scope.data.image,file[0]);
+      var filedata = file[0]
+      console.log(filedata);
+      $scope.allFiles.push(filedata)
+    }
 
   $scope.fileNameChanged = function(file) {
       // console.log("select file",$scope.data.image,file[0]);
@@ -441,8 +448,17 @@ $scope.description = false
       // var fd = new FormData();
       if (filedata != null && filedata != emptyFile) {
         $scope.form.dp = filedata
-      }
+        $scope.reader = new FileReader();
+        var image1 =  document.getElementById("image1");
+        if (typeof filedata == 'string' && filedata.length > 0 ) {
+          image1.style.backgroundImage = "url("+filedata+")";
+        }
+        $scope.reader.onload = function(e) {
+            image1.style.backgroundImage = "url("+e.target.result+")";
+        }
 
+        $scope.reader.readAsDataURL(filedata);
+      }
   }
 
   $scope.createGroupChat = function(){
