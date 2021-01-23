@@ -146,8 +146,10 @@ class ChatThreadsViewSet(viewsets.ModelViewSet):
                 if threadObj[0].status != 'started':
                     raise ValidationError(detail={'PARAMS' : 'createCookie'})
             return threadObj
-
-        return ChatThread.objects.filter(participants =  self.request.user)
+        chatObj = ChatThread.objects.filter(participants =  self.request.user)
+        if 'search' in self.request.GET :
+            chatObj = chatObj.filter(Q(participants__first_name__icontains = self.request.GET['search']) | Q(participants__last_name__icontains = self.request.GET['search']) |  Q(title__icontains = self.request.GET['search']) ).distinct()
+        return chatObj
 
 class createChatThreadAPIView(APIView):
     permission_classes = (permissions.AllowAny ,)

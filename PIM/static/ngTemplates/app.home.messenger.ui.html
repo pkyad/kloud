@@ -44,6 +44,21 @@
    height:100%;
 }
 
+.reply_icon{
+  display:none
+}
+
+.reply_icon_rec{
+    display:none
+}
+
+.sent-text:hover .reply_icon{
+    display:block
+}
+
+.recived-text:hover .reply_icon_rec{
+    display:block
+}
 </style>
 <div class="col-md-9 col-sm-8 pull-right " style="padding:0px;">
   <div class="row" style=";margin:0px;">
@@ -72,15 +87,27 @@
           <!-- if only message is sent -->
 
           <div ng-if="me.pk == message.user.pk && message.attachment === null" class="m-top-5 m-bottom-5">
+
             <div class="" style="display:flex">
-              <p class="sent-text" style="margin-left: auto;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;">{{message.message}}</p>
+              <div class="sent-text" style="margin-left: auto;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;">
+                <span class="reply_icon">
+                <i class="fa fa-reply   pull-right"  aria-hidden="true" ng-click="replyTo($index)"></i><br>
+                </span>
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                  <span style="color:#7bbaf4">
+                     {{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/>
+                   </span>
+                  <span style="color:#676767">   {{message.replyTo.message}} </span>
+                 </div>
+                {{message.message}}
+               </div>
 
               <div style="padding: 0px;width: 40px;margin-left: auto;margin-top: auto;height: 40px;margin-bottom: 1%;margin-left: 2%;">
                 <img ng-src="{{u.profile.displayPicture}}" src="p/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
               </div>
             </div>
             <div style="display:flex;width:87%;" class=" margin-auto">
-              <p class="margin-l-auto">{{message.created | timeAgo}}</p>
+              <p class="margin-l-auto">{{message.created | timeAgo}} </p>
             </div>
           </div>
 
@@ -91,7 +118,19 @@
               <div style="padding: 0px;width: 40px;margin-top: auto;height: 40px;margin-bottom: 1%;margin-right: 2%;">
                 <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
               </div>
-              <p class="recived-text" style="margin-right: auto;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;">{{message.message}}</p>
+              <div class="recived-text" style="margin-right: auto;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;">
+                <span style="color:#7bbaf4">
+                  <i class="fa fa-reply reply_icon_rec pull-right"   ng-click="replyTo($index)"></i>
+                   {{message.user.first_name}} {{message.user.last_name}}  <br/>
+                 </span>
+                 <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#ededed">
+                   <span style="color:#7bbaf4">
+                      {{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/>
+                    </span>
+                   <span style="color:#676767">   {{message.replyTo.message}} </span>
+                  </div>
+               {{message.message}}
+             </div>
             </div>
             <div style="display:flex;width:87%" class=" margin-auto">
               <p class="margin-r-auto">{{message.created | timeAgo}}</p>
@@ -100,7 +139,7 @@
 
           <!-- if attached != null and message == null  is sent-->
 
-          <div ng-if="me.pk == message.message.user.pk && message.message === null && message.fileType === 'image'" class="  m-top-5 m-bottom-5 margin-l-auto">
+          <div ng-if="me.pk == message.user.pk && message.message === null && message.fileType === 'image'" class="  m-top-5 m-bottom-5 margin-l-auto">
             <div class="" style="display:flex">
               <div class="img-sent padding-2" style="margin-left:auto; width:300px;height:300px">
                 <img class=" " ng-src="{{message.attachment}}" alt="photo" width="289" height="289">
@@ -116,7 +155,7 @@
 
           <!-- if attached img  != null and message != null is sent -->
 
-          <div ng-if="me.pk == message.message.user.pk && message.attachment != null && message.fileType === 'image' &&message.message != null" class="  m-top-5 m-bottom-5 margin-l-auto">
+          <div ng-if="me.pk == message.user.pk && message.attachment != null && message.fileType === 'image' &&message.message != null" class="  m-top-5 m-bottom-5 margin-l-auto">
             <div class="">
               <div class="img-sent  padding-2" style="margin-left:auto; width:300px;height:300px;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;margin-right: 58px;border-radius: 6px 6px 0 0 !important;">
                 <img class=" " ng-src="{{message.attachment}}" alt="photo" width="289" height="289">
@@ -135,7 +174,7 @@
           </div>
           <!-- if attached != null and message == null  is recived-->
 
-          <div ng-if="me.pk != message.message.user.pk && message.attachment != null && message.message === null && message.fileType === 'image'" class="  m-top-5 m-bottom-5 margin-l-auto">
+          <div ng-if="me.pk != message.user.pk && message.attachment != null && message.message === null && message.fileType === 'image'" class="  m-top-5 m-bottom-5 margin-l-auto">
             <div class="" style="display:flex">
               <div class="img-recived padding-2" style="margin-left:auto; width:300px;height:300px">
                 <img class=" " ng-src="{{message.attachment}}" alt="photo" width="289" height="289">
@@ -151,7 +190,7 @@
 
           <!-- if attached img  != null and message != null is recived -->
 
-          <div ng-if="me.pk != message.message.user.pk && message.attachment != null && message.message != null && message.fileType === 'image'" class="  m-top-5 m-bottom-5 margin-l-auto ">
+          <div ng-if="me.pk != message.user.pk && message.attachment != null && message.message != null && message.fileType === 'image'" class="  m-top-5 m-bottom-5 margin-l-auto ">
             <div class="">
               <div class="img-recived  padding-2" style="margin-right:auto; width:300px;height:300px;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;margin-right: 58px;">
                 <img class=" " ng-src="{{message.attachment}}" alt="photo" width="289" height="289">
@@ -169,7 +208,7 @@
           </div>
           <!-- if file is sent and filetype is pdf -->
 
-          <div ng-if="me.pk === message.message.user.pk &&  message.fileType == 'pdf' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
+          <div ng-if="me.pk === message.user.pk &&  message.fileType == 'pdf' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
@@ -204,7 +243,7 @@
 
           <!-- if file is recived and filetype is pdf -->
 
-          <div ng-if="me.pk != message.originator &&  message.fileType == 'pdf' " class="file-card   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
+          <div ng-if="me.pk != message.user.pk &&  message.fileType == 'pdf' " class="file-card   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
             <div class="" style="display: flex;justify-content: space-between;">
               <div style="padding: 0px;width: 40px;margin-top: auto;height: 40px;margin-bottom: 1%;margin-right: -3%;">
                 <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
@@ -239,7 +278,7 @@
 
           <!-- if file is sent and filetype is doc -->
 
-          <div ng-if="me.pk === message.originator &&  message.fileType == 'word' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
+          <div ng-if="me.pk === message.user.pk &&  message.fileType == 'word' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
@@ -273,7 +312,7 @@
 
           <!-- if file is recived and filetype is doc -->
 
-          <div ng-if="me.pk != message.originator &&  message.fileType == 'word' " class="file-card   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
+          <div ng-if="me.pk != message.user.pk &&  message.fileType == 'word' " class="file-card   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
             <div class="" style="display: flex;justify-content: space-between;">
               <div style="padding: 0px;width: 40px;margin-top: auto;height: 40px;margin-bottom: 1%;margin-right: -3%;">
                 <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
@@ -306,7 +345,7 @@
 
           <!-- if file is sent and filetype is ppt -->
 
-          <div ng-if="me.pk === message.originator &&  message.fileType == 'ppt' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
+          <div ng-if="me.pk === message.user.pk &&  message.fileType == 'ppt' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
@@ -341,7 +380,7 @@
 
           <!-- if file is recived and filetype is ppt -->
 
-          <div ng-if="me.pk != message.originator &&  message.fileType == 'ppt' " class="file-card   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
+          <div ng-if="me.pk != message.user.pk &&  message.fileType == 'ppt' " class="file-card   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
             <div class="" style="display: flex;justify-content: space-between;">
               <div style="padding: 0px;width: 40px;margin-top: auto;height: 40px;margin-bottom: 1%;margin-right: -3%;">
                 <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
@@ -374,7 +413,7 @@
 
           <!-- if file is sent and filetype is xl -->
 
-          <div ng-if="me.pk === message.originator &&  message.fileType == 'xl' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
+          <div ng-if="me.pk === message.user.pk &&  message.fileType == 'xl' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
@@ -408,7 +447,7 @@
 
           <!-- if file is recived and filetype is xl -->
 
-          <div ng-if="me.pk != message.originator &&  message.fileType == 'xl' " class="file-card   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
+          <div ng-if="me.pk != message.user.pk &&  message.fileType == 'xl' " class="file-card   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
             <div class="" style="display: flex;justify-content: space-between;">
               <div style="padding: 0px;width: 40px;margin-top: auto;height: 40px;margin-bottom: 1%;margin-right: -3%;">
                 <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
@@ -443,6 +482,20 @@
 
 
 
+        </div>
+      </div>
+      <div class="col-md-12 col-sm-12  " ng-if="replyMsgSelected.replyMsg" style="position:absolute;bottom: 55px;background-color: #ededed;">
+        <div class="row"  style="padding:10px">
+          <div class="col-md-offset-1 col-md-10">
+            <div style="min-height:40px;border-left:5px solid #7bbaf4;padding:10px;background:#e4e4e4;border-radius:10px">
+              <span ng-if="replyMsgSelected.replyMsg.user.pk !=me.pk" style="color:#7bbaf4"> {{replyMsgSelected.replyMsg.message}} <br/> </span>
+              <span ng-if="replyMsgSelected.replyMsg.user.pk ==me.pk" style="color:#7bbaf4"> You  <br/></span>
+               {{replyMsgSelected.replyMsg.message}}
+             </div>
+          </div>
+          <div class="col-md-1 text-center">
+            <i class="fa fa-close fa-lg" ng-click="removeReply()"></i>
+          </div>
         </div>
       </div>
       <div class="col-md-12 col-sm-12 chat-input ">

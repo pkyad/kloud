@@ -39,6 +39,9 @@
       if ($scope.form.file != emptyFile) {
         toSend.append('attachment', $scope.form.file)
       }
+      if ($scope.replyMsgSelected.replyMsg!=null && typeof $scope.replyMsgSelected.replyMsg=='object') {
+        toSend.append('replyTo', $scope.replyMsgSelected.replyMsg.pk)
+      }
 
       $http({
         method: 'POST',
@@ -58,6 +61,9 @@
         // connection.session.subscribe('service.chat.' + $scope.user.username ,  onevent);
         // connection.session.publish('service.chat.' + $scope.user.username, ['M', response.data]);
       })
+      $scope.replyMsgSelected = {
+        'replyMsg' : ''
+      }
 
     }
 
@@ -282,6 +288,20 @@ $scope.description = false
       })
     }
 
+    $scope.replyMsgSelected = {
+      replyMsg:''
+    }
+
+
+    $scope.replyTo = function(indx){
+      $scope.replyMsgSelected.replyMsg = $scope.messages[indx]
+    }
+
+    $scope.removeReply = function(){
+      $scope.replyMsgSelected = {
+        replyMsg:''
+      }
+    }
 
   });
 
@@ -289,9 +309,11 @@ $scope.description = false
   $scope.showUsers = 'chats'
   $scope.me = $users.get('mySelf');
 
-    $scope.form = {
+    $scope.search = {
       searchTxt: ''
     }
+
+
 
     // $scope.getUsers = function() {
     //   console.log("called");
@@ -314,16 +336,14 @@ $scope.description = false
 
 
     $scope.getAllUsers = function() {
-      var params = {}
+        url = '/api/HR/userSearch/'
 
-      if ($scope.form.searchTxt.length > 0) {
-        params.search = $scope.form.searchTxt
+      if ($scope.search.searchTxt!=null && $scope.search.searchTxt.length > 0) {
+        url = url+ '?search='+$scope.search.searchTxt
       }
-
       $http({
-        url: '/api/HR/userSearch/',
+        url: url,
         method: 'GET',
-        params: params
       }).then(function(response) {
         $scope.allUsers = response.data;
       })
@@ -334,9 +354,13 @@ $scope.description = false
 
 
     $scope.getChatthreads = function() {
+      url = '/api/PIM/chatThreads/'
+      if ($scope.search.searchTxt!=null && $scope.search.searchTxt.length > 0) {
+        url = url+ '?search='+$scope.search.searchTxt
+      }
       $http({
         method: 'GET',
-        url: '/api/PIM/chatThreads/'
+        url: url
       }).
       then(function(response) {
         $scope.chatthreads = response.data
@@ -350,6 +374,15 @@ $scope.description = false
 
     }
     $scope.getChatthreads()
+
+    $scope.searchAll = function() {
+      if ($scope.showUsers == 'chats') {
+          $scope.getChatthreads()
+      }
+      else{
+        $scope.getAllUsers();
+      }
+    }
 
 
   $scope.startnewChat = function(indx){
@@ -378,6 +411,9 @@ $scope.description = false
         dp:emptyFile,
         title:''
       }
+    }
+    $scope.search = {
+      searchTxt: ''
     }
   }
   $scope.participants = []
@@ -436,6 +472,11 @@ $scope.description = false
       $state.go('home.messenger.explore',{id:response.data.pk})
     })
   }
+
+
+
+
+
 
 
   });

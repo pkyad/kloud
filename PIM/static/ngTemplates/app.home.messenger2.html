@@ -323,7 +323,7 @@
           <div class="contact-search" style="padding:1.35rem 1rem;background-color:#f6f6f6;">
             <div class="form-group" style="margin:0px;">
               <i class="fa fa-search " style="position:absolute;padding:11px;color: #777;font-size: 14px;"></i>
-              <input class="form-control searchInp" type="text" ng-enter="getUsers()" ng-model="form.searchTxt" placeholder="Search..." style="border:none;padding:1rem 4rem ; border-radius:20px;width:100%;">
+              <input class="form-control searchInp" type="text" ng-change="searchAll()" ng-model="search.searchTxt" placeholder="Search..." style="border:none;padding:1rem 4rem ; border-radius:20px;width:100%;">
             </div>
           </div>
         </div>
@@ -522,8 +522,8 @@
   }
 
   .sent-text {
-    background-color: #1A233B;
-    color: white;
+    background-color: #cfe9ba;
+    color: black;
     padding: 1rem;
     font-size: 14px;
     font-weight: lighter;
