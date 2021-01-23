@@ -33,8 +33,8 @@
           <div class="col-md-12"  >
             <div class="row" ng-repeat="form in documents track by $index" ng-click="selectedView($index)" style="background:{{inView == $index?'white':''}};" >
               <div class="col-md-12 text-center">
-                <h3 ng-if="!form.isInvoice"> Sales Order</h3>
-                <h3 ng-if="form.isInvoice"> Invoice #{{$index}}</h3>
+                <h3 class="font24" ng-if="!form.isInvoice"> Sales Order</h3>
+                <h3 class="font24" ng-if="form.isInvoice"> Invoice #{{$index}}</h3>
               </div>
             </div>
           </div>
@@ -83,7 +83,7 @@
         </div>
       </div> -->
     </div>
-      <div class="col-md-10" style="padding:70px;position:absolute;right:0px;height:100vh;overflow:auto;">
+      <div class="col-md-10 invoiceDoc" style="">
         <div class="container-fluid" style="margin-bottom:20px" ng-if="!form.isInvoice">
           <div class="row" style="background:#ffffff;padding:30px;margin-top:15px">
             <div class="col-md-12">
@@ -166,54 +166,57 @@
             </div>
           </div>
           <div class="row">
-            <div class="container-fluid">
-              <table class="table">
-                <thead style="background:{{settings.color}};color:white;">
-                  <tr>
-                    <th class="borderLessHead" width="10%">S.No</th>
-                    <th class="borderLessHead" width="35%">Product Name</th>
-                    <th class="borderLessHead" width="8%">Price</th>
-                    <th class="borderLessHead" width="10%">HSN/SAC</th>
-                    <th class="borderLessHead" width="10%">Tax%</th>
-                    <th class="borderLessHead" width="7%">Quantity</th>
-                    <th class="borderLessHead" width="7%">Tax</th>
-                    <th class="borderLessHead" width="12%">Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr ng-repeat="p in form.invoiceqty"  style="cursor:pointer">
-                    <td>
-                      <span>{{$index + 1}}</span>
-                      <span ng-if="form.isInvoice&&form.indx==inView" ng-click="removeProduct($index)" style="cursor:pointer;" class="text-danger text-center">
-                        <br> <br> Remove <i class="fa fa-trash"></i>
-                      </span>
-                    </td>
-                    <td><h4>{{p.product}}</h4></td>
-                    <td><h3>{{p.price}}</h3></td>
-                    <td><span ng-if="p.hsn.pk">{{p.hsn.code}}</span> <span ng-if="!p.hsn.pk">{{p.hsn}}</span></td>
-                    <td>{{p.taxPer}}</td>
-                    <td > <span ng-if="!form.isInvoice||form.indx!=inView"> {{p.qty}} </span> <input ng-if="form.isInvoice&&form.indx==inView" style="margin-top:0px;" flexible-input type="text" ng-model="p.qty" ng-change="calc()"> </td>
-                    <td>{{p.tax}}</td>
-                    <td><h3>{{p.total|number}}</h3></td>
-                  </tr>
-                  <tr  ng-if="form.isInvoice&&form.indx==inView">
-                    <td > </td>
-                    <td>
-                      <input style="margin-top:0px;" flexible-input type="text" ng-model="form.productForm.product" uib-typeahead="p as p.product for p in productSearch($viewValue)" >
-                    </td>
+            <div >
+              <div class="table-responsive" style="scrollbar-width:none;">
+                <table class="table">
+                  <thead style="background:{{settings.color}};color:white;">
+                    <tr>
+                      <th class="borderLessHead" width="10%">S.No</th>
+                      <th class="borderLessHead" width="35%">Product Name</th>
+                      <th class="borderLessHead" width="8%">Price</th>
+                      <th class="borderLessHead" width="10%">HSN/SAC</th>
+                      <th class="borderLessHead" width="10%">Tax%</th>
+                      <th class="borderLessHead" width="7%">Quantity</th>
+                      <th class="borderLessHead" width="7%">Tax</th>
+                      <th class="borderLessHead" width="12%">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="p in form.invoiceqty"  style="cursor:pointer">
+                      <td>
+                        <span>{{$index + 1}}</span>
+                        <span ng-if="form.isInvoice&&form.indx==inView" ng-click="removeProduct($index)" style="cursor:pointer;" class="text-danger text-center">
+                          <br> <br> Remove <i class="fa fa-trash"></i>
+                        </span>
+                      </td>
+                      <td><h4>{{p.product}}</h4></td>
+                      <td><h3>{{p.price}}</h3></td>
+                      <td><span ng-if="p.hsn.pk">{{p.hsn.code}}</span> <span ng-if="!p.hsn.pk">{{p.hsn}}</span></td>
+                      <td>{{p.taxPer}}</td>
+                      <td > <span ng-if="!form.isInvoice||form.indx!=inView"> {{p.qty}} </span> <input ng-if="form.isInvoice&&form.indx==inView" style="margin-top:0px;" flexible-input type="text" ng-model="p.qty" ng-change="calc()"> </td>
+                      <td>{{p.tax}}</td>
+                      <td><h3>{{p.total|number}}</h3></td>
+                    </tr>
+                    <tr  ng-if="form.isInvoice&&form.indx==inView">
+                      <td > </td>
+                      <td>
+                        <input style="margin-top:0px;" flexible-input type="text" ng-model="form.productForm.product" uib-typeahead="p as p.product for p in productSearch($viewValue)" >
+                      </td>
                       <td> <input style="margin-top:0px;" flexible-input type="text" ng-model="form.productForm.price"  > </td>
                       <td >
                         <input flexible-input style="margin-top:0px;"  type="text"  ng-model="form.productForm.hsn" uib-typeahead="meta as meta.code for meta in searchTaxCode($viewValue)" >
                       </td>
-                    <td>{{form.productForm.hsn.taxRate}} </td>
-                    <td> <input style="margin-top:0px;"  class="noPadd" flexible-input type="text" ng-model="form.productForm.qty"  ng-enter="addProduct()" > </td>
-                    <td>{{form.productForm.tax}}</td>
-                    <td >
-                      <span >{{form.productForm.total | number}}</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                      <td>{{form.productForm.hsn.taxRate}} </td>
+                      <td> <input style="margin-top:0px;"  class="noPadd" flexible-input type="text" ng-model="form.productForm.qty"  ng-enter="addProduct()" > </td>
+                      <td>{{form.productForm.tax}}</td>
+                      <td >
+                        <span >{{form.productForm.total | number}}</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
               <div class="row" style="margin:0px;" ng-if="form.isInvoice">
                 <div class="col-md-3 pull-right " style="font-size:17px;padding:5px;padding-right:20px;">
                   Paid (INR) : {{form.paidAmount}}

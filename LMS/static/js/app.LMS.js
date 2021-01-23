@@ -987,7 +987,8 @@ app.controller("businessManagement.LMS", function($scope, $state, $users, $state
     query: ''
   }
   $scope.fetchData = function() {
-    let url = '/api/LMS/course/?limit=' + $scope.limit + '&offset=' + $scope.offset + '&state=' + $scope.getState.state
+    let url = '/api/LMS/course/?state=' + $scope.getState.state
+    // let url = '/api/LMS/course/?limit=' + $scope.limit + '&offset=' + $scope.offset + '&state=' + $scope.getState.state
     if ($scope.search.query.length > 0) {
       url = url + '&search=' + $scope.search.query
     }
@@ -996,7 +997,7 @@ app.controller("businessManagement.LMS", function($scope, $state, $users, $state
       url: url
     }).
     then(function(response) {
-      $scope.allcourseData = response.data.results
+      $scope.allcourseData = response.data
       $scope.count = response.data.count
     })
   }
