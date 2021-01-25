@@ -1077,7 +1077,6 @@ body {
   padding-top: 20px;
   padding-bottom: 20px;
 } */
-
 .nav-horizontal {
   list-style: none;
   position: relative;
@@ -1137,15 +1136,16 @@ body {
   border-left: 6px solid #F7F7F7;
 }
 
-@keyframes floatText{
+@keyframes floatText {
   from {
-    left: -100%;
+    left: 0%;
   }
 
   to {
     left: 100%;
   }
 }
+
 .nav-sidebar>li>a:hover, .nav-sidebar>li>a:focus, .nav-sidebar>.active>a, .sidebarList>li>a:focus, .sidebarList>li>a:active, .active>.subMenu {
   color: var(--headerNavbarHighlight);
   background-color: #fff;
@@ -1153,8 +1153,6 @@ body {
   font-weight: bold;
   /* padding:20px; */
 }
-
-
 
 .childActive {
   background-color: #eff0f2 !important;
@@ -1775,7 +1773,7 @@ body {
 
 .logo {
   padding: 40px;
-  margin:0px;
+  margin: 0px;
   height: 11vh;
   margin-bottom: 20px;
 }
@@ -1783,7 +1781,6 @@ body {
 /* .displayName {
   font-size: 14px;
 } */
-
 .redCircle {
   position: absolute;
   top: 15px;
@@ -1800,88 +1797,515 @@ body {
   padding: 0px 7px;
 }
 
-.font8{
+.font8 {
   font-size: 8px;
 }
-.font9{
+
+.font9 {
   font-size: 9px;
 }
-.font10{
+
+.font10 {
   font-size: 10px;
 }
-.font11{
+
+.font11 {
   font-size: 11px;
 }
-.font12{
+
+.font12 {
   font-size: 12px;
 }
-.font13{
+
+.font13 {
   font-size: 13px;
 }
-.font14{
+
+.font14 {
   font-size: 14px;
 }
-.font15{
+
+.font15 {
   font-size: 15px;
 }
-.font16{
+
+.font16 {
   font-size: 16px;
 }
-.font17{
+
+.font17 {
   font-size: 17px;
 }
-.font18{
+
+.font18 {
   font-size: 18px;
 }
-.font20{
+
+.font20 {
   font-size: 20px;
 }
-.font21{
+
+.font21 {
   font-size: 21px;
 }
-.font22{
+
+.font22 {
   font-size: 22px;
 }
-.font23{
+
+.font23 {
   font-size: 23px;
 }
-.font24{
+
+.font24 {
   font-size: 24px;
 }
-.font25{
+
+.font25 {
   font-size: 25px;
 }
-.font30{
+
+.font30 {
   font-size: 30px;
 }
-.invoiceDoc{
-  padding:70px;position:absolute;right:0px;height:100vh;overflow:auto;
+
+.invoiceDoc {
+  padding: 70px;
+  position: absolute;
+  right: 0px;
+  height: 100vh;
+  overflow: auto;
 }
 
-@media screen and (min-width: 1279px) and (max-width: 1365px)  and (-webkit-device-pixel-ratio: 1){
-  .font9{
+.appImg {
+  height: 57px;
+  filter: drop-shadow(5px 5px 5px #c8c4c4);
+  max-width: 100px;
+  margin-bottom: 5px;
+}
+
+.course_header {
+  margin: 0px;
+  margin-left: 30px !important;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.courses_sidebar {
+  margin: 0px;
+  margin-bottom: 15px;
+  background: #F2F3F7;
+  height: 100%;
+  position: fixed;
+  z-index: 1
+}
+
+.students {
+  margin: 0px;
+  position: absolute;
+  width: 90%;
+  bottom: 10px;
+}
+
+.courses_gradientBtn {
+  background-image: linear-gradient(to right, #f08621 0%, #ef1f22 25%, #d41e50 50%, #86398e 75%,
+      #0351a4 100%);
+  color: white !important;
+  height: 45px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: 500;
+  color:    #000;
+  background-color:    #fff;
+  border: none;
+  border-radius: 45px !important;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+
+}
+.courseDetail_padding{
+  margin:30px 0px;
+}
+.course_mainDiv{
+  margin-top:30px;margin-left:15px;
+}
+.courses_gradientBtn:active{
+  background-image: linear-gradient(to right, #f08621 0%, #ef1f22 25%, #d41e50 50%, #86398e 75%, #0351a4 100%);
+  box-shadow: none;
+}
+
+.addNewCard:hover {
+  color: white;
+  background: var(--themeMain);
+}
+
+.change-icon>.fa+.fa,
+.change-icon:hover>.fa {
+  display: none;
+}
+
+.change-icon:hover>.fa+.fa {
+  display: inherit;
+}
+
+.not-selected .fa-play-circle {
+  color: #7FFFD4
+}
+
+.not-selected .fa-video-camera {
+  color: #708090
+}
+
+.ul:hover {
+  background-color: #ddd;
+}
+
+video {
+  width: 100%;
+  height: auto;
+}
+
+.checked {
+  color: orange;
+}
+
+.team .teamdetails-link .teamdetails-hover {
+  position: absolute;
+  margin-left: -16px;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  background: var(--themeMain);
+  -webkit-transition: all ease .5s;
+  -moz-transition: all ease .5s;
+  transition: all ease .5s;
+}
+
+.service1 .team .teamdetails-link .teamdetails-hover:hover {
+  opacity: 0;
+}
+
+.service1 .team .teamdetails-link .teamdetails-hover .teamdetails-hover-content i {
+  margin-top: 115px;
+}
+
+.service1 .team .teamdetails-link .teamdetails-hover:hover {
+  opacity: 1;
+}
+
+.searchIcon {
+  position: absolute;
+  padding: 10px;
+  right: 20px;
+  font-size: 20px;
+}
+
+.courseColor {
+  color: #B6B6B6
+}
+
+.searchInput {
+  background-color: #F0F3FF;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+}
+
+.headStrip {
+  background-color: #E5E5E5;
+  text-align: left;
+  padding: 15px;
+  margin: 0px;
+  height:60px;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.headStrip th {
+  margin: 0px;
+  color: #2F2F2F;
+  font-size: 18px;
+  line-height: 25.78px;
+  font-weight: 700;
+  border: none;
+}
+
+.openLabel {
+  background-color: #00AD11;
+  font-size: 16px;
+  border-radius: 30px;
+  padding: 3px 10px;
+  font-weight: normal;
+}
+
+.adminLabel {
+  background-color: #337AB7;
+  font-size: 16px;
+  border-radius: 30px;
+  padding: 3px 10px;
+  font-weight: normal;
+}
+
+.invitaionLabel {
+  background-color: #15EBFD;
+  font-size: 16px;
+  border-radius: 30px;
+  padding: 3px 10px;
+  font-weight: normal;
+}
+
+.requestLabel {
+  background-color: #5F30C4;
+  font-size: 16px;
+  border-radius: 30px;
+  padding: 3px 10px;
+  font-weight: normal;
+}
+
+.detailStrip {
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.05);
+  /* border-radius: 16px; */
+  margin: 5px 0px;
+  margin-left:30px;
+  padding: 10px;
+}
+
+.detailStrip td {
+  font-size: 16px;
+  vertical-align: middle !important;
+  background-color: #ffffff;
+  padding: 17px !important;
+}
+
+/* .table {
+  border-collapse: separate;
+  border-spacing: 0px 5px;
+} */
+.toggledBtn {
+  background-color: #F0F3FF;
+  height: 50px;
+  border-radius: 30px;
+}
+
+.courseBtn {
+  height: 50px;
+  border: 1px solid #00AD11;
+  border-radius: 50px !important;
+  color: white !important;
+  background-color: #00AD11 !important;
+  outline: none;
+  box-shadow: none;
+  font-weight: 700
+}
+
+.courseBtnText {
+  outline: none;
+  color: #231654 !important;
+  background-color: transparent !important;
+  border: none;
+  box-shadow: none !important;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.oldcourseBtn {
+  font-weight: 700;
+  height: 50px;
+  border: none;
+  border-radius: 50px !important;
+  color: white !important;
+  background-color: #231654 !important;
+  outline: none;
+  box-shadow: none;
+}
+
+.oldcourseBtnText {
+  font-size: 11px;
+  /* font-weight: 700; */
+  outline: none;
+  color: #231654 !important;
+  background-color: transparent !important;
+  border: none;
+  box-shadow: none !important;
+  text-transform: uppercase;
+}
+
+.tableNew th {
+  padding: 17px !important;
+}
+
+.tableNew {
+  border-radius: 1em;
+  overflow: hidden;
+}
+
+.courseInput {
+  border: none;
+  height: 40px;
+  border-radius: 10px !important;
+}
+
+.dropIcon {
+  position: absolute;
+  right: 0;
+  padding: 35px 25px;
+}
+
+.blockquote {
+  background-color:
+    #eee;
+  border-radius: 15px;
+  margin: 0 0 1rem 0;
+  box-sizing: border-box;
+  color:
+    #080738;
+}
+
+.newBook {
+  background: url('/static/images/icons8-plus-math-96.png') no-repeat center;
+  background-size: contain;
+  height: 60px;
+}
+
+.bookImg {
+  background: url('/static/images/exImg.png') no-repeat center;
+  background-size: contain;
+  height: 140px;
+}
+
+.bookCard {
+  background-image: linear-gradient(to bottom, #fff 65%, #494949 10%);
+  /* box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.15); */
+  box-shadow: -1px 4px 23px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 25px;
+  height: 270px;
+  padding: 20px 0px;
+}
+
+.addBook {
+  background-image: linear-gradient(to bottom, #fff 65%, #3786D1 10%);
+  box-shadow: -1px 4px 23px rgba(0, 0, 0, 0.1) !important;
+  /* box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.15); */
+  border-radius: 25px;
+  height: 270px;
+  padding: 40px;
+}
+
+.bookInput {
+  background-color: #F0F3FF;
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+}
+
+.btn1 {
+  background-color: #00880C !important;
+  border: none;
+  color: white;
+  padding: 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.file_upload {
+  opacity: 0.0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+  z-index:1
+}
+
+.selectBox {
+  background-color: #f1f1f1;
+  padding: 10px 15px;
+  height: 100px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.questionInp {
+  height: 40px;
+  border-radius: 10px;
+}
+
+.courses_book{
+  padding:100px 0px;color:white;
+}
+.courses_booktext{
+  margin:0px;padding:20px;color:white;
+}
+.book_title{
+  height:40px;
+}
+.contacts_details{
+  margin-top:50px;overflow:hidden;position:relative;width:100%;padding-left:70px;
+}
+.mapPreview{
+  display:block; width:auto;
+  position:relative;min-height:220px;border-radius:20px;background:white;padding:0px;overflow:hidden;padding-bottom:30px;margin-left:70px;transition: all 0.3s ease-in-out;margin-top:30px;
+}
+.cotacts_explorediv1{
+  min-height:100vh;position:relative;padding:40px;background:#FAFAFA;
+}
+.contacts_creation{
+  padding:300px;background:#ECECEC;padding-top:30px;
+}
+@media screen and (min-width: 1279px) and (max-width: 1365px) and (-webkit-device-pixel-ratio: 1) {
+  .addBook{
+    height:180px;padding:35px;
+  }
+  .contacts_creation{
+    padding:150px;
+  }
+  .mapPreview{
+    margin-left:0px;
+  }
+  .cotacts_explorediv1{
+    padding:40px 25px;
+  }
+  .courses_book{
+    padding:30px 0px;
+  }
+  .bookCard{
+    height:180px;
+  }
+  .bookImg{
+    height:90px;
+  }
+  .font9 {
     font-size: 9px;
   }
-  .font24{
-    font-size: 20px;
+  .course_mainDiv{
+    margin:15px 0px;
   }
-  .invoiceDoc{
-    padding:20px;overflow:auto;
-  }
-  .nav-sidebar .active .displayName{
-    white-space: nowrap;
-    position:absolute;
-    width:100%;
-    animation: floatText 5s infinite normal ease-in-out;
 
-  }
-  .nav-sidebar > li > a:hover .displayName{
-    white-space: nowrap;
-    position:absolute;
-    width:100%;
-    animation: floatText 5s infinite normal ease-in-out;
 
+
+  .course_header {
+    margin-left: 15px;
   }
+
+  .invoiceDoc {
+    padding: 20px;
+    overflow: auto;
+  }
+  .courseDetail_padding{
+    margin:25px 0px;
+  }
+  .nav-sidebar .active .displayName {
+    white-space: nowrap;
+    position: absolute;
+    width: 100%;
+    animation: floatText 10s infinite normal ease-in-out;
+  }
+
+
 
   .logo {
     height: inherit;
@@ -1921,28 +2345,183 @@ body {
   .redCircle {
     top: 0px
   }
+  .students {
+  width: 88%;
+}
+  .courses_booktext{
+    padding:5px 0px;
+    padding-right:15px;
+  }
+  .font18{
+    font-size:16px;
+  }
+  .book_title{
+    margin-bottom:5px;
+    height:30px;
+  }
+  .courses_padding{
+    padding:0px 5px
+  }
+  .font30 {
+    font-size: 16px;
+  }
+  .appImg {
+    height: 40px;
+  }
+  .course_header {
+    margin-left: 15px !important;
+  }
+
+  .detailStrip {
+    margin-left: 15px !important;
+  }
+  .padded>li>a {
+    height: 90px;
+  }
+  .font20{
+    font-size:14px;
+  }
+  .courseBtnText{
+    font-size:9px !important;
+  }
+  .oldcourseBtnText{
+    font-size:9px !important;
+
+  }
+  .courses_gradientBtn{
+    font-size:9px;
+
+  }
+  .font24{
+    font-size:16px;
+  }
+  .courseColor{
+    line-height: 4
+  }
+  .font18{
+    font-size: 14px;
+  }
+  .selectBox{
+    height:125px;
+  }
+  .gradientBtnBlue{
+    letter-spacing: initial
+  }
+  .contacts_details{
+    margin-top: 15px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    padding-left: 0px;
+  }
 }
 
 @media screen and (min-width: 1366px) and (max-width:1439px) and (-webkit-device-pixel-ratio: 1) {
-  .invoiceDoc{
-    padding:20px;overflow:auto;
+  .invoiceDoc {
+    padding: 20px;
+    overflow: auto;
   }
-  .nav-sidebar .active .displayName{
-    white-space: nowrap;
-    position:absolute;
-    width:100%;
-    animation: floatText 5s infinite normal ease-in-out;
+  .cotacts_explorediv1{
+    padding:40px 25px;
+  }
+  .contacts_creation{
+    padding:150px;
+  }
+  .mapPreview{
+    margin-left:0px;
+  }
+  .contacts_details{
+    margin-top: 15px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    padding-left: 0px;
+  }
+  .selectBox{
+    height:125px;
+  }
+  .course_mainDiv{
+    margin:15px 0px;
+  }
+  .students {
+	width: 88%;
+}
+.contacts_creation{
+  padding:50px 150px;
+}
+.courses_booktext{
+  padding:15px 0px;
+  padding-right:15px;
+}
+.font18{
+  font-size:16px;
+}
+.book_title{
+  margin-bottom:5px;
+}
+.courses_padding{
+  padding:0px 5px
+}
+.font30 {
+  font-size: 16px;
+}
+.addBook{
+  height:200px;
+}
+.courses_book{
+  padding:40px 0px;
+}
+.bookCard{
+  height:200px;
+}
+.bookImg{
+  height:90px;
+}
+.font24{
+  font-size:16px;
+}
+.courseBtnText{
+  font-size: 10px
+}
+.courseColor{
+  line-height: 4
+}
+  .courses_padding{
+    padding:0px 10px
+  }
+  .font30 {
+    font-size: 20px;
+  }
 
+  .nav>li>a {
+    padding: 10px;
   }
-  .nav-sidebar > li > a:hover .displayName{
-    white-space: nowrap;
-    position:absolute;
-    width:100%;
-    animation: floatText 5s infinite normal ease-in-out;
 
+  .nav-sidebar .active .displayName {
+    white-space: nowrap;
+    position: absolute;
+    width: 100%;
+    animation: floatText 10s infinite normal ease-in-out;
   }
+
+  .appImg {
+    height: 50px;
+  }
+
   .padded>li>a {
-    padding: 15px;
+    height: 90px;
+  }
+
+  .font20 {
+    font-size: 15px;
+  }
+
+  .course_header {
+    margin-left: 15px !important;
+  }
+
+  .detailStrip {
+    margin-left: 15px !important;
   }
 
   .font14 {
@@ -1974,40 +2553,122 @@ body {
     height: inherit;
     margin-bottom: 0px;
   }
+  .courses_gradientBtn{
+    font-size:10px;
+  }
+  .courseBtnText{
+    font-size:10px !important;
+  }
+  .oldcourseBtnText{
+    font-size:10px !important;
+
+  }
 }
 
-@media screen and (min-width: 1440px) and (max-width:1620px) and  (-webkit-device-pixel-ratio: 1) {
-  .invoiceDoc{
-    padding:20px;overflow:auto;
+@media screen and (min-width: 1440px) and (max-width:1620px) and (-webkit-device-pixel-ratio: 1) {
+  .contacts_creation{
+    padding:150px;
   }
-  .nav-sidebar .active .displayName{
-    white-space: nowrap;
-    position:absolute;
-    width:100%;
-    animation: floatText 5s infinite normal ease-in-out;
+  .mapPreview{
+    margin-left:0px;
+  }
+  .contacts_creation{
+    padding:150px;
+  }
+  .courses_booktext{
+    padding:15px 0px;
+    padding-right:15px;
+  }
+  .font18{
+    font-size:16px;
+  }
+  .book_title{
+    margin-bottom:5px;
+  }
+  .courses_padding{
+    padding:0px 5px
+  }
+  .font30 {
+    font-size: 16px;
+  }
+  .addBook{
+    height:200px;
+  }
+  .courses_book{
+    padding:40px 0px;
+  }
+  .bookCard{
+    height:200px;
+  }
+  .bookImg{
+    height:90px;
+  }
+  .invoiceDoc {
+    padding: 20px;
+    overflow: auto;
+  }
+  .selectBox{
+    height:125px;
+  }
+  .courseBtnText{
+    font-size:10px !important;
+  }
+  .oldcourseBtnText{
+    font-size:10px !important;
 
   }
-  .nav-sidebar > li > a:hover .displayName{
-    white-space: nowrap;
-    position:absolute;
-    width:100%;
-    animation: floatText 5s infinite normal ease-in-out;
-
+  .courseColor{
+    line-height:4
   }
+  .course_mainDiv{
+    margin:15px;
+  }
+  .courses_padding{
+    padding:0px 10px
+  }
+  .font24 {
+    font-size: 17px;
+  }
+
+  .font30 {
+    font-size: 20px;
+  }
+
+  .students {
+    width: 88%
+  }
+
+  .nav-sidebar .active .displayName {
+    white-space: nowrap;
+    position: absolute;
+    width: 100%;
+    animation: floatText 10s infinite normal ease-in-out;
+  }
+
+  .font20 {
+    font-size: 16px;
+  }
+
   .logo {
     padding: 20px;
     height: inherit;
     margin-bottom: 0px;
   }
-  .font14{
-    font-size:11px;
+
+  .font14 {
+    font-size: 11px;
   }
+
   .redCircle {
     top: 0px
   }
 
   .padded>li>a {
-    padding: 10px;
+    height: 90px;
+  }
+
+  .appImg {
+    height: 50px
   }
 
   .sideMenuView {
@@ -2024,5 +2685,15 @@ body {
 
   .userImg {
     margin: -25px 0px;
+  }
+  .courses_gradientBtn{
+    font-size:10px;
+  }
+  .contacts_details{
+    margin-top: 15px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    padding-left: 0px;
   }
 }

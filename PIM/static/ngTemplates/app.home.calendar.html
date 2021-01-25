@@ -46,16 +46,13 @@
 <div class="" style="position:relative;">
 
   <div class="col-md-6" style="height:100vh;background:linear-gradient(135deg, #F5515F 0%,#A1051D 100%);;padding:20px;">
-    <!-- <generic-Calendar date="date" day-Items="data.items" item-Templates="{{templates}}" day-Clicked="showDay" item-Clicked="showPerticular"></generic-Calendar> -->
+
 
     <div class="col-md-3" style="padding-top:150px;">
-      <!-- <img onclick="window.history.back();" src="/static/images/icons8-left-24.png " style="width: 35px;" alt=""> -->
       <h1 style="color:white;margin-bottom:100px;">{{date | date:'yyyy'}}</h1>
 
-      <h3 ng-click="" style="color:#FF9A91" ng-repeat="m in allMonths">{{m}}</h3>
-      <!-- <h3 style="color:#FF9A91">July</h3>
-      <h1 style="color:white">August</h1>
-      <h3 style="color:#FF9A91">September</h3> -->
+      <h3  style="color:#FF9A91;"  ng-repeat="m in allMonths track by $index" ng-click="showMonthwise($index,date)">{{m}}</h3>
+
 
 
     </div>
@@ -64,11 +61,31 @@
         <h1>
           {{date | date : 'dd MMMM'}}
         </h1>
-        <h3>{{date | date :'EEEE'}}</h3>
+        <h3 >{{date | date :'EEEE'}}</h3>
       </div>
 
-
-        <div uib-datepicker ng-model="date" ng-click="fetchCalenderEvents()" show-weeks="false" class="pull-right"></div>
+      <p>{{days}}</p>
+        <div uib-datepicker ng-model="date" ng-click="fetchCalenderEvents()" datepicker-options="{{days}}" show-weeks="false" class="pull-right" ></div>
+        <!-- <div class="row" ng-if="!isCurrentmonth">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Sun</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="k in days track by $index">
+                <td>{{k | date:'dd'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div> -->
     </div>
 
 

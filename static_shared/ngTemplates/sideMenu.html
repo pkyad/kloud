@@ -19,7 +19,7 @@
         <li ng-class="{active: $state.includes(a.state)}" class="ripple" ng-repeat="a in filter.menuApps" ng-if="$index <5" style="width:transition:10s" ng-mouseover="onHover=true" ng-mouseleave="onHover=false">
           <a ng-if="a.state" ui-sref="{{a.state}}"  >
             <div >
-              <img style="height:57px;filter: drop-shadow(5px 5px 5px #c8c4c4);max-width:100px;margin-bottom:5px;" ng-src="{{a.icon}}" alt="">
+              <img class="appImg" style="" ng-src="{{a.icon}}" alt="">
               <br>
               <span class="displayName font14 " style="">{{a.displayName | limitTo:15}}</span>
 
@@ -30,9 +30,9 @@
 
             </div>
           </a>
-          <a ng-if="!a.state" href="#{{a.url}}" style="padding-top:10px !important;padding-bottom:0px !important;" >
-            <div class="container-fluid text-center" style="padding:0px;padding-bottom:10px;overflow-x:visible;padding-left:5px;">
-              <img style="height:57px;filter: drop-shadow(5px 5px 5px #c8c4c4);max-width:100px;" ng-src="{{a.icon}}" alt="">
+          <a ng-if="!a.state" href="#{{a.url}}"  >
+            <div >
+              <img class="appImg" ng-src="{{a.icon}}" alt="">
               <br>
               <span style="font-size:14px;">{{a.displayName}}</span>
             </div>

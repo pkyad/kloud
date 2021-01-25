@@ -1,29 +1,30 @@
 <div class="container-fluid" style="background-color:#fafafa;height:100%">
   <div class="row" style="margin-top:30px;margin-left:15px;">
-    <div class="col-md-2">
+    <div class="col-md-1">
+
     </div>
     <div class="col-md-4">
       <div class="row toggledBtn">
         <div class="col-md-7" style="padding:0px;">
-          <button type="button" name="button" class="btn  {{getState.state=='current'?'gradientBtnBlue':'courseBtnText'}} btn-default " ng-click="getState.state='current';fetchData()" style="height:50px;outline:none;">Currently Running Online Test</button>
+          <button type="button" name="button" class="btn btn-block  {{getState.state=='current'?'courses_gradientBtn':'courseBtnText'}} " ng-click="getState.state='current';fetchData()" style="height:50px;outline:none;">Currently Running Online Test</button>
         </div>
         <div class="col-md-5 text-center"  style="padding:0px;">
-          <button type="button" name="button"  class="btn  {{getState.state=='old'?'gradientBtnBlue':'oldcourseBtnText'}} btn-block btn-default " ng-click="getState.state='old';fetchData()" style="height:50px;outline:none;">Old Online Test</button>
+          <button type="button" name="button"  class="btn  {{getState.state=='old'?'courses_gradientBtn':'oldcourseBtnText'}} btn-block " ng-click="getState.state='old';fetchData()" style="height:50px;outline:none;">Old Online Test</button>
         </div>
 
 
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <div class="form-group">
         <span class="searchIcon"  ng-click="fetchData()"><i class="fa fa-search text-right"></i></span>
         <input type="text" name="" ng-model="search.query" ng-enter="fetchData()" placeholder="Search...." value="" class="form-control searchInput">
       </div>
     </div>
-    <div class="col-md-1">
+    <div class="col-md-2">
       <button type="button" class="createTestBtn btn-block" name="button" ng-click="privious()">Prev</button>
     </div>
-    <div class="col-md-1">
+    <div class="col-md-2">
       <button type="button" class="createTestBtn btn-block" name="button" ng-click="next()">Next</button>
 
     </div>
@@ -48,11 +49,11 @@
 
             </div>
             <div class="row" style="">
-              <div class="col-md-2">
-                <span style="font-size:12px;"><i class="fa fa-bars" aria-hidden="true" style="padding-right:10px"></i>{{k.quesCount}}</span>
+              <div class="col-md-3">
+                <span class="font12"><i class="fa fa-bars" aria-hidden="true" style="padding-right:3px"></i>{{k.quesCount}}</span>
               </div>
               <div class="col-md-6">
-                <span style="font-size:12px;"><i class="fa fa-clock-o" aria-hidden="true"></i> {{k.timelimit}} min</span>
+                <span class="font12"><i class="fa fa-clock-o" aria-hidden="true"></i> {{k.timelimit}} min</span>
               </div>
             </div>
           </td>

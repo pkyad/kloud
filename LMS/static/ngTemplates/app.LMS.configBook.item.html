@@ -1,13 +1,13 @@
 
 <div class="container-fluid">
   <div class="row" style="margin-top:25px ">
-    <div class="col-md-7">
+    <div class="col-md-5">
 
     </div>
-    <div class="col-md-1">
+    <div class="col-md-2">
       <button type="button" class="createTestBtn btn-block" name="button" ng-click="privious()">Prev</button>
     </div>
-    <div class="col-md-1">
+    <div class="col-md-2">
       <button type="button" class="createTestBtn btn-block" name="button" ng-click="next()">Next</button>
     </div>
     <div class="col-md-3 pull-right">
@@ -22,7 +22,7 @@
       <div class="addBook" ng-click="$state.go('businessManagement.LMS.newBook')">
         <div class="newBook">
         </div>
-        <div class="row text-center" style="padding:100px 0px;color:white;">
+        <div class="row text-center courses_book" style="">
 
           <h4>Create New Book</h4>
         </div>
@@ -30,15 +30,15 @@
     </div>
     <div class="col-md-3 " ng-repeat="k in data track by $index" style="margin-bottom:15px;">
       <div class="bookCard"  >
-        <div class="bookImg" style="background-image:url({{k.dp}})" ng-click="$state.go('businessManagement.LMS.viewBook',{bookid:k.pk})">
+        <div class="bookImg" style="background-image:url({{k.dp}}) no-repeat center" ng-click="$state.go('businessManagement.LMS.viewBook',{bookid:k.pk})">
         </div>
-        <div class="row text-left" style="margin:0px;padding:20px;color:white;">
-          <div class="col-md-9" ng-click="$state.go('businessManagement.LMS.viewBook',{bookid:k.pk})">
-            <h4>{{k.title}}</h4>
-            <p>By:{{k.author}}</p>
+        <div class="row text-left courses_booktext" style="">
+          <div class="col-md-11" ng-click="$state.go('businessManagement.LMS.viewBook',{bookid:k.pk})">
+            <h4 class="font18 book_title">{{k.title}}</h4>
+            <p class="font14">By:{{k.author}}</p>
 
           </div>
-          <div class="col-md-1" style="padding:25px 0px">
+          <div class="col-md-1" style="padding:25px 0px;padding-right:10px;">
             <img src="/static/images/edit.svg" alt="" style="width: 25px;" ng-click="$state.go('businessManagement.LMS.newBook',{id:k.pk})">
           </div>
           <!-- <div class="col-md-1" style="padding:25px 15px;font-size:20px;">
