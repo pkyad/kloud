@@ -22,22 +22,25 @@ $scope.allMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'Jul
   })
 
 
-$scope.isCurrentmonth = true
+$scope.form = {
+  selectYear:new Date().getFullYear()
+}
+$scope.years = [$scope.form.selectYear-2,$scope.form.selectYear-1,$scope.form.selectYear,$scope.form.selectYear+1,$scope.form.selectYear+2]
+
+$scope.changeCalendar = function(){
+  $scope.date = new Date($scope.form.selectYear, new Date().getMonth(), new Date().getDate())
+}
 
 $scope.showMonthwise = function(month,year){
-  $scope.isCurrentmonth = false
-  var date = new Date(year.getFullYear(), month, 1);
-  console.log(date);
-  $scope.days = [];
-  while (date.getMonth() === month) {
-    $scope.days.push(new Date(date));
-    date.setDate(date.getDate()+1);
-  }
-  console.log($scope.days,'423');
-  return $scope.days;
+  $scope.index = month
+  console.log(new Date().getDate());
+  var date = new Date(year.getFullYear(), month, new Date().getDate());
+  $scope.date = date
+
 }
 
   $scope.fetchCalenderEvents = function(){
+
     console.log($scope.date, 'date');
     $http({url : '/api/PIM/calendar/?date='+$scope.date.toISOString().split('T')[0] , method : 'GET'}).
     then(function(response){

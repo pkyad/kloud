@@ -2256,7 +2256,111 @@ video {
 .contacts_creation{
   padding:300px;background:#ECECEC;padding-top:30px;
 }
+.datePicker .btn-sm {
+  font-size:30px !important;
+  color:white;
+  background:unset !important;
+  border: none !important;
+}
+.datePicker small{
+  font-size:25px !important;
+  color:rgb(255, 154, 145);
+  background:unset !important;
+  border: none !important;
+}
+.datePicker button{
+  margin: 8px;
+  transition: all 0.3s ease 0s;
+  outline:none !important;
+  border-radius:20px !important;
+}
+
+.datePicker .text-muted{
+  color:rgb(255, 98, 84)
+}
+
+.datepicker .text-info{
+  color:white !important;
+  font-size:45px !important;
+}
+.text-info{
+  color:white !important;
+}
+.datePicker .active{
+  background:#A50920 !important;
+  box-shadow: 0px 12px 27px rgb(43, 18, 21) !important;
+
+
+
+}
+
+.datePicker tr:first-child{
+  display:none !important;
+}
+.font36{
+  font-size:36px;
+}
+.meetingImg{
+  margin-right: 40px;
+}
+
+.officeInput{
+  background:black;color:white;padding:25px;font-size:25px;border-radius:10px !important;border:none !important;
+}
+
+.officeForm label{
+  font-size:20px;
+  color:rgb(233, 233, 233);
+  font-weight:normal;
+}
+
+.officeInputWhite{
+  background:#F3F6FB;color:black;padding:25px;font-size:25px;border-radius:10px !important;border:none !important;
+}
+.duration{
+  padding:20px;
+  background:#F3F6FB;
+  border-radius:10px;
+  font-size:18px;
+  cursor:pointer;
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+}
+.activeDuration{
+  color:white;
+  background:#088F9D;
+}
+
+.datePickerDropdown .dropdown-toggle{
+  padding: 10px;
+  font-size: 23px;
+  padding-left: 40px !important;
+  padding-right: 40px !important;
+  border-radius:10px !important;
+  width:100%;
+}
+.peopleTagInput .tag-item{
+  background: #088F9D !important;
+  color: white !important;
+  border: none !important;
+  padding-left:0px !important;
+  padding-right:0px !important;
+
+}
+.peopleTagInput input{
+  font-size:20px !important;
+  min-width:200px !important;
+  background:#F3F6FB !important;
+}
 @media screen and (min-width: 1279px) and (max-width: 1365px) and (-webkit-device-pixel-ratio: 1) {
+  .meetingImg{
+    height:40px;
+  }
+  .duration{
+    padding: 10px 7px;
+    font-size: 15px;
+  }
   .addBook{
     height:180px;padding:35px;
   }
@@ -2348,6 +2452,43 @@ video {
   .students {
   width: 88%;
 }
+.font36{
+  font-size:25px;
+}
+.datePicker .btn-sm {
+  font-size:15px !important;
+  margin:0px;
+  font-weight:700;
+}
+.datePicker small{
+  font-size:18px !important;
+}
+.datePicker button{
+  margin: 8px;
+  transition: all 0.3s ease 0s;
+  outline:none !important;
+  border-radius:20px !important;
+}
+
+.datePicker .text-muted{
+  color:rgb(255, 98, 84)
+}
+
+
+.datePicker .active{
+  background:#A50920 !important;
+  box-shadow: 0px 12px 27px rgb(43, 18, 21) !important;
+
+
+
+}
+.datePicker tr td{
+  padding:10px;
+}
+
+.datePicker tr:first-child{
+  display:none !important;
+}
   .courses_booktext{
     padding:5px 0px;
     padding-right:15px;
@@ -2417,6 +2558,50 @@ video {
 }
 
 @media screen and (min-width: 1366px) and (max-width:1439px) and (-webkit-device-pixel-ratio: 1) {
+  .duration{
+    padding: 13px 6px;
+    font-size: 15px;
+  }
+  .meetingImg{
+    height:50px
+  }
+  .font36{
+    font-size:25px;
+  }
+  .datePicker .btn-sm {
+    font-size:20px !important;
+    margin:0px;
+    font-weight:700;
+  }
+  .datePicker small{
+    font-size:18px !important;
+  }
+  .datePicker button{
+    margin: 8px;
+    transition: all 0.3s ease 0s;
+    outline:none !important;
+    border-radius:20px !important;
+  }
+
+  .datePicker .text-muted{
+    color:rgb(255, 98, 84)
+  }
+
+
+  .datePicker .active{
+    background:#A50920 !important;
+    box-shadow: 0px 12px 27px rgb(43, 18, 21) !important;
+
+
+
+  }
+  .datePicker tr td{
+    padding:10px;
+  }
+
+  .datePicker tr:first-child{
+    display:none !important;
+  }
   .invoiceDoc {
     padding: 20px;
     overflow: auto;
@@ -2566,6 +2751,51 @@ video {
 }
 
 @media screen and (min-width: 1440px) and (max-width:1620px) and (-webkit-device-pixel-ratio: 1) {
+  .font36{
+    font-size:25px;
+  }
+
+  .duration{
+    padding: 13px 6px;
+    font-size: 15px;
+  }
+  .meetingImg{
+    height:50px
+  }
+  .datePicker .btn-sm {
+    font-size:20px !important;
+    margin:0px;
+    font-weight:700;
+  }
+  .datePicker small{
+    font-size:18px !important;
+  }
+  .datePicker button{
+    margin: 8px;
+    transition: all 0.3s ease 0s;
+    outline:none !important;
+    border-radius:20px !important;
+  }
+
+  .datePicker .text-muted{
+    color:rgb(255, 98, 84)
+  }
+
+
+  .datePicker .active{
+    background:#A50920 !important;
+    box-shadow: 0px 12px 27px rgb(43, 18, 21) !important;
+
+
+
+  }
+  .datePicker tr td{
+    padding:10px;
+  }
+
+  .datePicker tr:first-child{
+    display:none !important;
+  }
   .contacts_creation{
     padding:150px;
   }
