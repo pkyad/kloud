@@ -270,7 +270,66 @@ $scope.description = false
       // console.log("select file",$scope.data.image,file[0]);
       var filedata = file[0]
       $scope.allFiles.push(filedata)
+      $timeout(function() {
+        $scope.previewImage($scope.allFiles.length-1)
+      },500)
     }
+
+    window.addEventListener("paste", function(e){
+    if ($state.is('home.messenger.explore')) {
+      var item = Array.from(e.clipboardData.items).find(x => /^image\//.test(x.type));
+        var blob = item.getAsFile();
+        $scope.allFiles.push(blob)
+        $timeout(function() {
+          $scope.previewImage($scope.allFiles.length-1)
+      },500)
+    }
+      //
+      // var img = new Image();
+      //
+      // img.onload = function(){
+      //     document.body.appendChild(this);
+      // };
+      //
+      // img.src = URL.createObjectURL(blob);
+  });
+    $scope.filedata = ''
+  $scope.previewImage = function(indx){
+    $scope.filedata = $scope.allFiles[indx]
+    $scope.reader = new FileReader();
+    $scope.typ = $scope.filedata['type'].split('/')[0]
+    if ($scope.typ == 'image') {
+      var image1 =  document.getElementById("imagePreview");
+
+      if (typeof $scope.filedata == 'string' && $scope.filedata.length > 0 ) {
+        image1.style.backgroundImage = "url("+$scope.filedata+")";
+      }
+      $scope.reader.onload = function(e) {
+        image1.style.backgroundImage = "url("+e.target.result+")";
+      }
+      $scope.reader.readAsDataURL($scope.filedata);
+    }
+
+  }
+
+  $scope.removeParticipant = function(){
+    $http({
+      method: 'POST',
+      url: '/api/PIM/removeParticipant/',
+      data:{
+        thread : $state.params.id
+      }
+    }).
+    then(function(response) {
+      $scope.getChatthreads()
+      if (response.data.pk) {
+        $state.go('home.messenger.explore',{id:response.data.pk})
+      }
+
+    })
+
+  }
+
 
 $scope.postFiles = function(){
   $scope.count = 0
@@ -293,6 +352,7 @@ $scope.postFiles = function(){
     then(function(response) {
       $scope.messages.push(response.data)
       $scope.form.file = emptyFile;
+      $scope.form.text = ''
       var objDiv = document.getElementById("scrollView");
        objDiv.scrollTop = objDiv.scrollHeight+40;
       if ($scope.count == $scope.allFiles.length) {
@@ -304,6 +364,32 @@ $scope.postFiles = function(){
 
   $scope.closeAtachment = function(){
       $scope.allFiles = []
+  }
+
+
+  $scope.viewImage = function(att){
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.PIM.viewImage.html',
+      size: 'xxl',
+      backdrop: true,
+      resolve: {
+        att: function() {
+          return att;
+        },
+      },
+      controller: function($scope, $uibModalInstance, $http, $state, att) {
+        $scope.att = att
+        console.log(att);
+        $scope.close = function() {
+          $uibModalInstance.dismiss()
+        }
+      }
+
+    }).result.then(function(data) {
+
+    }, function(data) {
+
+    });
   }
 
   $scope.fileNameChanged = function(file) {
@@ -493,6 +579,7 @@ $scope.postFiles = function(){
         $scope.reader.readAsDataURL(filedata);
       }
   }
+
 
   $scope.createGroupChat = function(){
     var participants  = []

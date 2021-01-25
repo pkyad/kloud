@@ -54,7 +54,7 @@ class TeamSerializer(serializers.ModelSerializer):
     unit = UnitsLiteSerializer(many = False , read_only = True)
     class Meta:
         model = Team
-        fields=('pk','created','manager','title','unit')
+        fields=('pk','created','manager','title','unit','isOnSupport')
     def create(self , validated_data):
         t = Team(**validated_data)
         t.manager = User.objects.get(pk = self.context['request'].data['manager'])
@@ -63,6 +63,11 @@ class TeamSerializer(serializers.ModelSerializer):
         t.save()
         return t
     def update(self , instance , validated_data):
+        for key in ['isOnSupport']:
+            try:
+                setattr(instance , key , validated_data[key])
+            except:
+                pass
         if 'manager' in self.context['request'].data:
             instance.manager=User.objects.get(pk=self.context['request'].data['manager'])
         if 'unit' in  self.context['request'].data:
@@ -133,7 +138,7 @@ class TeamAllSerializer(serializers.ModelSerializer):
     members = serializers.SerializerMethodField()
     class Meta:
         model = Team
-        fields=('pk','created','manager','title' , 'members','unit')
+        fields=('pk','created','manager','title' , 'members','unit','isOnSupport')
     def get_members(self, obj):
         return userDesignationLiteSerializer(obj.teamName.all(),many=True).data
 

@@ -274,3 +274,14 @@ class CreateNewChatAPIView(APIView):
             chatObj.save()
             data  = ChatThreadsSerializer(chatObj, many=False).data
         return Response(data,status=status.HTTP_200_OK)
+
+
+class RemoveParticipantAPIView(APIView):
+    permission_classes = (permissions.IsAuthenticated ,)
+    def post(self , request , format = None):
+        user = request.user
+        chatThreadObj = ChatThread.objects.get(pk = int(request.data['thread']))
+        chatThreadObj.participants.remove(user)
+        chatThreadObj.save()
+        data  = ChatThreadsSerializer(ChatThread.objects.filter(participants =  self.request.user).first(), many=False).data
+        return Response(data,status=status.HTTP_200_OK)

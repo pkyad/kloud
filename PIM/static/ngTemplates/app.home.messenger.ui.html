@@ -8,6 +8,13 @@
     text-align:center
   }
 
+  .imagePreview{
+    background-position: center;
+    background-size:cover;
+    height:50vh;
+    text-align:center
+  }
+
 
 .display_picture:hover  .highlight{
   display:block;
@@ -44,7 +51,7 @@
    height:100%;
 }
 
-.file_upload_add{
+/* .file_upload_add{
   opacity: 0.0;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
@@ -57,8 +64,17 @@
   right: 0;
   width: 80%;
   height:100%;
-}
+} */
 
+
+.file_upload_add{
+opacity: 0.0;
+position: absolute;
+top: 0px;
+width: 100px;
+height: 100%;
+text-align: center;
+}
 .reply_icon{
   display:none
 }
@@ -75,11 +91,29 @@
     display:block
 }
 
+.img-recived:hover .reply_icon_rec{
+    display:block
+}
+
+.img-sent:hover .reply_icon{
+  display:block
+}
+
+.file-sent:hover .reply_icon{
+    display:block
+}
+
+.file-recived:hover .reply_icon_rec{
+    display:block
+}
+
 .flex-container {
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
+  overflow-x: auto;
   /* background-color: DodgerBlue; */
+
 }
 
 .flex-container > div {
@@ -90,6 +124,15 @@
   /* line-height: 100px; */
   font-size: 30px;
 }
+
+.display_picture_view{
+  border-radius:50%;
+  background-position: center;
+  background-size:cover;
+  height:50px;
+  width:50px;
+  text-align:center;
+}
 </style>
 <div class="col-md-9 col-sm-8 pull-right " style="padding:0px;">
   <div class="row" style=";margin:0px;">
@@ -97,9 +140,11 @@
       <div class="row" style="margin:0px;position:sticky;z-index:1;">
         <div class="" style="background-color:#ededed;height:60px;padding:10px;">
           <div class="col-md-1 col-sm-1" ng-click="user.is_show=true">
-            <div class="">
+            <!-- <div class="">
               <img ng-src="{{user.dp}}" src="p/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
-            </div>
+            </div> -->
+            <div  class="display_picture_view" style="background-image:url({{user.dp?user.dp:'/static/images/userIcon.png'}})">
+              </div>
           </div>
           <div class="col-md-9 col-sm-9" ng-click="user.is_show=true">
             <h5 style="margin-top:0px;">{{user.name}} </h5>
@@ -125,10 +170,10 @@
                 <i class="fa fa-reply   pull-right"  aria-hidden="true" ng-click="replyTo($index)"></i><br>
                 </span>
                 <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
-                  <span style="color:#7bbaf4">
-                     {{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/>
-                   </span>
-                  <span style="color:#676767">   {{message.replyTo.message}} </span>
+                     <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
                  </div>
                 {{message.message}}
                </div>
@@ -156,9 +201,11 @@
                  </span>
                  <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#ededed">
                    <span style="color:#7bbaf4">
-                      {{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/>
+                     <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
                     </span>
-                   <span style="color:#676767">   {{message.replyTo.message}} </span>
+                    <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
+                    <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
                   </div>
                {{message.message}}
              </div>
@@ -173,7 +220,18 @@
           <div ng-if="me.pk == message.user.pk && message.message === null && message.fileType === 'image'" class="  m-top-5 m-bottom-5 margin-l-auto">
             <div class="" style="display:flex">
               <div class="img-sent padding-2" style="margin-left:auto; width:300px;height:300px">
-                <img class=" " ng-src="{{message.attachment}}" alt="photo" width="289" height="289">
+                <span class="reply_icon">
+                <i class="fa fa-reply   pull-right"  aria-hidden="true" ng-click="replyTo($index)"></i><br>
+                </span>
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                  <span style="color:#7bbaf4">
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
+                   </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
+                 </div>
+                <img class=" " ng-src="{{message.attachment}}" ng-click="viewImage(message.attachment)" alt="photo" width="289" height="289">
               </div>
               <div style="padding: 0px;width: 40px;margin-left: auto;margin-top: auto;height: 40px;margin-bottom: 1%;margin-left: 2%;">
                 <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
@@ -189,7 +247,18 @@
           <div ng-if="me.pk == message.user.pk && message.attachment != null && message.fileType === 'image' &&message.message != null" class="  m-top-5 m-bottom-5 margin-l-auto">
             <div class="">
               <div class="img-sent  padding-2" style="margin-left:auto; width:300px;height:300px;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;margin-right: 58px;border-radius: 6px 6px 0 0 !important;">
-                <img class=" " ng-src="{{message.attachment}}" alt="photo" width="289" height="289">
+                <span class="reply_icon">
+                <i class="fa fa-reply   pull-right"  aria-hidden="true" ng-click="replyTo($index)"></i><br>
+                </span>
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                  <span style="color:#7bbaf4">
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
+                   </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
+                 </div>
+                <img class=" " ng-src="{{message.attachment}}" ng-click="viewImage(message.attachment)" alt="photo" width="289" height="289">
               </div>
               <div class="" style="display:flex;">
                 <p class="sent-text" style="margin-left: auto;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;width: 39.8%;border-radius: 0 0 6px 6px !important;">{{message.message}}</p>
@@ -211,7 +280,19 @@
                 <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
               </div>
               <div class="img-recived padding-2" style=" width:300px;height:300px;margin-left:15px">
-                <img class=" " ng-src="{{message.attachment}}" alt="photo" width="289" height="289">
+                <span style="color:#7bbaf4">
+                  <i class="fa fa-reply reply_icon_rec pull-right"   ng-click="replyTo($index)"></i>
+                   {{message.user.first_name}} {{message.user.last_name}}  <br/>
+                 </span>
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                  <span style="color:#7bbaf4">
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
+                   </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
+                 </div>
+                <img class=" " ng-src="{{message.attachment}}" ng-click="viewImage(message.attachment)" alt="photo" width="289" height="289">
               </div>
             </div>
             <div style="display:flex;width:87%;" class=" margin-auto">
@@ -224,7 +305,19 @@
           <div ng-if="me.pk != message.user.pk && message.attachment != null && message.message != null && message.fileType === 'image'" class="  m-top-5 m-bottom-5 margin-l-auto ">
             <div class="">
               <div class="img-recived  padding-2" style="margin-right:auto; width:300px;height:300px;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;margin-right: 58px;">
-                <img class=" " ng-src="{{message.attachment}}" alt="photo" width="289" height="289">
+                <span style="color:#7bbaf4">
+                  <i class="fa fa-reply reply_icon_rec pull-right"   ng-click="replyTo($index)"></i>
+                   {{message.user.first_name}} {{message.user.last_name}}  <br/>
+                 </span>
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                  <span style="color:#7bbaf4">
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
+                   </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
+                 </div>
+                <img class=" " ng-src="{{message.attachment}}" ng-click="viewImage(message.attachment)" alt="photo" width="289" height="289">
               </div>
               <div class="" style="display:flex;margin-top: 20px;">
                 <div style="padding: 0px;width: 40px;margin-top: auto;height: 40px;margin-bottom: 1%;margin-right: 2%;">
@@ -242,6 +335,17 @@
           <div ng-if="me.pk === message.user.pk &&  message.fileType == 'pdf' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
+                <span class="reply_icon">
+                <i class="fa fa-reply   pull-right"  aria-hidden="true" ng-click="replyTo($index)"></i><br>
+                </span>
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                  <span style="color:#7bbaf4">
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
+                   </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
+                 </div>
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
                   <img src="/static/images/icons8-pdf-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="font-size:12px">{{message.fileName}}</p>
@@ -249,7 +353,7 @@
                     <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z"
-                        fill="#fff" />
+                        fill="#000" />
                     </svg>
                   </a>
 
@@ -257,8 +361,8 @@
                 </div>
                 <div style="display:flex;width:95%;font-size:12px" class=" margin-auto">
                   <div style="display:flex;" class="margin-r-auto">
-                    <p class="m-right-2 margin-y-auto" style="color:white;">{{message.fileSize/1000}}</p>
-                    <p class="m-left-2 margin-y-auto" style="color:white;">{{message.fileType}}</p>
+                    <p class="m-right-2 margin-y-auto" style="color:black;">{{message.fileSize/1000}}</p>
+                    <p class="m-left-2 margin-y-auto" style="color:black;">{{message.fileType}}</p>
                   </div>
                 </div>
               </div>
@@ -280,6 +384,18 @@
                 <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
               </div>
               <div class="file-recived" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
+                <span style="color:#7bbaf4">
+                  <i class="fa fa-reply reply_icon_rec pull-right"   ng-click="replyTo($index)"></i>
+                   {{message.user.first_name}} {{message.user.last_name}}  <br/>
+                 </span>
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                  <span style="color:#7bbaf4">
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
+                   </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
+                 </div>
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
                   <img src="/static/images/icons8-pdf-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="color:black;font-size:12px">{{message.fileName}}</p>
@@ -312,6 +428,17 @@
           <div ng-if="me.pk === message.user.pk &&  message.fileType == 'word' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
+                <span class="reply_icon">
+                <i class="fa fa-reply   pull-right"  aria-hidden="true" ng-click="replyTo($index)"></i><br>
+                </span>
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                  <span style="color:#7bbaf4">
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
+                   </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
+                 </div>
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
                   <img src="/static/images/icons8-word-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="font-size:12px">{{message.fileName}}</p>
@@ -319,7 +446,7 @@
                     <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z"
-                        fill="#fff" />
+                        fill="#000" />
                     </svg>
                   </a>
 
@@ -327,8 +454,8 @@
                 </div>
                 <div style="display:flex;width:95%;font-size:12px" class=" margin-auto">
                   <div style="display:flex;" class="margin-r-auto">
-                    <p class="m-right-2 margin-y-auto" style="color:white;">{{message.fileSize/1000}}</p>
-                    <p class="m-left-2 margin-y-auto" style="color:white;">{{message.fileType}}</p>
+                    <p class="m-right-2 margin-y-auto" style="color:black;">{{message.fileSize/1000}}</p>
+                    <p class="m-left-2 margin-y-auto" style="color:black;">{{message.fileType}}</p>
                   </div>
                 </div>
               </div>
@@ -349,6 +476,18 @@
                 <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
               </div>
               <div class="file-recived" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
+                <span style="color:#7bbaf4">
+                  <i class="fa fa-reply reply_icon_rec pull-right"   ng-click="replyTo($index)"></i>
+                   {{message.user.first_name}} {{message.user.last_name}}  <br/>
+                 </span>
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                  <span style="color:#7bbaf4">
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
+                   </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
+                 </div>
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
                   <img src="/static/images/icons8-word-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="color:black;font-size:12px">{{message.fileName}}</p>
@@ -379,6 +518,17 @@
           <div ng-if="me.pk === message.user.pk &&  message.fileType == 'ppt' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
+                <span class="reply_icon">
+                <i class="fa fa-reply   pull-right"  aria-hidden="true" ng-click="replyTo($index)"></i><br>
+                </span>
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                  <span style="color:#7bbaf4">
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
+                   </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
+                 </div>
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
                   <img src="/static/images/icons8-ppt-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="font-size:12px">{{message.fileName}}</p>
@@ -386,7 +536,7 @@
                     <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z"
-                        fill="#fff" />
+                        fill="#000" />
                     </svg>
                   </a>
 
@@ -394,8 +544,8 @@
                 </div>
                 <div style="display:flex;width:95%;font-size:12px" class=" margin-auto">
                   <div style="display:flex;" class="margin-r-auto">
-                    <p class="m-right-2 margin-y-auto" style="color:white;">{{message.fileSize/1000}}</p>
-                    <p class="m-left-2 margin-y-auto" style="color:white;">{{message.fileType}}</p>
+                    <p class="m-right-2 margin-y-auto" style="color:black;">{{message.fileSize/1000}}</p>
+                    <p class="m-left-2 margin-y-auto" style="color:black;">{{message.fileType}}</p>
                   </div>
                 </div>
               </div>
@@ -417,6 +567,18 @@
                 <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
               </div>
               <div class="file-recived" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
+                <span style="color:#7bbaf4">
+                  <i class="fa fa-reply reply_icon_rec pull-right"   ng-click="replyTo($index)"></i>
+                   {{message.user.first_name}} {{message.user.last_name}}  <br/>
+                 </span>
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                  <span style="color:#7bbaf4">
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
+                   </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
+                 </div>
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
                   <img src="/static/images/icons8-ppt-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="color:black;font-size:12px">{{message.fileName}}</p>
@@ -447,6 +609,17 @@
           <div ng-if="me.pk === message.user.pk &&  message.fileType == 'xl' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
+                <span class="reply_icon">
+                <i class="fa fa-reply   pull-right"  aria-hidden="true" ng-click="replyTo($index)"></i><br>
+                </span>
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                  <span style="color:#7bbaf4">
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
+                   </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
+                 </div>
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
                   <img src="/static/images/icons8-xls-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="font-size:12px">{{message.fileName}}</p>
@@ -454,7 +627,7 @@
                     <svg width="30" height="30" viewBox="0 0 190 190" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M57 142.5V123.5H133V142.5H57ZM133 76L95 114L57 76H80.75V38H109.25V76H133ZM95 0C147.25 0 190 42.75 190 95C190 147.25 147.25 190 95 190C42.75 190 0 147.25 0 95C0 42.75 42.75 0 95 0ZM95 19C53.01 19 19 53.01 19 95C19 136.99 53.01 171 95 171C136.99 171 171 136.99 171 95C171 53.01 136.99 19 95 19Z"
-                        fill="#fff" />
+                        fill="#000" />
                     </svg>
                   </a>
 
@@ -462,8 +635,8 @@
                 </div>
                 <div style="display:flex;width:95%;font-size:12px" class=" margin-auto">
                   <div style="display:flex;" class="margin-r-auto">
-                    <p class="m-right-2 margin-y-auto" style="color:white;">{{message.fileSize/1000}}</p>
-                    <p class="m-left-2 margin-y-auto" style="color:white;">{{message.fileType}}</p>
+                    <p class="m-right-2 margin-y-auto" style="color:black;">{{message.fileSize/1000}}</p>
+                    <p class="m-left-2 margin-y-auto" style="color:black;">{{message.fileType}}</p>
                   </div>
                 </div>
               </div>
@@ -484,6 +657,18 @@
                 <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
               </div>
               <div class="file-recived" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
+                <span style="color:#7bbaf4">
+                  <i class="fa fa-reply reply_icon_rec pull-right"   ng-click="replyTo($index)"></i>
+                   {{message.user.first_name}} {{message.user.last_name}}  <br/>
+                 </span>
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                  <span style="color:#7bbaf4">
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
+                   </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
+                 </div>
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
                   <img src="/static/images/icons8-xls-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="color:black;font-size:12px">{{message.fileName}}</p>
@@ -520,7 +705,7 @@
           <div class="row" style="position:relative">
             <div class="col-md-12">
               <div class="row" >
-                <div class="col-md-12" style="position:absolute;bottom:85px;left:900px">
+                <div class="col-md-12" style="position:absolute;bottom:85px;left:900px;z-index:3333">
                   <div class="text-center" style="height:60px;width:60px;background-color:#009688;border-radius: 50%;padding: 10px;">
                     <i class="fa fa-arrow-right fa-2x" aria-hidden="true" style="color:white;" ng-click="postFiles()"></i>
                   </div>
@@ -532,16 +717,20 @@
                   </div>
                 </div>
                 <div class="row" style="height:65vh">
-                    <div class="col-md-12">
+                    <div class="col-md-12" style="padding: 60px;">
+                        <div ng-show="typ == 'image'" id="imagePreview" class="imagePreview"></div>
+                        <div ng-show="typ != 'image'" class="text-center" style="margin-top:225px">
+                            <i class="fa fa-file fa-3x"></i>
 
+                        </div>
                     </div>
                 </div>
                 <div class="row" style="background:#dedede;height:13vh">
                     <div class="col-md-12 flex-container text-center" >
-                      <div ng-click="$event.stopPropagation()" ng-repeat="f in allFiles" style="padding-top:15px"><i class="fa fa-file"></i><br/><span style="font-size:5px!important">{{f.name}}</span></div>
+                      <div ng-click="previewImage($index);$event.stopPropagation()" ng-repeat="f in allFiles" style="padding-top:15px"><i class="fa fa-file"></i><br/><span style="font-size:5px!important">{{f.name | limitTo : 40}}</span></div>
                       <div style="padding-top:30px">
                         <i class="fa fa-plus fa-lg"></i>
-                        <input type="file" class="file_upload_add" ng-model="form.file" onchange="angular.element(this).scope().fileAdded(this.files)"/></div>
+                        <input type="file" class="file_upload_add" ng-model="form.file" onchange="angular.element(this).scope().fileAdded(this.files)" /></div>
                     </div>
                 </div>
             </div>
@@ -552,9 +741,10 @@
         <div class="row"  style="padding:10px">
           <div class="col-md-offset-1 col-md-10">
             <div style="min-height:40px;border-left:5px solid #7bbaf4;padding:10px;background:#e4e4e4;border-radius:10px">
-              <span ng-if="replyMsgSelected.replyMsg.user.pk !=me.pk" style="color:#7bbaf4"> {{replyMsgSelected.replyMsg.message}} <br/> </span>
-              <span ng-if="replyMsgSelected.replyMsg.user.pk ==me.pk" style="color:#7bbaf4"> You  <br/></span>
-               {{replyMsgSelected.replyMsg.message}}
+              <span ng-if="replyMsgSelected.replyMsg.user.pk !=me.pk" style="color:#7bbaf4"> {{replyMsgSelected.replyMsg.user.first_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+              <span ng-if="replyMsgSelected.replyMsg.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
+               <span ng-if="replyMsgSelected.replyMsg.attachment === null"> {{replyMsgSelected.replyMsg.message}}</span>
+              <span ng-if="replyMsgSelected.replyMsg.attachment != null"> {{replyMsgSelected.replyMsg.fileName}}</span>
              </div>
           </div>
           <div class="col-md-1 text-center">
@@ -613,7 +803,7 @@
             <h5>Created on {{user.created | date:"dd/MM/y HH:MM"}} </h5>
         </div>
       </div>
-      <div class="row " style="background-color:white;margin-bottom:10px;padding:10px 0px;margin-top:10px">
+      <div class="row " style="background-color:white;margin-bottom:10px;padding:10px 0px;margin-top:10px" ng-if="!user.is_personal">
         <div class="col-md-12">
         <p style="color:#009688"> Description </p>
         <h5 ng-if="!description">{{user.description}}  <i class="fa fa-pencil pull-right" style="font-size:15px;" ng-click="viewDescription()" ></i></h5>
@@ -655,7 +845,7 @@
         <div class="col-md-2 text-center">
             <i class="fa fa-sign-out fa-lg" aria-hidden="true" ></i>
         </div>
-        <div class="col-md-10">
+        <div class="col-md-10" ng-click="removeParticipant()">
           <p >Exit group</p>
         </div>
       </div>

@@ -162,6 +162,7 @@ class Team(models.Model):
     manager = models.ForeignKey(User , related_name = "teamManager", null=True)
     title =  models.CharField(max_length = 100)
     unit = models.ForeignKey( Unit , null = True , related_name = "teamUnit" )
+    isOnSupport = models.BooleanField(default=False)
 
 class designation(models.Model):
 
