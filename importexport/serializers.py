@@ -17,7 +17,8 @@ from django.contrib.auth.hashers import make_password,check_password
 from django.core.exceptions import SuspiciousOperation
 from django.db.models import Q,Count ,F,Sum
 from django.db.models import CharField,FloatField, Value , Func, PositiveIntegerField
-
+from django.template.loader import render_to_string, get_template
+from django.core.mail import send_mail, EmailMessage
 
 class ProductsSerializer(serializers.ModelSerializer):
     total_quantity = serializers.SerializerMethodField()
@@ -488,6 +489,33 @@ class complaintManagementSerializer(serializers.ModelSerializer):
         obj.registeredBy = user
         obj.division = divisionObj
         obj.save()
+
+        # sending email
+        customer = obj.customer.name
+        machine = obj.machine
+        errorCode = obj.errorCode
+        date = obj.date
+        registeredBy = obj.registeredBy.first_name
+        description = obj.description
+        to_email = []
+        users = User.objects.filter(designation__division = divisionObj)
+        for item in users:
+            to_email.append(item.email)
+        ctx = {
+            'recieverName' : "Hi Sir/Ma'am",
+            'customer':customer,
+            'machine':machine,
+            'errorCode':errorCode,
+            'date':date,
+            'registeredBy':registeredBy,
+            'description':description,
+            'obj': obj,
+        }
+        email_subject = 'New complaint Registered'
+        email_body = get_template('app.importexport.complaint.notification.html').render(ctx)
+        msg = EmailMessage(email_subject, email_body, to = to_email)
+        msg.content_subtype = 'html'
+        msg.send()
         return obj
 
     def update (self, instance, validated_data):

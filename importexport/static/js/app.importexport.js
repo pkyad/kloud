@@ -3132,7 +3132,8 @@ app.controller("businessManagement.importexport.masterSheet", function($scope, $
 })
 
 
-app.controller('businessManagement.importexport.masterSheet.newProduct', function($scope, $http, $aside, $state, Flash, $users, $filter, $permissions, $rootScope, $stateParams) {
+app.controller('businessManagement.importexport.masterSheet.newProduct', function($scope, $http, $aside, $state, Flash, $users, $filter, $permissions, $rootScope, $stateParams,$users) {
+  $scope.me = $users.get('mySelf');
   if ($state.is('businessManagement.importexport.editmasterSheet')) {
     $http({
       method: 'GET',
@@ -3153,7 +3154,8 @@ app.controller('businessManagement.importexport.masterSheet.newProduct', functio
       customs_no: '',
       gst: 18,
       custom: 7.5,
-      bar_code: ''
+      bar_code: '',
+      division: $scope.me.designation.division
     }
     var method = 'PATCH'
     var url = '/api/importexport/products/' + $stateParams.id + '/'
@@ -3182,10 +3184,13 @@ app.controller('businessManagement.importexport.masterSheet.newProduct', functio
       customs_no: '',
       gst: 18,
       custom: 7.5,
-      bar_code: ''
+      bar_code: '',
+      division: $scope.me.designation.division,
     }
   }
   $scope.reset()
+
+
   $scope.save = function() {
     console.log($scope.data, '$scope.data');
     var method = 'POST'
@@ -5986,6 +5991,8 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
   //   }
   // }
 
+  $scope.complaintProcessing = false;
+
   $scope.complaintCreation = function() {
     console.log($scope.form.date);
     if ($scope.form.date == '') {
@@ -5996,6 +6003,7 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
       $scope.form.date = $scope.form.date.toJSON().split('T')[0]
 
     }
+    $scope.complaintProcessing = true;
 
     console.log($scope.form.customer.pk);
     var data = {
@@ -6032,7 +6040,7 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
         $scope.resetForm();
 
       }
-
+      $scope.complaintProcessing = false;
 
     })
   }

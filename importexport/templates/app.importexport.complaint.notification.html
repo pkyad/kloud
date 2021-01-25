@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>[SUBJECT]</title>
+  </head>
+  <style type="text/css">
+    @media screen and (max-width: 600px) {
+      table[class="container"] {
+        width: 95% !important;
+      }
+    }
+
+    #outlook a {
+      padding: 0;
+    }
+
+    body {
+      width: 100% !important;z
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+
+
+    table td {
+      border-collapse: collapse;
+    }
+
+    table {
+      border-collapse: collapse;
+      mso-table-lspace: 0;
+      mso-table-rspace: 0;
+    }
+
+    a {
+      color: #000;
+    }
+
+    @media only screen and (max-device-width: 480px) {
+
+      a[href^="tel"],
+      a[href^="sms"] {
+        text-decoration: none;
+        color: black;
+        /* or whatever your want */
+        pointer-events: none;
+        cursor: default;
+      }
+
+      .mobile_link a[href^="tel"],
+      .mobile_link a[href^="sms"] {
+        text-decoration: default;
+        color: orange !important;
+        /* or whatever your want */
+        pointer-events: auto;
+        cursor: default;
+      }
+    }
+
+    @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+      a[href^="tel"],
+      a[href^="sms"] {
+        text-decoration: none;
+        color: blue;
+        /* or whatever your want */
+        pointer-events: none;
+        cursor: default;
+      }
+
+      .mobile_link a[href^="tel"],
+      .mobile_link a[href^="sms"] {
+        text-decoration: default;
+        color: orange !important;
+        pointer-events: auto;
+        cursor: default;
+      }
+    }
+
+    @media only screen and (-webkit-min-device-pixel-ratio: 2) {
+      /* Put your iPhone 4g styles in here */
+    }
+
+    @media only screen and (-webkit-device-pixel-ratio:.75) {
+      /* Put CSS for low density (ldpi) Android layouts in here */
+    }
+
+    @media only screen and (-webkit-device-pixel-ratio:1) {
+      /* Put CSS for medium density (mdpi) Android layouts in here */
+    }
+
+    @media only screen and (-webkit-device-pixel-ratio:1.5) {
+      /* Put CSS for high density (hdpi) Android layouts in here */
+    }
+
+    /* end Android targeting */
+
+    h2 {
+      color: #181818;
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 22px;
+      line-height: 22px;
+      font-weight: normal;
+    }
+
+    a.link2 {
+      color: #fff;
+      text-decoration: none;
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      color: #fff;
+      border-radius: 4px;
+    }
+
+    p {
+      color: #555;
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 160%;
+    }
+    #tableHead{
+      background-color: rgb(192, 201, 214);
+      color:rgb(15, 15, 15);
+      border:1px solid rgb(15, 15, 15)
+    }
+  </style>
+  <script type="colorScheme" class="swatch active">
+    { "name":"Default", "bgBody":"ffffff", "link":"fff", "color":"555555", "bgItem":"ffffff", "title":"181818" }
+  </script>
+
+  <body>
+    <table cellpadding="0" cellspacing="0" border="0" align="center" width="600" class="container">
+      <tr>
+        <td class='movableContentContainer bgItem'>
+            <table cellpadding="0" cellspacing="0" border="0" align="left" width="600" class="container">
+            </table>
+            <table cellpadding="2" cellspacing="0" border="0" align="left" width="600"  class="container" style="margin-top:20px">
+              <tr height="50">
+                <th width="400" align="left" style="font-size:14px">
+                  <strong> Complaint Registered </strong><br/><br/>
+                  <strong> Complaint ID : </strong> {{obj.pk}}<br/><br/>
+                  <strong> Complaint Registered On : </strong> {{obj.date}}<br/><br/>
+                  <strong> Complaint Registered By : </strong> {{obj.registeredBy.first_name}}<br/><br/>
+                  <strong> Customer : </strong> {{customer}}<br/><br/>
+                  <strong> Contact : </strong> {{obj.contact}}<br/><br/>
+                  <strong> Complaint Refernce : </strong> {{obj.complaintRef}}<br/><br/>
+                  <strong> Machine : </strong> {{machine}}<br/><br/>
+                  <strong> Complaint Type : </strong> {{obj.complaintType}}<br/><br/>
+                  <strong> Error Code : </strong> {{obj.errorCode}}<br/><br/>
+                  <strong> Service Report No : </strong> {{obj.serviceReportNo}}<br/><br/>
+                  <strong> Whether Machine Running : </strong> {{obj.machineRunning}}<br/><br/>
+                  <strong> Refurbished by BIND : </strong> {{obj.RefurbishedBind}}<br/><br/>
+                  <strong> Comm nr : </strong> {{obj.comm_nr}}<br/><br/>
+                  <strong> Root Cause : </strong> {{obj.attr2}}<br/><br/>
+                  <strong> Disposition : </strong> {{obj.attr3}}<br/><br/>
+                  <strong> Nature of Complaint : </strong> {{obj.attr1}}<br/><br/>
+                  <strong> Part Used : </strong> {{obj.attr4}}<br/><br/>
+                </th>
+              </tr>
+            </table>
+
+
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
