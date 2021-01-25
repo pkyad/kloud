@@ -1,7 +1,6 @@
-<div class="container-fluid">
-  <div class="col-md-12">
+<div>
     <div class="row">
-      <div class="col-md-2">
+      <div class="col-md-2 courses_padding">
         <button type="button" class="btn btn-block" name="button"  style="background-color:#337AB7;padding:12px;color:white;border-radius:10px !important">Share Documents
           <input type="file" id="file" file-model="form.dp" style="position:absolute;margin-top: -25px;
 left: 30px;" class="file_upload" ng-click="openFile()">
@@ -9,20 +8,20 @@ left: 30px;" class="file_upload" ng-click="openFile()">
         </button>
 
       </div>
-      <div class="col-md-2">
+      <div class="col-md-2 courses_padding">
         <button type="button" class="btn btn-block" name="button" ng-click="scheduleClass()" style="background-color:#337AB7;padding:12px;color:white;border-radius:10px !important">Schedule the class</button>
 
       </div>
-      <div class="col-md-2">
+      <div class="col-md-2 courses_padding">
         <button type="button" class="btn btn-block" name="button" ng-click="createQuiz()" style="background-color:#337AB7;padding:12px;color:white;border-radius:10px !important">Add Quiz</button>
 
       </div>
-      <div class="col-md-2">
+      <div class="col-md-2 courses_padding">
         <button type="button" class="btn btn-block" name="button" ng-click="homework()" style="background-color:#231654;padding:12px;color:white;border-radius:10px !important">Add Homework</button>
 
       </div>
 
-      <div class="col-md-4">
+      <div class="col-md-4 ">
         <div class="form-group">
           <span class="searchIcon" ng-click="getActivities()"><i class="fa fa-search text-right"></i></span>
           <input type="text" name="" ng-model="search.query" ng-enter="getActivities()"placeholder="Search...." value="" class="form-control searchInput">
@@ -30,7 +29,7 @@ left: 30px;" class="file_upload" ng-click="openFile()">
       </div>
     </div>
 
-    <div class="row" >
+    <div class="row" style="margin:0px;">
       <div class="">
         <textarea name="name" class="form-control" ng-model="noteform.txt" rows="8" cols="80" placeholder="Write your post here....." style="resize: none;border-radius: 18px !important;box-shadow: -1px 4px 23px rgba(0, 0, 0, 0.1) !important;border: none;
 padding: 20px;"></textarea>
@@ -86,7 +85,7 @@ padding: 20px;"></textarea>
 
 
                 </div>
-                <div class="col-md-1" ng-if="k.typ=='file' || k.typ=='video'">
+                <div class="col-md-1" ng-if="k.typ=='file' || k.typ=='video'" style="padding:0px">
                   <a href="{{k.attachment}}" target="_blank"> <i class="fa fa-file-text" style="margin-right:5px;"></i>view file</a>
                 </div>
 
@@ -112,6 +111,5 @@ padding: 20px;"></textarea>
       </div>
 
 
-                      </div>
 
 </div>
