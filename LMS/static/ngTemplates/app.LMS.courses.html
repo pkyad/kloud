@@ -465,7 +465,7 @@
           <div class="col-md-3">
             <h3 class="courseColor" style="margin:0px;">Courses you are offering......</h3>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 col-md-offset-1">
             <div class="row toggledBtn">
               <div class="col-md-6" style="padding:0px;">
                 <button type="button" name="button" class="btn  {{getState.state=='current'?'gradientBtnBlue':'courseBtnText'}} btn-default" ng-click="getState.state='current';fetchData()" style="height:50px;outline:none;">Currently Running Courses</button>
@@ -478,25 +478,20 @@
 
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="form-group">
               <span class="searchIcon" ng-click="fetchData()"><i class="fa fa-search text-right"></i></span>
               <input type="text" name="" ng-model="search.query" ng-enter="fetchData()" placeholder="Search...." value="" class="form-control searchInput">
             </div>
           </div>
-          <div class="col-md-1">
-            <button type="button" class="createTestBtn btn-block" name="button" ng-click="privious()">Previous</button>
-          </div>
-          <div class="col-md-1">
-            <button type="button" class="createTestBtn  btn-block" name="button" ng-click="next()">Next</button>
-          </div>
+
         </div>
 
 
 
-        <div class="row" style="margin:0px;margin-left:30px;">
+        <div class="row" style="margin:0px;margin-left:30px;height: 90vh;overflow-y: scroll;scroll-behavior: smooth;scrollbar-width: none;">
           <table class="table tableNew " cellpadding="4">
-            <thead class="headStrip">
+            <thead class="headStrip" style="position: sticky;top: 0;z-index: 1;">
               <tr>
                 <th class="">Couse Name</th>
                 <th>Registration Type</th>
@@ -509,7 +504,7 @@
             <tbody>
 
               <tr class="detailStrip" ng-repeat="k in allcourseData track by $index" >
-                <td ng-click="$state.go('businessManagement.activityLog',{id:k.pk})">
+                <td ng-click="$state.go('businessManagement.LMS.activityLog',{id:k.pk})">
                   <div class="row" style="">
                     <div class="col-md-3">
                       <img ng-src="{{k.dp}}" src="" onerror="this.src='/static/images/img_avatar_card.png'" style="height:50px;width:50px;" class="img img-circle" alt="">
@@ -531,7 +526,7 @@
                 <td ng-click="$state.go('businessManagement.LMS.activityLog',{id:k.pk})">{{k.contacts.length}}</td>
                 <td ng-click="$state.go('businessManagement.LMS.activityLog',{id:k.pk})"><i class="fa fa-inr"></i>{{k.sellingPrice*k.contacts.length}}</td>
                 <td ng-click="$state.go('businessManagement.LMS.new',{id:k.pk})"> <img src="/static/images/edit.svg" alt=""></td>
-                <td ng-click="delCourse($index)"> <i class="fa fa-trash" style="font-size: 20px;color:#ccc;"></i></td>
+                <!-- <td ng-click="delCourse($index)"> <i class="fa fa-trash" style="font-size: 20px;color:#ccc;"></i></td> -->
               </tr>
 
             </tbody>

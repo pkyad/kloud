@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'questionsAutoCreate/$' , QuestionsAutoCreate.as_view() ),
     url(r'generatePdf/$' , GeneratePdf.as_view() ),
     url(r'getCourseactivities/$' , GetCourseactivitiesAPI.as_view() ),
+    url(r'createClass/$' , CreateClassAPI.as_view() ),
 
 ]

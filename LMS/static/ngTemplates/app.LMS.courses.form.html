@@ -75,13 +75,11 @@
         <br>
         <div class="row" style="margin:0px;">
           <button type="button" name="button" class="newBtn" style="border-radius: 50px !important;
-          padding: 15px 25px;">Cancel</button>
+          padding: 15px 25px;" ng-if="form.pk" ng-click="delInstance(form)">Delete</button>
           <button type="button" ng-click="saveCourse()"  class="newBtn pull-right" style="background-color:rgb(14, 67, 136);border-radius: 50px !important;padding: 15px 25px;">
             Save
           </button>
-          <!-- <button type="button" ng-click="editCourses()" ng-if="form.pk" class="newBtn pull-right" style="background-color:rgb(14, 67, 136);border-radius: 50px !important;padding: 15px 25px;">
-            Update
-          </button> -->
+        
         </div>
 
       </div>

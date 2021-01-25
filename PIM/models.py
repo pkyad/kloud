@@ -103,7 +103,7 @@ class ChatThread(models.Model):
     status = models.CharField(choices = CHATTHREAD_STATUS_CHOICES , max_length = 15 , default = 'started')
     customerRating = models.PositiveSmallIntegerField(null = True,blank=True)
     customerFeedback = models.CharField(max_length = 3000 , null = True,blank=True)
-    company = models.ForeignKey(Division , related_name = 'chatThread' , null = False)
+    company = models.ForeignKey(Division , related_name = 'chatThread' , null = True)
     userDevice = models.CharField(max_length = 200 , null = True , blank=True)
     location = models.CharField(max_length = 5000 , null = True , blank=True)
     userDeviceIp = models.CharField(max_length = 100 , null = True , blank=True)
@@ -118,6 +118,8 @@ class ChatThread(models.Model):
     closedOn = models.DateTimeField(null = True, blank=True)
     closedBy = models.ForeignKey(User , related_name = 'closedUser' , null = True, blank=True)
     user = models.ForeignKey(User , related_name='externalChatThreads' , null = True)
+    is_personal =  models.BooleanField(default = False)
+
 
 MSG_TYPE_CHOICES = (
     ('text' , 'text'),
@@ -149,6 +151,7 @@ class ChatMessage(models.Model):
     fileType = models.TextField(max_length = 10 , null=True)
     fileSize = models.TextField(max_length = 10 , null=True)
     fileName = models.TextField(max_length = 20 , null=True)
+    replyTo = models.ForeignKey("self" , null = True, related_name="children")
 
 def getCalendarAttachment(instance , filename ):
     return 'calendar/%s_%s_%s' % (str(time()).replace('.', '_'), instance.user.username, instance.originator.username, filename)

@@ -1,7 +1,7 @@
 <div class="" ng-controller="sideMenu">
 
-  <div class="row" style="margin:0px;height:11vh;margin-bottom:20px;">
-    <div class="container-fluid" style="padding:30px;">
+  <div class="row logo" style="">
+    <div >
 
       <div class="col-md-12 text-center" ng-click="goHome()">
         <span>
@@ -15,15 +15,15 @@
 
   <div class="row" >
     <div class="container-fluid">
-      <ul class="nav nav-sidebar padded" style="width:100%;height:89vh;overflow:auto;scrollbar-width:none;margin-top:10px;">
+      <ul class="nav nav-sidebar padded text-center" style="width:100%;height:89vh;overflow:auto;scrollbar-width:none;margin-top:10px;">
         <li ng-class="{active: $state.includes(a.state)}" class="ripple" ng-repeat="a in filter.menuApps" ng-if="$index <5" style="width:transition:10s" ng-mouseover="onHover=true" ng-mouseleave="onHover=false">
-          <a ng-if="a.state" ui-sref="{{a.state}}"  style="padding-top:10px !important;padding-bottom:0px !important;position:relative;" >
-            <div class="container-fluid text-center" style="padding:0px;padding-bottom:10px;overflow-x:visible;padding-left:5px;">
+          <a ng-if="a.state" ui-sref="{{a.state}}"  >
+            <div >
               <img style="height:57px;filter: drop-shadow(5px 5px 5px #c8c4c4);max-width:100px;margin-bottom:5px;" ng-src="{{a.icon}}" alt="">
               <br>
-              <span style="font-size:14px;">{{a.displayName}}</span>
+              <span class="displayName font14 " style="">{{a.displayName | limitTo:15}}</span>
 
-              <div style="position: absolute;top:5px;right:60px;background:red;border-radius: 30px;color:white;padding-left: 7px;padding-right: 7px;font-size: 18px;box-shadow: 5px 10px 20px #e3e3e3;" ng-if="$index==2">
+              <div class="redCircle"style="" ng-if="$index==2">
                 2
               </div>
 
@@ -56,8 +56,8 @@
   </div>
 
 
-  <div class="row" style="margin:0px;height:11vh;bottom:0px;position:fixed;width:10%;">
-    <div class="container-fluid" style="padding:30px;">
+  <div class="row userImg" style="">
+    <div>
       <div class="col-md-12 text-center" ng-click="openSwitcher()" ng-if="!adminOrManageMode">
         <span>
           <img src="/static/images/userIcon.png" style="width: 42px;filter: drop-shadow(5px 5px 5px #c8c4c4);" alt="">
@@ -67,7 +67,7 @@
   </div>
 
 
-  <div ng-click="dialer.dialPad = !dialer.dialPad;" ng-if="enableTelephony" style="padding:13px;color: white;position: fixed;bottom: 100px;left: 50px;border-radius: 10px;font-size: 27px;padding-left: 20px;padding-right: 20px;">
+  <div ng-click="dialer.dialPad = !dialer.dialPad;" class="whatsapp text-center" ng-if="enableTelephony" style="bottom:110px;">
     <img src="/static/images/icons8-number-pad-64.png"  style="width:45px;">
     <!-- <div style="position: absolute;top:5px;right:10px;background:red;border-radius: 30px;color:white;padding-left: 7px;
               padding-right: 7px;
@@ -76,9 +76,9 @@
               </div> -->
   </div>
 
-  <div ng-if="enableMessaing" ng-click="$state.go('home.messenger')" style="padding:13px;color: white;position: fixed;bottom: {{enableTelephony? '200px' : '100px'}};left: 55px;border-radius: 10px;font-size: 27px;padding-left: 20px;padding-right: 20px;">
+  <div ng-if="enableMessaing" class="whatsapp text-center" ng-click="$state.go('home.messenger')">
     <img src="/static/images/icons8-whatsapp-128.png" style="width:40px;">
-    <div style="position: absolute;top:5px;right:10px;background:red;border-radius: 30px;color:white;padding-left: 7px;padding-right: 7px;font-size: 18px;box-shadow: 5px 10px 20px #e3e3e3;" >
+    <div class="whatsappCount"  >
                 1
     </div>
   </div>

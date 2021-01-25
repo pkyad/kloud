@@ -33,13 +33,16 @@ z-index: 1;">
           <h4><b>Chapters</b></h4>
         </div>
         <div class="row"   ng-repeat="k in chapters track by $index" style="cursor:pointer">
-          <div class="row" style="background-color:white;padding:10px 0px;margin:0px;margin-bottom:15px;"  ng-mouseover = "showTrash=true" ng-mouseleave = "showTrash=false">
-            <div class="col-md-10" ng-click="k.show= !k.show" ng-init="k.show=false;showTrash=false">
+          <div class="row" style="background-color:white;padding:10px 0px;margin:0px;margin-bottom:15px;"  ng-mouseover = "showTrash=true;mainIndex=$index" ng-mouseleave = "showTrash=false;">
+            <div class="col-md-10" ng-click="k.show= !k.show;mainIndex=$index" ng-init="k.show=false;showTrash=false">
               <h4><b>{{k.title}}</b></h4>
 
             </div>
-            <div class="col-md-1 " style="{{showTrash?'opacity:1;':'opacity:0'}};padding:12px;"   >
-              <i class="fa fa-trash" ></i>
+            <div class="col-md-2 " style="{{showTrash?'opacity:1;':'opacity:0'}};font-size:18px;padding:10px;display:flex"   >
+              <i class="fa fa-pencil" ng-click="editSection(k,'','parent')" style="margin-right:10px;"></i>
+              <!-- <i class="fa fa-trash" ng-click="delSection(mainIndex,'','chapter')"  ></i> -->
+              <i class="fa fa-trash"   mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="delSection(mainIndex,'','chapter')" confirm-button-type="primary"
+                cancel-button-type="default"></i>
             </div>
           </div>
           <div class="row" ng-if="k.show" style="margin:0px;padding:10px;">
@@ -52,8 +55,8 @@ z-index: 1;">
 
                 </div>
                 <div class="col-md-2" style="{{showChildTrash?'opacity:1;':'opacity:0'}};padding:0px;;"   >
-                    <i class="fa fa-pencil" ng-click="editSection(l,k)" style="margin-right:5px;"></i>
-                    <i class="fa fa-trash" ng-click="delSection()"  mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="save()" confirm-button-type="primary"
+                    <i class="fa fa-pencil" ng-click="editSection(l,k,'child')" style="margin-right:5px;"></i>
+                    <i class="fa fa-trash"   mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="delSection(mainIndex,$index,'child')" confirm-button-type="primary"
                       cancel-button-type="default"></i>
                   </div>
               </div>
@@ -63,7 +66,8 @@ z-index: 1;">
 
               <li ng-if="showInput">
                 <div class="form-group">
-                  <input type="text" class="form-control" style="width:90%;border:none;" ng-model="sectionform.title" ng-enter="createSection(k,$index)" name="" value="">
+                  <input type="text" class="form-control" style="width:90%;border:none;" ng-model="sectionform.title"
+                  ng-enter="createSection(k,$index);showInput=false" name="" value="">
                 </div>
               </li>
               <li style="color:#3786D1;" ng-click="showInput=true" ng-init="showInput=false">Add New Section <i class="fa fa-plus"></i></li>
@@ -72,7 +76,7 @@ z-index: 1;">
         </div>
         <div class="row" ng-if="showNew">
           <div class="form-group">
-            <input type="text" class="form-control" ng-model="form.title" ng-enter="createChapter()" placeholder="Enter the Chapter name" name="" value="" style="border: none;
+            <input type="text" class="form-control" ng-model="form.title" ng-enter="createChapter();showNew=false" placeholder="Enter the Chapter name" name="" value="" style="border: none;
 padding: 5px 15px;height: 45px;">
           </div>
         </div>
@@ -84,7 +88,8 @@ padding: 5px 15px;height: 45px;">
         <div class="row text-center" style="margin:20px 0px;">
 
           <hr>
-          <h3><b>{{section.title}}</b></h3>
+          <h3 ng-if="section.pk"><b>{{section.title}}</b></h3>
+          <!-- <h3 ng-if="!section.pk"><b>{{sectionform.title}}</b></h3> -->
           <hr>
         </div>
         <div class="row" style="margin: 15px 5px;">
@@ -95,7 +100,7 @@ padding: 5px 15px;height: 45px;">
                   {{$index+1}}.
               </h4>
             </div>
-            <div class="col-md-11">
+            <div class="col-md-10">
               <p class="newOption" ng-bind-html="k.ques"  ng-if="!k.isLatex" style="font-size:18px"></p>
               <p mathjax-bind="k.ques"  ng-if="k.isLatex" style="font-size:18px"></p>
 
@@ -116,6 +121,21 @@ padding: 5px 15px;height: 45px;">
                 <p  mathjax-bind="l.rtxt" ng-if="k.isLatex"></p>
 
               </div>
+            </div>
+
+            <div class="col-md-1 pull-right">
+              <span>
+                <i class="fa fa-pencil" style="padding-right:20px" ng-click="selectChoice(k)"></i>
+                <i class="fa fa-trash"  mwl-confirm
+                title="Confirm"
+                message="Are you sure?"
+                confirm-text="Yes <i class='fa fa-check'></i>"
+                cancel-text="No"
+                on-confirm="delQue($index)"
+                confirm-button-type="danger"
+                cancel-button-type="default"></i>
+
+              </span>
             </div>
           </div>
         </div>

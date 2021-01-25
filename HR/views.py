@@ -169,7 +169,10 @@ class UserSearchViewSet(viewsets.ModelViewSet):
             print User.objects.filter(is_staff = self.request.GET['staff'])
             return User.objects.filter(is_staff = self.request.GET['staff'])
         else:
-            return User.objects.filter(designation__division = divsn).order_by('-date_joined')
+            userObj = User.objects.filter(designation__division = divsn).order_by('-date_joined')
+            if 'search' in self.request.GET:
+                userObj = userObj.filter(Q(first_name__icontains = self.request.GET['search']) | Q(last_name__icontains = self.request.GET['search']))
+            return userObj
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -850,7 +853,7 @@ class UpdatepayrollDesignationMasterAccountAPI(APIView):
 
         # if profObj.sipUserName is None:
         #     try:
-                
+
         #         idVal = 100 + int(profObj.user.pk)
         #         URL = globalSettings.EXTERNAL_SITE +"/createAnEndpoint/?exten="+str(idVal)+"&username="+profObj.user.username
         #         r = requests.get(url = URL)

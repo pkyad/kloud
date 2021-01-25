@@ -1,0 +1,52 @@
+<div class="container-fluid">
+  <div class="modal-header text-center">
+    <h4><b>Schedule the class</b></h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="form-group">
+        <label for="">Title</label>
+        <input type="text" class="form-control bookInput" ng-model="form.title">
+      </div>
+      <div class="form-group">
+        <label for="">Description</label>
+        <textarea name="name" rows="8" cols="80" class="form-control bookInput" ng-model="form.description"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="">Starting Date</label>
+        <span style="position: absolute;right: 15px;padding: 40px 15px;"><i class="glyphicon glyphicon-calendar" ng-click="end1.opened = true;" ng-init="today" style="padding: 10px 0px;"></i></span>
+        <input type="text" class="form-control bookInput" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.date" is-open="end1.opened">
+
+      </div>
+      <div class="form-group">
+        <label for="">Schedule time</label>
+        <uib-timepicker ng-model="form.time" hour-step="1" minute-step="30" show-meridian="true"></uib-timepicker>
+      </div>
+      <div class="form-group">
+        <label for="">Ending Date</label>
+        <span style="position: absolute;right: 15px;padding: 40px 15px;"><i class="glyphicon glyphicon-calendar" ng-click="end.opened = true;" ng-init="today" style="padding: 10px 0px;"></i></span>
+        <input type="text" class="form-control bookInput" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.paperDueDate" is-open="end.opened">
+
+      </div>
+      <div class="form-group">
+        <label for=""><input type="checkbox" ng-model="form.recurring" name="" value="" style="margin-right:10px;">Recurring</label>
+      </div>
+      <div class="form-group" ng-if="form.recurring">
+        <label for=""><input type="radio" ng-model="form.stage" value="daily" name="" value="" style="margin-right:10px;">Daily</label><br>
+        <label for=""><input type="radio" ng-model="form.stage" value="weekly" name="" value="" style="margin-right:10px;">Weekly </label><br>
+        <label for=""><input type="radio" ng-model="form.stage" value="monthly" name="" value="" style="margin-right:10px;">Monthly</label>
+      </div>
+
+    </div>
+  </div>
+  <div class="modal-footer">
+        <button type="button"  class="btn1 btn-primary pull-right" mwl-confirm
+        title="Confirm"
+        message="Are you sure?"
+        confirm-text="Yes <i class='fa fa-check'></i>"
+        cancel-text="No"
+        on-confirm="save()"
+        confirm-button-type="danger"
+        cancel-button-type="default">Save</button>
+  </div>
+</div>

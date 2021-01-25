@@ -1,6 +1,6 @@
-<div class="container-fluid" style="background-color:#fafafa;height:100vh" >
+<div class="container-fluid" style="background-color:#fafafa;height:100%">
 
-  <div class="row" style="margin:30px 30px;" >
+  <div class="row" style="margin:30px 30px;">
     <div class="col-md-2">
       <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" />
 
@@ -12,7 +12,7 @@
     </div>
 
   </div>
-  <div class="col-md-8 col-md-offset-2" >
+  <div class="col-md-8 col-md-offset-2">
 
     <div class="col-md-12">
 
@@ -37,12 +37,12 @@
 
               Choose Dp
 
-              <input type="file" file-model="form.dp" class="file_upload"  />
+              <input type="file" file-model="form.dp" class="file_upload" />
             </div>
 
           </div>
           <div class="col-md-2">
-            <img src="" id="bookdp" style="height: 200px;margin-top:30px;"> 
+            <img src="" id="bookdp" style="height: 200px;margin-top:30px;">
           </div>
 
         </div>
@@ -60,10 +60,23 @@
         <input ng-model="form.author" type="text" class="form-control bookInput">
       </div>
 
+      <div class="col-md-12" style="padding:0px;">
+        <button type="button" class="btn1 btn-success pull-right" ng-click="save()">
+          Save
+        </button>
+        <button ng-if="form.pk" type="button" class="btn-danger pull-left" ng-click="delInstance(form)" style="color:
+white;
+padding: 12px;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+font-size: 16px;
+border-radius: 12px;
+margin-bottom: 10px;background-color:#d9534f">
+          Delete
+        </button>
 
-      <button type="button" class="btn1 btn-success" ng-click="save()">
-        Save
-      </button>
+      </div>
     </div>
   </div>
 

@@ -1,4 +1,4 @@
-  app.controller("controller.messenger.explore", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal, $rootScope) {
+  app.controller("controller.messenger.explore", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal, $rootScope, $timeout) {
 
     $scope.me = $users.get('mySelf')
 
@@ -19,7 +19,9 @@
 
 
 
-
+    function onevent(args) {
+          console.log("Event:", args[0]);
+       }
 
     $scope.send = function() {
       if ($scope.form.text.length == 0 && $scope.form.file == emptyFile) {
@@ -33,9 +35,12 @@
 
       var toSend = new FormData()
       toSend.append('message', $scope.form.text)
-      toSend.append('user', $state.params.id)
+      toSend.append('thread', $state.params.id)
       if ($scope.form.file != emptyFile) {
         toSend.append('attachment', $scope.form.file)
+      }
+      if ($scope.replyMsgSelected.replyMsg!=null && typeof $scope.replyMsgSelected.replyMsg=='object') {
+        toSend.append('replyTo', $scope.replyMsgSelected.replyMsg.pk)
       }
 
       $http({
@@ -51,8 +56,13 @@
         $scope.messages.push(response.data)
         $scope.form.text = '';
         $scope.form.file = emptyFile;
-
-        connection.session.publish('service.chat.' + $scope.user.username, ['M', response.data]);
+        var objDiv = document.getElementById("scrollView");
+         objDiv.scrollTop = objDiv.scrollHeight+40;
+        // connection.session.subscribe('service.chat.' + $scope.user.username ,  onevent);
+        // connection.session.publish('service.chat.' + $scope.user.username, ['M', response.data]);
+        $scope.replyMsgSelected = {
+          'replyMsg' : ''
+        }
       })
 
     }
@@ -85,6 +95,11 @@
       then(function(response) {
         $scope.messages = response.data
 
+         $timeout(function() {
+           var objDiv = document.getElementById("scrollView");
+           objDiv.scrollTop = objDiv.scrollHeight+40;
+
+         },500)
       })
 
     }
@@ -102,10 +117,17 @@
     }
     $scope.getThread()
 
-    $scope.editThread = function() {
-      var data = {
-        title: $scope.user.title,
-        description: $scope.user.description
+    $scope.editThread = function(typ) {
+
+      if (typ == 'title') {
+        var data = {
+          title: $scope.user.name
+        }
+      }
+      else{
+        var data = {
+          description: $scope.user.description
+        }
       }
       $http({
         method: 'PATCH',
@@ -113,7 +135,12 @@
         data: data
       }).
       then(function(response) {
-        $scope.user = response.data
+        if (typ == 'title') {
+          $scope.showInput = false
+        }
+        else{
+          $scope.description = false
+        }
       })
     }
     $scope.addParticipants = function() {
@@ -128,7 +155,7 @@
           $scope.getallUsers = function() {
             $http({
               method: 'GET',
-              url: '/api/HR/users/'
+              url: '/api/HR/userSearch/'
             }).
             then(function(response) {
               $scope.allUsers = response.data
@@ -192,63 +219,188 @@
     })
   }
 
+$scope.showInput = false
+  $scope.viewDetails = function(){
+    $scope.showInput = true
+  }
 
-  $scope.$watch('user.dp', function(newValue, oldValue) {
-    console.log("ddddddddddddddddddddddddddddd", newValue);
-    if (typeof newValue == 'object') {
+$scope.description = false
+  $scope.viewDescription = function(){
+      $scope.description = true
+  }
 
-      // var fd = new FormData();
-      // if (newValue != emptyFile && newValue != null && typeof newValue!='string') {
-      //   fd.append('logo', newValue)
-      // }
-      // $http({
-      //   method: 'PATCH',
-      //   url: '/api/organization/divisions/' + $scope.division.pk + '/',
-      //   data: fd,
-      //   transformRequest: angular.identity,
-      //   headers: {
-      //     'Content-Type': undefined
-      //   }
-      // }).
-      // then(function(response) {
-      //   $scope.division.logo = response.data.logo;
-      // })
+  // $scope.saveTitle = function(){
+  //   $http({
+  //     method: 'PATCH',
+  //     url: '/api/PIM/chatThreads/' + $state.params.id + '/',
+  //     data:{
+  //       title:$scope.user.title
+  //     }
+  //   }).
+  //   then(function(response) {
+  //       $scope.showInput = false
+  //   })
+  // }
+
+
+  // $scope.$watch('user.dp', function(newValue, oldValue) {
+  //   console.log("ddddddddddddddddddddddddddddd", newValue);
+  //   if (typeof newValue == 'object') {
+  //
+  //     // var fd = new FormData();
+  //     // if (newValue != emptyFile && newValue != null && typeof newValue!='string') {
+  //     //   fd.append('logo', newValue)
+  //     // }
+  //     // $http({
+  //     //   method: 'PATCH',
+  //     //   url: '/api/organization/divisions/' + $scope.division.pk + '/',
+  //     //   data: fd,
+  //     //   transformRequest: angular.identity,
+  //     //   headers: {
+  //     //     'Content-Type': undefined
+  //     //   }
+  //     // }).
+  //     // then(function(response) {
+  //     //   $scope.division.logo = response.data.logo;
+  //     // })
+  //   }
+  // })
+  $scope.allFiles = []
+  $scope.fileAdded = function(file) {
+      // console.log("select file",$scope.data.image,file[0]);
+      var filedata = file[0]
+      $scope.allFiles.push(filedata)
     }
-  })
 
+$scope.postFiles = function(){
+  $scope.count = 0
+  for (var i = 0; i < $scope.allFiles.length; i++) {
+    $scope.count+=1
+    var toSend = new FormData()
+    toSend.append('thread', $state.params.id)
+    if ($scope.allFiles[i] != emptyFile) {
+      toSend.append('attachment', $scope.allFiles[i])
+    }
+    $http({
+      method: 'POST',
+      url: '/api/PIM/chatMessage/',
+      data: toSend,
+      transformRequest: angular.identity,
+      headers: {
+        'Content-Type': undefined
+      }
+    }).
+    then(function(response) {
+      $scope.messages.push(response.data)
+      $scope.form.file = emptyFile;
+      var objDiv = document.getElementById("scrollView");
+       objDiv.scrollTop = objDiv.scrollHeight+40;
+      if ($scope.count == $scope.allFiles.length) {
+        $scope.allFiles = []
+      }
+    })
+  }
+}
+
+  $scope.closeAtachment = function(){
+      $scope.allFiles = []
+  }
+
+  $scope.fileNameChanged = function(file) {
+      // console.log("select file",$scope.data.image,file[0]);
+      var filedata = file[0]
+      var typ = filedata['type'].split('/')[0]
+      var fd = new FormData();
+      if (filedata != null && filedata != emptyFile) {
+        fd.append('dp', filedata)
+      }
+      $http({
+        method: 'PATCH',
+        url: '/api/PIM/chatThreads/'+$scope.user.pk+'/',
+        data: fd,
+        transformRequest: angular.identity,
+        headers: {
+          'Content-Type': undefined
+        }
+      }).
+      then(function(response) {
+        $scope.user.dp = response.data.dp
+      })
+    }
+
+    $scope.replyMsgSelected = {
+      replyMsg:''
+    }
+
+
+    $scope.replyTo = function(indx){
+      $scope.replyMsgSelected.replyMsg = $scope.messages[indx]
+    }
+
+    $scope.removeReply = function(){
+      $scope.replyMsgSelected = {
+        replyMsg:''
+      }
+    }
 
   });
 
   app.controller("controller.messenger", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal) {
+  $scope.showUsers = 'chats'
+  $scope.me = $users.get('mySelf');
 
-
-    $scope.form = {
+    $scope.search = {
       searchTxt: ''
     }
 
-    $scope.getUsers = function() {
-      console.log("called");
-      var params = {}
 
-      if ($scope.form.searchTxt.length > 0) {
-        params.search = $scope.form.searchTxt
+
+    // $scope.getUsers = function() {
+    //   console.log("called");
+    //   var params = {}
+    //
+    //   if ($scope.form.searchTxt.length > 0) {
+    //     params.search = $scope.form.searchTxt
+    //   }
+    //
+    //   $http({
+    //     url: '/api/PIM/getChatThreads/',
+    //     method: 'GET',
+    //     params: params
+    //   }).then(function(response) {
+    //     $scope.users = response.data;
+    //   })
+    // }
+    //
+    // $scope.getUsers();
+
+
+    $scope.getAllUsers = function() {
+        url = '/api/HR/userSearch/'
+
+      if ($scope.search.searchTxt!=null && $scope.search.searchTxt.length > 0) {
+        url = url+ '?search='+$scope.search.searchTxt
       }
-
       $http({
-        url: '/api/PIM/getChatThreads/',
+        url: url,
         method: 'GET',
-        params: params
       }).then(function(response) {
-        $scope.users = response.data;
+        $scope.allUsers = response.data;
       })
     }
 
-    $scope.getUsers();
+    $scope.getAllUsers();
+
+
 
     $scope.getChatthreads = function() {
+      url = '/api/PIM/chatThreads/'
+      if ($scope.search.searchTxt!=null && $scope.search.searchTxt.length > 0) {
+        url = url+ '?search='+$scope.search.searchTxt
+      }
       $http({
         method: 'GET',
-        url: '/api/PIM/chatThreads/'
+        url: url
       }).
       then(function(response) {
         $scope.chatthreads = response.data
@@ -262,6 +414,118 @@
 
     }
     $scope.getChatthreads()
+
+    $scope.searchAll = function() {
+      if ($scope.showUsers == 'chats') {
+          $scope.getChatthreads()
+      }
+      else{
+        $scope.getAllUsers();
+      }
+    }
+
+
+  $scope.startnewChat = function(indx){
+    $http({
+      method: 'POST',
+      url: '/api/PIM/createNewChat/',
+      data:{
+          participant:$scope.allUsers[indx].pk
+      }
+    }).
+    then(function(response) {
+      $scope.getChatthreads()
+      $scope.showUsers = 'chats'
+      $state.go('home.messenger.explore',{id:response.data.pk})
+    })
+  }
+
+
+  $scope.changeType = function(typ){
+    $scope.showUsers = typ
+    if (typ!='groupDetails' && typ!='group') {
+      $scope.participants = []
+    }
+    if (typ=='groupDetails' || typ=='group') {
+      $scope.form = {
+        dp:emptyFile,
+        title:''
+      }
+    }
+    $scope.search = {
+      searchTxt: ''
+    }
+  }
+  $scope.participants = []
+  $scope.addtochatList = function(indx){
+    $scope.participants.push($scope.allUsers[indx])
+  }
+
+  $scope.remove = function(indx){
+      $scope.participants.splice(indx,1)
+  }
+
+  $scope.form = {
+    dp:emptyFile,
+    title:''
+  }
+
+  $scope.fileNameChanged = function(file) {
+      // console.log("select file",$scope.data.image,file[0]);
+      var filedata = file[0]
+      var typ = filedata['type'].split('/')[0]
+      if (typ!='image') {
+        Flash.create('warning' , 'Add Image')
+        return
+      }
+      // var fd = new FormData();
+      if (filedata != null && filedata != emptyFile) {
+        $scope.form.dp = filedata
+        $scope.reader = new FileReader();
+        var image1 =  document.getElementById("image1");
+        if (typeof filedata == 'string' && filedata.length > 0 ) {
+          image1.style.backgroundImage = "url("+filedata+")";
+        }
+        $scope.reader.onload = function(e) {
+            image1.style.backgroundImage = "url("+e.target.result+")";
+        }
+
+        $scope.reader.readAsDataURL(filedata);
+      }
+  }
+
+  $scope.createGroupChat = function(){
+    var participants  = []
+    for (var i = 0; i < $scope.participants.length; i++) {
+       participants.push($scope.participants[i].pk)
+    }
+    var toSend = new FormData()
+    toSend.append('title', $scope.form.title)
+    toSend.append('participants', participants)
+    if ($scope.form.dp != emptyFile) {
+      toSend.append('dp', $scope.form.dp)
+    }
+
+    $http({
+      method: 'POST',
+      url: '/api/PIM/chatThreads/',
+      data: toSend,
+      transformRequest: angular.identity,
+      headers: {
+        'Content-Type': undefined
+      }
+    }).
+    then(function(response) {
+      $scope.getChatthreads()
+      $scope.showUsers = 'chats'
+      $state.go('home.messenger.explore',{id:response.data.pk})
+    })
+  }
+
+
+
+
+
 
 
   });
