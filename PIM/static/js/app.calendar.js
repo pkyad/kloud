@@ -31,10 +31,10 @@ $scope.showMonthwise = function(month,year){
   $scope.days = [];
   while (date.getMonth() === month) {
     $scope.days.push(new Date(date));
-    date.setDate(date.getDate() + 1);
+    date.setDate(date.getDate()+1);
   }
-  console.log(days);
-  return days;
+  console.log($scope.days,'423');
+  return $scope.days;
 }
 
   $scope.fetchCalenderEvents = function(){

@@ -64,8 +64,8 @@
         <h3 >{{date | date :'EEEE'}}</h3>
       </div>
 
-
-        <div uib-datepicker ng-model="date" ng-click="fetchCalenderEvents()" show-weeks="false" class="pull-right" ></div>
+      <p>{{days}}</p>
+        <div uib-datepicker ng-model="date" ng-click="fetchCalenderEvents()" datepicker-options="{{days}}" show-weeks="false" class="pull-right" ></div>
         <!-- <div class="row" ng-if="!isCurrentmonth">
           <table class="table">
             <thead>
