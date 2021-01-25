@@ -312,6 +312,24 @@ $scope.description = false
 
   }
 
+  $scope.removeParticipant = function(){
+    $http({
+      method: 'POST',
+      url: '/api/PIM/removeParticipant/',
+      data:{
+        thread : $state.params.id
+      }
+    }).
+    then(function(response) {
+      $scope.getChatthreads()
+      if (response.data.pk) {
+        $state.go('home.messenger.explore',{id:response.data.pk})
+      }
+
+    })
+
+  }
+
 
 $scope.postFiles = function(){
   $scope.count = 0
