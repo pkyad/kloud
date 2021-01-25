@@ -33,6 +33,11 @@
       <select class="form-control darkInput" ng-model="form.unit" ng-options="u.name for u in units" style="height: 40px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;">
       </select>
     </div>
+
+    <div class="form-group">
+      <label>Is Support Team? </label>
+      <switch ng-model="form.isOnSupport" class="green pull-right"></switch>
+    </div>
     <button class="btn btn-primary" ng-click="saveTeam()" style="background: #461482;color: white;border: none !important;border-radius: 64px !important;padding: 17px;width: 112px;font-size: 16px;"> {{form.pk?'Save':'Create'}} </div>
   </div>
 </div>

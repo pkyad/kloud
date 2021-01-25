@@ -166,7 +166,7 @@ $scope.openCreateTeam = function(indx) {
 
       $scope.simpleMode = SIMPLE_MODE
       $scope.Reporting = function(query) {
-        return $http.get('/api/HR/users/?username__contains=' + query).
+        return $http.get('/api/HR/userSearch/?username__contains=' + query).
         then(function(response) {
           console.log('@', response.data)
           return response.data;
@@ -190,7 +190,8 @@ $scope.openCreateTeam = function(indx) {
       $scope.form = {
         title:'',
         manager: '',
-        unit:''
+        unit:'',
+        isOnSupport:false
       }
       if (data.pk) {
         $scope.form = data
@@ -219,6 +220,7 @@ $scope.openCreateTeam = function(indx) {
         var toSend = {
           title: $scope.form.title,
           manager: $scope.form.manager.pk,
+          isOnSupport:$scope.form.isOnSupport
         }
         if ($scope.form.unit!= null && typeof $scope.form.unit == 'object') {
           toSend.unit =  $scope.form.unit.pk
