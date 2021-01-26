@@ -236,8 +236,12 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
         c.save()
         c.participants.add(user)
         if 'participants' in  self.context['request'].data:
-            for p in self.context['request'].data['participants'].split(','):
-                c.participants.add( User.objects.get(pk = int(p)))
+            try:
+                for p in self.context['request'].data['participants'].split(','):
+                    c.participants.add( User.objects.get(pk = int(p)))
+            except:
+                for p in self.context['request'].data['participants']:
+                    c.participants.add( User.objects.get(pk = int(p)))
         c.save()
         return c
     def update(self ,instance, validated_data):
