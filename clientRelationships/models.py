@@ -40,6 +40,7 @@ class CRMTermsAndConditions(models.Model):
     counter = models.PositiveIntegerField(default=1)
     canSupplyOrder =  models.BooleanField(default = False)
     canInvoice =  models.BooleanField(default = False)
+    logo = models.FileField(upload_to= getClientRelationshipTerms , null = True)
 
 CONTACTS_CHOICES = (
     ('b2b' , 'b2b'),

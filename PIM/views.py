@@ -196,6 +196,8 @@ class chatMessageViewSet(viewsets.ModelViewSet):
     permission_classes = (isOwner, )
     # queryset = ChatMessage.objects.all()
     serializer_class = chatMessageSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['created']
     def get_queryset(self):
         qs1 = ChatMessage.objects.filter(user = self.request.user).order_by('-created')
         if 'mode' in self.request.GET:
@@ -219,6 +221,7 @@ class chatMessageBetweenViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, readOnly)
     serializer_class = chatMessageSerializer
     filter_backends = [DjangoFilterBackend]
+    filter_fields = ['created']
 
     def get_queryset(self):
         # reciepient = ChatThread.objects.get(pk = self.request.GET['other'])
@@ -255,6 +258,8 @@ class NotesTitleViewSet(viewsets.ModelViewSet):
         toReturn = notesObj.order_by('-created')
 
         return toReturn
+
+
 
 
 class CreateNewChatAPIView(APIView):

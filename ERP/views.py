@@ -42,6 +42,7 @@ import zipfile
 from zipfile import ZipFile
 from urllib import urlretrieve
 from tempfile import mktemp
+from django.db.models import Sum
 
 
 def generateOTPCode(length = 4):
@@ -535,7 +536,7 @@ class ApplicationFeatureViewSet(viewsets.ModelViewSet):
     queryset = ApplicationFeature.objects.all()
     serializer_class = ApplicationFeatureSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['parent','name']
+    filter_fields = ['parent','name','displayName']
 
 
 class LocationTrackerAPI(APIView):
@@ -849,7 +850,7 @@ class getapplicationViewSet(viewsets.ModelViewSet):
     permission_classes = (readOnly,)
     serializer_class = applicationSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['name' , 'module' , 'stateAlias']
+    filter_fields = ['name' , 'module' , 'stateAlias','displayName']
     def get_queryset(self):
         u = self.request.user
         ap = application.objects.filter(admin = False)
@@ -1315,3 +1316,43 @@ class serviceApi(APIView):
             serviceObj.save()
         serviceData = serviceSerializer(serviceObj , many = False).data
         return Response(serviceData, status = status.HTTP_200_OK)
+
+class UsageBillingViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    queryset = UsageBilling.objects.all()
+    serializer_class = UsageBillingSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['month' , 'year']
+
+
+class CreateBillingAPI(APIView):
+    renderer_classes = (JSONRenderer,)
+    def post(self , request , format = None):
+        div = request.user.designation.division
+        installapp = InstalledApp.objects.filter(parent = div )
+        amount = 0
+        mydate = datetime.datetime.now()
+        month = mydate.strftime("%B")
+        year = mydate.strftime("%G")
+        for i in installapp:
+            usercount = 0
+            usercount = UserApp.objects.filter(user__designation__division = div, app = i.app).count()
+            amount+=usercount
+        UsageBilling.objects.create(date = datetime.datetime.today(), title = 'App Billing' , month = month, year = year , amount = amount )
+        return Response( status = status.HTTP_200_OK)
+
+
+class GetBillingAPI(APIView):
+    renderer_classes = (JSONRenderer,)
+    def get(self , request , format = None):
+        div = request.user.designation.division
+        year = request.GET['year']
+        month = request.GET['month']
+        usageObj = UsageBilling.objects.filter(month = month, year = year)
+        obj = UsageBillingSerializer(usageObj, many = True).data
+        total = usageObj.aggregate(tot=Sum('amount'))
+        amount = 0
+        if total['tot'] is not None:
+            amount = total['tot']
+        data = {'obj':obj , 'amount' : amount}
+        return Response(data, status = status.HTTP_200_OK)

@@ -97,9 +97,10 @@ class serviceLiteSerializer(serializers.ModelSerializer):
 class applicationSerializer(serializers.ModelSerializer):
     appMedia = serializers.SerializerMethodField()
     usersCount = serializers.SerializerMethodField()
+    is_app_installed = serializers.SerializerMethodField()
     class Meta:
         model = application
-        fields = ( 'pk', 'name', 'module' , 'description' , 'icon'  ,  'haveJs' , 'haveCss' , 'published', 'displayName','stateAlias','appMedia','windows','ios','mac','android','rating_five','rating_four','rating_three','rating_two','rating_one','usersCount','appStoreUrl' , 'playStoreUrl')
+        fields = ( 'pk', 'name', 'module' , 'description' , 'icon'  ,  'haveJs' , 'haveCss' , 'published', 'displayName','stateAlias','appMedia','windows','ios','mac','android','rating_five','rating_four','rating_three','rating_two','rating_one','usersCount','appStoreUrl' , 'playStoreUrl','is_app_installed')
     def update(self , instance , validated_data):
         for key in ['displayName' , 'description' , 'webpage','windows','ios','mac','android','rating_five','rating_four','rating_three','rating_two','rating_one']:
             try:
@@ -120,6 +121,15 @@ class applicationSerializer(serializers.ModelSerializer):
         data = User.objects.filter(pk__in = userapp).count()
 
         return {'count':data,'appRating':4.3}
+    def get_is_app_installed(self , obj):
+        is_installed = False
+        try:
+            iObj = InstalledApp.objects.filter(app = obj, parent =  self.context['request'].user.designation.division )
+            if iObj.count()>0:
+                is_installed = True
+        except:
+            pass
+        return is_installed
 
 class applicationMediaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -318,3 +328,8 @@ class UserAppsLiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserApp
         fields = ('pk' ,'app' )
+
+class UsageBillingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UsageBilling
+        fields = ('pk' , 'date', 'title', 'amount', 'month', 'year', 'division' )

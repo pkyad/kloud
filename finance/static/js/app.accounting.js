@@ -81,7 +81,7 @@ app.config(function($stateProvider) {
       controller: 'businessManagement.finance.expenses.explore.controller'
     })
 
-    
+
     .state('businessManagement.accounting.reimbursement', {
       url: "/reimbursement",
       templateUrl: '/static/ngTemplates/app.finance.reimbursement.form.html',
