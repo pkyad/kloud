@@ -22,7 +22,7 @@
 
 <div class="row">
   <div class="col-md-3" style="background:#F2F3F7;">
-    <div class="row" style="margin:30px">
+    <div class="row Notes_mainDiv" style="">
       <div class="col-md-9">
         <div class="input-group" style="padding:10px;background:white !important;border-radius:10px;">
           <input type="text" class="form-control" ng-model="form.search"  placeholder="Search..." style="background:white !important;border: none !important;">
@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="col-md-3">
-        <button type="button" class="btn btn-default btn-block" ng-click="openCreateNote()" style="padding:17px;background:white;border-radius:10px !important;border:none !important;"><i class="fa fa-plus"></i></button>
+        <button type="button" class="btn Note_btn" ng-click="openCreateNote()" style=""><i class="fa fa-plus"></i></button>
       </div>
     </div>
 
@@ -43,8 +43,8 @@
       </div>
     </div>
     <div class="row" style="padding-bottom:20px">
-      <div class="col-md-offset-4 col-md-4">
-        <button type="button" class="btn btn-block btn-default" style="border : none !important;border-radius:10px !important;padding:15px;left:150px;font-size:16px;background:#E01B22;color:white;" ng-click="loadMore()">
+      <div class="text-center">
+        <button type="button" class="btn btn-default" style="border : none !important;border-radius:10px !important;padding:15px;left:150px;font-size:16px;background:#E01B22;color:white;" ng-click="loadMore()">
             Load More
           </button>
       </div>

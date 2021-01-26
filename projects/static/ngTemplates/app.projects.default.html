@@ -64,7 +64,7 @@
       <div class="" style="background-color:white;padding:30px;height:250px;border-radius:30px;">
         <div class="text-center" style="padding:30px 20px;">
           <i class="fa fa-plus" style="padding:10px;font-size:50px;"></i><br>
-          <p style="font-weight:600" >Add new project</p>
+          <p class="font14" style="font-weight:600" >Add new project</p>
         </div>
       </div>
     </div>
@@ -78,36 +78,30 @@
             </div>
           </div>
           <div class="col-md-8 text-right">
-            <span style="font-size:22px;">{{k.title}}</span>
+            <span class="font22" >{{k.title}}</span>
           </div>
         </div>
         <div class="row" style="margin-top:15px;">
 
           <div class="col-md-6 text-left">
-            <h4>{{k.dueDate | date}}</h4>
-            <p class="text-dull">Duedate</p>
+            <h4 class="font18">{{k.dueDate | date}}</h4>
+            <p class="text-dull font14">Duedate</p>
           </div>
           <div class="col-md-6 text-right">
 
-            <div style="position:relative;width:100%;height:60px;text-align: right;margin-top: -34px;">
-              <!-- <img src="/media/HR/images/DP/1591720800_95_admin_user7-128x128.jpg" alt="" style="width:50px;height:50px;border-radius:20px;right: 31px;
-position: absolute;
-z-index: 10;"> -->
-              <div style="width:30px;height:30px;background:#103F8D;border-radius:20px;position: absolute;left: 77px;bottom: 0px;color:white;padding:10px;padding-bottom: 14px;padding-top: 5px;z-index: 10;">
+            <div style="position:relative;width:100%;text-align: right;margin-bottom:5px;">
+          
+              <div class="Projects_teamCount" style="">
                {{k.team.length}}
               </div>
-              <img ng-src="{{k.team.profile.displayPicture | getDP}}" width="60" height="60" />
+              <img ng-src="{{k.team.profile.displayPicture | getDP}}" class="Projects_teamImg" style="" />
 
-              <!-- <img src="https://pixelmator.com/community/download/file.php?avatar=17785_1569233053.png" alt="" style="width:40px;height:40px;border-radius:20px;position: absolute;right: 0px;bottom: 0px;"> -->
-            </div>
-            <br>
-            <!-- <h3>{{k.team.length}}</h3> -->
-            <p class="text-dull">Team Members</p>
+                        </div>
+            <p class="text-dull font14">Team Members</p>
           </div>
         </div>
       </div>
     </div>
 
   </div>
-  <!-- <generic-Table data="data.tableData" config-Obj="{{projectsConfig}}" callback-Fn="tableAction"></generic-Table> -->
 </div>

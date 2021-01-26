@@ -194,21 +194,21 @@ z-index: 9;
     </div>
   </div>
 
-  <div style="margin-top:30px;" class="row menuItems {{$state.is('businessManagement.website.pages')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.website.pages')">
+  <div style="margin-top:30px;" class="row menuItems font16 {{$state.is('businessManagement.website.pages')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.website.pages')">
     <strong> Pages </strong>
   </div>
-  <div class="row menuItems {{$state.is('businessManagement.website.blogs')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.website.blogs')">
+  <div class="row menuItems font16 {{$state.is('businessManagement.website.blogs')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.website.blogs')">
     <strong> Blogs </strong>
   </div>
-  <div class="row menuItems {{$state.is('businessManagement.website.settings')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.website.settings')">
+  <div class="row menuItems font16 {{$state.is('businessManagement.website.settings')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.website.settings')">
     <strong> Settings </strong>
   </div>
 
-  <button type="button" class="btn defaultBtn  btn-block" style="background-color:white;position: absolute;width: 88%;bottom: 90px;"
+  <button type="button" class="btn font16 defaultBtn  btn-block" style="background-color:white;position: absolute;width: 88%;bottom: 90px;"
     ng-click="createPage()">
     Create New Page <img src="/static/images/icons8-plus-48.png" style="width:25px;margin-left:10px;" alt="">
   </button>
-  <button type="button" class="btn btn-default  btn-block" style="border : none !important;border-radius:10px !important;position: absolute;bottom: 20px;padding:15px;width: 88%;left: 15px;font-size:16px;background:#E01B22;color:white;"
+  <button type="button" class="btn font16 btn-default  btn-block" style="border : none !important;border-radius:10px !important;position: absolute;bottom: 20px;padding:15px;width: 88%;left: 15px;background:#E01B22;color:white;"
     ng-click="$state.go('businessManagement.website.createblog')">
     Create New Blog <img src="/static/images/icons8-plus-48.png" style="width:25px;margin-left:10px;" alt="">
   </button>

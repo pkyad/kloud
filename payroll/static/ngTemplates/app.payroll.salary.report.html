@@ -8,11 +8,11 @@
             <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
           </div>
           <div class="col-md-2">
-            <h4 style="font-size:20px;">
+            <h4 class="font20" >
               Salary Report
             </h4>
-            <h3>{{$state.params.month}}</h3>
-            <h5>{{$state.params.year}}</h5>
+            <h3 class="font20">{{$state.params.month}}</h3>
+            <h5 class="font14">{{$state.params.year}}</h5>
 
 
           </div>
@@ -21,18 +21,18 @@
           <div class="col-md-7">
             <table class="table table-bordered">
               <thead>
-                <th>Number of Payslips</th>
-                <th>PF Reserved</th>
-                <th>Payable</th>
-                <th>PF Contribution</th>
-                <th>CTC</th>
+                <th class="font18">Number of Payslips</th>
+                <th class="font18">PF Reserved</th>
+                <th class="font18">Payable</th>
+                <th class="font18">PF Contribution</th>
+                <th class="font18">CTC</th>
               </thead>
               <tr>
-                <td>{{addedData.length}}</td>
-                <td><i class="fa fa-inr"></i>{{report.pfReserved | number:2}}</td>
-                <td><i class="fa fa-inr"></i>{{report.payable | number:2}}</td>
-                <td><i class="fa fa-inr"></i>{{report.pfContribution | number:2}}</td>
-                <td><i class="fa fa-inr"></i>{{report.total | number:2}}</td>
+                <td class="font18">{{addedData.length}}</td>
+                <td class="font18"><i class="fa fa-inr"></i>{{report.pfReserved | number:2}}</td>
+                <td class="font18"><i class="fa fa-inr"></i>{{report.payable | number:2}}</td>
+                <td class="font18"><i class="fa fa-inr"></i>{{report.pfContribution | number:2}}</td>
+                <td class="font18"><i class="fa fa-inr"></i>{{report.total | number:2}}</td>
               </tr>
             </table>
           </div>
@@ -77,29 +77,29 @@
 <!-- <p>{{filteredmonths}}yyyyyy</p> -->
         <table class="invoiceTable" style=" width: 100%;border-collapse: collapse;">
           <tr style="background-color: #eeeeee;height: 50px;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;">
-            <th colspan="2"></th>
-            <th colspan="3">Net Income (A)</th>
-            <th>B</th>
-            <th>C</th>
-            <th>D = A-(B+C)</th>
-            <th>E</th>
-            <th>F = A+E</th>
-            <th></th>
+            <th class="font14"colspan="2"></th>
+            <th class="font14" colspan="3">Net Income (A)</th>
+            <th class="font14">B</th>
+            <th class="font14">C</th>
+            <th class="font14">D = A-(B+C)</th>
+            <th class="font14">E</th>
+            <th class="font14">F = A+E</th>
+            <th class="font14"></th>
           </tr>
           <tr style="background-color: #eeeeee;height: 50px;  ">
-            <th>Employee ID</th>
-            <th>Employee Name</th>
-            <th>Amount</th>
-            <th>Bonus</th>
-            <th>Penalty</th>
-            <th>PF</th>
-            <th>TDS</th>
-            <th>Take Home</th>
-            <th>PF (Company)</th>
-            <th>Month's CTC</th>
-            <th></th>
+            <th class="font14">Employee ID</th>
+            <th class="font14">Employee Name</th>
+            <th class="font14">Amount</th>
+            <th class="font14">Bonus</th>
+            <th class="font14">Penalty</th>
+            <th class="font14">PF</th>
+            <th class="font14">TDS</th>
+            <th class="font14">Take Home</th>
+            <th class="font14">PF (Company)</th>
+            <th class="font14">Month's CTC</th>
+            <th class="font14"></th>
           </tr>
-          <tr ng-repeat="item in report.payslips" style="background-color:{{item.payslipID && !item.deffered ? '#d1ffb8' :''}}  {{item.deffered ?  '#fcd4b3':''}} ">
+          <tr class="font14" ng-repeat="item in report.payslips" style="background-color:{{item.payslipID && !item.deffered ? '#d1ffb8' :''}}  {{item.deffered ?  '#fcd4b3':''}} ">
             <td ng-if="!item.user.pk">{{item.joiningDate | date:"yyyy"}}{{item.user}}</td>
             <td ng-if="item.user.pk">{{item.joiningDate | date:"yyyy"}}{{item.user.pk}}</td>
             <td ng-if="!item.user.pk">{{item.user | getName}}</td>

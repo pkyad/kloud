@@ -115,7 +115,7 @@
               mentio-select="getPeopleTextRaw(item)"></mentio-menu>
 
 
-  <h3 style="margin-bottom:40px;">Tasks</h3>
+  <h3 class="font24" style="margin-bottom:40px;">Tasks</h3>
 
   <div class="row" style="margin-top: 10px;margin-bottom: 10px;">
     <div class="container-fluid">
@@ -157,7 +157,7 @@
           <img ng-src="{{task.to | getDP}}" style="width:30px;" class="img img-circle" >
         </div>
         <div class="col-md-10" style="padding-top:5px;">
-          <strong style="font-size:15px;">{{task.to | getName}}</strong>
+          <strong class="font15" >{{task.to | getName}}</strong>
         </div>
       </div>
 
@@ -181,7 +181,7 @@
 
 
 
-          <span class="pull-right" style="margin-left:20px;font-size: 20px;color: #b7b7b7;" ng-if="task.timerStartedAt">{{task.timerStr}}</span>
+          <span class="pull-right font20" style="margin-left:20px;color: #b7b7b7;" ng-if="task.timerStartedAt">{{task.timerStr}}</span>
           <span ng-click="form.addingSubTask = $index;" class="fa fa-plus-circle pull-right fa-2x" style="color:#8b8b8b;cursor:pointer;" ng-if=" task.subTasks.length ==0 && task.hover" > </span>
           <span ng-click="openTask(task)" class="fa fa-files-o pull-right fa-2x" style="color:#8b8b8b;cursor:pointer;margin-right:25px;" ng-if="task.hover" > </span>
           <span class="fa fa-play-circle pull-right fa-2x" ng-click="startTask($index)" ng-if="!task.timerStartedAt && task.hover" style="color:#23ab51;cursor:pointer;margin-right:25px;" > </span>

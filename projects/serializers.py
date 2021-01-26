@@ -81,7 +81,7 @@ class projectSerializer(serializers.ModelSerializer):
         fields = ('pk','dueDate', 'created' , 'title' , 'description' , 'files' , 'team', 'comments', 'repos','user','costCenter','budget','projectClosed','ourBoundInvoices','totalCost','company', 'icon')
         read_only_fields = ('user', 'team',)
     def create(self , validated_data):
-        p = project(**vaPATCHlidated_data)
+        p = project(**validated_data)
         p.user = self.context['request'].user
         if 'costCenter' in self.context['request'].data:
             p.costCenter = CostCenter.objects.get(pk=int(self.context['request'].data['costCenter']))

@@ -28,7 +28,7 @@
       <div class="col-md-12 text-center">
         <img src="http://getdrawings.com/free-icon/time-tracking-icon-59.png" class="img img-rounded" width="100px" style="border-radius: 20px;" alt="">
 
-        <h3> Accounting </h3>
+        <h3 class="font24"> Accounting </h3>
       </div>
     </div>
 
@@ -38,12 +38,12 @@
 
       <div class="form-group col-md-12" style="padding:0px;margin-top:30px;">
         <label for="sel1">Financial Year</label>
-        <select class="form-control journalBtn" ng-model="select.year" ng-options="p for p in allYears" ng-change="filterData()" style="font-size:20px;">
+        <select class="form-control font20 journalBtn" ng-model="select.year" ng-options="p for p in allYears" ng-change="filterData()" >
         </select>
       </div>
       <div class="form-group col-md-12" style="padding:0px;margin-top:15px;margin-bottom:40px;" >
         <label for="sel1">Period</label>
-        <select class="form-control journalBtn" ng-model="select.month" ng-change="filterData()" style="font-size:20px;">
+        <select class="form-control font20 journalBtn" ng-model="select.month" ng-change="filterData()" >
           <option value="April">April</option>
           <option value="May">May</option>
           <option value="June">June</option>
@@ -86,27 +86,27 @@
                   <img ng-src="{{orgSettings.logo}}" style="height:100px;">
                 </div>
                 <div class="col-md-5 pull-right text-right" style="padding-top:20px;">
-                  <h4>Journal Enteries</h4>
-                  <h3>{{orgSettings.name}}</h3>
+                  <h4 class="font18">Journal Enteries</h4>
+                  <h3 class="font24">{{orgSettings.name}}</h3>
                 </div>
               </div>
               <div class="row" style="border-bottom:1px solid black;background: white;">
                 <div class="col-md-2 text-center" style="border-right:1px solid black;height: 80px;padding-top:20px;">
-                  <h4>Date </h4>
+                  <h4 class="font18">Date </h4>
                 </div>
                 <div class="col-md-6 text-center" style="border-right:1px solid black;height: 80px;padding-top:20px;">
-                  <h4>Account Title and Explanation </h4>
+                  <h4 class="font18">Account Title and Explanation </h4>
                 </div>
                 <div class="col-md-4 text-center">
                   <div class="row" style="height: 80px;">
                     <div class="col-md-12" style="border-bottom:1px solid black">
-                      <h4>Amount (Rs) </h4>
+                      <h4 class="font18">Amount (Rs) </h4>
                     </div>
                     <div class="col-md-6">
-                      <h4> Debit </h4>
+                      <h4 class="font18"> Debit </h4>
                     </div>
                     <div class="col-md-6">
-                      <h4> Credit </h4>
+                      <h4 class="font18"> Credit </h4>
                     </div>
                   </div>
                 </div>
@@ -127,14 +127,14 @@
                   </div>
               </div>
             </div> -->
-                <div class="col-md-12" ng-repeat="p in transactionData" style="{{!$last? 'border-bottom:solid 1px black;':''}}background:white;padding:0px;font-size:20px;">
+                <div class="col-md-12 font20" ng-repeat="p in transactionData" style="{{!$last? 'border-bottom:solid 1px black;':''}}background:white;padding:0px;">
                   <div class="container-fluid" ng-repeat="d in p">
                     <div class="row">
-                      <div class="col-md-1 text-center" style="min-height: 30px;padding-top:5px;">
-                        <span ng-if="$first" style="font-size:17px;">{{d.dated | date:'MMM'}} </span>
+                      <div class="col-md-1 font17 text-center" style="min-height: 30px;padding-top:5px;">
+                        <span ng-if="$first" >{{d.dated | date:'MMM'}} </span>
                       </div>
-                      <div class="col-md-1 text-center" style="border-right:1px solid black;min-height: 30px;padding-top:5px;">
-                        <span ng-if="$first"  style="font-size:15px;"> {{d.dated | date:'dd'}} </span>
+                      <div class="col-md-1 font15 text-center" style="border-right:1px solid black;min-height: 30px;padding-top:5px;">
+                        <span ng-if="$first"  > {{d.dated | date:'dd'}} </span>
                       </div>
                       <div class="col-md-6" style="border-right:1px solid black;min-height: 30px;padding-top:5px;">
                         <p ng-if="d.fromAcc.pk" style="padding-left:50px">{{d.fromAcc.title}}</p>
@@ -154,7 +154,7 @@
 
                   </div>
                   <div class="col-md-6 " style="border-right:1px solid black;min-height: 30px;padding-top:5px; ">
-                    <p style="{{d.toAcc.pk ? 'padding-left:50px': ''}};font-weight:bold;font-size:20px; ">{{d.narration}}</p>
+                    <p  class="font20"style="{{d.toAcc.pk ? 'padding-left:50px': ''}};font-weight:bold; ">{{d.narration}}</p>
                   </div>
 
                   <div class="col-md-2 text-center " style="border-right:1px solid black;min-height: 30px;padding-top:5px; ">
@@ -193,7 +193,7 @@
             </div>
             <div class="col-md-5">
               <div class="input-group newDatePic">
-                <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="dated" is-open="statusStart.opened" ng-init="today" style="font-size:23px;" />
+                <input type="text" class="form-control font23" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="dated" is-open="statusStart.opened" ng-init="today" />
                 <span class="input-group-btn ">
                   <button type="button" class="btn btn-default pic" ng-click="statusStart.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
                 </span>
@@ -204,13 +204,13 @@
             <div class="col-md-12">
 
               <div class="row" style="border-bottom:solid 2px #eee;">
-                <div class="col-md-8" style="font-size:20px;">
+                <div class="col-md-8 font20" >
                   Account
                 </div>
-                <div class="col-md-2" style="border-left:solid 2px #eee;font-size:20px;">
+                <div class="col-md-2 font20" style="border-left:solid 2px #eee;">
                   Debit
                 </div>
-                <div class="col-md-2" style="border-left:solid 2px #eee;font-size:20px;">
+                <div class="col-md-2 font20" style="border-left:solid 2px #eee;font-size:20px;">
                   Credit
                 </div>
               </div>
@@ -218,17 +218,17 @@
               <div class="row" >
                 <div class="col-md-8">
                   <div class="form-group" style="margin-top:10px">
-                    <input type="text" class="form-control noBorder" style="font-size:20px;" ng-model="transactions[0].account"  uib-typeahead="account as account.title for account in accountSearch($viewValue)" placeholder="Search Account" >
+                    <input type="text" class="form-control noBorder font20"  ng-model="transactions[0].account"  uib-typeahead="account as account.title for account in accountSearch($viewValue)" placeholder="Search Account" >
                   </div>
                 </div>
                 <div class="col-md-2" style="border-left:solid 2px #eee;">
                   <div class="form-group" style="margin-top:10px">
-                    <input type="text" class="form-control noBorder" style="font-size:20px;" ng-model="transactions[0].debit" placeholder="Debit" ng-change="calc()">
+                    <input type="text" class="form-control noBorder font20"  ng-model="transactions[0].debit" placeholder="Debit" ng-change="calc()">
                   </div>
                 </div>
                 <div class="col-md-2" style="border-left:solid 2px #eee;">
                   <div class="form-group" style="margin-top:10px">
-                    <input type="text" class="form-control noBorder" ng-model="transactions[0].credit" style="font-size:20px;" placeholder="Credit" ng-change="calc()" ng-enter="addNewLine()">
+                    <input type="text" class="form-control noBorder font20" ng-model="transactions[0].credit" style="font-size:20px;" placeholder="Credit" ng-change="calc()" ng-enter="addNewLine()">
                   </div>
                 </div>
               </div>
@@ -236,17 +236,17 @@
               <div class="row" ng-repeat="i in transactions.slice(1)">
                 <div class="col-md-8">
                   <div class="form-group" style="margin-top:10px">
-                    <input type="text" class="form-control noBorder" style="font-size:20px;" ng-model="i.account" uib-typeahead="account as account.title for account in accountSearch($viewValue)" placeholder="Search Account" >
+                    <input type="text" class="form-control noBorder font20" ng-model="i.account" uib-typeahead="account as account.title for account in accountSearch($viewValue)" placeholder="Search Account" >
                   </div>
                 </div>
                 <div class="col-md-2" style="border-left:solid 2px #eee;">
                   <div class="form-group" style="margin-top:10px">
-                    <input type="text" class="form-control noBorder" style="font-size:20px;" ng-model="i.debit" placeholder="Debit" ng-change="calc()">
+                    <input type="text" class="form-control noBorder font20"  ng-model="i.debit" placeholder="Debit" ng-change="calc()">
                   </div>
                 </div>
                 <div class="col-md-2" style="border-left:solid 2px #eee;">
                   <div class="form-group" style="margin-top:10px">
-                    <input type="text" class="form-control noBorder" ng-model="i.credit" style="font-size:20px;" placeholder="Credit" ng-change="calc()" ng-enter="addNewLine()">
+                    <input type="text" class="form-control noBorder font20" ng-model="i.credit"  placeholder="Credit" ng-change="calc()" ng-enter="addNewLine()">
                   </div>
                 </div>
               </div>
@@ -254,8 +254,8 @@
 
               <div class="row">
                 <div class="col-md-8">
-                  <span style="font-size:25px;padding:0px" class="btn">(</span>
-                  <input type="text" class="" ng-model="narration" placeholder="Narration" style="border: none;font-size:20px;background:white;margin-left:20px;margin-right:20px; ">
+                  <span style="padding:0px" class="btn font25">(</span>
+                  <input type="text" class="font20" ng-model="narration" placeholder="Narration" style="border: none;background:white;margin-left:20px;margin-right:20px; ">
                   <span style="font-size:25px;padding:0px" class="btn">)</span>
                 </div>
                 <div class="col-md-2">
@@ -266,20 +266,20 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-8 text-right" style="font-size:20px;">
+                <div class="col-md-8 text-right font20" >
                   Total
                 </div>
-                <div class="col-md-2" style="border-left:solid 2px #eee;font-size:23px;">
+                <div class="col-md-2 font23" style="border-left:solid 2px #eee;">
                   {{total.debit}}
                 </div>
-                <div class="col-md-2" style="border-left:solid 2px #eee;font-size:23px;">
+                <div class="col-md-2 font23" style="border-left:solid 2px #eee;">
                   {{total.credit}}
                 </div>
               </div>
 
             </div>
             <div class="col-md-12 text-center" style="margin-top:15px;margin-top:30px;margin-bottom:30px;">
-              <button class="btn btn-primary" ng-click="saveTransactions()" style="background: #461482;color: white;border: none !important;border-radius: 64px !important;padding: 17px;right: 59px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;padding-right:30px;padding-left:30px;"> Submit Enteries </button>
+              <button class="btn font16 btn-primary" ng-click="saveTransactions()" style="background: #461482;color: white;border: none !important;border-radius: 64px !important;padding: 17px;right: 59px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;padding-right:30px;padding-left:30px;"> Submit Enteries </button>
             </div>
           </div>
         </div>

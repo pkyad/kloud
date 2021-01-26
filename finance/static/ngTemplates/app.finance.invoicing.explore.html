@@ -27,9 +27,9 @@
     <div class="col-lg-12" style="margin:0px;background-image: linear-gradient(180deg,#fff 0%,#f0f0f0 100%);height:100vh;overflow:auto;font-size:15px;padding-left:0px;padding-right:0px;">
 
 
-      <div class="col-md-2" style="height:100vh;background:#FAFAFA;">
+      <div class="col-md-2"  ng-if="!form.isInvoice" style="height:100vh;background:#FAFAFA;">
 
-        <div  class="row" ng-if="!form.isInvoice" style="cursor:pointer;margin-top:30vh">
+        <div  class="row"  style="cursor:pointer;margin-top:30vh">
           <div class="col-md-12"  >
             <div class="row" ng-repeat="form in documents track by $index" ng-click="selectedView($index)" style="background:{{inView == $index?'white':''}};" >
               <div class="col-md-12 text-center">
@@ -40,7 +40,7 @@
           </div>
       </div>
 
-      <button ng-if="!form.isInvoice" type="button" class="btn btn-default " style="background: #EAEAEA;color: black;position: absolute;bottom: 13px;border : none !important;border-radius:10px !important;padding: 15px;width: 88%;" ng-click="createChild()">
+      <button  type="button" class="btn btn-default " style="background: #EAEAEA;color: black;position: absolute;bottom: 13px;border : none !important;border-radius:10px !important;padding: 15px;width: 88%;" ng-click="createChild()">
             Add New Invoice <img src="/static/images/icons8-plus-math-96.png" style="width:25px;margin-left:10px;" alt="">
       </button>
 
@@ -89,20 +89,20 @@
             <div class="col-md-12">
               <div class="row">
                 <div class="col-md-3">
-                  <h5 style="font-weight:600"> <i class="fa fa-circle" style="color:green;font-size: 11px;"></i>  TOTAL  </h5>
-                  <h3 style="font-weight:600"> <i class = "fa fa-inr"></i> {{form.total}}</h3>
+                  <h5 style="font-weight:600"> <i class="fa fa-circle font11" style="color:green;"></i>  TOTAL  </h5>
+                  <h3 class="font24" style="font-weight:600"> <i class = "fa fa-inr"></i> {{form.total}}</h3>
                 </div>
                 <div class=" col-md-3 text-left">
-                  <h5 style="font-weight:600"> <i class="fa fa-circle" style="color:red;font-size: 11px;"></i>  BILLED  </h5>
-                  <h3 style="font-weight:600"> <i class = "fa fa-inr"></i> {{form.paidAmount}}</h3>
+                  <h5 style="font-weight:600"> <i class="fa fa-circle font11" style="color:red;"></i>  BILLED  </h5>
+                  <h3 class="font24" style="font-weight:600"> <i class = "fa fa-inr"></i> {{form.paidAmount}}</h3>
                 </div>
                 <div class="col-md-3 text-left">
-                  <h5 style="font-weight:600"> <i class="fa fa-circle" style="color:blue;font-size: 11px;"></i>  PAYMENT RECEIVED  </h5>
-                  <h3 style="font-weight:600"> <i class = "fa fa-inr"></i> {{form.receivedAmount}}</h3>
+                  <h5 style="font-weight:600"> <i class="fa fa-circle font11" style="color:blue;"></i>  PAYMENT RECEIVED  </h5>
+                  <h3 class="font24" style="font-weight:600"> <i class = "fa fa-inr"></i> {{form.receivedAmount}}</h3>
                 </div>
                 <div class="col-md-3 text-left">
-                  <h5 style="font-weight:600"> <i class="fa fa-circle" style="color:orange;font-size: 11px;"></i>  AVAILABLE  </h5>
-                  <h3  style="font-weight:600"> <i class = "fa fa-inr"></i> {{form.balanceAmount}}</h3>
+                  <h5 style="font-weight:600"> <i class="fa fa-circle font11" style="color:orange;"></i>  AVAILABLE  </h5>
+                  <h3 class="font24"  style="font-weight:600"> <i class = "fa fa-inr"></i> {{form.balanceAmount}}</h3>
                 </div>
               </div>
         </div>
@@ -147,7 +147,7 @@
               <!-- <strong>Payment Due Date : </strong> {{form.payDueDate}}<br> -->
               <strong ng-if="form.serviceFor">Service For : </strong> {{form.serviceFor}}  <br>
               <strong>Sales Category : </strong> {{form.account.title}}  <br><br>
-              <strong>Party Name : </strong> <h2>{{form.personName}}</h2>
+              <strong>Party Name : </strong> <h2 class="font30"><b>{{form.personName}}</b></h2>
               ( Mobile : {{form.phone}} ) (Email : {{form.email}})<br><br>
               <strong>{{form.name}} </strong> <br>
               <div class="row">
@@ -189,13 +189,13 @@
                           <br> <br> Remove <i class="fa fa-trash"></i>
                         </span>
                       </td>
-                      <td><h4>{{p.product}}</h4></td>
-                      <td><h3>{{p.price}}</h3></td>
+                      <td><h4 class="font18">{{p.product}}</h4></td>
+                      <td><h3 class="font24">{{p.price}}</h3></td>
                       <td><span ng-if="p.hsn.pk">{{p.hsn.code}}</span> <span ng-if="!p.hsn.pk">{{p.hsn}}</span></td>
                       <td>{{p.taxPer}}</td>
                       <td > <span ng-if="!form.isInvoice||form.indx!=inView"> {{p.qty}} </span> <input ng-if="form.isInvoice&&form.indx==inView" style="margin-top:0px;" flexible-input type="text" ng-model="p.qty" ng-change="calc()"> </td>
                       <td>{{p.tax}}</td>
-                      <td><h3>{{p.total|number}}</h3></td>
+                      <td><h3 class="font24">{{p.total|number}}</h3></td>
                     </tr>
                     <tr  ng-if="form.isInvoice&&form.indx==inView">
                       <td > </td>

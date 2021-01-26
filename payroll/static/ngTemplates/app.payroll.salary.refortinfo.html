@@ -65,7 +65,7 @@
         <img src="/static/images/icons8-purchase-order-100.png" style="width:30px;" alt=""> <br><br><br>
         <span ng-if="data.status=='submitted'" class="timeLabel">waiting for approval</span>
         <span ng-if="data.status=='approved'" class="timeLabelGreen">Processed</span>
-        <h3 style="color:#696969;margin-top:50px;">Payroll Report</h3>
+        <h3 class="font24" style="color:#696969;margin-top:50px;">Payroll Report</h3>
       </div>
     </div>
 
@@ -77,9 +77,9 @@
           <span class="text-muted" style="font-size:15px;"> <i class="fa fa-user-o" style="width:20px;"></i> Payroll for {{months[data.month]}}</span>
           <div class="row" style="margin-top:10px;"> -->
       <div class="col-md-9 col-md-offset-3">
-        <span style="font-size:25px"><strong>{{months[data.month]}} - {{data.year}}</strong></span><br><br><br>
-        <span style="font-size:20px"><strong>Total : </strong><span ng-if="data.total">{{data.total}}</span><span ng-if="!data.total" class="text-danger">NA</span></span><br><br>
-        <span style="font-size:20px"><strong>TDS : </strong> <span ng-if="data.totalTDS">{{data.totalTDS}}</span> <span ng-if="!data.totalTDS" class="text-danger">NA</span></span><br>
+        <span class="font25"><strong>{{months[data.month]}} - {{data.year}}</strong></span><br><br><br>
+        <span class="font20" ><strong>Total : </strong><span ng-if="data.total">{{data.total}}</span><span ng-if="!data.total" class="text-danger">NA</span></span><br><br>
+        <span class="font20"><strong>TDS : </strong> <span ng-if="data.totalTDS">{{data.totalTDS}}</span> <span ng-if="!data.totalTDS" class="text-danger">NA</span></span><br>
         <!-- <span style="font-size:20px"><strong>Bank Transaction : </strong> <span  class="text-danger">NA</span></span><br> -->
         <!-- <span style="font-size:20px"><strong>TDS Report : </strong><span  class="text-danger">NA</span></span><br>
               <span style="font-size:20px"><strong>PF Report  : </strong> <span  class="text-danger">NA</span></span><br> -->
@@ -132,7 +132,7 @@
         </div>
       </div> -->
       <div class="col-md-12 " style="padding:10px">
-        <table class="table table-striped pad10">
+        <table class="table table-striped pad10" style="white-space:nowrap">
           <thead>
             <tr>
               <th>Name</th>

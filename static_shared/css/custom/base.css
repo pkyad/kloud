@@ -1747,6 +1747,14 @@ body {
   width: 100%;
   bottom: 180px
 }
+.whatsappCall {
+  color: white;
+  position: absolute;
+  border-radius: 10px;
+  font-size: 27px;
+  width: 100%;
+  bottom: 180px
+}
 
 .userImg {
   margin: 0px;
@@ -1878,7 +1886,7 @@ body {
 }
 
 .appImg {
-  height: 57px;
+  height: 45px;
   filter: drop-shadow(5px 5px 5px #c8c4c4);
   max-width: 100px;
   margin-bottom: 5px;
@@ -1917,23 +1925,26 @@ body {
   font-size: 11px;
   text-transform: uppercase;
   font-weight: 500;
-  color:    #000;
-  background-color:    #fff;
+  color: #000;
+  background-color: #fff;
   border: none;
   border-radius: 45px !important;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
+}
 
+.courseDetail_padding {
+  margin: 30px 0px;
 }
-.courseDetail_padding{
-  margin:30px 0px;
+
+.course_mainDiv {
+  margin-top: 30px;
+  margin-left: 15px;
 }
-.course_mainDiv{
-  margin-top:30px;margin-left:15px;
-}
-.courses_gradientBtn:active{
+
+.courses_gradientBtn:active {
   background-image: linear-gradient(to right, #f08621 0%, #ef1f22 25%, #d41e50 50%, #86398e 75%, #0351a4 100%);
   box-shadow: none;
 }
@@ -2020,7 +2031,7 @@ video {
   text-align: left;
   padding: 15px;
   margin: 0px;
-  height:60px;
+  height: 60px;
   border-radius: 10px 10px 0px 0px;
 }
 
@@ -2069,7 +2080,7 @@ video {
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.05);
   /* border-radius: 16px; */
   margin: 5px 0px;
-  margin-left:30px;
+  margin-left: 30px;
   padding: 10px;
 }
 
@@ -2218,7 +2229,7 @@ video {
   opacity: 0.0;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
-  z-index:1
+  z-index: 1
 }
 
 .selectBox {
@@ -2234,162 +2245,301 @@ video {
   border-radius: 10px;
 }
 
-.courses_book{
-  padding:100px 0px;color:white;
+.courses_book {
+  padding: 100px 0px;
+  color: white;
 }
-.courses_booktext{
-  margin:0px;padding:20px;color:white;
+
+.courses_booktext {
+  margin: 0px;
+  padding: 20px;
+  color: white;
 }
-.book_title{
-  height:40px;
+
+.book_title {
+  height: 40px;
 }
-.contacts_details{
-  margin-top:50px;overflow:hidden;position:relative;width:100%;padding-left:70px;
+
+.contacts_details {
+  margin-top: 50px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  padding-left: 70px;
 }
-.mapPreview{
-  display:block; width:auto;
-  position:relative;min-height:220px;border-radius:20px;background:white;padding:0px;overflow:hidden;padding-bottom:30px;margin-left:70px;transition: all 0.3s ease-in-out;margin-top:30px;
+
+.mapPreview {
+  display: block;
+  width: auto;
+  position: relative;
+  min-height: 220px;
+  border-radius: 20px;
+  background: white;
+  padding: 0px;
+  overflow: hidden;
+  padding-bottom: 30px;
+  margin-left: 70px;
+  transition: all 0.3s ease-in-out;
+  margin-top: 30px;
 }
-.cotacts_explorediv1{
-  min-height:100vh;position:relative;padding:40px;background:#FAFAFA;
+
+.cotacts_explorediv1 {
+  min-height: 100vh;
+  position: relative;
+  padding: 40px;
+  background: #FAFAFA;
 }
-.contacts_creation{
-  padding:300px;background:#ECECEC;padding-top:30px;
+
+.contacts_creation {
+  padding: 300px;
+  background: #ECECEC;
+  padding-top: 30px;
 }
+
 .datePicker .btn-sm {
-  font-size:30px !important;
-  color:white;
-  background:unset !important;
+  font-size: 30px !important;
+  color: white;
+  background: unset !important;
   border: none !important;
 }
-.datePicker small{
-  font-size:25px !important;
-  color:rgb(255, 154, 145);
-  background:unset !important;
+
+.datePicker small {
+  font-size: 25px !important;
+  color: rgb(255, 154, 145);
+  background: unset !important;
   border: none !important;
 }
-.datePicker button{
+
+.datePicker button {
   margin: 8px;
   transition: all 0.3s ease 0s;
-  outline:none !important;
-  border-radius:20px !important;
+  outline: none !important;
+  border-radius: 20px !important;
 }
 
-.datePicker .text-muted{
-  color:rgb(255, 98, 84)
+.datePicker .text-muted {
+  color: rgb(255, 98, 84)
 }
 
-.datepicker .text-info{
-  color:white !important;
-  font-size:45px !important;
+.datepicker .text-info {
+  color: white !important;
+  font-size: 45px !important;
 }
-.text-info{
-  color:white !important;
+
+.text-info {
+  color: white !important;
 }
-.datePicker .active{
-  background:#A50920 !important;
+
+.datePicker .active {
+  background: #A50920 !important;
   box-shadow: 0px 12px 27px rgb(43, 18, 21) !important;
-
-
-
 }
 
-.datePicker tr:first-child{
-  display:none !important;
+.datePicker tr:first-child {
+  display: none !important;
 }
-.font36{
-  font-size:36px;
+
+.font36 {
+  font-size: 36px;
 }
-.meetingImg{
+
+.meetingImg {
   margin-right: 40px;
 }
 
-.officeInput{
-  background:black;color:white;padding:25px;font-size:25px;border-radius:10px !important;border:none !important;
+.officeInput {
+  background: black;
+  color: white;
+  padding: 25px;
+  font-size: 25px;
+  border-radius: 10px !important;
+  border: none !important;
 }
 
-.officeForm label{
-  font-size:20px;
-  color:rgb(233, 233, 233);
-  font-weight:normal;
+.officeForm label {
+  font-size: 20px;
+  color: rgb(233, 233, 233);
+  font-weight: normal;
 }
 
-.officeInputWhite{
-  background:#F3F6FB;color:black;padding:25px;font-size:25px;border-radius:10px !important;border:none !important;
+.officeInputWhite {
+  background: #F3F6FB;
+  color: black;
+  padding: 25px;
+  font-size: 25px;
+  border-radius: 10px !important;
+  border: none !important;
 }
-.duration{
-  padding:20px;
-  background:#F3F6FB;
-  border-radius:10px;
-  font-size:18px;
-  cursor:pointer;
+
+.duration {
+  padding: 20px;
+  background: #F3F6FB;
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
   width: 100%;
   display: inline-block;
   text-align: center;
 }
-.activeDuration{
-  color:white;
-  background:#088F9D;
+
+.activeDuration {
+  color: white;
+  background: #088F9D;
 }
 
-.datePickerDropdown .dropdown-toggle{
+.datePickerDropdown .dropdown-toggle {
   padding: 10px;
   font-size: 23px;
   padding-left: 40px !important;
   padding-right: 40px !important;
-  border-radius:10px !important;
-  width:100%;
+  border-radius: 10px !important;
+  width: 100%;
 }
-.peopleTagInput .tag-item{
+
+.peopleTagInput .tag-item {
   background: #088F9D !important;
   color: white !important;
   border: none !important;
-  padding-left:0px !important;
-  padding-right:0px !important;
-
+  padding-left: 0px !important;
+  padding-right: 0px !important;
 }
-.peopleTagInput input{
-  font-size:20px !important;
-  min-width:200px !important;
-  background:#F3F6FB !important;
+
+.peopleTagInput input {
+  font-size: 20px !important;
+  min-width: 200px !important;
+  background: #F3F6FB !important;
+}
+
+.Sales_invoice {
+  min-height: 150vh;
+  box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+  margin-bottom: 100px;
+  padding: 40px;
+}
+
+.Sales_invoicesave {
+  margin: 0px;
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  width: 87%;
+  background: white;
+  padding: 10px;
+  padding-top: 15px;
+  box-shadow: 0px 0px 72px rgba(0, 0, 0, 0.31);
+}
+
+.Sales_newSale {
+  border: none !important;
+  border-radius: 10px !important;
+  position: absolute;
+  padding: 15px;
+  width: 88%;
+  left: 15px;
+}
+
+.sales_img {
+  width: 25px;
+  margin-left: 10px;
+}
+
+.Payroll_create {
+  box-shadow: 0px 34px 65px rgba(200, 200, 200, 0.94) !important;
+  color: white;
+  background: linear-gradient(135deg, #f2d50f 0%, #da0641 100%);
+  transition: box-shadow ease-in-out .35s, background ease-in-out .35s;
+  cursor: pointer;
+  padding: 40px;
+  height: 250px;
+  border-radius: 30px;
+}
+.pullOnHoverDark{
+  background-color:white;padding:40px;height:250px;border-radius:30px;
+}
+.font50{
+  font-size:50px;
+}
+.CRM_contactsCount{
+  color:white;padding:50px;
+}
+.CRM_quote{
+  min-height:100vh;padding:40px;position: fixed;left: 9%;background: #FAFAFA;width: 29.333%;z-index: 1;
+}
+.CRM_Quotedetails{
+  margin-top:50px;overflow:hidden;position:relative;width:100%;padding-left:70px;
+}
+.Notes_mainDiv{
+  margin:30px 10px;
+}
+.Note_btn{
+  padding:17px;background:white;border-radius:10px !important;border:none !important;
+}
+.Projects_teamCount{
+  width:30px;height:30px;background:#103F8D;border-radius:20px;position: absolute;left: 77px;bottom: 0px;color:white;padding:10px;padding-bottom: 14px;padding-top: 5px;z-index: 10;
+}
+.Projects_teamImg{
+  width:50px;height:50px;
 }
 @media screen and (min-width: 1279px) and (max-width: 1365px) and (-webkit-device-pixel-ratio: 1) {
-  .meetingImg{
-    height:40px;
+  .CRM_Quotedetails{
+    padding-left:5px;
   }
-  .duration{
+  .Projects_teamCount{
+    left:40px;
+  }
+  .Projects_teamImg{
+    width:40px;height:40px;
+  }
+  .gradientBtnBlue{
+    letter-spacing: 1px;
+  }
+  .meetingImg {
+    height: 40px;
+  }
+  .font22{
+    font-size:15px;
+  }
+  .duration {
     padding: 10px 7px;
     font-size: 15px;
   }
-  .addBook{
-    height:180px;padding:35px;
+
+  .addBook {
+    height: 180px;
+    padding: 35px;
   }
-  .contacts_creation{
-    padding:150px;
+
+  .contacts_creation {
+    padding: 150px;
   }
-  .mapPreview{
-    margin-left:0px;
+
+  .mapPreview {
+    margin-left: 0px;
   }
-  .cotacts_explorediv1{
-    padding:40px 25px;
+
+  .cotacts_explorediv1 {
+    padding: 40px 25px;
   }
-  .courses_book{
-    padding:30px 0px;
+
+  .courses_book {
+    padding: 30px 0px;
   }
-  .bookCard{
-    height:180px;
+
+  .bookCard {
+    height: 180px;
   }
-  .bookImg{
-    height:90px;
+
+  .bookImg {
+    height: 90px;
   }
+
   .font9 {
     font-size: 9px;
   }
-  .course_mainDiv{
-    margin:15px 0px;
+
+  .course_mainDiv {
+    margin: 15px 0px;
   }
-
-
 
   .course_header {
     margin-left: 15px;
@@ -2399,17 +2549,17 @@ video {
     padding: 20px;
     overflow: auto;
   }
-  .courseDetail_padding{
-    margin:25px 0px;
+
+  .courseDetail_padding {
+    margin: 25px 0px;
   }
+
   .nav-sidebar .active .displayName {
     white-space: nowrap;
     position: absolute;
     width: 100%;
     animation: floatText 10s infinite normal ease-in-out;
   }
-
-
 
   .logo {
     height: inherit;
@@ -2433,9 +2583,12 @@ video {
   }
 
   .whatsapp {
-    margin: -55px 0px;
+    margin:  0px;
+    bottom:100px;
   }
-
+  .whatsappCall{
+    bottom:50px !important;
+  }
   .userImg {
     margin: -45px 0px;
   }
@@ -2449,66 +2602,103 @@ video {
   .redCircle {
     top: 0px
   }
+
   .students {
-  width: 88%;
-}
-.font36{
-  font-size:25px;
-}
-.datePicker .btn-sm {
-  font-size:15px !important;
-  margin:0px;
-  font-weight:700;
-}
-.datePicker small{
-  font-size:18px !important;
-}
-.datePicker button{
-  margin: 8px;
-  transition: all 0.3s ease 0s;
-  outline:none !important;
-  border-radius:20px !important;
-}
-
-.datePicker .text-muted{
-  color:rgb(255, 98, 84)
-}
-
-
-.datePicker .active{
-  background:#A50920 !important;
-  box-shadow: 0px 12px 27px rgb(43, 18, 21) !important;
-
-
-
-}
-.datePicker tr td{
-  padding:10px;
-}
-
-.datePicker tr:first-child{
-  display:none !important;
-}
-  .courses_booktext{
-    padding:5px 0px;
-    padding-right:15px;
+    width: 88%;
   }
-  .font18{
-    font-size:16px;
+
+  .font17 {
+    font-size: 15px;
   }
-  .book_title{
-    margin-bottom:5px;
-    height:30px;
+
+  .font16 {
+    font-size: 13px;
   }
-  .courses_padding{
-    padding:0px 5px
+
+  .sales_img {
+    width: 15px;
+    margin-left: 0px;
   }
+
+  .Sales_newSale {
+    padding: 15px 0px;
+  }
+
+  .Sales_invoice {
+    padding: 15px;
+    margin-left: 3%;
+    width: 94%;
+  }
+
+  .Sales_invoicesave {
+    width: 100%;
+    right: initial;
+  }
+
+  .font36 {
+    font-size: 25px;
+  }
+
+  .datePicker .btn-sm {
+    font-size: 15px !important;
+    margin: 0px;
+    font-weight: 700;
+  }
+
+  .datePicker small {
+    font-size: 18px !important;
+  }
+
+  .datePicker button {
+    margin: 8px;
+    transition: all 0.3s ease 0s;
+    outline: none !important;
+    border-radius: 20px !important;
+  }
+
+  .datePicker .text-muted {
+    color: rgb(255, 98, 84)
+  }
+
+  .datePicker .active {
+    background: #A50920 !important;
+    box-shadow: 0px 12px 27px rgb(43, 18, 21) !important;
+  }
+
+  .datePicker tr td {
+    padding: 10px;
+  }
+
+  .datePicker tr:first-child {
+    display: none !important;
+  }
+
+  .courses_booktext {
+    padding: 5px 0px;
+    padding-right: 15px;
+  }
+
+  .font18 {
+    font-size: 16px;
+  }
+
+  .book_title {
+    margin-bottom: 5px;
+    height: 30px;
+  }
+
+  .courses_padding {
+    padding: 0px 5px
+  }
+
   .font30 {
     font-size: 16px;
   }
+
   .appImg {
-    height: 40px;
+    height: 30px;
   }
+
   .course_header {
     margin-left: 15px !important;
   }
@@ -2516,164 +2706,251 @@ video {
   .detailStrip {
     margin-left: 15px !important;
   }
+
   .padded>li>a {
-    height: 90px;
+    height: 70px;
   }
-  .font20{
-    font-size:14px;
-  }
-  .courseBtnText{
-    font-size:9px !important;
-  }
-  .oldcourseBtnText{
-    font-size:9px !important;
 
-  }
-  .courses_gradientBtn{
-    font-size:9px;
-
-  }
-  .font24{
-    font-size:16px;
-  }
-  .courseColor{
-    line-height: 4
-  }
-  .font18{
+  .font20 {
     font-size: 14px;
   }
-  .selectBox{
-    height:125px;
+
+  .courseBtnText {
+    font-size: 9px !important;
   }
-  .gradientBtnBlue{
+
+  .oldcourseBtnText {
+    font-size: 9px !important;
+  }
+
+  .courses_gradientBtn {
+    font-size: 9px;
+  }
+
+  .font24 {
+    font-size: 16px;
+  }
+  .font25 {
+    font-size: 16px;
+  }
+
+  .courseColor {
+    line-height: 4
+  }
+
+  .font18 {
+    font-size: 14px;
+  }
+
+  .selectBox {
+    height: 125px;
+  }
+
+  .gradientBtnBlue {
     letter-spacing: initial
   }
-  .contacts_details{
+
+  .contacts_details {
     margin-top: 15px;
     overflow: hidden;
     position: relative;
     width: 100%;
     padding-left: 0px;
+  }
+
+  .ProCatalog_mainDiv {
+    width: 100%;
+    margin-left: 1%
   }
 }
 
 @media screen and (min-width: 1366px) and (max-width:1439px) and (-webkit-device-pixel-ratio: 1) {
-  .duration{
+  .Projects_teamCount{
+    left:45px;
+  }
+  .Projects_teamImg{
+    width:40px;height:40px;
+  }
+  .duration {
     padding: 13px 6px;
     font-size: 15px;
   }
-  .meetingImg{
-    height:50px
+  .gradientBtnBlue{
+    letter-spacing: 1px;
   }
-  .font36{
-    font-size:25px;
+  .CRM_Quotedetails{
+    padding-left:5px;
   }
+  .meetingImg {
+    height: 50px
+  }
+
+  .font36 {
+    font-size: 25px;
+  }
+
   .datePicker .btn-sm {
-    font-size:20px !important;
-    margin:0px;
-    font-weight:700;
+    font-size: 20px !important;
+    margin: 0px;
+    font-weight: 700;
   }
-  .datePicker small{
-    font-size:18px !important;
+
+  .datePicker small {
+    font-size: 18px !important;
   }
-  .datePicker button{
+
+  .datePicker button {
     margin: 8px;
     transition: all 0.3s ease 0s;
-    outline:none !important;
-    border-radius:20px !important;
+    outline: none !important;
+    border-radius: 20px !important;
   }
 
-  .datePicker .text-muted{
-    color:rgb(255, 98, 84)
+  .datePicker .text-muted {
+    color: rgb(255, 98, 84)
   }
 
-
-  .datePicker .active{
-    background:#A50920 !important;
+  .datePicker .active {
+    background: #A50920 !important;
     box-shadow: 0px 12px 27px rgb(43, 18, 21) !important;
-
-
-
-  }
-  .datePicker tr td{
-    padding:10px;
   }
 
-  .datePicker tr:first-child{
-    display:none !important;
+  .datePicker tr td {
+    padding: 10px;
   }
+
+  .datePicker tr:first-child {
+    display: none !important;
+  }
+
   .invoiceDoc {
     padding: 20px;
     overflow: auto;
   }
-  .cotacts_explorediv1{
-    padding:40px 25px;
+
+  .cotacts_explorediv1 {
+    padding: 40px 25px;
   }
-  .contacts_creation{
-    padding:150px;
+
+  .contacts_creation {
+    padding: 150px;
   }
-  .mapPreview{
-    margin-left:0px;
+
+  .mapPreview {
+    margin-left: 0px;
   }
-  .contacts_details{
+
+  .contacts_details {
     margin-top: 15px;
     overflow: hidden;
     position: relative;
     width: 100%;
     padding-left: 0px;
   }
-  .selectBox{
-    height:125px;
+
+  .selectBox {
+    height: 125px;
   }
-  .course_mainDiv{
-    margin:15px 0px;
+
+  .course_mainDiv {
+    margin: 15px 0px;
   }
+
   .students {
-	width: 88%;
-}
-.contacts_creation{
-  padding:50px 150px;
-}
-.courses_booktext{
-  padding:15px 0px;
-  padding-right:15px;
-}
-.font18{
-  font-size:16px;
-}
-.book_title{
-  margin-bottom:5px;
-}
-.courses_padding{
-  padding:0px 5px
-}
-.font30 {
-  font-size: 16px;
-}
-.addBook{
-  height:200px;
-}
-.courses_book{
-  padding:40px 0px;
-}
-.bookCard{
-  height:200px;
-}
-.bookImg{
-  height:90px;
-}
-.font24{
-  font-size:16px;
-}
-.courseBtnText{
-  font-size: 10px
-}
-.courseColor{
-  line-height: 4
-}
-  .courses_padding{
-    padding:0px 10px
+    width: 88%;
   }
+
+  .font22{
+    font-size:16px;
+  }
+  .font17 {
+    font-size: 15px;
+  }
+
+  .font16 {
+    font-size: 14px;
+  }
+
+  .sales_img {
+    width: 15px;
+    margin-left: 0px;
+  }
+
+  .Sales_newSale {
+    padding: 15px 10px;
+  }
+
+  .Sales_invoice {
+    padding: 15px;
+    margin-left: 3%;
+    width: 94%;
+  }
+
+  .Sales_invoicesave {
+    width: 100%;
+    right: initial;
+  }
+
+  .contacts_creation {
+    padding: 50px 150px;
+  }
+
+  .courses_booktext {
+    padding: 15px 0px;
+    padding-right: 15px;
+  }
+
+  .font18 {
+    font-size: 16px;
+  }
+
+  .book_title {
+    margin-bottom: 5px;
+  }
+
+  .courses_padding {
+    padding: 0px 5px
+  }
+
+  .font30 {
+    font-size: 16px;
+  }
+
+  .addBook {
+    height: 200px;
+  }
+
+  .courses_book {
+    padding: 40px 0px;
+  }
+
+  .bookCard {
+    height: 200px;
+  }
+
+  .bookImg {
+    height: 90px;
+  }
+
+  .font24 {
+    font-size: 16px;
+  }
+  .font25 {
+    font-size: 16px;
+  }
+
+  .courseBtnText {
+    font-size: 10px
+  }
+
+  .courseColor {
+    line-height: 4
+  }
+
+  .courses_padding {
+    padding: 0px 10px
+  }
+
   .font30 {
     font-size: 20px;
   }
@@ -2690,7 +2967,7 @@ video {
   }
 
   .appImg {
-    height: 50px;
+    height: 40px;
   }
 
   .padded>li>a {
@@ -2710,7 +2987,7 @@ video {
   }
 
   .font14 {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .sideMenuView {
@@ -2722,11 +2999,14 @@ video {
   }
 
   .whatsapp {
-    bottom: 180px;
+    bottom: 135px;
+  }
+  .whatsappCall {
+    bottom: 70px !important;
   }
 
   .userImg {
-    margin: -5px 0px;
+    bottom:10px
   }
 
   .redCircle {
@@ -2738,126 +3018,176 @@ video {
     height: inherit;
     margin-bottom: 0px;
   }
-  .courses_gradientBtn{
-    font-size:10px;
-  }
-  .courseBtnText{
-    font-size:10px !important;
-  }
-  .oldcourseBtnText{
-    font-size:10px !important;
 
+  .courses_gradientBtn {
+    font-size: 10px;
+  }
+
+  .courseBtnText {
+    font-size: 10px !important;
+  }
+
+  .oldcourseBtnText {
+    font-size: 10px !important;
+  }
+
+  .ProCatalog_mainDiv {
+    width: 100%;
+    margin-left: 1%
   }
 }
 
 @media screen and (min-width: 1440px) and (max-width:1620px) and (-webkit-device-pixel-ratio: 1) {
-  .font36{
-    font-size:25px;
+  .Projects_teamCount{
+    left:45px;
+  }
+  .Projects_teamImg{
+    width:40px;height:40px;
+  }
+  .CRM_Quotedetails{
+    padding-left:5px;
+  }
+  .gradientBtnBlue{
+    letter-spacing: 1px;
+  }
+  .font22{
+    font-size:18px;
+  }
+  .ProCatalog_mainDiv {
+    width: 100%;
+    margin-left: 1%
   }
 
-  .duration{
+  .font36 {
+    font-size: 25px;
+  }
+
+  .duration {
     padding: 13px 6px;
     font-size: 15px;
   }
-  .meetingImg{
-    height:50px
+
+  .meetingImg {
+    height: 50px
   }
+
   .datePicker .btn-sm {
-    font-size:20px !important;
-    margin:0px;
-    font-weight:700;
+    font-size: 20px !important;
+    margin: 0px;
+    font-weight: 700;
   }
-  .datePicker small{
-    font-size:18px !important;
+
+  .datePicker small {
+    font-size: 18px !important;
   }
-  .datePicker button{
+
+  .datePicker button {
     margin: 8px;
     transition: all 0.3s ease 0s;
-    outline:none !important;
-    border-radius:20px !important;
+    outline: none !important;
+    border-radius: 20px !important;
   }
 
-  .datePicker .text-muted{
-    color:rgb(255, 98, 84)
+  .datePicker .text-muted {
+    color: rgb(255, 98, 84)
   }
 
-
-  .datePicker .active{
-    background:#A50920 !important;
+  .datePicker .active {
+    background: #A50920 !important;
     box-shadow: 0px 12px 27px rgb(43, 18, 21) !important;
-
-
-
-  }
-  .datePicker tr td{
-    padding:10px;
   }
 
-  .datePicker tr:first-child{
-    display:none !important;
+  .datePicker tr td {
+    padding: 10px;
   }
-  .contacts_creation{
-    padding:150px;
+
+  .datePicker tr:first-child {
+    display: none !important;
   }
-  .mapPreview{
-    margin-left:0px;
+
+  .contacts_creation {
+    padding: 150px;
   }
-  .contacts_creation{
-    padding:150px;
+
+  .mapPreview {
+    margin-left: 0px;
   }
-  .courses_booktext{
-    padding:15px 0px;
-    padding-right:15px;
+
+  .contacts_creation {
+    padding: 150px;
   }
-  .font18{
-    font-size:16px;
+
+  .courses_booktext {
+    padding: 15px 0px;
+    padding-right: 15px;
   }
-  .book_title{
-    margin-bottom:5px;
+
+  .font18 {
+    font-size: 16px;
   }
-  .courses_padding{
-    padding:0px 5px
+
+  .book_title {
+    margin-bottom: 5px;
   }
+
+  .courses_padding {
+    padding: 0px 5px
+  }
+
   .font30 {
     font-size: 16px;
   }
-  .addBook{
-    height:200px;
+
+  .addBook {
+    height: 200px;
   }
-  .courses_book{
-    padding:40px 0px;
+
+  .courses_book {
+    padding: 40px 0px;
   }
-  .bookCard{
-    height:200px;
+
+  .bookCard {
+    height: 200px;
   }
-  .bookImg{
-    height:90px;
+
+  .bookImg {
+    height: 90px;
   }
+
   .invoiceDoc {
     padding: 20px;
     overflow: auto;
   }
-  .selectBox{
-    height:125px;
-  }
-  .courseBtnText{
-    font-size:10px !important;
-  }
-  .oldcourseBtnText{
-    font-size:10px !important;
 
+  .selectBox {
+    height: 125px;
   }
-  .courseColor{
-    line-height:4
+
+  .courseBtnText {
+    font-size: 10px !important;
   }
-  .course_mainDiv{
-    margin:15px;
+
+  .oldcourseBtnText {
+    font-size: 10px !important;
   }
-  .courses_padding{
-    padding:0px 10px
+
+  .courseColor {
+    line-height: 4
   }
+
+  .course_mainDiv {
+    margin: 15px;
+  }
+
+  .courses_padding {
+    padding: 0px 10px
+  }
+
   .font24 {
-    font-size: 17px;
+    font-size: 16px;
+  }
+  .font25 {
+    font-size: 16px;
   }
 
   .font30 {
@@ -2886,7 +3216,7 @@ video {
   }
 
   .font14 {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .redCircle {
@@ -2898,7 +3228,7 @@ video {
   }
 
   .appImg {
-    height: 50px
+    height: 40px
   }
 
   .sideMenuView {
@@ -2909,17 +3239,19 @@ video {
     width: 90%;
   }
 
-  .whatsapp {
-    margin: -25px 0px;
+  .whatsappCall {
+    bottom:100px !important;
   }
 
   .userImg {
     margin: -25px 0px;
   }
-  .courses_gradientBtn{
-    font-size:10px;
+
+  .courses_gradientBtn {
+    font-size: 10px;
   }
-  .contacts_details{
+
+  .contacts_details {
     margin-top: 15px;
     overflow: hidden;
     position: relative;

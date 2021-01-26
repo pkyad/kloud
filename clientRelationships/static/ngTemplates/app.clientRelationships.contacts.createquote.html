@@ -107,36 +107,36 @@
 <div class="container-fluid">
   <div class="row">
 
-    <div class="col-md-4" style="min-height:100vh;padding:40px;position: fixed;left: 9%;background: #FAFAFA;width: 29.333%;z-index: 1;">
+    <div class="col-md-4 CRM_quote" style="">
 
       <div style="position:absolute; top:10px;left:10px;cursor:pointer;" class="text-muted" ng-click="editContact()" ng-if="editIcon">
         <i class="fa fa-pencil fa-2x"></i>
       </div>
 
       <div class="row">
-        <div class="col-md-1 text-right" style="padding-top: 15px;">
+        <div class="col-md-2 text-right" style="padding-top: 15px;">
           <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
         </div>
-        <div class="col-md-3 col-md-offset-1">
-          <img ng-src="{{contact | getCRMDP}}" class="img img-circle" style="width:80px;">
+        <div class="col-md-3">
+          <img ng-src="{{contact | getCRMDP}}" class="img img-circle" style="width:70px;">
         </div>
         <div class="col-md-7">
-          <h3>{{contact.name}}</h3>
+          <h3 class="font24">{{contact.name}}</h3>
           <span>{{contact.designation}}</span> <br>
         </div>
       </div>
 
-      <div class="row" style="padding-left:70px;margin-top:30px;">
-        <div class="col-md-6 col-md-offset-3">
-          <button type="button" class="btn btn-default btn-block btnBlue" ng-click="call()">
-            Call <i style="margin-left:40px;" class="fa fa-phone"></i>
+      <div class="row text-center" style="margin-top:30px;">
+        <div class="">
+          <button type="button" class="btn btn-default font17  btnBlue" ng-click="call()">
+            Call <i  class="fa fa-phone"></i>
           </button>
         </div>
 
       </div>
 
-      <div ng-if="contact.mobile != null || contact.email != null || contact.facebook != null || contact.linkedin != null || contact.mobileSecondary != null || contact.emailSecondary != null" class="row"
-        style="margin-top:50px;overflow:hidden;position:relative;width:100%;padding-left:70px;">
+      <div ng-if="contact.mobile != null || contact.email != null || contact.facebook != null || contact.linkedin != null || contact.mobileSecondary != null || contact.emailSecondary != null" class="row CRM_Quotedetails"
+        style="">
         <div class="container-fluid">
 
           <span ng-if="contact.mobile != null"><strong><i style="width:30px;color: hsl(212 ,20% , 68%);margin-right:10px;" class="fa fa-mobile fa-lg"></i> </strong>{{contact.mobile}}</span> <br><br>
@@ -153,17 +153,20 @@
 
       <div ng-if="!(contact.mobile != null || contact.email != null || contact.facebook != null || contact.linkedin != null || contact.mobileSecondary != null || contact.emailSecondary != null)" class="text-center"
         style="margin-top:40px;margin-bottom:40px;">
-        <h4 class="text-muted"> No contact details found</h4>
+        <h4 class="font18" class="text-muted"> No contact details found</h4>
       </div>
       <div class="row" style="max-height:55vh;overflow-y:scroll;scrollbar-width: none;background:white;padding-left: 15px;">
         <div class="col-md-12" ng-repeat="c in contractVersions" style="background:white;box-shadow:20px 20px 50px #eee, -30px -30px 60px #eee;padding:20px;min-height:100px;border-radius:20px;margin-bottom:20px;cursor:pointer"
           ng-click="viewContract($index)">
-          <div class="row">
-            <div class=" col-md-10 ">
-              <h3> <i class="fa fa-inr"> </i> {{c.grandTotal | number : 2}} </h3>
+          <div class="row" style="margin:0px;">
+            <div class=" col-md-2 pull-right " style="padding:0px;" ng-if="$index+1 == contractVersions.length">
+              <div  style="height:20px;width:60px;border-radius:10px;background-color:{{terms.themeColor}};color:#ffffff" class="text-center"> Latest </div>
             </div>
-            <div class=" col-md-2 ">
-              <div ng-if="$index+1 == contractVersions.length" style="height:20px;width:60px;border-radius:10px;background-color:{{terms.themeColor}};color:#ffffff" class="text-center"> Latest </div>
+
+          </div>
+          <div class="row">
+            <div class=" col-md-12 ">
+              <h3 class="font24"> <i class="fa fa-inr"> </i> {{c.grandTotal | number : 2}} </h3>
             </div>
           </div>
           <div class="row">
@@ -184,7 +187,7 @@
       <div class="col-md-6" style="margin-left:100px">
         <div class="row">
           <div class="col-md-12 text-left">
-            <h3> {{settings.name}} </h3>
+            <h3 class="font24"> {{settings.name}} </h3>
           </div>
         </div>
         <div class="row">
@@ -211,7 +214,7 @@
       <div class="col-md-6">
         <div class="row">
           <div class="col-md-12 text-left">
-            <h3> {{settings.name}} </h3>
+            <h3 class="font24"> {{settings.name}} </h3>
           </div>
         </div>
         <div class="row">
@@ -262,13 +265,13 @@
       </div>
 
       <div class="row text-center">
-        <h3 contenteditable ng-model="form.heading"></h3>
+        <h3 class="font24" contenteditable ng-model="form.heading"></h3>
       </div>
 
 
       <div class="row" style="padding:50px;">
-        <span style="font-size:15px;">On:</span> <span style="font-size:15px;">{{form.date | date}} </span> <br>
-        <span ng-if="contract.pk" style="font-size:18px;">Quote #: <span ng-if="terms.version == 'V2'">SDPL/19-20/</span> {{contract.pk}} </span> <br> <br>
+        <span class="font15" >On:</span> <span class="font15">{{form.date | date}} </span> <br>
+        <span ng-if="contract.pk" class="font18">Quote #: <span ng-if="terms.version == 'V2'">SDPL/19-20/</span> {{contract.pk}} </span> <br> <br>
         <h5 style="font-weight:bold">{{contact.company.name}}</h5> <br>
         <span ng-if="contact.company!=null&&contact.company.address!=null">
         {{contact.company.address.street}} <br>
@@ -279,7 +282,7 @@
         {{contact.city}} <br>
         {{contact.state}} , {{contact.pincode}} , {{contact.country}} <br></span>
         GSTIN:{{contact.company.tin? contact.company.tin : 'NA'}} <br> <br>
-        <span style="font-weight:bold">Kind Attention:</span> <span style="font-size:18px;">{{contact.name}}</span> (Mobile # {{contact.mobile? contact.mobile : 'NA'}})
+        <span style="font-weight:bold">Kind Attention:</span> <span class="font18">{{contact.name}}</span> (Mobile # {{contact.mobile? contact.mobile : 'NA'}})
       </div>
 
       <div class="row" style="padding:30px;padding-top:10px;border-bottom:solid 5px {{terms.themeColor}}">
@@ -332,8 +335,8 @@
             <p ng-if="form.productMeta.pk&&terms.isGst" style="padding:15px;color:white;">
               {{form.productMeta.description}} <br>
 
-              <strong>Code Type : </strong> {{form.productMeta.typ}} <br> <strong>Code : </strong> <span style="font-size:16px;">{{form.productMeta.code}}</span> <br>
-              <strong>Tax Rate :</strong><span style="font-size:16px;">{{form.productMeta.taxRate}}</span></p>
+              <strong>Code Type : </strong> {{form.productMeta.typ}} <br> <strong>Code : </strong> <span class="font16">{{form.productMeta.code}}</span> <br>
+              <strong>Tax Rate :</strong><span class="font15">{{form.productMeta.taxRate}}</span></p>
 
           </div>
           <div class="col-md-2" style="padding-right:0px !important;padding-left:0px !important;width:21%;" ng-if="terms.isGst">
@@ -345,10 +348,10 @@
 
           </div>
           <div class="col-md-2" style="padding-right:0px !important;padding-left:0px !important;">
-            <input type="text" ng-model="form.rate" class="form-control cleanInputDark" placeholder="Rate" style="font-size:20px;">
+            <input type="text" ng-model="form.rate" class="form-control font20 cleanInputDark" placeholder="Rate" class="">
           </div>
           <div class="col-md-2" style="padding-right:0px !important;padding-left:0px !important;">
-            <input ng-model="form.qty" type="text" class="form-control cleanInputDark" placeholder="Quantity" style="font-size:20px;" ng-enter="addItem()">
+            <input ng-model="form.qty" type="text" class="form-control font20 cleanInputDark" placeholder="Quantity"  ng-enter="addItem()">
           </div>
           <div class="col-md-1" style="padding-right:0px !important;padding-left:0px !important;">
             <button type="button" class="btn btn-primary" style="background:#1E334C;color:white;border: none !important;font-weight:bold;padding:15px;" ng-click="addItem()">
@@ -388,19 +391,19 @@
               Total
             </div>
             <div class="col-md-7">
-              <h3>{{contract.grandTotal}} <small><i class="fa fa-inr"></i></small></h3>
+              <h3 class="font24">{{contract.grandTotal}} <small><i class="fa fa-inr"></i></small></h3>
             </div>
           </div>
         </div>
 
 
         <div class="container-fluid" style="margin-bottom:100px;">
-          <h4 style="font-weight:bold">Amount Payable (in words) :</h4>
+          <h4 class="font18" style="font-weight:bold">Amount Payable (in words) :</h4>
           <p>{{contract.inWords}}</p>
 
           <div class="row" ng-if="showTerms">
             <div class="col-md-6">
-              <h4 style="font-weight:bold;margin-top:25px;">Terms and Conditions:
+              <h4 class="font18" style="font-weight:bold;margin-top:25px;">Terms and Conditions:
               </h4>
             </div>
             <div class="col-md-6 text-right" style="padding-top:20px;">
@@ -443,7 +446,7 @@
 
         <div class="row" ng-if="terms.version == 'V1' " style="background:{{terms.themeColor}};color:white;margin-left:-20px;margin-right:-25px;padding-bottom:40px;">
           <div class="row text-center" style="margin-top:20px;">
-            <h3>{{settings.name}}</h3>
+            <h3 class="font24">{{settings.name}}</h3>
           </div>
           <div class="row text-center" style="margin-top:20px;">
             {{settings.address}}, {{settings.city}}, {{settings.state}} - {{settings.pincode}} , {{settings.country}}

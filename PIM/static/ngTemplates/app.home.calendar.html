@@ -9,8 +9,11 @@
 
 
     <div class="col-md-3" style="padding-top:150px;">
-      <h1 class="font36" style="color:white;margin-bottom:55px;" ng-click="isActive=!isActive" ng-init="isActive=false">{{date | date:'yyyy'}}</h1>
+      <h1 class="font36" style="color:white;margin-bottom:55px;" ng-show="!isActive" ng-click="isActive=!isActive" ng-init="isActive=false">{{date | date:'yyyy'}}</h1>
+      <select ng-if="isActive" class="form-control bookInput font36 " name="" ng-model="form.selectYear" ng-options="k for k in years" style="background:transparent;color:white;padding: 0px;outline: none;" ng-change="changeCalendar()">
 
+      </select>
+      <br>
       <h3 class="font24"  style="{{index==$index?'font-weight:700':'font-weight:normal'}};color:#FF9A91;"  ng-repeat="m in allMonths track by $index" ng-click="showMonthwise($index,date)">{{m}}</h3>
 
 
@@ -22,10 +25,7 @@
           {{date | date : 'dd MMMM'}}
         </h1>
         <h3 class="font24" >{{date | date :'EEEE'}}</h3>
-        <select ng-if="isActive" class="form-control bookInput" name="" ng-model="form.selectYear" ng-options="k for k in years" style="width: 45%;
-float: right;" ng-change="changeCalendar()">
 
-        </select>
       </div>
 
         <div uib-datepicker ng-model="date" ng-click="fetchCalenderEvents()" show-weeks="false" month-columns="true" class="pull-right" ></div>

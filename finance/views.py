@@ -2501,6 +2501,7 @@ class PettyCashJournalAPI(APIView):
         month = request.GET['month']
         year = request.GET['year']
         response = HttpResponse(content_type='application/pdf')
+        
         response['Content-Disposition'] = 'attachment;filename="PettycashJournal.pdf"'
         pettyCashjournal(response,request,month,year)
         return response

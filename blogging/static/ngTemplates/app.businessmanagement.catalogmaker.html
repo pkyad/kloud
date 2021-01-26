@@ -60,27 +60,27 @@
 
 <div class="container-fluid">
   <div class="row text-center" style="margin:0px;">
-    <h3>Catalog Maker</h3>
+    <h3 class="font24">Catalog Maker</h3>
   </div>
   <div class="col-md-12" style="margin-top:50px;">
     <div class="row">
-      <div class="col-md-7">
+      <div class="col-md-5">
 
       </div>
       <div class="col-md-3">
         <div class="form-group">
-          <span style="position:absolute;right: 25px;padding: 15px;font-size: 18px;" ng-click="getAll()">
+          <span class="font18" style="position:absolute;right: 25px;padding: 15px;" ng-click="getAll()">
             <i class="fa fa-search"></i></span>
           <input type="text" class="form-control websiteInput" placeholder="Search" ng-model="search" ng-enter="getPages()" style="height:55px;margin-top:0px;">
 
         </div>
 
       </div>
-      <div class="col-md-1">
+      <div class="col-md-2">
 
         <a type="button" class="btn newBtn btn-block" ng-click="addInventory()"> New <i class="fa fa-plus"></i> </a>
       </div>
-      <div class="col-md-1 pull-right" style="margin-bottom:20px;">
+      <div class="col-md-2 pull-right" style="margin-bottom:20px;">
         <a href="/api/finance/ProductsCatalog/?id={{category}}" type="button" class="btn newBtn btn-block">Download </a>
       </div>
     </div>
@@ -89,47 +89,16 @@
         <div class="row" style="margin:0px;">
         </div>
         <br><br>
-        <!-- <div class="row" >
 
-          <div class="col-md-6" ng-repeat="k in inventoryData track by $index">
-            <div class="box ">
-              <p style="height:30px;"><b>Title:</b> {{k.name}}</p>
-              <p><b>Selling Price :</b> {{k.rate}}</p>
-              <p><b>MRP :</b> {{k.mrp}}</p>
-
-              <p style="display:flex"><b>Avaliable for sale</b>   <switch ng-model="i.sellable" ng-change="toggleSellable(k.sellable , k.pk)" class="green" style="margin-bottom: -12px;margin-left: 40px;"></switch></p>
-
-              <div class="row">
-                <hr style="margin:5px;">
-                <div class="col-md-6">
-                  <i class="fa fa-trash" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="deleteData($index)" confirm-button-type="danger"
-                    cancel-button-type="default" style="cursor:pointer;"></i>
-                </div>
-                <div class="col-md-6 text-right">
-                  <i class="fa fa-pencil" ng-click="postData($index)"></i>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-        </div>
-        <div class="row" style="margin:0px">
-
-          <button class="btn defaultBtn " ng-click="prevInventory()" style="margin-right:10px">  Prev </button>
-          <button class="btn defaultBtn pull-right" ng-click="nextInventory()"> Next </button>
-        </div> -->
       </div>
-      <div class="col-md-10 col-md-offset-1" style="height: 75vh;overflow-y: scroll;">
+      <div class="col-md-10 col-md-offset-1 ProCatalog_mainDiv" style="height: 75vh;overflow-y: scroll;">
         <div class="">
           <div class="row" style="margin-bottom:60px;">
             <div class="col-md-3">
               <img src="{{inventoryData[0].division.logo}}" style="height:85px" alt="">
             </div>
             <div class="col-md-8 text-center">
-              <h3>{{inventoryData[0].division.name}}</h3>
+              <h3 class="font24">{{inventoryData[0].division.name}}</h3>
             </div>
           </div>
         </div>

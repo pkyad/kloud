@@ -1,5 +1,4 @@
 <div class="container-fluid" style="padding:40px;background:#FAFAFA;min-height:100vh;">
-  <!-- <generic-Table data="data.tableData" config-Obj="{{config}}" callback-Fn="tableAction"></generic-Table> -->
 
   <div class="row" style="margin:20px;">
     <h2>Payroll</h2>
@@ -9,18 +8,18 @@
   <div class="row">
     <div class="col-md-4">
       <div class="col-md-6" ng-click="createPayrollReport()" style="padding:20px;">
-        <div style="box-shadow: 0px 34px 65px rgba(200, 200, 200, 0.94) !important;color: white;background: linear-gradient(135deg, #f2d50f 0%,#da0641 100%);transition: box-shadow ease-in-out .35s, background ease-in-out .35s;cursor: pointer;padding:30px;height:250px;border-radius:30px;">
-          <div class="text-center" style="padding:20px 20px;color:">
-            <i class="fa fa-plus" style="padding:10px;font-size:50px;"></i><br><br>
-            <p style="font-size:20px" >Run New Payroll Report</p>
+        <div class="Payroll_create" style="">
+          <div class="text-center" >
+            <i class="fa fa-plus font50" style="padding:10px;"></i><br><br>
+            <p  class="font20" >Run New Payroll Report</p>
           </div>
         </div>
       </div>
       <div class="col-md-6" ng-click="$state.go('workforceManagement.payroll.form16')" style="padding:20px;">
-        <div class="pullOnHoverDark" style="background-color:white;padding:30px;height:250px;border-radius:30px;">
-          <div class="text-center" style="padding:20px 20px;color:">
-            <i class="fa fa-plus" style="padding:10px;font-size:50px;"></i><br><br>
-            <p style="font-size:20px" >Upload FORM16</p>
+        <div class="pullOnHoverDark" style="">
+          <div class="text-center" >
+            <i class="fa fa-plus font50" style="padding:10px;"></i><br><br>
+            <p class="font20" >Upload FORM16</p>
           </div>
         </div>
       </div>
@@ -35,13 +34,13 @@
             </div>
           </div>
           <div class="col-md-9 text-right">
-            <span style="font-size:22px;">{{months[data.month]}} - {{data.year}}</span>
+            <span class="font22" >{{months[data.month]}} - {{data.year}}</span>
           </div>
         </div>
         <div class="row" style="margin-top:15px;">
 
           <div class="col-md-6 text-left">
-            <h2>{{data.payslips.length}}</h2>
+            <h2 class="font30">{{data.payslips.length}}</h2>
             <p class="text-dull">Payslips</p>
           </div>
           <div class="col-md-6 text-right">
@@ -58,7 +57,7 @@
             <br>
 
             <!-- <h3>{{k.team.length}}</h3> -->
-            <span style="font-size:30px;color:#b9b6b6;">{{data.status}}</span>
+            <span class="font30" style="color:#b9b6b6;">{{data.status}}</span>
           </div>
         </div>
       </div>

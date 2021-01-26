@@ -1175,10 +1175,10 @@ app.controller('projectManagement.projects.new', function($scope, $http, $aside,
       Flash.create('warning', 'Please Select The Title');
       return;
     }
-    if ($scope.form.costCenter.length==0 || $scope.form.costCenter.pk==undefined) {
-      Flash.create('warning', 'Please Select Proper Cost Center');
-      return;
-    }
+    // if ($scope.form.costCenter.length==0 || $scope.form.costCenter.pk==undefined) {
+    //   Flash.create('warning', 'Please Select Proper Cost Center');
+    //   return;
+    // }
     if ($scope.form.company==null || $scope.form.company.length==0 || $scope.form.company.pk==undefined) {
       Flash.create('warning', 'Please Select Proper Company');
       return;
