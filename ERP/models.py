@@ -349,3 +349,12 @@ class UserApp(models.Model):
     updated = models.DateTimeField(auto_now=True)
     class Meta:
             unique_together = ('app', 'user',)
+
+
+class UsageBilling(models.Model):
+    date =  models.DateField(null = True)
+    title = models.CharField(max_length = 500 , null = False)
+    amount = models.FloatField(null=True , default=0)
+    month = models.CharField(max_length = 50, null = True , blank = True)
+    year = models.CharField(max_length = 50, null = True , blank = True)
+    division = models.ForeignKey(Division , related_name="billingdivisions" , null = True )

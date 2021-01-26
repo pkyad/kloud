@@ -156,7 +156,7 @@ class DealSerializer(serializers.ModelSerializer):
 class CRMTermsAndConditionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = CRMTermsAndConditions
-        fields = ('pk'  , 'created' , 'body', 'heading', 'default' , 'division','extraFieldOne','extraFieldTwo','isGst','companyPamphlet','themeColor','message','version','name' , 'prefix' , 'counter' , 'canSupplyOrder' , 'canInvoice')
+        fields = ('pk'  , 'created' , 'body', 'heading', 'default' , 'division','extraFieldOne','extraFieldTwo','isGst','companyPamphlet','themeColor','message','version','name' , 'prefix' , 'counter' , 'canSupplyOrder' , 'canInvoice','logo')
     def create(self , validated_data):
         t = CRMTermsAndConditions(**validated_data)
         t.division = self.context['request'].user.designation.division

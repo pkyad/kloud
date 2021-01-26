@@ -878,15 +878,65 @@ app.directive('appstoreView', function() {
     //   data: '=',
     //   // addCart: '='
     // },
-    controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
+    controller: function($scope, $state, $http, Flash, $rootScope, $filter, $uibModal) {
       console.log($scope.allApplication);
-      $http({
-        method: 'GET',
-        url: '/api/ERP/getapplication/',
-      }).
-      then(function(response) {
-        $scope.allApplication = response.data
-      })
+      $scope.search = {
+        searchText:''
+      }
+      $scope.allApps = function(){
+        var url = '/api/ERP/getapplication/'
+        if ($scope.search.searchText.length>0) {
+            url+='?displayName__icontains='+$scope.search.searchText
+        }
+        $http({
+          method: 'GET',
+          url: url,
+        }).
+        then(function(response) {
+          $scope.allApplication = response.data
+        })
+
+      }
+        $scope.allApps()
+
+      $scope.viewBilling = function(){
+        $uibModal.open({
+          templateUrl: '/static/ngTemplates/app.viewBilling.modal.html',
+          size: 'lg',
+          backdrop: true,
+          controller: function($scope, $users , $uibModalInstance) {
+            $scope.date =  new Date()
+            $scope.currentYear = $scope.date.getFullYear()
+            $scope.startYear = 2015;
+            $scope.years = []
+            while ($scope.startYear <= $scope.currentYear) {
+              $scope.years.push($scope.startYear++);
+            }
+
+            $scope.monthList =   ['January' , 'february' , 'March' , 'April' , 'May' , 'June' , 'July' , 'August' , 'September' , 'Octember' , 'November' , 'December' ]
+
+            $scope.select = {
+              year : $scope.currentYear,
+              month : $scope.monthList[$scope.date.getMonth()]
+            }
+
+            $scope.getBillingData = function(){
+              $http({
+                method: 'GET',
+                url: '/api/ERP/getBilling/?year='+$scope.select.year+'&month='+$scope.select.month,
+              }).
+              then(function(response) {
+                $scope.allBilledItems = response.data
+              })
+            }
+            $scope.getBillingData()
+
+          },
+        }).result.then(function() {
+
+        }, function(data) {
+        });
+      }
 
 
     },
