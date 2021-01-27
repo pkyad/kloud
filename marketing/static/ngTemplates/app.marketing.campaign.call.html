@@ -1,16 +1,16 @@
 <div class="row" style="background:#FAFAFA;">
   <div class="col-md-3" style="padding:30px;">
 
-    <div class="col-md-2">
+    <div class="col-md-3">
       <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
     </div>
-    <div class="col-md-10">
-      <h3>{{data.name}}</h3>
+    <div class="col-md-9">
+      <h3 class="font24">{{data.name}}</h3>
     </div>
 
 
     <div class="container-fluid" >
-      <h3 style="margin-top:130px;" ng-bind-html="data.directions"></h3>
+      <h3 class="font24" style="margin-top:130px;" ng-bind-html="data.directions"></h3>
     </div>
     <!-- <div class="col-md-4">
       <div class="form-group">
@@ -19,9 +19,9 @@
     </div> -->
 
     <div class="col-md-12">
-      <h4><span style="color:grey;">Total :</span> {{campaignStats.total}} </h4>
-      <h3><span style="color:grey;">Remaining :</span> {{campaignStats.pending}} </h3>
-      <h3><span style="color:grey;">Called :</span> {{campaignStats.called}} </h3>
+      <h4 class="font20"><span style="color:grey;">Total :</span> {{campaignStats.total}} </h4>
+      <h3 class="font24"><span style="color:grey;">Remaining :</span> {{campaignStats.pending}} </h3>
+      <h3 class="font24"><span style="color:grey;">Called :</span> {{campaignStats.called}} </h3>
 
       <div class="progress">
         <div class="progress-bar" role="progressbar" aria-valuenow="70"
@@ -29,11 +29,11 @@
           {{(campaignStats.called*100/campaignStats.total) | number:1}}%
         </div>
       </div>
-      
+
 
     </div>
 
-    
+
 
 
   </div>
@@ -49,17 +49,17 @@
           <!-- {{userData}} -->
           <div class="row" style="padding:5px 15px;padding-top:15px">
             <div class="col-md-7">
-              <h2 ng-if="userData.name.length > 0">{{userData.name}}</h2>
+              <h2 class="font30"ng-if="userData.name.length > 0">{{userData.name}}</h2>
               <p>{{userData.about}}</p>
 
               <span ng-if="userData.email.length > 0" style="font-size:18px"><i class="fa fa-envelope-o" ng-click="email(userData)"></i> <a href="mailto:{{userData.email}}">{{userData.email}}</a> </i></span>
 
             </div>
             <div class="col-md-5">
-              <span ng-if="userData.mobile.length > 0" style="font-size:30px" class="pull-right"><i class="fa fa-phone"></i>&nbsp; {{userData.mobile}}</i></span> <br>
-              <span ng-if="userData.directNumber.length > 0" style="font-size:20px" class="pull-right"><i class="fa fa-phone"></i>&nbsp; {{userData.directNumber}}</i></span><br>
-              <span ng-if="userData.altNumber.length > 0" style="font-size:20px" class="pull-right"><i class="fa fa-phone"></i>&nbsp; {{userData.altNumber}}</i></span><br>
-              <span ng-if="userData.altNumber2.length > 0" style="font-size:20px" class="pull-right"><i class="fa fa-phone"></i>&nbsp; {{userData.altNumber2}}</i></span><br>
+              <span ng-if="userData.mobile.length > 0" class="pull-right font30"><i class="fa fa-phone"></i>&nbsp; {{userData.mobile}}</i></span> <br>
+              <span ng-if="userData.directNumber.length > 0"  class="pull-right font20"><i class="fa fa-phone"></i>&nbsp; {{userData.directNumber}}</i></span><br>
+              <span ng-if="userData.altNumber.length > 0" class="pull-right font20"><i class="fa fa-phone"></i>&nbsp; {{userData.altNumber}}</i></span><br>
+              <span ng-if="userData.altNumber2.length > 0"  class="pull-right font20"><i class="fa fa-phone"></i>&nbsp; {{userData.altNumber2}}</i></span><br>
 
               <a target="_blank" ng-if="userData.website.length>0" href="{{userData.website}}"> <i class="fa fa-globe"></i> {{userData.website}}</a> <br>
 
@@ -118,7 +118,7 @@
           <hr>
           <div class="row">
             <div class="col-md-12">
-              <h3 align="center">Comments</h3>
+              <h3 class="font24" align="center">Comments</h3>
               <div class="row" style="padding:0px 15px;">
                 <div class="form-group">
                   <label></label>
@@ -135,7 +135,7 @@
                   {{log.user | getName}}
                 </div>
                 <div class="col-md-8" ng-if="log.typ=='comment'" >
-                  <span style="font-size:17px">{{log.data}}</span>
+                  <span class="font17">{{log.data}}</span>
                 </div>
                 <div class="col-md-8" ng-if="log.typ=='inbound'">
                   <i class="fa fa-phone fa-2x"></i> {{log.typ | humanize}}

@@ -2485,7 +2485,55 @@ video {
 .Accounting_img{
   width:25px;margin-left:10px;
 }
+.Banking_balance{
+  width:40px;
+}
+.HR_exploreUser{
+  margin-bottom:80px;background:#2E3035;position:absolute;right:0px;height:100vh;overflow:auto;color:white;padding-right:150px;padding-top:40px;padding-bottom:40px;
+}
+.Campaign_notificaitons{
+  color:#fff;background:red;border-radius: 25px;position: absolute;left:40%;top: 15px;height: 25px;width: 25px;text-align: center;padding-top: 4px;
+}
+.Reports_gstr3b{
+  padding:40px;
+}
+.tabText{
+  text-align:left !important;
+  padding-left:25px !important;
+  font-size:16px
+}
+.tabamount{
+  text-align:right !important;
+}
+.leftHead {
+  text-align: left !important;
+  padding-left: 70px !important;
+  font-size: 16px;
+}
+
+.rightHead {
+  font-size: 16px;
+}
+.Servicing_padding{
+  padding:40px;min-height:100vh;background:#FAFAFA;
+}
 @media screen and (min-width: 1279px) and (max-width: 1365px) and (-webkit-device-pixel-ratio: 1) {
+  .Reports_gstr3b{
+    padding:25px;
+  }
+  .Servicing_padding{
+    padding:25px 35px;
+  }
+  .Campaign_notificaitons{
+    left:8%;
+  }
+
+  .HR_exploreUser{
+    padding-right:15px;
+  }
+  .Banking_balance{
+    width:25px;
+  }
   .HMS_createPatient{
     margin-left:5%;
     width:90%
@@ -2590,7 +2638,7 @@ video {
   }
 
   .font14 {
-    font-size: 11px;
+    font-size: 13px;
   }
 
   .sideMenuView {
@@ -2782,6 +2830,27 @@ video {
 }
 
 @media screen and (min-width: 1366px) and (max-width:1439px) and (-webkit-device-pixel-ratio: 1) {
+  .HR_exploreUser{
+    padding-right:15px;
+  }
+  .Campaign_notificaitons{
+    left:15%;
+  }
+
+  .HMS_createPatient{
+    margin-left:5%;
+    width:90%
+  }
+  .Accounting_invoice{
+    padding:15px 5px;
+  }
+  .Accounting_img {
+    width: 20px;
+    margin-left: 0px;
+  }
+  .Banking_balance{
+    width:30px;
+  }
   .Projects_teamCount{
     left:45px;
   }
@@ -3055,8 +3124,32 @@ video {
 }
 
 @media screen and (min-width: 1440px) and (max-width:1620px) and (-webkit-device-pixel-ratio: 1) {
+  .HR_exploreUser{
+    padding-right:15px;
+  }
+  .Campaign_notificaitons{
+    left:20%;
+  }
+
+  .HMS_createPatient{
+    margin-left:5%;
+    width:90%
+  }
+  .Accounting_invoice{
+    padding:15px 5px;
+  }
+  .Accounting_img {
+    width: 20px;
+    margin-left: 0px;
+  }
+  .Banking_balance{
+    width:30px;
+  }
   .Projects_teamCount{
     left:45px;
+  }
+  .Banking_balance{
+    width:30px;
   }
   .Projects_teamImg{
     width:40px;height:40px;

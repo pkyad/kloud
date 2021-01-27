@@ -27,7 +27,7 @@
       <div class="col-md-offset-1 col-md-8">
         <div class="row">
           <div class="col-md-12 text-center">
-            <h3  class="font24"ng-if="!form.pk">Create a new purchase invoice (Accounts Payable)</h3>
+            <h3 class="font24" ng-if="!form.pk">Create a new purchase invoice (Accounts Payable)</h3>
             <h3  class="font24" ng-if="form.pk">Edit Invoice</h3>
           </div>
         </div>
@@ -35,13 +35,12 @@
 
           <div class="col-md-6">
             <label> Company </label>
-            <div class="input-group">
+            <div class="form-group">
+              <span style="position:absolute;right:15px;padding:15px;"><i
+                  class="fa fa-{{form.companyReference.pk? 'pencil':'plus'}} fa-2x" ng-click="createVendorService()"></i></span>
               <input type="text " class="form-control font20" ng-model="form.companyReference" uib-typeahead="n as n.name for n in companySearch($viewValue)" placeholder="Select or Add Company"
-                style="padding: 29px;border: none; border-top-left-radius: 10px;margin-top:5px;margin-bottom:15px;;    border-bottom-left-radius: 10px;"  typeahead-on-select="selectCompany()" >
-              <span class="input-group-btn">
-                <button type="button" ng-click="createVendorService()" class="btn btn-default" style="padding: 15px;border: none;border-bottom-right-radius: 10px !important;border-top-right-radius: 10px !important;"><i
-                    class="fa fa-{{form.companyReference.pk? 'pencil':'plus'}} fa-2x"></i></button>
-              </span>
+                style="padding: 29px;border: none;margin-top:5px;margin-bottom:15px;border-radius:10px;"  typeahead-on-select="selectCompany()" >
+
             </div>
           </div>
           <div class="col-md-6">
@@ -69,26 +68,25 @@
         <div class="row">
           <div class="col-md-6">
             <label>Delivery Date </label>
-            <div class="input-group">
-              <!-- <label> Delivery Date </label> -->
+            <div class="form-group">
+              <span style="position:absolute;right:15px;padding:20px;"><i
+                class="glyphicon glyphicon-calendar" ng-click="statusStart.opened = true;"></i></span>
+
               <input type="text" class="form-control font20" ng-model="form.deliveryDate" placeholder="Delivery Date"
-                style="padding: 29px;border: none; border-top-left-radius: 10px;margin-top:5px;margin-bottom:15px;;    border-bottom-left-radius: 10px;" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy"
+                style="padding: 29px;border: none; border-radius: 10px;margin-top:5px;margin-bottom:15px;" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy"
                 is-open="statusStart.opened" ng-init="today">
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="statusStart.opened = true;" style="padding: 18px;border: none;border-bottom-right-radius: 10px !important;border-top-right-radius: 10px !important;"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
+
             </div>
           </div>
           <div class="col-md-6">
             <label>Payment Due Date </label>
-            <div class="input-group">
-              <!-- <label> Payment Due Date </label> -->
+            <div class="form-group">
+              <span style="position:absolute;right:15px;padding:20px;"><i
+                class="glyphicon glyphicon-calendar" ng-click="statusPay.opened = true;"></i></span>
               <input type="text" class="form-control font20" ng-model="form.paymentDueDate" placeholder="Payment Due Date"
-                style="padding: 29px;border: none; border-top-left-radius: 10px;margin-top:5px;margin-bottom:15px;;    border-bottom-left-radius: 10px;" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" is-open="statusPay.opened"
+                style="padding: 29px;border: none; border-radius: 10px;margin-top:5px;margin-bottom:15px;" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" is-open="statusPay.opened"
                 ng-init="today">
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="statusPay.opened = true;" style="padding: 18px;border: none;border-bottom-right-radius: 10px !important;border-top-right-radius: 10px !important;"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
+
             </div>
           </div>
         </div>
@@ -185,21 +183,21 @@
           <div class="col-md-12">
             <div class="row">
               <div class="col-md-12 text-center">
-                <h3> Payment Details </h3>
+                <h3 class="font24"> Payment Details </h3>
               </div>
             </div>
                 <div class="row">
                   <div class="col-md-4">
                     <h5>Total Amount </h5>
-                    <h4><i class="fa fa-inr"></i> {{form.totalAmount}} </h4>
+                    <h4 class="font18"><i class="fa fa-inr"></i> {{form.totalAmount}} </h4>
                   </div>
                   <div class="col-md-4">
                     <h5>Paid Amount </h5>
-                    <h4><i class="fa fa-inr"></i> {{form.paidAmount}} </h4>
+                    <h4 class="font18"><i class="fa fa-inr"></i> {{form.paidAmount}} </h4>
                   </div>
                   <div class="col-md-4">
                     <h5>Balance Amount </h5>
-                    <h4><i class="fa fa-inr"></i> {{form.balanceAmount}} </h4>
+                    <h4 class="font18"><i class="fa fa-inr"></i> {{form.balanceAmount}} </h4>
                   </div>
                 </div>
                 <div class="row" style="margin-top:30px">

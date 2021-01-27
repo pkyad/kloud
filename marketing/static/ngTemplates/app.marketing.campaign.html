@@ -130,13 +130,13 @@
       </div> -->
       <div class="col-md-1">
         <img ng-click="showNotifications(me)" src="/static/images/icons8-notification-50.png"  style="width:35px;margin-right:30px;" class="pull-right">
-          <div style="color:#fff;background:red;border-radius: 25px;position: relative;right: -39px;top: 15px;height: 25px;width: 25px;text-align: center;padding-top: 4px;"> {{notificationsLength}} </div>
+          <div class="Campaign_notificaitons" style=""> {{notificationsLength}} </div>
       </div>
 
     </div>
   </div>
 
-    <div class="row" style="margin-top:15px">
+    <div class="row" style="margin:25px 0px">
     <div class="col-md-3" style="padding-bottom:10px;padding-left:10px;padding-right:10px;cursor:pointer" ng-repeat="data in campaigns track by $index  " >
       <div class="container-fluid" style="padding:15px 5px;background:white;border:none;border-radius:10px;" ng-click="viewCammpaign(data)">
         <div class="row">

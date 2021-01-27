@@ -5,7 +5,6 @@
 
   .menuItems {
     padding: 20px;
-    font-size: 16px;
     cursor: pointer;
     border-right: solid 4px #F2F3F7;
     padding-bottom: 15px;
@@ -138,7 +137,7 @@
 
 <div class="container-fluid" style="padding:0px;height:100vh;">
 
-  <div class="col-md-2" style="margin:0px;margin-bottom:15px;background:#F2F3F7;height:100vh;overflow:auto;position:absolute;">
+  <div class="col-md-2" style="margin:0px;margin-bottom:15px;background:#F2F3F7;height:100vh;position:absolute;">
 
 
 
@@ -154,31 +153,32 @@
       </div>
     </div>
 
-    <div style="margin-top:30px;" class="row menuItems {{$state.is('businessManagement.servicing')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.servicing')">
+    <div style="margin-top:30px;" class="row font16 menuItems {{$state.is('businessManagement.servicing')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.servicing')">
       <strong> New / Un assigned Tickets </strong>
     </div>
-    <div class="row menuItems {{$state.is('businessManagement.servicing.assigned')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.servicing.assigned')">
+    <div class="row font16 menuItems {{$state.is('businessManagement.servicing.assigned')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.servicing.assigned')">
       <strong> Assigned </strong>
     </div>
-    <div class="row menuItems {{$state.is('businessManagement.servicing.ongoing')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.servicing.ongoing')">
+    <div class="row font16 menuItems {{$state.is('businessManagement.servicing.ongoing')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.servicing.ongoing')">
       <strong> Ongoing </strong>
     </div>
-    <div class="row menuItems {{$state.is('businessManagement.servicing.completed')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.servicing.completed')">
+    <div class="row font16 menuItems {{$state.is('businessManagement.servicing.completed')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.servicing.completed')">
       <strong>Completed</strong>
     </div>
-    <div class="row menuItems {{$state.is('businessManagement.servicing.postponed')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.servicing.postponed')">
+    <div class="row font16 menuItems {{$state.is('businessManagement.servicing.postponed')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.servicing.postponed')">
       <strong> Postponed </strong>
     </div>
-    <div class="row menuItems {{$state.is('businessManagement.servicing.cancelled')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.servicing.cancelled')">
+    <div class="row font16 menuItems {{$state.is('businessManagement.servicing.cancelled')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.servicing.cancelled')">
       <strong> Cancelled </strong>
     </div>
 
 
-    <button type="button" class="btn btn-default  btn-block" style="border : none !important;border-radius:10px !important;position: absolute;bottom: 100px;padding:15px;width: 88%;left: 15px;font-size:16px;" ng-click="$state.go('businessManagement.servicing.upcoming')">
+    <button type="button" class="btn font16 btn-default  btn-block" style="border : none !important;border-radius:10px !important;position: absolute;bottom: 100px;padding:15px;width: 88%;left: 15px;text-overflow: ellipsis ellipsis;
+white-space: nowrap;overflow: hidden;" ng-click="$state.go('businessManagement.servicing.upcoming')">
       View Upcoming AMC Visits
     </button>
 
-    <button type="button" class="btn btn-default  btn-block" style="border : none !important;border-radius:10px !important;position: absolute;bottom: 20px;padding:15px;width: 88%;left: 15px;font-size:16px;background:#E01B22;color:white;" ng-click="newContact()">
+    <button type="button" class="btn font16 btn-default  btn-block" style="border : none !important;border-radius:10px !important;position: absolute;bottom: 20px;padding:15px;width: 88%;left: 15px;background:#E01B22;color:white;" ng-click="newContact()">
         Add New Ticket <img src="/static/images/icons8-plus-48.png" style="width:25px;margin-left:10px;" alt="">
       </button>
 

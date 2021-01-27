@@ -79,13 +79,13 @@
         </thead>
         <tbody>
           <tr ng-repeat="p in advances" style="padding:10px;background:white;">
-            <td class="contentTd" style="font-size:20px;">#{{p.pk}}</td>
-            <td class="contentTd" style="font-size:20px;">{{p.created | date}}</td>
-            <td class="contentTd" style="font-size:20px;">{{p.user.first_name}} {{p.user.last_name}}</td>
-            <td class="contentTd" >{{p.reason}}</td>
-            <td class="contentTd" style="font-size:20px;">{{p.amount}}</td>
-            <td class="contentTd" style="font-size:20px;">{{p.balance}}</td>
-            <td class="contentTd" style="font-size:20px;">{{p.returnMethod.replace('_',' ')}}</td>
+            <td class="contentTd font20" >#{{p.pk}}</td>
+            <td class="contentTd font20" >{{p.created | date}}</td>
+            <td class="contentTd font20" >{{p.user.first_name}} {{p.user.last_name}}</td>
+            <td class="contentTd font20" >{{p.reason}}</td>
+            <td class="contentTd font20" >{{p.amount}}</td>
+            <td class="contentTd font20" >{{p.balance}}</td>
+            <td class="contentTd font20" >{{p.returnMethod.replace('_',' ')}}</td>
           </tr>
         </tbody>
       </table>
