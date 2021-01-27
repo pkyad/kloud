@@ -68,6 +68,33 @@ $scope.getPending()
     })
   }
 
+  $scope.openAccountForm = function(data) {
+    console.log(data);
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.finance.accounts.form.html',
+      size: 'lg',
+      backdrop: true,
+      resolve: {
+        account: function() {
+          if (data == undefined || data == null) {
+            return {};
+          } else {
+            return data;
+          }
+        },
+      },
+      controller: 'businessManagement.finance.accounts.form',
+    }).result.then(function() {
+
+    }, function(res) {
+      if (res == 'saved') {
+          $scope.allAccounts()
+      }
+
+    });
+  }
+
+
   $scope.done = function() {
 
     $uibModal.open({
@@ -136,4 +163,97 @@ $scope.getPending()
     }
     window.open('/api/payroll/getDisbursalSheet/?pkList='+selPk, '_blank');
   }
+});
+
+
+
+app.controller('businessManagement.finance.accounts.form', function($scope, $http, $aside, $state, Flash, $users, $filter,  account, $uibModalInstance) {
+
+  console.log(account);
+  if (account.pk) {
+    $scope.mode = 'edit';
+    $scope.form = account
+    console.log(account, '98089089');
+  } else {
+    $scope.mode = 'new';
+    $scope.form = {
+      title: '',
+      bank: '',
+      number: 0,
+      ifsc: '',
+      bankAddress: '',
+      personal: false,
+      contactPerson: null,
+      balance: 0,
+      authorizedSignaturies: [],
+
+    }
+  }
+
+  $scope.saveAccount = function() {
+    console.log($scope.form);
+    var f = $scope.form
+    // if (f.personal == false) {
+    //   if (f.title.length == 0 || f.bank.length == 0 || f.number.length == 0 || f.ifsc.length == 0 || f.bankAddress.length == 0) {
+    //     Flash.create('warning', 'All Fields Are Required');
+    //     return;
+    //   }
+    //   if (f.number.length == 0) {
+    //     Flash.create('warning', 'Account number should be digits');
+    //     return;
+    //   }
+    //
+    // }
+    console.log(typeof f.number, '-00--000');
+
+    var toSend = {
+      title: f.title,
+      bank: f.bank,
+      number: f.number,
+      ifsc: f.ifsc,
+      bankAddress: f.bankAddress,
+      personal: f.personal,
+      balance: f.balance,
+
+    }
+    console.log(toSend, 'opiop');
+    if (f.authorizedSignaturies.length == 0) {
+      Flash.create('warning', 'Please Add Authorized Signature Users');
+      return;
+    } else {
+      toSend.authorizedSignaturies = f.authorizedSignaturies
+      // toSend.contactPerson = f.authorizedSignaturies[0]
+    }
+    // if (f.personal== false) {
+    //
+    // }
+    // else {
+    //
+    //   if (f.contactPerson == null || typeof f.contactPerson != 'object' || f.contactPerson.pk == undefined) {
+    //     Flash.create('warning', 'Please Mention Owner');
+    //     return;
+    //   }
+    //
+    //   toSend.contactPerson = f.contactPerson.pk
+    // }
+    console.log(toSend);
+    var url = '/api/finance/account/';
+    if ($scope.mode == 'new') {
+      var method = 'POST';
+    } else {
+      var method = 'PATCH';
+      url += $scope.form.pk + '/';
+    }
+
+    $http({
+      method: method,
+      url: url,
+      data: toSend
+    }).
+    then(function(response) {
+      Flash.create('success', 'Saved');
+      $uibModalInstance.dismiss('saved')
+    })
+  }
+
 });
