@@ -17,13 +17,13 @@
         <img src="/static/images/icons8-bank-safe-64.png" class="img img-rounded" width="100px" style="border-radius: 20px;" alt="">
       </div>
     </div>
-    <div class="row text-center" ng-click="$state.go('businessManagement.bankAccounts')" style="background:{{$state.is('businessManagement.bankAccounts')?'white':''}};padding:20px;margin-top:130px;cursor:pointer;font-size:23px;">
+    <div class="row font23 text-center" ng-click="$state.go('businessManagement.bankAccounts')" style="background:{{$state.is('businessManagement.bankAccounts')?'white':''}};padding:20px;margin-top:130px;cursor:pointer;">
       Pending Payments
     </div>
-    <div class="row text-center" ng-click="$state.go('businessManagement.bankAccounts.accounts')" style="background:{{$state.is('businessManagement.bankAccounts.accounts')?'white':''}};padding:20px;cursor:pointer;font-size:23px;">
+    <div class="row font23 text-center" ng-click="$state.go('businessManagement.bankAccounts.accounts')" style="background:{{$state.is('businessManagement.bankAccounts.accounts')?'white':''}};padding:20px;cursor:pointer;">
       Bank Accounts
     </div>
-    <div class="row text-center" ng-click="$state.go('businessManagement.bankAccounts.pettyCash')" style="background:{{$state.is('businessManagement.bankAccounts.pettyCash')?'white':''}};padding:20px;cursor:pointer;font-size:23px;">
+    <div class="row font23 text-center" ng-click="$state.go('businessManagement.bankAccounts.pettyCash')" style="background:{{$state.is('businessManagement.bankAccounts.pettyCash')?'white':''}};padding:20px;cursor:pointer;">
       Petty Cash
     </div>
     <a href="" ng-click="download()" type="button" class="btn btn-default " style="background: white;color: black;position: absolute;bottom: 83px;border : none !important;border-radius:10px !important;padding: 15px;width: 88%;" >
@@ -39,7 +39,7 @@
         <div class="row">
           <div class="col-md-12">
             <div class="col-md-3">
-              <h3>Pending Payments</h3>
+              <h3 class="font24">Pending Payments</h3>
             </div>
             <div class="col-md-2 col-md-offset-7"  style="padding-top:20px;">
               <button type="button" class="btn btn-default btn-block" style="border : none !important;border-radius:10px !important;" ng-click="download()">
@@ -80,7 +80,7 @@
         </div>
 
         <div class="container-fluid">
-          <h3>Recent Payments Made</h3>
+          <h3 class="font24">Recent Payments Made</h3>
         </div>
 
         <div class="container-fluid" >

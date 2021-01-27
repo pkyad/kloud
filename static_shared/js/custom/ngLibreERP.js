@@ -1091,11 +1091,17 @@ app.controller('sideMenu', function($scope, $http, $aside, $state, Flash, $users
     console.log({ menuApps : response.data});
   })
 
+
+  $scope.isMedium= false
+  if (screen.width >= 1279 && screen.width <= 1365) {
+    $scope.isMedium= true
+    console.log($scope.filter,'kkk');
+
+  }
   $scope.filter = {
     searchTxt: '',
     menuApps : []
   }
-
 
   $scope.user = $users.get('mySelf');
 

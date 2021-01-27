@@ -306,8 +306,8 @@
 .fixedActionStrip {
   padding: 15px;
   position: fixed;
-  width: 87.7%;
-  left: 13%;
+  width: 80%;
+  left: 0%;
   z-index: 100;
   bottom: 0px;
   background: #eee;
@@ -1151,7 +1151,6 @@ body {
   background-color: #fff;
   border-left: 6px solid var(--headerNavbarHighlight);
   font-weight: bold;
-  /* padding:20px; */
 }
 
 .childActive {
@@ -1886,7 +1885,7 @@ body {
 }
 
 .appImg {
-  height: 45px;
+  height: 57px;
   filter: drop-shadow(5px 5px 5px #c8c4c4);
   max-width: 100px;
   margin-bottom: 5px;
@@ -2480,7 +2479,24 @@ video {
 .Projects_teamImg{
   width:50px;height:50px;
 }
+.Accounting_invoice{
+  border : none !important;border-radius:10px !important;position: absolute;bottom: 13px;padding:15px;width: 88%;
+}
+.Accounting_img{
+  width:25px;margin-left:10px;
+}
 @media screen and (min-width: 1279px) and (max-width: 1365px) and (-webkit-device-pixel-ratio: 1) {
+  .HMS_createPatient{
+    margin-left:5%;
+    width:90%
+  }
+  .Accounting_invoice{
+    padding:15px 5px;
+  }
+  .Accounting_img {
+    width: 20px;
+    margin-left: 0px;
+  }
   .CRM_Quotedetails{
     padding-left:5px;
   }
@@ -2498,6 +2514,9 @@ video {
   }
   .font22{
     font-size:15px;
+  }
+  .font23{
+    font-size:16px;
   }
   .duration {
     padding: 10px 7px;
@@ -2567,7 +2586,7 @@ video {
   }
 
   .padded>li>a {
-    padding: 15px;
+    padding: 20px;
   }
 
   .font14 {
@@ -2707,9 +2726,7 @@ video {
     margin-left: 15px !important;
   }
 
-  .padded>li>a {
-    height: 70px;
-  }
+
 
   .font20 {
     font-size: 14px;
@@ -2967,7 +2984,7 @@ video {
   }
 
   .appImg {
-    height: 40px;
+    height: 50px;
   }
 
   .padded>li>a {
@@ -3053,6 +3070,9 @@ video {
   .font22{
     font-size:18px;
   }
+  .font23{
+    font-size:19px;
+  }
   .ProCatalog_mainDiv {
     width: 100%;
     margin-left: 1%
@@ -3060,6 +3080,9 @@ video {
 
   .font36 {
     font-size: 25px;
+  }
+  .font16 {
+    font-size: 14px;
   }
 
   .duration {
@@ -3224,11 +3247,12 @@ video {
   }
 
   .padded>li>a {
-    height: 90px;
+    height:90px;
+    padding:10px;
   }
 
   .appImg {
-    height: 40px
+    height: 50px
   }
 
   .sideMenuView {
