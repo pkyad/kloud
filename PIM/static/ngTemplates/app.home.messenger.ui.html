@@ -133,6 +133,36 @@ text-align: center;
   width:50px;
   text-align:center;
 }
+ul.no-bullets {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown-menus {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 1000;
+    display: none;
+    float: right;
+    min-width: 160px;
+    padding: 5px 0;
+    padding-left: 0px;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    color:black
+}
 </style>
 <div class="col-md-9 col-sm-8 pull-right " style="padding:0px;">
   <div class="row" style=";margin:0px;">
@@ -166,11 +196,15 @@ text-align: center;
 
             <div class="" style="display:flex">
               <div class="sent-text" style="margin-left: auto;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;">
-                <span class="reply_icon">
-                <i class="fa fa-reply   pull-right"  aria-hidden="true" ng-click="replyTo($index)"></i><br>
+                <span class="reply_icon dropdown">
+                <i class="fa fa-angle-down  dropdown-toggle pull-right"   ng-click="message.show=!message.show"></i><br>
+                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
+                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+              </div>
                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
-                     <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
+                     <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
                      <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
                   <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
                   <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
@@ -195,13 +229,21 @@ text-align: center;
                 <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
               </div>
               <div class="recived-text" style="margin-right: auto;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;">
-                <span style="color:#7bbaf4">
+                <!-- <span style="color:#7bbaf4">
                   <i class="fa fa-reply reply_icon_rec pull-right"   ng-click="replyTo($index)"></i>
                    {{message.user.first_name}} {{message.user.last_name}}  <br/>
+                 </span> -->
+
+                 <span class=" dropdown" style="color:#7bbaf4">
+                 <i class="fa fa-angle-down  dropdown-toggle reply_icon_rec pull-right"   ng-click="message.show=!message.show"></i> {{message.user.first_name}} {{message.user.last_name}}<br>
+                 <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
+                 <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                 <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+               </div>
                  </span>
                  <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#ededed">
                    <span style="color:#7bbaf4">
-                     <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                     <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
                      <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
                     </span>
                     <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
@@ -220,12 +262,16 @@ text-align: center;
           <div ng-if="me.pk == message.user.pk && message.message === null && message.fileType === 'image'" class="  m-top-5 m-bottom-5 margin-l-auto">
             <div class="" style="display:flex">
               <div class="img-sent padding-2" style="margin-left:auto; width:300px;height:300px">
-                <span class="reply_icon">
-                <i class="fa fa-reply   pull-right"  aria-hidden="true" ng-click="replyTo($index)"></i><br>
+                <span class="reply_icon dropdown">
+                <i class="fa fa-angle-down  dropdown-toggle pull-right"   ng-click="message.show=!message.show"></i><br>
+                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
+                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+              </div>
                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br/> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
                    </span>
                   <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
@@ -247,12 +293,16 @@ text-align: center;
           <div ng-if="me.pk == message.user.pk && message.attachment != null && message.fileType === 'image' &&message.message != null" class="  m-top-5 m-bottom-5 margin-l-auto">
             <div class="">
               <div class="img-sent  padding-2" style="margin-left:auto; width:300px;height:300px;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;margin-right: 58px;border-radius: 6px 6px 0 0 !important;">
-                <span class="reply_icon">
-                <i class="fa fa-reply   pull-right"  aria-hidden="true" ng-click="replyTo($index)"></i><br>
+                <span class="reply_icon dropdown">
+                <i class="fa fa-angle-down  dropdown-toggle pull-right"   ng-click="message.show=!message.show"></i><br>
+                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
+                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+              </div>
                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
                    </span>
                   <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
@@ -279,13 +329,16 @@ text-align: center;
                 <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
               </div>
               <div class="img-recived padding-2" style=" width:300px;height:300px;margin-left:15px">
-                <span style="color:#7bbaf4">
-                  <i class="fa fa-reply reply_icon_rec pull-right"   ng-click="replyTo($index)"></i>
-                   {{message.user.first_name}} {{message.user.last_name}}  <br/>
-                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                <span class=" dropdown" style="color:#7bbaf4">
+                <i class="fa fa-angle-down  dropdown-toggle reply_icon_rec pull-right"   ng-click="message.show=!message.show"></i> {{message.user.first_name}} {{message.user.last_name}}<br>
+                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
+                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+              </div>
+                </span>
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
                    </span>
                   <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
@@ -304,13 +357,16 @@ text-align: center;
           <div ng-if="me.pk != message.user.pk && message.attachment != null && message.message != null && message.fileType === 'image'" class="  m-top-5 m-bottom-5 margin-l-auto ">
             <div class="">
               <div class="img-recived  padding-2" style="margin-right:auto; width:300px;height:300px;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;margin-right: 58px;">
-                <span style="color:#7bbaf4">
-                  <i class="fa fa-reply reply_icon_rec pull-right"   ng-click="replyTo($index)"></i>
-                   {{message.user.first_name}} {{message.user.last_name}}  <br/>
-                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                <span class=" dropdown" style="color:#7bbaf4">
+                <i class="fa fa-angle-down  dropdown-toggle reply_icon_rec pull-right"   ng-click="message.show=!message.show"></i> {{message.user.first_name}} {{message.user.last_name}}<br>
+                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
+                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+              </div>
+                </span>
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
                    </span>
                   <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
@@ -334,12 +390,16 @@ text-align: center;
           <div ng-if="me.pk === message.user.pk &&  message.fileType == 'pdf' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
-                <span class="reply_icon">
-                <i class="fa fa-reply   pull-right"  aria-hidden="true" ng-click="replyTo($index)"></i><br>
+                <span class="reply_icon dropdown">
+                <i class="fa fa-angle-down  dropdown-toggle pull-right"   ng-click="message.show=!message.show"></i><br>
+                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
+                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+              </div>
                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
                    </span>
                   <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
@@ -383,13 +443,16 @@ text-align: center;
                 <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
               </div>
               <div class="file-recived" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
-                <span style="color:#7bbaf4">
-                  <i class="fa fa-reply reply_icon_rec pull-right"   ng-click="replyTo($index)"></i>
-                   {{message.user.first_name}} {{message.user.last_name}}  <br/>
-                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                <span class=" dropdown" style="color:#7bbaf4">
+                <i class="fa fa-angle-down  dropdown-toggle reply_icon_rec pull-right"   ng-click="message.show=!message.show"></i> {{message.user.first_name}} {{message.user.last_name}}<br>
+                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
+                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+              </div>
+                </span>
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
                    </span>
                   <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
@@ -427,12 +490,16 @@ text-align: center;
           <div ng-if="me.pk === message.user.pk &&  message.fileType == 'word' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
-                <span class="reply_icon">
-                <i class="fa fa-reply   pull-right"  aria-hidden="true" ng-click="replyTo($index)"></i><br>
+                <span class="reply_icon dropdown">
+                <i class="fa fa-angle-down  dropdown-toggle pull-right"   ng-click="message.show=!message.show"></i><br>
+                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
+                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+              </div>
                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
                    </span>
                   <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
@@ -475,13 +542,16 @@ text-align: center;
                 <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
               </div>
               <div class="file-recived" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
-                <span style="color:#7bbaf4">
-                  <i class="fa fa-reply reply_icon_rec pull-right"   ng-click="replyTo($index)"></i>
-                   {{message.user.first_name}} {{message.user.last_name}}  <br/>
-                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                <span class=" dropdown" style="color:#7bbaf4">
+                <i class="fa fa-angle-down  dropdown-toggle reply_icon_rec pull-right"   ng-click="message.show=!message.show"></i> {{message.user.first_name}} {{message.user.last_name}}<br>
+                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
+                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+              </div>
+                </span>
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
                    </span>
                   <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
@@ -517,12 +587,16 @@ text-align: center;
           <div ng-if="me.pk === message.user.pk &&  message.fileType == 'ppt' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
-                <span class="reply_icon">
-                <i class="fa fa-reply   pull-right"  aria-hidden="true" ng-click="replyTo($index)"></i><br>
+                <span class="reply_icon dropdown">
+                <i class="fa fa-angle-down  dropdown-toggle pull-right"   ng-click="message.show=!message.show"></i><br>
+                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
+                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+              </div>
                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
                    </span>
                   <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
@@ -566,13 +640,16 @@ text-align: center;
                 <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
               </div>
               <div class="file-recived" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
-                <span style="color:#7bbaf4">
-                  <i class="fa fa-reply reply_icon_rec pull-right"   ng-click="replyTo($index)"></i>
-                   {{message.user.first_name}} {{message.user.last_name}}  <br/>
-                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                <span class=" dropdown" style="color:#7bbaf4">
+                <i class="fa fa-angle-down  dropdown-toggle reply_icon_rec pull-right"   ng-click="message.show=!message.show"></i> {{message.user.first_name}} {{message.user.last_name}}<br>
+                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
+                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+              </div>
+                </span>
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
                    </span>
                   <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
@@ -608,12 +685,16 @@ text-align: center;
           <div ng-if="me.pk === message.user.pk &&  message.fileType == 'xl' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
-                <span class="reply_icon">
-                <i class="fa fa-reply   pull-right"  aria-hidden="true" ng-click="replyTo($index)"></i><br>
+                <span class="reply_icon dropdown">
+                <i class="fa fa-angle-down  dropdown-toggle pull-right"   ng-click="message.show=!message.show"></i><br>
+                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
+                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+              </div>
                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
                    </span>
                   <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
@@ -656,13 +737,16 @@ text-align: center;
                 <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
               </div>
               <div class="file-recived" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
-                <span style="color:#7bbaf4">
-                  <i class="fa fa-reply reply_icon_rec pull-right"   ng-click="replyTo($index)"></i>
-                   {{message.user.first_name}} {{message.user.last_name}}  <br/>
-                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#c7e0b2">
+                <span class=" dropdown" style="color:#7bbaf4">
+                <i class="fa fa-angle-down  dropdown-toggle reply_icon_rec pull-right"   ng-click="message.show=!message.show"></i> {{message.user.first_name}} {{message.user.last_name}}<br>
+                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
+                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+              </div>
+                </span>
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
                    </span>
                   <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
@@ -705,7 +789,7 @@ text-align: center;
             <div class="col-md-12">
               <div class="row" >
                 <div class="col-md-12" style="position:absolute;bottom:85px;left:900px;z-index:3333">
-                  <div class="text-center" style="height:60px;width:60px;background-color:#009688;border-radius: 50%;padding: 10px;">
+                  <div class="text-center" style="height:60px;width:60px;background-color:#c60000;border-radius: 50%;padding: 10px;">
                     <i class="fa fa-arrow-right fa-2x" aria-hidden="true" style="color:white;" ng-click="postFiles()"></i>
                   </div>
                 </div>

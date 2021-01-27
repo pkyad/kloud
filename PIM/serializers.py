@@ -263,7 +263,7 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
     def get_name(self , obj):
-        name = ''
+        name = None
         if obj.title is not None:
             name = obj.title
         elif obj.uid != None:
@@ -279,6 +279,8 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
                         name = obj.participants.exclude(pk = self.context['request'].user.pk)[0].first_name
                 except:
                     pass
+        # if obj.title == None:
+        #     obj.title = ''
         return name
 
 
