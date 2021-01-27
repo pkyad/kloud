@@ -28,14 +28,17 @@
 </style>
 <div class="container-fluid" >
   <div class="row" style="padding-bottom:15px;padding-top:30px;">
-    <div class="col-md-3 col-md-offset-2" style="padding:0px;">
+    <div class="col-md-1">
+
+    </div>
+    <div class="col-md-3 " style="white-space: nowrap;">
       <div class="form-inline">
         <label for="">Technician</label>
         <select class="form-control" ng-model="selected.selectedEngineer" ng-options="k.first_name+' '+k.last_name for k  in allUsers" ng-change=getServices() style="width:70%;padding:15px;background:#F2F3F7;border-radius:10px !important;border:none !important;height:55px;">
         </select>
       </div>
     </div>
-    <div class="col-md-5">
+    <div class="col-md-4">
       <div class="input-group" style="padding:10px;background:#F2F3F7;border-radius:10px;">
         <input type="text" class="form-control" ng-model="selected.search" placeholder="Search by Customer Phone" style="background:#F2F3F7 !important;border: none !important;">
         <span class="input-group-btn">
@@ -48,10 +51,10 @@
 
     </div>
 
-    <div class="col-md-1">
+    <div class="col-md-2">
       <button type="button" class="btn btn-default btn-block" ng-click="prev()" style="padding:15px;background:#F2F3F7;border-radius:10px !important;border:none !important;">Prev</button>
     </div>
-    <div class="col-md-1">
+    <div class="col-md-2">
       <button type="button" class="btn btn-default btn-block" ng-click="next()" style="padding:15px;background:#F2F3F7;border-radius:10px !important;border:none !important;">Next</button>
     </div>
 
@@ -75,7 +78,7 @@
         <div class="col-md-12" style="cursor:pointer;padding-top:15px;padding-bottom:15px;" >
           <div class="row"  >
             <div class="col-md-1">{{a.pk}}</div>
-            <div class="col-md-5"><h4>{{a.name}}</h4>
+            <div class="col-md-4"><h4>{{a.name}}</h4>
               {{a.address}} {{a.city}} {{a.state}} {{a.country}} - {{a.pincode}} <br>
               <button type="button" class="btn btn-default" style="color:#2ECC71;border: none !important;background:#f1fdf6;border-radius:60px !important;" ng-click="call(a);$event.stopPropagation();">
                 <img src="/static/images/icons8-outgoing-call-30.png" style="width:25px;" alt=""> Call
@@ -90,16 +93,16 @@
 
               </div>
               </div>
-            <div class="col-md-4"> <h3>{{a.preferredDate}} @  {{a.preferredTimeSlot}}</h3>
+            <div class="col-md-4"> <h3 class="font24">{{a.preferredDate}} @  {{a.preferredTimeSlot}}</h3>
               <!-- <p style="color:{{a.remaining.split(' ')[0]<=0 || a.remaining<=0 ?'orange':'green'}}"> {{a.remaining}} Remaining </p> -->
 
-              <h3> <img src="/static/images/icons8-worker-100.png" width="35px">  {{a.engineer.first_name}} {{a.engineer.last_name}}</h3>
+              <h3 class="font24"> <img src="/static/images/icons8-worker-100.png" width="35px">  {{a.engineer.first_name}} {{a.engineer.last_name}}</h3>
                <!-- <br> Status : {{a.techStatus}} -->
             </div>
             <!-- <div class="col-md-1 text-center" ng-if="showEdit==true">
               <img src="https://icons-for-free.com/iconfiles/png/512/edit+document+edit+file+edited+editing+icon-1320191040211803620.png" style="width: 35px;" ng-click="assign($index)">
             </div> -->
-            <div class="col-md-2" ng-if="statusList.length>0">
+            <div class="col-md-3" ng-if="statusList.length>0">
               <p> Change status </p>
               <select class="form-control" ng-model="a.status" ng-options="k for k  in statusList" ng-change="changeStatus($index , a.status)" style="width:70%;padding:15px;background:#F2F3F7;border-radius:10px !important;border:none !important;height:55px;">
               </select>

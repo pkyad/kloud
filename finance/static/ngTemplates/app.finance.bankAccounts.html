@@ -23,17 +23,17 @@
     <tbody>
       <tr ng-repeat="acc in accountData" ng-click="$state.go('businessManagement.accountsView',{'id':acc.pk})">
         <td>{{$index+1}}</td>
-        <td style="font-size:23px;">{{acc.title}} </td>
+        <td  class="font23">{{acc.title}} </td>
         <td><span ng-if="!acc.personal">{{acc.number}}</span> <span ng-if="acc.personal">Petty Cash</span> </td>
 
-        <td ng-click="viewAcc(acc)" style="text-align:center !important;border: 1px solid #ddd !important;font-size:23px;">
+        <td class="font23" ng-click="viewAcc(acc)" style="text-align:center !important;border: 1px solid #ddd !important;">
           {{acc.balance}}</td>
       </tr>
       <tr style="border-bottom:1px solid #ddd !important">
         <td class="textCen"></td>
         <td class="textCen"></td>
         <th style="text-align:right !important"> Grand Total</th>
-        <th style="text-align:center !important;border: 1px solid #ddd !important;font-size:23px;"> {{total}}</th>
+        <th class="font23" style="text-align:center !important;border: 1px solid #ddd !important;"> {{total}}</th>
       </tr>
     </tbody>
   </table>

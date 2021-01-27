@@ -25,10 +25,10 @@
 <div class="row" ng-repeat="k in allTeams" style="margin-bottom:30px;background:#393C45;border-radius:20px;padding:15px;">
   <div class="row">
     <div class="col-md-1" >
-      <h3>{{k.pk}}</h3>
+      <h3 class="font24">{{k.pk}}</h3>
     </div>
     <div class="col-md-5" >
-      <h3>{{k.title}}</h3>
+      <h3 class="font24">{{k.title}}</h3>
     </div>
     <div class="col-md-6 text-right" >
       <img style="width: 50px;"  ng-src="/static/images/edit.png" ng-click="openCreateTeam($index)">
@@ -36,14 +36,14 @@
   </div>
   <div class="row">
     <div class="col-md-3" >
-      <h4> TeamLead : {{k.manager.first_name}} {{k.manager.last_name}} </h4>
-      <h3>Team Members </h3>
+      <h4 class="font18"> TeamLead : {{k.manager.first_name}} {{k.manager.last_name}} </h4>
+      <h3 class="font24">Team Members </h3>
     </div>
   </div>
   <div class="row">
     <div class="col-md-2 "  ng-repeat="u in k.members">
       <!-- <h3>{{k.pk}}</h3> -->
-      <h4> {{u.user.first_name}} {{u.user.last_name}} <i class="fa fa-trash" ng-click="remove(u.user)"></i> </h4>
+      <h4 class="font18"> {{u.user.first_name}} {{u.user.last_name}} <i class="fa fa-trash" ng-click="remove(u.user)"></i> </h4>
     </div>
     <div class="col-md-2 text-center" ng-init="u.indx=$index">
       <div class="form-group ">

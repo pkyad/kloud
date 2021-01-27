@@ -570,7 +570,7 @@ app.controller('controller.home.itDeclaration' , function($scope , $http , $time
           $scope.form.rent = res
           $scope.saveRent()
       }
-        
+
     })
   }
 

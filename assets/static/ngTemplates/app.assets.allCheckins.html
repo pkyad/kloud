@@ -8,7 +8,7 @@
 </style>
 
 <div class="row">
-  <ui-view>
+
     <div class="col-md-12">
       <div class="row" style="padding-left:15px;background:#FCFDFF;">
         <div class="col-md-12">
@@ -17,7 +17,7 @@
               <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
             </div>
             <div class="col-md-9" style="padding:0px;">
-              <h2>Inventory</h2>
+              <h2 class="font30">Inventory</h2>
             </div>
 
             <div class="col-md-offset-3">
@@ -29,14 +29,14 @@
               </div>
               <div class="container-fluid" style="padding:0px;padding-bottom:15px" ng-if="!me.is_superuser">
                 <span style="color:rgb(138, 138, 138);">Warehouse</span>
-                <p style="background: #E8E8E8;border-radius: 10px;height: 43px;color: black;border: none !important;padding-top:10px;padding-left:10px"> {{warehouses.name}} </p>
+                <p style="background: #E8E8E8;border-radius: 10px;height: 43px;color: black;border: none !important;padding-top:10px;padding-left:10px"> {{warehouseList.name}} </p>
               </div>
 
             </div>
           </div>
 
           <div class="col-md-3 text-center">
-            <h1> <i class="fa fa-inr" style="color:rgb(168, 168, 168)"></i> {{grandTotal|number}} </h1>
+            <h1 class="font36"> <i class="fa fa-inr" style="color:rgb(168, 168, 168)"></i> {{grandTotal|number}} </h1>
 
             <span>Total Inventory Value</span>
 
@@ -89,31 +89,31 @@
 
       <div class="container-fluid" style="padding:0px;padding-bottom:100px;" >
         <div class="row" style="background:#1E334C;padding:15px;color:white;">
-          <div class="col-md-3 col-md-offset-1" style="font-size:17px;">Name</div>
-          <div class="col-md-2" style="font-size:17px;">Product SKU</div>
-          <div class="col-md-1" style="font-size:17px;">Value</div>
-          <div class="col-md-4 col-md-offset-1" style="font-size:17px;">Details</div>
+          <div class="col-md-3 col-md-offset-1 font17" >Name</div>
+          <div class="col-md-2 font17" >Product SKU</div>
+          <div class="col-md-1 font17" >Value</div>
+          <div class="col-md-4 col-md-offset-1 font17" >Details</div>
         </div>
 
         <div class="row" style="padding:15px;border-bottom:1px solid #eee;cursor:pointer;" ng-repeat="i in checkinsList" ng-click="checkinAssignModal(i)">
-          <div class="col-md-3 col-md-offset-1" style="font-size:17px;">
-            <span style="font-size:22px;"> {{i.name}}  </span><br>
-            <span style="font-size:16px;"> Date : {{i.manufacturedOn}}  </span><br>
-            <span style="font-size:16px;"> Warranty Till : {{i.warrantyTill}}  </span>
+          <div class="col-md-3 col-md-offset-1 font17" style="font-size:17px;">
+            <span class="font22" > {{i.name}}  </span><br>
+            <span class="font16" > Date : {{i.manufacturedOn}}  </span><br>
+            <span class="font16"> Warranty Till : {{i.warrantyTill}}  </span>
           </div>
           <div class="col-md-2" style="font-size:17px;">
-            <h4>Serial No : {{i.serialNo}}</h4>
-            <h5>PO Number : {{i.poNumber}}</h5>
+            <h4 class="font18">Serial No : {{i.serialNo}}</h4>
+            <h5 class="font14">PO Number : {{i.poNumber}}</h5>
           </div>
           <div class="col-md-1" style="font-size:17px;">
              {{i.price}}
           </div>
           <div class="col-md-4 col-md-offset-1" style="font-size:17px;">
-            <h5>Approved By : {{i.approvedBy.username}}</h5>
-            <h5>Assigned To : {{i.to ? i.to.username : i.personName}}</h5>
-            <h5>Email : {{i.to ? i.to.email : i.email}}</h5>
-            <h5>Phone : {{i.to ? i.to.mobile : i.phone}}</h5>
-            <h5>Address : {{i.to ? i.to.localAddressStreet : i.address}}</h5>
+            <h5 class="font14">Approved By : {{i.approvedBy.username}}</h5>
+            <h5 class="font14">Assigned To : {{i.to ? i.to.username : i.personName}}</h5>
+            <h5 class="font14">Email : {{i.to ? i.to.email : i.email}}</h5>
+            <h5 class="font14">Phone : {{i.to ? i.to.mobile : i.phone}}</h5>
+            <h5 class="font14">Address : {{i.to ? i.to.localAddressStreet : i.address}}</h5>
           </div>
           <div class="col-md-2" style="font-size:17px;">
             <span style="font-size:22px;"> {{i.totalCheckinQty}}  </span>
@@ -121,5 +121,3 @@
         </div>
       </div>
     </div>
-  </ui-view>
-</div>
