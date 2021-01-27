@@ -15,39 +15,40 @@
 
             </div>
             <div class="hidden-xs" >
-              <div class="row text-right" style="color:#8c8c8c;margin:0px;">
+              <!-- <div class="row text-right" style="color:#8c8c8c;margin:0px;">
                 <i class="fa {{app.usersCount.appRating <=1  || app.usersCount.appRating>=1?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
                 <i class="fa {{ app.usersCount.appRating >1 || app.usersCount.appRating >=2 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
                 <i class="fa {{ app.usersCount.appRating >=3 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
                 <i class="fa {{ app.usersCount.appRating >=4 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
                 <i class="fa {{ app.usersCount.appRating ==5 ?'fa-star':'fa-star-o'}}" aria-hidden="true" style="padding-right:10px;"></i>{{users.length}}<i class="fa fa-user" aria-hidden="true" style="padding-left:10px;"></i>
-              </div>
+              </div> -->
 
               <div class="row" style="margin-top:20px;" >
 
-                <div class="col-md-2 pull-right" ng-if="is_staff">
-                  <button type="button" class="btn btn-success btn-block" name="button" ng-click="install()" ng-show="step=='notinstalled'">Install</button>
-                  <button type="button" class="btn btn-success btn-block" name="button" ng-show="step=='installing'"> <i class="fa fa-spinner fa-spin"></i> </button>
-                  <button style="margin-top:0px" type="button" class="btn btn-success btn-block" name="button" ng-show="step=='installed'" ng-click="unInstall()">Uninstall </button>
+                <div class="col-md-offset-8 col-md-2 {{step!='installed'?'pull-right':''}}" ng-if="is_staff">
+                  <button type="button" class="btn btn-success btn-block" name="button" ng-click="install()" ng-show="step=='notinstalled'" style="border-radius:50px!important;background:#02a33e;color:white;border:none!important">Install</button>
+                  <button type="button" class="btn btn-success btn-block" name="button" ng-show="step=='installing'" style="border-radius:50px!important;background:#02a33e;color:white;border:none!important"> <i class="fa fa-spinner fa-spin"></i> </button>
+                  <button style="margin-top:0px;border-radius:50px!important;background:#fb0000;color:white;border:none!important" type="button" class="btn btn-success btn-block" name="button" ng-show="step=='installed'" ng-click="unInstall()" >Uninstall </button>
                 </div>
                 <div class="col-md-2 pull-right" ng-show="step=='installed'&&is_user_installed">
-                  <button class="btn btn-success btn-block" ng-click="openApp()">Open</button>
+                  <button class="btn btn-primary btn-block" ng-click="openApp()" style="border-radius:50px!important;background:#0010fc;color:white;border:none!important">Open</button>
                 </div>
               </div>
             </div>
             <div class="visible-xs">
               <div class="row">
                 <div class="col-xs-8 " style="color:#8c8c8c;margin:0px;">
-                  <i class="fa {{app.usersCount.appRating <=1  || app.usersCount.appRating>=1?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
+                  <!-- <i class="fa {{app.usersCount.appRating <=1  || app.usersCount.appRating>=1?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
                   <i class="fa {{ app.usersCount.appRating >1 || app.usersCount.appRating >=2 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
                   <i class="fa {{ app.usersCount.appRating >=3 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
                   <i class="fa {{ app.usersCount.appRating >=4 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
-                  <i class="fa {{ app.usersCount.appRating ==5 ?'fa-star':'fa-star-o'}}" aria-hidden="true" style="padding-right:10px;"></i>{{users.length}}<i class="fa fa-user" aria-hidden="true" style="padding-left:10px;"></i>
+                  <i class="fa {{ app.usersCount.appRating ==5 ?'fa-star':'fa-star-o'}}" aria-hidden="true" style="padding-right:10px;"></i>{{users.length}}<i class="fa fa-user" aria-hidden="true" style="padding-left:10px;"></i> -->
                 </div>
                 <div class="col-xs-4"  ng-if="is_staff">
-                  <button type="button" class="btn btn-success btn-block" name="button" ng-click="install()" ng-show="step=='notinstalled'">Install</button>
-                  <button type="button" class="btn btn-success btn-block" name="button" ng-show="step=='installing'"> <i class="fa fa-spinner fa-spin"></i> </button>
-                  <button type="button" class="btn btn-success btn-block" name="button" ng-show="step=='installed'">Installed </button>
+                  <button type="button" class="btn btn-success btn-block" name="button" ng-click="install()" ng-show="step=='notinstalled'" style="border-radius:50px!important;background:#02a33e;color:white;border:none!important">Install</button>
+                  <button type="button" class="btn btn-success btn-block" name="button" ng-show="step=='installing'" style="border-radius:50px!important;background:#02a33e;color:white;border:none!important"> <i class="fa fa-spinner fa-spin"></i> </button>
+                  <button style="margin-top:0px;border-radius:50px!important;background:#fb0000;color:white;border:none!important" type="button" class="btn btn-success btn-block" name="button" ng-show="step=='installed'" ng-click="unInstall()" >Uninstall </button>
+                  <button class="btn btn-primary btn-block" ng-click="openApp()" style="border-radius:50px!important;background:#0010fc;color:white;border:none!important">Open</button>
                 </div>
               </div>
             </div>
@@ -86,19 +87,18 @@
             <div class="col-md-3" ng-repeat="k in users track by $index" ng-if="users.length>0">
               <div class="" style="box-shadow: 0px 0px 10px #ccc;padding: 15px;margin:10px 0px;">
                 <h4>{{k.first_name}} {{k.last_name}}</h4>
-                <p>{{k.username}}</p>
+                <!-- <p>{{k.username}}</p> -->
                 <p>{{k.email}}</p>
-
+                <p>{{k.profile.mobile}}</p>
               </div>
             </div>
             <div class="col-md-3" ng-if="step=='installed'" >
               <div class="text-center" style="box-shadow: 0px 0px 10px #ccc;padding: 15px;margin:10px 0px;min-height:127px;padding-top:42px" ng-click="addUser()">
-                <i class="fa fa-plus fa-3x"> </i>
-
+                <!-- <i class="fa fa-plus fa-3x"> </i> -->
+                <img src="/static/images/icons8-plus-math-96.png" style="width: 50px;">
               </div>
             </div>
           </div>
-
         </div>
         <div ng-if="app.windows || app.android || app.ios || app.mac">
           <h4>Supported Devices</h4>
@@ -158,16 +158,22 @@
 
             <div class="row" style="color:#8c8c8c;margin:0px;font-size:18px;">
 
-              <i class="fa {{app.usersCount.appRating <=1  || app.usersCount.appRating>=1?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
+              <!-- <i class="fa {{app.usersCount.appRating <=1  || app.usersCount.appRating>=1?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
               <i class="fa {{ app.usersCount.appRating >1 || app.usersCount.appRating >=2 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
               <i class="fa {{ app.usersCount.appRating >=3 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
               <i class="fa {{ app.usersCount.appRating >=4 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
-              <i class="fa {{ app.usersCount.appRating ==5 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
+              <i class="fa {{ app.usersCount.appRating ==5 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i> -->
+
+              <img src=" {{app.usersCount.appRating <=1  || app.usersCount.appRating>=1?'/static/images/icons8-star-filled-48.png':'/static/images/icons8-star-filled-50.png'}}" style="width:15px">
+              <img src=" {{ app.usersCount.appRating >1 || app.usersCount.appRating >=2 ?'/static/images/icons8-star-filled-48.png':'/static/images/icons8-star-filled-50.png'}}" style="width:15px">
+              <img src=" {{ app.usersCount.appRating >=3 ?'/static/images/icons8-star-filled-48.png':'/static/images/icons8-star-filled-50.png'}}" style="width:15px">
+              <img src=" {{ app.usersCount.appRating >=4 ?'/static/images/icons8-star-filled-48.png':'/static/images/icons8-star-filled-50.png'}}" style="width:15px">
+              <img src=" {{ app.usersCount.appRating ==5 ?'/static/images/icons8-star-filled-48.png':'/static/images/icons8-star-filled-50.png'}}" style="width:15px">
 
             </div>
 
             <div class="row" style="margin:0px;color:#8c8c8c;font-size:18px;" ng-if="app.usersCount.count>0">
-              <i class="fa fa-user" aria-hidden="true" style="padding-right:10px;"></i> <span>{{users.length}} total</span>
+              <img src="/static/images/icons8-user-male-26.png" style="width:15px"><span>{{users.length}} total</span>
             </div>
           </div>
           <div class="col-md-4">
@@ -234,7 +240,6 @@
 
           </div>
         </div>
-
         <div class="row">
 
           <div class="row" style="margin:0px;margin-bottom:20px;" ng-repeat="k in app.feedback track by $index">
@@ -249,11 +254,17 @@
                   <h4>{{k.name}}</h4>
                   <div class="row" style="margin:0px;">
                     <!-- <i class="fa {{k.star <=1  || k.star==2 || k.star==3 ||  k.star==4 || k.star==5?'fa-star':'fa-star-o'}}" aria-hidden="true"></i> -->
-                    <i class="fa {{k.star <=1  || k.star>=1?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
+                    <!-- <i class="fa {{k.star <=1  || k.star>=1?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
                     <i class="fa {{ k.star >1 || k.star >=2 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
                     <i class="fa {{ k.star >=3 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
                     <i class="fa {{ k.star >=4 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
-                    <i class="fa {{ k.star ==5 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i> {{k.created | date:'MMMM dd, y'}}
+                    <i class="fa {{ k.star ==5 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>  -->
+
+                    <img src=" {{k.star <=1  || k.star>=1?'/static/images/icons8-star-filled-48.png':'/static/images/icons8-star-filled-50.png'}}" style="width:12px">
+                    <img src=" {{ k.star >1 || k.star >=2 ?'/static/images/icons8-star-filled-48.png':'/static/images/icons8-star-filled-50.png'}}" style="width:12px">
+                    <img src=" {{ k.star >=3 ?'/static/images/icons8-star-filled-48.png':'/static/images/icons8-star-filled-50.png'}}" style="width:12px">
+                    <img src=" {{ k.star >=4 ?'/static/images/icons8-star-filled-48.png':'/static/images/icons8-star-filled-50.png'}}" style="width:12px">
+                    <img src=" {{ k.star ==5 ?'/static/images/icons8-star-filled-48.png':'/static/images/icons8-star-filled-50.png'}}" style="width:12px"> {{k.created | date:'MMMM dd, y'}}
 
                   </div>
                 </div>
@@ -263,9 +274,6 @@
               <div class="row showText" style="margin: 15px;line-height:2">
 
                 <p ng-if="!show" style="height:20px;overflow:hidden;">{{k.text}} </p><span ng-if="show">{{k.text}}</span>
-
-
-
                 <span class="badge" ng-click="show= !show" ng-show="!show" style="background:transparent;color:#ccc;
                   border: 1px solid #ccc;padding: 5px;cursor:pointer;border-radius: 5px;">Full Review </span>
 
