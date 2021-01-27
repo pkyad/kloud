@@ -429,6 +429,80 @@ $scope.postFiles = function(){
       }
     }
 
+    $scope.forwardTo = function(indx){
+      $uibModal.open({
+        templateUrl: '/static/ngTemplates/app.PIM.forwardChat.html',
+        size: 'md',
+        backdrop: true,
+        resolve : {
+          selectedMsg: function () {
+            return $scope.messages[indx];
+          },
+        },
+        controller: function($scope, $uibModalInstance, $http, $state, selectedMsg) {
+          $scope.search = {
+            searchTxt:''
+          }
+          $scope.selectedMsg = selectedMsg
+          $scope.getChatthreads = function() {
+            url = '/api/PIM/chatThreads/'
+            if ($scope.search.searchTxt!=null && $scope.search.searchTxt.length > 0) {
+              url = url+ '?search='+$scope.search.searchTxt
+            }
+            $http({
+              method: 'GET',
+              url: url
+            }).
+            then(function(response) {
+              $scope.chatthreads = response.data
+            })
+
+          }
+          $scope.getChatthreads()
+          $scope.close = function() {
+            $uibModalInstance.dismiss()
+          }
+
+          $scope.selectChatThread = function(){
+            var threads = []
+            for (var i = 0; i < $scope.chatthreads.length; i++) {
+              if ($scope.chatthreads[i].selected) {
+                threads.push($scope.chatthreads[i].pk)
+              }
+            }
+            $http({
+              method: 'POST',
+              url: '/api/PIM/forwardMeg/',
+              data:{
+                messageId : $scope.selectedMsg.pk,
+                threads:threads
+              }
+            }).
+            then(function(response) {
+              $scope.close()
+            })
+          }
+          $scope.addedThreads = []
+          $scope.addThreads = function(){
+              $scope.addedThreads = []
+            for (var i = 0; i < $scope.chatthreads.length; i++) {
+              if ($scope.chatthreads[i].selected) {
+                $scope.addedThreads.push($scope.chatthreads[i])
+              }
+            }
+          }
+
+
+
+        }
+
+      }).result.then(function(data) {
+
+      }, function(data) {
+
+      });
+    }
+
   });
 
   app.controller("controller.messenger", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal) {
