@@ -10,30 +10,30 @@
           </div>
         </div>
         <div class="form-group col-md-6">
-          <div class="col-md-2">
+          <div class="col-md-4">
            <label>Free Text Search*</label>
           </div>
-          <div class="col-md-10">
+          <div class="col-md-8">
            <input ng-enter="refetch()"  type="text" class="form-control websiteInput" ng-model="filter1.freeText">
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="form-group col-md-4">
-          <div class="col-md-3">
+        <div class="form-group col-md-6">
+          <div class="col-md-2">
            <label>Author*</label>
           </div>
-          <div class="col-md-9">
+          <div class="col-md-10">
 
            <input type="text" class="form-control websiteInput" ng-model="filter1.author" uib-typeahead="c as c.first_name + ' ' + c.last_name for c in userSearchDoctor($viewValue)">
 
           </div>
         </div>
-        <div class="form-group col-md-4" ng-if="manage">
-          <div class="col-md-3">
+        <div class="form-group col-md-6" ng-if="manage">
+          <div class="col-md-4">
            <label>Content Writer*</label>
           </div>
-          <div class="col-md-9">
+          <div class="col-md-8">
             <input type="text" class="form-control websiteInput" ng-model="filter1.contentWriter" uib-typeahead="c as c.first_name + ' ' + c.last_name for c in userSearchWriter($viewValue)">
           </div>
         </div>
@@ -62,32 +62,25 @@
 
         <div class="col-md-3">
           <switch ng-model="filter1.published" class="green" ng-change="refetch()"></switch> Published ?
+        </div>
+        <div class="col-md-1">
           <button style="margin-left:20px;" ng-click="reset()" type="button" class="btn newBtn pull-right" >Reset</button>
+
+        </div>
+        <div class="col-md-1">
           <button style="margin-left:20px;" ng-click="refetch()" type="button" class="btn defaultBtn pull-right" >Filter</button>
+
         </div>
-        <div class="form-group col-md-5" ng-if="manage">
-          <!-- <div class="col-md-3">
-            <label>Batch  Operation*</label>
-          </div>
-          <div class="col-md-3">
-            <select class="form-control websiteInput" ng-model="publishData">
-              <option value="publish" ng-if="!filter1.published">Publish</option>
-              <option value="unpublish" ng-if="filter1.published">Unpublish</option>
-            </select>
-          </div> -->
-          <!-- <div class="form-group col-md-6">
-            <button type="button" class="btn newBtn" ng-click="publish()">Apply To Selected Articles</button>
-          </div> -->
-        </div>
+
       </div>
     </div>
     <div class="col-md-12" style="border-bottom:1px solid #eeeeee">
-      <h3>Uploaded Articles</h3>
+      <h3 class="font24">Uploaded Articles</h3>
     </div>
     <div class="col-md-12" style="padding:0px;">
 
       <div class="form-group col-md-12" style="margin-top:2em;">
-        <table class="table table-hover" style=" width: 100%;">
+        <table class="table table-hover" style=" width: 100%;white-space:nowrap">
         <tbody>
           <tr style="background-color: #eeeeee;height: 50px;">
             <th><input type="checkbox" ng-model="filter1.selectAll"/></th>

@@ -306,8 +306,8 @@
 .fixedActionStrip {
   padding: 15px;
   position: fixed;
-  width: 87.7%;
-  left: 13%;
+  width: 80%;
+  left: 0%;
   z-index: 100;
   bottom: 0px;
   background: #eee;
@@ -1151,7 +1151,6 @@ body {
   background-color: #fff;
   border-left: 6px solid var(--headerNavbarHighlight);
   font-weight: bold;
-  /* padding:20px; */
 }
 
 .childActive {
@@ -1886,7 +1885,7 @@ body {
 }
 
 .appImg {
-  height: 45px;
+  height: 57px;
   filter: drop-shadow(5px 5px 5px #c8c4c4);
   max-width: 100px;
   margin-bottom: 5px;
@@ -2480,7 +2479,72 @@ video {
 .Projects_teamImg{
   width:50px;height:50px;
 }
+.Accounting_invoice{
+  border : none !important;border-radius:10px !important;position: absolute;bottom: 13px;padding:15px;width: 88%;
+}
+.Accounting_img{
+  width:25px;margin-left:10px;
+}
+.Banking_balance{
+  width:40px;
+}
+.HR_exploreUser{
+  margin-bottom:80px;background:#2E3035;position:absolute;right:0px;height:100vh;overflow:auto;color:white;padding-right:150px;padding-top:40px;padding-bottom:40px;
+}
+.Campaign_notificaitons{
+  color:#fff;background:red;border-radius: 25px;position: absolute;left:40%;top: 15px;height: 25px;width: 25px;text-align: center;padding-top: 4px;
+}
+.Reports_gstr3b{
+  padding:40px;
+}
+.tabText{
+  text-align:left !important;
+  padding-left:25px !important;
+  font-size:16px
+}
+.tabamount{
+  text-align:right !important;
+}
+.leftHead {
+  text-align: left !important;
+  padding-left: 70px !important;
+  font-size: 16px;
+}
+
+.rightHead {
+  font-size: 16px;
+}
+.Servicing_padding{
+  padding:40px;min-height:100vh;background:#FAFAFA;
+}
 @media screen and (min-width: 1279px) and (max-width: 1365px) and (-webkit-device-pixel-ratio: 1) {
+  .Reports_gstr3b{
+    padding:25px;
+  }
+  .Servicing_padding{
+    padding:25px 35px;
+  }
+  .Campaign_notificaitons{
+    left:8%;
+  }
+
+  .HR_exploreUser{
+    padding-right:15px;
+  }
+  .Banking_balance{
+    width:25px;
+  }
+  .HMS_createPatient{
+    margin-left:5%;
+    width:90%
+  }
+  .Accounting_invoice{
+    padding:15px 5px;
+  }
+  .Accounting_img {
+    width: 20px;
+    margin-left: 0px;
+  }
   .CRM_Quotedetails{
     padding-left:5px;
   }
@@ -2498,6 +2562,9 @@ video {
   }
   .font22{
     font-size:15px;
+  }
+  .font23{
+    font-size:16px;
   }
   .duration {
     padding: 10px 7px;
@@ -2567,11 +2634,11 @@ video {
   }
 
   .padded>li>a {
-    padding: 15px;
+    padding: 20px;
   }
 
   .font14 {
-    font-size: 11px;
+    font-size: 13px;
   }
 
   .sideMenuView {
@@ -2707,9 +2774,7 @@ video {
     margin-left: 15px !important;
   }
 
-  .padded>li>a {
-    height: 70px;
-  }
+
 
   .font20 {
     font-size: 14px;
@@ -2765,6 +2830,27 @@ video {
 }
 
 @media screen and (min-width: 1366px) and (max-width:1439px) and (-webkit-device-pixel-ratio: 1) {
+  .HR_exploreUser{
+    padding-right:15px;
+  }
+  .Campaign_notificaitons{
+    left:15%;
+  }
+
+  .HMS_createPatient{
+    margin-left:5%;
+    width:90%
+  }
+  .Accounting_invoice{
+    padding:15px 5px;
+  }
+  .Accounting_img {
+    width: 20px;
+    margin-left: 0px;
+  }
+  .Banking_balance{
+    width:30px;
+  }
   .Projects_teamCount{
     left:45px;
   }
@@ -2967,7 +3053,7 @@ video {
   }
 
   .appImg {
-    height: 40px;
+    height: 50px;
   }
 
   .padded>li>a {
@@ -3038,8 +3124,32 @@ video {
 }
 
 @media screen and (min-width: 1440px) and (max-width:1620px) and (-webkit-device-pixel-ratio: 1) {
+  .HR_exploreUser{
+    padding-right:15px;
+  }
+  .Campaign_notificaitons{
+    left:20%;
+  }
+
+  .HMS_createPatient{
+    margin-left:5%;
+    width:90%
+  }
+  .Accounting_invoice{
+    padding:15px 5px;
+  }
+  .Accounting_img {
+    width: 20px;
+    margin-left: 0px;
+  }
+  .Banking_balance{
+    width:30px;
+  }
   .Projects_teamCount{
     left:45px;
+  }
+  .Banking_balance{
+    width:30px;
   }
   .Projects_teamImg{
     width:40px;height:40px;
@@ -3053,6 +3163,9 @@ video {
   .font22{
     font-size:18px;
   }
+  .font23{
+    font-size:19px;
+  }
   .ProCatalog_mainDiv {
     width: 100%;
     margin-left: 1%
@@ -3060,6 +3173,9 @@ video {
 
   .font36 {
     font-size: 25px;
+  }
+  .font16 {
+    font-size: 14px;
   }
 
   .duration {
@@ -3224,11 +3340,12 @@ video {
   }
 
   .padded>li>a {
-    height: 90px;
+    height:90px;
+    padding:10px;
   }
 
   .appImg {
-    height: 40px
+    height: 50px
   }
 
   .sideMenuView {

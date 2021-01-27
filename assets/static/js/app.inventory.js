@@ -94,7 +94,7 @@ app.controller("businessManagement.assets.form.info", function($scope, $rootScop
       backdrop: false,
       resolve: {
         warehouse : function() {
-          return $scope.filters.warehouse.pk
+          return $scope.filters.warehouse
         }
       },
       controller: "businessManagement.assets.explore.checkin",
@@ -205,6 +205,7 @@ app.controller("businessManagement.assets.form.info", function($scope, $rootScop
 app.controller("businessManagement.assets.explore.checkin", function($scope, $rootScope,  $state, $users, $stateParams, $http, Flash, $uibModal, $uibModalInstance , warehouse) {
 
   $scope.warehouse = warehouse;
+  console.log($scope.warehouse,'333');
 
   $scope.refresh = function() {
     $scope.checkinForm = {

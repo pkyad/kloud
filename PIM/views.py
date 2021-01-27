@@ -12,6 +12,7 @@ from HR.serializers import userSearchSerializer
 from django.db.models import Q,  Case, When
 from  datetime import  datetime
 from django.db.models import Count
+from rest_framework.request import Request
 
 class settingsViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, isOwner, )
@@ -270,14 +271,17 @@ class CreateNewChatAPIView(APIView):
         c_id_list = [user.pk , int(request.data['participant'])]
         parents = ChatThread.objects.filter(company = div, is_personal = True)
         parents = reduce(lambda p, id: parents.filter(participants=id), c_id_list, parents)
+        serializer_context = {
+        'request': Request(request),
+        }
         if parents.count()>0:
-            data  = ChatThreadsSerializer(parents.first(), many=False).data
+            data  = ChatThreadsSerializer(parents.first(), context=serializer_context).data
         else:
             chatObj = ChatThread.objects.create(user = user, company = div, is_personal = True)
             for p in c_id_list:
                 chatObj.participants.add( User.objects.get(pk = int(p)))
             chatObj.save()
-            data  = ChatThreadsSerializer(chatObj, many=False).data
+            data  = ChatThreadsSerializer(chatObj, context=serializer_context).data
         return Response(data,status=status.HTTP_200_OK)
 
 
@@ -289,4 +293,15 @@ class RemoveParticipantAPIView(APIView):
         chatThreadObj.participants.remove(user)
         chatThreadObj.save()
         data  = ChatThreadsSerializer(ChatThread.objects.filter(participants =  self.request.user).first(), many=False).data
+        return Response(data,status=status.HTTP_200_OK)
+
+
+class ForwardMessageAPIView(APIView):
+    permission_classes = (permissions.IsAuthenticated ,)
+    def post(self , request , format = None):
+        data =  request.data
+        if 'messageId' in data and 'threads' in data:
+            chatObj = ChatMessage.objects.get(pk = int(data['messageId']))
+            for i in data['threads']:
+                ChatMessage.objects.create(user = request.user , thread = ChatThread.objects.get(pk = int(i)), message = chatObj.message, attachment = chatObj.attachment , fileType = chatObj.fileType , fileName = chatObj.fileName,fileSize = chatObj.fileSize, is_forwarded = True)
         return Response(data,status=status.HTTP_200_OK)

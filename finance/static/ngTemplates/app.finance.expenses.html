@@ -86,7 +86,7 @@ transition-duration: 0.8s;
           </div>
         </div>
         <div class="col-md-11">
-          <h2 style="font-weight:600"> Expenses </h2>
+          <h2 class="font30" style="font-weight:600"> Expenses </h2>
         </div>
         <!-- <div class="col-md-2" style="padding:0px;">
           <button ng-click="$state.go('businessManagement.accounting.vendor')"  class="btn btn-primary btn-block" style="background: white;color: #461482;border: none !important;border-radius: 64px !important;padding: 17px;right: 59px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(244, 244, 244, 0.94) !important;padding-right:30px;padding-left:30px;">Vendors List</button>
@@ -114,7 +114,7 @@ transition-duration: 0.8s;
             </div>
           </div> -->
           <div class="input-group" style="padding:10px;background: #FAFAFA;border-radius: 100px;padding-right: 30px;padding-left: 30px;">
-            <input type="text" class="form-control" ng-model="form.search" placeholder="Search  by company name or invoice number" ng-enter="purchaseOrders()" style="border:none !important;background:#FAFAFA;border-radius:23px;padding:20px;font-size: 16px;">
+            <input type="text" class="form-control font16" ng-model="form.search" placeholder="Search  by company name or invoice number" ng-enter="purchaseOrders()" style="border:none !important;background:#FAFAFA;border-radius:23px;padding:20px;">
             <div class="input-group-btn">
               <button class="btn btn-default" type="submit" ng-click="purchaseOrders()" style="border:none !important;background:#FAFAFA;border-radius:23px !important;">
                 <i class="glyphicon glyphicon-search"></i>
@@ -148,7 +148,7 @@ transition-duration: 0.8s;
                       <div class="text-center" ng-if="po.invType=='INVOICE'"  style="border-radius:20px;width: 150px;padding-top: 5px;padding-bottom: 5px;background: #ebffeb;color: green;">{{po.invType}}</div>
                       <!-- <div class="text-center" ng-if="po.typ=='PURCHASE ORDER'"  style="border-radius:20px;width: 150px;padding-top: 5px;padding-bottom: 5px;background: #fff7e6;color: #f9a365;">{{po.typ}}</div> -->
                     </td>
-                    <td class="td_data" style="font-size:20px;">
+                    <td class="font20 td_data" >
                       <span ng-if="po.invType!='EXPENSES'">{{po.companyName}}</span>
                       <span ng-if="po.invType=='EXPENSES'">{{po.user|getName}}</span>
                     </td>
@@ -161,7 +161,7 @@ transition-duration: 0.8s;
           </div>
           <div class="row">
             <div class="col-md-12 text-center">
-              <button class="btn btn-primary" ng-click="loadMore()" style="background: #461482;color: white;border: none !important;border-radius: 64px !important;padding: 17px;right: 59px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;padding-right:30px;padding-left:30px;"> Load More </button>
+              <button class="btn font16 btn-primary" ng-click="loadMore()" style="background: #461482;color: white;border: none !important;border-radius: 64px !important;padding: 17px;right: 59px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;padding-right:30px;padding-left:30px;"> Load More </button>
             </div>
           </div>
         </div>

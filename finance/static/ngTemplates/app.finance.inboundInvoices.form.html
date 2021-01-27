@@ -27,27 +27,26 @@
       <div class="col-md-offset-1 col-md-8">
         <div class="row">
           <div class="col-md-12 text-center">
-            <h3 ng-if="!form.pk">Create a new purchase invoice (Accounts Payable)</h3>
-            <h3 ng-if="form.pk">Edit Invoice</h3>
+            <h3 class="font24" ng-if="!form.pk">Create a new purchase invoice (Accounts Payable)</h3>
+            <h3  class="font24" ng-if="form.pk">Edit Invoice</h3>
           </div>
         </div>
         <div class="row" style="margin-top:30px">
 
           <div class="col-md-6">
             <label> Company </label>
-            <div class="input-group">
-              <input type="text " class="form-control" ng-model="form.companyReference" uib-typeahead="n as n.name for n in companySearch($viewValue)" placeholder="Select or Add Company"
-                style="padding: 29px;border: none; border-top-left-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;    border-bottom-left-radius: 10px;"  typeahead-on-select="selectCompany()" >
-              <span class="input-group-btn">
-                <button type="button" ng-click="createVendorService()" class="btn btn-default" style="padding: 15px;border: none;border-bottom-right-radius: 10px !important;border-top-right-radius: 10px !important;"><i
-                    class="fa fa-{{form.companyReference.pk? 'pencil':'plus'}} fa-2x"></i></button>
-              </span>
+            <div class="form-group">
+              <span style="position:absolute;right:15px;padding:15px;"><i
+                  class="fa fa-{{form.companyReference.pk? 'pencil':'plus'}} fa-2x" ng-click="createVendorService()"></i></span>
+              <input type="text " class="form-control font20" ng-model="form.companyReference" uib-typeahead="n as n.name for n in companySearch($viewValue)" placeholder="Select or Add Company"
+                style="padding: 29px;border: none;margin-top:5px;margin-bottom:15px;border-radius:10px;"  typeahead-on-select="selectCompany()" >
+
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
                 <label> Invoice Number </label>
-              <input type="text" class="form-control" ng-model="form.invNo"  placeholder="Invoice Number" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;">
+              <input type="text" class="form-control font20" ng-model="form.invNo"  placeholder="Invoice Number" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;;">
             </div>
           </div>
 
@@ -56,39 +55,38 @@
           <div class="col-md-6">
             <div class="form-group">
               <label> Person Name </label>
-              <input type="text" class="form-control" ng-model="form.personName" placeholder="Add Person Name" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;">
+              <input type="text" class="form-control font20" ng-model="form.personName" placeholder="Add Person Name" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;;">
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label> Mobile Number </label>
-              <input type="text" class="form-control" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;" ng-model="form.phone">
+              <input type="text" class="form-control font20" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;;" ng-model="form.phone">
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
             <label>Delivery Date </label>
-            <div class="input-group">
-              <!-- <label> Delivery Date </label> -->
-              <input type="text" class="form-control" ng-model="form.deliveryDate" placeholder="Delivery Date"
-                style="padding: 29px;border: none; border-top-left-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;    border-bottom-left-radius: 10px;" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy"
+            <div class="form-group">
+              <span style="position:absolute;right:15px;padding:20px;"><i
+                class="glyphicon glyphicon-calendar" ng-click="statusStart.opened = true;"></i></span>
+
+              <input type="text" class="form-control font20" ng-model="form.deliveryDate" placeholder="Delivery Date"
+                style="padding: 29px;border: none; border-radius: 10px;margin-top:5px;margin-bottom:15px;" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy"
                 is-open="statusStart.opened" ng-init="today">
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="statusStart.opened = true;" style="padding: 18px;border: none;border-bottom-right-radius: 10px !important;border-top-right-radius: 10px !important;"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
+
             </div>
           </div>
           <div class="col-md-6">
             <label>Payment Due Date </label>
-            <div class="input-group">
-              <!-- <label> Payment Due Date </label> -->
-              <input type="text" class="form-control" ng-model="form.paymentDueDate" placeholder="Payment Due Date"
-                style="padding: 29px;border: none; border-top-left-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;    border-bottom-left-radius: 10px;" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" is-open="statusPay.opened"
+            <div class="form-group">
+              <span style="position:absolute;right:15px;padding:20px;"><i
+                class="glyphicon glyphicon-calendar" ng-click="statusPay.opened = true;"></i></span>
+              <input type="text" class="form-control font20" ng-model="form.paymentDueDate" placeholder="Payment Due Date"
+                style="padding: 29px;border: none; border-radius: 10px;margin-top:5px;margin-bottom:15px;" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" is-open="statusPay.opened"
                 ng-init="today">
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="statusPay.opened = true;" style="padding: 18px;border: none;border-bottom-right-radius: 10px !important;border-top-right-radius: 10px !important;"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
+
             </div>
           </div>
         </div>
@@ -100,14 +98,14 @@
           <div class="col-md-6">
             <div class="form-group">
               <label> Expense Category</label>
-              <select class="form-control " ng-model="form.account" style="height: 50px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;" ng-options="a.title for a in allAccount">
+              <select class="form-control font20" ng-model="form.account" style="height: 50px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;;" ng-options="a.title for a in allAccount">
               </select>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label> Cost Center </label>
-              <select class="form-control " ng-model="form.costcenter" ng-options="cost.name for cost in allCostCenter" style="height: 50px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;">
+              <select class="form-control font20" ng-model="form.costcenter" ng-options="cost.name for cost in allCostCenter" style="height: 50px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;;">
               </select>
             </div>
           </div>
@@ -116,7 +114,7 @@
           <div class="col-md-12">
             <div class="form-group">
               <label>Note </label>
-                <textarea name="name" ng-model="form.note" style="padding: 29px;border: none; border-top-left-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;    border-bottom-left-radius: 10px;"  class="form-control" rows="2" placeholder="Note"></textarea>
+                <textarea name="name" ng-model="form.note" style="padding: 29px;border: none; border-top-left-radius: 10px;margin-top:5px;margin-bottom:15px;;    border-bottom-left-radius: 10px;"  class="form-control font20" rows="2" placeholder="Note"></textarea>
             </div>
           </div>
         </div>
@@ -124,25 +122,25 @@
           <div class="col-md-4">
             <div class="form-group">
               <label>Bank Account Number </label>
-              <input type="text" class="form-control" ng-model="form.accNo"  placeholder="Bank Account Number" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;">
+              <input type="text" class="form-control font20" ng-model="form.accNo"  placeholder="Bank Account Number" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;;">
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
               <label> Bank Account Holder Name  </label>
-              <input type="text" class="form-control" ng-model="form.bankName"  placeholder="Bank Account Number" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;">
+              <input type="text" class="form-control font20" ng-model="form.bankName"  placeholder="Bank Account Number" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;;">
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
               <label> Bank IFSC  </label>
-              <input type="text" class="form-control" ng-model="form.ifsc"  placeholder="Bank Account Number" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;">
+              <input type="text" class="form-control font20" ng-model="form.ifsc"  placeholder="Bank Account Number" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;;">
             </div>
           </div>
         </div> -->
         <div class="row" style="padding-top:20px;padding-bottom:30px;margin-bottom:30px" >
           <div class="col-md-12" style="padding:0px;">
-            <table class="invoiceTable" style=" width: 100%;">
+            <table class="invoiceTable" style=" width: 100%;white-space:nowrap">
               <tbody>
                 <tr style="background-color: black;height: 75px;color:#ffffff">
                   <th>S.No</th>
@@ -174,7 +172,7 @@
           </div>
         </div>
         <div class="row fixedActionStrip" style="padding-top:15px;background:transparent!important">
-          <div class="col-md-offset-9 col-md-1 ">
+          <div class="col-md-2 pull-right ">
               <button type="button" class="btn btn-primary btn-block cutebuttonplain" style="background:rgb(14, 67, 136);color:white;" ng-click="save()">Save</button>
           </div>
           <!-- <div class="col-md-2">
@@ -185,28 +183,28 @@
           <div class="col-md-12">
             <div class="row">
               <div class="col-md-12 text-center">
-                <h3> Payment Details </h3>
+                <h3 class="font24"> Payment Details </h3>
               </div>
             </div>
                 <div class="row">
                   <div class="col-md-4">
                     <h5>Total Amount </h5>
-                    <h4><i class="fa fa-inr"></i> {{form.totalAmount}} </h4>
+                    <h4 class="font18"><i class="fa fa-inr"></i> {{form.totalAmount}} </h4>
                   </div>
                   <div class="col-md-4">
                     <h5>Paid Amount </h5>
-                    <h4><i class="fa fa-inr"></i> {{form.paidAmount}} </h4>
+                    <h4 class="font18"><i class="fa fa-inr"></i> {{form.paidAmount}} </h4>
                   </div>
                   <div class="col-md-4">
                     <h5>Balance Amount </h5>
-                    <h4><i class="fa fa-inr"></i> {{form.balanceAmount}} </h4>
+                    <h4 class="font18"><i class="fa fa-inr"></i> {{form.balanceAmount}} </h4>
                   </div>
                 </div>
                 <div class="row" style="margin-top:30px">
                   <div class="col-md-offset-3 col-md-4">
                     <div class="form-group">
                       <label> Amount </label>
-                      <input type="text" class="form-control" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;" ng-model="payform.amount">
+                      <input type="text" class="form-control font20" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;;" ng-model="payform.amount">
                     </div>
                   </div>
                   <div class="col-md-2" style="margin-top: 40px;">
@@ -245,10 +243,10 @@
                 <i class="fa fa-info fa-3x" style="color:#9c9c9c"></i>
               </div>
               <div class="col-md-9">
-                <h4> {{form.personName}} </h4>
-                <h4> {{form.phone}} </h4>
-                <h4> {{form.email}} </h4>
-                <h4> {{form.gstIn}} </h4>
+                <h4 class="font18"> {{form.personName}} </h4>
+                <h4  class="font18"> {{form.phone}} </h4>
+                <h4  class="font18"> {{form.email}} </h4>
+                <h4  class="font18"> {{form.gstIn}} </h4>
               </div>
             </div>
             <div class="row">
@@ -256,9 +254,9 @@
                 <i class="fa fa-map-marker fa-3x" style="color:#9c9c9c"></i>
               </div>
               <div class="col-md-9">
-                <h4> {{form.address}} </h4>
-                <h4> {{form.city}}, {{form.state}}</h4>
-                <h4> {{form.country}} - {{form.pincode}} </h4>
+                <h4  class="font18">  {{form.address}} </h4>
+                <h4  class="font18"> {{form.city}}, {{form.state}}</h4>
+                <h4  class="font18"> {{form.country}} - {{form.pincode}} </h4>
               </div>
             </div>
             <div class="row">
@@ -266,9 +264,9 @@
                 <i class="fa fa-university fa-3x" style="color:#9c9c9c"></i>
               </div>
               <div class="col-md-9">
-                <h4> {{form.bankName}} </h4>
-                <h4> {{form.accNo}}</h4>
-                <h4> {{form.ifsc}} </h4>
+                <h4  class="font18"> {{form.bankName}} </h4>
+                <h4  class="font18"> {{form.accNo}}</h4>
+                <h4  class="font18"> {{form.ifsc}} </h4>
                 <!-- <h4 ng-click="otherBankAcc=true"> Other Bank Account </h4> -->
               </div>
             </div>

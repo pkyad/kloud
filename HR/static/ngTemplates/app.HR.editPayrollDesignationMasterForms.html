@@ -22,22 +22,22 @@
 <div class="container-fluid"  style="background:#393C45;">
   <div class="row" >
 
-    <div class="col-md-3" style="position:absolute;left:0px;background:#393C45;height:100vh;overflow:hidden;color:white;padding-top:30px;padding-right:30px;">
+    <div class="col-md-3" style="position:absolute;left:0px;background:#393C45;height:100vh;overflow-y:scroll;scroll-behaviour:smooth;scrollbar-width:none;color:white;padding-top:30px;padding-right:30px;">
 
       <div class="row">
-        <div class="col-md-1" onclick="window.history.back();">
+        <div class="col-md-2" onclick="window.history.back();">
           <img onclick="window.history.back();" src="/static/images/icons8-left-48.png"  style="width:50px;" alt="">
         </div>
         <div class="col-md-3 text-right" style="padding-right:0px;">
           <img ng-src="{{form.profile.displayPicture}}" onerror="this.src = '/static/images/img_avatar_card.png'" src="/static/images/img_avatar_card.png" class="img img-rounded" style="width:50px;border-radius:50%">
         </div>
-        <div class="col-md-8">
-          <h3>  {{form.first_name}} {{form.last_name}} <h3>
+        <div class="col-md-7">
+          <h3 class="font24">  {{form.first_name}} {{form.last_name}} <h3>
         </div>
       </div>
 
       <div class="row text-center">
-        <h2 style="color:rgb(152, 152, 152)">Applications Installed</h2>
+        <h2 class="font30" style="color:rgb(152, 152, 152)">Applications Installed</h2>
       </div>
       <div class="row" style="margin-top:40px;">
         <div class="col-md-6" ng-repeat="installedApp in form.apps" style="position:relative;margin-bottom:30px;">
@@ -46,7 +46,10 @@
           </div>
           <div class="row text-center">
             <img ng-src="{{installedApp.app.icon}}" style="width:80px;border-radius:40px;"> <br>
-            {{installedApp.app.displayName}}
+            <p style="height:30px;">
+
+              {{installedApp.app.displayName}}
+            </p>
           </div>
         </div>
 
@@ -62,13 +65,14 @@
 
 
 
-      <button type="button" class="btn btn-primary" style="background: rgb(28, 172, 103);color: white;position: absolute;bottom: 13px;border: none !important;border-radius: 10px !important;padding: 15px;width: 88%;left: 25px;font-size: 16px;" ng-click="updateUser()">Save</button>
+      <button type="button" class="btn btn-primary font16" style="background: rgb(28, 172, 103);color: white;position: fixed;width: 20.5%;
+left: 11%;;bottom: 13px;border: none !important;border-radius: 10px !important;padding: 15px;" ng-click="updateUser()">Save</button>
 
 
     </div>
 
 
-    <div class="col-md-9" style="margin-bottom:80px;background:#2E3035;position:absolute;right:0px;height:100vh;overflow:auto;color:white;padding-right:150px;padding-top:40px;padding-bottom:40px;">
+    <div class="col-md-9 HR_exploreUser" style="">
 
 
 
@@ -117,14 +121,14 @@
           <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
             <div class="form-group">
               <label>{{form.simpleMode ? '':'First'}} Name</label>
-              <input type="text" class="form-control darkInput" ng-model="form.first_name" required style="font-size: 30px;text-transform: capitalize;">
+              <input type="text" class="form-control darkInput font30" ng-model="form.first_name" required style="text-transform: capitalize;">
             </div>
 
           </div>
           <div class="col-md-6" ng-if="!form.simpleMode">
             <div class="form-group">
               <label>Last Name</label>
-              <input type="text" class="form-control darkInput" ng-model="form.last_name" required style="font-size: 30px;">
+              <input type="text" class="form-control darkInput font30" ng-model="form.last_name" required >
             </div>
           </div>
         </div>
@@ -141,7 +145,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label>Mobile</label>
-              <input type="text" class="form-control darkInput" ng-model="form.basic.mobile" style="font-size: 30px;">
+              <input type="text" class="form-control darkInput font30" ng-model="form.basic.mobile" >
             </div>
           </div>
         </div>
@@ -176,7 +180,7 @@
           <div class="row" ng-if="!form.enablePayroll">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
               <div class="form-group">
-                <input type="number" ng-enter="checkCTC()" class="form-control darkInput" ng-model="form.ctc" style="height: 68px;font-size: 26px;">
+                <input type="number" ng-enter="checkCTC()" class="form-control darkInput font26" ng-model="form.ctc" style="height: 68px;">
               </div>
             </div>
           </div>
@@ -191,7 +195,7 @@
         </div>
         <div class="col-md-9" ng-if="form.enablePayroll">
 
-          <div class="row text-center" ng-if="form.enablePayroll" style="font-size:20px;padding:20px;background: orange;margin: 0px;border-radius: 20px;margin-bottom: 45px;margin-top: 33px;">
+          <div class="row font20 text-center" ng-if="form.enablePayroll" style="padding:20px;background: orange;margin: 0px;border-radius: 20px;margin-bottom: 45px;margin-top: 33px;">
             {{form.ctc}} is above the income tax slab of 2,50,000, Please fill the CTC breakup instead in the below form. or You can autocalculate by clicking <span ng-click="calculateCTCBreakup()" class="label label-primary" style="cursor:pointer;">Auto Calculate</span> or re enter the CTC again by clicking <span ng-click="form.enablePayroll = false;" class="label label-success" style="cursor:pointer;">Re - Enter</span>
           </div>
 

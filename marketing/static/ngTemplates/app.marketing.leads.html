@@ -1,27 +1,32 @@
 <style media="screen">
-  .navigationBtn , .navigationBtn:hover{
+  .navigationBtn,
+  .navigationBtn:hover {
     padding: 10px;
-    border:none !important;
-    border-radius:10px !important;
+    border: none !important;
+    border-radius: 10px !important;
   }
 
-  .contactList input ,.contactList button , .contactList .btn, .contactList .btn-primary{
-    border:none !important;
+  .contactList input,
+  .contactList button,
+  .contactList .btn,
+  .contactList .btn-primary {
+    border: none !important;
   }
 
-  .contactList input, .contactList .form-control{
+  .contactList input,
+  .contactList .form-control {
     padding: 20px;
     border-radius: 23px;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
   }
 
-  .text-dull{
+  .text-dull {
     color: #bbb;
   }
 
-  .tableNew th{
-    padding:17px !important;
+  .tableNew th {
+    padding: 17px !important;
   }
 
   .tableNew {
@@ -29,140 +34,134 @@
     overflow: hidden;
   }
 
-  .contentTd{
-    padding:18px !important;
+  .contentTd {
+    padding: 18px !important;
   }
 
-  table, th, td{
-    border-color:#f2f2f2 !important;
+  table,
+  th,
+  td {
+    border-color: #f2f2f2 !important;
   }
 
   .flex-container {
-  display: flex;
-  /* background-color: DodgerBlue; */
-}
+    display: flex;
+    /* background-color: DodgerBlue; */
+  }
 
-.flex-container > div {
-  padding: 15px;
-  padding-top:5px;
-  padding-bottom:5px;
-  border:1px solid #e4dddd;
-  border-radius:25px;
-  margin-right:10px;
-  cursor:pointer;
-}
-
+  .flex-container>div {
+    padding: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 1px solid #e4dddd;
+    border-radius: 25px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
 </style>
 
 
 
 <!-- <ui-view> -->
-  <div class="container-fluid" style="padding:40px;min-height:100vh;background:#FAFAFA;">
-    <div class="row">
-      <div class="col-md-12">
+<div class="container-fluid Servicing_padding" style="">
+  <div class="row" style="margin-right:20px;">
+    <div class="col-md-12">
 
-        <!-- <div class="col-md-2" style="padding-top:20px;">
-          <label>Added On : </label>
-        </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            <div class="input-group newDatePic">
-              <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="filter.dt" is-open="status.opened" />
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default pic" ng-click="status.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
-            </div>
-          </div>
-        </div> -->
+      <div class="col-md-1">
 
-        <div class="col-md-5 col-md-offset-3 contactList">
-          <div class="input-group" style="padding:10px;background:#F2F3F7;border-radius:10px;">
-            <input type="text" class="form-control" ng-model="selected.search"  placeholder="Search..." style="background:#F2F3F7 !important;border: none !important;">
-            <span class="input-group-btn">
-              <button style="background:#F2F3F7;border: none !important;" type="button" class="btn btn-default" ng-click="getServices()"><i class="fa fa-search "></i></button>
-            </span>
-          </div>
-        </div>
-        <div class="col-md-1 ">
-          <button type="button" class="btn btn-default btn-block" ng-click="prev()" style="padding:15px;background:#F2F3F7;border-radius:10px !important;border:none !important;">Prev</button>
-        </div>
-        <div class="col-md-1">
-          <button type="button" class="btn btn-default btn-block" ng-click="next()" style="padding:15px;background:#F2F3F7;border-radius:10px !important;border:none !important;">Next</button>
-        </div>
-        <div class="col-md-2" ng-if="$state.is('businessManagement.servicing')">
-              <a  type="button" class="btn btn-primary" style="padding:15px;padding-top:8px;padding-bottom:8px;background:#F2F3F7;border-radius:10px !important;border:none !important;" href="/api/clientRelationships/downloadAllvisits/"><img src="/static/images/download-from-cloud.png" style="width: 35px;" > Download Report</a>
+      </div>
+
+      <div class="col-md-5  contactList">
+        <div class="input-group" style="padding:5px;background:#F2F3F7;border-radius:10px;">
+          <input type="text" class="form-control" ng-model="selected.search" placeholder="Search..." style="background:#F2F3F7 !important;border: none !important;">
+          <span class="input-group-btn">
+            <button style="background:#F2F3F7;border: none !important;" type="button" class="btn btn-default" ng-click="getServices()"><i class="fa fa-search "></i></button>
+          </span>
         </div>
       </div>
-    </div>
-    <br>
-    <br>
-    <div class="row" style="margin:10px;">
-      <table class="table table-hover tableNew">
-        <thead>
-          <tr style="background:#f2f2f2;padding:10px;">
-            <th>Ticket ID</th>
-            <th>Name</th>
-            <th width="20%">Feedback</th>
-            <th>Warranty ?</th>
-            <th width="17%"></th>
-          </tr>
-        </thead>
-        <tbody  ng-repeat="contact in allServices" >
-          <tr style="padding:10px;background:white;" >
-            <td class="contentTd">{{contact.pk}}</td>
-            <td class="contentTd"> <h4>{{contact.name}}</h4>
-              {{contact.address}} {{contact.city}} {{contact.state}} {{contact.country}} - {{contact.pincode}} <br>
-              <button type="button" class="btn btn-default" style="color:#2ECC71;border: none !important;background:#f1fdf6;border-radius:60px !important;" ng-click="call(contact.mobile);$event.stopPropagation();">
-                <img src="/static/images/icons8-outgoing-call-30.png" style="width:25px;" alt=""> Call
-              </button> <span style="font-size:17px;margin-left:30px;">{{contact.mobile}}</span> <br>
-
-            </td>
-            <td class="contentTd">{{contact.notes}}
-              <br> <img ng-if="contact.creater.first_name" src="/static/images/icons8-customer-support-50.png" style="width:35px;" alt=""> {{contact.creater.first_name}} {{contact.creater.last_name}}<br/>
-                <!-- <span style="font-size:17px;margin-left:30px;">{{contact.date}} {{contact.slot}}</span> -->
-            </td>
-            <td class="contentTd">{{contact.warrantyStatus}}</td>
-            <td class="contentTd">
-              <div class="btn-group btn-group-sm" ng-if="contact.status == 'assigned' || contact.status == 'ongoing' ||  contact.status == 'postponed' || contact.status == 'created' || contact.status == 'upcoming'">
-                <button type="button" class="btn-assign" ng-click="assign($index);$event.stopPropagation();" style="width:130%">
-                <span ng-if="contact.status == 'created'|| contact.status == 'upcoming'">  Assign Technician </span>
-                <span ng-if="contact.status == 'assigned' || contact.status == 'ongoing' ||  contact.status == 'postponed'">  Change Technician </span>
-                </button>
-                <div ng-if="contact.status != 'created' && contact.status != 'upcoming'" style="margin-top:15px" class="text-center"> <span ng-if="contact.engineer"> {{contact.engineer.first_name}}  {{contact.engineer.last_name}} </span>  <span ng-if="contact.preferredDate"> <br/> on {{contact.preferredDate | date}} <span>  <span ng-if="contact.preferredTimeSlot">  @ {{contact.preferredTimeSlot}} <span> </div>
-              </div>
-              <button style="background:#461482;color:white;" type="button" class="btn-assign" ng-click="download(contact.pk)" style="width:100%;margin-top:15px">  Print Material Inward Note </button>
-              <button type="button" class="btn-assign" ng-click="newContact($index)" style="width:100%;margin-top:15px">
-                Edit
-              </button>
-            </td>
-          </tr>
-          <tr style="background:white;" >
-            <td  colspan="5" style="border-top:none!important">
-              <div class="row" ng-if="contact.allInvoices.length>0">
-                  <div class="col-md-10 col-md-offset-1" >
-                    <!-- <div style="margin-bottom:15px"> Quotations: </div> -->
-                    <div class="flex-container">
-                        <p style="margin-top:15px;margin-right:15px"> Documents: </p>
-                         <div ng-repeat="i in contact.allInvoices track by $index" ng-click="$state.go('businessManagement.contacts.quote', {id: contact.referenceContact,contract: i.pk});$event.stopPropagation()">{{i.heading}}</div>
-                    </div>
-                  </div>
-              </div>
-              <div class="row" ng-if="allTerms.length>0&&(contact.status == 'created' || contact.status == 'assigned'  || contact.status == 'upcoming' || contact.status == 'ongoing' || contact.status == 'postponed')" style="margin-top:15px">
-                  <div class="col-md-10 col-md-offset-1" >
-                    <div class="flex-container">
-                      <p style="margin-top:15px;margin-right:15px"> Create new document: </p>
-                         <div ng-repeat="t in allTerms track by $index" ng-click="$state.go('businessManagement.contacts.createquote', {id: contact.referenceContact,template: t.pk});$event.stopPropagation()">{{t.heading}}</div>
-                    </div>
-                  </div>
-              </div>
-
-            </td>
-
-          </tr>
-        </tbody>
-
-      </table>
+      <div class="col-md-2 ">
+        <button type="button" class="btn btn-default btn-block" ng-click="prev()" style="padding:15px;background:#F2F3F7;border-radius:10px !important;border:none !important;">Prev</button>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-default btn-block" ng-click="next()" style="padding:15px;background:#F2F3F7;border-radius:10px !important;border:none !important;">Next</button>
+      </div>
+      <div class="col-md-2" ng-if="$state.is('businessManagement.servicing')">
+        <a type="button" class="btn btn-primary" style="padding:15px;padding-top:8px;padding-bottom:8px;background:#F2F3F7;border-radius:10px !important;border:none !important;" href="/api/clientRelationships/downloadAllvisits/"><img
+            src="/static/images/download-from-cloud.png" style="width: 35px;"> Download Report</a>
+      </div>
     </div>
   </div>
+  <br>
+  <br>
+  <div class="row" >
+    <table class="table table-hover tableNew">
+      <thead>
+        <tr style="background:#f2f2f2;padding:10px;">
+          <th>Ticket ID</th>
+          <th>Name</th>
+          <th width="20%">Feedback</th>
+          <th>Warranty ?</th>
+          <th width="17%"></th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="contact in allServices">
+        <tr style="padding:10px;background:white;">
+          <td class="contentTd">{{contact.pk}}</td>
+          <td class="contentTd">
+            <h4 class="font18">{{contact.name}}</h4>
+            {{contact.address}} {{contact.city}} {{contact.state}} {{contact.country}} - {{contact.pincode}} <br>
+            <button type="button" class="btn btn-default" style="color:#2ECC71;border: none !important;background:#f1fdf6;border-radius:60px !important;" ng-click="call(contact.mobile);$event.stopPropagation();">
+              <img src="/static/images/icons8-outgoing-call-30.png" style="width:25px;" alt=""> Call
+            </button> <span style="font-size:17px;margin-left:30px;">{{contact.mobile}}</span> <br>
+
+          </td>
+          <td class="contentTd">{{contact.notes}}
+            <br> <img ng-if="contact.creater.first_name" src="/static/images/icons8-customer-support-50.png" style="width:35px;" alt=""> {{contact.creater.first_name}} {{contact.creater.last_name}}<br />
+            <!-- <span style="font-size:17px;margin-left:30px;">{{contact.date}} {{contact.slot}}</span> -->
+          </td>
+          <td class="contentTd">{{contact.warrantyStatus}}</td>
+          <td class="contentTd">
+            <div class="btn-group btn-group-sm" ng-if="contact.status == 'assigned' || contact.status == 'ongoing' ||  contact.status == 'postponed' || contact.status == 'created' || contact.status == 'upcoming'">
+              <button type="button" class="btn-assign" ng-click="assign($index);$event.stopPropagation();" style="width:130%">
+                <span ng-if="contact.status == 'created'|| contact.status == 'upcoming'"> Assign Technician </span>
+                <span ng-if="contact.status == 'assigned' || contact.status == 'ongoing' ||  contact.status == 'postponed'"> Change Technician </span>
+              </button>
+              <div ng-if="contact.status != 'created' && contact.status != 'upcoming'" style="margin-top:15px" class="text-center"> <span ng-if="contact.engineer"> {{contact.engineer.first_name}} {{contact.engineer.last_name}} </span> <span
+                  ng-if="contact.preferredDate"> <br /> on {{contact.preferredDate | date}} <span> <span ng-if="contact.preferredTimeSlot"> @ {{contact.preferredTimeSlot}} <span> </div>
+            </div>
+            <button style="background:#461482;color:white;width:100%;margin-top:15px;white-space:nowrap" type="button" class="btn-assign" ng-click="download(contact.pk)"> Print Material Inward Note </button>
+            <button type="button" class="btn-assign" ng-click="newContact($index)" style="width:100%;margin-top:15px">
+              Edit
+            </button>
+          </td>
+        </tr>
+        <tr style="background:white;">
+          <td colspan="5" style="border-top:none!important">
+            <div class="row" ng-if="contact.allInvoices.length>0">
+              <div class="col-md-10 col-md-offset-1">
+                <!-- <div style="margin-bottom:15px"> Quotations: </div> -->
+                <div class="flex-container">
+                  <p style="margin-top:15px;margin-right:15px"> Documents: </p>
+                  <div ng-repeat="i in contact.allInvoices track by $index" ng-click="$state.go('businessManagement.contacts.quote', {id: contact.referenceContact,contract: i.pk});$event.stopPropagation()">{{i.heading}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="row" ng-if="allTerms.length>0&&(contact.status == 'created' || contact.status == 'assigned'  || contact.status == 'upcoming' || contact.status == 'ongoing' || contact.status == 'postponed')" style="margin-top:15px">
+              <div class="col-md-10 col-md-offset-1">
+                <div class="flex-container">
+                  <p style="margin-top:15px;margin-right:15px"> Create new document: </p>
+                  <div ng-repeat="t in allTerms track by $index" ng-click="$state.go('businessManagement.contacts.createquote', {id: contact.referenceContact,template: t.pk});$event.stopPropagation()">{{t.heading}}</div>
+                </div>
+              </div>
+            </div>
+
+          </td>
+
+        </tr>
+      </tbody>
+
+    </table>
+  </div>
+</div>
 </div>
 <!-- </ui-view> -->
