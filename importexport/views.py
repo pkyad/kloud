@@ -4503,7 +4503,9 @@ def datewiseInvoicereport(request):
     print 'reportssssssssssssssssss', request.GET
     start = request.GET['start']
     end = request.GET['end']
-    invoiceObj = Invoice.objects.filter(created__range = (start,end))
+    startDate = datetime.datetime.strptime(str(start),'%Y-%m-%d')
+    endDate = datetime.datetime.strptime(str(end),'%Y-%m-%d')
+    invoiceObj = Invoice.objects.filter(invoiceDate__range = (startDate.date(),endDate.date()))
     workbook = Workbook()
     toReturn = workbook.active
     hdFont = Font(size=12,bold=True)
