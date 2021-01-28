@@ -73,7 +73,7 @@
     <div>
       <div class="col-md-12 text-center" ng-click="openSwitcher()" ng-if="!adminOrManageMode">
         <span>
-          <img  class="appImg" src="/static/images/userIcon.png" style="filter: drop-shadow(5px 5px 5px #c8c4c4);" alt="">
+          <img  class="otherIcons" src="/static/images/userIcon.png" style="filter: drop-shadow(5px 5px 5px #c8c4c4);" alt="">
         </span>
       </div>
     </div>
@@ -81,7 +81,7 @@
 
 
   <div ng-click="dialer.dialPad = !dialer.dialPad;" class="whatsappCall text-center" ng-if="enableTelephony" style="bottom:110px;">
-    <img src="/static/images/icons8-number-pad-64.png"  class="appImg">
+    <img src="/static/images/icons8-number-pad-64.png"  class="otherIcons">
     <!-- <div style="position: absolute;top:5px;right:10px;background:red;border-radius: 30px;color:white;padding-left: 7px;
               padding-right: 7px;
               font-size: 18px;box-shadow: 5px 10px 20px #e3e3e3;" >
@@ -90,7 +90,7 @@
   </div>
 
   <div ng-if="enableMessaing" class="whatsapp text-center" ng-click="$state.go('home.messenger')">
-    <img  class="appImg" src="/static/images/icons8-whatsapp-128.png" >
+    <img  class="otherIcons" src="/static/images/icons8-whatsapp-128.png" >
     <div class="whatsappCount"  >
                 1
     </div>

@@ -1,41 +1,42 @@
 <div class="row">
 
-  <div class="row" style="margin-top:20px;">
-    <div ng-if="!activePatientsForm.pk" class="col-md-12">
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img id="back" onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
-      <span
-        style="font-size: 180%; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>New
-          Patient</b></span>
-      <hr>
-    </div>
-    <div ng-if="activePatientsForm.pk" class="col-md-12">
-      <span
-        style="font-size: 180%; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Update
-          Patient</b></span>
-      <hr>
-    </div>
-  </div>
+  <div  style="margin-top:20px;">
+    <div  class="col-md-12">
+      <div class="col-md-2">
+        <img id="back" onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
 
+      </div>
+      <div class="col-md-10 text-right">
+        <span class="font22"><b> {{activePatientsForm.pk?'Update Patient':'New Patient'}}</b></span>
+      </div>
+
+    </div>
+
+  </div>
+  <br><br>
+  <hr>
   <div id="data" class="col-md-6">
     <form>
       <div class="form-group">
         <label>Patient Name</label>
         <div class="{{addNewPatient==true ? 'input-group': ''}}">
-          <input ng-if="activePatientsForm.pk==null" type="text" class="form-control" ng-model="activePatientsForm.patient" uib-typeahead="patient as patient.firstName for patient in patientSearch($viewValue)">
-          <input ng-if="activePatientsForm.pk" type="text" class="form-control" ng-model="activePatientsForm.patient" uib-typeahead="patient as patient.firstName for patient in patientSearch($viewValue)" disabled>
+          <input ng-if="activePatientsForm.pk==null" type="text" class="form-control websiteInput" ng-model="activePatientsForm.patient" uib-typeahead="patient as patient.firstName for patient in patientSearch($viewValue)">
+          <input ng-if="activePatientsForm.pk" type="text" class="form-control websiteInput" ng-model="activePatientsForm.patient" uib-typeahead="patient as patient.firstName for patient in patientSearch($viewValue)" disabled>
           <div ng-if="addNewPatient" class="input-group-addon" style="cursor:pointer;" ng-click="addNewActivePatient(activePatientsForm.patient)">Add</div>
         </div>
       </div>
 
 
-      <div class="form-group">
+      <div class="row" style="margin:0px;">
         <label class="control-label col-sm-3" style="margin-top:35px;padding:0px;">Admit time</label>
         <div class="col-md-5">
-          <div class="input-group" style="margin-top:35px;">
-            <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="activePatientsForm.inTime" is-open="status.opened" />
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-default" ng-click="status.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+          <div class="form-group" style="margin-top:35px;">
+            <span style="position:absolute;right:0px;padding:15px 30px;" ng-click="status.opened = true;">
+              <i class="glyphicon glyphicon-calendar"></i>
+
             </span>
+            <input type="text" class="form-control websiteInput" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="activePatientsForm.inTime" is-open="status.opened" />
+
           </div>
         </div>
         <div class="col-md-4">
@@ -52,17 +53,17 @@
       </div>
       <div class="form-group">
         <label>Primary Doctor</label>
-        <input type="text" class="form-control" ng-model="activePatientsForm.docName" uib-typeahead="user as user.name for user in doctorSearch($viewValue)" placeholder="Search By Doctor Name Here...">
+        <input type="text" class="form-control websiteInput" ng-model="activePatientsForm.docName" uib-typeahead="user as user.name for user in doctorSearch($viewValue)" placeholder="Search By Doctor Name Here...">
       </div>
       <div class="form-group" ng-if="activePatientsForm.pk">
         <label>Status</label>
-        <select class="form-control" ng-model="activePatientsForm.status">
+        <select class="form-control websiteInput" ng-model="activePatientsForm.status">
           <option ng-repeat="s in statusList" value="{{s.value}}">{{s.name}}</option>
         </select>
       </div>
       <!-- <div class="form-group">
         <label>Comments</label> <br>
-        <textarea class="form-control" rows="3" ng-model="activePatientsForm.comments" placeholder="comments..."></textarea>
+        <textarea class="form-control websiteInput" rows="3" ng-model="activePatientsForm.comments" placeholder="comments..."></textarea>
       </div> -->
 
       <div class="form-group">
