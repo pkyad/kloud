@@ -66,15 +66,20 @@ app.config(function($stateProvider) {
       templateUrl: '/static/ngTemplates/app.settings.holidays.html',
       controller: 'admin.settings.configure.calendar.form'
    })
+   .state('language', {
+      url: "/language",
+      templateUrl: '/static/ngTemplates/app.settings.language.html',
+      controller: 'admin.settings.configure.language.form'
+   })
    .state('appDetails', {
       url: "/:id",
       templateUrl: '/static/ngTemplates/app.organization.appDetails.html',
       controller: 'businessManagement.appsDetails',
    })
- 
- 
- 
- 
+
+
+
+
  });
 
 
@@ -82,7 +87,7 @@ app.config(function($stateProvider) {
 
    $scope.searchForm = {
      searchValue: ''
- 
+
    }
    $scope.limit = 9
    $scope.offset = 0
@@ -94,21 +99,21 @@ app.config(function($stateProvider) {
      $http({
        method: 'GET',
        url: url
- 
+
      }).
      then(function(response) {
        $scope.divisions = response.data.results
        $scope.resPrev = response.data.previous
        $scope.resNext = response.data.next
- 
+
        $scope.checkPerm();
- 
- 
+
+
      })
    }
    $scope.getallCompanies()
- 
- 
+
+
    $scope.checkPerm = function() {
      if ($scope.divisions && $scope.divisions.length == 1 && $state.is('workforceManagement.organization')) {
        $state.go('workforceManagement.organization.details', {
@@ -116,8 +121,8 @@ app.config(function($stateProvider) {
        })
      }
    }
- 
- 
+
+
    $scope.prev = function() {
      if ($scope.resPrev != null) {
        $scope.offset -= $scope.limit
@@ -135,13 +140,13 @@ app.config(function($stateProvider) {
        id: data.pk
      })
    }
- 
- 
+
+
    $scope.delete = function(data, idx) {
      $http({
        method: 'DELETE',
        url: '/api/organization/divisions/' + data.pk + '/'
- 
+
      }).
      then(function(response) {
        Flash.create('success', 'Deleted....!!!')
@@ -162,9 +167,9 @@ app.config(function($stateProvider) {
            } else {
              return data
            }
- 
+
          }
- 
+
        },
        controller: 'workforceManagement.organization.division.form',
      }).result.then(function() {
@@ -173,11 +178,11 @@ app.config(function($stateProvider) {
        $scope.getallCompanies();
      })
    }
- 
- 
- 
+
+
+
  })
- 
+
  app.controller('businessManagement.KloudERPdelails', function($scope, $http, $state, $uibModal, Flash) {
 
    $scope.fetchDivision = function() {
@@ -189,7 +194,7 @@ app.config(function($stateProvider) {
        $scope.data = response.data;
      })
    }
- 
+
    $scope.updateOrg = function() {
      dataToSend = {
        simpleMode: $scope.data.simpleMode,
@@ -206,7 +211,7 @@ app.config(function($stateProvider) {
        Flash.create('success', 'Saved');
      });
    }
- 
+
    $scope.fetchDivision();
    // $scope.form = {
    //   file : emptyFile
@@ -231,7 +236,7 @@ app.config(function($stateProvider) {
    //   })
    // }
    //
- 
+
    $scope.edit = function(indx) {
      $uibModal.open({
        templateUrl: '/static/ngTemplates/app.installedApp.form.html',
@@ -246,23 +251,23 @@ app.config(function($stateProvider) {
          }
        },
        controller: function($scope, $uibModalInstance, $rootScope, id, install) {
- 
+
          $scope.form = {
            app: install.app,
            rate: install.priceAsAdded
          }
- 
+
          $scope.appSearch = function(query) {
            return $http.get('/api/ERP/application/?limit=10&name__icontains=' + query).
            then(function(response) {
              return response.data.results;
            })
          };
- 
+
          $scope.id = id;
- 
- 
- 
+
+
+
          $scope.save = function() {
            var dataToSend = {
              app: $scope.form.app.pk,
@@ -277,23 +282,23 @@ app.config(function($stateProvider) {
              $uibModalInstance.dismiss(response.data)
            })
          }
- 
- 
+
+
        }
      }).result.then(function(d) {
- 
- 
+
+
        $scope.fetchDivision();
      }, function(r) {
- 
- 
+
+
        $scope.fetchDivision();
      });
    }
- 
- 
+
+
    $scope.addNewApp = function() {
- 
+
      $uibModal.open({
        templateUrl: '/static/ngTemplates/app.installedApp.form.html',
        size: 'lg',
@@ -304,23 +309,23 @@ app.config(function($stateProvider) {
          }
        },
        controller: function($scope, $uibModalInstance, $rootScope, id) {
- 
+
          $scope.form = {
            app: null,
            rate: 0
          }
- 
+
          $scope.appSearch = function(query) {
            return $http.get('/api/ERP/application/?limit=10&name__icontains=' + query).
            then(function(response) {
              return response.data.results;
            })
          };
- 
+
          $scope.id = id;
- 
- 
- 
+
+
+
          $scope.save = function() {
            var dataToSend = {
              app: $scope.form.app.pk,
@@ -335,8 +340,8 @@ app.config(function($stateProvider) {
              $uibModalInstance.dismiss(response.data)
            })
          }
- 
- 
+
+
        }
      }).result.then(function(d) {
        console.log({
@@ -349,20 +354,20 @@ app.config(function($stateProvider) {
        });
        $scope.fetchDivision();
      });
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
    }
- 
- 
- 
- 
+
+
+
+
  })
- 
+
 
 
 app.controller('businessManagement.apps', function($scope, $http, $state) {
@@ -375,7 +380,7 @@ app.controller('businessManagement.apps', function($scope, $http, $state) {
    $scope.form = {
      file : emptyFile
    }
- 
+
    $scope.fileupload = function(file){
      $scope.file = file[0]
      console.log($scope.file);
@@ -394,11 +399,11 @@ app.controller('businessManagement.apps', function($scope, $http, $state) {
        Flash.create('success', "Uploaded")
      })
    }
- 
- 
- 
- 
- 
+
+
+
+
+
    $scope.fetch = function() {
      var url = '/api/ERP/application/?limit='+$scope.limit+'&offset='+$scope.offset
      if ($scope.searchForm.search.length > 0) {
@@ -414,9 +419,9 @@ app.controller('businessManagement.apps', function($scope, $http, $state) {
        $scope.resNext = response.data.next
      })
    }
- 
+
    $scope.fetch();
- 
+
    $scope.prev = function(){
      if (  $scope.resPrev != null) {
        $scope.offset -= $scope.limit
@@ -429,9 +434,9 @@ app.controller('businessManagement.apps', function($scope, $http, $state) {
        $scope.fetch();
      }
    }
- 
+
  });
- 
+
 
 
 app.controller('businessManagement.templates', function($scope, $http, $state, $uibModal, Flash,$timeout,$sce) {
@@ -441,9 +446,9 @@ app.controller('businessManagement.templates', function($scope, $http, $state, $
    }
    $scope.limit = 10
    $scope.offset = 0
- 
- 
- 
+
+
+
    $scope.createTemplate  = function(){
      $uibModal.open({
        templateUrl: '/static/ngTemplates/app.organization.createTemplate.html',
@@ -455,12 +460,12 @@ app.controller('businessManagement.templates', function($scope, $http, $state, $
          // }
        },
        controller: function($scope, $uibModalInstance, $rootScope, $http, Flash) {
- 
+
          $scope.reset =  function(){
            $scope.form = {
              name:'',templateCategory:''
            }
- 
+
          }
          $scope.reset()
          $scope.choices = ['Contact Us','Introduction','Image List','Info Section','Testimonials','Widgets','Header','Footer','Others']
@@ -478,17 +483,17 @@ app.controller('businessManagement.templates', function($scope, $http, $state, $
              $scope.form.pk = response.data.pk
              window.open('/templateEditor/'+$scope.form.pk+'/','_blank')
              $uibModalInstance.dismiss()
- 
+
            })
- 
- 
+
+
          }
- 
- 
+
+
          }
    })
  }
- 
+
    $scope.fetchTemplates = function() {
      var url = '/api/website/uielementemplate/?limit='+$scope.limit+'&offset='+$scope.offset
      if ($scope.searchForm.searchValue.length > 0) {
@@ -505,8 +510,8 @@ app.controller('businessManagement.templates', function($scope, $http, $state, $
      })
    }
    $scope.fetchTemplates();
- 
- 
+
+
      $scope.prev = function(){
        if (  $scope.resPrev != null) {
          $scope.offset -= $scope.limit
@@ -519,9 +524,9 @@ app.controller('businessManagement.templates', function($scope, $http, $state, $
          $scope.fetchTemplates();
        }
      }
- 
- 
- 
+
+
+
    $scope.openTemplateEditor = function(template) {
      $uibModal.open({
        templateUrl: '/static/ngTemplates/app.templateEditor.html',
@@ -535,8 +540,8 @@ app.controller('businessManagement.templates', function($scope, $http, $state, $
        },
        controller: function($scope, $uibModalInstance, $rootScope, template) {
          // $scope.editor1 = ace.edit('aceEditor');
- 
- 
+
+
          $scope.form = template
          $scope.uielement=  $sce.trustAsResourceUrl('/uielement/?id='+$scope.form.pk)
          $timeout(function() {
@@ -560,20 +565,20 @@ app.controller('businessManagement.templates', function($scope, $http, $state, $
            $scope.show = false
            $scope.save = function() {
              var fd = new FormData()
- 
+
              fd.append('name', $scope.form.name)
              fd.append('live', $scope.form.live)
              fd.append('template', $scope.editor1.getValue())
              fd.append('defaultData', $scope.editor2.getValue())
              if ($scope.form.mobilePreview != null && typeof($scope.form.mobilePreview) == 'object' ) {
- 
+
                fd.append('mobilePreview', $scope.form.mobilePreview)
              }
              if ($scope.form.sampleImg != null && typeof($scope.form.sampleImg) == 'object' ) {
- 
+
                fd.append('sampleImg', $scope.form.sampleImg)
              }
- 
+
              $http({
                method: 'PATCH',
                url: '/api/website/uielementemplate/' + $scope.form.pk + '/',
@@ -584,7 +589,7 @@ app.controller('businessManagement.templates', function($scope, $http, $state, $
                }
              }).
              then(function(response) {
- 
+
                Flash.create('success', "Updated...!")
                iFrame.src=  $sce.trustAsResourceUrl('/uielement/?id='+response.data.pk)
                // $timeout (function(){
@@ -594,8 +599,8 @@ app.controller('businessManagement.templates', function($scope, $http, $state, $
              })
            }
          },300)
- 
- 
+
+
          $timeout(function() {
            $scope.editor2 = ace.edit('aceEditor2');
            $scope.editor2.setTheme("ace/theme/XCode");
@@ -613,21 +618,21 @@ app.controller('businessManagement.templates', function($scope, $http, $state, $
            if ($scope.form != undefined) {
              $scope.editor2.setValue($scope.form.defaultData, -1);
            }
- 
+
          },300)
- 
- 
- 
- 
- 
+
+
+
+
+
        }
      });
    }
- 
- 
- 
+
+
+
  })
- 
+
 
  app.controller("admin.settings.configure.hsnsac.form", function($scope, $state, $stateParams, $http, Flash, $uibModal,$rootScope) {
    $scope.resetForm = function(){
@@ -637,10 +642,10 @@ app.controller('businessManagement.templates', function($scope, $http, $state, $
        code:0,
        taxRate:0
      }
-   
+
    }
    $scope.resetForm()
-   
+
    $scope.save = function(){
      var dataTosend ={
        description:$scope.form.description,
@@ -664,7 +669,7 @@ app.controller('businessManagement.templates', function($scope, $http, $state, $
        $scope.resetForm()
      })
    }
-   
+
    $scope.searchForm = {
      searchValue:''
    }
@@ -685,8 +690,8 @@ app.controller('businessManagement.templates', function($scope, $http, $state, $
      })
    }
    $scope.alltaxCodes()
-   
-   
+
+
    $scope.previous =function(){
      if ($scope.prometaPrev != null) {
        $scope.offset -= $scope.limit
@@ -699,18 +704,18 @@ app.controller('businessManagement.templates', function($scope, $http, $state, $
        $scope.alltaxCodes()
      }
    }
-   
+
    $scope.$on('editTaxcodes', function(event, input) {
      $scope.form  = input.data
    });
-   
-   
+
+
    $scope.editCodes = function(data,idx){
      $scope.codes.splice(idx,1)
      $rootScope.$broadcast('editTaxcodes', {data:data});
-   
+
    }
-   
+
    $scope.delTaxcodes = function(data,idx){
      $http({
        method:'DELETE',
@@ -720,7 +725,7 @@ app.controller('businessManagement.templates', function($scope, $http, $state, $
        $scope.codes.splice(idx,1)
      })
    }
-   
+
 })
 
 
@@ -729,11 +734,11 @@ app.controller('businessManagement.templates', function($scope, $http, $state, $
 app.controller('admin.settings.configure.calendar.form' , function($scope ,$uibModal, $stateParams , $http , $state , Flash , $filter,$rootScope){
 
    $scope.holiDayForm = {name : '' , typ : 'restricted' , date : new Date()}
- 
- 
- 
+
+
+
    $scope.openHolidayForm = function(form) {
- 
+
      $uibModal.open({
        templateUrl: '/static/ngTemplates/app.HR.holiday.modal.html',
        size: 'md',
@@ -744,13 +749,13 @@ app.controller('admin.settings.configure.calendar.form' , function($scope ,$uibM
          }
        },
        controller: function($scope, $uibModalInstance, $rootScope, form , $http, Flash, $interval, $timeout) {
- 
+
          $scope.sampleNames = [
            'Leave policy',
            'Expense Claim policy',
            'Advance for travel policy',
          ]
- 
+
          $scope.sampleNameIndex = 0;
          $interval(function() {
            $scope.sampleNameIndex += 1;
@@ -758,13 +763,13 @@ app.controller('admin.settings.configure.calendar.form' , function($scope ,$uibM
              $scope.sampleNameIndex = 0;
            }
          }, 5000)
- 
+
          $scope.holiDayForm = form;
- 
+
          $timeout(function() {
            $('#holidayName').focus();
          },1000);
- 
+
          $scope.saveHoliday = function() {
            if ($scope.holiDayForm.name == null || $scope.holiDayForm.name.length == 0) {
              Flash.create('warning', 'Please Mention The Name' );
@@ -785,14 +790,14 @@ app.controller('admin.settings.configure.calendar.form' , function($scope ,$uibM
            }else {
              dataToSend.date = $scope.holiDayForm.date
            }
- 
+
            var params = {}
- 
+
            if ($state.is('businessManagement.KloudERP.holidays')) {
              params = {master : 'yes'}
            }
- 
- 
+
+
            if ($scope.holiDayForm.pk) {
              url += $scope.holiDayForm.pk + '/'
              method = 'PATCH'
@@ -804,32 +809,32 @@ app.controller('admin.settings.configure.calendar.form' , function($scope ,$uibM
              if ($scope.holiDayForm.pk) {
                Flash.create('success', 'Updated' );
              }else {
- 
+
                Flash.create('success', 'Created' );
              }
              $scope.holiDayForm = {typ : 'national' , date : new Date()}
              $scope.allHolidays()
            })
          }
- 
- 
+
+
        },
      }).result.then(function() {
        $scope.allHolidays()
      }, function() {
        $scope.allHolidays()
      });
- 
- 
+
+
    }
- 
- 
- 
+
+
+
    $scope.searchHoliday={
      searchValue:'',
      year : '2021'
    }
- 
+
    $scope.allHolidays = function(){
      var url ='/api/organization/companyHoliday/?year=' + $scope.searchHoliday.year ;
      if ($scope.searchHoliday.searchValue.length > 0) {
@@ -843,16 +848,22 @@ app.controller('admin.settings.configure.calendar.form' , function($scope ,$uibM
      })
    }
    $scope.allHolidays()
- 
+
    $scope.editHolidays = function(data,idx){
      $scope.holidays.splice(idx,1)
      console.log(data,"490394039");
- 
+
    }
- 
+
  });
- 
- 
+
+
+
+app.controller('admin.settings.configure.language.form', function($scope, $http, $state, $uibModal, Flash) {
+
+
+
+})
 
 app.controller('businessManagement.appsDetails', function($scope, $http, $state, $uibModal, Flash) {
 
@@ -866,19 +877,19 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
        $scope.data = response.data;
        $scope.mediaForm.medialist =  response.data.appMedia
      })
- 
+
    }
    $scope.getApp()
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
    $scope.saveApp = function() {
      var fd = new FormData()
- 
+
      fd.append('displayName', $scope.data.displayName)
      fd.append('description', $scope.data.description)
      fd.append('windows', $scope.data.windows)
@@ -890,7 +901,7 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
      fd.append('rating_three', $scope.data.rating_three)
      fd.append('rating_four', $scope.data.rating_four)
      fd.append('rating_five', $scope.data.rating_five)
- 
+
      $http({
        method: 'PATCH',
        url: '/api/ERP/application/' + $state.params.id + '/',
@@ -904,7 +915,7 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
        Flash.create('success', "Updated...!")
      })
    }
- 
+
    $scope.getappSettings = function() {
      $http({
        method: 'GET',
@@ -925,7 +936,7 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
      })
    }
    $scope.getmenuItems()
- 
+
    $scope.delSettings = function(idx) {
      $http({
        method: 'DELETE',
@@ -946,11 +957,11 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
        Flash.create('success', 'Deleted...!!!')
      })
    }
- 
- 
+
+
  // [{'name' : 'Purchase Orders Terms and Conditions' , 'state' :  'admin.termsandcondition
  // '}, {'name' : 'Sale Order / invoice Terms and Conditions' , 'state' :  'admin.salestermsandcondition'}, {'name' : 'CRM Documents Formats' , 'state' :  'admin.crmtermsandcondition'} , {'name' : 'Servicing / Ticketing Terms And Conditions' , 'state' :  'admin.termsandconditions'}]
- 
+
    $scope.createAppsettings = function(app) {
      $uibModal.open({
        templateUrl: '/static/ngTemplates/app.organization.createappsettings.html',
@@ -972,12 +983,12 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
            $scope.form.name = $scope.app.name
            $scope.form.state = $scope.app.state
          }
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
          $scope.save = function() {
            var dataToSend = {
              heading: $scope.form.heading,
@@ -1000,24 +1011,24 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
            then(function(response) {
              $uibModalInstance.dismiss()
              Flash.create('success', 'Created....!!!')
- 
+
            })
          }
- 
- 
+
+
        }
      }).result.then(function() {
- 
+
      }, function() {
        $scope.getappSettings()
      });
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
    }
    $scope.createmenuItems = function(app) {
      $uibModal.open({
@@ -1044,12 +1055,12 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
            $scope.form.state = $scope.app.state
            $scope.form.jsFileName = $scope.app.jsFileName
          }
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
          $scope.save = function() {
            var dataToSend = {
              icon: $scope.form.icon,
@@ -1073,24 +1084,24 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
            then(function(response) {
              $uibModalInstance.dismiss()
              Flash.create('success', 'Created....!!!')
- 
+
            })
          }
- 
- 
+
+
        }
      }).result.then(function() {
- 
+
      }, function() {
        $scope.getmenuItems()
      });
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
    }
    $scope.createAppFeature = function(app) {
      $uibModal.open({
@@ -1110,14 +1121,14 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
          if ($scope.app != undefined) {
            $scope.form.name = $scope.app.name
            $scope.form.enabled = $scope.app.enabled
- 
+
          }
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
          $scope.save = function() {
            var dataToSend = {
              name: $scope.form.name,
@@ -1139,28 +1150,28 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
            then(function(response) {
              $uibModalInstance.dismiss()
              Flash.create('success', 'Created....!!!')
- 
+
            })
          }
- 
- 
+
+
        }
      }).result.then(function() {
- 
+
      }, function() {
        $scope.getAppfeatures()
      });
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
    }
- 
+
    $scope.getAppfeatures = function(){
- 
+
          $http({
            method: 'GET',
            url: '/api/ERP/applicationfeature/?parent=' + $state.params.id + '/'
@@ -1168,10 +1179,10 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
          then(function(response) {
            $scope.appFeatures = response.data;
          })
- 
+
    }
      $scope.getAppfeatures()
- 
+
    $scope.deleteFeature = function(indx){
      $http({
        method: 'DELETE',
@@ -1182,25 +1193,25 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
        Flash.create('success','Deleted....!!!')
      })
    }
- 
+
    $scope.refresh = function(){
- 
+
      $scope.mediaForm = {
        typ:'',attachment:emptyFile,medialist:[],name:''
      }
- 
+
    }
    $scope.refresh()
- 
+
    $scope.fileupload = function(file){
      $scope.file = file[0]
      var fd = new FormData()
- 
+
      fd.append('attachment',$scope.file)
      fd.append('name',$scope.file.name)
      fd.append('app',$state.params.id)
- 
- 
+
+
      $http({
        method: 'POST',
        url: '/api/ERP/applicationmedia/',
@@ -1211,26 +1222,26 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
        }
      }).
      then(function(response) {
- 
+
        Flash.create('success', "Created...!")
        $scope.mediaForm.medialist.push(response.data)
      })
    }
- 
- 
- 
+
+
+
    $scope.delMedia = function(indx){
      $http({
        method: 'DELETE',
        url: '/api/ERP/applicationmedia/'+$scope.mediaForm.medialist[indx].pk+'/',
- 
+
      }).
      then(function(response) {
        $scope.mediaForm.medialist.splice(indx,1)
        Flash.create('success','Deleted...!!!')
      })
    }
- 
+
    $scope.giveFeedback = function(feedback) {
      $uibModal.open({
        templateUrl: '/static/ngTemplates/app.organization.givefeedback.html',
@@ -1254,12 +1265,12 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
            $scope.form.star = $scope.feedback.star
            $scope.form.text = $scope.feedback.text
          }
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
          $scope.save = function() {
            if ($scope.form.star >5) {
              Flash.create('danger','Maximum rating is 5')
@@ -1286,28 +1297,28 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
            then(function(response) {
              Flash.create('success', 'Created....!!!')
              $uibModalInstance.dismiss()
- 
- 
+
+
            })
          }
- 
- 
+
+
        }
      }).result.then(function() {
- 
+
      }, function() {
        $scope.getApp()
      });
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
    }
- 
- 
+
+
    $scope.delFeedback = function(idx){
      $http({
        method: 'DELETE',
@@ -1316,10 +1327,10 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
      then(function(response) {
        $scope.data.feedback.splice(idx,1)
        Flash.create('success', 'Deleted....!!!')
- 
+
      })
    }
- 
+
  });
 
  app.filter('timeAgo' , function(){

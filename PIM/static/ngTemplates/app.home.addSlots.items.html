@@ -1,0 +1,30 @@
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-12">
+        <table class="invoiceTable" style=" width: 100%;">
+          <thead>
+          </thead>
+          <tbody>
+            <tr style="background-color: #eeeeee;height: 50px;">
+              <th>Slot</th>
+              <th>Monday</th>
+              <th>Tuesday</th>
+              <th> Wednesday</th>
+              <th>Thursday</th>
+              <th>Friday</th>
+              <th>Saturday</th>
+            </tr>
+            <tr ng-repeat="s in allSchedules">
+              <td >{{s.slot}}</td>
+              <td ng-repeat="d in s.data">
+                      <input type="checkbox"  ng-model="d.is_available" ng-click="updateAvailable(d)">
+                <!-- <p ng-if="d.is_available"> Available </p>
+                <p ng-if="!d.is_available" ng-click="markAvailable($index)"> Unavailable </p> -->
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+</div>

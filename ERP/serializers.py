@@ -333,3 +333,8 @@ class UsageBillingSerializer(serializers.ModelSerializer):
     class Meta:
         model = UsageBilling
         fields = ('pk' , 'date', 'title', 'amount', 'month', 'year', 'division' )
+
+class CalendarSlotsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CalendarSlots
+        fields = ('pk' , 'slot', 'day', 'is_available' )

@@ -1605,146 +1605,18 @@ app.directive('forumCreate', function() {
 });
 
 
-app.directive('calendarView', function() {
-  return {
-    templateUrl: '/static/ngTemplates/calendarView.html',
-     // css: '/static/css/careerview.css',
-    restrict: 'E',
-    transclude: true,
-    replace: true,
-    controller: function($scope, $state, $http, Flash, $rootScope, $filter,  $users) {
-      $scope.options = {
-          minDate: new Date(),
-          showWeeks: false
-        };
-
-
-    $scope.allMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July','August', 'September', 'October', 'November', 'December']
-
-      $scope.me = $users.get("mySelf");
-
-      $scope.data = {items : []};
-      var date = new Date()
-      $http({url : '/api/PIM/calendar/?date='+date.toISOString().split('T')[0] , method : 'GET'}).
-      then(function(response){
-        d = response.data;
-        for (var i = 0; i < d.length; i++) {
-          $scope.data.items.push( {'type' : d[i].eventType, data : d[i] ,  date : new Date(d[i].when)});
-        }
-        console.log(d, 'dadadadada');
-      })
-
-
-    $scope.form = {
-      selectYear:new Date().getFullYear()
-    }
-    $scope.years = [$scope.form.selectYear-2,$scope.form.selectYear-1,$scope.form.selectYear,$scope.form.selectYear+1,$scope.form.selectYear+2]
-
-    $scope.changeCalendar = function(){
-      $scope.date = new Date($scope.form.selectYear, new Date().getMonth(), new Date().getDate())
-    }
-
-    $scope.showMonthwise = function(month,year){
-      $scope.index = month
-      console.log(new Date().getDate());
-      var date = new Date(year.getFullYear(), month, new Date().getDate());
-      $scope.date = date
-
-    }
-
-
-
-      $scope.fetchCalenderEvents = function(){
-        $http({url : '/api/PIM/calendar/?date='+$scope.date.toISOString().split('T')[0] , method : 'GET'}).
-        then(function(response){
-          d = response.data;
-          $scope.data.items = [];
-          for (var i = 0; i < d.length; i++) {
-            $scope.data.items.push( {'type' : d[i].eventType, data : d[i] ,  date : new Date(d[i].when)});
-          }
-        })
-
-
-      }
-
-      $scope.showDay = function(input){
-        $scope.itemsToShow = [];
-        for (var i = 0; i < input.length; i++) {
-          $scope.itemsToShow.push($scope.data.items[input[i]]);
-        }
-        $scope.itemInView = $scope.data.items[input[0]];
-      };
-
-      $scope.itemSelected = function(input){
-        $scope.itemInView = $scope.itemsToShow[input];
-      }
-
-      $scope.toggleToDo = function(input){
-        todo = $scope.data.items[input].data;
-        $http({url : '/api/PIM/calendar/'+ todo.pk+'/' , method : 'PATCH' , data : {completed : todo.completed}})
-      }
-      $scope.deleteToDo = function(input){
-        todo = $scope.data.items[input].data;
-        $http({url : '/api/PIM/calendar/'+todo.pk+'/' , method : 'DELETE' })
-        $scope.data.items.splice(input , 1);
-      }
-
-      $scope.showPerticular = function(input){
-        $scope.itemInView = $scope.data.items[input];
-      };
-
-      $scope.edit = function(){
-        $scope.openForm($scope.data.items.indexOf($scope.itemInView));
-      }
-      $scope.delete = function(){
-        $http({method : 'DELETE' , url : '/api/PIM/calendar/' + $scope.itemInView.data.pk + '/'}).
-        then(function(response){
-          $scope.data.items.splice($scope.data.items.indexOf($scope.itemInView) , 1);
-        })
-      }
-
-
-      // $scope.openAuthenticator = function(typ) {
-      //   if (typ == 'zoom') {
-      //
-      //     window.open("https://zoom.us/oauth/authorize?response_type=code&client_id=zKOQhCMNScqwz67aaWS4Q&redirect_uri=https://5187a883fbe6.ngrok.io/api/ERP/generateaccesstoken/" , 'popUpWindow','height=500,width=700,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes')
-      //   }
-      //   $http({
-      //     method:'GET',url:'https://zoom.us/oauth/authorize?response_type=code&client_id=zKOQhCMNScqwz67aaWS4Q&redirect_uri=https://5187a883fbe6.ngrok.io/api/ERP/generateaccesstoken/'
-      //   }).then(function(response){
-      //     console.log(response.data,'3443');
-      //   })
-      //
-      // }
-
-
-
-      // $scope.openForm = function(index){
-      //   // index is the index of the calendar item to be edited , if its undefined then a new object will be created else edited
-      //   templateUrl = '/static/ngTemplates/app.home.calendar.aside.html';
-      //   input = {formTitle : typeof index == 'undefined'? 'Create' : 'Edit' , items : $scope.data.items , editor: index};
-      //   $scope.openAside(input);
-      // }
-      //
-      // $scope.openAside = function(input) {
-      //
-      //   $uibModal.open({
-      //     templateUrl: templateUrl,
-      //     size: 'md',
-      //     backdrop: true,
-      //     controller:'controller.home.calendar.aside',
-      //     resolve: {
-      //      input: function () {
-      //        return input;
-      //       }
-      //     }
-      //   }).result.then();
-      // }
-
-      $scope.date = new Date();
-      $scope.templates = '/static/ngTemplates/app.home.calendar.items.html';
-
-
-    },
-  };
-});
+// app.directive('calendarView', function() {
+//   return {
+//     templateUrl: '/static/ngTemplates/calendarView.html',
+//      // css: '/static/css/careerview.css',
+//     restrict: 'E',
+//     transclude: true,
+//     replace: true,
+//     controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
+//
+//
+//
+//
+//     },
+//   };
+// });

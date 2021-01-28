@@ -18,7 +18,7 @@ router.register(r'applicationmedia' , applicationMediaViewSet , base_name='appli
 router.register(r'feedback' , FeedbackViewSet , base_name='feedback')
 router.register(r'applicationfeature' , ApplicationFeatureViewSet , base_name='applicationfeature')
 router.register(r'usageBilling' , UsageBillingViewSet , base_name='usageBilling')
-
+router.register(r'calendarSlot' , CalendarSlotViewSet , base_name='calendarSlot')
 
 urlpatterns = [
     url(r'^', include(router.urls)),
@@ -40,5 +40,6 @@ urlpatterns = [
     url(r'serviceApi/$' , serviceApi.as_view()),
     url(r'createBilling/$' , CreateBillingAPI.as_view()),
     url(r'getBilling/$' , GetBillingAPI.as_view()),
+    url(r'getAllSchedule/$' , GetAllSchedulesAPI.as_view()),
 
 ]

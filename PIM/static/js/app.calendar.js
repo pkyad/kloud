@@ -10,83 +10,83 @@ $scope.allMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'Jul
 
   $scope.me = $users.get("mySelf");
 
-//   $scope.data = {items : []};
-//   var date = new Date()
-//   $http({url : '/api/PIM/calendar/?date='+date.toISOString().split('T')[0] , method : 'GET'}).
-//   then(function(response){
-//     d = response.data;
-//     for (var i = 0; i < d.length; i++) {
-//       $scope.data.items.push( {'type' : d[i].eventType, data : d[i] ,  date : new Date(d[i].when)});
-//     }
-//     console.log(d, 'dadadadada');
-//   })
-//
-//
-// $scope.form = {
-//   selectYear:new Date().getFullYear()
-// }
-// $scope.years = [$scope.form.selectYear-2,$scope.form.selectYear-1,$scope.form.selectYear,$scope.form.selectYear+1,$scope.form.selectYear+2]
-//
-// $scope.changeCalendar = function(){
-//   $scope.date = new Date($scope.form.selectYear, new Date().getMonth(), new Date().getDate())
-// }
-//
-// $scope.showMonthwise = function(month,year){
-//   $scope.index = month
-//   console.log(new Date().getDate());
-//   var date = new Date(year.getFullYear(), month, new Date().getDate());
-//   $scope.date = date
-//
-// }
-//
-//   $scope.fetchCalenderEvents = function(){
-//     $http({url : '/api/PIM/calendar/?date='+$scope.date.toISOString().split('T')[0] , method : 'GET'}).
-//     then(function(response){
-//       d = response.data;
-//       $scope.data.items = [];
-//       for (var i = 0; i < d.length; i++) {
-//         $scope.data.items.push( {'type' : d[i].eventType, data : d[i] ,  date : new Date(d[i].when)});
-//       }
-//     })
-//
-//
-//   }
-//
-//   $scope.showDay = function(input){
-//     $scope.itemsToShow = [];
-//     for (var i = 0; i < input.length; i++) {
-//       $scope.itemsToShow.push($scope.data.items[input[i]]);
-//     }
-//     $scope.itemInView = $scope.data.items[input[0]];
-//   };
-//
-//   $scope.itemSelected = function(input){
-//     $scope.itemInView = $scope.itemsToShow[input];
-//   }
-//
-//   $scope.toggleToDo = function(input){
-//     todo = $scope.data.items[input].data;
-//     $http({url : '/api/PIM/calendar/'+ todo.pk+'/' , method : 'PATCH' , data : {completed : todo.completed}})
-//   }
-//   $scope.deleteToDo = function(input){
-//     todo = $scope.data.items[input].data;
-//     $http({url : '/api/PIM/calendar/'+todo.pk+'/' , method : 'DELETE' })
-//     $scope.data.items.splice(input , 1);
-//   }
-//
-//   $scope.showPerticular = function(input){
-//     $scope.itemInView = $scope.data.items[input];
-//   };
-//
-//   $scope.edit = function(){
-//     $scope.openForm($scope.data.items.indexOf($scope.itemInView));
-//   }
-//   $scope.delete = function(){
-//     $http({method : 'DELETE' , url : '/api/PIM/calendar/' + $scope.itemInView.data.pk + '/'}).
-//     then(function(response){
-//       $scope.data.items.splice($scope.data.items.indexOf($scope.itemInView) , 1);
-//     })
-//   }
+  $scope.data = {items : []};
+  var date = new Date()
+  $http({url : '/api/PIM/calendar/?date='+date.toISOString().split('T')[0] , method : 'GET'}).
+  then(function(response){
+    d = response.data;
+    for (var i = 0; i < d.length; i++) {
+      $scope.data.items.push( {'type' : d[i].eventType, data : d[i] ,  date : new Date(d[i].when)});
+    }
+    console.log(d, 'dadadadada');
+  })
+
+
+$scope.form = {
+  selectYear:new Date().getFullYear()
+}
+$scope.years = [$scope.form.selectYear-2,$scope.form.selectYear-1,$scope.form.selectYear,$scope.form.selectYear+1,$scope.form.selectYear+2]
+
+$scope.changeCalendar = function(){
+  $scope.date = new Date($scope.form.selectYear, new Date().getMonth(), new Date().getDate())
+}
+
+$scope.showMonthwise = function(month,year){
+  $scope.index = month
+  console.log(new Date().getDate());
+  var date = new Date(year.getFullYear(), month, new Date().getDate());
+  $scope.date = date
+
+}
+
+  $scope.fetchCalenderEvents = function(){
+    $http({url : '/api/PIM/calendar/?date='+$scope.date.toISOString().split('T')[0] , method : 'GET'}).
+    then(function(response){
+      d = response.data;
+      $scope.data.items = [];
+      for (var i = 0; i < d.length; i++) {
+        $scope.data.items.push( {'type' : d[i].eventType, data : d[i] ,  date : new Date(d[i].when)});
+      }
+    })
+
+
+  }
+
+  $scope.showDay = function(input){
+    $scope.itemsToShow = [];
+    for (var i = 0; i < input.length; i++) {
+      $scope.itemsToShow.push($scope.data.items[input[i]]);
+    }
+    $scope.itemInView = $scope.data.items[input[0]];
+  };
+
+  $scope.itemSelected = function(input){
+    $scope.itemInView = $scope.itemsToShow[input];
+  }
+
+  $scope.toggleToDo = function(input){
+    todo = $scope.data.items[input].data;
+    $http({url : '/api/PIM/calendar/'+ todo.pk+'/' , method : 'PATCH' , data : {completed : todo.completed}})
+  }
+  $scope.deleteToDo = function(input){
+    todo = $scope.data.items[input].data;
+    $http({url : '/api/PIM/calendar/'+todo.pk+'/' , method : 'DELETE' })
+    $scope.data.items.splice(input , 1);
+  }
+
+  $scope.showPerticular = function(input){
+    $scope.itemInView = $scope.data.items[input];
+  };
+
+  $scope.edit = function(){
+    $scope.openForm($scope.data.items.indexOf($scope.itemInView));
+  }
+  $scope.delete = function(){
+    $http({method : 'DELETE' , url : '/api/PIM/calendar/' + $scope.itemInView.data.pk + '/'}).
+    then(function(response){
+      $scope.data.items.splice($scope.data.items.indexOf($scope.itemInView) , 1);
+    })
+  }
 
 
   $scope.openAuthenticator = function(typ) {
@@ -128,8 +128,48 @@ $scope.allMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'Jul
 
   $scope.date = new Date();
   $scope.templates = '/static/ngTemplates/app.home.calendar.items.html';
+
+
+  $scope.openSlots = function(){
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.home.addSlots.items.html',
+      size: 'lg',
+      backdrop: true,
+      controller:'controller.home.calendar.addSlots',
+      // resolve: {
+      //  // input: function () {
+      //  //   return input;
+      //  //  }
+      // }
+    }).result.then();
+  }
+
 });
 
+
+app.controller('controller.home.calendar.addSlots', function($scope, $uibModalInstance ,$timeout, $http, $users  , Flash ,$filter) {
+  $http({
+    method: 'GET',
+    url: '/api/ERP/getAllSchedule/'
+  }).
+  then(function(response) {
+    $scope.allSchedules = response.data
+  })
+
+  $scope.updateAvailable = function(data){
+    $http({
+      method: 'PATCH',
+      url: '/api/ERP/calendarSlot/'+data.pk+'/',
+      data:{
+        is_available : data.is_available
+      }
+    }).
+    then(function(response) {
+    })
+
+  }
+
+})
 
 app.controller('controller.home.calendar.aside', function($scope, $uibModalInstance ,$timeout, $http, $users , input , Flash ,$filter) {
   $scope.baseUrl = '/api/PIM/calendar/';

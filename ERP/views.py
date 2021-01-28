@@ -1356,3 +1356,31 @@ class GetBillingAPI(APIView):
             amount = total['tot']
         data = {'obj':obj , 'amount' : amount}
         return Response(data, status = status.HTTP_200_OK)
+
+class CalendarSlotViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    queryset = CalendarSlots.objects.all()
+    serializer_class = CalendarSlotsSerializer
+    # filter_backends = [DjangoFilterBackend]
+    # filter_fields = ['month' , 'year']
+
+
+class GetAllSchedulesAPI(APIView):
+    renderer_classes = (JSONRenderer,)
+    def get(self , request , format = None):
+        user = request.user
+        # div = user.designation.division
+        weekdays = ['Monday' , 'Tuesday' , 'wednesday' , 'Thursday' ,'Friday' , 'Saturday']
+        slots = ['9-10' , '10-11' , '11-12' ,'12-01' ,'01-02' ,'02-03' , '03-04' , '04-05']
+        slotObj = CalendarSlots.objects.filter(user = user)
+        if slotObj.count() == 0:
+            for i in weekdays:
+                for j in slots:
+                    obj = CalendarSlots.objects.create(day = i , slot = j, user = user)
+        else:
+            allData =[]
+            for i in slots:
+                objs =  CalendarSlotsSerializer(CalendarSlots.objects.filter(slot = i), many = True).data
+                val = {'slot' : i, 'data' : objs}
+                allData.append(val)
+        return Response(allData, status = status.HTTP_200_OK)
