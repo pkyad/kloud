@@ -212,7 +212,7 @@
           <div class="row">
             <div class="col-lg-12" style="margin-top:215px">
               <div class=" col-lg-3 col-xs-6  forum_head">
-                <h2 style="margin-top:0px;font-weight:bold">Forums</h2>
+                <h2 class="font30" style="margin-top:0px;font-weight:bold">Forums</h2>
               </div>
               <div class="col-lg-3 col-xs-6 pull-right hidden-lg hidden-md">
                 <a ng-click="$state.go('businessManagement.createForum')" type="button" class="btn btn-lg btn-default btn-rounded btn_call">
@@ -248,7 +248,7 @@
                   </div>
                 </div>
               </div>
-              <div class="row hidden-lg hidden-md" style="margin-top:50px;padding-top:10px;background-color:#FFFFFF;height:100%;position:relative;margin-left:0px;margin-right:0px;">
+              <div class="row hidden-lg hidden-md" style="margin:0px;margin-top:50px;padding-top:10px;background-color:#FFFFFF;height:100%;position:relative;margin-left:0px;margin-right:0px;">
                 <h2 style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;padding-left:25px;padding-right:25px;color:#00064b;font-weight:bold;margin-top:0px;margin-bottom:5px;margin-top:0px;padding-top:15px;">Custom forums
                 </h2>
                 <div class="row" style="padding-left:25px;padding-right:15px;margin-left:0px;margin-right:0px;border-top: 1px solid #eeeeee;padding-top: 20px;padding-bottom: 20px;" ng-repeat="o in allForums.posts2 track by $index"  ng-click="goTo(o.pk)">
@@ -468,7 +468,7 @@
             <div class="col-md-4 col-lg-3 forum_posting hidden-xs">
               <div class="text-center">
                 <a ng-click="$state.go('businessManagement.createForum')">
-                  <button type="button" class="forum_btn" name="button">Create Post</button>
+                  <button type="button" class="font32 forum_btn" name="button">Create Post</button>
                 </a>
               </div>
             </div>

@@ -21,7 +21,6 @@
 
  .menuItems {
    padding: 20px;
-   font-size: 16px;
    cursor: pointer;
    border-right: solid 4px #F2F3F7;
    padding-bottom: 15px;
@@ -149,6 +148,39 @@
    font-size: 30px;
 
  }
+ .websiteInput {
+   background:
+     #F2F3F7;
+   color:
+     #555;
+   border-radius: 25px !important;
+   padding: 10px 20px;
+   border: none !important;
+   margin-top: 10px;
+   height: 45px;
+ }
+
+ .newBtn {
+   border: none !important;
+   border-radius: 10px !important;
+
+   padding: 15px;
+
+   font-size: 16px;
+   background: #E01B22;
+   color: white !important;
+ }
+
+ .defaultBtn {
+   border: none !important;
+   border-radius: 10px !important;
+
+   padding: 15px;
+
+   font-size: 16px;
+   background: #F2F3F7;
+   color: black !important;
+ }
 
 </style>
 
@@ -170,10 +202,10 @@
       </div>
     </div>
 
-    <div style="margin-top:30px;" class="row menuItems {{$state.is('businessManagement.articles.allblogs')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.articles.allblogs')">
+    <div style="margin-top:30px;" class="row font16 menuItems {{$state.is('businessManagement.articles.allblogs')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.articles.allblogs')">
       <strong> Blogs </strong>
     </div>
-    <div class="row menuItems {{$state.is('businessManagement.articles.createblog')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.articles.createblog')">
+    <div class="row font16 menuItems {{$state.is('businessManagement.articles.createblog')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.articles.createblog')">
       <strong> Create Blog </strong>
     </div>
 

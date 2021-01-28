@@ -3,24 +3,28 @@
     <div class="col-md-3" style="height:100vh;background:#FAFAFA">
       <div class="container-fluid" style="padding-top:20px;margin-top:5%">
         <div class="row">
+          <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
+
+        </div>
+        <div class="row">
           <div class="col-md-12 text-center">
-            <h2> {{jobDetails.jobtype}} </h2>
+            <h2 class="font30"> {{jobDetails.jobtype}} </h2>
           </div>
         </div>
         <div class="row">
           <div class="col-md-4 text-right">
-          <h3>  <strong>Unit :</strong></h3>
+          <h3 class="font24">  <strong>Unit :</strong></h3>
           </div>
           <div class="col-md-8">
-            <h3>{{jobDetails.unit.name}}</h3>
+            <h3 class="font24">{{jobDetails.unit.name}}</h3>
           </div>
         </div>
         <div class="row">
           <div class="col-md-4  text-right">
-            <h3><strong>Position :</strong></h3>
+            <h3 class="font24"> <strong>Position :</strong></h3>
           </div>
           <div class="col-md-8">
-            <h3>{{jobDetails.role}}</h3>
+            <h3 class="font24">{{jobDetails.role}}</h3>
           </div>
         </div>
         <!-- <div class="row">
@@ -33,10 +37,10 @@
         </div> -->
         <div class="row">
           <div class="col-md-4 text-right">
-            <h3><strong>Skill :</strong></h3>
+            <h3 class="font24"><strong>Skill :</strong></h3>
           </div>
           <div class="col-md-8">
-            <h3 ng-bind-html="jobDetails.skill"></h3>
+            <h3 class="font24" ng-bind-html="jobDetails.skill"></h3>
           </div>
         </div>
         <!-- <div class="row">

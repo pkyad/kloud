@@ -3,17 +3,19 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-12">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img id="back" onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">  <span style="font-size: 180%; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Patient Details</b></span>
+        <div class="col-md-12 text-center">
+
+
+             <span class="font25"><b>Patient Details</b></span>
           </div>
         <!-- <label>Status : </label> -->
-        <h2 ng-if="data.status=='checkedIn'">Checked In</h2>
-        <h2 ng-if="data.status=='onGoingTreatment'">Treatment On Going</h2>
-        <h2 ng-if="data.status=='operation'">Operation</h2>
-        <h2 ng-if="data.status=='observation'">Observation</h2>
-        <h2 ng-if="data.status=='readyToDischarged'">Ready To Discharged</h2>
-        <h2 ng-if="data.status=='dishcharged'">Discharged</h2>
-        <h2 ng-if="data.status=='settled'"> Settled </h2>
+        <h2 ng-if="data.status=='checkedIn'" class="font30">Checked In</h2>
+        <h2 class="font30" ng-if="data.status=='onGoingTreatment'">Treatment On Going</h2>
+        <h2 class="font30" ng-if="data.status=='operation'">Operation</h2>
+        <h2 class="font30" ng-if="data.status=='observation'">Observation</h2>
+        <h2 class="font30" ng-if="data.status=='readyToDischarged'">Ready To Discharged</h2>
+        <h2 class="font30" ng-if="data.status=='dishcharged'">Discharged</h2>
+        <h2 class="font30" ng-if="data.status=='settled'"> Settled </h2>
       </div>
       <div class="row" style="margin-top:30px">
         <label>In Time : </label> {{data.inTime | date: 'dd-MM-yyyy:hh:mm a'}}
@@ -29,7 +31,7 @@
 
 
       <div class="row text-center">
-        <h3>Invoices of {{data.patient.firstName}} {{data.patient.lastName}}</h3>
+        <h3 class="font24">Invoices of {{data.patient.firstName}} {{data.patient.lastName}}</h3>
       </div>
       <div class="row" style="margin-top:20px">
 
@@ -37,13 +39,13 @@
           <div class="container-fluid card" style="border-radius:5px; margin-top:25px;">
 
             <div class="row text-center">
-              <h2>{{i.invoiceName}}</h2>
+              <h2 class="font30">{{i.invoiceName}}</h2>
             </div>
             <div class="row text-center">
-              <span style="font-size:20px;"> ₹ {{i.grandTotal}} </span>
+              <span class="font20"> ₹ {{i.grandTotal}} </span>
             </div>
             <div class="row text-center" ng-if="i.billed">
-              <span style="font-size:16px;"> Bill Generated <br> (Discount : {{i.discount}}  <i class="fa fa-inr"></i> ) </span>
+              <span class="font16"> Bill Generated <br> (Discount : {{i.discount}}  <i class="fa fa-inr"></i> ) </span>
             </div>
             <div class="row" style="padding-top:40px;margin-bottom:20px;" >
               <!-- <div class="col-md-6">
