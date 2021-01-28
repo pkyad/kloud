@@ -186,7 +186,7 @@ app.controller('controller.home.calendar.aside', function($scope, $uibModalInsta
   $scope.data = input;
 
   $scope.saveMeeting = function(){
-
+    console.log( $scope.data.slot ,'aaaaaaaaaaaaaaaaaaaaaaa');
 
     var fd = new FormData();
     fd.append('eventType' , 'Meeting' );
@@ -213,6 +213,7 @@ app.controller('controller.home.calendar.aside', function($scope, $uibModalInsta
       fd.append('duration' , parseInt($scope.data.duration*60) );
     }
     fd.append('level' , $scope.data.level );
+    fd.append('slot' , $scope.data.slot );
 
     if ($scope.editMode) {
       url = '/api/PIM/calendar/' + $scope.data.items[$scope.data.editor].data.pk + '/';
@@ -439,6 +440,7 @@ $scope.leaveForm()
       $scope.data.venue = '';
       $scope.data.level = 'Normal';
       $scope.data.duration = '';
+      $scope.data.slot = '9:00 AM';
     }
 
   };

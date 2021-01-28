@@ -194,6 +194,7 @@ class calendar(models.Model):
     user = models.ForeignKey(User, null = True)
     text = models.TextField(max_length = 200 , null = True)
     when = models.DateTimeField(null = True)
+    end = models.DateTimeField(null = True)
     duration = models.IntegerField(null = True)
     deleted = models.BooleanField(default = False)
     completed = models.BooleanField(default = False)
@@ -204,6 +205,8 @@ class calendar(models.Model):
     myNotes = models.TextField(max_length = 100 , blank = True)
     followers = models.ManyToManyField(User , related_name = 'calendarItemsFollowing' , blank = True)
     data = models.TextField(max_length = 200 , null = True)
+
+
 
 class ChatContext(models.Model):
     uid = models.CharField(max_length = 50, null = True)

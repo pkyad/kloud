@@ -1,0 +1,29 @@
+<div class="container-fluid" style="margin-top:60px">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12">
+          <span ng-repeat="s in days track by $index" class="text-center" style="margin:15px;padding:30px;height:60px;width:60px;border-radius:50%;{{form.selectedDate==s?'background:#5e5e5e':'background:#c4c4c4'}};color:white;cursor:pointer" ng-click="selectDate(s)"> {{s.split('-')[2]}}  </span>
+        </div>
+      </div>
+      <div class="row" style="margin-top:60px">
+        <div class="col-md-6">
+          <select class="form-control darkInput" ng-model="form.user"  ng-options="u.first_name+ ' ' +u.last_name  for u in allUsers" ng-change="getTimeSlot()">
+          </select>
+        </div>
+        <div class="col-md-6" ng-if="availableSlots.length>0">
+          <select class="form-control darkInput" ng-model="form.slot"  ng-options="u for u in availableSlots">
+          </select>
+        </div>
+        <div class="col-md-6" ng-if="availableSlots.length==0">
+          Slots  Unavailable
+        </div>
+      </div>
+      <div class="row" style="margin-top:60px">
+        <div class="col-md-12" ng-if="form.slot">
+          <button type="button" name="button" ng-click="saveCalendarData()"> Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

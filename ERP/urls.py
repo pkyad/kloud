@@ -41,5 +41,6 @@ urlpatterns = [
     url(r'createBilling/$' , CreateBillingAPI.as_view()),
     url(r'getBilling/$' , GetBillingAPI.as_view()),
     url(r'getAllSchedule/$' , GetAllSchedulesAPI.as_view()),
-
+    url(r'checkAvailability/$' , CheckAvailabilityAPI.as_view()),
+    url(r'addSchedule/$' , CreateScheduleAPI.as_view()),    
 ]

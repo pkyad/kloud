@@ -1374,6 +1374,16 @@ app.directive('forumView', function() {
   };
 });
 
+function dateToString(date) {
+    if (typeof date == 'object') {
+      day = date.getDate()
+      month = date.getMonth() + 1
+      year = date.getFullYear()
+      return year + '-' + month + '-' + day
+    } else {
+      return date
+    }
+  }
 
 app.directive('academyCourses', function() {
   return {
@@ -1605,18 +1615,74 @@ app.directive('forumCreate', function() {
 });
 
 
-// app.directive('calendarView', function() {
-//   return {
-//     templateUrl: '/static/ngTemplates/calendarView.html',
-//      // css: '/static/css/careerview.css',
-//     restrict: 'E',
-//     transclude: true,
-//     replace: true,
-//     controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
-//
-//
-//
-//
-//     },
-//   };
-// });
+app.directive('appointUser', function() {
+  return {
+    templateUrl: '/static/ngTemplates/appointUser.html',
+     // css: '/static/css/careerview.css',
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
+      $scope.today = new Date()
+      // $scope.days = ['28-01-2020' , '29-01-2020' , '30-01-2020' , '31-01-2020' , '01-02-2020']
+      $scope.totalDays = [0,1,2,3,4]
+      $scope.days = []
+      for (var i = 0; i < $scope.totalDays.length; i++) {
+          $scope.today.setDate($scope.today.getDate() + 1);
+          $scope.days.push(dateToString($scope.today))
+      }
+      $scope.form = {
+        selectedDate : $scope.days[0],
+        user:'',
+        slot:''
+      }
+      // $scope.selectedDate = $scope.days[0]
+
+      $scope.selectDate = function(date){
+          $scope.form.selectedDate = date
+          $scope.getTimeSlot()
+      }
+
+      $scope.userSearch = function() {
+         $http.get('/api/HR/userSearch/').
+        then(function(response) {
+          $scope.allUsers =  response.data;
+          $scope.form.user = $scope.allUsers[0]
+            $scope.getTimeSlot()
+        })
+      };
+      $scope.userSearch()
+      $scope.getTimeSlot = function() {
+        $http({
+          method: 'POST',
+          url: '/api/ERP/checkAvailability/' ,
+          data:{
+            date : $scope.form.selectedDate,
+            user:$scope.form.user.pk
+          }
+        }).
+        then(function(response) {
+          $scope.availableSlots = response.data
+          $scope.form.slot = $scope.availableSlots[0]
+        })
+      };
+
+      $scope.saveCalendarData = function(){
+        $http({
+          method: 'POST',
+          url: '/api/ERP/addSchedule/' ,
+          data:{
+            date : $scope.form.selectedDate,
+            user:$scope.form.user.pk,
+            slot :$scope.form.slot
+          }
+        }).
+        then(function(response) {
+          Flash.create('success', 'Created')
+          return;
+        })
+      }
+
+    },
+  };
+});

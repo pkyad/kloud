@@ -76,7 +76,7 @@ class calendarSerializer(serializers.ModelSerializer):
     def get_remainingHours(self,obj):
         tz_IN = pytz.timezone('Asia/Kolkata')
         now = datetime.datetime.now(tz_IN)
-        date = obj.when.astimezone(tz_IN)
+        date = obj.when
         diff = date - now
         remainingHours = int(math.floor(diff.seconds/(60*60)))
         toReturn = str(remainingHours) + ' Hours'
@@ -85,16 +85,22 @@ class calendarSerializer(serializers.ModelSerializer):
             toReturn = str(remainingMinutes)+' Minutes'
         return  toReturn
     def get_time(self,obj):
-        tz_IN = pytz.timezone('Asia/Kolkata')
-        date = obj.when.astimezone(tz_IN)
-        return  str(date.time()).split('.')[0][:-3]
+        # tz_IN = pytz.timezone('Asia/Kolkata')
+        # date = obj.when.astimezone(tz_IN)
+        return  str(obj.when.time()).split('.')[0][:-3]
     def create(self , validated_data):
         cal = calendar(**validated_data)
         cal.user = self.context['request'].user
         cal.save()
+        if 'slot' in self.context['request'].data:
+            hour = self.context['request'].data['slot'].split(':')[0]
+            tempmin = self.context['request'].data['slot'].split(':')[1]
+            min = tempmin.split(' ')[0]
+            cal.when = cal.when.replace(hour=int(hour), minute=int(min))
+            if 'duration' in self.context['request'].data:
+                cal.end =  cal.when + datetime.timedelta(seconds=int(self.context['request'].data['duration']))
         if 'followers' in  self.context['request'].data:
             tagged = self.context['request'].data['followers']
-            print tagged,'aaaaaaaaaaaaaaaaaaaaaaaaaa'
             if not isinstance(tagged , list):
                 for tag in tagged.split(','):
                     cal.followers.add( User.objects.get(pk = tag))
