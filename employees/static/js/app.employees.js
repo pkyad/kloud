@@ -8,7 +8,7 @@ app.config(function($stateProvider) {
     })
     .state('workforceManagement.appDetails', {
       url: "/appDetails/:id",
-      template: '<div style="padding-top:30px;"><appdetailed-view> </appdetailed-view></div>',
+      template: '<appdetailed-view> </appdetailed-view>',
       controller: 'controller.appStore',
     })
     .state('workforceManagement.employees', {
