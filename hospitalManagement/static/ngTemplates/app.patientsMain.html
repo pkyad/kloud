@@ -27,7 +27,6 @@
 
   .menuItems {
     padding: 20px;
-    font-size: 16px;
     cursor: pointer;
     border-right: solid 4px #F2F3F7;
     padding-bottom: 15px;
@@ -187,22 +186,22 @@
 
 
 
-    <div style="margin-top:30px;" class="row menuItems {{$state.is('businessManagement.hospitalManagement')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.hospitalManagement')">
+    <div style="margin-top:30px;" class="row font16 menuItems {{$state.is('businessManagement.hospitalManagement')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.hospitalManagement')">
       <strong> All Patients </strong>
     </div>
-    <div class="row menuItems {{$state.is('businessManagement.hospitalManagement.inPatients')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.hospitalManagement.inPatients')">
+    <div class="row font16 menuItems {{$state.is('businessManagement.hospitalManagement.inPatients')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.hospitalManagement.inPatients')">
       <strong> In Patients </strong>
     </div>
-    <div class="row menuItems {{$state.is('businessManagement.hospitalManagement.outPatients')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.hospitalManagement.outPatients')">
+    <div class="row font16 menuItems {{$state.is('businessManagement.hospitalManagement.outPatients')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.hospitalManagement.outPatients')">
       <strong> Out Patients </strong>
     </div>
-    <div class="row menuItems {{$state.is('businessManagement.hospitalManagement.servicesOffered')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.hospitalManagement.servicesOffered')">
+    <div class="row font16 menuItems {{$state.is('businessManagement.hospitalManagement.servicesOffered')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.hospitalManagement.servicesOffered')">
       <strong> Rate List </strong>
     </div>
-    <div class="row menuItems {{$state.is('businessManagement.hospitalManagement.doctors')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.hospitalManagement.doctors')">
+    <div class="row font16 menuItems {{$state.is('businessManagement.hospitalManagement.doctors')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.hospitalManagement.doctors')">
       <strong> Doctors </strong>
     </div>
-    <div class="row menuItems {{$state.is('businessManagement.hospitalManagement.reports11')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.hospitalManagement.reports11')">
+    <div class="row font16 menuItems {{$state.is('businessManagement.hospitalManagement.reports11')? 'activeMenu' : ''}}" ng-click="$state.go('businessManagement.hospitalManagement.reports11')">
       <strong> Reports </strong>
     </div>
 
@@ -215,7 +214,7 @@
 
       <div class="container-fluid" style="padding:0px;">
         <div class="col-md-12" style="height:100vh;overflow:auto;padding:15px;">
-          <div class="container-fluid contactList" style="background:#FAFAFA;min-height:100vh;">
+          <div class="container-fluid " style="background:#FAFAFA;min-height:100vh;">
             <div class="row" style="background:rgb(18, 46, 99);padding:15px;padding-top:20px;padding-bottom:20px;">
               <div class="col-md-4">
               </div>
@@ -224,13 +223,13 @@
                   <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="$state.go('businessManagement.hospitalManagement.newpatient')">New</button>
                 </div>
                 <div class="col-md-4">
-                  <div class="input-group" style="background:#ffffff;border-radius:10px;">
-                    <input type="text" class="form-control" ng-model="search.query" placeholder="Search" ng-enter="fetchData()" style="border:none !important;background:#ffffff;">
-                    <div class="input-group-btn">
-                      <button class="btn btn-default" type="submit" ng-click="fetchData()" style="border:none !important;background:#ffffff;">
-                        <i class="glyphicon glyphicon-search"></i>
-                      </button>
-                    </div>
+                  <div class="form-group" style="background:#ffffff;border-radius:10px;">
+                    <span style="position:absolute;right:0;padding:12px 25px;" ng-click="fetchData()">
+                      <i class="glyphicon glyphicon-search"></i>
+
+                    </span>
+                    <input type="text" class="form-control" ng-model="search.query" placeholder="Search" ng-enter="fetchData()" style="border:none !important;background:#ffffff;height:40px;border-radius:10px;">
+
                   </div>
                 </div>
                 <div class="col-md-2">
@@ -243,16 +242,16 @@
             </div>
             <div class="row" style="background:rgb(18, 46, 99);color:white;padding-bottom:20px;padding:30px;">
               <div class="col-md-4 text-center">
-                <h4>Paitent's Name</h4>
+                <h4 class="font18">Paitent's Name</h4>
               </div>
               <div class="col-md-2 text-center">
-                <h4>Mobile No.</h4>
+                <h4 class="font18">Mobile No.</h4>
               </div>
               <div class="col-md-2 text-center">
-                <h4>UHID</h4>
+                <h4 class="font18">UHID</h4>
               </div>
               <div class="col-md-2 text-center">
-                <h4>Action</h4>
+                <h4 class="font18">Action</h4>
               </div>
             </div>
             <div class="row">
@@ -260,14 +259,19 @@
                 <div class="container-fluid">
                   <div class="col-md-4 text-center" style="position:relative;display:block;">
                     <div class="row" style="padding-left:10px;">
-                      <span style="font-size:20px">{{a.firstName}} {{a.lastName}}</span> <br>
+                      <span class="font20" >{{a.firstName}} {{a.lastName}}</span> <br>
                     </div>
                   </div>
                   <div class="col-md-2 text-center">{{a.phoneNo}}</div>
                   <div class="col-md-2 text-center">{{a.uniqueId}}</div>
                   <div class="col-md-2 text-center" id="back">
-                    <button type="button" class="btn btn-primary" name="button" ng-click="$state.go('businessManagement.hospitalManagement.explorepatient',{'id':a.pk})">View</button>
-                    <a ng-click="$state.go('businessManagement.hospitalManagement.editpatient',{'id':a.pk})"><img height="20" width="20" src="https://img.icons8.com/color/50/000000/edit.png" /></a>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-primary" name="button" ng-click="$state.go('businessManagement.hospitalManagement.explorepatient',{'id':a.pk})">View</button>
+                      <button type="button" name="button" class="btn btn-default"
+                      ng-click="$state.go('businessManagement.hospitalManagement.editpatient',{'id':a.pk})"><img height="20" width="20" src="https://img.icons8.com/color/50/000000/edit.png" /></button>
+
+                    </div>
+                    <a </a>
                   </div>
                 </div>
               </div>

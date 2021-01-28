@@ -2517,9 +2517,77 @@ video {
 .Servicing_padding{
   padding:40px;min-height:100vh;background:#FAFAFA;
 }
+.otherIcons{
+  height:40px;
+}
+.Hiring_Details{
+  position: absolute;width:75%;right:0
+}
+.Hiring_btns{
+  margin-top: 15px;
+position: sticky;
+bottom: 0;
+background-color:white;
+padding: 10px 0px;
+}
+.font32{
+  font-size:32px;
+}
+.allApps{
+  padding-left: 100px;
+  height: 70vh;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  overflow-x: hidden;
+  position:absolute;
+  width:75%;
+  top:130px;
+}
+.allApps_footer{
+  position:absolute;bottom:50px;width:100%;
+}
+#globalSearchInput{
+  padding: 30px 55px;background: white;border: none;border-radius: 69px;margin-top: 18px;box-shadow: 0px 8px 18px rgba(249, 249, 249, 0.68) !important;font-size:20px;position:absolute;width:95%
+}
+.allApps_header{
+  padding-left:100px;
+}
 @media screen and (min-width: 1279px) and (max-width: 1365px) and (-webkit-device-pixel-ratio: 1) {
+  .allApps{
+    width: 90%;
+    margin: 0px 5%;
+    padding-left:0px;
+  }
+  .allApps_footer{
+    bottom: 25px;
+    width: 100%;
+    white-space:nowrap
+  }
+  .font32{
+    font-size:22px !important;
+  }
+  .forum_div{
+    padding:0px !important;
+    padding-bottom:50px !important;
+  }
+  .forum_head{
+
+  }
+  .Hiring_Details{
+    width:100%;
+  }
+  .otherIcons{
+    height:35px;
+  }
   .Reports_gstr3b{
     padding:25px;
+  }
+  .btn-assign{
+    font-size:14px
+  }
+  .btn-assign:hover{
+    font-size:14px
   }
   .Servicing_padding{
     padding:25px 35px;
@@ -2830,6 +2898,12 @@ video {
 }
 
 @media screen and (min-width: 1366px) and (max-width:1439px) and (-webkit-device-pixel-ratio: 1) {
+  .font32{
+    font-size:22px !important;
+  }
+  .Hiring_Details{
+    width:100%;
+  }
   .HR_exploreUser{
     padding-right:15px;
   }
@@ -3124,6 +3198,12 @@ video {
 }
 
 @media screen and (min-width: 1440px) and (max-width:1620px) and (-webkit-device-pixel-ratio: 1) {
+  .font32{
+    font-size:22px !important;
+  }
+  .Hiring_Details{
+    width:100%;
+  }
   .HR_exploreUser{
     padding-right:15px;
   }

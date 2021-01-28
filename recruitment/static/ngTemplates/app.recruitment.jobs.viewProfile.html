@@ -3,33 +3,33 @@
     <div class="col-md-12">
       <div class="row">
         <div class="col-md-12 text-center">
-          <h2>Candidate Details</h2>
+          <h2 class="font30">Candidate Details</h2>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-offset-3">
+        <div class="Hiring_Details">
           <div class="row">
             <div class="col-md-2 text-right">
-              <h4> Name : </h4>
+              <h4 class="font18"> Name : </h4>
             </div>
             <div class="col-md-10">
-              <h4>{{candidateDetails.firstname}} {{candidateDetails.lastname}} </h4>
+              <h4 class="font18">{{candidateDetails.firstname}} {{candidateDetails.lastname}} </h4>
             </div>
           </div>
           <div class="row">
             <div class="col-md-2 text-right">
-              <h4> Email : </h4>
+              <h4 class="font18"> Email : </h4>
             </div>
             <div class="col-md-10">
-              <h4>{{candidateDetails.email}} </h4>
+              <h4 class="font14">{{candidateDetails.email}} </h4>
             </div>
           </div>
           <div class="row">
             <div class="col-md-2 text-right">
-              <h4> Phone : </h4>
+              <h4 class="font18"> Phone : </h4>
             </div>
             <div class="col-md-10">
-              <h4>{{candidateDetails.mobile}} </h4>
+              <h4 class="font18">{{candidateDetails.mobile}} </h4>
             </div>
           </div>
           <div class="row">
@@ -37,7 +37,7 @@
               <object data='{{candidateDetails.resume}}' type='application/pdf' width='100%' style="height:800px" />
             </div>
           </div>
-          <div class="row" style="margin-top:15px" ng-if="candidateDetails.status != 'Rejected'" >
+          <div class="row Hiring_btns" style="margin-top:15px" ng-if="candidateDetails.status != 'Rejected'" >
             <div class="col-md-3 text-right">
               <button type="button" name="button" style="background: #103F8D;color: white;border: none !important;border-radius: 10px !important;padding: 15px;" class="btn-block" ng-click="sendViaMail()"> Schdule Interview</button>
             </div>

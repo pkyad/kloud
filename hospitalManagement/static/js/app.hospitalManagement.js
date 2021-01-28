@@ -285,9 +285,229 @@ app.controller("businessManagement.hospitalManagement.form", function($scope, $r
 app.controller('businessManagement.activePatient.explore', function($scope, $http, $aside, $state, Flash, $users, $filter, $timeout, $uibModal, $stateParams) {
 
 
-  $scope.tinymceOptionsSmall = {
-    content_style: "body { font-size: 18pt; }",
-  }
+  $scope.tinymceOptions = {
+    selector: 'textarea',
+    content_css: '/static/css/bootstrap.min.css',
+    inline: false,
+    plugins: 'advlist autolink link image lists charmap preview imagetools paste table insertdatetime code searchreplace ',
+    skin: 'lightgray',
+    theme: 'modern',
+    height: 250,
+    menubar : false,
+    statusbar : false,
+    // skin: "oxide-dark",
+    toolbar: ' undo redo | bullist numlist | alignleft aligncenter alignright alignjustify | outdent  indent blockquote | bold italic underline | image link | style-p style-h1 style-h2 style-h3 | addImage',
+    setup: function(editor) {
+
+      ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'].forEach(function(name) {
+        editor.addButton("style-" + name, {
+          tooltip: "Toggle " + name,
+          text: name.toUpperCase(),
+          onClick: function() {
+            editor.execCommand('mceToggleFormat', false, name);
+          },
+          onPostRender: function() {
+            var self = this,
+              setup = function() {
+                editor.formatter.formatChanged(name, function(state) {
+                  self.active(state);
+                });
+              };
+            editor.formatter ? setup() : editor.on('init', setup);
+          }
+        })
+      });
+
+      editor.addButton('addImage', {
+        text: 'Add Image',
+        icon: false,
+        onclick: function(evt) {
+          console.log(editor);
+          $uibModal.open({
+            templateUrl: '/static/ngTemplates/app.blog.modal.html',
+            size: 'sm',
+            backdrop: true,
+            controller: function($scope, $http, $uibModalInstance) {
+              $scope.form = {
+                file: emptyFile,
+                alt: ''
+              }
+
+              $scope.add = function() {
+                var fd = new FormData();
+                fd.append('file', $scope.form.file);
+                $http({
+                  method: 'POST',
+                  url: '/api/PIM/saveImage/',
+                  data: fd,
+                  transformRequest: angular.identity,
+                  headers: {
+                    'Content-Type': undefined
+                  }
+                }).
+                then(function(response) {
+                  console.log(response.data);
+
+                  $uibModalInstance.dismiss({
+                    file: response.data.link,
+                    alt: $scope.form.alt,
+                    height: response.data.height,
+                    width: response.data.width
+                  })
+                })
+              }
+            },
+          }).result.then(function() {
+
+          }, function(d) {
+            editor.editorCommands.execCommand('mceInsertContent', false, '<br><img alt="' + d.alt + '" height="' + d.height + '" width="' + d.width + '" src="' + d.file + '"/>')
+
+          });
+
+
+
+        }
+      })
+
+      editor.addButton('publishBtn', {
+        text: 'Publish',
+        icon: false,
+        onclick: function() {
+          var tags = [];
+          for (var i = 0; i < $scope.editor.tags.length; i++) {
+            tags.push($scope.editor.tags[i].pk)
+          }
+
+          console.log($scope.editor);
+
+          var fd = new FormData();
+
+          fd.append('source', $scope.editor.source);
+          fd.append('header', $scope.editor.header);
+          fd.append('title', $scope.editor.title);
+          fd.append('users', [$scope.me.pk]);
+          fd.append('sourceFormat', 'html');
+          fd.append('state', 'published');
+          fd.append('tags', tags);
+
+          if ($scope.editor.ogimage == emptyFile && ($scope.editor.ogimageUrl == '' || $scope.editor.ogimageUrl == undefined)) {
+            Flash.create('danger', 'Either the OG image file OR og image url is required')
+            return;
+          }
+
+          if ($scope.editor.ogimage != emptyFile && typeof $scope.editor.ogimage != 'string' && $scope.editor.ogimage != null) {
+            fd.append('ogimage', $scope.editor.ogimage);
+
+          } else {
+            fd.append('ogimageUrl', $scope.editor.ogimageUrl);
+          }
+
+          // 'shortUrl', 'description', 'tags','section' , 'author'
+          if ($scope.editor.shortUrl == '' || $scope.editor.tagsCSV == '' || $scope.editor.section == '' || $scope.editor.author == '') {
+            Flash.create('danger', 'Please check the SEO related fields');
+            return;
+          }
+
+          fd.append('shortUrl', $scope.editor.shortUrl);
+          fd.append('tagsCSV', $scope.editor.tagsCSV);
+          fd.append('section', $scope.editor.section);
+          fd.append('author', $scope.editor.author);
+          fd.append('description', $scope.editor.description);
+
+          if ($scope.mode == 'edit') {
+            method = 'PATCH';
+            url = '/api/PIM/blog/' + $stateParams.id + '/';
+          } else if ($scope.mode == 'new') {
+            method = 'POST';
+            url = '/api/PIM/blog/';
+          }
+
+          $http({
+            method: method,
+            url: url,
+            data: fd,
+            transformRequest: angular.identity,
+            headers: {
+              'Content-Type': undefined
+            }
+          }).
+          then(function(response) {
+            Flash.create('success', response.status + ' : ' + response.statusText);
+            $scope.editor.source = '';
+            $scope.editor.header = '';
+            $scope.editor.title = '';
+            $scope.editor.tags = [];
+            $scope.editor.mode = 'hedaer';
+          }, function(response) {
+            Flash.create('danger', response.status + ' : ' + response.statusText);
+          });
+        }
+      });
+      editor.addButton('saveBtn', {
+        text: 'Save',
+        icon: false,
+        onclick: function() {
+          tags = '';
+          for (var i = 0; i < $scope.editor.tags.length; i++) {
+            tags += $scope.editor.tags[i].title;
+            if (i != $scope.editor.tags.length - 1) {
+              tags += ',';
+            }
+          }
+          var dataToSend = {
+            source: $scope.editor.source,
+            header: $scope.editor.header,
+            title: $scope.editor.title,
+            users: [$scope.me.pk],
+            sourceFormat: 'html',
+            state: 'saved',
+            tags: tags,
+          };
+
+          if ($scope.mode == 'edit') {
+            method = 'PATCH';
+            url = $scope.editor.url;
+          } else if ($scope.mode == 'new') {
+            method = 'POST';
+            url = '/api/PIM/blog/';
+          }
+
+          $http({
+            method: method,
+            url: url,
+            data: dataToSend
+          }).
+          then(function(response) {
+            Flash.create('success', response.status + ' : ' + response.statusText);
+            $scope.editor.source = '';
+            $scope.editor.header = '';
+            $scope.editor.title = '';
+            $scope.editor.tags = [];
+            $scope.editor.mode = 'hedaer';
+          }, function(response) {
+            Flash.create('danger', response.status + ' : ' + response.statusText);
+          });
+        }
+      });
+      editor.addButton('cancelBtn', {
+        text: 'Cancel',
+        icon: false,
+        onclick: function() {
+          if ($scope.mode == 'edit') {
+            $state.go('home.blog', {
+              action: 'list'
+            })
+          } else {
+            $state.go('home.blog', {
+              id: '',
+              action: 'list'
+            })
+          }
+
+        }
+      });
+    },
+  };
 
   $http({
 

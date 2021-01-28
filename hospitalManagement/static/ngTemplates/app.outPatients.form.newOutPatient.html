@@ -12,7 +12,7 @@
   <breadcrumb></breadcrumb>
   <div class="row" style="margin:20px 0px 20px 20px;">
     <div ng-if="!activePatientsForm.pk" class="col-md-12">
-      <span style="font-size: 180%; "><b>Create Out Patient</b></span>
+      <span class="font25"><b>Create  Out Patient</b></span>
     </div>
 
 
@@ -25,9 +25,17 @@
       <div class="form-group">
         <label>Patient Name</label>
         <div class="{{addNewPatient==true ? 'input-group': ''}}">
-          <input ng-if="activePatientsForm.pk==null" type="text" class="form-control" ng-model="activePatientsForm.patient" uib-typeahead="patient as patient.firstName for patient in patientSearch($viewValue)" >
+          <input ng-if="activePatientsForm.pk==null" type="text" class="form-control websiteInput" ng-model="activePatientsForm.patient" uib-typeahead="patient as patient.firstName for patient in patientSearch($viewValue)" >
           <input ng-if="activePatientsForm.pk" type="text" class="form-control" ng-model="activePatientsForm.patient" uib-typeahead="patient as patient.firstName for patient in patientSearch($viewValue)" disabled>
-          <div ng-if="addNewPatient" class="input-group-addon" style="cursor:pointer;" ng-click="addNewActivePatient(activePatientsForm.patient)">Add</div>
+          <div ng-if="addNewPatient" class="input-group-addon" style="cursor:pointer;position: relative;
+left: 155px;
+border: none;
+z-index: 9999999;
+top: 4px;
+background:
+transparent;
+font-weight: bold;
+left: -55px;" ng-click="addNewActivePatient(activePatientsForm.patient)">Add</div>
         </div>
       </div>
       <!-- <div class="form-group">
@@ -36,11 +44,11 @@
       </div> -->
       <div class="form-group">
         <label>Treating Consultant/s</label>
-        <input type="text" class="form-control" ng-model="activePatientsForm.docName" uib-typeahead="user as user.name for user in doctorSearch($viewValue)" placeholder="Search By Doctor Name Here...">
+        <input type="text" class="form-control websiteInput " ng-model="activePatientsForm.docName" uib-typeahead="user as user.name for user in doctorSearch($viewValue)" placeholder="Search By Doctor Name Here...">
       </div>
       <div class="form-group" ng-if="activePatientsForm.pk">
         <label>Status</label>
-        <select class="form-control" ng-model="activePatientsForm.status">
+        <select class="form-control websiteInput" ng-model="activePatientsForm.status">
           <option ng-repeat="s in statusList" value="{{s.value}}">{{s.name}}</option>
         </select>
       </div>

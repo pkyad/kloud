@@ -116,18 +116,26 @@
   <body ng-keypress="handleShortcut($event)">
     {% verbatim %}
     <div ng-if="globalSearch.active">
-      <div class="" style="position:fixed;top:0px;width:100%;height:100vh;z-index:101;overflow:auto;background:url('/static/images/white-gradient-background.jpg')">
-        <input id="globalSearchInput"  ng-model="globalSearch.txt" placeholder="Search..." style="padding: 30px;background: white;border: none;border-radius: 69px;margin-top: 18px;margin-left: 250px;width: 839px;box-shadow: 0px 8px 18px rgba(249, 249, 249, 0.68) !important;padding-left:90px;font-size:20px;" ng-keyup="handleSearchInput($event)">
+      <div class="" style="position:fixed;top:0px;width:100%;height:100vh;z-index:101;background:url('/static/images/white-gradient-background.jpg')">
+        <div class="col-md-offset-1 col-md-10 allApps_header">
+          <div class="col-md-8">
+            <input id="globalSearchInput"  ng-model="globalSearch.txt" placeholder="Search..." style="" ng-keyup="handleSearchInput($event)">
 
-        <img src="/static/images/icons8-search-512.png" style="width: 50px;position: absolute;left: 265px;top: 38px;" alt="">
+            <img src="/static/images/icons8-search-512.png" style="width: 50px;position: absolute;
+left: 25px;top: 38px;" alt="">
 
-        <div style="padding: 15px;border-radius: 100px;position: absolute;right: 350px;top:20px;background: red;color:white;padding-left:40px;padding-right:40px;" ng-click="globalSearch.active = false;">
-          <img src="/static/images/icons8-cancel-128.png" width="50px" style="margin-right: 18px;"> CLOSE
+          </div>
+          <div class="col-md-2">
+            <div style="padding: 19px;border-radius: 100px;margin-top:20px;background: red;color:white;padding-left:40px;padding-right:40px;position:absolute;white-space:nowrap" ng-click="globalSearch.active = false;">
+              <img src="/static/images/icons8-cancel-128.png" width="50px" style="margin-right: 18px;"> CLOSE
+            </div>
+
+
+          </div>
         </div>
 
-        <img src="/static/images/icons8-search-512.png" style="width: 50px;position: absolute;left: 265px;top: 38px;" alt="">
 
-        <div class="col-md-10" style="padding-left: 240px;padding-right: 10px;">
+        <div class="col-md-10 col-md-offset-1 allApps" >
 
           <div class="col-md-{{globalSearch.results.length > 8 ? '2': '3'}} text-center " style="padding:20px;" ng-repeat="res in globalSearch.results">
             <div class="hoverDarkZoom" style="background:#ffffff;border-radius:20px;padding:20px;padding-top:30px;min-height:220px;" ng-click="$state.go(res.state);globalSearch.active = false;">
@@ -141,7 +149,7 @@
         </div>
 
 
-        <div class="row" style="position:absolute;bottom:100px;width:100%;padding-left:300px;" ng-if="globalSearch.canAccessSettings">
+        <div class="col-md-8 col-md-offset-2 allApps_footer" style="" ng-if="globalSearch.canAccessSettings">
           <div class="col-md-2 text-center" >  <div class="" style="padding: 20px;background: #75757538;border-radius: 30px;cursor:pointer;color: black;font-weight: bold;" ng-click="$state.go('admin.configure');globalSearch.active = false;">  <img src="/static/images/icons8-settings-100.png" width="50px;">  Settings</div></div>
           <div class="col-md-3 text-center" >  <div ng-click="$state.go('workforceManagement.employees');globalSearch.active = false;" style="padding: 20px;background: #75757538;border-radius: 30px;cursor:pointer;color: black;font-weight: bold;"><img src="/static/images/icons8-team-128.png" width="50px;"> Manage Employees Account</div></div>
 

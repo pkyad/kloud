@@ -6,12 +6,18 @@ cursor:pointer;
 <div class="container-fluid"  style="margin-top:20px;">
     <breadcrumb></breadcrumb>
   <div ng-if="!newPatient.pk" class="col-md-12">
-    <img id="back" onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
-    <span style="font-size: 180%; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Patient details<hr></b></span>
+    <div class="col-md-2">
+      <img id="back" onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
+
+    </div>
+    <div class="col-md-10 text-right">
+      <span class="font20"><b>Patient details<hr></b></span>
+
+    </div>
   </div>
   <div class="row" style="padding-left:20px">
-    <h2>{{patient.firstName}} {{patient.lastName}}</h2>
-    <div class="col-md-6" style="font-size:20px">
+    <h2 class="font30">{{patient.firstName}} {{patient.lastName}}</h2>
+    <div class="col-md-6 font20" >
       <div class="row">
         <div class="col-md-2 text-right">
           <strong>Age :</strong>
@@ -62,7 +68,7 @@ cursor:pointer;
     <div class="container-fluid card animated fadeIn" style="padding-top:15px;border-left:4px solid #4192cd;margin-bottom:15px">
       <div class="row">
         <div class="col-md-4">
-          <h2>
+          <h2 class="font30">
             <span ng-if="v.outPatient == true">Out Patient Visit</span>
             <span ng-if="v.outPatient == false">In Patient Visit</span>
           </h2>
@@ -70,14 +76,14 @@ cursor:pointer;
         <div class="col-md-8">
           <div class="col-md-3">
             <div class="row" ng-if="v.outPatient == false">
-              <span class="text-muted" style="font-size:15px;">Admitted Date</span> <br>
-              <span style="font-size:17px;"> {{v.inTime | date : 'dd MMM yyyy hh:mm:a'}}</span>
+              <span class="text-muted font15" >Admitted Date</span> <br>
+              <span class="font17" > {{v.inTime | date : 'dd MMM yyyy hh:mm:a'}}</span>
             </div>
           </div>
           <div class="col-md-3">
             <div class="row" ng-if="v.outPatient == false">
-            <span class="text-muted" style="font-size:15px;">Discharged Date</span> <br>
-            <span style="font-size:17px;"> {{v.dateOfDischarge | date : 'dd MMM yyyy hh:mm:a'}}</span>
+            <span class="text-muted font15" >Discharged Date</span> <br>
+            <span class="font17"> {{v.dateOfDischarge | date : 'dd MMM yyyy hh:mm:a'}}</span>
           </div>
           </div>
           <div class="col-md-3">
@@ -116,10 +122,10 @@ cursor:pointer;
                   <h2>{{d.invoiceName}}</h2>
                 </div>
                 <div class="row text-center">
-                  <span style="font-size:20px;"> ₹ {{d.grandTotal}} </span>
+                  <span class="font20"> ₹ {{d.grandTotal}} </span>
                 </div>
                 <div class="row text-center" ng-if="d.billed">
-                  <span style="font-size:16px;"> Bill Generated <br> (Discount : {{d.discount}}  <i class="fa fa-inr"></i> ) </span>
+                  <span class="font16" > Bill Generated <br> (Discount : {{d.discount}}  <i class="fa fa-inr"></i> ) </span>
                 </div>
                 <div class="row text-center" style="padding-top:20px;" >
                   <!-- <div class="col-md-6 pull-right"> -->
