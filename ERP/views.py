@@ -43,6 +43,7 @@ from zipfile import ZipFile
 from urllib import urlretrieve
 from tempfile import mktemp
 from django.db.models import Sum
+from zoomapi import *
 
 
 def generateOTPCode(length = 4):
@@ -1356,3 +1357,74 @@ class GetBillingAPI(APIView):
             amount = total['tot']
         data = {'obj':obj , 'amount' : amount}
         return Response(data, status = status.HTTP_200_OK)
+
+class CalendarSlotViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    queryset = CalendarSlots.objects.all()
+    serializer_class = CalendarSlotsSerializer
+    # filter_backends = [DjangoFilterBackend]
+    # filter_fields = ['month' , 'year']
+
+
+class GetAllSchedulesAPI(APIView):
+    renderer_classes = (JSONRenderer,)
+    def get(self , request , format = None):
+        user = request.user
+        # div = user.designation.division
+        # CalendarSlots.objects.all().delete()
+        weekdays = ['Monday' , 'Tuesday' , 'wednesday' , 'Thursday' ,'Friday' , 'Saturday']
+        slots = ['9-10' , '10-11' , '11-12' ,'12-13' ,'13-14' ,'14-15' , '15-16' , '16-17']
+        slotObj = CalendarSlots.objects.filter(user = user)
+        if slotObj.count() == 0:
+            for i in weekdays:
+                for j in slots:
+                    obj = CalendarSlots.objects.create(day = i , slot = j, user = user)
+        else:
+            allData =[]
+            for i in slots:
+                objs =  CalendarSlotsSerializer(CalendarSlots.objects.filter(slot = i), many = True).data
+                val = {'slot' : i, 'data' : objs}
+                allData.append(val)
+        return Response(allData, status = status.HTTP_200_OK)
+
+
+class CheckAvailabilityAPI(APIView):
+    renderer_classes = (JSONRenderer,)
+    def post(self , request , format = None):
+        data = request.data
+        user = User.objects.get(pk = int(data['user']))
+        date =  datetime.datetime.strptime(str(data['date']), '%Y-%m-%d')
+        slots = ['9-10' , '10-11' , '11-12' ,'12-13' ,'13-14' ,'14-15' , '15-16' , '16-17']
+        day = date.strftime('%A')
+        availableSlots = []
+        if day!='Sunday':
+            for s in slots:
+                try:
+                    obj = CalendarSlots.objects.get(slot = s, day = day, user = user)
+                    if obj.is_available:
+                        calObj = calendar.objects.filter(when__contains = date.strftime('%Y-%m-%d'), user = user).filter(when__hour = int(s.split('-')[0]))
+                        print calObj
+                        if calObj.count()==0:
+                            availableSlots.append(s)
+                except:
+                    pass
+        return Response(availableSlots, status = status.HTTP_200_OK)
+
+
+class CreateScheduleAPI(APIView):
+    renderer_classes = (JSONRenderer,)
+    def post(self , request , format = None):
+        from PIM.models import calendar
+        data = request.data
+        user = User.objects.get(pk = int(data['user']))
+        dated = datetime.datetime.strptime(str(data['date']), '%Y-%m-%d')
+        startHour = data['slot'].split('-')[0]
+        endHour = data['slot'].split('-')[1]
+        when = dated + timedelta(hours=int(startHour))
+        end = dated + timedelta(hours=int(endHour))
+        calendarObj = calendar.objects.create(user = user, eventType = 'Meeting' , duration = 3600 , when = when, end = end , text = 'Meeting')
+        try:
+            CreateMeeting(calendarObj)
+        except:
+            pass
+        return Response(status = status.HTTP_200_OK)

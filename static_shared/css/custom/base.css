@@ -2548,16 +2548,30 @@ padding: 10px 0px;
   position:absolute;bottom:50px;width:100%;
 }
 #globalSearchInput{
-  padding: 30px 55px;background: white;border: none;border-radius: 69px;margin-top: 18px;box-shadow: 0px 8px 18px rgba(249, 249, 249, 0.68) !important;font-size:20px;position:absolute;width:95%
+  padding: 30px 65px;background: white;border: none;border-radius: 69px;margin-top: 18px;box-shadow: 0px 8px 18px rgba(249, 249, 249, 0.68) !important;font-size:20px;height:95px;
 }
 .allApps_header{
   padding-left:100px;
 }
+.Chatbot_image{
+  background-image:url('/static/images/imac-frame.png');height:700px;background-position:center;background-size:contain;background-repeat:no-repeat;width:700px;position:relative;
+}
 @media screen and (min-width: 1279px) and (max-width: 1365px) and (-webkit-device-pixel-ratio: 1) {
-  .allApps{
-    width: 90%;
-    margin: 0px 5%;
+  .Chatbot_image{
+    background-image:url('/static/images/imac-frame.png');height:700px;background-position:center;background-size:contain;background-repeat:no-repeat;width:700px;position:relative;
+  }
+  .Blogging_Div{
+    margin-left:5%;
+    width:90%;
+  }
+  .allApps_header{
     padding-left:0px;
+  }
+  .allApps{
+    width: 83%;
+  margin: 0px 9%;
+  padding-left: 0px;
+  height: 64vh;
   }
   .allApps_footer{
     bottom: 25px;
@@ -2898,6 +2912,22 @@ padding: 10px 0px;
 }
 
 @media screen and (min-width: 1366px) and (max-width:1439px) and (-webkit-device-pixel-ratio: 1) {
+  .Chatbot_image{
+    background-image:url('/static/images/imac-frame.png');height:700px;background-position:center;background-size:contain;background-repeat:no-repeat;width:700px;position:relative;
+  }
+  .Blogging_Div{
+    margin-left:5%;
+    width:90%;
+  }
+  .allApps_header{
+    padding-left:0px;
+  }
+  .allApps{
+    padding-left:0px;
+    width:84%;
+    height:60vh
+
+  }
   .font32{
     font-size:22px !important;
   }
@@ -3198,6 +3228,22 @@ padding: 10px 0px;
 }
 
 @media screen and (min-width: 1440px) and (max-width:1620px) and (-webkit-device-pixel-ratio: 1) {
+  .Chatbot_image{
+    background-image:url('/static/images/imac-frame.png');height:700px;background-position:center;background-size:contain;background-repeat:no-repeat;width:700px;position:relative;
+  }
+  .Blogging_Div{
+    margin-left:5%;
+    width:90%;
+  }
+  .allApps_header{
+    padding-left:0px;
+  }
+  .allApps{
+    padding-left:0px;
+    width:83%;
+    height:60vh
+
+  }
   .font32{
     font-size:22px !important;
   }

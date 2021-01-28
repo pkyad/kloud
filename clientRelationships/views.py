@@ -124,6 +124,14 @@ class DownloadInvoice(APIView):
         f.close()
         if 'saveOnly' in request.GET:
             return Response(status=status.HTTP_200_OK)
+        if 'output' in request.GET:
+            filePath = os.path.join(globalSettings.BASE_DIR, 'media_root/CR_%s%s_%s_%s.pdf' %
+                                 (o.status,o.pk, datetime.datetime.now(pytz.timezone('Asia/Kolkata')).year, o.pk))
+            f = open(filePath, 'wrb')
+            f.write(response.content)
+            f.close()
+            file_name = 'media/' + filePath.split('/')[-1]
+            return Response({'fileUrl' : file_name }, status = status.HTTP_200_OK)
         return response
 
 class ContactLiteViewSet(viewsets.ModelViewSet):

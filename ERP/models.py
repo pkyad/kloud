@@ -358,3 +358,18 @@ class UsageBilling(models.Model):
     month = models.CharField(max_length = 50, null = True , blank = True)
     year = models.CharField(max_length = 50, null = True , blank = True)
     division = models.ForeignKey(Division , related_name="billingdivisions" , null = True )
+
+
+
+class LanguageTranslation(models.Model):
+    key = models.CharField(max_length = 500 , null = False)
+    value = models.TextField(max_length = 1000 , null = False )
+
+
+
+class CalendarSlots(models.Model):
+    created = models.DateTimeField(auto_now_add = True)
+    slot =  models.CharField(max_length = 500 , null = True)
+    day =  models.CharField(max_length = 500 , null = True)
+    is_available = models.BooleanField(default=False)
+    user =  models.ForeignKey(User, related_name='calendarSlotsUser' , null = True)

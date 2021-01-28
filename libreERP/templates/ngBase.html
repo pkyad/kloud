@@ -118,15 +118,18 @@
     <div ng-if="globalSearch.active">
       <div class="" style="position:fixed;top:0px;width:100%;height:100vh;z-index:101;background:url('/static/images/white-gradient-background.jpg')">
         <div class="col-md-offset-1 col-md-10 allApps_header">
-          <div class="col-md-8">
-            <input id="globalSearchInput"  ng-model="globalSearch.txt" placeholder="Search..." style="" ng-keyup="handleSearchInput($event)">
+          <div class="col-md-9">
+            <div class="form-group">
+              <input id="globalSearchInput" class="form-control"  ng-model="globalSearch.txt" placeholder="Search..." style="" ng-keyup="handleSearchInput($event)">
+
+            </div>
 
             <img src="/static/images/icons8-search-512.png" style="width: 50px;position: absolute;
 left: 25px;top: 38px;" alt="">
 
           </div>
-          <div class="col-md-2">
-            <div style="padding: 19px;border-radius: 100px;margin-top:20px;background: red;color:white;padding-left:40px;padding-right:40px;position:absolute;white-space:nowrap" ng-click="globalSearch.active = false;">
+          <div class="col-md-3">
+            <div style="padding: 19px;border-radius: 100px;margin-top:20px;background: red;color:white;padding-left:40px;padding-right:40px;white-space:nowrap" ng-click="globalSearch.active = false;">
               <img src="/static/images/icons8-cancel-128.png" width="50px" style="margin-right: 18px;"> CLOSE
             </div>
 
