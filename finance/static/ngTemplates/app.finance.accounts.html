@@ -68,9 +68,9 @@
               <th></th>
             </tr>
             <tr ng-repeat="i in pending track by $index">
-              <td style="text-align:left;padding-left:20px;"><h4>{{i.accountNumber}}</h4> {{i.bankName}} ({{i.ifscCode}}) </td>
-              <td style="text-align:left;padding-left:20px;"><h3>{{i.amount}}</h3></td>
-              <td style="text-align:left;padding-left:20px;"><h4>{{i.narration}}</h4></td>
+              <td style="text-align:left;padding-left:20px;"><h4 class="font18">{{i.accountNumber}}</h4> {{i.bankName}} ({{i.ifscCode}}) </td>
+              <td style="text-align:left;padding-left:20px;"><h3 class="font24">{{i.amount}}</h3></td>
+              <td style="text-align:left;padding-left:20px;"><h4 class="font18">{{i.narration}}</h4></td>
               <td><select class="form-control" name="" ng-model="i.account" ng-options="a.title + ' - ' + a.bank + ' - ' + a.contactPerson.username for a in accounts">
               </select></td>
               <td><input type="text" class="form-control" name="" value="" ng-model=i.disbursalNote></td>
