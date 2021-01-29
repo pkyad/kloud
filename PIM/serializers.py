@@ -122,7 +122,7 @@ class calendarSerializer(serializers.ModelSerializer):
             contacts = self.context['request'].data['contacts']
             cal.contacts = Contacts.objects.get(pk = int(contacts))
 
-        CreateMeeting(cal)
+        # CreateMeeting(cal)
         cal.save()
         return cal
     def update(self, instance, validated_data): # like the comment

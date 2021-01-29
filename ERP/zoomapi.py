@@ -5,12 +5,12 @@ from datetime import datetime, date
 # ------------------------------------------------Create Meeting -------------------------------------------
 def  CreateMeeting(calendarObj):
     UserId = calendarObj.user.email
-    Token = str(calendarObj.user.profile.zoom_token)
+    Token = str(calendarObj.zoomcode)
 
     payload ={"topic": calendarObj.text,"start_time":str(calendarObj.when) ,"duration": calendarObj.duration,"timezone": "Asia/Calcutta","password": "","agenda":calendarObj.text}
     # print type(PARAMS)
     r = requests.post(url = "https://api.zoom.us/v2/users/"+UserId+"/meetings", headers = {"Authorization" : "Bearer " + Token,  'content-type': "application/json"} ,params = json.dumps(payload))
-    print json.loads(r.text)
+    # print json.loads(r.text)
 
 
 # -------------------------------------------------List Of Meeting -------------------------------------------
