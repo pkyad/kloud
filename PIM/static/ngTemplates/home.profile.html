@@ -80,7 +80,7 @@
     cursor:pointer;
   }
   .menuItem {
-    padding:30px;color:white;font-size:17px;cursor:pointer;
+    padding:20px;color:white;cursor:pointer;
   }
   .menuItem:hover{
     background:#1b2735;
@@ -88,7 +88,7 @@
 
 </style>
 <div class="row" style="margin:0px;position:relative;">
-  <div class="col-md-2" style="position: absolute;left: 0;height: 100vh;background:#2f455c">
+  <div class="col-md-2" style="position: fixed;height: 100vh;background:#2f455c;z-index:1;white-space:nowrap">
 
 
 
@@ -99,23 +99,23 @@
     </div>
 
 
-    <div style="margin-top:100px;{{$state.is('home.viewProfile.profile')?'background:#1b2735;':''}}"  class="row text-center menuItem" ng-click="$state.go('home.viewProfile.profile')">
+    <div style="{{$state.is('home.viewProfile.profile')?'background:#1b2735;':''}}"  class="row profileMargin font17 text-center menuItem" ng-click="$state.go('home.viewProfile.profile')">
       My Profile
     </div>
-    <div style="{{$state.is('home.viewProfile.leave')?'background:#1b2735;':''}}" class="row text-center menuItem" ng-click="$state.go('home.viewProfile.leave')">
+    <div style="{{$state.is('home.viewProfile.leave')?'background:#1b2735;':''}}" class="row font17 text-center menuItem" ng-click="$state.go('home.viewProfile.leave')">
       Apply for Leave
     </div>
     <div style="{{$state.is('home.viewProfile.expenseClaims')?'background:#1b2735;':''}}"  class="row text-center menuItem" ng-click="$state.go('home.viewProfile.expenseClaims')">
       Expense Claims
     </div>
-    <div class="row text-center menuItem" style="{{$state.is('home.viewProfile.payslips')?'background:#1b2735;':''}}" ng-click="$state.go('home.viewProfile.payslips')">
+    <div class="row font17 text-center menuItem" style="{{$state.is('home.viewProfile.payslips')?'background:#1b2735;':''}}" ng-click="$state.go('home.viewProfile.payslips')">
       View Payslips & Form 16
     </div>
-    <div ng-click="$state.go('home.viewProfile.itDeclaration')" class="row text-center menuItem"  style="{{$state.is('home.viewProfile.itDeclaration')?'background:#1b2735;':''}}   class="row text-center menuItem">
+    <div ng-click="$state.go('home.viewProfile.itDeclaration')" class="row font17 text-center menuItem"  style="{{$state.is('home.viewProfile.itDeclaration')?'background:#1b2735;':''}} ">
       IT Declaration
     </div>
 
-    <div class="row text-center" style="margin-top:100px;">
+    <div class="row profileMargin text-center" >
         <button class="btn btn-primary" style="background:#ff0007;margin-top:30px;color:white;font-size:20px;padding:10px;cursor: pointer;border-radius:20px !important;border:none !important;padding-left:50px;padding-right:50px;" onclick="window.location.href='/logout/'">
           Logout
         </button>

@@ -584,6 +584,18 @@ class generateAccessToken(APIView):
 def serviceRegistration(request): # the landing page for the vendors registration page
     return render(request , 'app.ecommerce.register.partner.html')
 
+def ZoomAuthRedirect(request):
+    print request.user
+    profile = request.user.profile
+    profile.zoom_token = request.GET['code']
+    profile.save()
+    code = request.GET['code']
+    data = {'code' : code}
+    return render(request , 'app.zoom.authenticate.html',data)
+
+
+
+
 class serviceRegistrationApi(APIView):
     permission_classes = (permissions.AllowAny ,)
 
@@ -1211,6 +1223,15 @@ class ProductMetaViewSet(viewsets.ModelViewSet):
             return toReturn
         return toReturn
 
+
+class UserAppViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    queryset = UserApp.objects.all()
+    serializer_class = UserAppSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['app', 'user']
+
+
 def CreateUnit(val):
     if 'division_pk' in val:
         division = Division.objects.get(pk = val['division_pk'] )
@@ -1328,18 +1349,20 @@ class UsageBillingViewSet(viewsets.ModelViewSet):
 
 class CreateBillingAPI(APIView):
     renderer_classes = (JSONRenderer,)
-    def post(self , request , format = None):
-        div = request.user.designation.division
-        installapp = InstalledApp.objects.filter(parent = div )
+    def get(self , request , format = None):
+        divs = Division.objects.all()
         amount = 0
         mydate = datetime.datetime.now()
         month = mydate.strftime("%B")
         year = mydate.strftime("%G")
-        for i in installapp:
-            usercount = 0
-            usercount = UserApp.objects.filter(user__designation__division = div, app = i.app).count()
-            amount+=usercount
-        UsageBilling.objects.create(date = datetime.datetime.today(), title = 'App Billing' , month = month, year = year , amount = amount )
+        for div in  divs:
+            installapp = InstalledApp.objects.filter(parent = div )
+            for i in installapp:
+                # usercount = 0
+                usercount = UserApp.objects.filter(user__designation__division = div, app = i.app).count()
+                print usercount,'232'
+                ub,created = UsageBilling.objects.get_or_create(app=i.app,date = datetime.datetime.today(), title =i.app.displayName,description=i.app.description,icon= i.app.icon , month = month, year = year , amount = usercount, division=div)
+                ub.save()
         return Response( status = status.HTTP_200_OK)
 
 
@@ -1349,7 +1372,7 @@ class GetBillingAPI(APIView):
         div = request.user.designation.division
         year = request.GET['year']
         month = request.GET['month']
-        usageObj = UsageBilling.objects.filter(month = month, year = year)
+        usageObj = UsageBilling.objects.filter(month = month, year = year,division=request.user.designation.division)
         obj = UsageBillingSerializer(usageObj, many = True).data
         total = usageObj.aggregate(tot=Sum('amount'))
         amount = 0
@@ -1423,8 +1446,8 @@ class CreateScheduleAPI(APIView):
         when = dated + timedelta(hours=int(startHour))
         end = dated + timedelta(hours=int(endHour))
         calendarObj = calendar.objects.create(user = user, eventType = 'Meeting' , duration = 3600 , when = when, end = end , text = 'Meeting')
-        try:
-            CreateMeeting(calendarObj)
-        except:
-            pass
+        # try:
+        #     CreateMeeting(calendarObj)
+        # except:
+        #     pass
         return Response(status = status.HTTP_200_OK)

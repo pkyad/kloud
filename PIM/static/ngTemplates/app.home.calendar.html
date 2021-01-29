@@ -27,7 +27,12 @@
 
       </div>
     </div>
-    <div class="row">
+      <div class="row" style="position:absolute;right:0px;bottom:70px" ng-if="!me.profile.zoom_token">
+      <div class="col-md-12">
+        <img src="/static/images/icons8-zoom-30.png" class="pull-right" style="width:60px" ng-click="openAuthenticator('zoom')" >
+      </div>
+    </div>
+    <div class="row" style="position:absolute;right:0px;bottom:0px">
     <div class="col-md-12">
       <img src="/static/images/icons8-gear-60.png" class="pull-right" style="width:60px" ng-click="openSlots()" >
     </div>
@@ -37,9 +42,6 @@
 <div class="col-md-6" style="position:absolute; height:100%;top:0px;right:0px;">
 
 
-  <button type="button" class="btn btn-default" ng-click="openAuthenticator('zoom')">
-
-  </button>
 
   <div class="container-fluid">
     <div class="col-md-10 col-md-offset-2" style="padding-top:40px;padding-right:0px;">

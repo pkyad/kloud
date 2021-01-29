@@ -80,7 +80,7 @@
       cursor:pointer;
     }
     .menuItem {
-      padding:30px;color:white;font-size:17px;cursor:pointer;
+      padding:20px;color:white;cursor:pointer;
     }
     .menuItem:hover{
       background:#1b2735;
@@ -91,10 +91,10 @@
 
   </style>
   <div class="row" style="background:#2f455c;margin:0px;">
-    <div class="col-md-12" style="background:#FAFAFA;min-height:100vh;padding:50px;padding-top:0px;">
+    <div class="col-md-12 Leave_mainDiv" style="">
 
 
-      <div style="padding:100px;" class="row">
+      <div  class="Leaves_table"style="" class="row">
 
 
 
@@ -106,8 +106,8 @@
                 <img style="border-radius:20px;filter: drop-shadow(5px 5px 5px #c8c4c4);" ng-src="{{i.icon}}" height="90px">
               </div> -->
               <div class="col-md-12">
-                <span style="font-size:25px;">Annual Leave</span>
-                <h3>{{payrollData.alCurrMonthLeaves}}</h3>
+                <span class="font25">Annual Leave</span>
+                <h3 class="font24">{{payrollData.alCurrMonthLeaves}}</h3>
               </div>
 
               <div ng-if="form.selected=='AL'"  style="position: absolute;bottom: -64px;right: -41px;height: 149px;width: 100px;background: #145084;transform: rotate(47deg);">
@@ -127,8 +127,8 @@
                 <img style="border-radius:20px;filter: drop-shadow(5px 5px 5px #c8c4c4);" ng-src="{{i.icon}}" height="90px">
               </div> -->
               <div class="col-md-12">
-                <span style="font-size:25px;">Medical Leave</span>
-                <h3>{{payrollData.mlCurrMonthLeaves}}</h3>
+                <span class="font25" >Medical Leave</span>
+                <h3 class="font24">{{payrollData.mlCurrMonthLeaves}}</h3>
               </div>
 
               <div ng-if="form.selected=='ML'"  style="position: absolute;bottom: -64px;right: -41px;height: 149px;width: 100px;background: #145084;transform: rotate(47deg);">
@@ -190,7 +190,7 @@
       </div>
       <div class="row" ng-if="payrollData.al<=0 || payrollData.ml<=0">
       <div class="col-md-6">
-        <h3> You cannot apply for leaves </h3>
+        <h3 class="font24"> You cannot apply for leaves </h3>
       </div>
     </div>
         <table class="table table-bordered" style="margin-top:30px">

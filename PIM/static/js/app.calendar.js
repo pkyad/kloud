@@ -88,19 +88,32 @@ $scope.showMonthwise = function(month,year){
     })
   }
 
-
+  $scope.windowObjectReference = document.createElement("iframe");
   $scope.openAuthenticator = function(typ) {
     if (typ == 'zoom') {
-
-      window.open("https://zoom.us/oauth/authorize?response_type=code&client_id=zKOQhCMNScqwz67aaWS4Q&redirect_uri=https://5187a883fbe6.ngrok.io/api/ERP/generateaccesstoken/" , 'popUpWindow','height=500,width=700,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes')
+      $scope.windowObjectReference =   window.open("https://zoom.us/oauth/authorize?response_type=code&client_id=NSibt8TRCC1jSvaXk1bfw&redirect_uri=https://6be19224e4bb.ngrok.io/zoomAuthRedirect/" , 'popUpWindow','height=500,width=700,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes')
+      $timeout(function(){
+      $scope.windowObjectReference.close();
+      $http({
+        method: 'GET',
+        url: '/api/HR/profile/' + $scope.me.profile.pk + '/',
+      }).
+      then(function(response) {
+        $scope.me.profile.zoom_token = response.data.zoom_token
+      })
+      },10000)
     }
-    $http({
-      method:'GET',url:'https://zoom.us/oauth/authorize?response_type=code&client_id=zKOQhCMNScqwz67aaWS4Q&redirect_uri=https://5187a883fbe6.ngrok.io/api/ERP/generateaccesstoken/'
-    }).then(function(response){
-      console.log(response.data,'3443');
-    })
-
   }
+
+
+
+
+  // $scope.windowObjectReference.addEventListener('beforeunload', function() {
+  //   console.log("beforeunloadbeforeunloadbeforeunload");
+  // });
+  // $scope.windowObjectReference.addEventListener('hashchange', function() {
+  //   console.log("beforeunloadbeforeunloadbeforeunloadbeforeunloadsssssssssssssss");
+  // });
 
 
 

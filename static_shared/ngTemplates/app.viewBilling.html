@@ -1,0 +1,57 @@
+<div class="container-fluid" style="overflow-y:scroll;min-height:100vh">
+  <div class="col-md-8 col-md-offset-2" style="padding-bottom:35px;">
+    <div class="" style="padding: 35px 20px;background-color:#fedd2c;
+border-radius: 20px 20px 0px 0px;
+margin: 100px 0px;
+margin-bottom: 0px;height:150px;">
+      <div class="row">
+        <div class="col-md-6">
+          <h3 style="margin:0px;">Good Morning , {{me.first_name}} {{me.last_name}}</h3>
+
+        </div>
+        <div class="col-md-2">
+          <h2 style="margin:0px;"><i class="fa fa-inr" style="padding-right:5px;"></i>{{allBilledItems.amount}}</h2>
+
+        </div>
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-6">
+              <select class="" ng-model="select.year" ng-options="p for p in years" ng-change="getBillingData()" style="background:#ebebeb;border:none;text-align:right;width:100%;border-radius:25px">
+              </select>
+            </div>
+            <div class="col-md-6">
+              <select class="" ng-model="select.month" ng-options=" m for m in monthList" ng-change="getBillingData()" style="background:#ebebeb;border:none;text-align:right;width:100%;border-radius:25px">
+              </select>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="" style="box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14),0 3px 3px -2px rgba(0,0,0,0.12),0 1px 8px 0
+rgba(0,0,0,0.2);padding: 50px;border-radius: 20px 20px 0px 0px;
+position: absolute;
+z-index: 1;
+top: 68%;
+background:
+white;width:97.5%">
+      <div class="row" style="margin:30px 0px">
+        <canvas id="Billing-doughnut" style="cursor:pointer"></canvas>
+      </div>
+      <div class="row" style="margin:10px 0px;" ng-repeat="k in allBilledItems.obj">
+        <div class="col-md-2 ">
+          <img  class="img img-circle" src="{{k.icon}}" alt="" style="width:60px;height:60px;">
+        </div>
+        <div class="col-md-8">
+          <h3>{{k.title}}</h3>
+          <p>{{k.description}}</p>
+        </div>
+        <div class="col-md-2">
+          <h3><b>{{k.amount}}</b></h3>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

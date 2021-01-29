@@ -1,3 +1,16 @@
+<style media="screen">
+  .websiteInput {
+    background:
+      #F2F3F7;
+    color:
+      #555;
+    border-radius: 25px !important;
+    padding: 10px 20px;
+    border: none !important;
+    margin-top: 10px;
+    height: 45px;
+  }
+</style>
 <div class="modal-header">
   <div class="row text-center">
     <h3>Checkin</h3>
@@ -11,37 +24,41 @@
           <div class="col-md-12">
             <div class="form-group">
               <label>Name</label>
-              <input type="text" class="form-control" ng-model="checkinForm.name">
+              <input type="text" class="form-control websiteInput" ng-model="checkinForm.name">
             </div>
             <div class="form-group">
               <label>Manufactured On</label>
-              <div class="input-group">
-                <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="checkinForm.manufacturedOn" is-open="manufacturedOn.opened" ng-init="today" />
-                <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="manufacturedOn.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
+              <div >
+                <span style="position:absolute;right:15px;padding:15px" ng-click="manufacturedOn.opened = true;">
+
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </span>
+                <input type="text" class="form-control websiteInput" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="checkinForm.manufacturedOn" is-open="manufacturedOn.opened" ng-init="today" />
+
               </div>
             </div>
             <div class="form-group">
               <label>Warranty Till</label>
-              <div class="input-group">
-                <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="checkinForm.warrantyTill" is-open="warrantyTill.opened" ng-init="today" />
-                <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="warrantyTill.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
+              <div >
+                <span style="position:absolute;right:15px;padding:15px" ng-click="warrantyTill.opened = true;">
+
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </span>
+                <input type="text" class="form-control websiteInput" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="checkinForm.warrantyTill" is-open="warrantyTill.opened" ng-init="today" />
+
               </div>
             </div>
             <div class="form-group">
               <label>PO Number</label>
-              <input type="text" class="form-control" ng-model="checkinForm.poNumber">
+              <input type="text" class="form-control websiteInput" ng-model="checkinForm.poNumber">
             </div>
             <div class="form-group">
               <label>Serial Numbers</label>
-              <input type="text" class="form-control" ng-model="checkinForm.serialNo">
+              <input type="text" class="form-control websiteInput" ng-model="checkinForm.serialNo">
             </div>
             <div class="form-group">
               <label>Value (in INR)</label>
-              <input type="text" class="form-control" ng-model="checkinForm.price">
+              <input type="text" class="form-control websiteInput" ng-model="checkinForm.price">
             </div>
           </div>
         </div>

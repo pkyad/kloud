@@ -358,12 +358,14 @@ class UsageBilling(models.Model):
     month = models.CharField(max_length = 50, null = True , blank = True)
     year = models.CharField(max_length = 50, null = True , blank = True)
     division = models.ForeignKey(Division , related_name="billingdivisions" , null = True )
-
-
+    icon = models.CharField(max_length = 250, null = True)
+    description = models.CharField(max_length = 250, null = True)
+    app= models.ForeignKey(application , related_name='usagebillings' , null = True)
 
 class LanguageTranslation(models.Model):
     key = models.CharField(max_length = 500 , null = False)
     value = models.TextField(max_length = 1000 , null = False )
+    
 
 
 

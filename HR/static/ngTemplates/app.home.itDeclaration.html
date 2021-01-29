@@ -98,9 +98,8 @@
   }
 
   .menuItem {
-    padding: 30px;
+    padding: 20px;
     color: white;
-    font-size: 17px;
     cursor: pointer;
   }
 
@@ -113,9 +112,9 @@
   }
 </style>
 <div class="row" style="background:#2f455c;margin:0px;">
-  <div class="col-md-12" style="background:#FAFAFA;min-height:100vh;padding:50px;padding-top:0px;">
+  <div class="col-md-12 Income_div" style="">
     <div class="col-md-6">
-      <h2>Income</h2>
+      <h2 class="font30">Income</h2>
     </div>
     <div class="col-md-6 text-right" style="padding-top:10px;">
       <div ng-show="$state.is('workforceManagement.profile')" class="btn btn-default" style="cursor:pointer" mwl-confirm title="Reset Payroll Calculation" placement="bottom" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="reCalculate()" confirm-button-type="success" cancel-button-type="default">RE-CALCULATE
@@ -194,10 +193,10 @@
     </table>
 
     <div ng-if="$state.is('home.viewProfile.itDeclaration')">
-      <h2>Exemptions</h2>
+      <h2 class="font30">Exemptions</h2>
       <div class="row">
         <div class="col-md-3">
-          <h3>Where do you stay?</h3>
+          <h3 class="font24">Where do you stay?</h3>
         </div>
         <div class="col-md-2" style="margin-top:15px">
           <button ng-click="allData.payroll.isRentedHouse=false" style="{{!allData.payroll.isRentedHouse?'background:#a6a6a6;color:#e3dddd':'background:#e3dddd;color:#585858'}}" type="button" name="button" mwl-confirm title="Confirm" message="Are you sure?" data-placement="top" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="form.rent=0;saveRent()"
@@ -322,7 +321,7 @@
 
       <div class="row">
         <div class="col-md-10">
-          <h3>Deductions (section 80C, 80CCC and sec 80CCD (1) deduction is Rs 1, 50,000)</h3>
+          <h3 class="font24">Deductions (section 80C, 80CCC and sec 80CCD (1) deduction is Rs 1, 50,000)</h3>
         </div>
         <div class="col-md-2 text-right" style="margin-top:23px">
           <div ng-click="addDeduction()"><i class="fa fa-plus"></i><u> ADD DEDUCTIONS </u></div>
@@ -359,7 +358,7 @@
 
       <div class="row" >
         <div class="col-md-5">
-          <h3> Do you have source of extra income?</h3>
+          <h3 class="font24"> Do you have source of extra income?</h3>
         </div>
         <div class="col-md-1" style="margin-top:15px">
           <button type="button" name="button" ng-click="updatePayroll('isExtraIncome',true)" class="btn btn-block"  style="{{payroll.isExtraIncome?'background:#a6a6a6;color:#e3dddd':'background:#e3dddd;color:#585858'}}"> YES</button>
@@ -368,7 +367,7 @@
           <button type="button" name="button" ng-click="updatePayroll('isExtraIncome',false)"  class="btn btn-block" style="{{!payroll.isExtraIncome?'background:#a6a6a6;color:#e3dddd':'background:#e3dddd;color:#585858'}}"> NO</button>
         </div>
       </div>
-      <h2 ng-if="payroll.isExtraIncome">Income from other sources ( except from house proprties )</h2>
+      <h2 ng-if="payroll.isExtraIncome" class="font30">Income from other sources ( except from house proprties )</h2>
       <table class="table table-bordered" ng-if="payroll.isExtraIncome">
         <thead>
           <tr>
@@ -414,7 +413,7 @@
       </table>
       <div class="row">
         <div class="col-md-3">
-          <h3> Do you own house?</h3>
+          <h3 class="font24"> Do you own house?</h3>
         </div>
         <div class="col-md-1" style="margin-top:15px">
           <button type="button" name="button" ng-click="updatePayroll('isOwnHouse',true)" class="btn btn-block"  style="{{payroll.isOwnHouse?'background:#a6a6a6;color:#e3dddd':'background:#e3dddd;color:#585858'}}"> YES</button>
@@ -424,10 +423,10 @@
         </div>
       </div>
       <div ng-if="payroll.isOwnHouse">
-      <h2>Income / Loss from house property</h2>
+      <h2 class="font30">Income / Loss from house property</h2>
       <p>If (i+ii) is less than 200000 then 200000 will be exempted else (i+ii) will be expempted</p>
 
-      <h4>(i) Interest on housing Loan (self Occupied) </h4>
+      <h4 class="font18">(i) Interest on housing Loan (self Occupied) </h4>
 
       <table class="table table-bordered">
 
@@ -501,7 +500,7 @@
         </tbody>
       </table>
       </div>
-      <h2>Income From Previous Employer</h2>
+      <h2 class="font30">Income From Previous Employer</h2>
       <table class="table table-bordered">
         <thead>
           <tr>
@@ -518,7 +517,7 @@
           </tr>
         </tbody>
       </table>
-      <h3>Tax Calculations</h3>
+      <h3 class="font24">Tax Calculations</h3>
       <table class="table table-bordered">
         <!-- <thead>
           <tr>
