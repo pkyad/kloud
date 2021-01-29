@@ -208,6 +208,20 @@ class FeedbackSerializer(serializers.ModelSerializer):
 
 
 
+class UserAppSerializer(serializers.ModelSerializer):
+    app = applicationSerializer(many=False,read_only=True)
+    usersCount = serializers.SerializerMethodField()
+    class Meta:
+        model = UserApp
+        fields = ( 'pk', 'app',  'user' , 'index','notificationCount','locked','created','updated','usersCount' )
+    def get_usersCount(self , obj):
+        apps = InstalledApp.objects.filter(app__pk=obj.app.pk).values_list('app__pk').distinct()
+        userapp = UserApp.objects.filter(app__in = apps).values_list('user__pk').distinct()
+        data = User.objects.filter(pk__in = userapp).count()
+
+        return data
+
+
 class ApplicationFeatureSerializer(serializers.ModelSerializer):
     parent = applicationSerializer(read_only =True ,many=False)
     class Meta:
@@ -332,7 +346,7 @@ class UserAppsLiteSerializer(serializers.ModelSerializer):
 class UsageBillingSerializer(serializers.ModelSerializer):
     class Meta:
         model = UsageBilling
-        fields = ('pk' , 'date', 'title', 'amount', 'month', 'year', 'division' )
+        fields = ('pk' , 'date', 'title', 'amount', 'month', 'year', 'division','app','icon','description' )
 
 class CalendarSlotsSerializer(serializers.ModelSerializer):
     class Meta:

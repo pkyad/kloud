@@ -80,7 +80,7 @@
     cursor:pointer;
   }
   .menuItem {
-    padding:30px;color:white;font-size:17px;cursor:pointer;
+    padding:20px;color:white;cursor:pointer;
   }
   .menuItem:hover{
     background:#1b2735;
@@ -91,16 +91,16 @@
 
 </style>
 <div class="row" style="background:#2f455c;margin:0px;">
-  <div class="col-md-12" style="background:#FAFAFA;min-height:100vh;padding:50px;padding-top:0px;">
+  <div class="col-md-12 Profile_mainDiv" style="">
 
-    <div class="container-fluid" style="padding:200px;padding-top:50px;">
-      <h1><strong>{{designation.division.name}}</strong></h1>
-      <h3>{{designation.role.name}}</h3>
-      <h3>Employee ID : {{me.profile.empID}}</h3>
+    <div class="container-fluid profilePadding" style="">
+      <h1 class="font36"><strong>{{designation.division.name}}</strong></h1>
+      <h3 class="font24">{{designation.role.name}}</h3>
+      <h3  class="font24">Employee ID : {{me.profile.empID}}</h3>
       <!-- <h3>Help Line Number : +983242343242 </h3> -->
-      <h3>Reporting to : {{designation.team.manager.first_name}} {{designation.team.manager.last_name}} </h3>
+      <h3  class="font24">Reporting to : {{designation.team.manager.first_name}} {{designation.team.manager.last_name}} </h3>
 
-      <h3 style="margin-top:70px;">Issued Items</h3>
+      <h3  class="font24" style="margin-top:70px;">Issued Items</h3>
 
       <table class="table table-bordered">
         <thead>
@@ -131,14 +131,14 @@
 
 
 
-      <h3 style="margin-top:70px;">Policy Documents</h3>
+      <h3 class="font24" style="margin-top:70px;">Policy Documents</h3>
 
 
       <div class="row">
         <div class="col-md-4" ng-repeat="a in allDocs" style="margin-top:30px">
           <a href="{{a.documentFile}}" target="_blank" style="text-decoration: none;">
           <div class="container-fluid  {{($index)%2==0?'bg-red':'bg-white'}}" style="border-radius:10px;min-height: 160px;{{($index)%2==0?'color:white':'color:black'}}">
-            <h2>{{a.name}}</h2>
+            <h2 class="font30">{{a.name}}</h2>
             <p>Last updated : {{a.created|date}}</p>
           </div>
         </a>
@@ -160,7 +160,7 @@
 
 
 
-      <h3  style="margin-top:70px;">Holiday Calender</h3>
+      <h3 class="font24"  style="margin-top:70px;">Holiday Calender</h3>
 
       <div class="row">
         <div class="col-md-8">

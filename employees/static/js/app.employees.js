@@ -6,6 +6,11 @@ app.config(function($stateProvider) {
       template: '<div style="padding-top:30px;"><appstore-view> </appstore-view></div>',
       controller: 'controller.appStore',
     })
+    .state('workforceManagement.billing', {
+      url: "/billing/",
+      templateUrl: '/static/ngTemplates/app.viewBilling.html',
+      controller: 'controller.billing',
+    })
     .state('workforceManagement.appDetails', {
       url: "/appDetails/:id",
       template: '<div style="padding-top:30px;"><appdetailed-view> </appdetailed-view></div>',
@@ -58,6 +63,97 @@ app.config(function($stateProvider) {
 
 });
 
+app.controller('controller.billing', function($scope, $state, $users, $stateParams, $http, Flash, $timeout, $uibModal, $aside) {
+  $scope.me= $users.get('mySelf')
+  $scope.date =  new Date()
+  $scope.currentYear = $scope.date.getFullYear()
+  $scope.startYear = 2015;
+  $scope.years = []
+  while ($scope.startYear <= $scope.currentYear) {
+    $scope.years.push($scope.startYear++);
+  }
+
+  $scope.monthList =   ['January' , 'february' , 'March' , 'April' , 'May' , 'June' , 'July' , 'August' , 'September' , 'Octember' , 'November' , 'December' ]
+
+  $scope.select = {
+    year : $scope.currentYear,
+    month : $scope.monthList[$scope.date.getMonth()]
+  }
+
+  $scope.doughnutAmount = []
+  $scope.doughnutLabels = []
+  $scope.doughnutColors = []
+  function random_rgba() {
+    var o = Math.round,
+    r = Math.random,
+    s = 255;
+    return 'rgba(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ',' + 1 + ')';
+  }
+  $scope.getBillingData = function(){
+    $http({
+      method: 'GET',
+      url: '/api/ERP/getBilling/?year='+$scope.select.year+'&month='+$scope.select.month,
+    }).
+    then(function(response) {
+      $scope.allBilledItems = response.data
+      $scope.amount =0
+      for (var i = 0; i < $scope.allBilledItems.obj.length; i++) {
+          if (i <=3 ) {
+            $scope.doughnutAmount.push($scope.allBilledItems.obj[i].amount)
+            $scope.doughnutLabels.push($scope.allBilledItems.obj[i].title)
+            $scope.doughnutColors.push(random_rgba())
+
+          }else {
+            $scope.amount += $scope.allBilledItems.obj[i].amount
+          }
+
+      }
+      $scope.doughnutLabels.splice(4,0,'Others')
+      $scope.doughnutAmount.splice(4,0,$scope.amount)
+      $scope.doughnutColors.splice(4,0,'red')
+      clr= random_rgba()
+      new Chart(document.getElementById("Billing-doughnut"), {
+        type: 'doughnut',
+        data: {
+          labels:   $scope.doughnutLabels,
+          datasets: [{
+            backgroundColor: $scope.doughnutColors,
+            borderColor: "#ccc",
+            borderWidth: 1,
+            data: $scope.doughnutAmount,
+          }],
+        },
+        options: {
+          cutoutPercentage: 65,
+          legend: {
+            display: true
+          },
+          title: {
+
+            display: true,
+            text: '',
+
+          },
+          elements: {
+            center: {
+              text: '61%',
+            }
+          }
+
+        },
+      });
+    })
+  }
+  $scope.getBillingData()
+  console.log($scope.doughnutAmount,$scope.doughnutLabels,'324');
+
+
+
+  clr = 'green'
+
+
+
+})
 app.controller('controller.appStore', function($scope, $state, $users, $stateParams, $http, Flash, $timeout, $uibModal, $aside) {
   $scope.appDetails = function(pkVal){
     if ($state.is('workforceManagement.appStore')) {

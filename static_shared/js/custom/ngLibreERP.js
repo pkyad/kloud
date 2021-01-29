@@ -1093,7 +1093,7 @@ app.controller('sideMenu', function($scope, $http, $aside, $state, Flash, $users
 
 
   $scope.isMedium= false
-  if (screen.width >= 1279 && screen.width <= 1365) {
+  if (screen.width >= 1279 && screen.width <= 1439) {
     $scope.isMedium= true
     console.log($scope.filter,'kkk');
 
