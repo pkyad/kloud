@@ -584,6 +584,18 @@ class generateAccessToken(APIView):
 def serviceRegistration(request): # the landing page for the vendors registration page
     return render(request , 'app.ecommerce.register.partner.html')
 
+def ZoomAuthRedirect(request):
+    print request.user
+    profile = request.user.profile
+    profile.zoom_token = request.GET['code']
+    profile.save()
+    code = request.GET['code']
+    data = {'code' : code}
+    return render(request , 'app.zoom.authenticate.html',data)
+
+
+
+
 class serviceRegistrationApi(APIView):
     permission_classes = (permissions.AllowAny ,)
 
@@ -1423,8 +1435,8 @@ class CreateScheduleAPI(APIView):
         when = dated + timedelta(hours=int(startHour))
         end = dated + timedelta(hours=int(endHour))
         calendarObj = calendar.objects.create(user = user, eventType = 'Meeting' , duration = 3600 , when = when, end = end , text = 'Meeting')
-        try:
-            CreateMeeting(calendarObj)
-        except:
-            pass
+        # try:
+        #     CreateMeeting(calendarObj)
+        # except:
+        #     pass
         return Response(status = status.HTTP_200_OK)
