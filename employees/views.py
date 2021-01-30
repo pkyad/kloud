@@ -48,6 +48,7 @@ from pdfrw.buildxobj import pagexobj
 from pdfrw.toreportlab import makerl
 height, width = A4
 from performance.serializers import TimeSheetSerializer
+import calendar
 
 @csrf_exempt
 def SystemLogView(request):
@@ -489,7 +490,7 @@ def genUserProfilePDF(response , user , request):
     doc.build(elements)
 
 
-import calendar
+
 class FetchAttendanceAPIView(APIView):
     def get(self , request , format = None):
         div = request.user.designation.division
