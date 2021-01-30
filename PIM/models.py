@@ -132,6 +132,7 @@ class ChatThread(models.Model):
     is_personal =  models.BooleanField(default = False)
 
 
+
 MSG_TYPE_CHOICES = (
     ('text' , 'text'),
     ('attachment' , 'attachment'),
@@ -164,6 +165,8 @@ class ChatMessage(models.Model):
     fileName = models.TextField(max_length = 20 , null=True)
     replyTo = models.ForeignKey("self" , null = True, related_name="children")
     is_forwarded = models.BooleanField(default = False)
+
+
 
 def getCalendarAttachment(instance , filename ):
     return 'calendar/%s_%s_%s' % (str(time()).replace('.', '_'), instance.user.username, instance.originator.username, filename)
@@ -218,7 +221,6 @@ class calendar(models.Model):
     data = models.TextField(max_length = 200 , null = True)
     zoomcode = models.TextField(max_length = 5000 , null = True)
 
-import webbrowser
 import time
 import subprocess
 @receiver(post_save, sender=calendar, dispatch_uid="server_post_save")
