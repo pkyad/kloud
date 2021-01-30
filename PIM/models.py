@@ -58,10 +58,19 @@ class notification(models.Model):
     broadcast = models.BooleanField(default = False)
 
 def getChatMessageAttachment(instance , filename ):
-    return 'chat/%s_%s' % (str(time()).replace('.', '_'), filename)
+    try:
+        return 'chat/%s_%s' % (str(time()).replace('.', '_'), filename)
+    except:
+        return 'chat/%s_%s' % (str(time.time()).replace('.', '_'), filename)
+
 
 def getChatThreadDP(instance , filename):
-    return 'dp/%s_%s' % (str(time()).replace('.', '_'), filename)
+    print "time" , time , dir(time)
+    try:
+        return 'dp/%s_%s' % (str(time()).replace('.', '_'), filename)
+    except:
+        return 'dp/%s_%s' % (str(time.time()).replace('.', '_'), filename)
+
 
 
 

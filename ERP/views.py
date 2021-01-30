@@ -283,10 +283,6 @@ def home(request):
     else:
         divisionPk = None
 
-    try:
-        customerPk = division.pk
-    except:
-        customerPk = -1
 
     SIP_DETAILS = {
         "SIP_WSS_SERVER" : globalSettings.SIP_WSS_SERVER,
@@ -329,9 +325,9 @@ def home(request):
             jsFilesList.append(subApp.jsFileName)
     isOnSupport = u.designation.team.isOnSupport
     
-    return render(request , 'ngBase.html' , {'isOnSupport' : isOnSupport , 'division' : division , 'homeState': homeState , 'dashboardEnabled' : u.profile.isDashboard , 'wampServer' : globalSettings.WAMP_SERVER, 'appsWithJs' : jsFilesList \
+    return render(request , 'ngBase.html' , {'wamp_prefix' : globalSettings.WAMP_PREFIX ,'isOnSupport' : isOnSupport , 'division' : division , 'homeState': homeState , 'dashboardEnabled' : u.profile.isDashboard , 'wampServer' : globalSettings.WAMP_SERVER, 'appsWithJs' : jsFilesList \
     ,'appsWithCss' : apps.filter(haveCss=True) , 'useCDN' : globalSettings.USE_CDN , 'BRAND_LOGO' : brandLogo \
-    ,'BRAND_NAME' :  globalSettings.BRAND_NAME,'sourceList':globalSettings.SOURCE_LIST , 'commonApps' : globalSettings.SHOW_COMMON_APPS , 'defaultState' : state, 'limit_expenses_count':globalSettings.LIMIT_EXPENSE_COUNT  , 'MATERIAL_INWARD' : MATERIAL_INWARD, 'DIVISIONPK' : divisionPk , "SIP" : SIP_DETAILS ,"NOTIFICATIONCOUNT":notificationCount,'telephony' : telephony , 'simpleMode' : simpleMode, 'messaging' : messaging,'customerPk':customerPk})
+    ,'BRAND_NAME' :  globalSettings.BRAND_NAME,'sourceList':globalSettings.SOURCE_LIST , 'commonApps' : globalSettings.SHOW_COMMON_APPS , 'defaultState' : state, 'limit_expenses_count':globalSettings.LIMIT_EXPENSE_COUNT  , 'MATERIAL_INWARD' : MATERIAL_INWARD, 'DIVISIONPK' : divisionPk , "SIP" : SIP_DETAILS ,"NOTIFICATIONCOUNT":notificationCount,'telephony' : telephony , 'simpleMode' : simpleMode, 'messaging' : messaging})
 
 @csrf_exempt
 def RegView(request):

@@ -1340,7 +1340,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           let dataToPublish = [uid, callType, [], custID, profDetail, chatThreadPk, custName, urlforConferenceForAgent]
           console.log('publish to all',agentPk);
           setTimeout(function () {
-            connection.session.publish(wamp_prefix+'service.support.agent', dataToPublish , {}, {
+            connection.session.publish(wamp_prefix+'service.support.' + custID, dataToPublish , {}, {
               acknowledge: true
             }).
             then(function(publication) {
@@ -1983,7 +1983,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
          console.log(botMode);
 
          if (!botMode || transferred) {
-           connection.session.publish(wamp_prefix+'service.support.agent', dataToPublish, {}, {
+           connection.session.publish(wamp_prefix+'service.support.' + custID, dataToPublish, {}, {
              acknowledge: true
            }).
            then(function(publication) {
@@ -2131,7 +2131,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       failedMessages.push(dataToPublish)
       for (var i = 0; i < failedMessages.length; i++) {
         console.log(failedMessages[i]);
-        connection.session.publish(wamp_prefix+'service.support.agent', failedMessages[i] , {}, {
+        connection.session.publish(wamp_prefix+'service.support.' + custID, failedMessages[i] , {}, {
           acknowledge: true
         }).
         then(function(publication) {
@@ -2205,7 +2205,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
              }
             let dataToPublish = [uid , status , fileData , custID, uidDetails, chatThreadPk,custName ];
 
-            connection.session.publish(wamp_prefix+'service.support.agent', dataToPublish, {}, {
+            connection.session.publish(wamp_prefix+'service.support.' + custID, dataToPublish, {}, {
                acknowledge: true
              }).
              then(function(publication) {

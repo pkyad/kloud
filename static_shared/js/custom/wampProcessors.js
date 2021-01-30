@@ -12,6 +12,10 @@ connection.onopen = function (session) {
 
   };
 
+  function chatSupportResonse(args){
+    console.log(args)
+  }
+
   processNotification = function(args){
     var scope = angular.element(document.getElementById('main')).scope();
     scope.$apply(function() {
@@ -53,7 +57,7 @@ connection.onopen = function (session) {
     }
   );
   if (IS_ON_SUPPORT){
-    session.subscribe('service.support.'+ DIVISIONPK, chatResonse).then(
+    session.subscribe(wamp_prefix + 'service.support.'+ DIVISIONPK, chatSupportResonse).then(
       function (sub) {
         console.log("subscribed to company support channel 'chatResonse'");
       },
