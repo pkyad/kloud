@@ -195,7 +195,7 @@ app.controller("businessManagement.intents", function($scope, $state, $users, $s
   $scope.IntentMaster = [];
 
   $scope.fetchIntents = function() {
-    var url = '/api/chatbot/intentsLite/?company=' + $scope.compDetails.pk + '&parent_none&limit=10&offset=' + 10 * $scope.page;
+    var url = '/api/chatbot/intentsLite/?parent_none&limit=10&offset=' + 10 * $scope.page;
 
     if ($scope.searchTxt.length > 0) {
       url += '&name__icontains=' + $scope.searchTxt;
@@ -256,15 +256,7 @@ app.controller("businessManagement.intents", function($scope, $state, $users, $s
   }
 
 
-  var customerpk = CUSTOMER_PK
-
-  $http({
-    method: 'GET',
-    url: '/api/organization/divisions/' + customerpk+'/'
-  }).then(function(res) {
-    $scope.compDetails = res.data
-    $scope.fetchIntents()
-  })
+  $scope.fetchIntents()
 
 
   $scope.resetForm = function() {

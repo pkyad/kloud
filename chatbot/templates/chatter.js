@@ -148,17 +148,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
           var data = JSON.parse(this.responseText)
-          if (data.length>0) {
+          if (data.pk) {
             threadExist = true
-            chatThreadPk = data[0].pk;
-            agentPk = data[0].user;
-            streamType=data[0].typ;
-            transferred=data[0].transferred;
-            if (data[0].agent_name.length>0) {
-              agentName.innerHTML = data[0].agent_name;
+            chatThreadPk = data.pk;
+            agentPk = data.user;
+            streamType=data.typ;
+            transferred=data.transferred;
+            participants=data.participants;
+            if (data.agent_name.length>0) {
+              agentName.innerHTML = data.agent_name;
             }
-            if (data[0].agent_dp.length>0) {
-              document.getElementById('logo_ji').src= '{{serverAddress}}'+ data[0].agent_dp;
+            if (data.agent_dp.length>0) {
+              document.getElementById('logo_ji').src= '{{serverAddress}}'+ data.agent_dp;
             }
           }
           fetchMessages(uid);
@@ -496,7 +497,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         transferred = args[2];
         if (transferred) {
           CHATTER_FUNCTION.sendCustomMessage("Bot transferred session", true, true);
-          setAudioVideoBtn();
+          // setAudioVideoBtn();
         }
         return;
       }
@@ -1250,23 +1251,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
       connection.open()
     }
     if (reason=='unreachable') {
-      var xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-          resetConnection()
-        }
-      };
-      xhttp.open('GET', '{{serverAddress}}/api/ERP/crossbar/?val=restart', true);
-      xhttp.send();
+      // var xhttp = new XMLHttpRequest();
+      // xhttp.onreadystatechange = function() {
+      //   if (this.readyState == 4 && this.status == 200) {
+      //     resetConnection()
+      //   }
+      // };
+      // xhttp.open('GET', '{{serverAddress}}/api/ERP/crossbar/?val=restart', true);
+      // xhttp.send();
     }
   }
 
   window.addEventListener("message", receiveMessage, false);
   function receiveMessage(event){
-    if (event.data=='loadMyOrders') {
-      var url = 'https://chrome.google.com/webstore/detail/screen-capturing/ajhifddimkapgcifgcodmmfdlknahffk'
-       window.open(url);
-    }
+    // if (event.data=='loadMyOrders') {
+    //   var url = 'https://chrome.google.com/webstore/detail/screen-capturing/ajhifddimkapgcifgcodmmfdlknahffk'
+    //    window.open(url);
+    // }
     if (event.data=='calledToHideVideo') {
 
       connection.session.publish(wamp_prefix+'service.support.agent.'+agentPk, [uid , 'calledToHideVideo' ] , {}, {
@@ -1369,6 +1370,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
              var chatThreadData = JSON.parse(this.responseText)
              threadExist = true
              chatThreadPk = chatThreadData.pk
+             participants= chatThreadData.participants;
              transferred = chatThreadData.transferred
              publishAboutCall(streamTyp)
            }
@@ -1850,26 +1852,26 @@ document.addEventListener("DOMContentLoaded", function(event) {
       }else {
         div.innerHTML = messageDiv(chat.messages[i])
       }
+      // related to the product carosal
+      // var productsArr = [
+      //   {image : 'https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png' , title : 'A product Title' , subTitle : '$20 only'},
+      //   {image : 'https://systunix.com/media/POS/productV2/1591031671_11_covid-safety-key-500x500.jpg' , title : 'second Title' , subTitle : '$20 only'},
+      //   {image : 'https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png' , title : 'A product Title' , subTitle : '$20 only'},
+      // ]
 
-      var productsArr = [
-        {image : 'https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png' , title : 'A product Title' , subTitle : '$20 only'},
-        {image : 'https://systunix.com/media/POS/productV2/1591031671_11_covid-safety-key-500x500.jpg' , title : 'second Title' , subTitle : '$20 only'},
-        {image : 'https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png' , title : 'A product Title' , subTitle : '$20 only'},
-      ]
+      // var scrollProds = '<div class="scrollView">'
+      // for (let j = 0; j < productsArr.length; j++) {
+      //   const prod = productsArr[j];
+      //   scrollProds += '<div class="prodView prodId'+j+'"><img src="'+ prod.image +'"><br><span class="prodHeading">'+ prod.title +'</span><br><span class="prodSubHeading">'+ prod.subTitle +'</span></div>'
+      // }
+      // scrollProds += '</div>'
 
-      var scrollProds = '<div class="scrollView">'
-      for (let j = 0; j < productsArr.length; j++) {
-        const prod = productsArr[j];
-        scrollProds += '<div class="prodView prodId'+j+'"><img src="'+ prod.image +'"><br><span class="prodHeading">'+ prod.title +'</span><br><span class="prodSubHeading">'+ prod.subTitle +'</span></div>'
-      }
-      scrollProds += '</div>'
-
-      console.log(scrollProds);
-      div.innerHTML = scrollProds;
-      div.onclick = function(evt){
-        console.log(evt.target)
-        sendMessage(evt.target.className);
-      }
+      // console.log(scrollProds);
+      // div.innerHTML = scrollProds;
+      // div.onclick = function(evt){
+      //   console.log(evt.target)
+      //   sendMessage(evt.target.className);
+      // }
       messageBox.appendChild(div);
     }
     scroll();

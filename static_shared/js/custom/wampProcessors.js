@@ -52,6 +52,16 @@ connection.onopen = function (session) {
       console.log("failed to subscribed: " + err);
     }
   );
+  if (IS_ON_SUPPORT){
+    session.subscribe('service.support.'+ DIVISIONPK, chatResonse).then(
+      function (sub) {
+        console.log("subscribed to company support channel 'chatResonse'");
+      },
+      function (err) {
+        console.log("failed to subscribed: " + err);
+      }
+    );
+  }
   session.subscribe('service.notification.'+wampBindName, processNotification).then(
     function (sub) {
       console.log("subscribed to topic 'notification'");

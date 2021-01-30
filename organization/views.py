@@ -76,10 +76,7 @@ class UnitViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['name','division']
     def get_queryset(self):
-        if 'icansee' in self.request.GET:
-            return self.request.user.designation.division.units.all()
-
-        return Unit.objects.all()
+        return self.request.user.designation.division.units.all()
 
 class FirstLevelUnitViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, )

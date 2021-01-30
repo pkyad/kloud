@@ -177,7 +177,7 @@ class PublicChatThreadSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
     class Meta:
         model = ChatThread
-        fields = ( 'pk' , 'uid', 'agent_name','agent_dp' , 'typ' , 'transferred' , 'user', 'companyName')
+        fields = ( 'pk' , 'uid', 'agent_name','agent_dp' , 'typ' , 'transferred' , 'user', 'companyName', 'participants')
     def get_agent_name(self , obj):
         users = obj.participants.all()
         if users.count()>0:

@@ -658,7 +658,12 @@ def publicAPI(request , objectType):
             data = json.loads(request.body)
             chatThObj = ChatThread.objects.filter(uid = data['uid'])[0]
             if 'status' in data and data['status']=='closed':
-                chatThObj.closedOn = datetime.datetime.now()
+                try:
+                    now = datetime.datetime.now()
+                except:
+                    now = datetime.now()
+                
+                chatThObj.closedOn = now
                 chatThObj.status = data['status']
                 # if 'closedByUser' in data:
                 #     pass
@@ -699,8 +704,8 @@ def publicAPI(request , objectType):
             c.save()
             return JsonResponse({"pk" : c.pk , "transferred" : c.transferred}, status = 201)
         else:
-            c = ChatThread.objects.filter(uid = request.GET['uid'] , status = 'started' )
-            return JsonResponse(PublicChatThreadSerializer(c , many = True ).data , safe=False)
+            c = ChatThread.objects.filter(uid = request.GET['uid'] , status = 'started' ).last()
+            return JsonResponse(PublicChatThreadSerializer(c , many = False ).data , safe=False)
 
     elif objectType == 'supportChat':
 
@@ -760,7 +765,7 @@ def publicAPI(request , objectType):
             print s.sentByAgent
             if s.is_hidden or chatThObj.transferred or s.user is not None:
                 print "Returning : "
-                return s
+                return JsonResponse(SupportChatSerializer(s , many = False).data , safe=False)
 
             requests.post(globalSettings.WAMP_POST_ENDPOINT,
                 json={
