@@ -48,7 +48,7 @@ connection.onopen = function (session) {
     }
   };
 
-  session.subscribe('service.chat.'+wampBindName, chatResonse).then(
+  session.subscribe(wamp_prefix + 'service.chat.'+wampBindName, chatResonse).then(
     function (sub) {
       console.log("subscribed to topic 'chatResonse'");
     },

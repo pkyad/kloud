@@ -706,14 +706,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }
 
   function reachChatBoxForInfo(){
-    connection.session.publish(wamp_prefix+'service.support.agent.'+agentPk, [uid , 'CustmorClosedTheChat' ] , {}, {
-      acknowledge: true
-    }).
-    then(function(publication) {
-      console.log("call sent to "+agentPk +" for closing the chat by customer");
-    },function(){
-      console.log('failed to call '+agentPk+' for closing the chat by customer');
-    });
+    for (let i = 0; i < participants.length; i++) {
+
+      connection.session.publish(wamp_prefix+'service.chat.'+participants[i] , [uid , 'CustmorClosedTheChat' ] , {}, {
+        acknowledge: true
+      }).
+      then(function(publication) {
+        console.log("call sent to "+agentPk +" for closing the chat by customer");
+      },function(){
+        console.log('failed to call '+agentPk+' for closing the chat by customer');
+      });
+    }
+    
   }
 
   var videoOpened = false
@@ -961,14 +965,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
        if (this.readyState == 4 && this.status == 200) {
          setCookie("chatOpenCookie", false, 365);
          var dataToSend = {uid:uid , userEndedChat: 'CHAT CLOSED BY USER' , sentByAgent:false };
-         connection.session.publish(wamp_prefix+'service.support.agent.'+agentPk, [uid , 'CL' , dataToSend ] , {}, {
-           acknowledge: true
-         }).
-         then(function(publication) {
-           console.log("Published to "+agentPk+" to end chat");
-         },function(){
-           console.log('failed to call '+agentPk+" to end chat");
-         });
+         
+         for (let i = 0; i < participants.length; i++) {
+          connection.session.publish(wamp_prefix+'service.chat.'+participants[i] , [uid , 'CL' , dataToSend ] , {}, {
+            acknowledge: true
+          }).
+          then(function(publication) {
+            console.log("Published to "+agentPk+" to end chat");
+          },function(){
+            console.log('failed to call '+agentPk+" to end chat");
+          });
+           
+         }
+         
+         
        }
      };
      xhttp.open('PATCH', '{{serverAddress}}/api/chatbot/publicFacing/chatThread/', true);
@@ -1077,15 +1087,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
            closeSupport.click()
             var dataToSend = {uid:uid , usersFeedback:ratingFormObject.customerFeedback  , rating:ratingFormObject.customerRating , sentByAgent:false };
 
-             connection.session.publish(wamp_prefix+'service.support.agent.'+agentPk, [uid , 'FB' , dataToSend ] , {}, {
-               acknowledge: true
-             }).
-             then(function(publication) {
-               console.log("Published to "+agentPk+" for feedback");
-             },function(){
-                console.log("failed to publish "+agentPk+" for feedback");
-                alert('failed to publish feedback')
-             });
+            for (let i = 0; i < participants.length; i++) {
+              connection.session.publish(wamp_prefix+'service.chat.'+participants[i] , [uid , 'FB' , dataToSend ] , {}, {
+                acknowledge: true
+              }).
+              then(function(publication) {
+                console.log("Published to "+agentPk+" for feedback");
+              },function(){
+                 console.log("failed to publish "+agentPk+" for feedback");
+                 alert('failed to publish feedback')
+              });
+
+            }
+
+             
          }
        };
        xhttp.open('PATCH', '{{serverAddress}}/api/chatbot/publicFacing/chatThread/', true);
@@ -1310,86 +1325,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         chatBox_footer.style.borderRadius = footer_bor_rad_no_vid; // footer
       }
     }
-    if (event.data== 'timeToStart'){
-      function publishAboutCall(typOfCall) {
-        if (typOfCall=='audio') {
-          var callType = 'AC'
-        }else if (typOfCall=='video') {
-          var callType = 'VCS'
-        }
-        let profDetail = false;
-        let detail = getCookie("uidDetails");
-        if (detail != "") {
-          profDetail = JSON.parse(detail)
-        }
-
-        if (isAgentOnline && agentPk) {
-          let dataToPublish = [uid, callType, [] , custID, urlforConferenceForAgent]
-          console.log('publish to my agent',agentPk);
-          setTimeout(function () {
-            connection.session.publish(wamp_prefix+'service.support.agent.'+agentPk, dataToPublish , {}, {
-              acknowledge: true
-            }).
-            then(function(publication) {
-              console.log("called service.support.agent."+agentPk);
-            },function(err){
-              console.log("failed to call "+agentPk);
-            });
-          }, 1000);
-        }else {
-          let dataToPublish = [uid, callType, [], custID, profDetail, chatThreadPk, custName, urlforConferenceForAgent]
-          console.log('publish to all',agentPk);
-          setTimeout(function () {
-            connection.session.publish(wamp_prefix+'service.support.' + custID, dataToPublish , {}, {
-              acknowledge: true
-            }).
-            then(function(publication) {
-              console.log("Published");
-            });
-          }, 1000);
-        }
-        if (typOfCall=='audio') {
-          createLogs('audio call started');
-        }
-        if (typOfCall=='video') {
-          createLogs('video call started');
-        }
-      }
-
-      if (streamTyp=='video') {
-        videoOpened = true
-      }else if(streamTyp=='audio'){
-        audioOpened = true
-      }
-      if (threadExist==undefined) {
-        var firstMessageText = extractContent(firstMessage);
-        let dataToPost = {uid: uid , company: custID, firstMessage:firstMessageText,typ:streamTyp}
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 201) {
-             var chatThreadData = JSON.parse(this.responseText)
-             threadExist = true
-             chatThreadPk = chatThreadData.pk
-             participants= chatThreadData.participants;
-             transferred = chatThreadData.transferred
-             publishAboutCall(streamTyp)
-           }
-         };
-         xhttp.open('POST', '{{serverAddress}}/api/chatbot/publicFacing/chatThread/', true);
-         xhttp.setRequestHeader("Content-type", "application/json");xhttp.setRequestHeader("X-CSRFToken", csrfToken);
-         xhttp.send(JSON.stringify(dataToPost));
-      }else {
-        var xhttp = new XMLHttpRequest();
-         xhttp.onreadystatechange = function() {
-           if (this.readyState == 4 && this.status == 200) {
-             publishAboutCall(streamTyp)
-           }
-         };
-         xhttp.open('PATCH', '{{serverAddress}}/api/chatbot/chatThread/'+ chatThreadPk + '/', true);
-         xhttp.setRequestHeader("Content-type", "application/json");xhttp.setRequestHeader("X-CSRFToken", csrfToken);
-         xhttp.send(JSON.stringify({typ:streamTyp}));
-      }
-    }
+    
     if (event.data.event_name=='session_started') {
       if (agentPk) {
         connection.session.call(wamp_prefix + 'service.support.handleQuickActions.' + agentPk, ['session_started',event.data.event_data]).then(
@@ -2016,14 +1952,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
           console.log(botMode);
 
           if (!botMode || transferred) {
-            connection.session.publish(wamp_prefix+'service.support.agent.'+agentPk, dataToPublish, {}, {
-            acknowledge: true
-            }).
-            then(function(publication) {
-              document.getElementById('paperPlane').style.color="#A0A0A0"
-            },function(){
-              console.log('Failed to publish message to agent');
-            });
+            for (let i = 0; i < participants.length; i++) {
+
+              connection.session.publish(wamp_prefix+'service.chat.'+participants[i], dataToPublish, {}, {
+                acknowledge: true
+                }).
+                then(function(publication) {
+                  document.getElementById('paperPlane').style.color="#A0A0A0"
+                },function(){
+                  console.log('Failed to publish message to agent');
+                });
+            }
+
+            
           }else{
             document.getElementById('paperPlane').style.color="#A0A0A0"
           }
@@ -2160,15 +2101,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
     else{
       failedMessages.push(dataToPublish)
       for (var i = 0; i < failedMessages.length; i++) {
-        connection.session.publish(wamp_prefix+'service.support.agent.'+MyPk, failedMessages[i] , {}, {
-          acknowledge: true
-        }).
-        then(function(publication) {
-          console.log("Published service.support.agent."+agentPk);
-        },function (error) {
-          failedMessages.push(dataToPublish)
-          console.log('failed to send message to '+agentPk);
-       })
+
+        for (let i = 0; i < participants.length; i++) {
+          connection.session.publish(wamp_prefix+'service.chat.'+participants[i] , failedMessages[i] , {}, {
+            acknowledge: true
+          }).
+          then(function(publication) {
+            console.log("Published service.support.agent."+agentPk);
+          },function (error) {
+            failedMessages.push(dataToPublish)
+            console.log('failed to send message to '+agentPk);
+         })
+
+        }
+
+        
       }
       failedMessages=[]
     }
@@ -2216,7 +2163,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
           }else {
             let dataToPublish = [uid , status , fileData];
-            connection.session.publish(wamp_prefix+'service.support.agent.'+agentPk, dataToPublish , {}, {
+
+            for (let i = 0; i < participants.length; i++) {
+
+              connection.session.publish(wamp_prefix+'service.chat.'+participants[i], dataToPublish , {}, {
                 acknowledge: true
               }).
               then(function(publication) {
@@ -2224,6 +2174,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
               },function(){
                 console.log('failed to send media file to '+agentPk);
               });
+            }
+
+            
           }
         }
         function saveFileInDataBase() {
