@@ -14,6 +14,8 @@ urlpatterns = [
     url(r'updateApprovals/$' , UpdateMyApprovalsAPIView.as_view()),
     url(r'systemLog/$' , SystemLogView),
     url(r'downloadUserProfile/$' , DownloadUserProfileApiView.as_view()),
+    url(r'fetchAttendance/$' , FetchAttendanceAPIView.as_view()),
+
 
     # url(r'leaveApproval/$' , LeaveApprovalApi.as_view()),
 

@@ -47,6 +47,7 @@ from pdfrw import PdfReader, PageMerge
 from pdfrw.buildxobj import pagexobj
 from pdfrw.toreportlab import makerl
 height, width = A4
+from performance.serializers import TimeSheetSerializer
 
 @csrf_exempt
 def SystemLogView(request):
@@ -486,3 +487,145 @@ def genUserProfilePDF(response , user , request):
         elements.append(PageBreak())
 
     doc.build(elements)
+
+
+import calendar
+class FetchAttendanceAPIView(APIView):
+    def get(self , request , format = None):
+        div = request.user.designation.division
+        params = request.GET
+        data = []
+        usersObj = User.objects.filter(designation__division = div)
+        today = datetime.now().date()
+        finalData = {}
+        monthList = ['January' , 'February' , 'March' , 'April' , 'May' , 'June' , 'July' , 'August' , 'September' , 'Octember' , 'November' , 'December' ]
+        currentMonths = today.strftime('%B')
+        currentYear = str(today.year)
+        firstweek = False
+        lastweek = False
+        if 'month' in params and 'year' in params:
+            if params['month'] == currentMonths and params['year'] == currentYear :
+                monthIndx = monthList.index(params['month'])+1
+                lastDate =  calendar.monthrange(int(params['year']), monthIndx)[1]
+                start = today - timedelta(days=today.weekday())
+                end = start + timedelta(days=6)
+                startDay = start.strftime("%d")
+                endDay = end.strftime("%d")
+                for j in usersObj:
+                    val = {}
+                    val['user'] =  userSearchSerializer(j, many=False).data
+                    timeObj = []
+                    for i in range(int(startDay), int(endDay)+1):
+                        date = today.replace(day=i)
+                        attObj, c = TimeSheet.objects.get_or_create(user = j , date = date)
+                        timeObj.append(TimeSheetSerializer(attObj, many = False).data)
+                    val['obj'] = timeObj
+                    data.append(val)
+                dates = []
+                for i in range(int(startDay), int(endDay)+1):
+                    if i == lastDate:
+                        lastweek = True
+                    if i == 1:
+                        firstweek = True
+                    date = today.replace(day=i)
+                    dates.append(date)
+                finalData = {'data' :data,'dates':dates, 'currentMonth' : True,'lastweek':lastweek , 'firstweek':firstweek}
+            else:
+                # lastDate =  calendar.monthrange(int(params['year']), 2)[1]
+                if params['weekly'] == 'false':
+                    data = []
+                    for i in usersObj:
+                        val = {}
+                        monthIndx = monthList.index(params['month'])+1
+                        val['user'] = userSearchSerializer(i, many=False).data
+                        allObj = TimeSheet.objects.filter(user = i ).filter(date__year=str(params['year'])).filter(date__month=str(monthIndx))
+                        val['absent'] = allObj.filter(attendance_status = 'Absent').count()
+                        val['present'] = allObj.filter(attendance_status = 'Present').count()
+                        val['leave'] = allObj.filter(attendance_status = 'Leave').count()
+                        val['halfDay'] = allObj.filter(attendance_status = 'Half-Day').count()
+                        val['total'] =  allObj.count()
+                        data.append(val)
+                    finalData = {'currentMonth' : False , 'data' : data}
+                else:
+                    monthIndx = monthList.index(params['month'])+1
+                    lastDate =  calendar.monthrange(int(params['year']), monthIndx)[1]
+                    start = datetime(int(params['year']), int(monthIndx), 1)
+                    start =  start.date()
+                    end = start + timedelta(days=6)
+                    startDay = start.strftime("%d")
+                    endDay = end.strftime("%d")
+                    for j in usersObj:
+                        val = {}
+                        val['user'] =  userSearchSerializer(j, many=False).data
+                        timeObj = []
+                        for i in range(int(startDay), int(endDay)+1):
+                            date = start.replace(day=i)
+                            try:
+                                attObj = TimeSheet.objects.get(user = j , date = date)
+                                timeObj.append(TimeSheetSerializer(attObj, many = False).data)
+                            except:
+                                pass
+                        val['obj'] = timeObj
+                        data.append(val)
+                    dates = []
+                    for i in range(int(startDay), int(endDay)+1):
+                        if i == lastDate:
+                            lastweek = True
+                        if i == 1:
+                            firstweek = True
+                        date = start.replace(day=i)
+                        dates.append(date)
+                    finalData = {'data' :data,'dates':dates, 'currentMonth' : False,'lastweek':lastweek , 'firstweek':firstweek}
+        else:
+            if 'typ' in params and 'dated' in params:
+                dated = datetime.strptime(params['dated'], '%Y-%m-%d').date()
+                currentMonth = False
+                selectedMonth = dated.strftime('%B')
+                selectedYear = dated.year
+                if selectedMonth == currentMonths and str(selectedYear) == str(currentYear) :
+                    currentMonth = True
+                if params['typ'] == 'prev':
+                    start = dated - timedelta(days=7)
+                    end = start + timedelta(days=6)
+                    monthVal = dated.strftime('%m').replace('0','')
+                    lastDate =  calendar.monthrange(int(selectedYear), int(monthVal))[1]
+                    startDay = start.strftime("%d")
+                    endDay = end.strftime("%d")
+                    if startDay>endDay:
+                        startDay = 1
+                if params['typ'] == 'next':
+                    start = dated + timedelta(days=1)
+                    end = start + timedelta(days=6)
+                    monthVal = dated.strftime('%m').replace('0','')
+                    lastDate =  calendar.monthrange(int(selectedYear), int(monthVal))[1]
+                    startDay = start.strftime("%d")
+                    endDay = end.strftime("%d")
+                    if endDay<startDay:
+                        endDay = lastDate
+                for j in usersObj:
+                    val = {}
+                    val['user'] =  userSearchSerializer(j, many=False).data
+                    timeObj = []
+                    for i in range(int(startDay), int(endDay)+1):
+                        date = dated.replace(day=i)
+                        if currentMonth == True:
+                            attObj, c = TimeSheet.objects.get_or_create(user = j , date = date)
+                            timeObj.append(TimeSheetSerializer(attObj, many = False).data)
+                        else:
+                            try:
+                                attObj = TimeSheet.objects.get(user = j , date = date)
+                                timeObj.append(TimeSheetSerializer(attObj, many = False).data)
+                            except:
+                                pass
+                    val['obj'] = timeObj
+                    data.append(val)
+                dates = []
+                for i in range(int(startDay), int(endDay)+1):
+                    if i == lastDate:
+                        lastweek = True
+                    if i == 1:
+                        firstweek = True
+                    date = dated.replace(day=i)
+                    dates.append(date)
+                finalData = {'data' :data,'dates':dates, 'currentMonth' : currentMonth,'lastweek':lastweek , 'firstweek':firstweek}
+        return Response(finalData,status=status.HTTP_200_OK)
