@@ -11,9 +11,9 @@
 
 <div class="container-fluid"  style="padding:0px;">
   <div class="row">
-    <div class="row" style="margin:0px;position: fixed;z-index: 4;background: white;width: 75%;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;">
+    <div class="row discharge_summary" style="margin:0px;position: fixed;z-index: 4;background: white;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;">
 
-      <div class="col-md-10">
+      <div class="col-md-10" style="padding-left:50px;padding-top:20px">
 
 
         <div class="row" style="margin:0px;">
@@ -79,7 +79,7 @@
 
             <div class="form-group">
               <label class="control-label col-sm-3" style="margin-top:40px;padding:0px;">Discharge date & time</label>
-              <div class="col-md-5">
+              <div class="col-md-6">
                 <div class="form-group" style="margin-top:35px;">
                   <span style="position:absolute;right:0px;padding:12px 25px;" ng-click="status.opened = true;">
 
@@ -130,7 +130,7 @@
 
 
 
-    <div class="row" style="padding-top:340px;margin:0px;">
+    <div class="row" style="padding-top:340px;margin:0px;padding-left:20px;padding-right:20px;">
       <div class="col-md-4">
         <div ng-if="invoices.length!=0" class="col-md-12" ng-repeat="i in invoices" ng-click="invoiceInfo($index)">
           <div class="container-fluid card" style="border-radius:5px;margin-top:25px;">
@@ -379,8 +379,8 @@ border-bottom-right-radius: 30px !important;color:white;">Add <i class="glyphico
             <input type="text" class="form-control websiteInput" ng-model="data.msg" placeholder="Type Greeting Message Here...">
           </div>
         </div>
-        <div class="row text-center" style="padding-top:15px;">
-          <button type="button" name="button" class="btn btn-primary" ng-click="saveDischargeSumm()">Save</button>
+        <div class="row text-center" style="padding-top:15px;padding-bottom:15px">
+          <button type="button" name="button" class="btn newBtn" ng-click="saveDischargeSumm()">Save</button>
         </div>
 
       </div>

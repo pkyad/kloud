@@ -135,9 +135,64 @@ app.controller("controller.home.viewNotes", function($scope, $state, $users, $st
       controller: function($scope, $uibModalInstance, data) {
         $scope.data = data;
 
+        $scope.userSearch = function(query) {
+          return $http.get('/api/HR/userSearch/?username__contains=' + query).
+          then(function(response) {
+            return response.data;
+          })
+        };
+
+        $scope.close = function(){
+          $uibModalInstance.close();
+        }
+
+        $scope.getSharedUsers = function(){
+          $http({
+            method: 'GET',
+            url: '/api/PIM/notes/' + $scope.data.pk + '/',
+          }).
+          then(function(response) {
+            console.log(response.data);
+            $scope.usersList = response.data.shares
+          })
+        }
+        $scope.getSharedUsers()
+
+
+        // $scope.removeUser = function(idx) {
+        //   // $http({
+        //   //   method: 'DELETE',
+        //   //   url: '/api/PIM/notes/' + $scope.data.pk + '/',
+        //   // }).then(function(response) {
+        //   //   Flash.create("success", "User removed")
+        //   // });
+        // }
+
+
+
+        $scope.form = {
+          users : ''
+        }
+
+        $scope.users = []
+        $scope.usersList = []
+        $scope.addUsers = function(){
+          $scope.usersList.push($scope.form.users)
+          $scope.users.push($scope.form.users.pk)
+          $scope.form.users = ''
+        }
+
+
+        $scope.removeUser = function(indx) {
+          $scope.usersList.splice(indx, 1)
+        }
+
+
+
         $scope.saveNote = function() {
+
           var dataToSend = {
-            shares : $scope.data.shares
+            shares : $scope.users
           }
 
           $http({
@@ -146,8 +201,8 @@ app.controller("controller.home.viewNotes", function($scope, $state, $users, $st
             data: dataToSend
           }).
           then(function(response) {
-            $uibModalInstance.dismiss();
-            Flash.create('success', 'Note created')
+            $scope.sharedUsers = response.data.shares
+            Flash.create('success', 'Note Shared')
           })
         }
       },
