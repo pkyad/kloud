@@ -1,25 +1,45 @@
 <div class="container-fluid" style="margin-top:10px;">
   <div class="row" style="margin-top:10px;">
-    <div class="col-md-12">
+    <div class="col-md-10">
       <span style="font-size: 180%;"><b>Share Note</b></span>
+    </div>
+    <div class="col-md-2" style="padding-top:5px;">
+      <button ng-click="saveNote()" type="button" class="btn btn-primary" style="float:right;">
+      Done
+      </button>
     </div>
   </div>
   <hr>
-  <div class="row" style="margin-bottom:20px;">
+  <div class="row" style="margin-bottom:20px;margin-top:50px;">
     <div class="col-md-12">
-      <users-Field data="data.shares" url="/api/HR/userSearch/" col="6" label="Users"></users-Field>
+      <!-- <users-Field data="data.shares" url="/api/HR/userSearch/" col="6" label="Users"></users-Field> -->
+      <div class="form-group">
+        <button type="button" class="btn btn-primary" name="button" ng-click="addUsers()" style="position: absolute;
+      right: 15px;border: none !important;background:#2980b9 !important;padding: 7px 15px;color:white;">Add <i class="glyphicon glyphicon-plus"></i></button>
+        <input type="text" class="form-control" ng-model="form.users" uib-typeahead="user as user.first_name + ' ' + user.last_name for user in userSearch($viewValue)" placeholder="Search By Name Here...">
+      </div>
     </div>
   </div>
-  <div class="row" style="margin:auto;height:50px;background:#CDDEEE;padding-top:5px;">
+  <div class="row" style="height:50px;padding-top:5px;">
     <div class="col-md-10">
       <h5>{{data.user.first_name}} {{data.user.last_name}}</h5>
     </div>
     <div class="col-md-2">
-      <h6>Owner</h6>
+      <h6><b>Owner</b></h6>
+    </div>
+  </div>
+  <hr>
+  <div class="row" style="height:50px;padding-top:5px;" ng-repeat="a in usersList">
+    <div class="col-md-10">
+      <!-- <h5>{{data.user.first_name}} {{data.user.last_name}}</h5> -->
+      <h5>{{a.first_name}} {{a.last_name}}</h5>
+    </div>
+    <div class="col-md-2">
+      <h6><i class="fa fa-close" ng-click="removeUser($index)" style="cursor:pointer"></i></h6>
     </div>
   </div>
   <br>
-  <div class="row" ng-if="form.user">
+  <!-- <div class="row" ng-if="form.user">
     <div class="col-md-12">
       <input type="checkbox" name="" value=""> Notify people
       <br>
@@ -33,9 +53,9 @@
 
     </div>
 
-  </div>
+  </div> -->
 
-  <div class="row" style="margin-top:25px;margin-bottom:25px" ng-if="form.user">
+  <!-- <div class="row" style="margin-top:25px;margin-bottom:25px" ng-if="form.user">
     <div class="col-md-2 col-md-offset-8">
       <button ng-click="saveNote()" type="button" class="btn btn-primary" style="float:right">
         Cancel
@@ -46,13 +66,13 @@
         Send
       </button>
     </div>
-  </div>
+  </div> -->
 
-  <div class="row" style="margin-top:25px;margin-bottom:25px" ng-if = "!form.user">
+  <!-- <div class="row" style="margin-top:25px;margin-bottom:25px" ng-if = "!form.user">
     <div class="col-md-12">
       <button ng-click="saveNote()" type="button" class="btn btn-primary" style="float:right">
       Done
       </button>
     </div>
-  </div>
+  </div> -->
 </div>

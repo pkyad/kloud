@@ -2605,6 +2605,24 @@ padding: 10px 0px;
 .Income_div{
   background:#FAFAFA;min-height:100vh;padding:50px;padding-top:0px;
 }
+
+.newBtn {
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 15px;
+    background: #E01B22;
+    color: white !important;
+}
+
+.discharge_summary {
+  width: 74.5%;
+}
+
+.pad_Left {
+  padding-left: 35px;
+}
+
+
 @media screen and (min-width: 1279px) and (max-width: 1365px) and (-webkit-device-pixel-ratio: 1) {
   .Income_div{
     padding:0px;
@@ -3006,6 +3024,15 @@ padding: 10px 0px;
     width: 100%;
     margin-left: 1%
   }
+
+  .discharge_summary {
+    width: 75%;
+  }
+
+  .pad_Left {
+    padding-left: 15px;
+  }
+
 }
 
 @media screen and (min-width: 1366px) and (max-width:1439px) and (-webkit-device-pixel-ratio: 1) {
@@ -3354,6 +3381,15 @@ padding: 10px 0px;
     width: 100%;
     margin-left: 1%
   }
+
+  .discharge_summary {
+    width: 76%;
+  }
+
+  .pad_Left {
+    padding-left: 15px;
+  }
+
 }
 
 @media screen and (min-width: 1440px) and (max-width:1620px) and (-webkit-device-pixel-ratio: 1) {
@@ -3658,5 +3694,13 @@ padding: 10px 0px;
     position: relative;
     width: 100%;
     padding-left: 0px;
+  }
+
+  .discharge_summary {
+    width: 74.5%;
+  }
+
+  .pad_Left {
+    padding-left: 20px;
   }
 }

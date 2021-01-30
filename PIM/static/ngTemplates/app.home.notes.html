@@ -1,4 +1,4 @@
-<style>
+<!-- <style>
   .menuItems {
     padding: 20px;
     font-size: 16px;
@@ -49,6 +49,61 @@
           </button>
       </div>
     </div>
+  </div>
+  <div class="col-md-9">
+    <ui-view></ui-view>
+  </div>
+</div> -->
+
+
+<style>
+  .menuItems {
+    padding: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-right: solid 4px #F2F3F7;
+    padding-bottom: 15px;
+    padding-top: 15px;
+  }
+
+  .menuItems:hover {
+    background: #fbfbfb;
+    border-right: solid 4px red !important;
+  }
+
+  .activeMenu {
+    border-right: solid 4px red !important;
+    background: #fbfbfb !important;
+  }
+
+</style>
+
+<div class="row">
+  <div class="col-md-3" style="background:#F2F3F7;">
+    <div class="row text-center" style="margin:20px;padding-left:20px">
+      <div class="col-md-9">
+        <div class="input-group" style="padding:10px;background:white !important;border-radius:10px;border:1px solid #d3d3d3">
+          <input type="text" class="form-control" ng-model="form.search"  placeholder="Search..." style="background:white !important;border: none !important;">
+          <span class="input-group-btn">
+            <button style="background:white !important;border:none !important;" type="button" class="btn btn-default" ng-click="getNotes()"><i class="fa fa-search "></i></button>
+          </span>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <button type="button" class="btn btn-default btn-block" ng-click="openCreateNote()" style="padding:17px;background:white;border-radius:10px !important;border:1px solid #d3d3d3;"><i class="fa fa-plus"></i></button>
+      </div>
+    </div>
+    <div class="row" style="cursor:pointer;height:90vh;overflow-y:scroll;">
+      <div class="col-md-12 menuItems {{$index == row? 'activeMenu' : ''}}" ng-repeat="a in notes" ng-click="$state.go('home.notes.view', {id : a.pk});getIndex($index)" style="border-bottom:1px solid #e0e0e0">
+        <p style="margin-left:35px">{{a.title}} </p>
+      </div>
+      <div class="col-md-offset-4 col-md-4" style="padding:20px 0px 20px">
+        <button type="button" class="btn btn-block btn-default" style="border : none !important;border-radius:10px !important;padding:15px;left:150px;font-size:16px;background:#E01B22;color:white;" ng-click="loadMore()">
+            Load More
+          </button>
+      </div>
+    </div>
+
   </div>
   <div class="col-md-9">
     <ui-view></ui-view>

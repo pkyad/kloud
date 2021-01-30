@@ -295,6 +295,7 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
 
 class NotebookFullSerializer(serializers.ModelSerializer):
     user = userSearchSerializer(many=False , read_only=True)
+    shares = userSearchSerializer(many=True , read_only=True)
     class Meta:
         model = notebook
         fields = ('created', 'title', 'source', 'shares', 'type', 'locked', 'user', 'pk')
@@ -309,7 +310,7 @@ class NotebookFullSerializer(serializers.ModelSerializer):
 
     def update(self , instance, validated_data):
         if 'shares' in self.context['request'].data:
-            instance.shares.clear()
+            # instance.shares.clear()
             for sharedWith in self.context['request'].data['shares']:
                 instance.shares.add(User.objects.get(pk = sharedWith))
         if 'source' in self.context['request'].data:

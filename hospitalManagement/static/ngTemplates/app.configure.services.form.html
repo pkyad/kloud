@@ -7,12 +7,12 @@ cursor:pointer;
   <breadcrumb></breadcrumb>
 <div class="row" style="margin-top:20px;">
   <div  class="col-md-12">
-    <div class="col-md-2">
+    <!-- <div class="col-md-2">
 
       <img id="back" onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt=""/>
 
-    </div>
-    <div class="col-md-10 text-right">
+    </div> -->
+    <div class="col-md-12 text-center">
       <span style="font-size: 180%; "><b>{{productForm.pk?'Update':'Create'}} Product</b></span>
 
     </div>
@@ -46,10 +46,10 @@ cursor:pointer;
       </div>
       <div class="row text-center">
         <div class="form-group">
-          <button ng-if="!productForm.pk" type="button" class="btn btn-primary" ng-click="save()">Save</button>
+          <button ng-if="!productForm.pk" type="button" class="btn newBtn" ng-click="save()">Save</button>
         </div>
         <div class="form-group">
-          <button ng-if="productForm.pk" type="button" class="btn btn-primary" ng-click="editServise()">Update</button>
+          <button ng-if="productForm.pk" type="button" class="btn newBtn" ng-click="editServise()">Update</button>
         </div>
       </div>
     </div>

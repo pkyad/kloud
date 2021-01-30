@@ -3,8 +3,14 @@
 cursor:pointer;
   }
 </style>
-<div class="container-fluid" style="margin-top:20px;">
-  <div class="row" style="margin-top:20px;">
+<div class="container-fluid" style="margin-top:10px;">
+  <div class="row">
+    <div class="col-md-12" style="margin-left:20px;">
+      <breadcrumb></breadcrumb>
+    </div>
+
+  </div>
+  <div class="row text-center" style="margin-top:20px;">
     <div ng-if="!newPatient.pk" class="col-md-12">
         <span class="font25" ><b>Create Patient</b></span>
       </div>
@@ -14,6 +20,7 @@ cursor:pointer;
       <span class="font25"><b>Update Patient</b></span>
     </div>
   </div>
+  <hr>
   <div class="col-md-8 col-md-offset-2 HMS_createPatient">
     <div class="row" style="margin-top:20px">
       <div class="row">
@@ -105,12 +112,12 @@ cursor:pointer;
         </div>
       </div>
     </div>
-    <div class="row" style="margin-top:25px;margin-bottom:25px">
+    <div class="row text-center" style="margin-top:25px;margin-bottom:25px">
       <div class="col-md-6 col-md-offset-6">
-        <button ng-if="!newPatient.pk" ng-click="createPatient()" type="button" class="btn btn-primary">
+        <button ng-if="!newPatient.pk" ng-click="createPatient()" type="button" class="btn newBtn">
         Save
       </button>
-      <button ng-if="newPatient.pk" ng-click="editPatient()" type="button" class="btn btn-primary">
+      <button ng-if="newPatient.pk" ng-click="editPatient()" type="button" class="btn newBtn">
       Update
     </button>
       </div>

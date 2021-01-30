@@ -9,18 +9,24 @@
 
 </style>
 <div class="row" >
-  <breadcrumb></breadcrumb>
-  <div class="row" style="margin:20px 0px 20px 20px;">
-    <div ng-if="!activePatientsForm.pk" class="col-md-12">
-      <span class="font25"><b>Create  Out Patient</b></span>
-    </div>
-
-
-    <div ng-if="activePatientsForm.pk" class="col-md-12">
-      <span style="font-size: 180%; "><b>Update Out Patient</b></span>
-    </div>
+  <div class="col-md-12" style="margin:0px 0px 0px 20px">
+    <breadcrumb></breadcrumb>
   </div>
-  <div id="data" class="col-md-6">
+
+  <div class="row" style="margin:20px 0px 20px 20px;">
+
+      <div ng-if="!activePatientsForm.pk" class="col-md-12 text-center">
+        <span class="font25"><b>Create  Out Patient</b></span>
+      </div>
+
+
+      <div ng-if="activePatientsForm.pk" class="col-md-12 text-center">
+        <span style="font-size: 180%; "><b>Update Out Patient</b></span>
+      </div>
+
+  </div>
+  <hr>
+  <div class="col-md-6 col-md-offset-3">
     <form>
       <div class="form-group">
         <label>Patient Name</label>
@@ -53,14 +59,14 @@ left: -55px;" ng-click="addNewActivePatient(activePatientsForm.patient)">Add</di
         </select>
       </div>
 
-      <div class="form-group">
-        <button ng-if="!activePatientsForm.pk" type="submit" class="btn btn-primary" ng-click="createActivePatient()">Save</button>
-          <button ng-if="activePatientsForm.pk" type="submit" class="btn btn-primary" ng-click="editOutPatient()">Update</button>
+      <div class="form-group text-center">
+        <button ng-if="!activePatientsForm.pk" type="submit" class="btn newBtn" ng-click="createActivePatient()">Save</button>
+          <button ng-if="activePatientsForm.pk" type="submit" class="btn newBtn" ng-click="editOutPatient()">Update</button>
       </div>
     </form>
   </div>
-  <div class="col-md-6">
-    <div class="container-fluid" style="padding:15px; padding-left:50px;" ng-if="displayDetails">
+  <div class="col-md-6 col-md-offset-3">
+    <div class="container-fluid" style="padding:15px" ng-if="displayDetails">
 
       <div class="row" ng-if="activePatientsForm.patient.firstName">
         <label style="font-size:15px;">Patient Name  :</label>
