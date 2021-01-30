@@ -19,7 +19,7 @@ class TimeSheetLiteSerializer(serializers.ModelSerializer):
 class TimeSheetSerializer(serializers.ModelSerializer):
     class Meta:
         model = TimeSheet
-        fields = ('pk','created','user','date','approved','approvedBy','status' , 'checkIn' , 'checkOut','totaltime' , 'distanceTravelled')
+        fields = ('pk','created','user','date','approved','approvedBy','status' , 'checkIn' , 'checkOut','totaltime' , 'distanceTravelled','attendance_status')
         read_only_fields=('user', )
     def create(self , validated_data):
         t = TimeSheet(**validated_data)
@@ -52,9 +52,11 @@ class TimeSheetSerializer(serializers.ModelSerializer):
 
         if 'status' in self.context['request'].data:
             instance.status = 'submitted'
+        if 'attendance_status' in self.context['request'].data:
+            instance.attendance_status = self.context['request'].data['attendance_status']
         instance.save()
         return instance
-    
+
 class FeedbackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Feedback

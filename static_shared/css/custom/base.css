@@ -2622,8 +2622,19 @@ padding: 10px 0px;
   padding-left: 35px;
 }
 
+.paddl_90_70{
+  padding:70px;
+  padding-left:90px
+}
 
 @media screen and (min-width: 1279px) and (max-width: 1365px) and (-webkit-device-pixel-ratio: 1) {
+  .paddl_90_70{
+    padding:30px;
+    padding-left:50px;
+  }
+  .invoiceDocmedium{
+    padding:25px;
+  }
   .Income_div{
     padding:0px;
     padding-top:50px;
@@ -2810,7 +2821,7 @@ padding: 10px 0px;
   }
 
   .invoiceDoc {
-    padding: 20px;
+    padding: 60px;
     overflow: auto;
   }
 
@@ -3036,6 +3047,13 @@ padding: 10px 0px;
 }
 
 @media screen and (min-width: 1366px) and (max-width:1439px) and (-webkit-device-pixel-ratio: 1) {
+  .paddl_90_70{
+    padding:30px;
+    padding-left:50px;
+  }
+  .invoiceDocmedium{
+    padding:25px;
+  }
   .Expense_claims{
     padding:0px;padding-top:50px
   }
@@ -3170,8 +3188,8 @@ padding: 10px 0px;
   }
 
   .invoiceDoc {
-    padding: 20px;
-    overflow: auto;
+    padding: 60px;
+    overflow: auto;left:0px;margin-left:0;width:100%;
   }
 
   .cotacts_explorediv1 {
@@ -3393,6 +3411,13 @@ padding: 10px 0px;
 }
 
 @media screen and (min-width: 1440px) and (max-width:1620px) and (-webkit-device-pixel-ratio: 1) {
+  .paddl_90_70{
+    padding:30px;
+    padding-left:50px;
+  }
+  .invoiceDocmedium{
+    padding:25px;
+  }
   .Payslips_mainDiv{
     padding:0px;
   }
@@ -3591,7 +3616,8 @@ padding: 10px 0px;
   }
 
   .invoiceDoc {
-    padding: 20px;
+    padding: 60px;
+    width:100%;
     overflow: auto;
   }
 

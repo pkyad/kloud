@@ -17,6 +17,13 @@ STATUS_CHOICES = (
     ('approved','approved')
 )
 
+ATTANDANCE_STATUS =  (
+    ('Present','Present'),
+    ('Absent','Absent'),
+    ('Leave','Leave'),
+    ('Half-Day','Half-Day')
+)
+
 class TimeSheet(models.Model):
     user = models.ForeignKey(User , related_name = "timeSheetCreated" , null=True)
     created = models.DateTimeField(auto_now_add = True)
@@ -32,6 +39,7 @@ class TimeSheet(models.Model):
     checkoutLat = models.FloatField(null=False , default=0)
     checkoutLon = models.FloatField(null=False , default=0)
     distanceTravelled = models.FloatField(null=False , default=0)
+    attendance_status = models.CharField(choices = ATTANDANCE_STATUS , max_length = 10 ,default='Absent', null = True)
 
     class Meta:
         unique_together = ('user', 'date',)
