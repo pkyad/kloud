@@ -333,6 +333,7 @@ $scope.description = false
 
 $scope.postFiles = function(){
   $scope.count = 0
+  console.log($scope.allFiles);
   for (var i = 0; i < $scope.allFiles.length; i++) {
     $scope.count+=1
     var toSend = new FormData()

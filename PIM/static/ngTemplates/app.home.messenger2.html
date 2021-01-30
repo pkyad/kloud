@@ -160,8 +160,8 @@
   .wholeWindow {
     /* background-color: #fff; */
     /* border: 1px solid #ccc; */
-    background-image: linear-gradient(90deg, #3bd17a 27%,#e1e1e1 25%);
-    padding: 70px;
+    background-image: linear-gradient(90deg, #3bd17a 26%,#e1e1e1 25%);
+    padding: 40px;
     position: absolute;
     width: 100%;
     padding-bottom:0px;
@@ -175,6 +175,9 @@
     scrollbar-color: rgba(0, 0, 0, .2) hsla(0, 0%, 100%, .1);
     scrollbar-width: thin;
   }
+  .Messenger_groupInfo{
+    background-color:#ececec;border-left:1px solid #ccc;height:92.5vh
+  }
 
   /* .greenDiv {
     background-color: #009688;
@@ -186,28 +189,60 @@
     background-color:#c60000;height:100px
   } */
 
+  .White_div{
+    background-color:white;padding:10px 0px;margin-top:10px;margin-bottom:10px;color:#3bd17a;font-size:17px;height:150px
+  }
   @media screen and (min-width: 1441px) and (max-width:1620px) {
+    .White_div{
+      height:0px
+      padding:0px;
+    }
 
+    .Messenger_groupInfo{
+      height:87.5vh !important;
 
+    }
+    .display_picture_view{
+      width:45px !important;
+      height:45px !important;
+    }
     .wholeWindow {
+      background-image: linear-gradient(90deg, #3bd17a 27%,#e1e1e1 25%);
       padding:50px;
     }
     .bgImg{
-      height:87.5vh
+      height:88vh
     }
 
-
-
+    .Messenger_contactsList{
+      height:100% !important;
+    }
+    .Messenger_groupInfo{
+      height:100vh;
+    }
   }
 
   @media screen and (min-width: 1200px) and (max-width: 1440px) {
+    .White_div{
+      height:90px
+    }
 
+    .display_picture_view{
+      width:45px !important;
+      height:45px !important;
+    }
+    .Messenger_groupInfo{
+      height:100vh;
+    }
+    .Messenger_contactsList{
+      height:100% !important;
+    }
     .wholeWindow{
       width: 100%;
       padding:0px;
     }
     .bgImg{
-      height:99.7vh
+      height:100vh
     }
 
   }
@@ -238,6 +273,9 @@
   text-align:center;
   margin-left:15px
 }
+.Messenger_contactsList{
+    padding:0rem;background-color:white;border-right:1px solid #ccc;height:92.5vh
+}
 /* style="padding:0rem;background-color:#f6f6f6;border-right:1px solid #ccc" */
 </style>
 
@@ -247,7 +285,7 @@
 height: 100%;" >
 <div class="col-md-12 wholeWindow ">
 
-  <div class="col-md-3 col-sm-4 " style="padding:0rem;background-color:white;border-right:1px solid #ccc;height:100%">
+  <div class="col-md-3 col-sm-4 Messenger_contactsList " style="">
     <div class="row" ng-if="showUsers!='groupDetails'" style="background-color:#f6f6f6;margin:0px;">
       <div class="col-md-10">
         <div class="contact-search" style="padding:1.35rem 1rem;">
@@ -258,7 +296,8 @@ height: 100%;" >
         </div>
       </div>
       <div class="col-md-2 " style="padding-top:15px;padding-left:0px">
-        <i class="fa fa-comment fa-2x" ng-click="changeType('users')" ng-show="showUsers=='chats'"></i>
+        <img src="/static/images/chat.svg" alt="" ng-click="changeType('users')" ng-show="showUsers=='chats'" style="height: 35px;
+padding: 5px;">
         <i class="fa fa-close fa-2x" ng-click="changeType('chats')" ng-show="showUsers=='users'||showUsers=='group'"></i>
       </div>
     </div>
@@ -447,7 +486,7 @@ height: 100%;" >
     height: 60px;
     box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;
     padding: 10px;
-    bottom: -3px;
+    bottom: 0px;
 
   }
 
@@ -474,7 +513,7 @@ height: 100%;" >
   .recived-text {
     background-color: #fff;
     color: #000;
-    padding: 10px;
+    padding: 10px 30px;
     font-size: 14px;
     font-weight: lighter;
     max-width: 80%;
