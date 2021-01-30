@@ -6,7 +6,7 @@
         <div class="row">
 
           <div class="col-md-2" style="padding-top:20px;">
-            <input class="form-control" type="text" ng-model="userform.user" uib-typeahead="user as user.username for user in userSearch($viewValue)" style="padding:20px  !important;border-radius:10px  !important;border : none !important;font-size:20px;" />
+            <div ng-if="!attendanceReport.currentMonth"> MONTHLY <switch ng-model="form.weekly" class="green" ng-change="initiate()"></switch><span> WEEKLY</span></div>
           </div>
 
           <div class="col-md-6" style="padding-top:25px;">
@@ -26,72 +26,114 @@
               <span class="badge badge-pill " style="height:25px;width:25px;background-color: #E4E4E4;"> </span> on Leave
             </div>
           </div>
+          <div class="col-md-2">
+            <select class="form-control" ng-model="form.month" ng-options="m for m in monthList" style="border:none !important;background:#E4E4E4;color:black;padding:10px;border-radius:10px !important;margin-top:15px" ng-change="initiate()">
+            </select>
+          </div>
+          <div class="col-md-2">
+            <select class="form-control" ng-model="form.year" ng-options="y for y in years" style="border:none !important;background:#E4E4E4;color:black;padding:10px;border-radius:10px !important;margin-top:15px" ng-change="initiate()">
+            </select>
+          </div>
 
 
-
-          <button type="button" class="btn btn-default " style="background: #000000;color: white;position: fixed;bottom: 24px;border: none !important;border-radius: 10px !important;padding: 15px;width: 139px;right: 25px;font-size: 16px;" ng-click="openUploadForm()">
+          <button type="button" class="btn btn-default " style="background: #000000;color: white;position: fixed;bottom: 24px;border: none !important;border-radius: 10px !important;padding: 15px;width: 139px;right: 25px;font-size: 16px;z-index:333"
+            ng-click="openUploadForm()">
             Upload <img src="/static/images/icons8-upload-48.png" style="width:25px;margin-left:10px;" alt="">
           </button>
 
-          <div class="col-md-2 text-right" style="padding-top:10px;">
-            <h3>{{dateDisp | date:'MMM yyyy'}}</h3>
-          </div>
-          <div class="col-md-2" style="padding-top:20px;padding-right:0px;">
-            <div class=" col-md-6">
-              <button class="btn btn-success btn-block" ng-click="gotoPrev()" style="border:none !important;background:#E4E4E4;color:black;padding:10px;border-radius:10px !important;">
-                Previous
-              </button>
-            </div>
-            <!-- <div class="col-md-4">
-              <button class="btn btn-primary col-sm-8 col-xs-6" ng-click="gotoToday()">Current Month</button>
-            </div> -->
-            <div class="col-md-6">
-              <button class="btn btn-success btn-block" ng-click="gotoNext()" style="border:none !important;background:#E4E4E4;color:black;padding:10px;border-radius:10px !important;">Next</button>
-            </div>
-          </div>
+          <!-- <div class="col-md-2 text-right" style="padding-top:10px;">
+
+          </div> -->
 
         </div>
 
-        <div class="row" style="margin-top:40px;">
-          <div class="weekHeader text-center" style="padding-top:10px;">
-            <div class="weekDay ">Sunday</div>
 
-            <div class="weekDay">Monday</div>
-
-            <div class="weekDay">Tuesday</div>
-
-            <div class="weekDay">Wednesday</div>
-
-            <div class="weekDay">Thursday</div>
-
-            <div class="weekDay">Friday</div>
-
-            <div class="weekDay">Saturday</div>
+        <div class="row" ng-if="attendanceReport.currentMonth" style="margin-top:60px">
+          <div class="col-md-12">
+            <div class="row">
+              <div class=" col-md-2">
+                <button class="btn btn-success btn-block" ng-disabled="attendanceReport.firstweek?true:false" ng-click="prev()" style="border:none !important;background:#E4E4E4;color:black;padding:10px;border-radius:10px !important;">
+                  Previous
+                </button>
+              </div>
+              <div class="col-md-offset-8 col-md-2">
+                <button class="btn btn-success btn-block" ng-disabled="attendanceReport.lastweek?true:false" ng-click="next()" style="border:none !important;background:#E4E4E4;color:black;padding:10px;border-radius:10px !important;">Next</button>
+              </div>
+            </div>
+            <div class="row" style="margin-top:30px">
+              <div class="col-md-12">
+                <table class="invoiceTable" style=" width: 100%;border-collapse: collapse;">
+                  <tr style="background-color: #eeeeee;height: 50px;  ">
+                    <th class="font14">Employees</th>
+                    <th class="font14" ng-repeat="d in attendanceReport.dates">{{d}}</th>
+                  </tr>
+                  <tr class="font14" ng-repeat="i in attendanceReport.data ">
+                    <td>{{i.user.first_name}}{{i.user.last_name}}</td>
+                    <!-- <td ng-repeat="v in i.obj ">{{v.attendance_status}}</td> -->
+                    <td ng-repeat="v in i.obj ">
+                    <select class="form-control" ng-model="v.attendance_status" ng-change="changeAttendance(v.attendance_status, v.pk)">
+                      <option value="Present">Present</option>
+                      <option value="Leave">Leave</option>
+                      <option value="Absent">Absent</option>
+                      <option value="Half-Day">Half-Day</option>
+                    </select>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
+        <div class="row" ng-if="!attendanceReport.currentMonth&&form.weekly" style="margin-top:60px">
+          <div class="col-md-12">
+            <div class="row">
+              <div class=" col-md-2">
+                <button class="btn btn-success btn-block" ng-disabled="attendanceReport.firstweek?true:false" ng-click="prev()" style="border:none !important;background:#E4E4E4;color:black;padding:10px;border-radius:10px !important;">
+                  Previous
+                </button>
+              </div>
+              <div class="col-md-offset-8 col-md-2">
+                <button class="btn btn-success btn-block" ng-disabled="attendanceReport.lastweek?true:false" ng-click="next()" style="border:none !important;background:#E4E4E4;color:black;padding:10px;border-radius:10px !important;">Next</button>
+              </div>
+            </div>
+            <div class="row" style="margin-top:30px">
+              <div class="col-md-12">
+                <table class="invoiceTable" style=" width: 100%;border-collapse: collapse;">
+                  <tr style="background-color: #eeeeee;height: 50px;  ">
+                    <th class="font14">Employees</th>
+                    <th class="font14" ng-repeat="d in attendanceReport.dates">{{d}}</th>
+                  </tr>
+                  <tr class="font14" ng-repeat="i in attendanceReport.data ">
+                    <td>{{i.user.first_name}}{{i.user.last_name}}</td>
+                    <td ng-repeat="v in i.obj ">{{v.attendance_status}}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" ng-if="!attendanceReport.currentMonth&&!form.weekly" style="margin-top:60px">
+          <div class="col-md-12">
 
-        <div class="week">
-          <table width="100%" style="height:74vh;">
-            <tbody>
-              <tr ng-repeat="w in range(0,5)">
-                <td class="dayy {{(dates[w*7 + d] == (dateDisp|date : 'dd')) && (dateFlags[w*7 + d]=='Cur') ? 'dayyActive': ''}}" ng-repeat="d in range(0,6) track by $index" style="background-color:{{dateFlags[w*7 + d]=='Cur'?getval(dateFlags[w*7 + d],dates[w*7 + d]):''}};" ng-click="openDay(w*7 + d)">
-
-                  <span class="dayyType{{dateFlags[w*7 + d]}} " style="top:1%;right:2%;position:absolute;">
-                    {{dates[w*7 + d]}}
-                  </span>
-
-                  <span style="top:40%;right:35%;position:absolute;font-size:20px;color:#8f8f8f">
-                    {{dateFlags[w*7 + d]=='Cur'?timeList[dates[w*7 + d]-1]:''}} {{dateFlags[w*7 +
-                    d]=='Cur' && values[dates[w*7 + d]-1]>=0 ? 'Hrs':''}}
-                  </span>
-
-                  <span style="top:40%;right:38%;position:absolute;font-size:20px;color:#909090">
-                    {{values[dates[w*7 + d]-1] === -2 ? leavetype[0]:''}}
-                  </span>
-                </td>
+            <table class="invoiceTable" style=" width: 100%;border-collapse: collapse;">
+              <tr style="background-color: #eeeeee;height: 50px;  ">
+                <th class="font14">Employees</th>
+                <th class="font14">Present</th>
+                <th class="font14">Absent</th>
+                <th class="font14">Leave</th>
+                <th class="font14">Half Day</th>
+                <th class="font14">Total</th>
               </tr>
-            </tbody>
-          </table>
+              <tr class="font14" ng-repeat="i in attendanceReport.data ">
+                <td>{{i.user.first_name}}{{i.user.last_name}}</td>
+                <td>{{i.present}}</td>
+                <td>{{i.absent}}</td>
+                <td>{{i.leave}}</td>
+                <td>{{i.halfDay}}</td>
+                <td>{{i.total}}</td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
     </div>

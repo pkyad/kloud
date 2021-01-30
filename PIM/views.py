@@ -130,7 +130,7 @@ class ChatThreadsViewSet(viewsets.ModelViewSet):
     serializer_class = ChatThreadsSerializer
     # queryset = ChatThread.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['uid','status','company']
+    filter_fields = ['uid','status','company','participants']
     def get_queryset(self):
         print "in get queryset"
         if 'uid' in self.request.GET and 'checkThread' in self.request.GET:
@@ -198,7 +198,7 @@ class chatMessageViewSet(viewsets.ModelViewSet):
     # queryset = ChatMessage.objects.all()
     serializer_class = chatMessageSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['created']
+    filter_fields = ['created','user','thread']
     def get_queryset(self):
         qs1 = ChatMessage.objects.filter(user = self.request.user).order_by('-created')
         if 'mode' in self.request.GET:
@@ -222,9 +222,11 @@ class chatMessageBetweenViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, readOnly)
     serializer_class = chatMessageSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['created']
+    filter_fields = ['created','user','thread']
 
     def get_queryset(self):
+        if 'mode' in self.request.GET:
+            return ChatMessage.objects.all().order_by('created')
         # reciepient = ChatThread.objects.get(pk = self.request.GET['other'])
         qs = ChatMessage.objects.filter(thread= self.request.GET['other'])
         # if "pk" in self.request.GET:

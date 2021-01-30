@@ -223,6 +223,12 @@ class chatMessageSerializer(serializers.ModelSerializer):
             im.thread = ChatThread.objects.get(pk=self.context['request'].data['thread'])
         if 'replyTo' in self.context['request'].data:
             im.replyTo = ChatMessage.objects.get(pk=self.context['request'].data['replyTo'])
+        chatThread = im.thread
+        if im.message is not None:
+            chatThread.firstMessage = im.message
+        else:
+            chatThread.firstMessage = im.fileName
+        chatThread.save()
         im.save()
         return im
 
