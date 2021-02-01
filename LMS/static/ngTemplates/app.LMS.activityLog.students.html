@@ -14,22 +14,22 @@
   </div>
 
   <div class="row" style="margin:0px;margin-left:30px">
-    <table class="table tableNew " cellpadding="4">
-      <thead class="headStrip">
+    <table class="table tableNew" cellpadding="4">
+      <!-- <thead class="headStrip"> -->
+      <thead style="background:#393C45">
         <tr>
-          <th class="">Student Name</th>
-          <th>Mobile</th>
-          <th>Email</th>
+          <th style="color:white" >Student Name</th>
+          <th style="color:white">Mobile</th>
+          <th style="color:white">Email</th>
         </tr>
       </thead>
       <tbody>
 
-        <tr class="detailStrip" ng-repeat="k in course.contacts track by $index">
-
-
-          <td>{{k.name}}</td>
-          <td>{{k.mobile}}</td>
-          <td>{{k.email}}</td>
+        <!-- <tr class="detailStrip" ng-repeat="k in course.contacts track by $index"> -->
+        <tr ng-repeat="k in course.contacts track by $index" style="background:#4a4d53">
+          <td style="color:white">{{k.name}}</td>
+          <td style="color:white">{{k.mobile}}</td>
+          <td style="color:white">{{k.email}}</td>
         </tr>
 
 
