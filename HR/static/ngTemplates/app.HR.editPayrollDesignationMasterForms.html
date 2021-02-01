@@ -363,7 +363,8 @@ left: 11%;;bottom: 13px;border: none !important;border-radius: 10px !important;p
         <div class="col-md-3"></div>
         <div class="col-md-9" ng-if="!form.profile.onboarding">
           <div style="border-radius:20px;background:#d99718;padding:30px;" class="text-center">
-            <h3>{{form.first_name}} has not filled the Onboarding Form yet, Would you like to send him a reminder ? Please click <span class="label label-primary" style="cursor:pointer;" ng-click="sendWelcomeKit()">Send Reminder</span>  </h3>
+            <h3>{{form.first_name}} has not filled the Onboarding Form yet, We have already sent an email with link when you created this account.</h3>
+            <h4 style="margin-top:80px;">Would you like to send him a reminder ? Please click <span class="label label-primary" style="cursor:pointer;" ng-click="sendWelcomeKit()">Send Reminder</span>  </h4>
           </div>
         </div>
         <div class="col-md-9" ng-if="form.profile.onboarding">

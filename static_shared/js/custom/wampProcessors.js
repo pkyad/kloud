@@ -8,9 +8,13 @@ connection.onopen = function (session) {
    // our event handler we will subscribe on our topic
    //
   function chatResonse (args) {
-    window.postMessage(args);
-
+    // window.postMessage(args);
+    console.log(args)
   };
+
+  function chatSupportResonse(args){
+    console.log(args)
+  }
 
   processNotification = function(args){
     var scope = angular.element(document.getElementById('main')).scope();
@@ -44,7 +48,7 @@ connection.onopen = function (session) {
     }
   };
 
-  session.subscribe('service.chat.'+wampBindName, chatResonse).then(
+  session.subscribe(wamp_prefix + 'service.chat.'+wampBindName, chatResonse).then(
     function (sub) {
       console.log("subscribed to topic 'chatResonse'");
     },
@@ -52,6 +56,16 @@ connection.onopen = function (session) {
       console.log("failed to subscribed: " + err);
     }
   );
+  if (IS_ON_SUPPORT){
+    session.subscribe(wamp_prefix + 'service.support.'+ DIVISIONPK, chatSupportResonse).then(
+      function (sub) {
+        console.log("subscribed to company support channel 'chatResonse'");
+      },
+      function (err) {
+        console.log("failed to subscribed: " + err);
+      }
+    );
+  }
   session.subscribe('service.notification.'+wampBindName, processNotification).then(
     function (sub) {
       console.log("subscribed to topic 'notification'");

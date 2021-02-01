@@ -27,10 +27,10 @@
       <label>Team Lead</label>
       <input type="text" class="form-control" id="" placeholder="Team Lead" uib-typeahead="Reporting as Reporting.first_name + ' ' +Reporting.last_name  for Reporting in Reporting($viewValue)" ng-model="form.manager" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;">
     </div>
-    <div class="form-group" ng-if="!simpleMode">
+    <div class="form-group" ng-init="form.unit = units[0]" ng-if="!simpleMode && units.length > 1">
       <label>Team Unit</label>
       <!-- <input type="text" class="form-control" id="" placeholder="Team Unit" uib-typeahead="units as units.name for units in unitSearch($viewValue)" ng-model="form.unit" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;"> -->
-      <select class="form-control darkInput" ng-model="form.unit" ng-options="u.name for u in units" style="height: 40px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;">
+      <select class="form-control darkInput" ng-model="form.unit" ng-options="u.name for u in units"  style="height: 40px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;font-size:20px;">
       </select>
     </div>
 

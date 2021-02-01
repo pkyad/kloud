@@ -58,10 +58,19 @@ class notification(models.Model):
     broadcast = models.BooleanField(default = False)
 
 def getChatMessageAttachment(instance , filename ):
-    return 'chat/%s_%s' % (str(time()).replace('.', '_'), filename)
+    try:
+        return 'chat/%s_%s' % (str(time()).replace('.', '_'), filename)
+    except:
+        return 'chat/%s_%s' % (str(time.time()).replace('.', '_'), filename)
+
 
 def getChatThreadDP(instance , filename):
-    return 'dp/%s_%s' % (str(time()).replace('.', '_'), filename)
+    print "time" , time , dir(time)
+    try:
+        return 'dp/%s_%s' % (str(time()).replace('.', '_'), filename)
+    except:
+        return 'dp/%s_%s' % (str(time.time()).replace('.', '_'), filename)
+
 
 
 
@@ -135,7 +144,10 @@ MSG_TYPE_CHOICES = (
 )
 
 def getSupportChatAttachment(instance , filename ):
-    return 'support/chat/%s_%s' % (str(time()).replace('.', '_'), filename)
+    try:
+        return 'support/chat/%s_%s' % (str(time()).replace('.', '_'), filename)
+    except:
+        return 'support/chat/%s_%s' % (str(time.time()).replace('.', '_'), filename)
 
 class ChatMessage(models.Model):
     thread = models.ForeignKey(ChatThread , related_name = 'messages' , null = True)
@@ -264,7 +276,7 @@ def removeContext(key , ctx):
 
 date_handler = lambda obj: (
     obj.isoformat()
-    if isinstance(obj, (datetime.datetime, datetime.date))
+    if isinstance(obj, (datetime, datetime.date))
     else None
 )
 
@@ -295,12 +307,15 @@ def createMessage(uid, message , fileObj = None):
     if sc.user is not None:
         userPk = sc.user.pk
 
-
+    try:
+        now = datetime.datetime.now()
+    except:
+        now = datetime.now()
     chatThObj = ChatThread.objects.filter(uid=uid)
     sJson = {
         "attachment": attachmentUrl,
         "attachmentType": None,
-        "created": json.dumps(datetime.datetime.now(), default=date_handler).replace('"' , ''),
+        "created": json.dumps(now, default=date_handler).replace('"' , ''),
         "is_hidden": False,
         "logs": None,
         "message": sc.message,
@@ -318,19 +333,19 @@ def createMessage(uid, message , fileObj = None):
         logoAdd = globalSettings.SITE_ADDRESS + '/static/images/img_avatar_card.png'
 
     if attachmentUrl is not None:
-
         requests.post(globalSettings.WAMP_POST_ENDPOINT,
             json={
               'topic': globalSettings.WAMP_PREFIX + 'service.support.chat.' + sc.uid ,
-              'args': [ "MF" , {"filePk" : sc.pk } , {"agentDp" : logoAdd , "last_name" : chatThObj[0].company.name }, datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ') ]
+              'args': [ "MF" , {"filePk" : sc.pk } , {"agentDp" : logoAdd , "last_name" : chatThObj[0].company.name }, datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ') ]
             }
         )
 
 
     else:
+        print "----------------" , datetime
         requests.post(globalSettings.WAMP_POST_ENDPOINT,
             json={
               'topic': globalSettings.WAMP_PREFIX + 'service.support.chat.' + sc.uid ,
-              'args': [ "M" , sJson , {"agentDp" : logoAdd , "last_name" : chatThObj[0].company.name }, datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ') ]
+              'args': [ "M" , sJson , {"agentDp" : logoAdd , "last_name" : chatThObj[0].company.name }, datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ') ]
             }
         )
