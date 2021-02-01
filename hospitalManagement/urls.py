@@ -17,4 +17,5 @@ urlpatterns = [
     url(r'^downloadInvoice/', InvoiceSlip.as_view() , name ='downloadInvoice'),
     url(r'^downloaddischargeSummary/', DischargeSummarys.as_view() , name ='downloaddischargeSummary'),
     url(r'^reports/', GetReports.as_view() , name ='reports'),
+    url(r'^hospMigration/', HospitalDataMigrations.as_view() , name ='hospMigration'),
  ]

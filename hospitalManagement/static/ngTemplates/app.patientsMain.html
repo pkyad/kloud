@@ -232,6 +232,10 @@
       <strong> Reports </strong>
     </div>
 
+    <div class="row font16 menuItems {{$state.is('businessManagement.hospitalManagement.reports11')? 'activeMenu' : ''}}" ng-click="getData()">
+      <strong> get data </strong>
+    </div>
+
     <div class="row students" style="">
       <button type="button" class="createCourseBtn btn-block" name="button" ng-click="$state.go('businessManagement.hospitalManagement.newinPatients')"><img src="/static/images/icons8-plus-math-96.png"  style="height:18px;padding-right:20px;"alt="" >Create In Patient</button>
       <br>

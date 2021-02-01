@@ -1,0 +1,3557 @@
+[
+    {
+        "pk": 1, 
+        "rate": 100, 
+        "name": "BLOOD GROUP AND RH TYPE"
+    }, 
+    {
+        "pk": 2, 
+        "rate": 500, 
+        "name": "DR P M PATIL (CONSULTATION CHARGES)"
+    }, 
+    {
+        "pk": 3, 
+        "rate": 250, 
+        "name": "ECG WITH REPORT"
+    }, 
+    {
+        "pk": 4, 
+        "rate": 1400, 
+        "name": "ROOM AND NURSING CHARGES"
+    }, 
+    {
+        "pk": 5, 
+        "rate": 150, 
+        "name": "BLOOD WIDAL"
+    }, 
+    {
+        "pk": 6, 
+        "rate": 150, 
+        "name": "RA FACTOR"
+    }, 
+    {
+        "pk": 7, 
+        "rate": 650, 
+        "name": "LIPID PROFILE"
+    }, 
+    {
+        "pk": 8, 
+        "rate": 850, 
+        "name": "LIVER FUNCTION TEST"
+    }, 
+    {
+        "pk": 9, 
+        "rate": 450, 
+        "name": "DR P M PATIL FOLLOW UP CHARGES"
+    }, 
+    {
+        "pk": 10, 
+        "rate": 500, 
+        "name": "DR GEETA PATIL (CONSULTATION CHARGES)"
+    }, 
+    {
+        "pk": 11, 
+        "rate": 300, 
+        "name": "DR GEETA PATIL FOLLOW UP CHARGES"
+    }, 
+    {
+        "pk": 12, 
+        "rate": 880, 
+        "name": "BCG+OPV+HEPATITIS B"
+    }, 
+    {
+        "pk": 13, 
+        "rate": 450, 
+        "name": "RAPID MALARIA TEST"
+    }, 
+    {
+        "pk": 14, 
+        "rate": 450, 
+        "name": "TYPHIDOT TEST"
+    }, 
+    {
+        "pk": 15, 
+        "rate": 350, 
+        "name": "CBC WITH ESR"
+    }, 
+    {
+        "pk": 16, 
+        "rate": 50, 
+        "name": "RANDOM BLOOD SUGAR"
+    }, 
+    {
+        "pk": 17, 
+        "rate": 50, 
+        "name": "BLOOD GLUCOSE"
+    }, 
+    {
+        "pk": 18, 
+        "rate": 450, 
+        "name": "SR ELECTROLYTES"
+    }, 
+    {
+        "pk": 19, 
+        "rate": 150, 
+        "name": "BLOOD UREA"
+    }, 
+    {
+        "pk": 20, 
+        "rate": 150, 
+        "name": "SR CREATININE"
+    }, 
+    {
+        "pk": 21, 
+        "rate": 880, 
+        "name": "BCG+OPV+HEPATITIS B"
+    }, 
+    {
+        "pk": 22, 
+        "rate": 1700, 
+        "name": "ECHOCARDIOGRAPHY"
+    }, 
+    {
+        "pk": 23, 
+        "rate": 750, 
+        "name": "WEIL FELIX TEST"
+    }, 
+    {
+        "pk": 24, 
+        "rate": 100, 
+        "name": "URINE ROUTINE"
+    }, 
+    {
+        "pk": 25, 
+        "rate": 100, 
+        "name": "STOOL ROUTINE"
+    }, 
+    {
+        "pk": 26, 
+        "rate": 100, 
+        "name": "URINE BS BP"
+    }, 
+    {
+        "pk": 27, 
+        "rate": 900, 
+        "name": "URINE C/S"
+    }, 
+    {
+        "pk": 28, 
+        "rate": 800, 
+        "name": "STOOL C/S"
+    }, 
+    {
+        "pk": 29, 
+        "rate": 1000, 
+        "name": "BACTAC BLOOD C/S"
+    }, 
+    {
+        "pk": 30, 
+        "rate": 1000, 
+        "name": "ABG"
+    }, 
+    {
+        "pk": 31, 
+        "rate": 1200, 
+        "name": "NS1 ANTIGEN DENGUE IGM, IGG"
+    }, 
+    {
+        "pk": 32, 
+        "rate": 150, 
+        "name": "SR SGOT"
+    }, 
+    {
+        "pk": 33, 
+        "rate": 150, 
+        "name": "SR SGPT"
+    }, 
+    {
+        "pk": 34, 
+        "rate": 150, 
+        "name": "SR ALKALINE PHOSPHATASE"
+    }, 
+    {
+        "pk": 35, 
+        "rate": 450, 
+        "name": "RETROVIRAL TEST ( I & II)"
+    }, 
+    {
+        "pk": 36, 
+        "rate": 150, 
+        "name": "VDRL"
+    }, 
+    {
+        "pk": 37, 
+        "rate": 450, 
+        "name": "HBsAG"
+    }, 
+    {
+        "pk": 38, 
+        "rate": 900, 
+        "name": "ANTI HCV"
+    }, 
+    {
+        "pk": 39, 
+        "rate": 450, 
+        "name": "PROTHROMBIN TIME"
+    }, 
+    {
+        "pk": 40, 
+        "rate": 450, 
+        "name": "APTT"
+    }, 
+    {
+        "pk": 41, 
+        "rate": 150, 
+        "name": "BT CT"
+    }, 
+    {
+        "pk": 42, 
+        "rate": 1250, 
+        "name": "SR VITAMIN B12"
+    }, 
+    {
+        "pk": 43, 
+        "rate": 1500, 
+        "name": "VITAMIN D3 ASSAY"
+    }, 
+    {
+        "pk": 44, 
+        "rate": 150, 
+        "name": "SR CALCIUM"
+    }, 
+    {
+        "pk": 45, 
+        "rate": 150, 
+        "name": "SR PHOSPHORUS"
+    }, 
+    {
+        "pk": 46, 
+        "rate": 150, 
+        "name": "SR URIC ACID"
+    }, 
+    {
+        "pk": 47, 
+        "rate": 500, 
+        "name": "T3 T4 TSH"
+    }, 
+    {
+        "pk": 48, 
+        "rate": 800, 
+        "name": "FREE T3 T4 TSH"
+    }, 
+    {
+        "pk": 49, 
+        "rate": 1000, 
+        "name": "SR TESTOSTERON"
+    }, 
+    {
+        "pk": 50, 
+        "rate": 1000, 
+        "name": "TROPONINE- T"
+    }, 
+    {
+        "pk": 51, 
+        "rate": 450, 
+        "name": "SR CKMB"
+    }, 
+    {
+        "pk": 52, 
+        "rate": 450, 
+        "name": "SR CKNAC"
+    }, 
+    {
+        "pk": 53, 
+        "rate": 1200, 
+        "name": "FOLATE ASSAY"
+    }, 
+    {
+        "pk": 54, 
+        "rate": 100, 
+        "name": "SPUTUM FOR GM STAIN"
+    }, 
+    {
+        "pk": 55, 
+        "rate": 100, 
+        "name": "SPUTUM AFB"
+    }, 
+    {
+        "pk": 56, 
+        "rate": 900, 
+        "name": "SPUTUM C/S"
+    }, 
+    {
+        "pk": 57, 
+        "rate": 1200, 
+        "name": "ANA PROFILE"
+    }, 
+    {
+        "pk": 58, 
+        "rate": 1200, 
+        "name": "ANTI DS DNA"
+    }, 
+    {
+        "pk": 59, 
+        "rate": 150, 
+        "name": "SR BILIRUBIN"
+    }, 
+    {
+        "pk": 60, 
+        "rate": 550, 
+        "name": "CRP"
+    }, 
+    {
+        "pk": 61, 
+        "rate": 150, 
+        "name": "PS FOR MP"
+    }, 
+    {
+        "pk": 62, 
+        "rate": 200, 
+        "name": "PS FOR TYPE OF ANAEMIA"
+    }, 
+    {
+        "pk": 63, 
+        "rate": 500, 
+        "name": "FNAC  OF LYMPHNODE"
+    }, 
+    {
+        "pk": 64, 
+        "rate": 500, 
+        "name": "FNAC OF THYROID"
+    }, 
+    {
+        "pk": 65, 
+        "rate": 150, 
+        "name": "URINE PREGNANCY TEST"
+    }, 
+    {
+        "pk": 66, 
+        "rate": 600, 
+        "name": "RENAL FUNCTION TEST"
+    }, 
+    {
+        "pk": 67, 
+        "rate": 250, 
+        "name": "RETICULOCYTE COUNT"
+    }, 
+    {
+        "pk": 68, 
+        "rate": 250, 
+        "name": "DIRECT COOMB TEST"
+    }, 
+    {
+        "pk": 69, 
+        "rate": 250, 
+        "name": "INDIRECT COOMB TEST"
+    }, 
+    {
+        "pk": 70, 
+        "rate": 850, 
+        "name": "SR FERRITIN"
+    }, 
+    {
+        "pk": 71, 
+        "rate": 250, 
+        "name": "SR IRON"
+    }, 
+    {
+        "pk": 72, 
+        "rate": 500, 
+        "name": "SR IRON, TIBC"
+    }, 
+    {
+        "pk": 73, 
+        "rate": 1200, 
+        "name": "HB ELECTROPHORESIS"
+    }, 
+    {
+        "pk": 74, 
+        "rate": 1800, 
+        "name": "CSF ANALYSIS"
+    }, 
+    {
+        "pk": 75, 
+        "rate": 1000, 
+        "name": "CSF C/S"
+    }, 
+    {
+        "pk": 76, 
+        "rate": 150, 
+        "name": "STOOL REDUCING SUBSTANCES"
+    }, 
+    {
+        "pk": 77, 
+        "rate": 50, 
+        "name": "STOOL OCCULT BLOOD"
+    }, 
+    {
+        "pk": 78, 
+        "rate": 1500, 
+        "name": "CANCA"
+    }, 
+    {
+        "pk": 79, 
+        "rate": 1500, 
+        "name": "PANCA"
+    }, 
+    {
+        "pk": 80, 
+        "rate": 1000, 
+        "name": "SR IGE"
+    }, 
+    {
+        "pk": 81, 
+        "rate": 850, 
+        "name": "HAV"
+    }, 
+    {
+        "pk": 82, 
+        "rate": 850, 
+        "name": "HCV"
+    }, 
+    {
+        "pk": 83, 
+        "rate": 900, 
+        "name": "SR AMMONIA"
+    }, 
+    {
+        "pk": 84, 
+        "rate": 850, 
+        "name": "HEV"
+    }, 
+    {
+        "pk": 85, 
+        "rate": 5000, 
+        "name": "QUNTEFERON GOLD TEST"
+    }, 
+    {
+        "pk": 86, 
+        "rate": 1500, 
+        "name": "BONE MARROW EXAM"
+    }, 
+    {
+        "pk": 87, 
+        "rate": 450, 
+        "name": "CHEST XRAY PA VIEW"
+    }, 
+    {
+        "pk": 88, 
+        "rate": 350, 
+        "name": "CHEST XRAY AP"
+    }, 
+    {
+        "pk": 89, 
+        "rate": 400, 
+        "name": "X RAY PNS"
+    }, 
+    {
+        "pk": 90, 
+        "rate": 450, 
+        "name": "XRAY ABDOMEN"
+    }, 
+    {
+        "pk": 91, 
+        "rate": 400, 
+        "name": "X RAY ADENOID - NASOPHARYNX"
+    }, 
+    {
+        "pk": 92, 
+        "rate": 500, 
+        "name": "X RAY CERVICAL SPINE AP/LAT"
+    }, 
+    {
+        "pk": 93, 
+        "rate": 400, 
+        "name": "X RAY KNEE AP AND LATERAL"
+    }, 
+    {
+        "pk": 94, 
+        "rate": 400, 
+        "name": "XRAY ELBOW AP AND LATERAL"
+    }, 
+    {
+        "pk": 95, 
+        "rate": 400, 
+        "name": "XRAY HAND AP/LAT"
+    }, 
+    {
+        "pk": 96, 
+        "rate": 500, 
+        "name": "X RAY THIGH AP/LAT"
+    }, 
+    {
+        "pk": 97, 
+        "rate": 500, 
+        "name": "X RAY LEG AP/LAT"
+    }, 
+    {
+        "pk": 98, 
+        "rate": 500, 
+        "name": "X RAY SKULL AP/LAT"
+    }, 
+    {
+        "pk": 99, 
+        "rate": 350, 
+        "name": "X RAY FINGER AP AND LAT"
+    }, 
+    {
+        "pk": 100, 
+        "rate": 2500, 
+        "name": "D - DIMER"
+    }, 
+    {
+        "pk": 101, 
+        "rate": 150, 
+        "name": "SEMEN ANALYSIS"
+    }, 
+    {
+        "pk": 102, 
+        "rate": 1100, 
+        "name": "CA 19.8(PANCREAS)"
+    }, 
+    {
+        "pk": 103, 
+        "rate": 1500, 
+        "name": "CA 125 (OVARY)"
+    }, 
+    {
+        "pk": 104, 
+        "rate": 1000, 
+        "name": "PSA (PROSTATE)"
+    }, 
+    {
+        "pk": 105, 
+        "rate": 250, 
+        "name": "TSH"
+    }, 
+    {
+        "pk": 106, 
+        "rate": 1000, 
+        "name": "SPINAL TAP ( HOSPITAL CHARGES)"
+    }, 
+    {
+        "pk": 107, 
+        "rate": 1500, 
+        "name": "PEURAL TAPPING (HOSPITAL CHARGES)"
+    }, 
+    {
+        "pk": 108, 
+        "rate": 2000, 
+        "name": "PLEURAL FLUID ANALYSIS"
+    }, 
+    {
+        "pk": 109, 
+        "rate": 1000, 
+        "name": "PLEURAL FLUID C/S"
+    }, 
+    {
+        "pk": 110, 
+        "rate": 1000, 
+        "name": "ASCITIC FLUID C/S"
+    }, 
+    {
+        "pk": 111, 
+        "rate": 1500, 
+        "name": "ASCITIC FLUID EXAM"
+    }, 
+    {
+        "pk": 112, 
+        "rate": 1500, 
+        "name": "ASCITIC FLUID TAPPING ( HOSPITAL CHARGES)"
+    }, 
+    {
+        "pk": 113, 
+        "rate": 150, 
+        "name": "ABSOLUTE EOSINOFIL COUNT"
+    }, 
+    {
+        "pk": 114, 
+        "rate": 40, 
+        "name": "FASTING BLOOD SUGAR"
+    }, 
+    {
+        "pk": 115, 
+        "rate": 40, 
+        "name": "POST PRANDIAL BLOOD SUGAR"
+    }, 
+    {
+        "pk": 116, 
+        "rate": 900, 
+        "name": "GTT"
+    }, 
+    {
+        "pk": 117, 
+        "rate": 900, 
+        "name": "GCT"
+    }, 
+    {
+        "pk": 118, 
+        "rate": 300, 
+        "name": "NST"
+    }, 
+    {
+        "pk": 119, 
+        "rate": 750, 
+        "name": "FOETAL MONITORING"
+    }, 
+    {
+        "pk": 120, 
+        "rate": 750, 
+        "name": "FOETAL MONITORING"
+    }, 
+    {
+        "pk": 121, 
+        "rate": 1000, 
+        "name": "FOETAL MONITORING"
+    }, 
+    {
+        "pk": 122, 
+        "rate": 150, 
+        "name": "Td"
+    }, 
+    {
+        "pk": 123, 
+        "rate": 1100, 
+        "name": "BOOSTERIX(Tdap)"
+    }, 
+    {
+        "pk": 124, 
+        "rate": 2600, 
+        "name": "INFANRIX HEXA"
+    }, 
+    {
+        "pk": 125, 
+        "rate": 150, 
+        "name": "SR TOTAL PROTEIN"
+    }, 
+    {
+        "pk": 126, 
+        "rate": 1600, 
+        "name": "DIALYSIS CHARGES"
+    }, 
+    {
+        "pk": 127, 
+        "rate": 80, 
+        "name": "NEBULISATION"
+    }, 
+    {
+        "pk": 128, 
+        "rate": 30, 
+        "name": "STEAM INHALATION"
+    }, 
+    {
+        "pk": 129, 
+        "rate": 150, 
+        "name": "DPT"
+    }, 
+    {
+        "pk": 130, 
+        "rate": 4000, 
+        "name": "PREVANAR (PNEUMOCOCCAL)"
+    }, 
+    {
+        "pk": 131, 
+        "rate": 1500, 
+        "name": "SYNFLORIX(PNEUMOCOCCAL)"
+    }, 
+    {
+        "pk": 132, 
+        "rate": 700, 
+        "name": "INFLUVAC JUNIOR"
+    }, 
+    {
+        "pk": 133, 
+        "rate": 800, 
+        "name": "INFLUVAC"
+    }, 
+    {
+        "pk": 134, 
+        "rate": 1200, 
+        "name": "HAVRIX JUNIOR"
+    }, 
+    {
+        "pk": 135, 
+        "rate": 2500, 
+        "name": "PRIORIX TETRA"
+    }, 
+    {
+        "pk": 136, 
+        "rate": 3000, 
+        "name": "GARDASIL"
+    }, 
+    {
+        "pk": 137, 
+        "rate": 4000, 
+        "name": "HEXAXIM"
+    }, 
+    {
+        "pk": 138, 
+        "rate": 700, 
+        "name": "ROTAVAC"
+    }, 
+    {
+        "pk": 139, 
+        "rate": 700, 
+        "name": "ROTASIL"
+    }, 
+    {
+        "pk": 140, 
+        "rate": 650, 
+        "name": "PRIORIX"
+    }, 
+    {
+        "pk": 141, 
+        "rate": 2000, 
+        "name": "TYPBAR TCV -PFS"
+    }, 
+    {
+        "pk": 142, 
+        "rate": 1200, 
+        "name": "BIOVAC A"
+    }, 
+    {
+        "pk": 143, 
+        "rate": 550, 
+        "name": "QUADRUVAC"
+    }, 
+    {
+        "pk": 144, 
+        "rate": 2000, 
+        "name": "VARIPED"
+    }, 
+    {
+        "pk": 145, 
+        "rate": 2000, 
+        "name": "VARILIX"
+    }, 
+    {
+        "pk": 146, 
+        "rate": 1000, 
+        "name": "ABDOMINOPELVIC ULTRASONOGRAPHY"
+    }, 
+    {
+        "pk": 147, 
+        "rate": 800, 
+        "name": "OBSTETRIC SCAN"
+    }, 
+    {
+        "pk": 148, 
+        "rate": 1000, 
+        "name": "THYROID SCAN"
+    }, 
+    {
+        "pk": 149, 
+        "rate": 1000, 
+        "name": "SCROTAL SCAN"
+    }, 
+    {
+        "pk": 150, 
+        "rate": 1000, 
+        "name": "BREAST SCAN"
+    }, 
+    {
+        "pk": 151, 
+        "rate": 1600, 
+        "name": "NECK VESSEL DOPPLER"
+    }, 
+    {
+        "pk": 152, 
+        "rate": 1800, 
+        "name": "VENOUS DOPPLER STUDY"
+    }, 
+    {
+        "pk": 153, 
+        "rate": 1500, 
+        "name": "TMT"
+    }, 
+    {
+        "pk": 154, 
+        "rate": 2500, 
+        "name": "UPPER GI ENDOSCOPY"
+    }, 
+    {
+        "pk": 155, 
+        "rate": 5500, 
+        "name": "COLONOSCOPY"
+    }, 
+    {
+        "pk": 156, 
+        "rate": 1000, 
+        "name": "PAP SMEAR"
+    }, 
+    {
+        "pk": 157, 
+        "rate": 1000, 
+        "name": "HIGH VAGINAL C/S"
+    }, 
+    {
+        "pk": 158, 
+        "rate": 600, 
+        "name": "PFT"
+    }, 
+    {
+        "pk": 159, 
+        "rate": 400, 
+        "name": "SUTURING AND DRESSING"
+    }, 
+    {
+        "pk": 160, 
+        "rate": 100, 
+        "name": "DRESSING"
+    }, 
+    {
+        "pk": 161, 
+        "rate": 150, 
+        "name": "DRESSING (MEDIUM)"
+    }, 
+    {
+        "pk": 162, 
+        "rate": 450, 
+        "name": "DRESSING (BIG)"
+    }, 
+    {
+        "pk": 163, 
+        "rate": 50, 
+        "name": "BP CHECK UP"
+    }, 
+    {
+        "pk": 164, 
+        "rate": 30, 
+        "name": "IM INJECTION"
+    }, 
+    {
+        "pk": 165, 
+        "rate": 50, 
+        "name": "IV INJECTION"
+    }, 
+    {
+        "pk": 166, 
+        "rate": 50, 
+        "name": "ANAMOL SUPPOSITORY"
+    }, 
+    {
+        "pk": 167, 
+        "rate": 50, 
+        "name": "GRBS"
+    }, 
+    {
+        "pk": 168, 
+        "rate": 250, 
+        "name": "INSERTING CANNULA"
+    }, 
+    {
+        "pk": 169, 
+        "rate": 200, 
+        "name": "ENEMA"
+    }, 
+    {
+        "pk": 170, 
+        "rate": 200, 
+        "name": "PULSE OXYMETRY"
+    }, 
+    {
+        "pk": 171, 
+        "rate": 100, 
+        "name": "SUTURE REMOVAL"
+    }, 
+    {
+        "pk": 172, 
+        "rate": 2000, 
+        "name": "SUTURE  MATERICAL CHARGES"
+    }, 
+    {
+        "pk": 173, 
+        "rate": 1000, 
+        "name": "I AND D"
+    }, 
+    {
+        "pk": 174, 
+        "rate": 800, 
+        "name": "FOLLICULAR SCAN (FIRST )"
+    }, 
+    {
+        "pk": 175, 
+        "rate": 650, 
+        "name": "FOLLICULAR SCAN (FOLLOW UP)"
+    }, 
+    {
+        "pk": 176, 
+        "rate": 400, 
+        "name": "CONSULTATION(FIRST)"
+    }, 
+    {
+        "pk": 177, 
+        "rate": 350, 
+        "name": "CONSULTATION (FOLLOW UP)"
+    }, 
+    {
+        "pk": 178, 
+        "rate": 500, 
+        "name": "AMBULANCE CHARGES"
+    }, 
+    {
+        "pk": 179, 
+        "rate": 1000, 
+        "name": "TVS SCAN"
+    }, 
+    {
+        "pk": 180, 
+        "rate": 2500, 
+        "name": "EEG"
+    }, 
+    {
+        "pk": 181, 
+        "rate": 400, 
+        "name": "PHYSIOTHERAY"
+    }, 
+    {
+        "pk": 182, 
+        "rate": 600, 
+        "name": "SUPERSPECIALIST CONSULTATION"
+    }, 
+    {
+        "pk": 183, 
+        "rate": 250, 
+        "name": "URETHRAL CATHETERISATION"
+    }, 
+    {
+        "pk": 184, 
+        "rate": 250, 
+        "name": "RYLE'S TUBE INSERTION"
+    }, 
+    {
+        "pk": 185, 
+        "rate": 1000, 
+        "name": "POP(HOSPITAL CHARGES)"
+    }, 
+    {
+        "pk": 186, 
+        "rate": 1500, 
+        "name": "POP (HOSPITAL CHARGES)"
+    }, 
+    {
+        "pk": 187, 
+        "rate": 2000, 
+        "name": "POP( HOSPITAL CHARGES)"
+    }, 
+    {
+        "pk": 188, 
+        "rate": 350, 
+        "name": "CAUTERISATION"
+    }, 
+    {
+        "pk": 189, 
+        "rate": 250, 
+        "name": "BURNS DRESSING"
+    }, 
+    {
+        "pk": 190, 
+        "rate": 1250, 
+        "name": "SEMI PRIVATE WARD CHARGES"
+    }, 
+    {
+        "pk": 191, 
+        "rate": 250, 
+        "name": "DUTY DOCTOR CHARGES IN WARD"
+    }, 
+    {
+        "pk": 192, 
+        "rate": 300, 
+        "name": "DUTY DOCTOR CHARGES IN ROOM"
+    }, 
+    {
+        "pk": 193, 
+        "rate": 350, 
+        "name": "DUTY DOCTOR CHARGES IN AC ROOM"
+    }, 
+    {
+        "pk": 194, 
+        "rate": 300, 
+        "name": "PERINEAL CARE  IN ROOM"
+    }, 
+    {
+        "pk": 195, 
+        "rate": 300, 
+        "name": "BABY CARE ROOM"
+    }, 
+    {
+        "pk": 196, 
+        "rate": 250, 
+        "name": "BABY CARE IN WARD"
+    }, 
+    {
+        "pk": 197, 
+        "rate": 250, 
+        "name": "PERINEAL CARE IN WARD"
+    }, 
+    {
+        "pk": 198, 
+        "rate": 350, 
+        "name": "PERINEAL CARE IN ROOM"
+    }, 
+    {
+        "pk": 199, 
+        "rate": 6000, 
+        "name": "ADULT ICU NURSING MONITORING CHARGES"
+    }, 
+    {
+        "pk": 200, 
+        "rate": 350, 
+        "name": "DUTY DOCTOR CHARGES IN ICU"
+    }, 
+    {
+        "pk": 201, 
+        "rate": 5000, 
+        "name": "PICU NURSING MONITORING CHARGES"
+    }, 
+    {
+        "pk": 202, 
+        "rate": 350, 
+        "name": "DUTY DOCTOR CHARGES IN PICU"
+    }, 
+    {
+        "pk": 203, 
+        "rate": 1000, 
+        "name": "OXYGEN THERAPY"
+    }, 
+    {
+        "pk": 204, 
+        "rate": 150, 
+        "name": "PULSE OXYMETRY"
+    }, 
+    {
+        "pk": 205, 
+        "rate": 2000, 
+        "name": "BIPAP"
+    }, 
+    {
+        "pk": 206, 
+        "rate": 5000, 
+        "name": "VENTILATOR"
+    }, 
+    {
+        "pk": 207, 
+        "rate": 2500, 
+        "name": "BUBBLE CPAP"
+    }, 
+    {
+        "pk": 208, 
+        "rate": 300, 
+        "name": "INFUSION PUMP CHARGES"
+    }, 
+    {
+        "pk": 209, 
+        "rate": 200, 
+        "name": "BLOOD TRANSFUSION"
+    }, 
+    {
+        "pk": 210, 
+        "rate": 2000, 
+        "name": "SINGLE PRIVATE NON AC ROOM CHARGES"
+    }, 
+    {
+        "pk": 211, 
+        "rate": 300, 
+        "name": "NURSING CHARGES IN SINGLE ROOM NON A/C"
+    }, 
+    {
+        "pk": 212, 
+        "rate": 2300, 
+        "name": "SINGLE PRIVATE AC ROOM CHARGES"
+    }, 
+    {
+        "pk": 213, 
+        "rate": 350, 
+        "name": "NURSING CHARGES IN SINGLE ROOM A/C"
+    }, 
+    {
+        "pk": 214, 
+        "rate": 400, 
+        "name": "FLUSH THERAPY"
+    }, 
+    {
+        "pk": 215, 
+        "rate": 0, 
+        "name": "OPERATION THEATRE CHARGES"
+    }, 
+    {
+        "pk": 216, 
+        "rate": 6500, 
+        "name": "LABOUR ROOM CHARGES"
+    }, 
+    {
+        "pk": 217, 
+        "rate": 1500, 
+        "name": "PEDIATRICIAN IN NICU"
+    }, 
+    {
+        "pk": 218, 
+        "rate": 1200, 
+        "name": "PEDIATRICIAN IN ROOM"
+    }, 
+    {
+        "pk": 219, 
+        "rate": 0, 
+        "name": "MEDICINES"
+    }, 
+    {
+        "pk": 220, 
+        "rate": 300, 
+        "name": "REGISTRATION"
+    }, 
+    {
+        "pk": 221, 
+        "rate": 2000, 
+        "name": "LUMBAR PUNCTURE"
+    }, 
+    {
+        "pk": 222, 
+        "rate": 250, 
+        "name": "NURSING CHARGES IN SEMI PRIVATE WARD"
+    }, 
+    {
+        "pk": 223, 
+        "rate": 550, 
+        "name": "SR AMYLASE"
+    }, 
+    {
+        "pk": 224, 
+        "rate": 550, 
+        "name": "SR LIPASE"
+    }, 
+    {
+        "pk": 225, 
+        "rate": 750, 
+        "name": "C3 COMPLEMENTS"
+    }, 
+    {
+        "pk": 226, 
+        "rate": 750, 
+        "name": "C4 COMPLEMENTS"
+    }, 
+    {
+        "pk": 227, 
+        "rate": 350, 
+        "name": "PULMONARY FUNCTION TEST"
+    }, 
+    {
+        "pk": 228, 
+        "rate": 1000, 
+        "name": "DR NEEHAR PATIL(PEDIATRIC SURGEON)"
+    }, 
+    {
+        "pk": 229, 
+        "rate": 700, 
+        "name": "GLY HB%"
+    }, 
+    {
+        "pk": 230, 
+        "rate": 0, 
+        "name": "LAPROSCOPIC INSTRUMENTS CHARGES"
+    }, 
+    {
+        "pk": 231, 
+        "rate": 0, 
+        "name": "DR RAVI KUMAR(GEN SURGEON)"
+    }, 
+    {
+        "pk": 232, 
+        "rate": 0, 
+        "name": "DR SUNITHA (ANAESTHETIST)"
+    }, 
+    {
+        "pk": 233, 
+        "rate": 1200, 
+        "name": "DR RAVI NAIK (PEDIATRICIAN)"
+    }, 
+    {
+        "pk": 234, 
+        "rate": 0, 
+        "name": "DR V S RAMESH (GASTROENTEROLOGIST)"
+    }, 
+    {
+        "pk": 235, 
+        "rate": 0, 
+        "name": "DR CHANDAN (CARDIOLOGIST)"
+    }, 
+    {
+        "pk": 236, 
+        "rate": 600, 
+        "name": "DR SANTOSH (NEUROLOGIST)"
+    }, 
+    {
+        "pk": 237, 
+        "rate": 600, 
+        "name": "DR SHIVAPRASAD (NEPHROLOGIST)"
+    }, 
+    {
+        "pk": 238, 
+        "rate": 0, 
+        "name": "DR MUNIRAJU M (ENT SURGEON)"
+    }, 
+    {
+        "pk": 239, 
+        "rate": 0, 
+        "name": "DR JAWAD AHMED (ENT SURGEON)"
+    }, 
+    {
+        "pk": 240, 
+        "rate": 0, 
+        "name": "DR RAMESH BABU (DERMATOLOGIST)"
+    }, 
+    {
+        "pk": 241, 
+        "rate": 0, 
+        "name": "DR SHABEER AHMED (RADIOLOGIST)"
+    }, 
+    {
+        "pk": 242, 
+        "rate": 0, 
+        "name": "DR CHANDRASHEKAR (PSYCHIATRIST)"
+    }, 
+    {
+        "pk": 243, 
+        "rate": 0, 
+        "name": "DR DEEPSHIKA JHA (OB & GYNAEC)"
+    }, 
+    {
+        "pk": 244, 
+        "rate": 0, 
+        "name": "DR JAYASHREE KEWALRAMANI ( OB & GYNAEC)"
+    }, 
+    {
+        "pk": 245, 
+        "rate": 0, 
+        "name": "DR VIJAY KUMAR C (OB & GYNAEC)"
+    }, 
+    {
+        "pk": 246, 
+        "rate": 600, 
+        "name": "DR SYED IMRAN (ORTHOPEDICIAN)"
+    }, 
+    {
+        "pk": 247, 
+        "rate": 0, 
+        "name": "DR SAIRA ZIA ( OB & GYNAEC)"
+    }, 
+    {
+        "pk": 248, 
+        "rate": 0, 
+        "name": "DR VIDYADHAR ( ORTHOPEDICIAN)"
+    }, 
+    {
+        "pk": 249, 
+        "rate": 0, 
+        "name": "DR GEETA PATIL (PEDIATRICIAN)"
+    }, 
+    {
+        "pk": 250, 
+        "rate": 0, 
+        "name": "DR CHETAN SATISH (PLASTIC SURGEON)"
+    }, 
+    {
+        "pk": 251, 
+        "rate": 0, 
+        "name": "DR TEJUS CHERANJEEVI (UROLOGISIT)"
+    }, 
+    {
+        "pk": 252, 
+        "rate": 0, 
+        "name": "DR PRAKASH (NEURO SURGEON)"
+    }, 
+    {
+        "pk": 253, 
+        "rate": 0, 
+        "name": "DR SREERAM RAMALINGAM (OPTHAMOLOGIST)"
+    }, 
+    {
+        "pk": 254, 
+        "rate": 0, 
+        "name": "DR VEERENDRA KUMAR (ONCO SURGEON)"
+    }, 
+    {
+        "pk": 255, 
+        "rate": 200, 
+        "name": "MR R K SINGH (PHYSIOTHERAPIST)"
+    }, 
+    {
+        "pk": 256, 
+        "rate": 0, 
+        "name": "DR B S RAMESH (GEN SURGEON)"
+    }, 
+    {
+        "pk": 257, 
+        "rate": 0, 
+        "name": "DR NARASHIMAMUTHY (ANAESTHETIST)"
+    }, 
+    {
+        "pk": 258, 
+        "rate": 0, 
+        "name": "DR PRAVEEN PRASAD (ANAESTHETIST)"
+    }, 
+    {
+        "pk": 259, 
+        "rate": 0, 
+        "name": "DR VARUN REDDY (ANAESTHETIST)"
+    }, 
+    {
+        "pk": 260, 
+        "rate": 0, 
+        "name": "DR RAJA (ANAESTHETIST)"
+    }, 
+    {
+        "pk": 261, 
+        "rate": 0, 
+        "name": "DR NARENDRA BABU (PEDIATRIC SURGEON)"
+    }, 
+    {
+        "pk": 262, 
+        "rate": 0, 
+        "name": "DR VINAY JADHAV (PEDIATRIC SURGEON)"
+    }, 
+    {
+        "pk": 263, 
+        "rate": 0, 
+        "name": "DR MOHAN RAJ (ANAESTHETIST)"
+    }, 
+    {
+        "pk": 264, 
+        "rate": 0, 
+        "name": "DR SHIVAKUMAR K S (UROLOGIST)"
+    }, 
+    {
+        "pk": 265, 
+        "rate": 0, 
+        "name": "SK THERAPY"
+    }, 
+    {
+        "pk": 266, 
+        "rate": 0, 
+        "name": "DR SUNITHA (ANAESTHETIST)"
+    }, 
+    {
+        "pk": 267, 
+        "rate": 0, 
+        "name": "DR RAMESH (ANAESTHETIST)"
+    }, 
+    {
+        "pk": 268, 
+        "rate": 250, 
+        "name": "FLUSH THERAPY"
+    }, 
+    {
+        "pk": 269, 
+        "rate": 200, 
+        "name": "BLOOD TANSFUSION"
+    }, 
+    {
+        "pk": 270, 
+        "rate": 1000, 
+        "name": "I & D"
+    }, 
+    {
+        "pk": 271, 
+        "rate": 1500, 
+        "name": "TRIPLE SURFACE PHOTOTHERAPY CHARGES"
+    }, 
+    {
+        "pk": 272, 
+        "rate": 1250, 
+        "name": "DOUBLE SURFACE PHOTOTHERAPY CHARGES"
+    }, 
+    {
+        "pk": 273, 
+        "rate": 1000, 
+        "name": "RESCUCITATION"
+    }, 
+    {
+        "pk": 274, 
+        "rate": 0, 
+        "name": "DC SHOCK"
+    }, 
+    {
+        "pk": 275, 
+        "rate": 500, 
+        "name": "STOMACH WASH"
+    }, 
+    {
+        "pk": 276, 
+        "rate": 1250, 
+        "name": "ALPHA FETA PROTEIN"
+    }, 
+    {
+        "pk": 277, 
+        "rate": 0, 
+        "name": "DEBRIDEMENT"
+    }, 
+    {
+        "pk": 278, 
+        "rate": 0, 
+        "name": "BLOOD COMPONENT"
+    }, 
+    {
+        "pk": 279, 
+        "rate": 0, 
+        "name": "IMPLANT CHARGES"
+    }, 
+    {
+        "pk": 280, 
+        "rate": 7500, 
+        "name": "MRI BRAIN"
+    }, 
+    {
+        "pk": 281, 
+        "rate": 3000, 
+        "name": "CT BRAIN"
+    }, 
+    {
+        "pk": 282, 
+        "rate": 3500, 
+        "name": "CT THROAX"
+    }, 
+    {
+        "pk": 283, 
+        "rate": 4500, 
+        "name": "CT ABDOMEN"
+    }, 
+    {
+        "pk": 284, 
+        "rate": 7500, 
+        "name": "MRI ABDOMEN"
+    }, 
+    {
+        "pk": 285, 
+        "rate": 0, 
+        "name": "AMBULANCE CHARGES"
+    }, 
+    {
+        "pk": 286, 
+        "rate": 6000, 
+        "name": "STENT REMOVAL  PROCEDURE CHARGES"
+    }, 
+    {
+        "pk": 287, 
+        "rate": 0, 
+        "name": "AV FISTULA"
+    }, 
+    {
+        "pk": 288, 
+        "rate": 2500, 
+        "name": "DOUBLE MARKER TEST"
+    }, 
+    {
+        "pk": 289, 
+        "rate": 3500, 
+        "name": "TRIPLE MARKER TEST"
+    }, 
+    {
+        "pk": 290, 
+        "rate": 7500, 
+        "name": "GAD ANTIBODY TEST"
+    }, 
+    {
+        "pk": 291, 
+        "rate": 0, 
+        "name": "K WIRE FIXATION"
+    }, 
+    {
+        "pk": 292, 
+        "rate": 0, 
+        "name": "CO PAYMENT CHARGES"
+    }, 
+    {
+        "pk": 293, 
+        "rate": 4000, 
+        "name": "GENE EXPERT FOR M TUBERCLOSIS"
+    }, 
+    {
+        "pk": 294, 
+        "rate": 0, 
+        "name": "STAPLER AND TACKERS"
+    }, 
+    {
+        "pk": 295, 
+        "rate": 0, 
+        "name": "MESH REPAIR CHARGES"
+    }, 
+    {
+        "pk": 296, 
+        "rate": 0, 
+        "name": "CT KUB"
+    }, 
+    {
+        "pk": 297, 
+        "rate": 0, 
+        "name": "DR INTEZAR (INTENSIVIST)"
+    }, 
+    {
+        "pk": 298, 
+        "rate": 0, 
+        "name": "DR PREMALATHA (PED NEPHROLOGIST)"
+    }, 
+    {
+        "pk": 299, 
+        "rate": 0, 
+        "name": "WATER BED"
+    }, 
+    {
+        "pk": 300, 
+        "rate": 150, 
+        "name": "AIR BED"
+    }, 
+    {
+        "pk": 301, 
+        "rate": 0, 
+        "name": "LIPTHOTRYPSY"
+    }, 
+    {
+        "pk": 302, 
+        "rate": 5000, 
+        "name": "I C D INSERTION IN OT"
+    }, 
+    {
+        "pk": 303, 
+        "rate": 1000, 
+        "name": "CHIKUNGUNYA IGM ANTIBODIES TEST"
+    }, 
+    {
+        "pk": 304, 
+        "rate": 1000, 
+        "name": "SR TSEUDOCHOLINESTRASE"
+    }, 
+    {
+        "pk": 305, 
+        "rate": 0, 
+        "name": "STEIZ BATH"
+    }, 
+    {
+        "pk": 306, 
+        "rate": 400, 
+        "name": "ERRECT ABDOMEN"
+    }, 
+    {
+        "pk": 307, 
+        "rate": 0, 
+        "name": "MRI DORAL SPINE"
+    }, 
+    {
+        "pk": 308, 
+        "rate": 3500, 
+        "name": "TB GOLD"
+    }, 
+    {
+        "pk": 309, 
+        "rate": 0, 
+        "name": "CT PELVIS"
+    }, 
+    {
+        "pk": 310, 
+        "rate": 750, 
+        "name": "SR INSULIN"
+    }, 
+    {
+        "pk": 311, 
+        "rate": 0, 
+        "name": "BRONCHOSCOPY"
+    }, 
+    {
+        "pk": 312, 
+        "rate": 0, 
+        "name": "CT CORONARY ANGIOGRAPHY"
+    }, 
+    {
+        "pk": 313, 
+        "rate": 0, 
+        "name": "MRI LT SHOULDER"
+    }, 
+    {
+        "pk": 314, 
+        "rate": 0, 
+        "name": "C ARM CHARGES"
+    }, 
+    {
+        "pk": 315, 
+        "rate": 700, 
+        "name": "G6 PD LEVEL"
+    }, 
+    {
+        "pk": 316, 
+        "rate": 1250, 
+        "name": "DR P M PATIL (PHYSICIAN) IN ROOM"
+    }, 
+    {
+        "pk": 317, 
+        "rate": 1000, 
+        "name": "DR GEETA PATIL (PEDIATRICIAN)"
+    }, 
+    {
+        "pk": 318, 
+        "rate": 300, 
+        "name": "DUTY DOCTOR CHARGES"
+    }, 
+    {
+        "pk": 319, 
+        "rate": 0, 
+        "name": "DR SATISH (MLC CONSULTANT)"
+    }, 
+    {
+        "pk": 320, 
+        "rate": 5000, 
+        "name": "CVC INSERTION CHARGES"
+    }, 
+    {
+        "pk": 321, 
+        "rate": 1500, 
+        "name": "PROCEDURE"
+    }, 
+    {
+        "pk": 322, 
+        "rate": 600, 
+        "name": "MEASLES"
+    }, 
+    {
+        "pk": 323, 
+        "rate": 600, 
+        "name": "MMR"
+    }, 
+    {
+        "pk": 324, 
+        "rate": 800, 
+        "name": "SR CORTISOL"
+    }, 
+    {
+        "pk": 325, 
+        "rate": 3400, 
+        "name": "MCU"
+    }, 
+    {
+        "pk": 326, 
+        "rate": 400, 
+        "name": "X RAY FOOT AP BLIQUE"
+    }, 
+    {
+        "pk": 327, 
+        "rate": 650, 
+        "name": "HBAIC"
+    }, 
+    {
+        "pk": 328, 
+        "rate": 0, 
+        "name": "DR JYOTHI LAKSHMI (OB AND GYNAEC)"
+    }, 
+    {
+        "pk": 329, 
+        "rate": 400, 
+        "name": "X RAY ANKLE AP LAT"
+    }, 
+    {
+        "pk": 330, 
+        "rate": 400, 
+        "name": "DR DEEPSHIKA CONSULTATION CHARGES"
+    }, 
+    {
+        "pk": 331, 
+        "rate": 1000, 
+        "name": "HISTOPATHOLOGY"
+    }, 
+    {
+        "pk": 332, 
+        "rate": 0, 
+        "name": "DR MANJULA S PATIL (OB&GYNAEC)"
+    }, 
+    {
+        "pk": 333, 
+        "rate": 400, 
+        "name": "DR MANJULA S PATIL CONSULTAION CHARGES"
+    }, 
+    {
+        "pk": 334, 
+        "rate": 350, 
+        "name": "DR MANJULA S PATIL FOLLOW UP CHARGES"
+    }, 
+    {
+        "pk": 335, 
+        "rate": 400, 
+        "name": "DR VIDYADHAR CONSULTATION CHARGES"
+    }, 
+    {
+        "pk": 336, 
+        "rate": 500, 
+        "name": "X RAY WRIST AP/LAT"
+    }, 
+    {
+        "pk": 337, 
+        "rate": 500, 
+        "name": "DR V S RAMESH CONSULTATION CHARGES"
+    }, 
+    {
+        "pk": 338, 
+        "rate": 500, 
+        "name": "DR CHANDAN CONSULTATION CHARGES"
+    }, 
+    {
+        "pk": 339, 
+        "rate": 500, 
+        "name": "DR CHANDRASHEKAR CONSULTATION CHARGES"
+    }, 
+    {
+        "pk": 340, 
+        "rate": 600, 
+        "name": "DR SANTOSH CONSULTATION CHARGES"
+    }, 
+    {
+        "pk": 341, 
+        "rate": 400, 
+        "name": "DR CHANDRASHEKAR FOLLOW UP CHARGES"
+    }, 
+    {
+        "pk": 342, 
+        "rate": 600, 
+        "name": "DR SHIVAPRASAD CONSULTATION CHARGES"
+    }, 
+    {
+        "pk": 343, 
+        "rate": 850, 
+        "name": "DR RAMESH BABU CONSULTATION CHARGES"
+    }, 
+    {
+        "pk": 344, 
+        "rate": 500, 
+        "name": "NASAL PACKING"
+    }, 
+    {
+        "pk": 345, 
+        "rate": 100, 
+        "name": "TOTAL CHOLESTROL"
+    }, 
+    {
+        "pk": 346, 
+        "rate": 450, 
+        "name": "SHOULDER X RAY"
+    }, 
+    {
+        "pk": 347, 
+        "rate": 450, 
+        "name": "PELVIS X RAY"
+    }, 
+    {
+        "pk": 348, 
+        "rate": 400, 
+        "name": "X RAY L S SPAIN AP/LAT"
+    }, 
+    {
+        "pk": 349, 
+        "rate": 150, 
+        "name": "MANTOUX TEST"
+    }, 
+    {
+        "pk": 350, 
+        "rate": 100, 
+        "name": "PLATELET COUNT"
+    }, 
+    {
+        "pk": 351, 
+        "rate": 1000, 
+        "name": "INTUBATION"
+    }, 
+    {
+        "pk": 352, 
+        "rate": 2500, 
+        "name": "DENGUE TITRE"
+    }, 
+    {
+        "pk": 353, 
+        "rate": 1000, 
+        "name": "CHEST ULTRASONOGRAPHY"
+    }, 
+    {
+        "pk": 354, 
+        "rate": 2600, 
+        "name": "PRO BNP"
+    }, 
+    {
+        "pk": 355, 
+        "rate": 1000, 
+        "name": "BLOOD C/S"
+    }, 
+    {
+        "pk": 356, 
+        "rate": 600, 
+        "name": "DR SHRIVATSAV (PULMONOGIST)"
+    }, 
+    {
+        "pk": 357, 
+        "rate": 500, 
+        "name": "URINE SPOT SOD"
+    }, 
+    {
+        "pk": 358, 
+        "rate": 100, 
+        "name": "URINE KETONES"
+    }, 
+    {
+        "pk": 359, 
+        "rate": 1200, 
+        "name": "SERUM HOMOCYTINE ASSAY"
+    }, 
+    {
+        "pk": 360, 
+        "rate": 3300, 
+        "name": "LUPUS ANTICOAGULANT"
+    }, 
+    {
+        "pk": 361, 
+        "rate": 1500, 
+        "name": "ANTI CARDIOLEPIN ANTIBODY"
+    }, 
+    {
+        "pk": 362, 
+        "rate": 450, 
+        "name": "URINE MICRO ALBUMINE"
+    }, 
+    {
+        "pk": 363, 
+        "rate": 450, 
+        "name": "URINE FOR MICRO ALBUMIN"
+    }, 
+    {
+        "pk": 364, 
+        "rate": 250, 
+        "name": "ADEISOSIN"
+    }, 
+    {
+        "pk": 365, 
+        "rate": 1200, 
+        "name": "LEPTOSPIRA ANTIBODY"
+    }, 
+    {
+        "pk": 366, 
+        "rate": 500, 
+        "name": "DR MANJUNATH(NEUROLOGIST)"
+    }, 
+    {
+        "pk": 367, 
+        "rate": 1500, 
+        "name": "SR ACE LEVEL"
+    }, 
+    {
+        "pk": 368, 
+        "rate": 400, 
+        "name": "DR MUNIRAJU (ENT) CONSULTATION CHARGES"
+    }, 
+    {
+        "pk": 369, 
+        "rate": 350, 
+        "name": "DR MUNIRAJU (ENT) FOLLOW UP CHARGES"
+    }, 
+    {
+        "pk": 370, 
+        "rate": 450, 
+        "name": "DR TEJUS CHERANJEEVI (UROLOGISIT) FOLLOW UP CHARGES"
+    }, 
+    {
+        "pk": 371, 
+        "rate": 500, 
+        "name": "DR TEJUS CHERANJEEVI (UROLOGISIT)CONSULTATION CHARGES"
+    }, 
+    {
+        "pk": 372, 
+        "rate": 400, 
+        "name": "DR NEEHAR PATIL(GEN SURGEON) CONSULTATION CHARGES"
+    }, 
+    {
+        "pk": 373, 
+        "rate": 350, 
+        "name": "DR NEEHAR PATIL(GEN SURGEON) FOLLOW UP  CHARGES"
+    }, 
+    {
+        "pk": 374, 
+        "rate": 350, 
+        "name": "DR DEEPSHIKA FOLLOW  UP CHARGES"
+    }, 
+    {
+        "pk": 375, 
+        "rate": 550, 
+        "name": "DR SHIVAPRASAD FOLLOW UP CHARGES"
+    }, 
+    {
+        "pk": 376, 
+        "rate": 400, 
+        "name": "DR HEMALATHA (PEDIA) CONSULTATION CHARGES"
+    }, 
+    {
+        "pk": 377, 
+        "rate": 350, 
+        "name": "DR HEMALATHA (PEDIA) FOLLOW UP CHARGES"
+    }, 
+    {
+        "pk": 378, 
+        "rate": 500, 
+        "name": "DR SAIRA ZIA ( OB & GYNAEC) CONSULTATION CHARGES"
+    }, 
+    {
+        "pk": 379, 
+        "rate": 400, 
+        "name": "DR SAIRA ZIA ( OB & GYNAEC) FOLLOW UP CHARGES"
+    }, 
+    {
+        "pk": 380, 
+        "rate": 400, 
+        "name": "DR SYED IMRAN (ORTHOPEDICIAN) CONSULTATION CHARGES"
+    }, 
+    {
+        "pk": 381, 
+        "rate": 350, 
+        "name": "DR SYED IMRAN (ORTHOPEDICIAN) FOLLOW UP CHARGES"
+    }, 
+    {
+        "pk": 382, 
+        "rate": 0, 
+        "name": "ASSISTANT SURGEON"
+    }, 
+    {
+        "pk": 383, 
+        "rate": 3500, 
+        "name": "EMIRELLE INSERTION"
+    }, 
+    {
+        "pk": 384, 
+        "rate": 200, 
+        "name": "PLATELET TRANSFUSION"
+    }, 
+    {
+        "pk": 385, 
+        "rate": 18900, 
+        "name": "BREAST LUMPECTOMY AS PER GIPSA"
+    }, 
+    {
+        "pk": 386, 
+        "rate": 150, 
+        "name": "CATHETER"
+    }, 
+    {
+        "pk": 387, 
+        "rate": 100, 
+        "name": "SPO2"
+    }, 
+    {
+        "pk": 388, 
+        "rate": 19000, 
+        "name": "DILATATION AND CURRETAGE PACKAGE CHARGES"
+    }, 
+    {
+        "pk": 389, 
+        "rate": 2000, 
+        "name": "ENTEROSHEILD"
+    }, 
+    {
+        "pk": 390, 
+        "rate": 1200, 
+        "name": "ANA ANTIDS DNA"
+    }, 
+    {
+        "pk": 391, 
+        "rate": 200, 
+        "name": "PS FOR SMEAR STUDY"
+    }, 
+    {
+        "pk": 392, 
+        "rate": 1500, 
+        "name": "AVAXIM JUNIOR"
+    }, 
+    {
+        "pk": 393, 
+        "rate": 200, 
+        "name": "SR MAGNESIUM"
+    }, 
+    {
+        "pk": 394, 
+        "rate": 550, 
+        "name": "URINECALCIUM CREATININE RATIO"
+    }, 
+    {
+        "pk": 395, 
+        "rate": 5000, 
+        "name": "NICU,NURSING AND MONITORING CHARGES"
+    }, 
+    {
+        "pk": 396, 
+        "rate": 750, 
+        "name": "DR PRABHA"
+    }, 
+    {
+        "pk": 397, 
+        "rate": 1500, 
+        "name": "LED SINGLE SURFACE PHOTOTHERAPY"
+    }, 
+    {
+        "pk": 398, 
+        "rate": 1800, 
+        "name": "PERITONEAL FLUID ANALYSIS"
+    }, 
+    {
+        "pk": 399, 
+        "rate": 2500, 
+        "name": "WARD  CHARGES FOR EVACUATION"
+    }, 
+    {
+        "pk": 400, 
+        "rate": 0, 
+        "name": "DR SURESH (ANAESTHESILOGIST)"
+    }, 
+    {
+        "pk": 401, 
+        "rate": 600, 
+        "name": "X RAY THORACOLUMBAR SPINE AP/LAT"
+    }, 
+    {
+        "pk": 402, 
+        "rate": 46200, 
+        "name": "LSCS GIPSA PACKAGE CHARGES"
+    }, 
+    {
+        "pk": 403, 
+        "rate": 0, 
+        "name": "CO-PAYMENT CHARGES"
+    }, 
+    {
+        "pk": 404, 
+        "rate": 800, 
+        "name": "PUS FOR C/S"
+    }, 
+    {
+        "pk": 405, 
+        "rate": 400, 
+        "name": "DR VIDYADHAR CONSULTATION CHARGES"
+    }, 
+    {
+        "pk": 406, 
+        "rate": 100, 
+        "name": "HAEMOGLOBIN"
+    }, 
+    {
+        "pk": 407, 
+        "rate": 100, 
+        "name": "PCV"
+    }, 
+    {
+        "pk": 408, 
+        "rate": 0, 
+        "name": "DR SANJAY (ORHTO)"
+    }, 
+    {
+        "pk": 409, 
+        "rate": 850, 
+        "name": "URINE BENZODIBINE"
+    }, 
+    {
+        "pk": 410, 
+        "rate": 200, 
+        "name": "SR CPK"
+    }, 
+    {
+        "pk": 411, 
+        "rate": 1600, 
+        "name": "PHYSICIAN CHARGES IN ICU"
+    }, 
+    {
+        "pk": 412, 
+        "rate": 400, 
+        "name": "ADA"
+    }, 
+    {
+        "pk": 413, 
+        "rate": 250, 
+        "name": "LDH"
+    }, 
+    {
+        "pk": 414, 
+        "rate": 150, 
+        "name": "INFUSION CHARGES"
+    }, 
+    {
+        "pk": 415, 
+        "rate": 2000, 
+        "name": "MTP CHARGES"
+    }, 
+    {
+        "pk": 416, 
+        "rate": 500, 
+        "name": "DR L N RAJU (PHY) CONSULTATION CHARGES"
+    }, 
+    {
+        "pk": 417, 
+        "rate": 0, 
+        "name": "DR L N RAJU (PHYSICIAN)"
+    }, 
+    {
+        "pk": 418, 
+        "rate": 15000, 
+        "name": "CYSTOSCOPY & STENT REMOVAL"
+    }, 
+    {
+        "pk": 419, 
+        "rate": 21294, 
+        "name": "FISTULECTOMY AS PER GISPA"
+    }, 
+    {
+        "pk": 420, 
+        "rate": 1200, 
+        "name": "DR P M PATIL (PHYSICIAN) IN WARD"
+    }, 
+    {
+        "pk": 421, 
+        "rate": 1600, 
+        "name": "DR P M PATIL (PHYSICIAN) IN ICU"
+    }, 
+    {
+        "pk": 422, 
+        "rate": 700, 
+        "name": "CEA LEVELS"
+    }, 
+    {
+        "pk": 423, 
+        "rate": 1000, 
+        "name": "NEURO ULTRASONOGRAPHY"
+    }, 
+    {
+        "pk": 424, 
+        "rate": 175, 
+        "name": "TRESIVAC"
+    }, 
+    {
+        "pk": 425, 
+        "rate": 50, 
+        "name": "POLIO"
+    }, 
+    {
+        "pk": 426, 
+        "rate": 400, 
+        "name": "HIP X RAY"
+    }, 
+    {
+        "pk": 427, 
+        "rate": 7300, 
+        "name": "MRI LS SPINE AP/LAT"
+    }, 
+    {
+        "pk": 428, 
+        "rate": 1500, 
+        "name": "E R ROOM CHARGES"
+    }, 
+    {
+        "pk": 429, 
+        "rate": 1500, 
+        "name": "PERITONEAL FLUID C/S"
+    }, 
+    {
+        "pk": 430, 
+        "rate": 1000, 
+        "name": "PERITONEAL FLUID C/S AEROBIC"
+    }, 
+    {
+        "pk": 431, 
+        "rate": 1000, 
+        "name": "PERITONEAL FLUID C/S ANAEROBIC"
+    }, 
+    {
+        "pk": 432, 
+        "rate": 1000, 
+        "name": "PERITONEAL FLUID C/S FUNGAL"
+    }, 
+    {
+        "pk": 433, 
+        "rate": 4000, 
+        "name": "URETEROSCOPE"
+    }, 
+    {
+        "pk": 434, 
+        "rate": 600, 
+        "name": "DR NEEHAR PATIL (GEN SURGEON)"
+    }, 
+    {
+        "pk": 435, 
+        "rate": 8500, 
+        "name": "DR RAJENDRA PRASAD"
+    }, 
+    {
+        "pk": 436, 
+        "rate": 0, 
+        "name": "DR V N RAJU (ANAESTHETIOLOGIST)"
+    }, 
+    {
+        "pk": 437, 
+        "rate": 100, 
+        "name": "STOOL HANGING DROP"
+    }, 
+    {
+        "pk": 438, 
+        "rate": 450, 
+        "name": "X RAY CHEST PA VIEW"
+    }, 
+    {
+        "pk": 439, 
+        "rate": 450, 
+        "name": "SERUM ELECTROLYTES"
+    }, 
+    {
+        "pk": 440, 
+        "rate": 350, 
+        "name": "SERUM ELECTROLYTES"
+    }, 
+    {
+        "pk": 441, 
+        "rate": 450, 
+        "name": "CBC WITH ESR"
+    }, 
+    {
+        "pk": 442, 
+        "rate": 8500, 
+        "name": "MRI BRAIN WITH ANGIOGRAM"
+    }, 
+    {
+        "pk": 443, 
+        "rate": 1800, 
+        "name": "DIALYSIS CHARGES"
+    }, 
+    {
+        "pk": 444, 
+        "rate": 1600, 
+        "name": "LEG VESSEL DOPPLER STUDY"
+    }, 
+    {
+        "pk": 445, 
+        "rate": 2500, 
+        "name": "PERITONEAL ASPIRATION"
+    }, 
+    {
+        "pk": 446, 
+        "rate": 600, 
+        "name": "ALPHA FETA PROTEIN"
+    }, 
+    {
+        "pk": 447, 
+        "rate": 400, 
+        "name": "DR GURURAJ S PURANIK (ORTHO) CONSULTATION CHARGES"
+    }, 
+    {
+        "pk": 448, 
+        "rate": 600, 
+        "name": "X-RAY KNEE AP LAT"
+    }, 
+    {
+        "pk": 449, 
+        "rate": 1500, 
+        "name": "CARM"
+    }, 
+    {
+        "pk": 450, 
+        "rate": 7500, 
+        "name": "HOSPITAL TERMINATION CHARGES"
+    }, 
+    {
+        "pk": 451, 
+        "rate": 800, 
+        "name": "ET SECRITION C/S"
+    }, 
+    {
+        "pk": 452, 
+        "rate": 1500, 
+        "name": "CD4 CD8 COUNTS"
+    }, 
+    {
+        "pk": 453, 
+        "rate": 2500, 
+        "name": "TISSUE TRANSGLUTAMASE"
+    }, 
+    {
+        "pk": 454, 
+        "rate": 2600, 
+        "name": "EASY SIX"
+    }, 
+    {
+        "pk": 455, 
+        "rate": 1800, 
+        "name": "SR CERULOPLASMIN"
+    }, 
+    {
+        "pk": 456, 
+        "rate": 2400, 
+        "name": "TRANSFERRIN LEVEL"
+    }, 
+    {
+        "pk": 457, 
+        "rate": 15000, 
+        "name": "DR V S RAMESH OESPHAEGEAL PROCEDURE AND OT"
+    }, 
+    {
+        "pk": 458, 
+        "rate": 600, 
+        "name": "THRACOLUMABR XRAY"
+    }, 
+    {
+        "pk": 459, 
+        "rate": 8000, 
+        "name": "MRCP"
+    }, 
+    {
+        "pk": 460, 
+        "rate": 50, 
+        "name": "OPV"
+    }, 
+    {
+        "pk": 461, 
+        "rate": 600, 
+        "name": "DR MANJUNATH(NEURO)"
+    }, 
+    {
+        "pk": 462, 
+        "rate": 550, 
+        "name": "HEPATITIS B"
+    }, 
+    {
+        "pk": 463, 
+        "rate": 100, 
+        "name": "INJ PETHIDINE"
+    }, 
+    {
+        "pk": 464, 
+        "rate": 1000, 
+        "name": "PARATHYROID HARMONE"
+    }, 
+    {
+        "pk": 465, 
+        "rate": 1200, 
+        "name": "FLUQUADRI"
+    }, 
+    {
+        "pk": 466, 
+        "rate": 41580, 
+        "name": "ABDOMINAL HYSTRECTOMY AS PER GIPSA PACKAGES"
+    }, 
+    {
+        "pk": 467, 
+        "rate": 1200, 
+        "name": "PEDIATRICIAN IN WARD"
+    }, 
+    {
+        "pk": 468, 
+        "rate": 1250, 
+        "name": "PEDIATRICIAN"
+    }, 
+    {
+        "pk": 469, 
+        "rate": 7500, 
+        "name": "CT ABDOMEN AND PELVIES"
+    }, 
+    {
+        "pk": 470, 
+        "rate": 250, 
+        "name": "BCG"
+    }, 
+    {
+        "pk": 471, 
+        "rate": 50, 
+        "name": "BLOOD SUGAR"
+    }, 
+    {
+        "pk": 472, 
+        "rate": 0, 
+        "name": "INSTRUMENTS CHARGES"
+    }, 
+    {
+        "pk": 473, 
+        "rate": 1000, 
+        "name": "BOOSTERIX"
+    }, 
+    {
+        "pk": 474, 
+        "rate": 1000, 
+        "name": "THROAT SWAB C/S"
+    }, 
+    {
+        "pk": 475, 
+        "rate": 2500, 
+        "name": "THROAT SWAB FOR H1N1"
+    }, 
+    {
+        "pk": 476, 
+        "rate": 1500, 
+        "name": "PLEURAL FLUID ASPIRATION"
+    }, 
+    {
+        "pk": 477, 
+        "rate": 500, 
+        "name": "LDH"
+    }, 
+    {
+        "pk": 478, 
+        "rate": 12000, 
+        "name": "CYSTOSCOPE + DILATATION CHARGES"
+    }, 
+    {
+        "pk": 479, 
+        "rate": 6000, 
+        "name": "CT CHEST"
+    }, 
+    {
+        "pk": 480, 
+        "rate": 5000, 
+        "name": "DR NAGESH (ANESTHESIOLOGIST)"
+    }, 
+    {
+        "pk": 481, 
+        "rate": 5000, 
+        "name": "DR NAGESH  (ANAESTHETIOLOGIST)"
+    }, 
+    {
+        "pk": 482, 
+        "rate": 4000, 
+        "name": "VENTILATOR"
+    }, 
+    {
+        "pk": 483, 
+        "rate": 500, 
+        "name": "CAUSLTLY"
+    }, 
+    {
+        "pk": 484, 
+        "rate": 1000, 
+        "name": "EXPLORATION UNDER LA"
+    }, 
+    {
+        "pk": 485, 
+        "rate": 1500, 
+        "name": "OXYGEN THERAPY"
+    }, 
+    {
+        "pk": 486, 
+        "rate": 4500, 
+        "name": "MRA"
+    }, 
+    {
+        "pk": 487, 
+        "rate": 1000, 
+        "name": "ULTRASONOGRAPHY OF KNEE"
+    }, 
+    {
+        "pk": 488, 
+        "rate": 1200, 
+        "name": "ANTI PLATELET ANTIBODY"
+    }, 
+    {
+        "pk": 489, 
+        "rate": 150, 
+        "name": "HB  PCV"
+    }, 
+    {
+        "pk": 490, 
+        "rate": 0, 
+        "name": "DIFFERENCE  AMOUNT"
+    }, 
+    {
+        "pk": 491, 
+        "rate": 350, 
+        "name": "URINE FOR MALIGNANT CELLS"
+    }, 
+    {
+        "pk": 492, 
+        "rate": 2000, 
+        "name": "NERVE CONDUCTION STUDY"
+    }, 
+    {
+        "pk": 493, 
+        "rate": 4000, 
+        "name": "VASCULITIES PROFILE"
+    }, 
+    {
+        "pk": 494, 
+        "rate": 500, 
+        "name": "ERRECT ADOMEN X-RAY"
+    }, 
+    {
+        "pk": 495, 
+        "rate": 150, 
+        "name": "REVAC B"
+    }, 
+    {
+        "pk": 496, 
+        "rate": 600, 
+        "name": "DR PARICHAY PERIKAL (NEURO SURGEON)"
+    }, 
+    {
+        "pk": 497, 
+        "rate": 600, 
+        "name": "DR ARJUN (UROLOGIST)"
+    }, 
+    {
+        "pk": 498, 
+        "rate": 750, 
+        "name": "EMERGENCY PEADITRICIAN VISIT AT NIGHT"
+    }, 
+    {
+        "pk": 499, 
+        "rate": 600, 
+        "name": "FT3 FT4"
+    }, 
+    {
+        "pk": 500, 
+        "rate": 2500, 
+        "name": "BIPAP"
+    }, 
+    {
+        "pk": 501, 
+        "rate": 400, 
+        "name": "INFUSION PUMP CHARGES"
+    }, 
+    {
+        "pk": 502, 
+        "rate": 3000, 
+        "name": "LARYNGCAL ENDOSCOPY"
+    }, 
+    {
+        "pk": 503, 
+        "rate": 7000, 
+        "name": "AS PER GISPA PACAKAGE DJ  STENT REMOVING CHARGES"
+    }, 
+    {
+        "pk": 504, 
+        "rate": 1600, 
+        "name": "RENAL DOPPLER STUDY"
+    }, 
+    {
+        "pk": 505, 
+        "rate": 2500, 
+        "name": "CARDIOVERSION"
+    }, 
+    {
+        "pk": 506, 
+        "rate": 1400, 
+        "name": "SINGLE PRIVATE NON AC ROOM CHARGES"
+    }, 
+    {
+        "pk": 507, 
+        "rate": 1500, 
+        "name": "ROOM CHARGES"
+    }, 
+    {
+        "pk": 508, 
+        "rate": 2000, 
+        "name": "WARD CHARGES AND NURSING CHARGES"
+    }, 
+    {
+        "pk": 509, 
+        "rate": 250, 
+        "name": "NURSING CHARGES"
+    }, 
+    {
+        "pk": 510, 
+        "rate": 1500, 
+        "name": "C PEPTIDE"
+    }, 
+    {
+        "pk": 511, 
+        "rate": 400, 
+        "name": "NASAL X RAY"
+    }, 
+    {
+        "pk": 512, 
+        "rate": 5000, 
+        "name": "ADULT ICU NURSING MONITORING CHARGES"
+    }, 
+    {
+        "pk": 513, 
+        "rate": 10000, 
+        "name": "LT LOWER URETERIC D J STENT REMOVAL IN LOCAL ANAESTHETIC"
+    }, 
+    {
+        "pk": 514, 
+        "rate": 500, 
+        "name": "DR GURURAJ S PURANIK (ORTHOPEDICIAN)"
+    }, 
+    {
+        "pk": 515, 
+        "rate": 1400, 
+        "name": "ROOM  CHARGES"
+    }, 
+    {
+        "pk": 516, 
+        "rate": 100, 
+        "name": "HB"
+    }, 
+    {
+        "pk": 517, 
+        "rate": 1000, 
+        "name": "PAUL BUNNEL TEST"
+    }, 
+    {
+        "pk": 518, 
+        "rate": 1000, 
+        "name": "NECK ULTRASONOGRAPHY"
+    }, 
+    {
+        "pk": 519, 
+        "rate": 200, 
+        "name": "TC DC"
+    }, 
+    {
+        "pk": 520, 
+        "rate": 100, 
+        "name": "FHS"
+    }, 
+    {
+        "pk": 521, 
+        "rate": 150, 
+        "name": "BOWEL WASH"
+    }, 
+    {
+        "pk": 522, 
+        "rate": 2500, 
+        "name": "BOWEL CONTRAST STUDY"
+    }, 
+    {
+        "pk": 523, 
+        "rate": 50, 
+        "name": "WASH"
+    }, 
+    {
+        "pk": 524, 
+        "rate": 500, 
+        "name": "HOSPITAL CHARGES"
+    }, 
+    {
+        "pk": 525, 
+        "rate": 4000, 
+        "name": "UPPER GI ENDOSCOPY + RUT"
+    }, 
+    {
+        "pk": 526, 
+        "rate": 2000, 
+        "name": "ATTENDERS ROOM CHARGES"
+    }, 
+    {
+        "pk": 527, 
+        "rate": 17000, 
+        "name": "UPPER GI ENDOSCOPY & EVL"
+    }, 
+    {
+        "pk": 528, 
+        "rate": 2000, 
+        "name": "PERITONEAL PARACENTESIS"
+    }, 
+    {
+        "pk": 529, 
+        "rate": 450, 
+        "name": "PLAIN X RAY ABDOMEN"
+    }, 
+    {
+        "pk": 530, 
+        "rate": 500, 
+        "name": "PROFESSIONAL CHARGES"
+    }, 
+    {
+        "pk": 531, 
+        "rate": 33431, 
+        "name": "MESH TRACKER CHARGES"
+    }, 
+    {
+        "pk": 532, 
+        "rate": 850, 
+        "name": "STEPALIC SUBCAP FLUID FOR C/S"
+    }, 
+    {
+        "pk": 533, 
+        "rate": 1000, 
+        "name": "HEPATIC SUBCAP FLUID ANALYSIS"
+    }, 
+    {
+        "pk": 534, 
+        "rate": 2000, 
+        "name": "CSF CYTOLOGY BIOCHEM C/S"
+    }, 
+    {
+        "pk": 535, 
+        "rate": 2600, 
+        "name": "PROCALCITONIN"
+    }, 
+    {
+        "pk": 536, 
+        "rate": 2500, 
+        "name": "USG GUIDED HEPATIC SUBCAP FLUID ASPIRATION"
+    }, 
+    {
+        "pk": 537, 
+        "rate": 500, 
+        "name": "SPINAL TAP (HOSPITAL CHARGES)"
+    }, 
+    {
+        "pk": 538, 
+        "rate": 1800, 
+        "name": "VERIPED"
+    }, 
+    {
+        "pk": 539, 
+        "rate": 27405, 
+        "name": "NORMAL DELIVERY CHARGES"
+    }, 
+    {
+        "pk": 540, 
+        "rate": 250, 
+        "name": "WOUND  CARE"
+    }, 
+    {
+        "pk": 541, 
+        "rate": 5000, 
+        "name": "FEMORAL CATHETER INSERTION"
+    }, 
+    {
+        "pk": 542, 
+        "rate": 0, 
+        "name": "OT MEDICINES"
+    }, 
+    {
+        "pk": 543, 
+        "rate": 2500, 
+        "name": "ANTI MICROSOMAL ANTIBODY"
+    }, 
+    {
+        "pk": 544, 
+        "rate": 1000, 
+        "name": "PSEUDOCHOLINESTERASE"
+    }, 
+    {
+        "pk": 545, 
+        "rate": 530, 
+        "name": "EMERGENCY MEDICINES"
+    }, 
+    {
+        "pk": 546, 
+        "rate": 8500, 
+        "name": "GIPSA PACKAGE FOR D & C CHARGES"
+    }, 
+    {
+        "pk": 547, 
+        "rate": 1000, 
+        "name": "HBC ANTIBODY"
+    }, 
+    {
+        "pk": 548, 
+        "rate": 1000, 
+        "name": "HBE ANTIGEN"
+    }, 
+    {
+        "pk": 549, 
+        "rate": 0, 
+        "name": "DR RAJENDRA PRASAD (VASCULAR SURGEON)"
+    }, 
+    {
+        "pk": 550, 
+        "rate": 1000, 
+        "name": "Attempted Liver Abscess Aspiration under USG Guidence"
+    }, 
+    {
+        "pk": 551, 
+        "rate": 6500, 
+        "name": "IJV CATHER INSERTING USG GUIDENCE"
+    }, 
+    {
+        "pk": 552, 
+        "rate": 3500, 
+        "name": "SLEEP STUDY"
+    }, 
+    {
+        "pk": 553, 
+        "rate": 150, 
+        "name": "SERUM PROTIEN"
+    }, 
+    {
+        "pk": 554, 
+        "rate": 150, 
+        "name": "SERUM CHOLESTEROL"
+    }, 
+    {
+        "pk": 555, 
+        "rate": 400, 
+        "name": "DR SOMASUNDAR (PEDIATRICIAN)"
+    }, 
+    {
+        "pk": 556, 
+        "rate": 13900, 
+        "name": "AS PER GISPA PACKAGES IS AV FISTULA  CAHRGES"
+    }, 
+    {
+        "pk": 557, 
+        "rate": 30000, 
+        "name": "BANGALORE KIDNEY STONE"
+    }, 
+    {
+        "pk": 558, 
+        "rate": 100, 
+        "name": "POTASSIUM"
+    }, 
+    {
+        "pk": 559, 
+        "rate": 450, 
+        "name": "KUB PLAIN X RAY"
+    }, 
+    {
+        "pk": 560, 
+        "rate": 100, 
+        "name": "URINE ANALYSIS"
+    }, 
+    {
+        "pk": 561, 
+        "rate": 450, 
+        "name": "X RAY LEFT ARM AP AND LATERAL VIEW"
+    }, 
+    {
+        "pk": 562, 
+        "rate": 31500, 
+        "name": "LAP  APPENDECTOMY CHARGES AS PER GISPA PACKAGE"
+    }, 
+    {
+        "pk": 563, 
+        "rate": 1000, 
+        "name": "MINOR  OPERATION THEATRE CHARGES"
+    }, 
+    {
+        "pk": 564, 
+        "rate": 1500, 
+        "name": "DR P M PATIL (PHYSICIAN) IN AC ROOM"
+    }, 
+    {
+        "pk": 565, 
+        "rate": 1000, 
+        "name": "PLATELET RDP UNITS"
+    }, 
+    {
+        "pk": 566, 
+        "rate": 5000, 
+        "name": "DR MANJU BHARATH (GEN SURGEON)"
+    }, 
+    {
+        "pk": 567, 
+        "rate": 29000, 
+        "name": "MESH FOR LAP CHARGES"
+    }, 
+    {
+        "pk": 568, 
+        "rate": 200, 
+        "name": "FFB (FRESH FROZEN PLASMA)"
+    }, 
+    {
+        "pk": 569, 
+        "rate": 30, 
+        "name": "SITZ BATH"
+    }, 
+    {
+        "pk": 570, 
+        "rate": 1250, 
+        "name": "DR SRIRAM  (PHYSICIAN)  IN ROOM"
+    }, 
+    {
+        "pk": 571, 
+        "rate": 1250, 
+        "name": "PHYSICIANS CHARGES IN WARD"
+    }, 
+    {
+        "pk": 572, 
+        "rate": 750, 
+        "name": "URO FLOWMETRI"
+    }, 
+    {
+        "pk": 573, 
+        "rate": 600, 
+        "name": "SALINE STOMACH WASH"
+    }, 
+    {
+        "pk": 574, 
+        "rate": 15000, 
+        "name": "CIRCUMCISSION  AS PER GIPSA PACKAGE"
+    }, 
+    {
+        "pk": 575, 
+        "rate": 1500, 
+        "name": "ROOM CHARGES NON A/C"
+    }, 
+    {
+        "pk": 576, 
+        "rate": 10000, 
+        "name": "TUBECTOMY CHARGES"
+    }, 
+    {
+        "pk": 577, 
+        "rate": 1800, 
+        "name": "HEPATITIS A"
+    }, 
+    {
+        "pk": 578, 
+        "rate": 3000, 
+        "name": "CT PNS AXIAL AND CORONAL"
+    }, 
+    {
+        "pk": 579, 
+        "rate": 0, 
+        "name": "DR SATISH (ONCO SURGEON)"
+    }, 
+    {
+        "pk": 580, 
+        "rate": 10000, 
+        "name": "DEQVERAIN`S DISEASE RT WRIST PROCEDURE"
+    }, 
+    {
+        "pk": 581, 
+        "rate": 900, 
+        "name": "ABG"
+    }, 
+    {
+        "pk": 582, 
+        "rate": 2000, 
+        "name": "BLADDER WASH"
+    }, 
+    {
+        "pk": 583, 
+        "rate": 300, 
+        "name": "DRESSING"
+    }, 
+    {
+        "pk": 584, 
+        "rate": 500, 
+        "name": "DR S RAMALINGA (OPHTHALMOLOGIST)"
+    }, 
+    {
+        "pk": 585, 
+        "rate": 1200, 
+        "name": "DR SRIRAM  (PHYSICIAN)  IN WARD"
+    }, 
+    {
+        "pk": 586, 
+        "rate": 600, 
+        "name": "LOPARIN INJECTION 0.6MG"
+    }, 
+    {
+        "pk": 587, 
+        "rate": 60, 
+        "name": "INJ ADRENALINE"
+    }, 
+    {
+        "pk": 588, 
+        "rate": 31500, 
+        "name": "URS AS PER GIPSA PACKAGE"
+    }, 
+    {
+        "pk": 589, 
+        "rate": 0, 
+        "name": "DR SAGAR (ANAESTHETIOLOGIST)"
+    }, 
+    {
+        "pk": 590, 
+        "rate": 0, 
+        "name": "DD"
+    }, 
+    {
+        "pk": 591, 
+        "rate": 5000, 
+        "name": "ANA PROFILE"
+    }, 
+    {
+        "pk": 592, 
+        "rate": 1400, 
+        "name": "ANA IF"
+    }, 
+    {
+        "pk": 593, 
+        "rate": 0, 
+        "name": "DR REHAN (GEN SURGEON)"
+    }, 
+    {
+        "pk": 594, 
+        "rate": 400, 
+        "name": "DR REHAN (GEN SURGEON) CONSULTATION CHARGES"
+    }, 
+    {
+        "pk": 595, 
+        "rate": 0, 
+        "name": "DR NIYAZ (GEN SURGEON)"
+    }, 
+    {
+        "pk": 596, 
+        "rate": 1500, 
+        "name": "L P PROCEDURE"
+    }, 
+    {
+        "pk": 597, 
+        "rate": 0, 
+        "name": "OT ASSISTANT"
+    }, 
+    {
+        "pk": 598, 
+        "rate": 5000, 
+        "name": "MENECETRA"
+    }, 
+    {
+        "pk": 599, 
+        "rate": 26500, 
+        "name": "AS PER GISPA PACKAGE PROLAPSED HAEMORRHOIDS WITH FISSURE"
+    }, 
+    {
+        "pk": 600, 
+        "rate": 500, 
+        "name": "DIETICIAN"
+    }, 
+    {
+        "pk": 601, 
+        "rate": 10500, 
+        "name": "MRI CERVICAL SPINE"
+    }, 
+    {
+        "pk": 602, 
+        "rate": 150, 
+        "name": "OBSERVATION"
+    }, 
+    {
+        "pk": 603, 
+        "rate": 3000, 
+        "name": "(ANAESTHETIST)"
+    }, 
+    {
+        "pk": 604, 
+        "rate": 600, 
+        "name": "X RAY L S SPINE"
+    }, 
+    {
+        "pk": 605, 
+        "rate": 3500, 
+        "name": "VENTILATOR"
+    }, 
+    {
+        "pk": 606, 
+        "rate": 500, 
+        "name": "ANTI TPO ANTIBODY"
+    }, 
+    {
+        "pk": 607, 
+        "rate": 1000, 
+        "name": "GASTRIC ASPIRATION CHAGRES"
+    }, 
+    {
+        "pk": 608, 
+        "rate": 100, 
+        "name": "GRAM STAIN"
+    }, 
+    {
+        "pk": 609, 
+        "rate": 1600, 
+        "name": "DOPPLER STUDY CHARGES"
+    }, 
+    {
+        "pk": 610, 
+        "rate": 600, 
+        "name": "RT  FEMUR AP / LAT"
+    }, 
+    {
+        "pk": 611, 
+        "rate": 5000, 
+        "name": "RENAL BIOPSY WITH USG GUIDENCE"
+    }, 
+    {
+        "pk": 612, 
+        "rate": 400, 
+        "name": "DR NISHA ( OBG AND GYN)"
+    }, 
+    {
+        "pk": 613, 
+        "rate": 3500, 
+        "name": "URS & STENT CHARGES"
+    }, 
+    {
+        "pk": 614, 
+        "rate": 200, 
+        "name": "TD"
+    }, 
+    {
+        "pk": 615, 
+        "rate": 1250, 
+        "name": "PHYSICIAN CHARGES IN ROOM"
+    }, 
+    {
+        "pk": 616, 
+        "rate": 1600, 
+        "name": "DR SRIRAM (PHYSICIAN) IN ICU"
+    }, 
+    {
+        "pk": 617, 
+        "rate": 2200, 
+        "name": "MYCOBACTERIUM TUBERCULOSIS"
+    }, 
+    {
+        "pk": 618, 
+        "rate": 600, 
+        "name": "DR TARUN (UROLOGIST)"
+    }, 
+    {
+        "pk": 619, 
+        "rate": 10000, 
+        "name": "OESOPHAEGEAL VARICAL LIGATION EVL"
+    }, 
+    {
+        "pk": 620, 
+        "rate": 400, 
+        "name": "DR NISHA CONSULTATION CHARGES"
+    }, 
+    {
+        "pk": 621, 
+        "rate": 350, 
+        "name": "DR DEEPSHIKA FOLLOW UP CHARGES"
+    }, 
+    {
+        "pk": 622, 
+        "rate": 600, 
+        "name": "DR TARUN (UROLOGIST) CONSULTATION CHARGES"
+    }, 
+    {
+        "pk": 623, 
+        "rate": 500, 
+        "name": "SR IONISED CALCIUM"
+    }, 
+    {
+        "pk": 624, 
+        "rate": 2400, 
+        "name": "DISPOSABLE GUN FOR RENAL BIOPSY"
+    }, 
+    {
+        "pk": 625, 
+        "rate": 6500, 
+        "name": "ANA SCREENING IMMUNO FLORESCENCE"
+    }, 
+    {
+        "pk": 626, 
+        "rate": 100, 
+        "name": "PUS GRAM STAIN"
+    }, 
+    {
+        "pk": 627, 
+        "rate": 2000, 
+        "name": "MOTHERS BED CHARGES"
+    }, 
+    {
+        "pk": 628, 
+        "rate": 15000, 
+        "name": "TRACHEOSTOMY DR MUNIRAJU IN OT CHARGES"
+    }, 
+    {
+        "pk": 629, 
+        "rate": 850, 
+        "name": "ET C/S"
+    }, 
+    {
+        "pk": 630, 
+        "rate": 0, 
+        "name": "DR RAVI NAIK (PEDIATRICIAN)"
+    }, 
+    {
+        "pk": 631, 
+        "rate": 2000, 
+        "name": "TETRAXIM"
+    }, 
+    {
+        "pk": 632, 
+        "rate": 2000, 
+        "name": "OXYGEN THERAPY"
+    }, 
+    {
+        "pk": 633, 
+        "rate": 1700, 
+        "name": "TWIN SHARING CHARGES"
+    }, 
+    {
+        "pk": 634, 
+        "rate": 1500, 
+        "name": "VACCUM EXTRACTION"
+    }, 
+    {
+        "pk": 635, 
+        "rate": 2000, 
+        "name": "DRUG ABUSE PANEL"
+    }, 
+    {
+        "pk": 636, 
+        "rate": 0, 
+        "name": "DR H V SRINIVAS (NEUROLOGIST)"
+    }, 
+    {
+        "pk": 637, 
+        "rate": 3500, 
+        "name": "ENMG"
+    }, 
+    {
+        "pk": 638, 
+        "rate": 4800, 
+        "name": "HTLV1 ANTI BODY TEST"
+    }, 
+    {
+        "pk": 639, 
+        "rate": 300, 
+        "name": "TWIN SHARING NURSING CHARGES"
+    }, 
+    {
+        "pk": 640, 
+        "rate": 500, 
+        "name": "ASLO TITRE"
+    }, 
+    {
+        "pk": 641, 
+        "rate": 2800, 
+        "name": "LEISHMANIA ANTIBODY TEST"
+    }, 
+    {
+        "pk": 642, 
+        "rate": 0, 
+        "name": "DR MEGHA (OB& GYNAEC)"
+    }, 
+    {
+        "pk": 643, 
+        "rate": 400, 
+        "name": "DR MEGHA CONSULTATION CHARGES"
+    }, 
+    {
+        "pk": 644, 
+        "rate": 150, 
+        "name": "POP (REMOVAL CHARGES)"
+    }, 
+    {
+        "pk": 645, 
+        "rate": 300, 
+        "name": "GAMMA TEST"
+    }, 
+    {
+        "pk": 646, 
+        "rate": 350, 
+        "name": "DR MEGHA FOLLOW UP CHARGES"
+    }, 
+    {
+        "pk": 647, 
+        "rate": 1600, 
+        "name": "BIOPSY"
+    }, 
+    {
+        "pk": 648, 
+        "rate": 1500, 
+        "name": "EMERGENCY  ULTRASONOGRAPHY"
+    }, 
+    {
+        "pk": 649, 
+        "rate": 4500, 
+        "name": "DR RAMESH AESTHESIOLOGIST"
+    }, 
+    {
+        "pk": 650, 
+        "rate": 1400, 
+        "name": "ROTA VAC 5D"
+    }, 
+    {
+        "pk": 651, 
+        "rate": 500, 
+        "name": "PROFESSIONAL CHARGES"
+    }, 
+    {
+        "pk": 652, 
+        "rate": 2500, 
+        "name": "TREATMENT CHARGES IN CASUALTY"
+    }, 
+    {
+        "pk": 653, 
+        "rate": 1000, 
+        "name": "BED CHARGES"
+    }, 
+    {
+        "pk": 654, 
+        "rate": 10000, 
+        "name": "HARMONIC QAUTERY"
+    }, 
+    {
+        "pk": 655, 
+        "rate": 1000, 
+        "name": "DR RAGHAVENDRA (NEPHROLOGIST)"
+    }, 
+    {
+        "pk": 656, 
+        "rate": 100, 
+        "name": "VACCINATION FILE"
+    }, 
+    {
+        "pk": 657, 
+        "rate": 150, 
+        "name": "SR ALBANIM"
+    }, 
+    {
+        "pk": 658, 
+        "rate": 600, 
+        "name": "DR RAGHAVENDRA (NEPHROLOGY)"
+    }, 
+    {
+        "pk": 659, 
+        "rate": 1700, 
+        "name": "THYROID SCAN"
+    }, 
+    {
+        "pk": 660, 
+        "rate": 3000, 
+        "name": "DR PUSHPA (ANTHE)"
+    }, 
+    {
+        "pk": 661, 
+        "rate": 0, 
+        "name": "THERAPEUTIC URETEROSCOPEMUNDER SAB"
+    }, 
+    {
+        "pk": 662, 
+        "rate": 7500, 
+        "name": "PERITONEAL BIOPSY CT GUIDED & HPR"
+    }, 
+    {
+        "pk": 663, 
+        "rate": 6500, 
+        "name": "HR CT CHEST"
+    }, 
+    {
+        "pk": 664, 
+        "rate": 1400, 
+        "name": "ROTAVAC HD"
+    }, 
+    {
+        "pk": 665, 
+        "rate": 100, 
+        "name": "SODIUM"
+    }, 
+    {
+        "pk": 666, 
+        "rate": 100, 
+        "name": "POTASSIUM"
+    }, 
+    {
+        "pk": 667, 
+        "rate": 1700, 
+        "name": "SINGLE PRIVATE NON AC ROOM CHARGES"
+    }, 
+    {
+        "pk": 668, 
+        "rate": 500, 
+        "name": "DR ZIA (ANAESTHETIST)"
+    }, 
+    {
+        "pk": 669, 
+        "rate": 2000, 
+        "name": "C4T INSERTION"
+    }, 
+    {
+        "pk": 670, 
+        "rate": 2000, 
+        "name": "DR ZIA (ANAESTHETIST)"
+    }, 
+    {
+        "pk": 671, 
+        "rate": 50, 
+        "name": "TOTAL COUNT"
+    }, 
+    {
+        "pk": 672, 
+        "rate": 3500, 
+        "name": "DR SURAJ (ANAESTHETIST)"
+    }, 
+    {
+        "pk": 673, 
+        "rate": 3000, 
+        "name": "CT SHOULDER"
+    }, 
+    {
+        "pk": 674, 
+        "rate": 20000, 
+        "name": "DR  ZUBER ( ONOLOGIST)"
+    }, 
+    {
+        "pk": 675, 
+        "rate": 20000, 
+        "name": "DR ZUBER (ONCOLOGIST)"
+    }, 
+    {
+        "pk": 676, 
+        "rate": 10000, 
+        "name": "PLEURODESIS"
+    }, 
+    {
+        "pk": 677, 
+        "rate": 500, 
+        "name": "DR AVINASH(ORTHO)"
+    }, 
+    {
+        "pk": 678, 
+        "rate": 38115, 
+        "name": "GIPSA PACKAGE FOR SUPRACONDYLAR # ORIF"
+    }, 
+    {
+        "pk": 679, 
+        "rate": 10000, 
+        "name": "COMORBID CONDITION UNCONTROLLED TYPE 2DM"
+    }, 
+    {
+        "pk": 680, 
+        "rate": 40541, 
+        "name": "TYMPANOPLASTY WITH MASTOIDECTOMY as per Gipsa Package"
+    }, 
+    {
+        "pk": 681, 
+        "rate": 29150, 
+        "name": "HAEMOROIDECTOMY + FISSURECTOMY AS PER GIPSA"
+    }, 
+    {
+        "pk": 682, 
+        "rate": 35138, 
+        "name": "HIGH FISTULECTOMY + FISSURECTOMY AS PER GIPSA PACKAGE"
+    }, 
+    {
+        "pk": 683, 
+        "rate": 500, 
+        "name": "XRAY FOREARM AP/LAT"
+    }, 
+    {
+        "pk": 684, 
+        "rate": 6000, 
+        "name": "DR BALAJI (ANAESTHETIOLOGIST)"
+    }, 
+    {
+        "pk": 685, 
+        "rate": 7200, 
+        "name": "TRIPLE LUMEN IJV CATHETER"
+    }, 
+    {
+        "pk": 686, 
+        "rate": 20000, 
+        "name": "AV GRAFT"
+    }, 
+    {
+        "pk": 687, 
+        "rate": 4500, 
+        "name": "CYSTOSCOPE"
+    }, 
+    {
+        "pk": 688, 
+        "rate": 1000, 
+        "name": "NEWBORN SCREENING CH CAH TGAL G6PD DEFICIENCY"
+    }, 
+    {
+        "pk": 689, 
+        "rate": 9000, 
+        "name": "BLOOD FOR FLOW CYTOMETRY"
+    }, 
+    {
+        "pk": 690, 
+        "rate": 1000, 
+        "name": "VBG"
+    }, 
+    {
+        "pk": 691, 
+        "rate": 3500, 
+        "name": "CT CERVICAL SPINE"
+    }, 
+    {
+        "pk": 692, 
+        "rate": 1800, 
+        "name": "FLUARIX TETRA"
+    }, 
+    {
+        "pk": 693, 
+        "rate": 5000, 
+        "name": "CVP LINE CHARGES"
+    }, 
+    {
+        "pk": 694, 
+        "rate": 57750, 
+        "name": "B/L INGUINAL HERNIA AS PER GIPSA PACKAGE"
+    }, 
+    {
+        "pk": 695, 
+        "rate": 6500, 
+        "name": "WART EXCISION CHARGES"
+    }, 
+    {
+        "pk": 696, 
+        "rate": 46200, 
+        "name": "LAPAROSCOPIC CHOLECYSTECTOMY AS PER GIPSA PACKAGES"
+    }, 
+    {
+        "pk": 697, 
+        "rate": 0, 
+        "name": "DR SANTHOSH (GEN SURGEON)"
+    }, 
+    {
+        "pk": 698, 
+        "rate": 0, 
+        "name": "DR NAGENDRA (ANAESTHETIOLOGIST)"
+    }, 
+    {
+        "pk": 699, 
+        "rate": 250, 
+        "name": "BIRTH CERTIFICATE SERVICE CHARGES"
+    }, 
+    {
+        "pk": 700, 
+        "rate": 26450, 
+        "name": "IMPLANT REMOVAL AS PER GIPSA PACKAGE CHARGES"
+    }, 
+    {
+        "pk": 701, 
+        "rate": 150, 
+        "name": "GASTRIC ASPIRATION OCCULT BLOOD"
+    }, 
+    {
+        "pk": 702, 
+        "rate": 2000, 
+        "name": "PNEUMOSIL VACCINE"
+    }, 
+    {
+        "pk": 703, 
+        "rate": 27027, 
+        "name": "LAP OVARIAN CYSTECTOMY AS PER GIPSA PACKAGE"
+    }, 
+    {
+        "pk": 704, 
+        "rate": 0, 
+        "name": "ADHESIOLYSIS CHARGES"
+    }, 
+    {
+        "pk": 705, 
+        "rate": 0, 
+        "name": "DR SHANKARE GOWDA (OB & GYNAEC)"
+    }, 
+    {
+        "pk": 706, 
+        "rate": 0, 
+        "name": "DR BHASKAR (ANAESTHETIOLOGIST)"
+    }, 
+    {
+        "pk": 707, 
+        "rate": 2000, 
+        "name": "FRACTURE TABLE"
+    }, 
+    {
+        "pk": 708, 
+        "rate": 250, 
+        "name": "URINE CALCIUM"
+    }, 
+    {
+        "pk": 709, 
+        "rate": 500, 
+        "name": "URINE CHLORIDE"
+    }, 
+    {
+        "pk": 710, 
+        "rate": 500, 
+        "name": "URINE POTTASIUM"
+    }, 
+    {
+        "pk": 711, 
+        "rate": 3600, 
+        "name": "SILICON STENT"
+    }
+]

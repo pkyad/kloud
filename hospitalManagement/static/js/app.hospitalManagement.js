@@ -137,6 +137,16 @@ app.controller("businessManagement.hospitalManagement", function($scope, $rootSc
   }
   $scope.fetchData()
 
+  $scope.getData = function(){
+    $http({
+      method: 'GET',
+      url:  '/api/hospitalManagement/hospMigration/'
+    }).
+    then(function(response) {
+      console.log(response);
+
+    })
+  }
 
 });
 

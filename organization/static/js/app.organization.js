@@ -7,6 +7,10 @@ app.controller("workforceManagement.organization.companies", function($scope, $s
 
 app.controller("workforceManagement.organization.division.form", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal, data, $uibModalInstance) {
 
+  console.log(
+    'dfdgdfgdfgdfg'
+  );
+
   console.log($scope.tab);
 
   $scope.resetForm = function() {

@@ -19,15 +19,10 @@
       <div class="form-group">
         <label>Patient Name</label>
         <div class="{{addNewPatient==true ? 'input-group': ''}}">
-          <input ng-if="activePatientsForm.pk==null" type="text" class="form-control websiteInput" ng-model="activePatientsForm.patient" uib-typeahead="patient as patient.firstName for patient in patientSearch($viewValue)">
-          <input ng-if="activePatientsForm.pk" type="text" class="form-control websiteInput" ng-model="activePatientsForm.patient" uib-typeahead="patient as patient.firstName for patient in patientSearch($viewValue)" disabled>
-          <div ng-if="addNewPatient" class="input-group-addon" style="cursor:pointer;" ng-click="addNewActivePatient(activePatientsForm.patient)">Add</div>
+          <input ng-if="activePatientsForm.pk==null" type="text" class="form-control websiteInput" ng-model="activePatientsForm.patient" uib-typeahead="patient as patient.firstName for patient in patientSearch($viewValue)" >
+          <input ng-if="activePatientsForm.pk" type="text" class="form-control" ng-model="activePatientsForm.patient" uib-typeahead="patient as patient.firstName for patient in patientSearch($viewValue)" disabled>
+          <div ng-if="addNewPatient" class="input-group-addon" style="cursor:pointer;position: relative;left: 155px;border: none; z-index: 9999999;top: 4px;background:transparent;font-weight: bold;left: -55px;" ng-click="addNewActivePatient(activePatientsForm.patient)">Add</div>
         </div>
-      </div>
-
-      <div class="form-group">
-        <button ng-if="activePatientsForm.patient.length > 0" type="button" class="btn btn-primary" name="button" ng-click="addDoctor()" style="position: absolute;right: 15px;border: none !important;background:#2980b9 !important;padding: 12px 15px;border-top-right-radius: 30px !important;border-bottom-right-radius: 30px !important;color:white;">Add <i class="glyphicon glyphicon-plus"></i></button>
-        <input type="text" class="form-control websiteInput" ng-model="activePatientsForm.patient" uib-typeahead="user as user.name for user in doctorSearch($viewValue)" placeholder="Search By Name Here...">
       </div>
 
 

@@ -36,6 +36,8 @@ from dateutil.relativedelta import relativedelta
 from pytz import timezone
 from django.template import defaultfilters
 from datetime import timedelta
+from rest_framework.renderers import JSONRenderer
+
 # Create your views here.
 
 
@@ -518,3 +520,187 @@ class GetReports(APIView):
                 i['billNo'] = 'CB'+str(count).zfill(4)+ '/' +twoDigitsYear
         print '************',Records
         return Response(Records,status = status.HTTP_200_OK)
+
+
+
+class HospitalDataMigrations(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny, )
+    def get(self, request, format=None):
+        divisionPK = 4
+        divisionObj = Division.objects.get(pk = divisionPK)
+
+        # getting users
+        userData = None
+        userDataPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'json', 'users.json')
+        with open(userDataPath) as json_file:
+            userData = json.load(json_file)
+
+        #creating users
+        for item in userData:
+            u, userObj = User.objects.get_or_create(username = item['username'])
+            if userObj is not None:
+                userObj.first_name = item['first_name']
+                userObj.last_name = item['last_name']
+                profileObj = userObj.profile
+                profileObj.mobile = item['profile']['mobile']
+
+        #getting doctors users
+        doctorData = None
+        doctorDataPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'json', 'doctor.json')
+        with open(doctorDataPath) as json_file:
+            doctorData = json.load(json_file)
+
+        #creating doctors
+        for item in doctorData:
+            d, doctorObj = User.objects.get_or_create(username = item['username'])
+            if doctorObj is not None:
+                doctorObj.name = item['first_name']
+                doctorObj.department = item['last_name']
+                doctorObj.education = item['last_name']
+                doctorObj.mobile = item['last_name']
+                doctorObj.division = divisionObj
+
+        #getting doctors users
+        doctorData = None
+        doctorDataPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'json', 'doctor.json')
+        with open(doctorDataPath) as json_file:
+            doctorData = json.load(json_file)
+
+        #creating patient
+        for item in doctorData:
+            doctorObj = User.objects.get_or_create(username = item['username'])
+            if doctorObj is not None:
+                doctorObj.name = item['first_name']
+                doctorObj.department = item['last_name']
+                doctorObj.education = item['last_name']
+                doctorObj.mobile = item['last_name']
+                doctorObj.division = divisionObj
+
+
+        # #creating Service
+        # companyPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','bruderer_service.json')
+        # with open(companyPath) as json_file:
+        #     comapnyData = json.load(json_file)
+        #     for item in comapnyData:
+        #
+        #         try:
+        #             if item['user'] is not None:
+        #                 userObj = User.objects.get(username = item['user']['username'])
+        #         except:
+        #             print item['user'], 'user'
+        #             userObjData = [x for x in userData if x['pk'] == item['user']]
+        #             userObj = User.objects.get(username = userObjData[0]['username'])
+        #         else:
+        #             userObj = User.objects.get(username = 'gopinath')
+        #
+        #
+        #         objs = service.objects.filter(name = item['name'],user = userObj)
+        #         obj = None
+        #         if len(objs)>0:
+        #             obj = objs[0]
+        #         if len(objs) == 0:
+        #             print item['name'], 'name '
+        #             if item['name'] != 'cioc':
+        #                 obj = service.objects.create(name = item['name'],user = userObj)
+        #
+        #         if obj is not None:
+        #             obj.customerName = item['customerName']
+        #             obj.created = item['created']
+        #             obj.mobile = item['mobile']
+        #             obj.gst = item['gst']
+        #             obj.division = divisionObj
+        #
+        #             if item['address'] is not None:
+        #                 addressObj = address.objects.create(city = item['address']['city'], country = item['address']['country'], lon = item['address']['lon'] , pincode = item['address']['pincode'], state = item['address']['state'],street = item['address']['street'],lat = item['address']['lat'])
+        #
+        #                 obj.address = addressObj
+        #
+        #             obj.save()
+        #             print 'company', obj.name, obj.pk
+        #
+        #
+        # inventoryData = None
+        # inventoryPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','bruderer_inventory.json')
+        # with open(inventoryPath) as json_file:
+        #     inventoryData = json.load(json_file)
+        # projectData = None
+        # projectPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','bruderer_projects.json')
+        # with open(projectPath) as json_file:
+        #     projectData = json.load(json_file)
+        #
+        # productPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','bruderer_products.json')
+        # with open(productPath) as json_file:
+        #     productData = json.load(json_file)
+        #
+        # materialIssueMainPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','bruderer_materialIssueMain.json')
+        # with open(materialIssueMainPath) as json_file:
+        #     data = json.load(json_file)
+        #     for item in data:
+        #         projectObj = None
+        #         userObj = None
+        #         if item['project'] is not None:
+        #             projectObj = Projects.objects.get(title = item['project']['title'],boeRefNumber = item['project']['boeRefNumber'],comm_nr = item['project']['comm_nr'],quote_ref = item['project']['quote_ref'],invoiceNumber = item['project']['invoiceNumber'],status = item['project']['status'],clearingCharges1 = item['project']['clearingCharges1'],poDate = item['project']['poDate'],invoiceValue = item['project']['invoiceValue'])
+        #         else:
+        #             print item['pk'], 'project is none'
+        #             break
+        #
+        #         if item['user'] is not None:
+        #             try:
+        #                 userObj = User.objects.get(username = item['user']['username'])
+        #             except:
+        #                 userObj = User.objects.get(username = 'gopinath')
+        #
+        #
+        #         if userObj and projectObj is not None:
+        #             materialMainObj, created = MaterialIssueMain.objects.get_or_create(project = projectObj, user = userObj,created = item['created'],division = divisionObj)
+        #             materialMainObj.save()
+        #             materialMainObj.materialIssue.clear()
+        #             print materialMainObj.pk , "material issue"
+        #             if len(item['materialIssue'])>0:
+        #                 for issueItem in item['materialIssue']:
+        #                     productObj = None
+        #                     productObj = Products.objects.get(part_no = issueItem['product']['part_no'])
+        #
+        #                     if productObj is not None:
+        #
+        #                         stockVal = []
+        #
+        #                         stockData =  ast.literal_eval(issueItem['stock'])
+        #                         print stockData, 'stockData'
+        #                         for stockItem in stockData:
+        #                             projectObjs = [x for x in projectData if x['pk'] == stockItem['project']]
+        #                             productObjs = [x for x in productData if x['pk'] == stockItem['product']]
+        #                             inventoryObjs = [x for x in inventoryData if x['pk'] == stockItem['inventory']]
+        #                             print len(projectObjs), 'projectObjs'
+        #                             print len(productObjs), 'productObjs'
+        #                             print len(inventoryObjs), 'inventoryObjs'
+        #                             projectObj = projectObjs[0]
+        #                             productObjStockVal = productObjs[0]
+        #                             inventoryObj = inventoryObjs[0]
+        #                             # if len(projectObjs)>1 or len(productObjs)>1 or len(inventoryObjs)>0:
+        #                             #     print 1/0
+        #
+        #                             projectObj = Projects.objects.get(title = projectObj['title'],boeRefNumber = projectObj['boeRefNumber'],comm_nr = projectObj['comm_nr'],quote_ref = projectObj['quote_ref'],invoiceNumber = projectObj['invoiceNumber'],status = projectObj['status'],clearingCharges1 = projectObj['clearingCharges1'],poDate = projectObj['poDate'],invoiceValue = projectObj['invoiceValue'])
+        #
+        #                             productObjStockVal = Products.objects.get(part_no = productObjStockVal['part_no'])
+        #
+        #                             inventoryObj = Inventory.objects.get(project = projectObj, product = productObjStockVal,qty = inventoryObj['qty'],rate = inventoryObj['rate'],addedqty = inventoryObj['addedqty'])
+        #
+        #                             stockVal.append({'part_no':stockItem['part_no'],'qty': stockItem['qty'],'inventory':inventoryObj.pk,'project':inventoryObj.project.pk,'savedqty':stockItem['savedqty'],'product':inventoryObj.product.pk,'addedqty':stockItem['addedqty'],'comm_nr':stockItem['comm_nr']})
+        #
+        #
+        #                         print stockVal , 'stockVal'
+        #                         materialIssueObj  = MaterialIssue.objects.create(product = productObj, qty = issueItem['qty'],price = issueItem['price'],stock = stockVal, division = divisionObj)
+        #                         materialIssueObj.created = issueItem['created']
+        #                         materialIssueObj.save()
+        #
+        #                         materialMainObj.materialIssue.add(materialIssueObj)
+        #                         materialMainObj.save()
+        #                     else:
+        #                         print  issueItem['pk'] , 'product obj'
+        #
+        #
+        #             materialMainObj.save()
+
+        return Response({'status':'ok'}, status=status.HTTP_200_OK)

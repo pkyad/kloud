@@ -1,0 +1,604 @@
+[
+    {
+        "department": "DERMATOLOGY", 
+        "pk": 1, 
+        "education": "DVD", 
+        "name": "DR RAMESHBABU (DERMATOLOGIST)", 
+        "mobile": "9448051840"
+    }, 
+    {
+        "department": "PEDIATRICS", 
+        "pk": 2, 
+        "education": "DCH", 
+        "name": "DR HEMALATHA V G (PEDIATRICS)", 
+        "mobile": "9886909632"
+    }, 
+    {
+        "department": "GASTROENTEROLOGY", 
+        "pk": 3, 
+        "education": "DNB ( GASTROENTEROLOGY)", 
+        "name": "DR RAMESH V S (GASTROENTEROLOGIST)", 
+        "mobile": "9900263603"
+    }, 
+    {
+        "department": "PEDIATRICS", 
+        "pk": 4, 
+        "education": "M D (PEDIATRICS)", 
+        "name": "DR GEETA PATIL (PEDIATRICS)", 
+        "mobile": "9900520357"
+    }, 
+    {
+        "department": "INTERNAL MEDICINE", 
+        "pk": 5, 
+        "education": "M.D (INTERNAL MEDICINE)", 
+        "name": "DR P M PATIL (INTERNAL MEDICINE)", 
+        "mobile": "9900316357"
+    }, 
+    {
+        "department": "PEDIATRIC SURGERY", 
+        "pk": 6, 
+        "education": "Mch(PEDIATRIC SURGERY)", 
+        "name": "DR NEEHAR PATIL (PEDIATRIC SURGEON)", 
+        "mobile": "9916299382"
+    }, 
+    {
+        "department": "OBSTETRICS AND GYNAECOLOGY", 
+        "pk": 7, 
+        "education": "D.N.B", 
+        "name": "DR SAIRA ZIA (OB & GYNAEC)", 
+        "mobile": "9845208476"
+    }, 
+    {
+        "department": "GENERAL SURGERY", 
+        "pk": 8, 
+        "education": "M S (GENERAL SURGERY)", 
+        "name": "DR B S RAMESH (GENERAL SURGEON)", 
+        "mobile": "9449506131"
+    }, 
+    {
+        "department": "RADIOLOGY", 
+        "pk": 9, 
+        "education": "DMRD,DNB", 
+        "name": "DR SHABEER AHMED (RADIOLOGIST)", 
+        "mobile": "9880403955"
+    }, 
+    {
+        "department": "PATHOLOGY", 
+        "pk": 10, 
+        "education": "M.D PATHOLOGY", 
+        "name": "DR MANJUNATH (PATHOLOGIST)", 
+        "mobile": "9845018784"
+    }, 
+    {
+        "department": "NEUROLOGY", 
+        "pk": 11, 
+        "education": "D.M (NEUROLOGY)", 
+        "name": "DR MANJUNATH (NEUROLOGIST)", 
+        "mobile": "9980958080"
+    }, 
+    {
+        "department": "NEUROLOGY", 
+        "pk": 12, 
+        "education": "D.M (NEUROLOGY)", 
+        "name": "DR SANTOSH (NEUROLOGIST)", 
+        "mobile": "9901782100"
+    }, 
+    {
+        "department": "ORTHOPEDICS", 
+        "pk": 13, 
+        "education": "DNB(ORTHO)", 
+        "name": "DR SYED IMRAN (ORTHOPEDICIAN)", 
+        "mobile": "9886783997"
+    }, 
+    {
+        "department": "ORTHOPEDICS", 
+        "pk": 14, 
+        "education": "M.S(ORTHO)", 
+        "name": "DR VIDHYADHAR (ORTHOPEDICIAN)", 
+        "mobile": "9945514014"
+    }, 
+    {
+        "department": "OB AND GYNAEC", 
+        "pk": 15, 
+        "education": "M.S (OB AND GYNAEC)", 
+        "name": "DR DEEPSHIKA JHA (OB & GYNAEC)", 
+        "mobile": "8861328915"
+    }, 
+    {
+        "department": "OB AND GYNAEC", 
+        "pk": 16, 
+        "education": "M.S (OB  AND ( GYNAEC)", 
+        "name": "DR JYOTHILAKSHMI (OB & GYNAEC)", 
+        "mobile": "9980711821"
+    }, 
+    {
+        "department": "OB AND GYNAEC", 
+        "pk": 17, 
+        "education": "M.S (OB & GYNAEC)", 
+        "name": "DR VIJAYKUMAR (OB & GYNAEC)", 
+        "mobile": "9008166983"
+    }, 
+    {
+        "department": "OB & GYNAEC", 
+        "pk": 18, 
+        "education": "M.S (OB & GYNAEC)", 
+        "name": "DR JAYASHREE (OB & GYNAEC)", 
+        "mobile": "9844287692"
+    }, 
+    {
+        "department": "UROLOGY", 
+        "pk": 19, 
+        "education": "M ch(UROLOGY)", 
+        "name": "DR TEJAS (UROLOGIST)", 
+        "mobile": "9845428903"
+    }, 
+    {
+        "department": "PEDIATRIC SURGERY", 
+        "pk": 20, 
+        "education": "Mch ( PEDIATRIC SURGERY)", 
+        "name": "DR NARENDRA BABU (PEDIATRIC SURGEON)", 
+        "mobile": "9845483339"
+    }, 
+    {
+        "department": "PEDIATRIC SURGEON", 
+        "pk": 21, 
+        "education": "Mch", 
+        "name": "DR VINAY JADHAV (PEDIATRIC SURGEON)", 
+        "mobile": "9900130148"
+    }, 
+    {
+        "department": "UROLOGY", 
+        "pk": 22, 
+        "education": "Mch ( UROLOGY)", 
+        "name": "DR SHIVAKUMAR (UROLOGIST)", 
+        "mobile": "9480311711"
+    }, 
+    {
+        "department": "NEUROSURGERY", 
+        "pk": 23, 
+        "education": "M ch( NEUROSURGERY)", 
+        "name": "DR PRAKASH (NEURO SURGEON)", 
+        "mobile": "9980003124"
+    }, 
+    {
+        "department": "PSYCHIATRY", 
+        "pk": 24, 
+        "education": "M.D (PSYCHIATRY)", 
+        "name": "DR CHANDRASHEKHAR (PSYCHIATRIST)", 
+        "mobile": "9845325502"
+    }, 
+    {
+        "department": "ENT", 
+        "pk": 25, 
+        "education": "DLO", 
+        "name": "DR JAWAD AHMED (ENT SURGEON)", 
+        "mobile": "9448385743"
+    }, 
+    {
+        "department": "PLASTIC SURGERY", 
+        "pk": 26, 
+        "education": "Mch (PLASTIC SURGERY)", 
+        "name": "DR CHETAN SATISH (PLASTIC SURGEON)", 
+        "mobile": "9686888585"
+    }, 
+    {
+        "department": "ONCOSURGERY", 
+        "pk": 27, 
+        "education": "Mch(ONCHOSURGERY)", 
+        "name": "DR VEERENDRA KUMAR (ONCO SURGEON)", 
+        "mobile": "9741008370"
+    }, 
+    {
+        "department": "NEPHROLOGY", 
+        "pk": 28, 
+        "education": "DM( NEPHROLOGY)", 
+        "name": "DR SHIVAPRASAD (NEPHROLOGIST)", 
+        "mobile": "9844006363"
+    }, 
+    {
+        "department": "PHYSIOTHERAPY", 
+        "pk": 29, 
+        "education": "B.P.T", 
+        "name": "MR R.K SINGH (PHYSIOTHERAPIST)", 
+        "mobile": "9845111687"
+    }, 
+    {
+        "department": "PEDIATRICS", 
+        "pk": 30, 
+        "education": "M. D (PEDIATRICS)", 
+        "name": "DR RAVI NAYAK (PEDIATRICIAN)", 
+        "mobile": "9448056327"
+    }, 
+    {
+        "department": "CARDIOLOGY", 
+        "pk": 31, 
+        "education": "DM ( CARDIOLOGY)", 
+        "name": "DR CHANDAN (CARDIOLOGIST)", 
+        "mobile": "7675993001"
+    }, 
+    {
+        "department": "ANAESTHESIA", 
+        "pk": 32, 
+        "education": "D.A", 
+        "name": "DR NARASIMHAMURTHY (ANAESTHETIOLOGIST)", 
+        "mobile": "."
+    }, 
+    {
+        "department": "ANAESTHESIA", 
+        "pk": 33, 
+        "education": "MD (ANAESTHESIA)", 
+        "name": "DR VARUN REDDY (ANAESTHETIOLOGIST)", 
+        "mobile": null
+    }, 
+    {
+        "department": "ANAESTHESIA", 
+        "pk": 34, 
+        "education": "M. D( ANAESTHESIA)", 
+        "name": "DR PRAVEEN PRASAD (ANAESTHEIOLOGIST)", 
+        "mobile": "."
+    }, 
+    {
+        "department": "ANAESTHESIA", 
+        "pk": 35, 
+        "education": "D.A", 
+        "name": "DR MOHAN RAJ (ANAESTHETIOLOGIST)", 
+        "mobile": "."
+    }, 
+    {
+        "department": "ANAESTHESIA", 
+        "pk": 36, 
+        "education": "D. A( ANAESTHESIA)", 
+        "name": "DR RAMESH (ANAESTHETIOLOGIST)", 
+        "mobile": "9449506131"
+    }, 
+    {
+        "department": "ANAESTHESIOLOGY", 
+        "pk": 37, 
+        "education": "MD( ANAESTHESOLOGY)", 
+        "name": "DR SUNITHA (ANAESTHETIOLOGIST)", 
+        "mobile": "."
+    }, 
+    {
+        "department": "ANAESTHESIOLOGY", 
+        "pk": 38, 
+        "education": "M.D(ANAESTHESIOLOGY)", 
+        "name": "DR RAJA (ANAESTHETIOLOGIST)", 
+        "mobile": "."
+    }, 
+    {
+        "department": "ANAESTHESIOLOGY", 
+        "pk": 39, 
+        "education": "D. A", 
+        "name": "DR V N RAJU (ANAESTHETIOLOGIST)", 
+        "mobile": "."
+    }, 
+    {
+        "department": "PEDIATRIC NEPHROLOGY", 
+        "pk": 40, 
+        "education": "M. D(PEDIATRICS)FELLOWSHIP IN NEPHROLOGY", 
+        "name": "DR PREMALATHA (PEDIATRIC NEPHROLOGIST)", 
+        "mobile": "9844080899"
+    }, 
+    {
+        "department": "PULMONOLOGY", 
+        "pk": 41, 
+        "education": "DM(PULMONOLOGY)", 
+        "name": "DR SANDEEP (PULMONOLOGIST)", 
+        "mobile": "9844379371"
+    }, 
+    {
+        "department": "PEDIATRIC HEMATO ONCOLOGIST", 
+        "pk": 42, 
+        "education": "MD ( PEDIATRICS) FELLOW PEDIATRIC HEMATO - ONCOLOGY)", 
+        "name": "DR INTEZAR MEHADI (PEDIATRIC HEMATO ONCOLOGIST)", 
+        "mobile": "9972427172"
+    }, 
+    {
+        "department": "INTERNAL MEDICINE", 
+        "pk": 43, 
+        "education": "M. D( INTERNAL MEDICINE)", 
+        "name": "DR VIKRAM PATIL (INTERNAL MEDICINE)", 
+        "mobile": "9448800350"
+    }, 
+    {
+        "department": "VASCULAR SURGERY", 
+        "pk": 44, 
+        "education": "Mch ( VASCULAR SURGEON)", 
+        "name": "DR MURALI KRISHNA (VASCULAR SURGERY)", 
+        "mobile": "9880133066"
+    }, 
+    {
+        "department": "ENT", 
+        "pk": 45, 
+        "education": "M.S (ENT)", 
+        "name": "DR MUNIRAJU M (ENT)", 
+        "mobile": "9886238252"
+    }, 
+    {
+        "department": "CASUALTY(ER)", 
+        "pk": 46, 
+        "education": "M.B.B.S", 
+        "name": "CASUALTY DOCTOR", 
+        "mobile": "7022161297"
+    }, 
+    {
+        "department": "SELF", 
+        "pk": 47, 
+        "education": "SELF", 
+        "name": "SELF", 
+        "mobile": "SELF"
+    }, 
+    {
+        "department": "LABORATORY", 
+        "pk": 48, 
+        "education": "LABORATORY", 
+        "name": "LABORATORY", 
+        "mobile": "LABORATORY"
+    }, 
+    {
+        "department": "DUTY DOCTOR", 
+        "pk": 49, 
+        "education": "MBBS", 
+        "name": "DUTY DOCTOR", 
+        "mobile": "."
+    }, 
+    {
+        "department": "MLC", 
+        "pk": 50, 
+        "education": "MBBS", 
+        "name": "DR SATISH (MLC CONSULTANT)", 
+        "mobile": "."
+    }, 
+    {
+        "department": "OB & GYNAC", 
+        "pk": 51, 
+        "education": "OB & GYNAC", 
+        "name": "DR JYOTHI LAKSHMI(OB& GYNAEC)", 
+        "mobile": "9980711821"
+    }, 
+    {
+        "department": "OB & GYNAEC", 
+        "pk": 52, 
+        "education": "MBBS DNB (OBG)", 
+        "name": "DR MANJULA S PATIL (OB & GYNAEC)", 
+        "mobile": "8095462677"
+    }, 
+    {
+        "department": "PULMONOLOGY", 
+        "pk": 53, 
+        "education": "MBBS, MD", 
+        "name": "DR SHRIVATSAV (PULMONOLOGIST)", 
+        "mobile": "."
+    }, 
+    {
+        "department": "PEADIATRICIAN", 
+        "pk": 54, 
+        "education": "MBBS.DCH", 
+        "name": "DR HEMALATHA", 
+        "mobile": "."
+    }, 
+    {
+        "department": "NEONTOLOGIST", 
+        "pk": 55, 
+        "education": "-", 
+        "name": "DR PRABHA", 
+        "mobile": "-"
+    }, 
+    {
+        "department": "PHYSICIAN", 
+        "pk": 56, 
+        "education": "MD", 
+        "name": "DR L N RAJU (PHYSICIAN)", 
+        "mobile": "."
+    }, 
+    {
+        "department": "GEN SURGEON", 
+        "pk": 57, 
+        "education": "MS (GENERAL SURGERY)", 
+        "name": "DR NEEHAR PATIL (GEN SURGEON)", 
+        "mobile": "9916299382"
+    }, 
+    {
+        "department": "ANAESTHETIST)", 
+        "pk": 58, 
+        "education": "DNB", 
+        "name": "DR V N RAJU (ANAESTHETIST)", 
+        "mobile": "."
+    }, 
+    {
+        "department": "ORTHOPEDICIAN", 
+        "pk": 59, 
+        "education": "MS ORTHO", 
+        "name": "DR GURURAJ S PURANIK (ORHTO)", 
+        "mobile": "."
+    }, 
+    {
+        "department": "ANAESTHESIOLOGIST", 
+        "pk": 60, 
+        "education": "DNB", 
+        "name": "DR SURESH", 
+        "mobile": "9844191929"
+    }, 
+    {
+        "department": "ANESTHESIOLOGIST", 
+        "pk": 61, 
+        "education": "MS", 
+        "name": "DR NAGESH", 
+        "mobile": "984"
+    }, 
+    {
+        "department": "NEUROSURGERY", 
+        "pk": 62, 
+        "education": "M ch( NEUROSURGERY)", 
+        "name": "DR PARICHAY  PERIKAL (NEURO SURGEON)", 
+        "mobile": "9886778242"
+    }, 
+    {
+        "department": "NEURO SURGERY", 
+        "pk": 63, 
+        "education": "MS", 
+        "name": "DR PARICHAY PERIKAL", 
+        "mobile": "."
+    }, 
+    {
+        "department": "IN PATIEN", 
+        "pk": 64, 
+        "education": "PEDIATRICIAN", 
+        "name": "EMERGENCY PEDIATRICIANS VISIT AT NIGHT", 
+        "mobile": "9900520357"
+    }, 
+    {
+        "department": "VASCULAR SURGEON", 
+        "pk": 65, 
+        "education": "MD", 
+        "name": "DR RAJENDRA PRASAD (VASCULAR SURGEON)", 
+        "mobile": "9902057370"
+    }, 
+    {
+        "department": "PEDIATRICIAN", 
+        "pk": 66, 
+        "education": "MD", 
+        "name": "DR SOMUSUNDAR", 
+        "mobile": "9880056518"
+    }, 
+    {
+        "department": "MEDICINE", 
+        "pk": 67, 
+        "education": "MD", 
+        "name": "DR PATI L& DR L N RAJU(PHYSICIAN)", 
+        "mobile": "9900316357"
+    }, 
+    {
+        "department": "UROLOGY", 
+        "pk": 68, 
+        "education": "MS DNB", 
+        "name": "DR ARJUN", 
+        "mobile": "999"
+    }, 
+    {
+        "department": "GEN SURGEON", 
+        "pk": 69, 
+        "education": "MS", 
+        "name": "DR MANJU BHARATH", 
+        "mobile": "98"
+    }, 
+    {
+        "department": "PHYSICIAN", 
+        "pk": 70, 
+        "education": "MD", 
+        "name": "DR SRIRAM (PHYSICIAN)", 
+        "mobile": "9739965812"
+    }, 
+    {
+        "department": "ANAESTHESILOGIST", 
+        "pk": 71, 
+        "education": "MBBS DA", 
+        "name": "DR BHASKAR", 
+        "mobile": "99"
+    }, 
+    {
+        "department": "GEN SURGEON", 
+        "pk": 72, 
+        "education": "MS", 
+        "name": "DR REHAN", 
+        "mobile": "8867727371"
+    }, 
+    {
+        "department": "( OB AND GYNAEC)", 
+        "pk": 73, 
+        "education": "MBBS MS", 
+        "name": "DR NISHA (OB & GYNAEC)", 
+        "mobile": "9886159195"
+    }, 
+    {
+        "department": "UROLOGY", 
+        "pk": 74, 
+        "education": "MS DNB", 
+        "name": "DR TARUN (UROLOGIST)", 
+        "mobile": "7760944947"
+    }, 
+    {
+        "department": "NEUROLOGIST", 
+        "pk": 75, 
+        "education": "MD DM", 
+        "name": "DR H V SRINIVAS (NEUROLOGIST)", 
+        "mobile": "90"
+    }, 
+    {
+        "department": "OB & GYNAEC", 
+        "pk": 76, 
+        "education": "MBBS DGO", 
+        "name": "DR MEGHA (OB & GYNAEC)", 
+        "mobile": "9886215473"
+    }, 
+    {
+        "department": "NEPHROLOGY", 
+        "pk": 77, 
+        "education": "MD DW", 
+        "name": "DR RAGAVENDRA (NEPHROLOGY)", 
+        "mobile": "78452"
+    }, 
+    {
+        "department": "ANTHE", 
+        "pk": 78, 
+        "education": "MD", 
+        "name": "DR PUSHPA MANDIKAL(ANTHE)", 
+        "mobile": "9902041576"
+    }, 
+    {
+        "department": "ONCO SURGEON", 
+        "pk": 79, 
+        "education": "MS MCH", 
+        "name": "DR SATISH (ONCO SURGEON)", 
+        "mobile": "9886194725"
+    }, 
+    {
+        "department": "ANAESTHETIST", 
+        "pk": 80, 
+        "education": "MBBS DA", 
+        "name": "DR ZIA (ANAESTHETIST)", 
+        "mobile": "98"
+    }, 
+    {
+        "department": "ORTHO PEDICS", 
+        "pk": 81, 
+        "education": "MBBS D ORTH DNB", 
+        "name": "DR AVINASH (ORTH)", 
+        "mobile": "9449003326"
+    }, 
+    {
+        "department": "ANAESTHETIOLOGIST", 
+        "pk": 82, 
+        "education": "DNB", 
+        "name": "DR BALAJI (ANAESTHETIOLOGIST)", 
+        "mobile": "9886866382"
+    }, 
+    {
+        "department": "GEN SURGEON", 
+        "pk": 83, 
+        "education": "MS", 
+        "name": "DR SANTHOSH (GEN SURGEON)", 
+        "mobile": "8277000070"
+    }, 
+    {
+        "department": "ANAESTHETIOLOGIST", 
+        "pk": 84, 
+        "education": "DNB", 
+        "name": "DR NAGENDRA ( ANAESTHETIOLOGIST)", 
+        "mobile": "99"
+    }, 
+    {
+        "department": "ANAESTHETIOLOGIST", 
+        "pk": 85, 
+        "education": "DNB", 
+        "name": "DR BHASKAR (ANAESTHETIST)", 
+        "mobile": "9902016020"
+    }, 
+    {
+        "department": "OB & GYNAEC", 
+        "pk": 86, 
+        "education": "MBBS MD", 
+        "name": "DR SHANKARE GOWDA (OB & GYNAEC)", 
+        "mobile": "99"
+    }
+]
