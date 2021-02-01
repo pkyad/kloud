@@ -15,6 +15,17 @@
       }
     }
 
+    $scope.addChat = function(signal){
+      // $http({
+      //   method: 'GET',
+      //   url: '/api/PIM/chatMessage/'+signal+'/',
+      // }).
+      // then(function(response) {
+      // })
+
+      $scope.messages.push(signal)
+    }
+
 
     $scope.form = {
       text: '',
