@@ -607,12 +607,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
       return;
     }
 
-    if (participants.length > 0) {
+    if (participants.length > 0 && transferred) {
+      console.log("sssssssssss");
       agentOnlineTimeOut = setTimeout(function () {
         isAgentOnline = false;
         onlineStatus.innerHTML = 'Away';
       }, 5000);
-      
+
       for (let i = 0; i < participants.length; i++) {
         connection.session.publish(wamp_prefix+'service.chat.'+participants[i], ['isOnline' , agentPk, uid] , {}, {
           acknowledge: true
@@ -621,8 +622,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
         },function(){
         });
       }
-      
-      
+
+
 
 
 
@@ -725,7 +726,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         console.log('failed to call '+agentPk+' for closing the chat by customer');
       });
     }
-    
+
   }
 
   var videoOpened = false
@@ -973,7 +974,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
        if (this.readyState == 4 && this.status == 200) {
          setCookie("chatOpenCookie", false, 365);
          var dataToSend = {uid:uid , userEndedChat: 'CHAT CLOSED BY USER' , sentByAgent:false };
-         
+
          for (let i = 0; i < participants.length; i++) {
           connection.session.publish(wamp_prefix+'service.chat.'+participants[i] , [uid , 'CL' , dataToSend ] , {}, {
             acknowledge: true
@@ -983,10 +984,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
           },function(){
             console.log('failed to call '+agentPk+" to end chat");
           });
-           
+
          }
-         
-         
+
+
        }
      };
      xhttp.open('PATCH', '{{serverAddress}}/api/chatbot/publicFacing/chatThread/', true);
@@ -1108,7 +1109,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             }
 
-             
+
          }
        };
        xhttp.open('PATCH', '{{serverAddress}}/api/chatbot/publicFacing/chatThread/', true);
@@ -1305,7 +1306,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
       }
 
-      
+
     }
     if (event.data=='calledToShowVideo') {
 
@@ -1320,7 +1321,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           console.log("Fialed to publish "+agentPk+" for calledToShowVideo");
         });
       }
-      
+
 
     }
     if (event.data=='hideTheMainFrame') {
@@ -1344,7 +1345,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         chatBox_footer.style.borderRadius = footer_bor_rad_no_vid; // footer
       }
     }
-    
+
     if (event.data.event_name=='session_started') {
       if (agentPk) {
         connection.session.call(wamp_prefix + 'service.support.handleQuickActions.' + agentPk, ['session_started',event.data.event_data]).then(
@@ -1553,7 +1554,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           console.log('Failed to publish message to all');
         });
       }
-      
+
 
 
     }
@@ -1870,7 +1871,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         console.log('failed to call service.suuport.agent'+agentPk+' for spying');
       });
     }
-    
+
   }
 
   inputText.addEventListener('keydown', function(evt) {
@@ -1991,7 +1992,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 });
             }
 
-            
+
           }else{
             document.getElementById('paperPlane').style.color="#A0A0A0"
           }
@@ -2142,7 +2143,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         }
 
-        
+
       }
       failedMessages=[]
     }
@@ -2203,7 +2204,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
               });
             }
 
-            
+
           }
         }
         function saveFileInDataBase() {

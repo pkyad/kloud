@@ -2,7 +2,29 @@
 
     $scope.me = $users.get('mySelf')
 
+
     $scope.user = $users.get(parseInt($state.params.id))
+
+    $scope.publish = function(params){
+      for (var i = 0; i < $scope.user.participants.length; i++) {
+        connection.session.publish(wamp_prefix+'service.chat.'+$scope.user.participants[i].pk, params).
+        then(function(publication) {
+        },function(){
+          console.log('Failed to publish message to all');
+        });
+      }
+    }
+
+    $scope.addChat = function(signal){
+      // $http({
+      //   method: 'GET',
+      //   url: '/api/PIM/chatMessage/'+signal+'/',
+      // }).
+      // then(function(response) {
+      // })
+
+      $scope.messages.push(signal)
+    }
 
 
     $scope.form = {
@@ -58,14 +80,23 @@
         $scope.form.file = emptyFile;
         var objDiv = document.getElementById("scrollView");
          objDiv.scrollTop = objDiv.scrollHeight+40;
-        // connection.session.subscribe('service.chat.' + $scope.user.username ,  onevent);
-        // connection.session.publish('service.chat.' + $scope.user.username, ['M', response.data]);
         $scope.replyMsgSelected = {
           'replyMsg' : ''
         }
+
+        $scope.publish(['M', response.data.pk, $state.params.id])
       })
 
     }
+
+    $scope.$watch('form.text', function(newValue, oldValue) {
+      if (newValue.length>0) {
+        $scope.publish(['T', '' ,$state.params.id ])
+      }
+    })
+
+
+
 
     window.addEventListener("message", function(event) {
       console.log(event.data);
@@ -108,7 +139,7 @@
     $scope.getThread = function() {
       $http({
         method: 'GET',
-        url: '/api/PIM/chatThreads/' + $state.params.id
+        url: '/api/PIM/chatThreads/' + $state.params.id+'/'
       }).
       then(function(response) {
         $scope.user = response.data
@@ -130,6 +161,23 @@
       })
     }
     $scope.getThread()
+
+    $scope.setToPin = function() {
+      $scope.user.is_pin=!$scope.user.is_pin
+      $http({
+        method: 'PATCH',
+        url: '/api/PIM/chatThreads/' + $state.params.id+'/',
+        data:{
+          is_pin : $scope.user.is_pin
+        },
+      }).
+      then(function(response) {
+        $scope.user = response.data
+        $rootScope.$broadcast("update", {
+        });
+      })
+    }
+
 
     $scope.editThread = function(typ) {
 
@@ -430,9 +478,10 @@ $scope.postFiles = function(){
       var objDiv = document.getElementById("scrollView");
       console.log(objDiv,'334');
        objDiv.scrollTop = objDiv.scrollHeight+40;
-      if ($scope.count == $scope.allFiles.length) {
-        $scope.allFiles = []
-      }
+       if ($scope.count == $scope.allFiles.length) {
+         $scope.allFiles = []
+       }
+       $scope.publish(['F', response.data.pk, $state.params.id])
     })
   }
 }
@@ -580,13 +629,18 @@ $scope.postFiles = function(){
 
   });
 
-  app.controller("controller.messenger", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal,$timeout) {
+
+
+  app.controller("controller.messenger", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal,$rootScope,$timeout) {
+
   $scope.showUsers = 'chats'
   $scope.me = $users.get('mySelf');
 
     $scope.search = {
       searchTxt: ''
     }
+
+
 
 
 
@@ -611,6 +665,7 @@ $scope.postFiles = function(){
 
 
     $scope.getAllUsers = function() {
+      console.log('ssssssssss');
         url = '/api/HR/userSearch/'
 
       if ($scope.search.searchTxt!=null && $scope.search.searchTxt.length > 0) {
@@ -648,6 +703,10 @@ $scope.postFiles = function(){
       })
 
     }
+
+    $rootScope.$on('update', function(event) {
+      $scope.getChatthreads()
+    });
     $scope.getChatthreads()
 
     $scope.searchAll = function() {

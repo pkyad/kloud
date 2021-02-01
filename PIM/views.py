@@ -148,7 +148,8 @@ class ChatThreadsViewSet(viewsets.ModelViewSet):
                     raise ValidationError(detail={'PARAMS' : 'createCookie'})
             return threadObj
 
-        chatObj = ChatThread.objects.filter(participants =  self.request.user) | ChatThread.objects.filter( company = self.request.user.designation.division , participants = None)
+        # chatObj = ChatThread.objects.filter(participants =  self.request.user) | ChatThread.objects.filter( company = self.request.user.designation.division , participants = None).order_by('is_pin')
+        chatObj = ChatThread.objects.filter(company = self.request.user.designation.division).filter(Q(participants =  self.request.user)|Q(participants__isnull = True)).order_by('-is_pin')
 
         if 'search' in self.request.GET :
             chatObj = chatObj.filter(Q(participants__first_name__icontains = self.request.GET['search']) | Q(participants__last_name__icontains = self.request.GET['search']) |  Q(title__icontains = self.request.GET['search']) ).distinct()

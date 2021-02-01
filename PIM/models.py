@@ -130,6 +130,8 @@ class ChatThread(models.Model):
     closedBy = models.ForeignKey(User , related_name = 'closedUser' , null = True, blank=True)
     user = models.ForeignKey(User , related_name='externalChatThreads' , null = True)
     is_personal =  models.BooleanField(default = False)
+    is_pin = models.BooleanField(default = False)
+
 
 
 

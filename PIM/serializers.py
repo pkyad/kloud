@@ -229,6 +229,8 @@ class chatMessageSerializer(serializers.ModelSerializer):
         else:
             chatThread.firstMessage = im.fileName
         chatThread.save()
+        if chatThread.uid is not None:
+            im.uid = chatThread.uid
         im.save()
         return im
 
@@ -241,7 +243,10 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
     # companyName = serializers.SerializerMethodField()
     class Meta:
         model = ChatThread
-        fields = ( 'pk' , 'created' , 'title', 'participants' , 'description','dp','lastActivity','isLate','visitor','uid','status','customerRating','customerFeedback','company','userDevice','location','userDeviceIp','firstResponseTime','typ','userAssignedTime','firstMessage','channel','transferred','fid','closedOn','closedBy','name','user','is_personal','lastmsg')
+
+        fields = ( 'pk' , 'created' , 'title', 'participants' , 'description','dp','lastActivity','isLate','visitor','uid','status','customerRating','customerFeedback','company','userDevice','location','userDeviceIp','firstResponseTime','typ','userAssignedTime','firstMessage','channel','transferred','fid','closedOn','closedBy','name','user','is_personal','lastmsg','is_pin')
+
+    
     def create(self ,  validated_data):
         c = ChatThread(**validated_data)
         user = self.context['request'].user
@@ -260,7 +265,7 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
     def update(self ,instance, validated_data):
 
 
-        for key in ['status' , 'customerRating' , 'customerFeedback' , 'company','typ','isLate','location', 'visitor','participants','title',  'description','dp']:
+        for key in ['status' , 'customerRating' , 'customerFeedback' , 'company','typ','isLate','location', 'visitor','participants','title',  'description','dp','is_pin']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
