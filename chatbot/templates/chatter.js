@@ -1285,24 +1285,35 @@ document.addEventListener("DOMContentLoaded", function(event) {
     // }
     if (event.data=='calledToHideVideo') {
 
-      connection.session.publish(wamp_prefix+'service.support.agent.'+agentPk, [uid , 'calledToHideVideo' ] , {}, {
-        acknowledge: true
-      }).
-      then(function(publication) {
-        console.log("Published to "+agentPk+" for calledToHideVideo");
-      },function(){
-        console.log("Fialed to publish "+agentPk+" for calledToHideVideo");
-      });
+      for (let i = 0; i < participants.length; i++) {
+        connection.session.publish(wamp_prefix+'service.chat.'+participants[i], [uid , 'calledToHideVideo' ] , {}, {
+          acknowledge: true
+        }).
+        then(function(publication) {
+          console.log("Published to "+agentPk+" for calledToHideVideo");
+        },function(){
+          console.log("Fialed to publish "+agentPk+" for calledToHideVideo");
+        });
+
+      }
+
+      
     }
     if (event.data=='calledToShowVideo') {
-      connection.session.publish(wamp_prefix+'service.support.agent.'+agentPk, [uid , 'calledToShowVideo' ] , {}, {
-        acknowledge: true
-      }).
-      then(function(publication) {
-        console.log("Published to "+agentPk+" for calledToShowVideo");
-      },function(){
-        console.log("Fialed to publish "+agentPk+" for calledToShowVideo");
-      });
+
+      for (let i = 0; i < participants.length; i++) {
+
+        connection.session.publish(wamp_prefix+'service.chat.'+participants[i], [uid , 'calledToShowVideo' ] , {}, {
+          acknowledge: true
+        }).
+        then(function(publication) {
+          console.log("Published to "+agentPk+" for calledToShowVideo");
+        },function(){
+          console.log("Fialed to publish "+agentPk+" for calledToShowVideo");
+        });
+      }
+      
+
     }
     if (event.data=='hideTheMainFrame') {
       document.getElementById('iframeDiv').style.display = "none";
@@ -1523,15 +1534,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
           uidDetails = JSON.parse(details)
        }
       let dataToPublish = [uid, 'M', messageData, custID, uidDetails, chatThreadPk]
-      connection.session.publish(wamp_prefix+'service.support.agent.'+agentPk, dataToPublish, {}, {
-        acknowledge: true
-      }).
-      then(function(publication) {
-        document.getElementById('paperPlane').style.color="#A0A0A0"
-        console.log("service.support.agent."+agentPk);
-      },function(){
-        console.log('Failed to publish message to all');
-      });
+      for (let i = 0; i < participants.length; i++) {
+        connection.session.publish(wamp_prefix+'service.chat.'+participants[i], dataToPublish, {}, {
+          acknowledge: true
+        }).
+        then(function(publication) {
+          document.getElementById('paperPlane').style.color="#A0A0A0"
+          console.log("service.support.agent."+agentPk);
+        },function(){
+          console.log('Failed to publish message to all');
+        });
+      }
+      
+
+
     }
     var xhttp = new XMLHttpRequest();
      xhttp.onreadystatechange = function() {
@@ -1836,14 +1852,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   function spying(inputVal) {
     countOnchange = 0;
-    connection.session.publish(wamp_prefix+'service.support.agent.'+agentPk, [uid , 'T' , inputVal] , {}, {
-      acknowledge: true
-    }).
-    then(function(publication) {
-      console.log("Published to service.support.agent."+agentPk+" for spying");
-    },function(){
-      console.log('failed to call service.suuport.agent'+agentPk+' for spying');
-    });
+    for (let i = 0; i < participants.length; i++) {
+      connection.session.publish(wamp_prefix+'service.chat.'+participants[i], [uid , 'T' , inputVal] , {}, {
+        acknowledge: true
+      }).
+      then(function(publication) {
+        console.log("Published to service.support.agent."+agentPk+" for spying");
+      },function(){
+        console.log('failed to call service.suuport.agent'+agentPk+' for spying');
+      });
+    }
+    
   }
 
   inputText.addEventListener('keydown', function(evt) {
@@ -2102,8 +2121,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
       failedMessages.push(dataToPublish)
       for (var i = 0; i < failedMessages.length; i++) {
 
-        for (let i = 0; i < participants.length; i++) {
-          connection.session.publish(wamp_prefix+'service.chat.'+participants[i] , failedMessages[i] , {}, {
+        for (let j = 0; j < participants.length; j++) {
+          connection.session.publish(wamp_prefix+'service.chat.'+participants[j] , failedMessages[i] , {}, {
             acknowledge: true
           }).
           then(function(publication) {

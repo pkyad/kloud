@@ -8,8 +8,8 @@ connection.onopen = function (session) {
    // our event handler we will subscribe on our topic
    //
   function chatResonse (args) {
-    window.postMessage(args);
-
+    // window.postMessage(args);
+    console.log(args)
   };
 
   function chatSupportResonse(args){

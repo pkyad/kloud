@@ -144,7 +144,10 @@ MSG_TYPE_CHOICES = (
 )
 
 def getSupportChatAttachment(instance , filename ):
-    return 'support/chat/%s_%s' % (str(time()).replace('.', '_'), filename)
+    try:
+        return 'support/chat/%s_%s' % (str(time()).replace('.', '_'), filename)
+    except:
+        return 'support/chat/%s_%s' % (str(time.time()).replace('.', '_'), filename)
 
 class ChatMessage(models.Model):
     thread = models.ForeignKey(ChatThread , related_name = 'messages' , null = True)

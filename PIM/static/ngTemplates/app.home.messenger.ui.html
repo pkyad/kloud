@@ -197,8 +197,8 @@ ul.no-bullets {
 
         </div>
       </div>
-      <div class="scrollView margin-auto m-bottom-5 padding-2" id="scrollView" style="width:95%;">
-        <div ng-repeat="message in messages">
+      <div class="scrollView margin-auto m-bottom-5 padding-2" id="scrollView" style="width:100%;">
+        <div ng-repeat="message in messages" style="padding-left: 20px;padding-right: 20px;">
           <!-- if only message is sent -->
 
           <div ng-if="me.pk == message.user.pk && message.attachment === null" class="m-top-5 m-bottom-5">
