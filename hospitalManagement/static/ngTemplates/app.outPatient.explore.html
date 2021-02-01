@@ -8,7 +8,7 @@
              <hr>
           </div>
         <!-- <label>Status : </label> -->
-        <div class="col-md-12" style="margin-left:20px">
+        <div class="col-md-12" style="margin-left:40px">
           <h2 ng-if="data.status=='checkedIn'" class="font30">Checked In</h2>
           <h2 class="font30" ng-if="data.status=='onGoingTreatment'">Treatment On Going</h2>
           <h2 class="font30" ng-if="data.status=='operation'">Operation</h2>
@@ -18,17 +18,17 @@
           <h2 class="font30" ng-if="data.status=='settled'"> Settled </h2>
         </div>
       </div>
-      <div class="row" style="margin-top:30px;margin-left:5px;">
+      <div class="row" style="margin-top:30px;margin-left:25px;">
         <div class="col-md-12">
           <label>In Time : </label> {{data.inTime | date: 'dd-MM-yyyy:hh:mm a'}}
         </div>
       </div>
-      <div class="row" style="margin-left:5px;">
+      <div class="row" style="margin-left:25px;">
         <div class="col-md-12">
           <label>Patient Id : </label> {{data.patient.uniqueId}}
         </div>
       </div>
-      <div class="row" ng-if="data.status=='dishcharged'"  style="margin-left:5px;">
+      <div class="row" ng-if="data.status=='dishcharged'"  style="margin-left:25px;">
         <div class="col-md-12">
           <label>Discharge Time : </label> {{data.dateOfDischarge | date: 'dd-MM-yyyy:hh:mm a'}}
         </div>
@@ -40,7 +40,7 @@
       <div class="row text-center">
         <h3 class="font24">Invoices of {{data.patient.firstName}} {{data.patient.lastName}}</h3>
       </div>
-      <div class="row" style="margin-top:20px;margin:0px;">
+      <div class="row" style="margin-top:20px;margin:0px;margin-left:30px">
 
         <div ng-if="invoices.length!=0" class="col-md-3" ng-repeat="i in invoices" ng-click="invoiceInfo($index)">
           <div class="container-fluid card" style="border-radius:5px; margin-top:25px;">

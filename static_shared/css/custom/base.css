@@ -2614,14 +2614,6 @@ padding: 10px 0px;
     color: white !important;
 }
 
-.discharge_summary {
-  width: 74.5%;
-}
-
-.pad_Left {
-  padding-left: 35px;
-}
-
 .paddl_90_70{
   padding:70px;
   padding-left:90px
@@ -3036,14 +3028,6 @@ padding: 10px 0px;
     margin-left: 1%
   }
 
-  .discharge_summary {
-    width: 75%;
-  }
-
-  .pad_Left {
-    padding-left: 15px;
-  }
-
 }
 
 @media screen and (min-width: 1366px) and (max-width:1439px) and (-webkit-device-pixel-ratio: 1) {
@@ -3400,14 +3384,6 @@ padding: 10px 0px;
     margin-left: 1%
   }
 
-  .discharge_summary {
-    width: 76%;
-  }
-
-  .pad_Left {
-    padding-left: 15px;
-  }
-
 }
 
 @media screen and (min-width: 1440px) and (max-width:1620px) and (-webkit-device-pixel-ratio: 1) {
@@ -3722,11 +3698,5 @@ padding: 10px 0px;
     padding-left: 0px;
   }
 
-  .discharge_summary {
-    width: 74.5%;
-  }
 
-  .pad_Left {
-    padding-left: 20px;
-  }
 }

@@ -11,9 +11,9 @@
 
 <div class="container-fluid"  style="padding:0px;">
   <div class="row">
-    <div class="row discharge_summary" style="margin:0px;position: fixed;z-index: 4;background: white;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;">
+    <div class="row" style="margin:0px;position: fixed;z-index: 4;background: white;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;width:75%">
 
-      <div class="col-md-10" style="padding-left:50px;padding-top:20px">
+      <div class="col-md-10" style="padding-left:60px;padding-top:20px">
 
 
         <div class="row" style="margin:0px;">
@@ -130,7 +130,7 @@
 
 
 
-    <div class="row" style="padding-top:340px;margin:0px;padding-left:20px;padding-right:20px;">
+    <div class="row" style="padding-top:340px;margin:0px;padding-left:30px;padding-right:20px;">
       <div class="col-md-4">
         <div ng-if="invoices.length!=0" class="col-md-12" ng-repeat="i in invoices" ng-click="invoiceInfo($index)">
           <div class="container-fluid card" style="border-radius:5px;margin-top:25px;">
@@ -379,7 +379,7 @@ border-bottom-right-radius: 30px !important;color:white;">Add <i class="glyphico
             <input type="text" class="form-control websiteInput" ng-model="data.msg" placeholder="Type Greeting Message Here...">
           </div>
         </div>
-        <div class="row text-center" style="padding-top:15px;padding-bottom:15px">
+        <div class="row text-right" style="padding-top:15px;padding-bottom:15px;padding-right:15px;">
           <button type="button" name="button" class="btn newBtn" ng-click="saveDischargeSumm()">Save</button>
         </div>
 
