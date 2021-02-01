@@ -394,16 +394,16 @@ AUTHENTICATION_BACKENDS = (
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sdpl',
-        'USER': 'newuser',
-        'PASSWORD': 'titan@1234',
-        'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'sdpl',
+#         'USER': 'newuser',
+#         'PASSWORD': 'titan@1234',
+#         'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
+#         'PORT': '3306',
+#     }
+# }
 
 # DATABASES = {
 #     'default': {
@@ -451,16 +451,16 @@ DATABASES = {
 #     }
 # }
 #
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'kloud',
-#         'USER': 'newuser',
-#         'PASSWORD': 'titan@1234',
-#         'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
-#         'PORT': '3306',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'kloud_new',
+        'USER': 'newuser',
+        'PASSWORD': 'titan@1234',
+        'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
+    }
+}
 
 
 # AUTH_PROFILE_MODULE = 'HR.userProfile'

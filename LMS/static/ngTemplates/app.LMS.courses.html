@@ -532,10 +532,10 @@
               <span><i class="fa fa-inr"></i></span> {{k.sellingPrice}}
             </div>
             <div class="col-md-2" ng-click="$state.go('businessManagement.LMS.activityLog',{id:k.pk})">
-              <span>{{k.contacts.length}}</span>
+              <span>{{k.enrollments.length}}</span>
             </div>
             <div class="col-md-2" ng-click="$state.go('businessManagement.LMS.activityLog',{id:k.pk})">
-              <span><i class="fa fa-inr"></i>{{k.sellingPrice*k.contacts.length}}</span>
+              <span><i class="fa fa-inr"></i>{{k.sellingPrice*k.enrollments.length}}</span>
             </div>
             <div class="col-md-1">
               <span ng-click="$state.go('businessManagement.LMS.new',{id:k.pk})"> <img src="/static/images/edit.svg" alt=""></span>

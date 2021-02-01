@@ -20,16 +20,23 @@
           <th class="">Student Name</th>
           <th>Mobile</th>
           <th>Email</th>
+          <th>Amount Paid</th>
+          <th>Amount Pending</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
 
-        <tr class="detailStrip" ng-repeat="k in course.contacts track by $index">
+        <tr class="detailStrip" ng-repeat="k in course.enrollments track by $index" >
 
 
-          <td>{{k.name}}</td>
-          <td>{{k.mobile}}</td>
-          <td>{{k.email}}</td>
+          <td ng-click="createStudent(k)">{{k.user.name}}</td>
+          <td ng-click="createStudent(k)">{{k.user.mobile}}</td>
+          <td ng-click="createStudent(k)">{{k.user.email}}</td>
+          <td ng-click="createStudent(k)">{{k.amountPaid}}</td>
+          <td ng-click="createStudent(k)">{{k.amountPending}}</td>
+          <td   mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="delEnrollment($index)" confirm-button-type="primary"
+            cancel-button-type="default"><i class="fa fa-trash"></i></td>
         </tr>
 
 
