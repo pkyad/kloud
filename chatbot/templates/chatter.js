@@ -607,17 +607,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
       return;
     }
 
-    if (agentPk) {
+    if (participants.length > 0) {
       agentOnlineTimeOut = setTimeout(function () {
         isAgentOnline = false;
         onlineStatus.innerHTML = 'Away';
       }, 5000);
-      connection.session.publish(wamp_prefix+'service.support.checkHeartBeat.'+agentPk, ['isOnline' , agentPk, uid] , {}, {
-        acknowledge: true
-      }).
-      then(function(publication) {
-      },function(){
-      });
+      
+      for (let i = 0; i < participants.length; i++) {
+        connection.session.publish(wamp_prefix+'service.chat.'+participants[i], ['isOnline' , agentPk, uid] , {}, {
+          acknowledge: true
+        }).
+        then(function(publication) {
+        },function(){
+        });
+      }
+      
+      
+
+
+
     }else {
       console.log('show online, no agent pk');
       isAgentOnline = true;
