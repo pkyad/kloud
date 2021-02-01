@@ -3,17 +3,13 @@
     <div class="row text-center">
       <h3><b>Add Student</b></h3>
     </div>
-    <div class="row">
+    <div class="row" ng-if="$state.is('businessManagement.LMS.viewPaper.questions') || $state.is('businessManagement.LMS.evaluation')">
       <div class="form-group">
         <label for=""></label>
         <input type="text" class="form-control bookInput" ng-model="form.contact" placeholder="Search with mobile number"uib-typeahead="p as p.mobile for p in getContactsearch($viewValue)" name="" value="" ng-enter="addContacts()">
       </div>
 
-      <!-- <div class="row" style="margin:0px;display:flex">
-        <div class="" style="box-shadow: 0px 0px 10px #ccc;padding:10px;margin-right:10px;" ng-repeat="k in form.contactsList track by $index">
-          <h4 style="margin:0px;">{{k.name}}</h4>
-        </div>
-      </div> -->
+
       <div >
         <div class="form-group">
           <label for="">Student Name</label>
@@ -27,6 +23,42 @@
         <div class="form-group">
           <label for="">Email Id</label>
           <input type="email" ng-model="form.email" class="form-control bookInput" name="" value="">
+        </div>
+      </div>
+      <div class="row" style="margin:0px;">
+        <button type="button" class="createTestBtn pull-right"  ng-click="save()"name="button">Save</button>
+      </div>
+
+
+    </div>
+    <div class="row" ng-if="$state.is('businessManagement.LMS.activityLog.students')">
+      <div class="form-group">
+        <label for=""></label>
+        <input type="text" class="form-control bookInput" ng-model="form.contact" placeholder="Search with mobile number"uib-typeahead="p as p.mobile for p in getContactsearch($viewValue)" name="" value="" ng-enter="addContacts()">
+      </div>
+
+
+      <div >
+        <div class="form-group">
+          <label for="">Student Name</label>
+          <input type="text" ng-model="form.name"class="form-control bookInput" name="" value="">
+        </div>
+      </div>
+      <br>
+
+      <br>
+      <div >
+        <div class="form-group">
+          <label for="">Email Id</label>
+          <input type="email" ng-model="form.email" class="form-control bookInput" name="" value="">
+        </div>
+        <div class="form-group">
+          <label for="">Amount Paid</label>
+          <input type="number" ng-model="form.amountPaid" class="form-control bookInput" name="" value="">
+        </div>
+        <div class="form-group">
+          <label for="">Amount Pending</label>
+          <input type="number" ng-model="form.amountPending" class="form-control bookInput" name="" value="">
         </div>
       </div>
       <div class="row" style="margin:0px;">

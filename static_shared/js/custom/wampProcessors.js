@@ -9,14 +9,33 @@ connection.onopen = function (session) {
    //
   function chatResonse (args) {
     // window.postMessage(args);
-    console.log(args)
+
+    var scope = angular.element(document.getElementById('messenger')).scope();
+    scope.$apply(function() {
+      scope.addChat(args[2]);
+    });
   };
 
   function chatSupportResonse(args){
-    console.log(args)
+     var scope = angular.element(document.getElementById('messenger')).scope();
+     scope.$apply(function() {
+       scope.addChat(args[2]);
+     });
+    // console.log(args)
+    // var scope = angular.element(document.getElementById('mainChat')).scope();
+    // console.log('sssssssssssssssss');
+    // if (scope == undefined) {
+    //   var mainscope = document.getElementById('main')
+    //   var div = document.createElement("div")
+    //   div.innerHTML = 'new notification'
+    //   div.style = {'width' : '500px' , 'background' : '#e9e9e9' , 'color' : 'white','transition':'width 2s','position':'relative','bottom':'10px';'height' : '300px'}
+    //   mainscope.appendChild(div);
+    //   console.log(mainscope,'aaaaaaaaaaaaaaaaaaaaaa');
+    // }
   }
 
   processNotification = function(args){
+    console.log('ssssssssssssssssssss');
     var scope = angular.element(document.getElementById('main')).scope();
     scope.$apply(function() {
       scope.fetchNotifications(args[0]);

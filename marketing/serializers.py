@@ -93,7 +93,7 @@ class ContactsSerializer(serializers.ModelSerializer):
             contatcObj = Contacts(**validated_data)
             contatcObj.subscribe = True
             # contatcObj.creater = self.context['request'].user
-            contatcObj.save()
+            # contatcObj.save()
 
         if 'tags' in self.context['request'].data:
             for i in self.context['request'].data['tags']:
@@ -112,7 +112,7 @@ class ContactsSerializer(serializers.ModelSerializer):
         newContact.country = contatcObj.country
         newContact.pincode = contatcObj.pinCode
         newContact.save()
-        contatcObj.contact_ref = newContact
+        # contatcObj.contact_ref = newContact
         contatcObj.save()
         return contatcObj
 
@@ -136,20 +136,20 @@ class ContactsSerializer(serializers.ModelSerializer):
             # instance.creater = self.context['request'].user
             instance.leadDate = date.today()
 
-        if instance.contact_ref == None:
-            newContact = Contact.objects.create(mobile = instance.mobile, user=self.context['request'].user)
-        else:
-            newContact = Contact.objects.get(pk = instance.contact_ref.pk)
-        newContact.name = instance.name
-        newContact.email = instance.email
-        newContact.mobile = instance.mobile
-        newContact.street = instance.addrs
-        newContact.city = instance.city
-        newContact.state = instance.state
-        newContact.country = instance.country
-        newContact.pincode = instance.pinCode
-        newContact.save()
-        instance.contact_ref = newContact
+        # if instance.contact_ref == None:
+        #     newContact = Contact.objects.create(mobile = instance.mobile, user=self.context['request'].user)
+        # else:
+        #     newContact = Contact.objects.get(pk = instance.contact_ref.pk)
+        # newContact.name = instance.name
+        # newContact.email = instance.email
+        # newContact.mobile = instance.mobile
+        # newContact.street = instance.addrs
+        # newContact.city = instance.city
+        # newContact.state = instance.state
+        # newContact.country = instance.country
+        # newContact.pincode = instance.pinCode
+        # newContact.save()
+        # instance.contact_ref = newContact
         instance.save()
         return instance
     # def get_remaining(self,obj):

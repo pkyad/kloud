@@ -1,8 +1,30 @@
-  app.controller("controller.messenger.explore", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal, $rootScope, $timeout) {
+  app.controller("controller.messenger.explore", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal, $rootScope, $timeout,$window) {
 
     $scope.me = $users.get('mySelf')
 
+
     $scope.user = $users.get(parseInt($state.params.id))
+
+    $scope.publish = function(params){
+      for (var i = 0; i < $scope.user.participants.length; i++) {
+        connection.session.publish(wamp_prefix+'service.chat.'+$scope.user.participants[i].pk, params).
+        then(function(publication) {
+        },function(){
+          console.log('Failed to publish message to all');
+        });
+      }
+    }
+
+    $scope.addChat = function(signal){
+      // $http({
+      //   method: 'GET',
+      //   url: '/api/PIM/chatMessage/'+signal+'/',
+      // }).
+      // then(function(response) {
+      // })
+
+      $scope.messages.push(signal)
+    }
 
 
     $scope.form = {
@@ -58,14 +80,23 @@
         $scope.form.file = emptyFile;
         var objDiv = document.getElementById("scrollView");
          objDiv.scrollTop = objDiv.scrollHeight+40;
-        // connection.session.subscribe('service.chat.' + $scope.user.username ,  onevent);
-        // connection.session.publish('service.chat.' + $scope.user.username, ['M', response.data]);
         $scope.replyMsgSelected = {
           'replyMsg' : ''
         }
+
+        $scope.publish(['M', response.data.pk, $state.params.id])
       })
 
     }
+
+    $scope.$watch('form.text', function(newValue, oldValue) {
+      if (newValue.length>0) {
+        $scope.publish(['T', '' ,$state.params.id ])
+      }
+    })
+
+
+
 
     window.addEventListener("message", function(event) {
       console.log(event.data);
@@ -108,14 +139,45 @@
     $scope.getThread = function() {
       $http({
         method: 'GET',
-        url: '/api/PIM/chatThreads/' + $state.params.id
+        url: '/api/PIM/chatThreads/' + $state.params.id+'/'
       }).
       then(function(response) {
         $scope.user = response.data
+        $scope.contactform.name = response.data.name
+        $http({
+          method: 'GET',
+          url: '/api/marketing/contacts/?name__icontains=' + $scope.user.name
+        }).
+        then(function(response) {
+          if (response.data.length >0) {
+            $scope.contactform.mobile = response.data[0].mobile
+            $scope.contactform.email = response.data[0].email
+
+          }
+
+
+        })
         $scope.user.is_show = false
       })
     }
     $scope.getThread()
+
+    $scope.setToPin = function() {
+      $scope.user.is_pin=!$scope.user.is_pin
+      $http({
+        method: 'PATCH',
+        url: '/api/PIM/chatThreads/' + $state.params.id+'/',
+        data:{
+          is_pin : $scope.user.is_pin
+        },
+      }).
+      then(function(response) {
+        $scope.user = response.data
+        $rootScope.$broadcast("update", {
+        });
+      })
+    }
+
 
     $scope.editThread = function(typ) {
 
@@ -143,6 +205,65 @@
         }
       })
     }
+
+    $scope.contactform={
+      name:'',
+      mobile:'',email:''
+    }
+
+    $scope.$watch('contactform.mobile', function(newValue) {
+
+      $http({
+        method: 'GET',
+        url: '/api/marketing/contacts/?mobile=' + newValue
+      }).
+      then(function(response) {
+        console.log(response.data, newValue,' 12334444 ');
+        if (response.data.length>0) {
+
+          $scope.contactform.pk = response.data[0].pk
+        }
+
+        console.log(response.data,'34343');
+
+      })
+
+
+
+    })
+
+
+    console.log(angular.element($window).bind("scroll", function(e) {
+    alert('scrolled')
+}));
+
+
+    $scope.createContact = function(){
+      var data = {
+        name:$scope.contactform.name,mobile:$scope.contactform.mobile,email:$scope.contactform.email
+      }
+      var method ="POST"
+      var url = '/api/marketing/contacts/'
+      if ($scope.contactform.pk != undefined) {
+        method ="PATCH"
+        url = '/api/marketing/contacts/'+$scope.contactform.pk+'/'
+      }
+      $http({
+        method: method,
+        url:url,
+        data: data
+      }).
+      then(function(response) {
+        $scope.showInput = false
+        if ($scope.contactform.pk == undefined) {
+          $scope.contactform =''
+        }
+
+      })
+    }
+
+
+
     $scope.addParticipants = function() {
       $uibModal.open({
         templateUrl: '/static/ngTemplates/app.PIM.addparticipants.html',
@@ -355,10 +476,12 @@ $scope.postFiles = function(){
       $scope.form.file = emptyFile;
       $scope.form.text = ''
       var objDiv = document.getElementById("scrollView");
+      console.log(objDiv,'334');
        objDiv.scrollTop = objDiv.scrollHeight+40;
-      if ($scope.count == $scope.allFiles.length) {
-        $scope.allFiles = []
-      }
+       if ($scope.count == $scope.allFiles.length) {
+         $scope.allFiles = []
+       }
+       $scope.publish(['F', response.data.pk, $state.params.id])
     })
   }
 }
@@ -506,13 +629,18 @@ $scope.postFiles = function(){
 
   });
 
-  app.controller("controller.messenger", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal) {
+
+
+  app.controller("controller.messenger", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal,$rootScope,$timeout) {
+
   $scope.showUsers = 'chats'
   $scope.me = $users.get('mySelf');
 
     $scope.search = {
       searchTxt: ''
     }
+
+
 
 
 
@@ -537,6 +665,7 @@ $scope.postFiles = function(){
 
 
     $scope.getAllUsers = function() {
+      console.log('ssssssssss');
         url = '/api/HR/userSearch/'
 
       if ($scope.search.searchTxt!=null && $scope.search.searchTxt.length > 0) {
@@ -574,6 +703,10 @@ $scope.postFiles = function(){
       })
 
     }
+
+    $rootScope.$on('update', function(event) {
+      $scope.getChatthreads()
+    });
     $scope.getChatthreads()
 
     $scope.searchAll = function() {
@@ -684,7 +817,24 @@ $scope.postFiles = function(){
     })
   }
 
+  $scope.getMessages = function() {
+    $http({
+      method: 'GET',
+      url: '/api/PIM/chatMessageBetween/?other=' + $state.params.id
+    }).
+    then(function(response) {
+      $scope.messages = response.data
 
+       $timeout(function() {
+         var objDiv = document.getElementById("scrollView");
+         objDiv.scrollTop = objDiv.scrollHeight+40;
+         console.log(objDiv.scrollTop);
+
+       },500)
+    })
+
+  }
+  $scope.getMessages()
 
 
 

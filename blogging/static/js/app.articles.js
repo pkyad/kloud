@@ -75,7 +75,7 @@ app.controller('businessManagement.articles', function($scope, $http, $aside, $s
 
     $http({
       method: 'GET',
-      url: '/api/businessManagement/article/' + filters
+      url: '/api/blogging/article/' + filters
     }).then((function(append) {
       return function(response) {
         if (append) {
@@ -145,14 +145,14 @@ app.controller('businessManagement.articles', function($scope, $http, $aside, $s
     }
   };
 
-  $http.get('/api/businessManagement/category/?onlyParent=').
+  $http.get('/api/blogging/category/?onlyParent=').
   then(function(response) {
     $scope.parent = response.data;
   })
 
   $scope.$watch('filter1.parent', function(newValue, oldValue) {
     if (newValue.pk) {
-      $http.get('/api/businessManagement/category/?parent=' + newValue.pk).
+      $http.get('/api/blogging/category/?parent=' + newValue.pk).
       then(function(response) {
         $scope.childrens = response.data;
       })
@@ -381,7 +381,7 @@ app.controller('businessManagement.articles.form', function($scope, $http, $asid
 
     $http({
       method: 'GET',
-      url: '/api/businessManagement/article/' + $state.params.id + '/'
+      url: '/api/blogging/article/' + $state.params.id + '/'
     }).
     then(function(response) {
       $scope.form = response.data;
@@ -662,7 +662,7 @@ app.controller('businessManagement.articles.form', function($scope, $http, $asid
 
       for (var i = 0; i < $scope.sections.length; i++) {
         var Method = 'POST';
-        var Url = '/api/businessManagement/articleSection/';
+        var Url = '/api/blogging/articleSection/';
         var d = $scope.sections[i];
         var fd = new FormData();
 
@@ -710,7 +710,7 @@ app.controller('businessManagement.articles.form', function($scope, $http, $asid
       }
     } else {
       var Method = 'POST';
-      var Url = '/api/businessManagement/articleSection/';
+      var Url = '/api/blogging/articleSection/';
       var d = $scope.sections[0];
       var fd = new FormData();
       //
@@ -788,14 +788,14 @@ app.controller('businessManagement.articles.form', function($scope, $http, $asid
     // if ($scope.mode = 'edit') {
     // console.log('patch requestttttt');
     // var Method = 'PACTH';
-    // var Url = '/api/businessManagement/article/';
+    // var Url = '/api/blogging/article/';
     // } else {
     // console.log('post Requesttttttttt');
 
 
 
     var Method = 'POST';
-    var Url = '/api/businessManagement/article/';
+    var Url = '/api/blogging/article/';
 
     if ($scope.mode == 'edit') {
       Method = 'PATCH';
@@ -947,7 +947,7 @@ app.controller('businessManagement.articles.form', function($scope, $http, $asid
 
   }
 
-  $http.get('/api/businessManagement/category/?onlyParent=').
+  $http.get('/api/blogging/category/?onlyParent=').
   then(function(response) {
     $scope.parent = response.data;
   })
@@ -964,7 +964,7 @@ app.controller('businessManagement.articles.form', function($scope, $http, $asid
 
   $http({
     method: 'GET',
-    url: '/api/businessManagement/type/'
+    url: '/api/blogging/type/'
   }).
   then(function(response) {
     $scope.types = response.data;
@@ -974,7 +974,7 @@ app.controller('businessManagement.articles.form', function($scope, $http, $asid
 
   $scope.$watch('form.parent', function(newValue, oldValue) {
     if (newValue != undefined) {
-      $http.get('/api/businessManagement/category/?parent=' + newValue.pk).
+      $http.get('/api/blogging/category/?parent=' + newValue.pk).
       then(function(response) {
         $scope.childrens = response.data
       })
@@ -1039,10 +1039,10 @@ app.controller('controller.createCategory', function($scope, $http, $aside, $sta
 
     }
     var method = 'POST'
-    var url = "/api/businessManagement/category/"
+    var url = "/api/blogging/category/"
     if ($scope.form.pk) {
       method = "PATCH"
-      url = "/api/businessManagement/category/" + $scope.form.pk + '/'
+      url = "/api/blogging/category/" + $scope.form.pk + '/'
     }
     $http({
       method: method,
@@ -1075,7 +1075,7 @@ app.controller('businessManagement.articles.reviewComment', function($scope, $ht
 
   $http({
     method: 'GET',
-    url: '/api/businessManagement/article/' + $scope.articleData.pk + '/',
+    url: '/api/blogging/article/' + $scope.articleData.pk + '/',
   }).
   then(function(response) {
     $scope.mainData = response.data;
@@ -1111,7 +1111,7 @@ app.controller('businessManagement.articles.reviewComment', function($scope, $ht
 
   $http({
     method: 'GET',
-    url: '/api/businessManagement/ReviewerComment/?article=' + $scope.articleData.pk,
+    url: '/api/blogging/ReviewerComment/?article=' + $scope.articleData.pk,
   }).
   then(function(response) {
     $scope.reviews = response.data;
@@ -1135,7 +1135,7 @@ app.controller('businessManagement.articles.reviewComment', function($scope, $ht
     }
     $http({
       method: 'POST',
-      url: '/api/businessManagement/ReviewerComment/',
+      url: '/api/blogging/ReviewerComment/',
       data: sendData,
     }).
     then(function(response) {
@@ -1166,19 +1166,19 @@ app.controller('businessManagement.articles.reviewComment', function($scope, $ht
       sendData.status = 'submitted'
       sendData.article_id = $scope.mainData.pk
       method = 'POST'
-      url = '/api/businessManagement/SendMail/?type=mail'
+      url = '/api/blogging/SendMail/?type=mail'
     }
     if (type == 'published') {
       sendData.article_id = $scope.mainData.pk
       sendData.status = 'published'
       method = 'POST'
-      url = '/api/businessManagement/SendMail/?type=publish'
+      url = '/api/blogging/SendMail/?type=publish'
     }
     if (type == 'created') {
       sendData.article_id = $scope.mainData.pk
       sendData.status = 'created'
       method = 'POST'
-      url = '/api/businessManagement/SendMail/?type=content'
+      url = '/api/blogging/SendMail/?type=content'
     }
 
     $http({
@@ -1238,7 +1238,7 @@ app.controller('businessManagement.articles.browse', function($scope, $http, $as
         $scope.publishCount += 1
         $http({
           method: 'PATCH',
-          url: '/api/businessManagement/article/' + $scope.articles[i].pk + '/',
+          url: '/api/blogging/article/' + $scope.articles[i].pk + '/',
           data: {
             action: $scope.publishData,
             // publish:$scope.isPubish
@@ -1260,7 +1260,7 @@ app.controller('businessManagement.articles.browse', function($scope, $http, $as
     var actionData = actionVal
     $http({
       method: 'PATCH',
-      url: '/api/businessManagement/article/' + pkVal + '/',
+      url: '/api/blogging/article/' + pkVal + '/',
       data: {
         action: actionData,
         // publish:$scope.isPubish

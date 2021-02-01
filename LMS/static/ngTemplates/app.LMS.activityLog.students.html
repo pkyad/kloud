@@ -18,18 +18,29 @@
       <!-- <thead class="headStrip"> -->
       <thead style="background:#393C45">
         <tr>
-          <th style="color:white" >Student Name</th>
-          <th style="color:white">Mobile</th>
-          <th style="color:white">Email</th>
+
+          <th class="">Student Name</th>
+          <th>Mobile</th>
+          <th>Email</th>
+          <th>Amount Paid</th>
+          <th>Amount Pending</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
 
-        <!-- <tr class="detailStrip" ng-repeat="k in course.contacts track by $index"> -->
-        <tr ng-repeat="k in course.contacts track by $index" style="background:#4a4d53">
-          <td style="color:white">{{k.name}}</td>
-          <td style="color:white">{{k.mobile}}</td>
-          <td style="color:white">{{k.email}}</td>
+
+        <!-- <tr class="detailStrip" ng-repeat="k in course.enrollments track by $index" style="background:#4a4d53"> -->
+        <tr ng-repeat="k in course.enrollments track by $index" style="background:#4a4d53">
+
+
+          <td ng-click="createStudent(k)" style="color:white;">{{k.user.name}}</td>
+          <td ng-click="createStudent(k)" style="color:white;">{{k.user.mobile}}</td>
+          <td ng-click="createStudent(k)" style="color:white;">{{k.user.email}}</td>
+          <td ng-click="createStudent(k)" style="color:white;">{{k.amountPaid}}</td>
+          <td ng-click="createStudent(k)" style="color:white;">{{k.amountPending}}</td>
+          <td   mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="delEnrollment($index)" confirm-button-type="primary"
+            cancel-button-type="default"><i class="fa fa-trash"></i></td>
         </tr>
 
 

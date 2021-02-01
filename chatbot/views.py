@@ -662,7 +662,7 @@ def publicAPI(request , objectType):
                     now = datetime.datetime.now()
                 except:
                     now = datetime.now()
-                
+
                 chatThObj.closedOn = now
                 chatThObj.status = data['status']
                 # if 'closedByUser' in data:
@@ -709,7 +709,6 @@ def publicAPI(request , objectType):
 
     elif objectType == 'supportChat':
 
-
         if request.method == 'POST':
 
             try:
@@ -722,7 +721,7 @@ def publicAPI(request , objectType):
             chatThObj = ChatThread.objects.filter(uid = data['uid'])[0]
             s = ChatMessage(uid = data['uid'])
             s.thread = chatThObj
-
+            s.uid = chatThObj.uid
 
             if 'attachmentType' in data and data['attachmentType'] is not None:
                 s.attachment = request.FILES['attachment']
@@ -817,7 +816,7 @@ def publicAPI(request , objectType):
             print "BOT LOGIC ---------------------------------ENDS"
             return JsonResponse(SupportChatSerializer(s , many = False).data , safe=False , status = 201)
         if request.method == 'GET':
-            msgs = ChatMessage.objects.filter(uid = request.GET['uid'], is_hidden = False)
+            msgs = ChatMessage.objects.filter(uid = request.GET['uid'],  is_hidden = False)
             return JsonResponse(SupportChatSerializer(msgs , many = True).data , safe=False)
 
 

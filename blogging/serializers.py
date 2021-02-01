@@ -165,7 +165,7 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ('pk','updated','created' , 'title' , 'articleUrl' , 'author' ,'contentWriter' , 'lang'  , 'typ' , 'publishingChannel' , 'featuredContent' , 'sensitive' , 'scheduleTime' , 'published' , 'summary' , 'tags' , 'metaTitle' , 'metaDescription' , 'keywords' ,  'qb1' , 'qb2' , 'qb3' , 'qb4' , 'qb5' , 'qb6' , 'qb7' , 'content_type' , 'reviewer' , 'reviewDatetime'  , 'status' ,'contents' , 'otherCategories','read_time','ogImg')
+        fields = ('pk','updated','created' , 'title' , 'articleUrl' , 'author' ,'contentWriter' , 'lang'  ,  'publishingChannel' , 'featuredContent' , 'sensitive' , 'scheduleTime' , 'published' , 'summary' , 'tags' , 'metaTitle' , 'metaDescription' , 'keywords' ,  'qb1' , 'qb2' , 'qb3' , 'qb4' , 'qb5' , 'qb6' , 'qb7' , 'content_type' , 'reviewer' , 'reviewDatetime'  , 'status' ,'contents' ,'read_time','ogImg')
         read_only_fields = ('contentWriter' , 'author' , 'contents' )
     def get_contents(self , obj):
         return ArticleSectionSerializer(obj.contents.all().order_by('index'),  many=True).data

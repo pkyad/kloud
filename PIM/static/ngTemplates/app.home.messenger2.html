@@ -176,7 +176,8 @@
     scrollbar-width: thin;
   }
   .Messenger_groupInfo{
-    background-color:#ececec;border-left:1px solid #ccc;height:92.5vh
+    background-color:white;border-left:1px solid #ccc;height:92.5vh
+    /* background-color:#ececec;border-left:1px solid #ccc;height:92.5vh */
   }
 
   /* .greenDiv {
@@ -282,7 +283,7 @@ box-shadow: 0px 8px 18px rgb(45, 117, 75) !important;
 /* style="padding:0rem;background-color:#f6f6f6;border-right:1px solid #ccc" */
 </style>
 
-<div class="container-fluid mainChatdiv">
+<div class="container-fluid mainChatdiv" id="mainChat">
   <div class="row greenDiv" style="background-image: linear-gradient(90deg, #3bd17a 27%,
 #e1e1e1 25%);
 height: 100%;" >
@@ -322,8 +323,17 @@ padding: 5px;">
               </h5>
             </div>
             <div class="">
-              <p>
-                {{u.msg}}
+              <p class="font10" ng-if="u.lastmsg.fileType == null">
+                {{u.lastmsg.message}}
+              </p>
+              <p ng-if="u.lastmsg.fileType == 'image'" class="font14">
+                <i class="fa fa-camera"></i> Photo
+              </p>
+              <p ng-if="u.lastmsg.fileType == 'xl' || u.lastmsg.fileType == 'pdf' || u.lastmsg.fileType == 'word' || u.lastmsg.fileType == 'ppt' " class="font12">
+                <i class="fa fa-file-text-o"></i> {{u.lastmsg.fileName}}
+              </p>
+              <p ng-if="u.lastmsg.fileType == null && u.lastmsg.fileType == 'image'">
+                {{u.lastmsg.message}}
               </p>
             </div>
           </div>
