@@ -110,11 +110,24 @@ text-align: center;
 }
 
 .img-sent:hover .reply_icon{
-  display:block
+  opacity:1
+}
+.img-sent:hover .reply_icons{
+    opacity:1;
+    position: absolute;
+    right: 20px;
+    margin-top: -70px;
+}
+.file-sent:hover .reply_icons{
+    opacity:1;
+    position: absolute;
+    right: 20px;
+    margin-top: -70px;
 }
 
 .file-sent:hover .reply_icon{
-    display:block
+  opacity:1;
+    /* display:block */
 }
 
 .file-recived:hover .reply_icon_rec{
@@ -288,7 +301,8 @@ ul.no-bullets {
           <div ng-if="me.pk == message.user.pk && message.message === null && message.fileType === 'image'" class="  m-top-5 m-bottom-5 margin-l-auto">
             <div class="" style="display:flex">
               <div class="img-sent padding-2" style="margin-left:auto; width:300px;height:300px">
-                <span class="reply_icon dropdown">
+                <span class="{{message.replyTo.pk?'reply_icons':'reply_icon'}} dropdown">
+
                 <i class="fa fa-angle-down  dropdown-toggle pull-right"   ng-click="message.show=!message.show"></i><br>
                 <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
                 <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
@@ -319,7 +333,7 @@ ul.no-bullets {
           <div ng-if="me.pk == message.user.pk && message.attachment != null && message.fileType === 'image' &&message.message != null" class="  m-top-5 m-bottom-5 margin-l-auto">
             <div class="">
               <div class="img-sent  padding-2" style="margin-left:auto; width:300px;height:300px;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;margin-right: 58px;border-radius: 6px 6px 0 0 !important;">
-                <span class="reply_icon dropdown">
+                <span class="{{message.replyTo.pk?'reply_icons':'reply_icon'}} dropdown">
                 <i class="fa fa-angle-down  dropdown-toggle pull-right"   ng-click="message.show=!message.show"></i><br>
                 <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
                 <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
@@ -416,7 +430,7 @@ ul.no-bullets {
           <div ng-if="me.pk === message.user.pk &&  message.fileType == 'pdf' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
-                <span class="reply_icon dropdown">
+                <span class="{{message.replyTo.pk?'reply_icons':'reply_icon'}} dropdown">
                 <i class="fa fa-angle-down  dropdown-toggle pull-right"   ng-click="message.show=!message.show"></i><br>
                 <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
                 <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
@@ -516,7 +530,7 @@ ul.no-bullets {
           <div ng-if="me.pk === message.user.pk &&  message.fileType == 'word' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
-                <span class="reply_icon dropdown">
+                <span class="{{message.replyTo.pk?'reply_icons':'reply_icon'}} dropdown">
                 <i class="fa fa-angle-down  dropdown-toggle pull-right"   ng-click="message.show=!message.show"></i><br>
                 <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
                 <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
@@ -613,7 +627,7 @@ ul.no-bullets {
           <div ng-if="me.pk === message.user.pk &&  message.fileType == 'ppt' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
-                <span class="reply_icon dropdown">
+                <span class="{{message.replyTo.pk?'reply_icons':'reply_icon'}} dropdown">
                 <i class="fa fa-angle-down  dropdown-toggle pull-right"   ng-click="message.show=!message.show"></i><br>
                 <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
                 <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
@@ -711,7 +725,7 @@ ul.no-bullets {
           <div ng-if="me.pk === message.user.pk &&  message.fileType == 'xl' " class="file-card margin-l-auto   padding-2 m-top-5 m-bottom-5" style="width: 50%;">
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
-                <span class="reply_icon dropdown">
+                <span class="{{message.replyTo.pk?'reply_icons':'reply_icon'}} dropdown">
                 <i class="fa fa-angle-down  dropdown-toggle pull-right"   ng-click="message.show=!message.show"></i><br>
                 <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
                 <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>

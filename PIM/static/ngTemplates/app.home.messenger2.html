@@ -186,7 +186,7 @@
     top: 0;
     width: 100%;
     left: 15px;
-    background-color:#c60000;height:100px
+    background-color:#3bd17a;height:100px
   } */
 
   .White_div{
@@ -304,143 +304,146 @@ padding: 5px;">
         <i class="fa fa-close fa-2x" ng-click="changeType('chats')" ng-show="showUsers=='users'||showUsers=='group'"></i>
       </div>
     </div>
-    <div class="chatThreads" style="">
-      <div ng-if="showUsers=='chats'" class=" row contact userMenuItem {{ $state.is('home.messenger.explore') && $state.params.id == u.pk   ? 'activeUserItem':''}}" ng-click="$state.go('home.messenger.explore' , {id : u.pk})"
-      style="padding:10px 15px;padding-bottom:0px;" ng-repeat="u in chatthreads">
-      <div class="col-md-3 col-sm-2 text-right" style="padding:0px;">
-        <!-- <img ng-src="{{u.dp}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle"> -->
-        <!-- <div class="" style="clip-path:circle(50%);background:#2edd2e;width:15px;height:15px;position: absolute;bottom: -5px;right: -5px;"></div> -->
-        <div  class="display_picture_view" style="background-image:url({{u.dp?u.dp:'/static/images/userIcon.png'}})">
-        </div>
-      </div>
-      <div class="col-md-9 col-sm-10 col-xs-2" style="font-size: 1vw;">
-        <div class="row" style="margin:0px;border-bottom:1px solid #f5f5f5;height:60px;">
-          <div class="">
-            <h5>
-              {{u.name}}
-            </h5>
-          </div>
-          <div class="">
-            <p>
-              {{u.msg}}
-            </p>
+    <div class="" style="height:100%;overflow-y:scroll;scrollbar-width:thin;scrollbar-behavior:smooth;scrollbar-color:rgba(0, 0, 0, .2) hsla(0, 0%, 100%, .1)">
+      <div class="chatThreads" style="">
+        <div ng-if="showUsers=='chats'" class=" row contact userMenuItem {{ $state.is('home.messenger.explore') && $state.params.id == u.pk   ? 'activeUserItem':''}}" ng-click="$state.go('home.messenger.explore' , {id : u.pk})"
+        style="padding:10px 15px;padding-bottom:0px;" ng-repeat="u in chatthreads">
+        <div class="col-md-3 col-sm-2 text-right" style="padding:0px;">
+          <!-- <img ng-src="{{u.dp}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle"> -->
+          <!-- <div class="" style="clip-path:circle(50%);background:#2edd2e;width:15px;height:15px;position: absolute;bottom: -5px;right: -5px;"></div> -->
+          <div  class="display_picture_view" style="background-image:url({{u.dp?u.dp:'/static/images/userIcon.png'}})">
           </div>
         </div>
-      </div>
-    </div>
-    <div class="row" ng-if="showUsers=='users'">
-      <div class="col-md-12">
-
-        <div class=" row contact userMenuItem " style="padding:10px 15px;padding-bottom:0px;" ng-click="changeType('group')">
-          <div class="col-md-2 col-sm-2 text-right" style="padding:0px;">
-            <div class="pull-right" style="height:40px;width:40px;background-color:#c60000;border-radius: 50%;padding: 10px;">
-              <i class="fa fa-users" aria-hidden="true" style="font-size:20px;color:white;"></i>
+        <div class="col-md-9 col-sm-10 col-xs-2" style="font-size: 1vw;">
+          <div class="row" style="margin:0px;border-bottom:1px solid #f5f5f5;height:60px;">
+            <div class="">
+              <h5>
+                {{u.name}}
+              </h5>
             </div>
-            <!-- <div class="" style="clip-path:circle(50%);background:#2edd2e;width:15px;height:15px;position: absolute;bottom: -5px;right: -5px;"></div> -->
+            <div class="">
+              <p>
+                {{u.msg}}
+              </p>
+            </div>
           </div>
-          <div class="col-md-10 col-sm-10 col-xs-2" style="font-size: 1vw;">
-            <div class="row" style="margin:0px;border-bottom:1px solid #f5f5f5;height:60px;">
-              <div class="">
-                <h5>
-                  New group
-                </h5>
+        </div>
+      </div>
+      <div class="row" ng-if="showUsers=='users'">
+        <div class="col-md-12">
+
+          <div class=" row contact userMenuItem " style="padding:10px 15px;padding-bottom:0px;" ng-click="changeType('group')">
+            <div class="col-md-2 col-sm-2 text-right" style="padding:0px;">
+              <div class="pull-right" style="height:40px;width:40px;background-color:#3bd17a;border-radius: 50%;padding: 10px;">
+                <i class="fa fa-users" aria-hidden="true" style="font-size:20px;color:white;"></i>
+              </div>
+              <!-- <div class="" style="clip-path:circle(50%);background:#2edd2e;width:15px;height:15px;position: absolute;bottom: -5px;right: -5px;"></div> -->
+            </div>
+            <div class="col-md-10 col-sm-10 col-xs-2" style="font-size: 1vw;">
+              <div class="row" style="margin:0px;border-bottom:1px solid #f5f5f5;height:60px;">
+                <div class="">
+                  <h5>
+                    New group
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class=" row contact userMenuItem " style="padding:10px 15px;padding-bottom:0px;border-bottom:1px solid #f5f5f5;" ng-repeat="u in allUsers" ng-click="startnewChat($index)">
+            <div class="col-md-2 col-sm-2 text-right" style="padding:0px;">
+              <!-- <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle"> -->
+              <div  class="display_picture_view" style="background-image:url({{u.profile.displayPicture?u.profile.displayPicture:'/static/images/userIcon.png'}})">
+              </div>
+              <!-- <div class="" style="clip-path:circle(50%);background:#2edd2e;width:15px;height:15px;position: absolute;bottom: -5px;right: -5px;"></div> -->
+            </div>
+            <div class="col-md-10 col-sm-10 col-xs-2" style="font-size: 1vw;">
+              <div class="row" style="margin:0px;height:60px;">
+                <div class="">
+                  <h5>
+                    {{u.first_name}} {{u.last_name}}
+                  </h5>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class=" row contact userMenuItem " style="padding:10px 15px;padding-bottom:0px;border-bottom:1px solid #f5f5f5;" ng-repeat="u in allUsers" ng-click="startnewChat($index)">
-          <div class="col-md-2 col-sm-2 text-right" style="padding:0px;">
-            <!-- <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle"> -->
-            <div  class="display_picture_view" style="background-image:url({{u.profile.displayPicture?u.profile.displayPicture:'/static/images/userIcon.png'}})">
+      </div>
+      <div class="row" ng-if="showUsers=='group'">
+        <div class="col-md-12">
+          <div class=" row contact userMenuItem " style="padding:10px 15px;padding-bottom:0px;">
+            <div class="col-md-12">
+              <div ng-repeat="p in participants track by $index" style="padding:5px;border-radius:25px;background:#e6e6e6;margin:5px;margin-bottom:15px">
+                {{p.first_name}} {{p.last_name}} <i class="fa fa-close pull-right" ng-click="remove($index)"></i>
+              </div>
             </div>
-            <!-- <div class="" style="clip-path:circle(50%);background:#2edd2e;width:15px;height:15px;position: absolute;bottom: -5px;right: -5px;"></div> -->
           </div>
-          <div class="col-md-10 col-sm-10 col-xs-2" style="font-size: 1vw;">
-            <div class="row" style="margin:0px;height:60px;">
-              <div class="">
-                <h5>
-                  {{u.first_name}} {{u.last_name}}
-                </h5>
+          <div class=" row contact userMenuItem " style="padding:10px 15px;padding-bottom:0px;border-bottom:1px solid #f5f5f5 !important;" ng-repeat="u in allUsers" ng-click="addtochatList($index)">
+            <div class="col-md-2 col-sm-2 text-right" style="padding:0px;">
+              <!-- <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle"> -->
+              <div  class="display_picture_view" style="background-image:url({{u.profile.displayPicture?u.profile.displayPicture:'/static/images/userIcon.png'}})">
+              </div>
+              <!-- <div class="" style="clip-path:circle(50%);background:#2edd2e;width:15px;height:15px;position: absolute;bottom: -5px;right: -5px;"></div> -->
+            </div>
+            <div class="col-md-10 col-sm-10 col-xs-2" style="font-size: 1vw;">
+              <div class="row" style="margin:0px;height:60px;">
+                <div class="">
+                  <h5>
+                    {{u.first_name}} {{u.last_name}}
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" ng-if="participants.length>0" ng-click="changeType('groupDetails')">
+            <div class="col-md-12" style="position:fixed;bottom:41px">
+              <div class="text-center" style="height:60px;width:60px;background-color:#3bd17a;border-radius: 50%;padding: 10px;margin-left: 254px;">
+                <i class="fa fa-arrow-right fa-2x" aria-hidden="true" style="color:white;"></i>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row" ng-if="showUsers=='group'">
-      <div class="col-md-12">
-        <div class=" row contact userMenuItem " style="padding:10px 15px;padding-bottom:0px;">
-          <div class="col-md-12">
-            <div ng-repeat="p in participants track by $index" style="padding:5px;border-radius:25px;background:#e6e6e6;margin:5px;margin-bottom:15px">
-              {{p.first_name}} {{p.last_name}} <i class="fa fa-close pull-right" ng-click="remove($index)"></i>
+      <div class="row" ng-if="showUsers=='groupDetails'">
+        <div class="col-md-12">
+          <div class="row" style="background:#3bd17a;min-height:100px;color:#ffffff;padding-top:50px">
+            <div class="col-md-2 text-right">
+              <h4> <i class="fa fa-arrow-left fa-lg" ng-click="changeType('group')"></i> </h4>
+            </div>
+            <div class="col-md-10">
+              <h4>  New group </h4>
             </div>
           </div>
-        </div>
-        <div class=" row contact userMenuItem " style="padding:10px 15px;padding-bottom:0px;border-bottom:1px solid #f5f5f5 !important;" ng-repeat="u in allUsers" ng-click="addtochatList($index)">
-          <div class="col-md-2 col-sm-2 text-right" style="padding:0px;">
-            <!-- <img ng-src="{{u.profile.displayPicture}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle"> -->
-            <div  class="display_picture_view" style="background-image:url({{u.profile.displayPicture?u.profile.displayPicture:'/static/images/userIcon.png'}})">
-            </div>
-            <!-- <div class="" style="clip-path:circle(50%);background:#2edd2e;width:15px;height:15px;position: absolute;bottom: -5px;right: -5px;"></div> -->
-          </div>
-          <div class="col-md-10 col-sm-10 col-xs-2" style="font-size: 1vw;">
-            <div class="row" style="margin:0px;height:60px;">
-              <div class="">
-                <h5>
-                  {{u.first_name}} {{u.last_name}}
-                </h5>
+          <div class="row"  style="margin-top:60px">
+            <div class="col-md-offset-3 col-md-6">
+              <div  class="display_picture" style="background-image:url({{form.dp.length>0?form.dp:'/static/images/userIcon.png'}})" id="image1">
+                <!-- <img ng-src="{{user.dp}}"  onerror="this.src='/static/images/userIcon.png'" style="width:150px;height:150px;" class="img img-circle"> -->
+                <input type="file" class="file_upload" ng-model="form.dp" onchange="angular.element(this).scope().fileNameChanged(this.files)" />
+                <div class="highlight" >
+                  <i class="fa fa-camera fa-3x"></i> <br/> ADD GROUP ICON
+                </div>
+
               </div>
             </div>
           </div>
-        </div>
-        <div class="row" ng-if="participants.length>0" ng-click="changeType('groupDetails')">
-          <div class="col-md-12" style="position:fixed;bottom:41px">
-            <div class="text-center" style="height:60px;width:60px;background-color:#c60000;border-radius: 50%;padding: 10px;margin-left: 254px;">
-              <i class="fa fa-arrow-right fa-2x" aria-hidden="true" style="color:white;"></i>
+          <div class="row"  style="margin-top:30px;padding-right:15px;padding-left:15px">
+            <div class="col-md-12">
+              <input type="text" class="form-control" ng-model="form.title" name=""  value="" style="border:none;border-bottom:2px solid #3bd17a">
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-    <div class="row" ng-if="showUsers=='groupDetails'">
-      <div class="col-md-12">
-        <div class="row" style="background:#c60000;min-height:100px;color:#ffffff;padding-top:50px">
-          <div class="col-md-2 text-right">
-            <h4> <i class="fa fa-arrow-left fa-lg" ng-click="changeType('group')"></i> </h4>
-          </div>
-          <div class="col-md-10">
-            <h4>  New group </h4>
-          </div>
-        </div>
-        <div class="row"  style="margin-top:60px">
-          <div class="col-md-offset-3 col-md-6">
-            <div  class="display_picture" style="background-image:url({{form.dp.length>0?form.dp:'/static/images/userIcon.png'}})" id="image1">
-              <!-- <img ng-src="{{user.dp}}"  onerror="this.src='/static/images/userIcon.png'" style="width:150px;height:150px;" class="img img-circle"> -->
-              <input type="file" class="file_upload" ng-model="form.dp" onchange="angular.element(this).scope().fileNameChanged(this.files)" />
-              <div class="highlight" >
-                <i class="fa fa-camera fa-3x"></i> <br/> ADD GROUP ICON
+          <div class="row" ng-if="form.title.length>0" style="margin-top:30px">
+            <div class="col-md-2 col-md-offset-5 text-center" >
+              <div class="text-center" style="height:50px;width:50px;background-color:#009688;border-radius: 50%;padding: 10px" ng-click="createGroupChat()">
+                <i class="fa fa-check fa-2x" aria-hidden="true" style="color:white;"></i>
               </div>
-
             </div>
           </div>
-        </div>
-        <div class="row"  style="margin-top:30px;padding-right:15px;padding-left:15px">
-          <div class="col-md-12">
-            <input type="text" class="form-control" ng-model="form.title" name=""  value="" style="border:none;border-bottom:2px solid #c60000">
-          </div>
-        </div>
-        <div class="row" ng-if="form.title.length>0" style="margin-top:30px">
-          <div class="col-md-2 col-md-offset-5 text-center" >
-            <div class="text-center" style="height:50px;width:50px;background-color:#009688;border-radius: 50%;padding: 10px" ng-click="createGroupChat()">
-              <i class="fa fa-check fa-2x" aria-hidden="true" style="color:white;"></i>
-            </div>
-          </div>
-        </div>
 
+        </div>
       </div>
+
     </div>
 
-  </div>
+    </div>
 </div>
 <div>
   <ui-view> </ui-view>
