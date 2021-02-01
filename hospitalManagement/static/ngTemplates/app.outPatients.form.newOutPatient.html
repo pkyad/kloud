@@ -59,7 +59,7 @@ left: -55px;" ng-click="addNewActivePatient(activePatientsForm.patient)">Add</di
         </select>
       </div>
 
-      <div class="form-group text-center">
+      <div class="form-group text-right">
         <button ng-if="!activePatientsForm.pk" type="submit" class="btn newBtn" ng-click="createActivePatient()">Save</button>
           <button ng-if="activePatientsForm.pk" type="submit" class="btn newBtn" ng-click="editOutPatient()">Update</button>
       </div>

@@ -315,14 +315,16 @@ class NotebookFullSerializer(serializers.ModelSerializer):
         return notesObj
 
     def update(self , instance, validated_data):
-        if 'shares' in self.context['request'].data:
-            # instance.shares.clear()
-            for sharedWith in self.context['request'].data['shares']:
-                instance.shares.add(User.objects.get(pk = sharedWith))
-        if 'source' in self.context['request'].data:
-            instance.source =  self.context['request'].data['source']
-            instance.save()
-        return instance
+            if 'shares' in self.context['request'].data:
+                instance.shares.clear()
+                for sharedWith in self.context['request'].data['shares']:
+                    instance.shares.add(User.objects.get(pk = sharedWith['pk']))
+            if 'source' in self.context['request'].data:
+                instance.source =  self.context['request'].data['source']
+                instance.save()
+            return instance
+
+
 
 class NotesLiteSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,7 +1,7 @@
 <div>
-    <div class="row">
+    <div class="row" style="margin-top:20px">
       <div class="col-md-2 courses_padding">
-        <button type="button" class="btn btn-block" name="button"  style="background-color:#337AB7;padding:12px;color:white;border-radius:10px !important">Share Documents
+        <button type="button" class="btn btn-block" name="button"  style="background-color:#393C45;padding:12px;color:white;border-radius:10px !important">Share Documents
           <input type="file" id="file" file-model="form.dp" style="position:absolute;margin-top: -25px;
 left: 30px;" class="file_upload" ng-click="openFile()">
 
@@ -9,34 +9,33 @@ left: 30px;" class="file_upload" ng-click="openFile()">
 
       </div>
       <div class="col-md-2 courses_padding">
-        <button type="button" class="btn btn-block" name="button" ng-click="scheduleClass()" style="background-color:#337AB7;padding:12px;color:white;border-radius:10px !important">Schedule the class</button>
+        <button type="button" class="btn btn-block" name="button" ng-click="scheduleClass()" style="background-color:#393C45;padding:12px;color:white;border-radius:10px !important">Schedule the class</button>
 
       </div>
       <div class="col-md-2 courses_padding">
-        <button type="button" class="btn btn-block" name="button" ng-click="createQuiz()" style="background-color:#337AB7;padding:12px;color:white;border-radius:10px !important">Add Quiz</button>
+        <button type="button" class="btn btn-block" name="button" ng-click="createQuiz()" style="background-color:#393C45;padding:12px;color:white;border-radius:10px !important">Add Quiz</button>
 
       </div>
       <div class="col-md-2 courses_padding">
-        <button type="button" class="btn btn-block" name="button" ng-click="homework()" style="background-color:#231654;padding:12px;color:white;border-radius:10px !important">Add Homework</button>
+        <button type="button" class="btn btn-block" name="button" ng-click="homework()" style="background-color:#393C45;padding:12px;color:white;border-radius:10px !important">Add Homework</button>
 
       </div>
 
       <div class="col-md-4 ">
         <div class="form-group">
-          <span class="searchIcon" ng-click="getActivities()"><i class="fa fa-search text-right"></i></span>
-          <input type="text" name="" ng-model="search.query" ng-enter="getActivities()"placeholder="Search...." value="" class="form-control searchInput">
+          <span class="searchIcon" style="background:black;" ng-click="getActivities()"><i class="fa fa-search text-right"></i></span>
+          <input type="text" name="" ng-model="search.query" ng-enter="getActivities()" placeholder="Search...." value="" class="form-control searchInput" style="background:black;color:white">
         </div>
       </div>
     </div>
 
     <div class="row" style="margin:0px;">
       <div class="">
-        <textarea name="name" class="form-control" ng-model="noteform.txt" rows="8" cols="80" placeholder="Write your post here....." style="resize: none;border-radius: 18px !important;box-shadow: -1px 4px 23px rgba(0, 0, 0, 0.1) !important;border: none;
-padding: 20px;"></textarea>
+        <textarea name="name" class="form-control" ng-model="noteform.txt" rows="8" cols="80" placeholder="Write your post here....." style="resize: none;border-radius: 18px !important;box-shadow: -1px 4px 23px rgba(0, 0, 0, 0.1) !important;border: none;background-color:black !important;padding: 20px;color:white"></textarea>
       </div>
       <div class="row">
         <div class="col-md-2 pull-right">
-          <button type="button" class="btn btn-block" name="button"  style="background-color:#231654;padding:12px;color:white;border-radius:10px !important" ng-click="saveNotes()">Save</button>
+          <button type="button" class="btn btn-block" name="button"  style="background-color:#393C45;padding:12px;color:white;border-radius:10px !important" ng-click="saveNotes()">Save</button>
         </div>
 
         </div>
@@ -44,10 +43,10 @@ padding: 20px;"></textarea>
     </div>
 
 
-    <div class="row" style="margin:30px 0px;" >
-      <div class="academy_panel" style=""  ng-if="activitydata.length>0" >
+    <div class="row" style="margin:30px 0px;">
+      <div class="academy_panel" style="background:#393C45"  ng-if="activitydata.length>0" >
 
-          <p>{{course.description}}</p>
+          <p style="color:white">{{course.description}}</p>
           <hr style="color:#F7F7F7;">
 
 
@@ -64,14 +63,14 @@ padding: 20px;"></textarea>
                 </div>
                 <div class="col-lg-10 col-xs-10">
 
-                  <h4 style="font-weight:600;margin-top:0px;margin-bottom:0px" ng-if="k.typ !='homework' || k.typ !='quiz'">{{k.title}}</h4>
+                  <h4 style="font-weight:600;margin-top:0px;margin-bottom:0px;color:white" ng-if="k.typ !='homework' || k.typ !='quiz'">{{k.title}}</h4>
 
 
 
 
-                  <span style="font-size:12px;color:grey;" ng-if="k.typ !='quiz'|| k.typ !='class'">{{k.typ}}</span>
-                  <span style="font-size:12px;color:grey;" ng-if="k.typ =='quiz'">exam</span>
-                  <span style="font-size:12px;color:grey;" ng-if="k.typ == 'class'">
+                  <span style="font-size:12px;color:white;" ng-if="k.typ !='quiz'|| k.typ !='class'">{{k.typ}}</span>
+                  <span style="font-size:12px;color:white;" ng-if="k.typ =='quiz'">exam</span>
+                  <span style="font-size:12px;color:white;" ng-if="k.typ == 'class'">
 
                      <span class="label label-success" ng-if="k.daily">Daily</span>
                      <span class="label label-info" ng-if="k.weekly">Weekly</span>
@@ -85,8 +84,8 @@ padding: 20px;"></textarea>
 
 
                 </div>
-                <div class="col-md-1" ng-if="k.typ=='file' || k.typ=='video'" style="padding:0px">
-                  <a href="{{k.attachment}}" target="_blank"> <i class="fa fa-file-text" style="margin-right:5px;"></i>view file</a>
+                <div class="col-md-1" ng-if="k.typ=='file' || k.typ=='video'" style="padding:0px;">
+                  <a href="{{k.attachment}}" target="_blank" style="color:white;"> <i class="fa fa-file-text" style="margin-right:5px;"></i>view file</a>
                 </div>
 
               </div>
@@ -94,8 +93,8 @@ padding: 20px;"></textarea>
             <div class="collapse" ng-if="k.show" style="display: initial; max-height: 16px;">
 
 
-              <p ng-if="k.typ=='file' || k.typ=='notes' || k.typ=='video' || k.typ=='class' ">{{k.description}}</p>
-              <p ng-if="k.typ=='homework' || k.typ=='quiz' ">{{k.paper.description}}</p>
+              <p ng-if="k.typ=='file' || k.typ=='notes' || k.typ=='video' || k.typ=='class' " style="color:white">{{k.description}}</p>
+              <p ng-if="k.typ=='homework' || k.typ=='quiz' " style="color:white">{{k.paper.description}}</p>
 
             </div>
             <hr style="color:#F7F7F7;margin:0px;">
@@ -105,8 +104,8 @@ padding: 20px;"></textarea>
 
           </div>
           <div class="row text-center" style="margin:20px 0px">
-            <button type="button" class="btn btn" name="button" style="background-color:#231654;padding:12px;color:white;border-radius:10px !important" ng-click="loadless()">Prev</button>
-            <button type="button" class="btn btn" name="button" style="background-color:#231654;padding:12px;color:white;border-radius:10px !important" ng-click="loadmore()">Next</button>
+            <button type="button" class="btn btn" name="button" style="background-color:#393C45;padding:12px;color:white;border-radius:10px !important" ng-click="loadless()">Prev</button>
+            <button type="button" class="btn btn" name="button" style="background-color:#393C45;padding:12px;color:white;border-radius:10px !important" ng-click="loadmore()">Next</button>
           </div>
       </div>
 
