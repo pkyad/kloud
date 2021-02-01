@@ -1,4 +1,4 @@
-<div class="modal-header">
+<!-- <div class="modal-header">
   <h3 class="text-center">Create New Patient</h3>
 </div>
 <div class="modal-body">
@@ -98,6 +98,137 @@
           <button ng-click="createPatient()" type="button" class="btn btn-primary">Save</button>
         <button ng-click="cancelPatient()" type="button" class="btn btn-default">Cancel</button>
         </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+
+
+
+<style media="screen">
+  #back{
+cursor:pointer;
+  }
+</style>
+<div class="container-fluid" style="margin-top:10px;">
+  <div class="row">
+    <div class="col-md-12" style="margin-left:20px;">
+      <!-- <breadcrumb></breadcrumb> -->
+    </div>
+
+  </div>
+  <div class="row text-center" style="margin-top:20px;">
+    <div ng-if="!newPatient.pk" class="col-md-12">
+        <span class="font25" ><b>Create Patient</b></span>
+      </div>
+
+
+    <div ng-if="newPatient.pk" class="col-md-12">
+      <span class="font25"><b>Update Patient</b></span>
+    </div>
+  </div>
+  <hr>
+  <div class="col-md-8 col-md-offset-2 HMS_createPatient">
+    <div class="row" style="margin-top:20px">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control websiteInput" ng-model="newPatient.firstName" placeholder="">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Age</label>
+            <input type="text" class="form-control websiteInput" ng-model="newPatient.age" placeholder="">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Mobile</label>
+            <input type="text" class="form-control websiteInput" ng-model="newPatient.phoneNo" placeholder="">
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-3">
+          <img src="/static/images/Location-Map-Pin.jpg">
+        </div>
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Street</label>
+                <input type="text" class="form-control websiteInput" ng-model="newPatient.street" placeholder="">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Pincode</label>
+                <input type="tel" class="form-control websiteInput" ng-model="newPatient.pin" placeholder="">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>City</label>
+                <input class="form-control websiteInput" type="text" ng-model="newPatient.city">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>State</label>
+                <input class="form-control websiteInput" type="text" ng-model="newPatient.state">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Country</label>
+                <input type="text" class="form-control websiteInput" ng-model="newPatient.country" placeholder="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Gender</label>
+
+            <div class="row">
+              <div class="col-md-6 text-center">
+                <img src="/static/images/img_avatar_card.png" style="height:50px;height:50px;" class="img img-circle">
+                <br>
+                <input type="radio" ng-model="newPatient.gender" value="Male"> Male
+              </div>
+              <div class="col-md-6 text-center">
+                <img src="/static/images/img_avatar_card2.png" style="height:50px;height:50px;" class="img img-circle">
+                <br>
+                <input type="radio" ng-model="newPatient.gender" value="Female"> Female
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row text-right" style="margin-top:25px;margin-bottom:25px">
+      <div class="col-md-12">
+        <button ng-if="!newPatient.pk" ng-click="createPatient()" type="button" class="btn newBtn">
+        Save
+      </button>
+      <button ng-if="newPatient.pk" ng-click="editPatient()" type="button" class="btn newBtn">
+      Update
+    </button>
       </div>
     </div>
   </div>
