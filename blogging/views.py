@@ -60,7 +60,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     serializer_class = ArticleSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ('typ' , 'title' , 'author' , 'contentWriter' , 'reviewer' , 'articleUrl','published','contents','content_type' )
+    filter_fields = ('title' , 'author' , 'contentWriter' , 'reviewer' , 'articleUrl','published','contents','content_type' )
     def get_queryset(self):
         divsn = self.request.user.designation.division
         articles = Article.objects.filter(contentWriter__designation__division=divsn)

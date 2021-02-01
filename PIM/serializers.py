@@ -236,11 +236,12 @@ class chatMessageSerializer(serializers.ModelSerializer):
 class ChatThreadsSerializer(serializers.ModelSerializer):
     participants = userSearchSerializer(read_only=True,many=True)
     name = serializers.SerializerMethodField()
+    lastmsg = serializers.SerializerMethodField()
     # agent_dp = serializers.SerializerMethodField()
     # companyName = serializers.SerializerMethodField()
     class Meta:
         model = ChatThread
-        fields = ( 'pk' , 'created' , 'title', 'participants' , 'description','dp','lastActivity','isLate','visitor','uid','status','customerRating','customerFeedback','company','userDevice','location','userDeviceIp','firstResponseTime','typ','userAssignedTime','firstMessage','channel','transferred','fid','closedOn','closedBy','name','user','is_personal')
+        fields = ( 'pk' , 'created' , 'title', 'participants' , 'description','dp','lastActivity','isLate','visitor','uid','status','customerRating','customerFeedback','company','userDevice','location','userDeviceIp','firstResponseTime','typ','userAssignedTime','firstMessage','channel','transferred','fid','closedOn','closedBy','name','user','is_personal','lastmsg')
     def create(self ,  validated_data):
         c = ChatThread(**validated_data)
         user = self.context['request'].user
@@ -294,6 +295,9 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
         # if obj.title == None:
         #     obj.title = ''
         return name
+    def get_lastmsg(self , obj):
+
+        return chatMessageSerializer(obj.messages.all().last(),many=False).data
 
 
 

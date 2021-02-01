@@ -176,7 +176,8 @@
     scrollbar-width: thin;
   }
   .Messenger_groupInfo{
-    background-color:#ececec;border-left:1px solid #ccc;height:92.5vh
+    background-color:white;border-left:1px solid #ccc;height:92.5vh
+    /* background-color:#ececec;border-left:1px solid #ccc;height:92.5vh */
   }
 
   /* .greenDiv {
@@ -322,8 +323,17 @@ padding: 5px;">
               </h5>
             </div>
             <div class="">
-              <p>
-                {{u.msg}}
+              <p class="font10" ng-if="u.lastmsg.fileType == null">
+                {{u.lastmsg.message}}
+              </p>
+              <p ng-if="u.lastmsg.fileType == 'image'" class="font14">
+                <i class="fa fa-camera"></i> Photo
+              </p>
+              <p ng-if="u.lastmsg.fileType == 'xl' || u.lastmsg.fileType == 'pdf' || u.lastmsg.fileType == 'word' || u.lastmsg.fileType == 'ppt' " class="font12">
+                <i class="fa fa-file-text-o"></i> {{u.lastmsg.fileName}}
+              </p>
+              <p ng-if="u.lastmsg.fileType == null && u.lastmsg.fileType == 'image'">
+                {{u.lastmsg.message}}
               </p>
             </div>
           </div>
