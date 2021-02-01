@@ -1,97 +1,79 @@
-<div class="container-fluid pad_Left">
-  <div class="row" >
-
-    <div class="container-fluid" style="padding:0px;">
-      <div class="col-md-12" style="height:100vh;overflow:auto;padding:15px;">
-        <div class="container-fluid" style="background:#FAFAFA;min-height:100vh;">
-
-          <div class="row" style="background:rgb(18, 46, 99);padding:15px;padding-top:20px;padding-bottom:20px;">
-            <!-- <div class="row"> -->
-              <!-- <div class="col-md-4">
-              </div>
-              <div class="col-md-2">
-
-              </div> -->
-              <div class="col-md-12 text-center ">
-                <h4 style="color:white;"><b>Reports</b></h4>
-              </div>
-            <!-- </div> -->
-            <div class="col-md-4 col-md-offset-1">
-              <div class="form-group">
-                <label style="color:white;">Starting Date</label>
-                <div class="form-group">
-                  <span style="position:absolute;right:0px;padding:12px 25px; " ng-click="start.opened = true;">
-                    <i class="glyphicon glyphicon-calendar"></i>
-                  </span>
-                  <input type="text" class="form-control" style="height:40px;border-radius:10px;"show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="dateForm.start" is-open="start.opened" />
-
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 col-md-offset-2">
-              <div class="form-group">
-                <label style="color:white;">Ending Date</label>
-                <div class="form-group">
-                  <span style="position:absolute;right:0px;padding:12px 25px; " ng-click="end.opened = true;">
-                    <i class="glyphicon glyphicon-calendar"></i>
-                  </span>
-                  <input type="text" class="form-control" style="height:40px;border-radius:10px;"show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="dateForm.end" is-open="end.opened" />
-
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row" style="background:rgb(18, 46, 99);color:white;padding-bottom:20px;padding:30px;">
-            <div class="col-md-2 text-center">
-              <h4>S.No.</h4>
-            </div>
-            <div class="col-md-2 text-center">
-              <h4>Patient Name</h4>
-            </div>
-            <div class="col-md-2 text-center">
-              <h4>Invoice Name</h4>
-            </div>
-            <div class="col-md-2 text-center">
-              <h4>Bill No.</h4>
-            </div>
-            <div class="col-md-2 text-center">
-              <h4>Type</h4>
-            </div>
-            <div class="col-md-2 text-center">
-              <h4>Total</h4>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12" style="border-top:solid 2px #eee;padding:20px;padding-top:30px;padding-bottom:30px;">
-              <div ng-repeat="r in tableData" class="container-fluid">
-                <div class="col-md-2 text-center" style="position:relative;display:block;">
-                  <div class="row" style="padding-left:10px;">
-                    <span style="font-size:20px">{{$index + 1}}
-                      <hr>
-                    </span> <br>
-                  </div>
-                </div>
-                <div class="col-md-2 text-center">{{r.activePatient__patient__firstName}}
-                  <hr>
-                </div>
-                <div class="col-md-2 text-center">{{r.invoiceName}}</div>
-                <div class="col-md-2 text-center">{{r.billNo}}</div>
-                <div class="col-md-2 text-center">{{r.activePatient__outPatient ? 'Out Patient' : 'In Patient'}}</div>
-                <div class="col-md-2 text-center">{{r.grandTotal}}</div>
-
-              </div>
-              <div class="text-right" style="margin-right:50px;font-size:18px" ng-if="tableData.length>0">
-                <b>Total : </b> {{grandTotal}}
-              </div>
-            </div>
-          </div>
+<div class="container-fluid" style="background-color:#fafafa;">
+  <div class="row course_mainDiv" style="">
+    <div class="col-md-3 col-md-offset-6">
+      <div class="form-group">
+        <label style="color:black;">Starting Date</label>
+        <div class="form-group">
+          <span style="position:absolute;right:0px;padding:12px 25px; " ng-click="start.opened = true;">
+            <i class="glyphicon glyphicon-calendar"></i>
+          </span>
+          <input type="text" class="form-control" style="height:40px;border-radius:10px;background:#F0F3FF;" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="dateForm.start" is-open="start.opened" />
         </div>
-
-
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label style="color:black;">Ending Date</label>
+        <div class="form-group">
+          <span style="position:absolute;right:0px;padding:12px 25px; " ng-click="end.opened = true;">
+            <i class="glyphicon glyphicon-calendar"></i>
+          </span>
+          <input type="text" class="form-control" style="height:40px;border-radius:10px;background:#F0F3FF;" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="dateForm.end" is-open="end.opened" />
+        </div>
       </div>
     </div>
   </div>
 
-</div>
+
+
+  <div class="row headStrip course_header" style="">
+    <div class="col-md-2">
+      <span class="font20"><b>S.No.</b></span>
+    </div>
+    <div class="col-md-2">
+      <span class="font20"><b>Patient Name</b></span>
+    </div>
+    <div class="col-md-2">
+      <span class="font20"><b>Invoice Name</b></span>
+    </div>
+    <div class="col-md-2">
+      <span class="font20"><b>Bill No.</b></span>
+    </div>
+    <div class="col-md-2">
+      <span class="font20"><b>Type</b></span>
+    </div>
+    <div class="col-md-2">
+      <span class="font20"><b>Total</b></span>
+    </div>
+  </div>
+  <div class="" id="courses" style="height:84vh;overflow-y: scroll;scroll-behavior: smooth;scrollbar-width: none;">
+    <div class="row detailStrip" ng-repeat="r in tableData" >
+      <div class="col-md-2">
+        <h4>{{$index + 1}}</h4>
+      </div>
+      <div class="col-md-2">
+        {{r.activePatient__patient__firstName}}
+      </div>
+      <div class="col-md-2">
+        {{r.activePatient__patient__firstName}}
+      </div>
+      <div class="col-md-2">
+        {{r.invoiceName}}
+      </div>
+      <div class="col-md-2">
+        {{r.billNo}}
+      </div>
+      <div class="col-md-2">
+        {{r.activePatient__outPatient ? 'Out Patient' : 'In Patient'}}
+      </div>
+      <div class="col-md-2">
+        {{r.grandTotal}}
+      </div>
+    </div>
+
+    <div class="text-right" style="margin-right:50px;font-size:18px" ng-if="tableData.length>0">
+      <b>Total : </b> {{grandTotal}}
+    </div>
+
+  </div>
 </div>
