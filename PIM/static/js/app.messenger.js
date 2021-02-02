@@ -2,29 +2,61 @@
 
     $scope.me = $users.get('mySelf')
 
-
     $scope.user = $users.get(parseInt($state.params.id))
+
+
 
     $scope.publish = function(params){
       for (var i = 0; i < $scope.user.participants.length; i++) {
-        connection.session.publish(wamp_prefix+'service.chat.'+$scope.user.participants[i].pk, params).
-        then(function(publication) {
-        },function(){
-          console.log('Failed to publish message to all');
-        });
+        if ($scope.user.participants[i].pk != $scope.me.pk) {
+          connection.session.publish(wamp_prefix+'service.chat.'+$scope.user.participants[i].pk, params).
+          then(function(publication) {
+            console.log('published');
+          },function(){
+            console.log('Failed to publish message to all');
+          });
+        }
       }
     }
 
-    $scope.addChat = function(signal){
-      // $http({
-      //   method: 'GET',
-      //   url: '/api/PIM/chatMessage/'+signal+'/',
-      // }).
-      // then(function(response) {
-      // })
+    $scope.chatArray = []
 
-      $scope.messages.push(signal)
+    $scope.addChat = function(signal){
+      if ($scope.chatArray[$scope.chatArray.length-1]!= signal) {
+        $scope.chatArray.push(signal)
+        $http({
+          method: 'GET',
+          url: '/api/PIM/chatMessage/'+signal+'/',
+        }).
+        then(function(response) {
+          if (response.data.thread == $state.params.id) {
+            $scope.messages.push(response.data)
+          }
+        })
+      }
     }
+    $scope.show = {
+      showTypingVal : false
+    }
+    $scope.showTyping = function(chatPk, val){
+      if (chatPk == $state.params.id) {
+        $scope.show.showTypingVal = val
+      }
+
+    }
+
+    // $scope.getaddChat = function(signal){
+    //
+    //   $http({
+    //     method: 'GET',
+    //     url: '/api/PIM/chatMessage/'+signal+'/',
+    //   }).
+    //   then(function(response) {
+    //     if (response.data.thread == $state.params.id) {
+    //       $scope.messages.push(response.data)
+    //     }
+    //   })
+    // }
 
 
     $scope.form = {
@@ -91,7 +123,10 @@
 
     $scope.$watch('form.text', function(newValue, oldValue) {
       if (newValue.length>0) {
-        $scope.publish(['T', '' ,$state.params.id ])
+        $scope.publish(['T', true ,$state.params.id ])
+      }
+      else{
+          $scope.publish(['T', false ,$state.params.id ])
       }
     })
 
@@ -642,6 +677,21 @@ $scope.postFiles = function(){
 
 
 
+
+        $scope.updatePinned = function(pk,val){
+          console.log("sssssssssssssssssssss");
+          $http({
+            method: 'PATCH',
+            url: '/api/PIM/chatThreads/' + pk+'/',
+            data:{
+              is_pin : val
+            },
+          }).
+          then(function(response) {
+            $rootScope.$broadcast("update", {
+            });
+          })
+        }
 
 
     // $scope.getUsers = function() {

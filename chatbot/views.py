@@ -702,6 +702,12 @@ def publicAPI(request , objectType):
                     except :
                         pass
             c.save()
+            s = ChatMessage(uid = data['uid'])
+            s.thread = c
+            s.uid = c.uid
+            if 'firstMessage' in data:
+                s.message = data['firstMessage']
+            s.save()
             return JsonResponse({"pk" : c.pk , "transferred" : c.transferred}, status = 201)
         else:
             c = ChatThread.objects.filter(uid = request.GET['uid'] , status = 'started' ).last()
@@ -728,6 +734,22 @@ def publicAPI(request , objectType):
                 s.attachmentType = data['attachmentType']
             else:
                 s.message = data['message']
+            try:
+                s.attachment = request.FILES['attachment']
+                if s.attachment.name.endswith('.pdf'):
+                    s.fileType = 'pdf'
+                elif s.attachment.name.endswith('.png') or  s.attachment.name.endswith('.jpg') or  s.attachment.name.endswith('.jpeg'):
+                    s.fileType = 'image'
+                elif s.attachment.name.endswith('.doc') or  s.attachment.name.endswith('.docs') or s.attachment.name.endswith('.docx'):
+                    s.fileType = 'word'
+                elif s.attachment.name.endswith('.ppt') or  s.attachment.name.endswith('.pptx'):
+                    s.fileType = 'ppt'
+                elif s.attachment.name.endswith('.xlsx') or s.attachment.name.endswith('.xls'):
+                    s.fileType = 'xl'
+                s.fileSize ="{:.2f}".format(s.attachment.size)
+                s.fileName = s.attachment.name
+            except:
+                pass
 
 
             s.save()

@@ -211,7 +211,7 @@ class chatMessageSerializer(serializers.ModelSerializer):
                 im.fileType = 'ppt'
             elif im.attachment.name.endswith('.xlsx') or im.attachment.name.endswith('.xls'):
                 im.fileType = 'xl'
-            im.fileSize =  im.attachment.size
+            im.fileSize =  "{:.2f}".format(im.attachment.size)
             im.fileName = im.attachment.name
         except:
             pass
@@ -246,7 +246,7 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
 
         fields = ( 'pk' , 'created' , 'title', 'participants' , 'description','dp','lastActivity','isLate','visitor','uid','status','customerRating','customerFeedback','company','userDevice','location','userDeviceIp','firstResponseTime','typ','userAssignedTime','firstMessage','channel','transferred','fid','closedOn','closedBy','name','user','is_personal','lastmsg','is_pin')
 
-    
+
     def create(self ,  validated_data):
         c = ChatThread(**validated_data)
         user = self.context['request'].user

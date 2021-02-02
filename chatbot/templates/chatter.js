@@ -345,6 +345,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
   }, 2000);
   connection.onopen = function (session) {
+
      setTimeout(function () {
        inputText.placeholder = "Message...";
        paperClip.style.display = "";
@@ -1925,10 +1926,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
       }
 
-     function publishMessage(toWhome, chatThreadPk) {
+     function publishMessage(toWhome, chatThreadPk, chatMsgPk) {
        var toWhome = toWhome
        if (toWhome=='toAll') {
          let messageData = dataToSend;
+         console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkk", toWhome, chatMsgPk);
          var uidDetails = false;
 
          messageData.uid = uid;
@@ -1941,7 +1943,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
           if (details != "") {
              uidDetails = JSON.parse(details)
           }
-         let dataToPublish = [uid, status, messageData, custID, uidDetails, chatThreadPk, custName, custID]
+         // let dataToPublish = [uid, status, messageData, custID, uidDetails, chatThreadPk, custName, custID]
+          let dataToPublish = [uid, status, chatMsgPk, custID, uidDetails, chatThreadPk, custName, custID]
 
          console.log("botMode");
          console.log(botMode);
@@ -1964,6 +1967,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           let messageData = dataToSend;
           var uidDetails = false;
           messageData.uid = uid;
+          console.log(messageData,'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaffffffff');
           messageData.attachment = messageData.attachment || null;
           messageData.attachmentType = messageData.attachmentType || null;
           messageData.is_hidden = messageData.is_hidden || false;
@@ -2021,9 +2025,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
        dataToSend.uid = uid;
        var xhttp = new XMLHttpRequest();
        xhttp.onreadystatechange = function() {
+         console.log(this.responseText,'this.responseText.pkthis.responseText.pkthis.responseText.pkthis.responseText.pk');
          if (this.readyState == 4 && this.status == 201) {
            chat.messages.push(JSON.parse(this.responseText));
            window.postMessage({autoPlay : true}, "*");
+          }
+          else if (this.readyState == 4 && this.status == 200) {
+            if (isAgentOnline && agentPk) {
+              publishMessage('toOne', chatThreadPk , JSON.parse(this.responseText).pk);
+            }else {
+              publishMessage('toAll', chatThreadPk , JSON.parse(this.responseText).pk);
+            }
           }
        }
        xhttp.open('POST', '{{serverAddress}}/api/chatbot/publicFacing/supportChat/', true);
@@ -2033,12 +2045,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
      function handleChatThreadAndMessage() {
        if (threadExist==undefined) {
+         console.log(firstMessage,'aaaaaaaaaaaaaaaaassssssssssssssssssssssssssssss');
         var firstMessageText = extractContent(firstMessage);
         let dataToPost = {uid: uid , company: custID, firstMessage:firstMessageText}
 
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 201) {
+          console.log(this.status);
+          if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
              var chatThreadData = JSON.parse(this.responseText)
              threadExist = true
              chatThreadPk = chatThreadData.pk
@@ -2050,7 +2064,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
              pushMessageInView()
              saveMessageInDb()
-             publishMessage('toAll', chatThreadPk);
+             publishMessage('toAll', chatThreadPk ,JSON.parse(this.responseText.pk));
            }
            if (this.readyState == 4 && this.status == 400) {
              if (JSON.parse(this.responseText).uid[0].indexOf('already exists')>=0) {
@@ -2070,11 +2084,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
        }else {
          pushMessageInView()
          saveMessageInDb()
-         if (isAgentOnline && agentPk) {
-            publishMessage('toOne', chatThreadPk);
-          }else {
-            publishMessage('toAll', chatThreadPk);
-          }
+         // if (isAgentOnline && agentPk) {
+         //    publishMessage('toOne', chatThreadPk);
+         //  }else {
+         //    publishMessage('toAll', chatThreadPk);
+         //  }
        }
 
      }
@@ -2224,7 +2238,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           var fileData = {}
           var xhttp = new XMLHttpRequest();
           xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 201) {
+            if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
               var data = JSON.parse(this.responseText)
               filePk = data.pk
               var typ = file.files[0].type.split('/')[0]

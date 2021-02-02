@@ -366,7 +366,7 @@ class ActivitySerializer(serializers.ModelSerializer):
 class SupportChatSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatMessage
-        fields = ( 'pk' , 'created' , 'uid', 'attachment' ,'user' ,'message' ,'attachmentType','sentByAgent','responseTime','logs','delivered' ,'read','is_hidden')
+        fields = ( 'pk' , 'created' , 'uid', 'attachment' ,'user' ,'message' ,'attachmentType','sentByAgent','responseTime','logs','delivered' ,'read','is_hidden','thread')
     def create(self ,  validated_data):
         s = ChatMessage(**validated_data)
         s.save()

@@ -171,6 +171,17 @@ class ChatMessage(models.Model):
     replyTo = models.ForeignKey("self" , null = True, related_name="children")
     is_forwarded = models.BooleanField(default = False)
 
+@receiver(post_save, sender=ChatMessage, dispatch_uid="server_post_save")
+def createMessageThread(sender, instance, **kwargs):
+    if instance.thread == None and instance.uid is not None:
+        try:
+            threadObj = ChatThread.objects.get(uid = instance.uid)
+            instance.thread = threadObj
+            instance.save()
+        except:
+            pass
+
+
 
 
 def getCalendarAttachment(instance , filename ):
