@@ -20,6 +20,7 @@ connection.onopen = function (session) {
   };
 
   function chatSupportResonse(args){
+    console.log(args,'aaaaaaaaaaaaaaaaaaaaaaaaaa');
      var scope = angular.element(document.getElementById('messenger')).scope();
      scope.$apply(function() {
        scope.addChat(args[2]);

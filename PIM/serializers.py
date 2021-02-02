@@ -182,7 +182,7 @@ class chatMessageLiteSerializer(serializers.ModelSerializer):
     user = userSearchSerializer(read_only=True,many=False)
     class Meta:
         model = ChatMessage
-        fields = ('pk' , 'user','message','fileType','fileSize','fileName','attachment')
+        fields = ('pk' , 'user','message','fileType','fileSize','fileName','attachment','uid')
 
 
 class chatMessageSerializer(serializers.ModelSerializer):

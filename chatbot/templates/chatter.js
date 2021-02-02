@@ -367,11 +367,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
         return
       }
 
-      if (args[0]=="M") {
-          message = args[1]
-      agentName.innerHTML = args[2].last_name
-      document.getElementById('logo_ji').src=args[2].agentDp
-      }else if (args[0]=="MF") {
+      // if (args[0]=="M") {
+      //     message = args[1]
+      // agentName.innerHTML = args[2].last_name
+      // document.getElementById('logo_ji').src=args[2].agentDp
+      // }else
+       if (args[0]=="MF" || args[0]=="M") {
         agentName.innerHTML = args[2].last_name
         document.getElementById('logo_ji').src=args[2].agentDp
         var attachment;
@@ -387,7 +388,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
         };
 
-        xhttp.open('GET', '{{serverAddress}}/api/chatbot/supportChat/' + args[1].filePk + '/'  , true);
+        xhttp.open('GET', '{{serverAddress}}/api/chatbot/supportChat/' + args[1] + '/'  , true);
         xhttp.send();
         return;
 
@@ -1930,7 +1931,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
        var toWhome = toWhome
        if (toWhome=='toAll') {
          let messageData = dataToSend;
-         console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkk", toWhome, chatMsgPk);
          var uidDetails = false;
 
          messageData.uid = uid;
@@ -1967,7 +1967,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
           let messageData = dataToSend;
           var uidDetails = false;
           messageData.uid = uid;
-          console.log(messageData,'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaffffffff');
           messageData.attachment = messageData.attachment || null;
           messageData.attachmentType = messageData.attachmentType || null;
           messageData.is_hidden = messageData.is_hidden || false;
@@ -2030,12 +2029,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
            chat.messages.push(JSON.parse(this.responseText));
            window.postMessage({autoPlay : true}, "*");
           }
-          else if (this.readyState == 4 && this.status == 200) {
-            if (isAgentOnline && agentPk) {
-              publishMessage('toOne', chatThreadPk , JSON.parse(this.responseText).pk);
-            }else {
-              publishMessage('toAll', chatThreadPk , JSON.parse(this.responseText).pk);
-            }
+          // else if (this.readyState == 4 && this.status == 200) {
+          // }
+          if (isAgentOnline && agentPk) {
+            publishMessage('toOne', chatThreadPk , JSON.parse(this.responseText).pk);
+          }else {
+            publishMessage('toAll', chatThreadPk , JSON.parse(this.responseText).pk);
           }
        }
        xhttp.open('POST', '{{serverAddress}}/api/chatbot/publicFacing/supportChat/', true);
@@ -2045,7 +2044,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
      function handleChatThreadAndMessage() {
        if (threadExist==undefined) {
-         console.log(firstMessage,'aaaaaaaaaaaaaaaaassssssssssssssssssssssssssssss');
         var firstMessageText = extractContent(firstMessage);
         let dataToPost = {uid: uid , company: custID, firstMessage:firstMessageText}
 
@@ -2192,7 +2190,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
              if (details != "") {
                 uidDetails = JSON.parse(details)
              }
-            let dataToPublish = [uid , status , fileData , custID, uidDetails, chatThreadPk,custName ];
+            let dataToPublish = [uid , status , fileData.pk , custID, uidDetails, chatThreadPk,custName ];
 
             connection.session.publish(wamp_prefix+'service.support.' + custID, dataToPublish, {}, {
                acknowledge: true
@@ -2204,7 +2202,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
              });
 
           }else {
-            let dataToPublish = [uid , status , fileData];
+            let dataToPublish = [uid , status , fileData.pk];
 
             for (let i = 0; i < participants.length; i++) {
 

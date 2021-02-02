@@ -115,6 +115,14 @@
         $scope.replyMsgSelected = {
           'replyMsg' : ''
         }
+        if (response.data.uid!=undefined && response.data.uid!=null) {
+          connection.session.publish('service.support.chat.' + response.data.uid, ['M'  , response.data , new Date() ], {}, {
+            acknowledge: true
+          }).
+          then(function(publication) {
+            console.log("Published");
+          });
+        }
 
         $scope.publish(['M', response.data.pk, $state.params.id])
       })
@@ -123,6 +131,12 @@
 
     $scope.$watch('form.text', function(newValue, oldValue) {
       if (newValue.length>0) {
+        connection.session.publish('service.support.chat.' + response.data.uid, ['T'  , '' , new Date() ], {}, {
+          acknowledge: true
+        }).
+        then(function(publication) {
+          console.log("Published");
+        });
         $scope.publish(['T', true ,$state.params.id ])
       }
       else{
@@ -516,6 +530,14 @@ $scope.postFiles = function(){
        if ($scope.count == $scope.allFiles.length) {
          $scope.allFiles = []
        }
+       if (response.data.uid!=undefined && response.data.uid!=null) {
+         connection.session.publish('service.support.chat.' + response.data.uid, ['MF'  , response.data.pk , new Date() ], {}, {
+           acknowledge: true
+         }).
+         then(function(publication) {
+           console.log("Published");
+         });
+       }
        $scope.publish(['F', response.data.pk, $state.params.id])
     })
   }
@@ -679,7 +701,6 @@ $scope.postFiles = function(){
 
 
         $scope.updatePinned = function(pk,val){
-          console.log("sssssssssssssssssssss");
           $http({
             method: 'PATCH',
             url: '/api/PIM/chatThreads/' + pk+'/',
@@ -715,7 +736,6 @@ $scope.postFiles = function(){
 
 
     $scope.getAllUsers = function() {
-      console.log('ssssssssss');
         url = '/api/HR/userSearch/'
 
       if ($scope.search.searchTxt!=null && $scope.search.searchTxt.length > 0) {
