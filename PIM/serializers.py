@@ -182,7 +182,7 @@ class chatMessageLiteSerializer(serializers.ModelSerializer):
     user = userSearchSerializer(read_only=True,many=False)
     class Meta:
         model = ChatMessage
-        fields = ('pk' , 'user','message','fileType','fileSize','fileName','attachment')
+        fields = ('pk' , 'user','message','fileType','fileSize','fileName','attachment','uid')
 
 
 class chatMessageSerializer(serializers.ModelSerializer):
@@ -211,7 +211,7 @@ class chatMessageSerializer(serializers.ModelSerializer):
                 im.fileType = 'ppt'
             elif im.attachment.name.endswith('.xlsx') or im.attachment.name.endswith('.xls'):
                 im.fileType = 'xl'
-            im.fileSize =  im.attachment.size
+            im.fileSize =  "{:.2f}".format(im.attachment.size)
             im.fileName = im.attachment.name
         except:
             pass

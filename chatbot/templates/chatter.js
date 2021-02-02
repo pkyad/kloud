@@ -345,6 +345,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
   }, 2000);
   connection.onopen = function (session) {
+
      setTimeout(function () {
        inputText.placeholder = "Message...";
        paperClip.style.display = "";
@@ -366,11 +367,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
         return
       }
 
-      if (args[0]=="M") {
-          message = args[1]
-      agentName.innerHTML = args[2].last_name
-      document.getElementById('logo_ji').src=args[2].agentDp
-      }else if (args[0]=="MF") {
+      // if (args[0]=="M") {
+      //     message = args[1]
+      // agentName.innerHTML = args[2].last_name
+      // document.getElementById('logo_ji').src=args[2].agentDp
+      // }else
+       if (args[0]=="MF" || args[0]=="M") {
         agentName.innerHTML = args[2].last_name
         document.getElementById('logo_ji').src=args[2].agentDp
         var attachment;
@@ -386,7 +388,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
         };
 
-        xhttp.open('GET', '{{serverAddress}}/api/chatbot/supportChat/' + args[1].filePk + '/'  , true);
+        xhttp.open('GET', '{{serverAddress}}/api/chatbot/supportChat/' + args[1] + '/'  , true);
         xhttp.send();
         return;
 
@@ -1925,7 +1927,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
       }
 
-     function publishMessage(toWhome, chatThreadPk) {
+     function publishMessage(toWhome, chatThreadPk, chatMsgPk) {
        var toWhome = toWhome
        if (toWhome=='toAll') {
          let messageData = dataToSend;
@@ -1941,7 +1943,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
           if (details != "") {
              uidDetails = JSON.parse(details)
           }
-         let dataToPublish = [uid, status, messageData, custID, uidDetails, chatThreadPk, custName, custID]
+         // let dataToPublish = [uid, status, messageData, custID, uidDetails, chatThreadPk, custName, custID]
+          let dataToPublish = [uid, status, chatMsgPk, custID, uidDetails, chatThreadPk, custName, custID]
 
          console.log("botMode");
          console.log(botMode);
@@ -2021,9 +2024,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
        dataToSend.uid = uid;
        var xhttp = new XMLHttpRequest();
        xhttp.onreadystatechange = function() {
+         console.log(this.responseText,'this.responseText.pkthis.responseText.pkthis.responseText.pkthis.responseText.pk');
          if (this.readyState == 4 && this.status == 201) {
            chat.messages.push(JSON.parse(this.responseText));
            window.postMessage({autoPlay : true}, "*");
+          }
+          // else if (this.readyState == 4 && this.status == 200) {
+          // }
+          if (isAgentOnline && agentPk) {
+            publishMessage('toOne', chatThreadPk , JSON.parse(this.responseText).pk);
+          }else {
+            publishMessage('toAll', chatThreadPk , JSON.parse(this.responseText).pk);
           }
        }
        xhttp.open('POST', '{{serverAddress}}/api/chatbot/publicFacing/supportChat/', true);
@@ -2038,7 +2049,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 201) {
+          console.log(this.status);
+          if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
              var chatThreadData = JSON.parse(this.responseText)
              threadExist = true
              chatThreadPk = chatThreadData.pk
@@ -2050,7 +2062,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
              pushMessageInView()
              saveMessageInDb()
-             publishMessage('toAll', chatThreadPk);
+             publishMessage('toAll', chatThreadPk ,JSON.parse(this.responseText.pk));
            }
            if (this.readyState == 4 && this.status == 400) {
              if (JSON.parse(this.responseText).uid[0].indexOf('already exists')>=0) {
@@ -2070,11 +2082,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
        }else {
          pushMessageInView()
          saveMessageInDb()
-         if (isAgentOnline && agentPk) {
-            publishMessage('toOne', chatThreadPk);
-          }else {
-            publishMessage('toAll', chatThreadPk);
-          }
+         // if (isAgentOnline && agentPk) {
+         //    publishMessage('toOne', chatThreadPk);
+         //  }else {
+         //    publishMessage('toAll', chatThreadPk);
+         //  }
        }
 
      }
@@ -2178,7 +2190,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
              if (details != "") {
                 uidDetails = JSON.parse(details)
              }
-            let dataToPublish = [uid , status , fileData , custID, uidDetails, chatThreadPk,custName ];
+            let dataToPublish = [uid , status , fileData.pk , custID, uidDetails, chatThreadPk,custName ];
 
             connection.session.publish(wamp_prefix+'service.support.' + custID, dataToPublish, {}, {
                acknowledge: true
@@ -2190,7 +2202,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
              });
 
           }else {
-            let dataToPublish = [uid , status , fileData];
+            let dataToPublish = [uid , status , fileData.pk];
 
             for (let i = 0; i < participants.length; i++) {
 
@@ -2224,7 +2236,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           var fileData = {}
           var xhttp = new XMLHttpRequest();
           xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 201) {
+            if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
               var data = JSON.parse(this.responseText)
               filePk = data.pk
               var typ = file.files[0].type.split('/')[0]
