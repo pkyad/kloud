@@ -121,7 +121,6 @@
 
     ]
 
-
     $scope.getMessages = function() {
       $http({
         method: 'GET',
@@ -133,15 +132,15 @@
          $timeout(function() {
            var objDiv = document.getElementById("scrollView");
            objDiv.scrollTop = objDiv.scrollHeight+40;
-
          },500)
       })
 
     }
+
     $scope.getMessages()
     $scope.contactform={
       name:'',
-      mobile:'',email:'',notes:'',visitor:''
+      mobile:'',email:'',notes:'',visitor:'',addrs:'',pinCode:''
     }
 
 
@@ -153,6 +152,7 @@
       })
     };
 
+    $scope.limit =20
     $scope.$watch('contactform.mobile', function(newValue) {
 
 
@@ -163,21 +163,26 @@
       }else {
         newValue =  newValue
       }
-
       $http({
         method: 'GET',
-        url: '/api/marketing/contacts/?mobile__icontains=' + newValue
+        url: '/api/marketing/contacts/?limit=20&mobile__icontains=' + newValue
       }).
       then(function(response) {
         if ($scope.contactform.mobile.pk != undefined) {
 
           $scope.contactform.email = $scope.contactform.mobile.email
           $scope.contactform.notes = $scope.contactform.mobile.notes
+          $scope.contactform.addrs = $scope.contactform.mobile.addrs
+          $scope.contactform.pinCode = $scope.contactform.mobile.pinCode
           $scope.contactform.visitor = $scope.contactform.mobile.pk
-          $scope.createContact()
         }
-        return response.data
+        // $scope.createContact()
+        // if ($scope.contactform.mobile.length >8) {
+        //
+        // }
+        return response.data.results
       })
+
 
 
 
@@ -186,26 +191,82 @@
 
 
 
+    $scope.call = function(num) {
+      $rootScope.$broadcast("call", {type : 'call' , number : num , source : 'dialPad'  });
+    }
 
+    // $scope.call('8328412361')
+    // $scope.call('9702438730')
+
+
+    $scope.$on("call", function(evt, data) {
+      console.log({data : data});
+
+      if (data.id) {
+        $scope.dialer.campaign = data.id;
+      }
+
+      if (data.type == 'call' ) {
+        $scope.dialer.number = data.number;
+
+        if (data.number.length == 10) {
+          numberToCall = '151191' + $scope.dialer.number ;
+        }else{
+          numberToCall = $scope.dialer.number ;
+        }
+
+        // $scope.dialer.number = '7007148138';
+        console.log(data.number);
+
+
+        $scope.dialer.direction = 'out';
+        $scope.dialer.active = true;
+
+        buddyObj = MakeBuddy(undefined, true, false, true, numberToCall, numberToCall);
+        $scope.buddyObj = buddyObj;
+
+        $scope.lineObj = new Line(1,  numberToCall,  numberToCall, buddyObj);
+        AudioCall($scope.lineObj, numberToCall);
+        $scope.dialer.status = 'Connecting'
+      }
+    });
 
 
     $scope.createContact = function(){
-
+      console.log($scope.contactform.mobile,'3443');
+      if ($scope.contactform.mobile.length < 8) {
+        Flash.create('warning','Enter correct mobile number')
+        return
+      }
       var data = {
-        name:$scope.contactform.name,mobile:$scope.contactform.mobile.mobile,email:$scope.contactform.email,notes:$scope.contactform.notes,visitor:$scope.contactform.mobile.pk
+        name:$scope.contactform.name,email:$scope.contactform.email,notes:$scope.contactform.notes,pinCode:$scope.contactform.pinCode,addrs:$scope.contactform.addrs
+      }
+      if (typeof $scope.contactform.mobile ==='string') {
+        data.mobile = $scope.contactform.mobile
+      }else {
+
+        data.mobile = $scope.contactform.mobile.mobile
+      }
+      if ($scope.contactform.pk != undefined) {
+          data.visitor = $scope.contactform.pk
+      }else {
+
+        data.visitor = null
       }
 
 
+      if ($scope.contactform.mobile.length ==10) {
+          $http({
+            method: 'PATCH',
+            url:'/api/PIM/chatThreads/'+$state.params.id+'/',
+            data:data
+          }).
+          then(function(response) {
 
-      $http({
-        method: 'PATCH',
-        url:'/api/PIM/chatThreads/'+$state.params.id+'/',
-        data:data
-      }).
-      then(function(response) {
 
+          })
 
-      })
+      }
 
     }
 
@@ -219,9 +280,16 @@
 
 
         $scope.contactform.name = response.data.name
-        $scope.contactform.mobile = response.data.visitor.mobile
-        $scope.contactform.email = response.data.visitor.email
-        $scope.contactform.notes = response.data.visitor.notes
+        if (response.data.visitor != null) {
+          $scope.contactform.mobile = response.data.visitor.mobile
+          $scope.contactform.email = response.data.visitor.email
+          $scope.contactform.notes = response.data.visitor.notes
+          $scope.contactform.addrs = response.data.visitor.addrs
+          $scope.contactform.pinCode = response.data.visitor.pinCode
+          $scope.contactform.visitor = response.data.visitor.pk
+          $scope.contactform.pk = response.data.visitor.pk
+
+        }
 
 
 
@@ -496,6 +564,7 @@ $scope.postFiles = function(){
       var objDiv = document.getElementById("scrollView");
       console.log(objDiv,'334');
        objDiv.scrollTop = objDiv.scrollHeight+40;
+
        if ($scope.count == $scope.allFiles.length) {
          $scope.allFiles = []
        }
@@ -846,7 +915,6 @@ $scope.postFiles = function(){
        $timeout(function() {
          var objDiv = document.getElementById("scrollView");
          objDiv.scrollTop = objDiv.scrollHeight+40;
-         console.log(objDiv.scrollTop);
 
        },500)
     })

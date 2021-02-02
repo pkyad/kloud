@@ -370,9 +370,16 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
         if 'visitor' in self.context['request'].data:
             v,visitorObj = Contacts.objects.get_or_create(mobile=self.context['request'].data['mobile'])
             print visitorObj,v,'"eeeeeeeeee"'
-            v.email = self.context['request'].data['email']
-            v.name = self.context['request'].data['name']
-            v.notes = self.context['request'].data['notes']
+            if 'email' in self.context['request'].data:
+                v.email = self.context['request'].data['email']
+            if 'name' in self.context['request'].data:
+                v.name = self.context['request'].data['name']
+            if 'notes' in self.context['request'].data:
+                v.notes = self.context['request'].data['notes']
+            if 'addrs' in self.context['request'].data:
+                v.addrs = self.context['request'].data['addrs']
+            if 'pinCode' in self.context['request'].data:
+                v.pinCode = self.context['request'].data['pinCode']
             v.save()
             instance.visitor = v
         if 'participants' in  self.context['request'].data:
