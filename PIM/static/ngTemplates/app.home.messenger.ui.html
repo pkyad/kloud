@@ -1,58 +1,58 @@
 <style>
-  .display_picture{
-    border-radius:50%;
+  .display_picture {
+    border-radius: 50%;
     background-position: center;
-    background-size:cover;
-    height:150px;
-    width:150px;
-    text-align:center
+    background-size: cover;
+    height: 150px;
+    width: 150px;
+    text-align: center
   }
 
-  .imagePreview{
+  .imagePreview {
     background-position: center;
-    background-size:contain;
-    background-repeat:no-repeat;
-    height:50vh;
-    text-align:center
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 50vh;
+    text-align: center
   }
 
 
-.display_picture:hover  .highlight{
-  display:block;
-  color:#ffffff;
-  padding-top:40px
-}
+  .display_picture:hover .highlight {
+    display: block;
+    color: #ffffff;
+    padding-top: 40px
+  }
 
-.highlight{
-  display:none
-}
+  .highlight {
+    display: none
+  }
 
-.participants:hover {
-  background: #f5f5f5;
-  cursor: pointer;
-}
+  .participants:hover {
+    background: #f5f5f5;
+    cursor: pointer;
+  }
 
-.participants {
+  .participants {
 
-  background: #ffffff
-}
+    background: #ffffff
+  }
 
-.file_upload {
-   opacity: 0.0;
-   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-   filter: alpha(opacity=0);
-   -moz-opacity: 0.0;
-   -khtml-opacity: 0.0;
-   position: absolute;
-   top: 0;
-   left: 0;
-   bottom: 0;
-   right: 0;
-   width: 100%;
-   height:100%;
-}
+  .file_upload {
+    opacity: 0.0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    -moz-opacity: 0.0;
+    -khtml-opacity: 0.0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
 
-/* .file_upload_add{
+  /* .file_upload_add{
   opacity: 0.0;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
@@ -68,105 +68,110 @@
 } */
 
 
-.file_upload_add{
-opacity: 0.0;
-position: absolute;
-top: 0px;
-width: 100px;
-height: 100%;
-text-align: center;
-}
+  .file_upload_add {
+    opacity: 0.0;
+    position: absolute;
+    top: 0px;
+    width: 100px;
+    height: 100%;
+    text-align: center;
+  }
 
-.reply_icon{
-  opacity:0;
-  position:relative;
-}
-.reply_icons{
-  position:relative;
-  opacity:0;
+  .reply_icon {
+    opacity: 0;
+    position: relative;
+  }
 
-}
+  .reply_icons {
+    position: relative;
+    opacity: 0;
 
-.reply_icon_rec{
-  opacity:0
-}
-.sent-text:hover .reply_icon{
-    opacity:1
+  }
 
-}
-.sent-text:hover .reply_icons{
-    opacity:1;
+  .reply_icon_rec {
+    opacity: 0
+  }
+
+  .sent-text:hover .reply_icon {
+    opacity: 1
+  }
+
+  .sent-text:hover .reply_icons {
+    opacity: 1;
     position: absolute;
     right: 20px;
     margin-top: -70px;
-}
+  }
 
-.recived-text:hover .reply_icon_rec{
-  opacity:1
-}
+  .recived-text:hover .reply_icon_rec {
+    opacity: 1
+  }
 
-.img-recived:hover .reply_icon_rec{
-    display:block
-}
+  .img-recived:hover .reply_icon_rec {
+    display: block
+  }
 
-.img-sent:hover .reply_icon{
-  opacity:1
-}
-.img-sent:hover .reply_icons{
-    opacity:1;
+  .img-sent:hover .reply_icon {
+    opacity: 1
+  }
+
+  .img-sent:hover .reply_icons {
+    opacity: 1;
     position: absolute;
     right: 20px;
     margin-top: -70px;
-}
-.file-sent:hover .reply_icons{
-    opacity:1;
+  }
+
+  .file-sent:hover .reply_icons {
+    opacity: 1;
     position: absolute;
     right: 20px;
     margin-top: -70px;
-}
+  }
 
-.file-sent:hover .reply_icon{
-  opacity:1;
+  .file-sent:hover .reply_icon {
+    opacity: 1;
     /* display:block */
-}
+  }
 
-.file-recived:hover .reply_icon_rec{
-    display:block
-}
+  .file-recived:hover .reply_icon_rec {
+    display: block
+  }
 
-.flex-container {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: center;
-  overflow-x: auto;
-  /* background-color: DodgerBlue; */
+  .flex-container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    overflow-x: auto;
+    /* background-color: DodgerBlue; */
 
-}
+  }
 
-.flex-container > div {
-  background-color: #f1f1f1;
-  width: 100px;
-  margin: 10px;
-  text-align: center;
-  /* line-height: 100px; */
-  font-size: 30px;
-}
+  .flex-container>div {
+    background-color: #f1f1f1;
+    width: 100px;
+    margin: 10px;
+    text-align: center;
+    /* line-height: 100px; */
+    font-size: 30px;
+  }
 
-.display_picture_view{
-  border-radius:50%;
-  background-position: center;
-  background-size:cover;
-  height:50px;
-  width:50px;
-  text-align:center;
-}
-ul.no-bullets {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
+  .display_picture_view {
+    border-radius: 50%;
+    background-position: center;
+    background-size: cover;
+    height: 45px;
+    width: 45px;
+    text-align: center;
+  }
 
-.dropdown-menus {
+  ul.no-bullets {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .dropdown-menus {
     position: absolute;
     top: 100%;
     right: 0;
@@ -188,8 +193,8 @@ ul.no-bullets {
     border-radius: 4px;
     -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
     box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-    color:black
-}
+    color: black
+  }
 </style>
 <div class="col-md-9 col-sm-8 pull-right " style="padding:0px;" id="messenger">
   <div class="row" style=";margin:0px;">
@@ -200,8 +205,8 @@ ul.no-bullets {
             <!-- <div class="">
               <img ng-src="{{user.dp}}" src="p/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
             </div> -->
-            <div  class="display_picture_view" style="background-image:url({{user.dp?user.dp:'/static/images/userIcon.png'}})">
-              </div>
+            <div class="display_picture_view" style="background-image:url({{user.dp?user.dp:'/static/images/userIcon.png'}})">
+            </div>
           </div>
           <div class="{{user.is_show?'col-md-10':'col-md-10'}}col-md-10 col-sm-9" ng-click="user.is_show=true" style="">
             <h5 style="margin-top:0px;">{{user.name}} </h5>
@@ -221,26 +226,26 @@ ul.no-bullets {
             <div class="" style="display:flex">
               <div class="sent-text" style="margin-left: auto;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;">
                 <div ng-if="message.replyTo.pk" style="padding:5px 65px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#cfe9ba;padding-left:10px">
-                     <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
-                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
-                 </div>
-                 <div class="row">
-                   <span  style="display:flex;position:relative">
-                     {{message.message}}
-                     <div  class="{{message.replyTo.pk?'reply_icons':'reply_icon'}} dropdown">
-                       <i class="fa fa-angle-down  dropdown-toggle pull-right"   ng-click="message.show=!message.show" style="padding:7px;"></i><br>
-                       <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
-                         <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
-                         <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
-                       </div>
+                  <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
+                  <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null"> {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null"> {{message.replyTo.fileName}} </span>
+                </div>
+                <div class="row">
+                  <span style="display:flex;position:relative">
+                    {{message.message}}
+                    <div class="{{message.replyTo.pk?'reply_icons':'reply_icon'}} dropdown">
+                      <i class="fa fa-angle-down  dropdown-toggle pull-right" ng-click="message.show=!message.show" style="padding:7px;"></i><br>
+                      <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
+                        <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                        <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+                      </div>
 
-                     </div>
-                   </span>
+                    </div>
+                  </span>
 
-                 </div>
-               </div>
+                </div>
+              </div>
 
               <div style="padding: 0px;width: 40px;margin-left: auto;margin-top: auto;height: 40px;margin-bottom: 1%;margin-left: 2%;">
                 <img ng-src="{{u.profile.displayPicture}}" src="p/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
@@ -264,34 +269,34 @@ ul.no-bullets {
                    {{message.user.first_name}} {{message.user.last_name}}  <br/>
                  </span> -->
 
-                 <div class="row">
+                <div class="row">
 
-                   <span class=" " style="display:flex;color:#7bbaf4">
-                     <!-- {{message.message}} -->
-                     {{message.user.first_name}} {{message.user.last_name}}
-                     <div class=" dropdown reply_icon_rec">
-                       <i class="fa fa-angle-down  dropdown-toggle  pull-right"   ng-click="message.show=!message.show" style="padding:3px;"></i>
-                       <br>
-                       <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
-                         <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
-                         <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
-                       </div>
+                  <span class=" " style="display:flex;color:#7bbaf4">
+                    <!-- {{message.message}} -->
+                    {{message.user.first_name}} {{message.user.last_name}}
+                    <div class=" dropdown reply_icon_rec">
+                      <i class="fa fa-angle-down  dropdown-toggle  pull-right" ng-click="message.show=!message.show" style="padding:3px;"></i>
+                      <br>
+                      <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
+                        <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                        <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+                      </div>
 
-                     </div>
-                   </span>
+                    </div>
+                  </span>
 
-                 </div>
+                </div>
 
-                 <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#ededed">
-                   <span style="color:#7bbaf4">
-                     <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
-                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
-                    </span>
-                    <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
-                    <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
-                  </div>
-               {{message.message}}
-             </div>
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#ededed">
+                  <span style="color:#7bbaf4">
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
+                  </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null"> {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null"> {{message.replyTo.fileName}} </span>
+                </div>
+                {{message.message}}
+              </div>
             </div>
             <div style="display:flex;width:87%" class=" margin-auto">
               <p class="margin-r-auto">{{message.created | timeAgo}}</p>
@@ -305,20 +310,20 @@ ul.no-bullets {
               <div class="img-sent padding-2" style="margin-left:auto; width:300px;height:300px">
                 <span class="{{message.replyTo.pk?'reply_icons':'reply_icon'}} dropdown">
 
-                <i class="fa fa-angle-down  dropdown-toggle pull-right"   ng-click="message.show=!message.show"></i><br>
-                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
-                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
-                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
-              </div>
+                  <i class="fa fa-angle-down  dropdown-toggle pull-right" ng-click="message.show=!message.show"></i><br>
+                  <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
+                    <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                    <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+                  </div>
                 </span>
                 <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br/> </span>
-                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
-                   </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
-                 </div>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
+                  </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null"> {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null"> {{message.replyTo.fileName}} </span>
+                </div>
                 <img class=" " ng-src="{{message.attachment}}" ng-click="viewImage(message.attachment)" alt="photo" width="289" height="289">
               </div>
               <div style="padding: 0px;width: 40px;margin-left: auto;margin-top: auto;height: 40px;margin-bottom: 1%;margin-left: 2%;">
@@ -336,20 +341,20 @@ ul.no-bullets {
             <div class="">
               <div class="img-sent  padding-2" style="margin-left:auto; width:300px;height:300px;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;margin-right: 58px;border-radius: 6px 6px 0 0 !important;">
                 <span class="{{message.replyTo.pk?'reply_icons':'reply_icon'}} dropdown">
-                <i class="fa fa-angle-down  dropdown-toggle pull-right"   ng-click="message.show=!message.show"></i><br>
-                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
-                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
-                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
-              </div>
+                  <i class="fa fa-angle-down  dropdown-toggle pull-right" ng-click="message.show=!message.show"></i><br>
+                  <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
+                    <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                    <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+                  </div>
                 </span>
                 <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
-                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
-                   </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
-                 </div>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
+                  </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null"> {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null"> {{message.replyTo.fileName}} </span>
+                </div>
                 <img class=" " ng-src="{{message.attachment}}" ng-click="viewImage(message.attachment)" alt="photo" width="289" height="289">
               </div>
               <div class="" style="display:flex;">
@@ -372,20 +377,20 @@ ul.no-bullets {
               </div>
               <div class="img-recived padding-2" style=" width:300px;height:300px;margin-left:15px">
                 <span class=" dropdown" style="color:#7bbaf4">
-                <i class="fa fa-angle-down  dropdown-toggle reply_icon_rec pull-right"   ng-click="message.show=!message.show"></i> {{message.user.first_name}} {{message.user.last_name}}<br>
-                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
-                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
-                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
-              </div>
+                  <i class="fa fa-angle-down  dropdown-toggle reply_icon_rec pull-right" ng-click="message.show=!message.show"></i> {{message.user.first_name}} {{message.user.last_name}}<br>
+                  <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
+                    <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                    <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+                  </div>
                 </span>
                 <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
-                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
-                   </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
-                 </div>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
+                  </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null"> {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null"> {{message.replyTo.fileName}} </span>
+                </div>
                 <img class=" " ng-src="{{message.attachment}}" ng-click="viewImage(message.attachment)" alt="photo" width="289" height="289">
               </div>
             </div>
@@ -400,20 +405,20 @@ ul.no-bullets {
             <div class="">
               <div class="img-recived  padding-2" style="margin-right:auto; width:300px;height:300px;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;margin-right: 58px;">
                 <span class=" dropdown" style="color:#7bbaf4">
-                <i class="fa fa-angle-down  dropdown-toggle reply_icon_rec pull-right"   ng-click="message.show=!message.show"></i> {{message.user.first_name}} {{message.user.last_name}}<br>
-                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
-                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
-                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
-              </div>
+                  <i class="fa fa-angle-down  dropdown-toggle reply_icon_rec pull-right" ng-click="message.show=!message.show"></i> {{message.user.first_name}} {{message.user.last_name}}<br>
+                  <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
+                    <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                    <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+                  </div>
                 </span>
                 <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
-                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
-                   </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
-                 </div>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
+                  </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null"> {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null"> {{message.replyTo.fileName}} </span>
+                </div>
                 <img class=" " ng-src="{{message.attachment}}" ng-click="viewImage(message.attachment)" alt="photo" width="289" height="289">
               </div>
               <div class="" style="display:flex;margin-top: 20px;">
@@ -433,20 +438,20 @@ ul.no-bullets {
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <span class="{{message.replyTo.pk?'reply_icons':'reply_icon'}} dropdown">
-                <i class="fa fa-angle-down  dropdown-toggle pull-right"   ng-click="message.show=!message.show"></i><br>
-                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
-                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
-                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
-              </div>
+                  <i class="fa fa-angle-down  dropdown-toggle pull-right" ng-click="message.show=!message.show"></i><br>
+                  <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
+                    <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                    <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+                  </div>
                 </span>
                 <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
-                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
-                   </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
-                 </div>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
+                  </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null"> {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null"> {{message.replyTo.fileName}} </span>
+                </div>
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
                   <img src="/static/images/icons8-pdf-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="font-size:12px">{{message.fileName}}</p>
@@ -486,20 +491,20 @@ ul.no-bullets {
               </div>
               <div class="file-recived" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <span class=" dropdown" style="color:#7bbaf4">
-                <i class="fa fa-angle-down  dropdown-toggle reply_icon_rec pull-right"   ng-click="message.show=!message.show"></i> {{message.user.first_name}} {{message.user.last_name}}<br>
-                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
-                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
-                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
-              </div>
+                  <i class="fa fa-angle-down  dropdown-toggle reply_icon_rec pull-right" ng-click="message.show=!message.show"></i> {{message.user.first_name}} {{message.user.last_name}}<br>
+                  <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
+                    <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                    <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+                  </div>
                 </span>
                 <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
-                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
-                   </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
-                 </div>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
+                  </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null"> {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null"> {{message.replyTo.fileName}} </span>
+                </div>
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
                   <img src="/static/images/icons8-pdf-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="color:black;font-size:12px">{{message.fileName}}</p>
@@ -533,20 +538,20 @@ ul.no-bullets {
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <span class="{{message.replyTo.pk?'reply_icons':'reply_icon'}} dropdown">
-                <i class="fa fa-angle-down  dropdown-toggle pull-right"   ng-click="message.show=!message.show"></i><br>
-                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
-                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
-                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
-              </div>
+                  <i class="fa fa-angle-down  dropdown-toggle pull-right" ng-click="message.show=!message.show"></i><br>
+                  <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
+                    <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                    <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+                  </div>
                 </span>
                 <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
-                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
-                   </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
-                 </div>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
+                  </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null"> {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null"> {{message.replyTo.fileName}} </span>
+                </div>
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
                   <img src="/static/images/icons8-word-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="font-size:12px">{{message.fileName}}</p>
@@ -585,20 +590,20 @@ ul.no-bullets {
               </div>
               <div class="file-recived" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <span class=" dropdown" style="color:#7bbaf4">
-                <i class="fa fa-angle-down  dropdown-toggle reply_icon_rec pull-right"   ng-click="message.show=!message.show"></i> {{message.user.first_name}} {{message.user.last_name}}<br>
-                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
-                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
-                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
-              </div>
+                  <i class="fa fa-angle-down  dropdown-toggle reply_icon_rec pull-right" ng-click="message.show=!message.show"></i> {{message.user.first_name}} {{message.user.last_name}}<br>
+                  <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
+                    <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                    <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+                  </div>
                 </span>
                 <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
-                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
-                   </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
-                 </div>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
+                  </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null"> {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null"> {{message.replyTo.fileName}} </span>
+                </div>
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
                   <img src="/static/images/icons8-word-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="color:black;font-size:12px">{{message.fileName}}</p>
@@ -630,20 +635,20 @@ ul.no-bullets {
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <span class="{{message.replyTo.pk?'reply_icons':'reply_icon'}} dropdown">
-                <i class="fa fa-angle-down  dropdown-toggle pull-right"   ng-click="message.show=!message.show"></i><br>
-                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
-                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
-                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
-              </div>
+                  <i class="fa fa-angle-down  dropdown-toggle pull-right" ng-click="message.show=!message.show"></i><br>
+                  <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
+                    <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                    <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+                  </div>
                 </span>
                 <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
-                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
-                   </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
-                 </div>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
+                  </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null"> {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null"> {{message.replyTo.fileName}} </span>
+                </div>
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
                   <img src="/static/images/icons8-ppt-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="font-size:12px">{{message.fileName}}</p>
@@ -683,20 +688,20 @@ ul.no-bullets {
               </div>
               <div class="file-recived" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <span class=" dropdown" style="color:#7bbaf4">
-                <i class="fa fa-angle-down  dropdown-toggle reply_icon_rec pull-right"   ng-click="message.show=!message.show"></i> {{message.user.first_name}} {{message.user.last_name}}<br>
-                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
-                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
-                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
-              </div>
+                  <i class="fa fa-angle-down  dropdown-toggle reply_icon_rec pull-right" ng-click="message.show=!message.show"></i> {{message.user.first_name}} {{message.user.last_name}}<br>
+                  <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
+                    <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                    <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+                  </div>
                 </span>
                 <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
-                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
-                   </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
-                 </div>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
+                  </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null"> {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null"> {{message.replyTo.fileName}} </span>
+                </div>
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
                   <img src="/static/images/icons8-ppt-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="color:black;font-size:12px">{{message.fileName}}</p>
@@ -728,20 +733,20 @@ ul.no-bullets {
             <div class="" style="display: flex;justify-content: space-between;">
               <div class="file-sent" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <span class="{{message.replyTo.pk?'reply_icons':'reply_icon'}} dropdown">
-                <i class="fa fa-angle-down  dropdown-toggle pull-right"   ng-click="message.show=!message.show"></i><br>
-                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
-                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
-                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
-              </div>
+                  <i class="fa fa-angle-down  dropdown-toggle pull-right" ng-click="message.show=!message.show"></i><br>
+                  <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;">
+                    <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                    <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+                  </div>
                 </span>
                 <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
-                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
-                   </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
-                 </div>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
+                  </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null"> {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null"> {{message.replyTo.fileName}} </span>
+                </div>
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
                   <img src="/static/images/icons8-xls-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="font-size:12px">{{message.fileName}}</p>
@@ -780,20 +785,20 @@ ul.no-bullets {
               </div>
               <div class="file-recived" style="margin-left: 3%;width: 84%;border-radius: 6px;padding: 0.75rem;">
                 <span class=" dropdown" style="color:#7bbaf4">
-                <i class="fa fa-angle-down  dropdown-toggle reply_icon_rec pull-right"   ng-click="message.show=!message.show"></i> {{message.user.first_name}} {{message.user.last_name}}<br>
-                <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
-                <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
-                <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
-              </div>
+                  <i class="fa fa-angle-down  dropdown-toggle reply_icon_rec pull-right" ng-click="message.show=!message.show"></i> {{message.user.first_name}} {{message.user.last_name}}<br>
+                  <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
+                    <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                    <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+                  </div>
                 </span>
                 <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
                   <span style="color:#7bbaf4">
-                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}}  <br/> </span>
-                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
-                   </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment === null">   {{message.replyTo.message}} </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment != null">   {{message.replyTo.fileName}} </span>
-                 </div>
+                    <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
+                    <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
+                  </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null"> {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null"> {{message.replyTo.fileName}} </span>
+                </div>
                 <div style="display:flex;width:100%;" class="file-card padding-2 ">
                   <img src="/static/images/icons8-xls-96.png" alt="" width="40">
                   <p class="margin-y-auto m-left-4" style="color:black;font-size:12px">{{message.fileName}}</p>
@@ -829,48 +834,49 @@ ul.no-bullets {
         <div class="col-md-12">
           <div class="row" style="position:relative">
             <div class="col-md-12">
-              <div class="row" >
+              <div class="row">
                 <div class="col-md-12" style="position:absolute;bottom:85px;left:900px;z-index:3333">
                   <div class="text-center" style="height:60px;width:60px;background-color:#3bd17a;border-radius: 50%;padding: 10px;">
                     <i class="fa fa-arrow-right fa-2x" aria-hidden="true" style="color:white;" ng-click="postFiles()"></i>
                   </div>
                 </div>
-                </div>
+              </div>
               <div class="row" style="height:60px;background:#3bd17a">
-                  <div class="col-md-12">
-                    <h4 style="color:#ffffff;padding-top:10px"> <i class="fa fa-close" style="padding-right:15px" ng-click="closeAtachment()"></i> Preview </h4>
+                <div class="col-md-12">
+                  <h4 style="color:#ffffff;padding-top:10px"> <i class="fa fa-close" style="padding-right:15px" ng-click="closeAtachment()"></i> Preview </h4>
+                </div>
+              </div>
+              <div class="row" style="height:65vh">
+                <div class="col-md-12" style="padding: 60px;">
+                  <div ng-show="typ == 'image'" id="imagePreview" class="imagePreview"></div>
+                  <div ng-show="typ != 'image'" class="text-center" style="margin-top:225px">
+                    <i class="fa fa-file fa-3x"></i>
+
                   </div>
                 </div>
-                <div class="row" style="height:65vh">
-                    <div class="col-md-12" style="padding: 60px;">
-                        <div ng-show="typ == 'image'" id="imagePreview" class="imagePreview"></div>
-                        <div ng-show="typ != 'image'" class="text-center" style="margin-top:225px">
-                            <i class="fa fa-file fa-3x"></i>
-
-                        </div>
-                    </div>
+              </div>
+              <div class="row" style="background:#dedede;height:13vh">
+                <div class="col-md-12 flex-container text-center">
+                  <div ng-click="previewImage($index);$event.stopPropagation()" ng-repeat="f in allFiles" style="padding-top:15px"><i class="fa fa-file"></i><br /><span style="font-size:5px!important">{{f.name | limitTo : 40}}</span></div>
+                  <div style="padding-top:30px">
+                    <i class="fa fa-plus fa-lg"></i>
+                    <input type="file" class="file_upload_add" ng-model="form.file" onchange="angular.element(this).scope().fileAdded(this.files)" />
+                  </div>
                 </div>
-                <div class="row" style="background:#dedede;height:13vh">
-                    <div class="col-md-12 flex-container text-center" >
-                      <div ng-click="previewImage($index);$event.stopPropagation()" ng-repeat="f in allFiles" style="padding-top:15px"><i class="fa fa-file"></i><br/><span style="font-size:5px!important">{{f.name | limitTo : 40}}</span></div>
-                      <div style="padding-top:30px">
-                        <i class="fa fa-plus fa-lg"></i>
-                        <input type="file" class="file_upload_add" ng-model="form.file" onchange="angular.element(this).scope().fileAdded(this.files)" /></div>
-                    </div>
-                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div class="col-md-12 col-sm-12  " ng-if="replyMsgSelected.replyMsg" style="position:absolute;bottom: 55px;background-color: #ededed;">
-        <div class="row"  style="padding:10px">
+        <div class="row" style="padding:10px">
           <div class="col-md-offset-1 col-md-10">
             <div style="min-height:40px;border-left:5px solid #7bbaf4;padding:10px;background:#e4e4e4;border-radius:10px">
-              <span ng-if="replyMsgSelected.replyMsg.user.pk !=me.pk" style="color:#7bbaf4"> {{replyMsgSelected.replyMsg.user.first_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br/> </span>
-              <span ng-if="replyMsgSelected.replyMsg.user.pk == me.pk" style="color:#7bbaf4"> You  <br/></span>
-               <span ng-if="replyMsgSelected.replyMsg.attachment === null"> {{replyMsgSelected.replyMsg.message}}</span>
+              <span ng-if="replyMsgSelected.replyMsg.user.pk !=me.pk" style="color:#7bbaf4"> {{replyMsgSelected.replyMsg.user.first_name}} {{replyMsgSelected.replyMsg.user.last_name}} <br /> </span>
+              <span ng-if="replyMsgSelected.replyMsg.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
+              <span ng-if="replyMsgSelected.replyMsg.attachment === null"> {{replyMsgSelected.replyMsg.message}}</span>
               <span ng-if="replyMsgSelected.replyMsg.attachment != null"> {{replyMsgSelected.replyMsg.fileName}}</span>
-             </div>
+            </div>
           </div>
           <div class="col-md-1 text-center">
             <i class="fa fa-close fa-lg" ng-click="removeReply()"></i>
@@ -879,9 +885,9 @@ ul.no-bullets {
       </div>
       <div class="col-md-12 col-sm-12 chat-input ">
         <div class="attachment col-md-1 col-sm-1">
-            <input type="file" class="file_upload" ng-model="form.file" onchange="angular.element(this).scope().fileAdded(this.files)"/>
+          <input type="file" class="file_upload" ng-model="form.file" onchange="angular.element(this).scope().fileAdded(this.files)" />
           <!-- <input type="file" style="display : none;" file-model="form.file" onchange="angular.element(this).scope().fileNameChanged(this.files)"> -->
-          <button  type="button" name="button" style="border:none;background:transparent;padding:5px;" >
+          <button type="button" name="button" style="border:none;background:transparent;padding:5px;">
             <img src="/static/images/icons8-attach-52.png" alt="" style="height:25px;">
           </button>
         </div>
@@ -894,144 +900,162 @@ ul.no-bullets {
 
     </div>
     <div class="col-md-4 col-sm-12 Messenger_groupInfo" ng-if="user.is_show" style="">
-      <div class="row">
-        <div class="" style="background-color:#ededed;height:60px;padding:20px 10px;" ng-click="user.is_show=true">
-          <div class="col-md-12">
-            <span>
-              <i class="fa fa-times" ng-click="user.is_show=false" style="padding-right:20px;font-size:20px;"></i>{{user.is_personal?'Contact Info':'Group Info'}}
-            </span>
-          </div>
-
-        </div>
-      </div>
-      <div class="row  " style="padding:10px;border-bottom:10px solid #ececec ">
-        <div class="col-md-offset-3 col-md-6 text-center" style="margin-top:30px">
-        <div  class="display_picture" style="background-image:url({{user.dp?user.dp:'/static/images/userIcon.png'}})">
-          <!-- <img ng-src="{{user.dp}}"  onerror="this.src='/static/images/userIcon.png'" style="width:150px;height:150px;" class="img img-circle"> -->
-          <input type="file" class="file_upload" ng-model="user.dp" onchange="angular.element(this).scope().fileNameChanged(this.files)" ng-if="!user.is_personal"/>
-          <div class="highlight" ng-if="!user.is_personal">
-                <i class="fa fa-camera fa-3x"></i> <br/> CHANGE ICON
-          </div>
-
-        </div>
-        </div>
-        <div class="row" style="padding-bottom:10px;">
-          <div class="col-md-12">
-            <h4 >
-              <span ng-if="!showInput && !user.is_personal">
-                {{contactform.mobile}}
-
-              </span><br><br>
-              <span ng-if="!showInput">
-                {{user.name}}
-              </span><br><br>
-              <span ng-if="!showInput && !user.is_personal">
-                {{contactform.email}}
-
+      <div class="row" style="height: 92.5vh;overflow-y: scroll;scrollbar-width: none;padding: 0px 10px;">
+        <div class="row" style="position: sticky;top: 0;z-index: 1;">
+          <div class="" style="background-color:#ededed;height:60px;padding:20px 10px;" ng-click="user.is_show=true">
+            <div class="col-md-12">
+              <span>
+                <i class="fa fa-times" ng-click="dismissGrpInfo()" style="padding-right:20px;font-size:20px;"></i>{{user.is_personal?'Contact Info':'Group Info'}}
               </span>
-              <i ng-if="!user.is_personal"class="fa {{showInput?'':'fa-pencil'}} pull-right" style="font-size:15px;" ng-click="viewDetails()" ></i>
-            </h4>
-            <div class=""  ng-if="showInput">
-              <div class="form-group" >
-                <input type="text" class="form-control" placeholder="Enter the mobile number" ng-model="contactform.mobile" name=""  value="" style="border:none;background: #ededed;border-radius: 20px;padding: 25px;">
+            </div>
 
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" ng-model="user.name" name=""  value="" style="border:none;background: #ededed;border-radius: 20px;padding: 25px;">
-
-              </div>
-              <div class="form-group" >
-                <input type="email" class="form-control" placeholder="Enter the email" ng-model="contactform.email" name=""  value="" style="border:none;background: #ededed;border-radius: 20px;padding: 25px;">
-
+          </div>
+        </div>
+        <div class="row  " style="padding:10px;border-bottom:10px solid #ececec ">
+          <div class="col-md-12 " style="margin-top:30px">
+            <div class="display_picture" style="background-image:url({{user.dp?user.dp:'/static/images/userIcon.png'}});background-size:contain;background-repeat:norepeat;background-position:center" ng-if="user.is_personal">
+              <!-- <img ng-src="{{user.dp}}"  onerror="this.src='/static/images/userIcon.png'" style="width:150px;height:150px;" class="img img-circle"> -->
+              <input type="file" class="file_upload" ng-model="user.dp" onchange="angular.element(this).scope().fileNameChanged(this.files)" />
+              <div class="highlight" ng-if="!user.is_personal">
+                <i class="fa fa-camera fa-3x"></i> <br /> CHANGE ICON
               </div>
 
             </div>
-            <h5>Created on {{user.created | date:"dd/MM/y HH:MM"}}    <i class="fa  fa-check pull-right"  style="font-size:15px;" ng-click="editThread('title');createContact()" ng-show="showInput"></i> </h5>
-          </div>
+            <div class="row" ng-if="!user.is_personal">
+              <h5>
 
-
-        </div>
-      </div>
-      <div class="row " style="background-color:white;margin-bottom:10px;padding:10px 0px;margin-top:10px;border-bottom:10px solid #ececec" ng-if="!user.is_personal">
-        <div class="col-md-12">
-        <p style="color:#3bd17a"> Description </p>
-        <h5 ng-if="!description">{{user.description}}
-            <!-- <i class="fa fa-pencil pull-right" style="font-size:15px;" ng-click="viewDescription()" ></i> -->
-          </h5>
-        <div class="input-group" ng-if="description">
-          <textarea type="text" class="form-control" ng-model="user.description" name=""  value="" style="border:none;border-bottom:2px solid #3bd17a">
-          </textarea>
-          <span class="input-group-btn" >
-            <i class="fa  fa-check" style="font-size:15px;" ng-click="editThread('description')" ng-show="description"></i>
-          </span>
-        </div>
-        </div>
-      </div>
-      <div class="row " style="background-color:white;margin-bottom:10px;padding:10px 0px;margin-top:10px;border-bottom:10px solid #ececec" ng-if="user.is_personal">
-        <div class="col-md-12">
-        <p style="color:#3bd17a"> About and phone number </p>
-        <h5 ng-if="!description"> +91 {{contactform.mobile}}
-            <!-- <i class="fa fa-pencil pull-right" style="font-size:15px;" ng-click="viewDescription()" ></i> -->
-          </h5>
-        <div class="input-group" ng-if="description">
-          <textarea type="text" class="form-control" ng-model="user.description" name=""  value="" style="border:none;border-bottom:2px solid #3bd17a">
-          </textarea>
-          <span class="input-group-btn" >
-            <i class="fa  fa-check" style="font-size:15px;" ng-click="editThread('description')" ng-show="description"></i>
-          </span>
-        </div>
-        </div>
-      </div>
-      <div class="row" style="background-color:white;padding:10px 0px;margin-top:10px;border-bottom:10px solid #ececec" ng-if="user.participants.length>0&&!user.is_personal">
-        <div class="col-md-12">
-          <p style="color:#3bd17a" >{{user.participants.length}} participants</p>
-        </div>
-      </div>
-
-      <div class="row" style="border-bottom:10px solid #ececec">
-        <div class="row participants"  ng-click="addParticipants()" ng-if="!user.is_personal" style="margin:0px;">
-          <div class="col-md-2 text-right" style="padding-top:10px;">
-            <div class="" style="height:40px;width:40px;background-color:#3bd17a;border-radius: 50%;padding: 10px;">
-              <i class="fa fa-user-plus" aria-hidden="true" style="font-size:20px;color:white;"></i>
+                location:{{user.vistor.city}},{{user.visitor.state}},{{user.visitor.country}}
+              </h5>
+              <h5>Created on {{user.created | date:"dd/MM/y HH:MM"}}
+              </h5>
             </div>
           </div>
-          <div class="col-md-10" style="border-bottom:1px solid #f0f0f0;color:#3bd17a;height:60px;">
-            <p style="line-height:4">Add Participants</p>
+          <div class="row" style="padding-bottom:10px;">
+            <div class="col-md-12">
+              <h5 ng-if="!showInput ">
+                <span ng-if="!user.is_personal">
+                  {{user.visitor.mobile}}
+                </span><br><br>
+                <span >
+                  {{user.name}}
+                </span><br><br>
+                <span ng-if="!user.is_personal">
+                  {{user.visitor.email}}
+
+                </span>
+                <i ng-if="!user.is_personal" class="fa {{showInput?'':'fa-pencil'}} pull-right" style="font-size:15px;" ng-click="viewDetails()"></i>
+              </h5>
+              <div class="" ng-if="showInput">
+                <!-- <p>{{contactform.mobile}}</p> -->
+                <div class="form-group">
+                  <label for=""> Mobile Number</label>
+                  <input type="text" class="form-control" ng-model="contactform.mobile" uib-typeahead="contact as contact.mobile for contact in contactSearch($viewValue)" placeholder="Enter the mobile number" name="" value=""
+                    style="border:none;background: #ededed;border-radius: 20px;padding: 25px;" ng-change="createContact()">
+
+                </div>
+
+                <div class="form-group">
+                  <label for="">Fullname</label>
+                  <input type="text" class="form-control" ng-model="contactform.name" name="" value="" style="border:none;background: #ededed;border-radius: 20px;padding: 25px;" ng-change="createContact()">
+
+                </div>
+                <!-- <div class="form-group" ng-if="!user.is_personal">
+                  <input type="text" class="form-control" ng-model="contactform.mobile.name" name=""  value="" style="border:none;background: #ededed;border-radius: 20px;padding: 25px;">
+
+                </div> -->
+                <div class="form-group">
+                  <label for="">Email</label>
+                  <input type="email" class="form-control" placeholder="Enter the email" ng-model="contactform.email" name="" value="" style="border:none;background: #ededed;border-radius: 20px;padding: 25px;" ng-change="createContact()">
+
+                </div>
+
+
+
+              </div>
+              <!-- <i class="fa  fa-check pull-right"  style="font-size:15px;" ng-click="createContact()" ng-show="showInput"></i>  -->
+
+            </div>
+
+
           </div>
         </div>
-        <div class="row participants" ng-if="!user.is_personal" ng-click="createChatThread(k)" ng-repeat="k in user.participants track by $index" style="margin:0px;">
-          <div class="col-md-2 text-right" style="padding-top:10px;">
-            <div class="" style="height:40px;width:40px;border-radius: 50%;">
-              <img src="{{k.dp}}" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
+        <div class="row " style="background-color:white;margin-bottom:10px;padding:10px 0px;margin-top:10px;border-bottom:10px solid #ececec" >
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="" style="color:#3bd17a;font-weight:normal">Notes</label>
+              <h5>{{user.visitor.notes}} <i class="fa fa-pencil pull-right" ng-click="showNote=true" ng-init="showNote=false"></i></h5>
+              <textarea name="name" ng-if="!user.is_personal && showNote" class="form-control" ng-model="contactform.notes" rows="8" cols="80" style="border:none;background: #ededed;border-radius: 20px;padding: 25px;resize:none;" ng-change="createContact()"></textarea>
+            </div>
+            <!-- <p style="color:#3bd17a"> Description </p>
+              <h5 ng-if="!description">{{user.description}}
+              </h5>
+              <div class="input-group" ng-if="description">
+                <textarea type="text" class="form-control" ng-model="user.description" name=""  value="" style="border:none;border-bottom:2px solid #3bd17a">
+                </textarea>
+                <span class="input-group-btn" >
+                  <i class="fa  fa-check" style="font-size:15px;" ng-click="editThread('description')" ng-show="description"></i>
+                </span>
+              </div> -->
+          </div>
+        </div>
+        <div class="row " style="background-color:white;margin-bottom:10px;padding:10px 0px;margin-top:10px;border-bottom:10px solid #ececec" ng-if="user.is_personal">
+          <div class="col-md-12">
+            <p style="color:#3bd17a"> About and phone number </p>
+            <h5 ng-if="!description"> +91 {{contactform.mobile}}
+              <!-- <i class="fa fa-pencil pull-right" style="font-size:15px;" ng-click="viewDescription()" ></i> -->
+            </h5>
+            <div class="input-group" ng-if="description">
+              <textarea type="text" class="form-control" ng-model="user.description" name="" value="" style="border:none;border-bottom:2px solid #3bd17a">
+                </textarea>
+              <span class="input-group-btn">
+                <i class="fa  fa-check" style="font-size:15px;" ng-click="editThread('description')" ng-show="description"></i>
+              </span>
             </div>
           </div>
-          <div class="col-md-10" style="border-bottom:1px solid #f0f0f0;border-top:1px solid #f0f0f0;color:#3bd17a;height:60px;">
-            <p style="line-height:4">  {{k.first_name}} {{k.last_name}}</p>
+        </div>
+        <div class="row" style="background-color:white;padding:10px 0px;margin-top:10px;border-bottom:10px solid #ececec" ng-if="user.participants.length>0&&!user.is_personal">
+          <div class="col-md-12">
+            <p style="color:#3bd17a">{{user.participants.length}} participants</p>
+          </div>
+        </div>
+
+        <div class="row" style="border-bottom:10px solid #ececec">
+          <div class="row participants" ng-click="addParticipants()" ng-if="!user.is_personal" style="margin:0px;">
+            <div class="col-md-2 text-right" style="padding-top:10px;">
+              <div class="" style="height:40px;width:40px;background-color:#3bd17a;border-radius: 50%;padding: 10px;">
+                <i class="fa fa-user-plus" aria-hidden="true" style="font-size:20px;color:white;"></i>
+              </div>
+            </div>
+            <div class="col-md-10" style="border-bottom:1px solid #f0f0f0;color:#3bd17a;height:60px;">
+              <p style="line-height:4">Add Participants</p>
+            </div>
+          </div>
+          <div class="row participants" ng-if="!user.is_personal" ng-click="createChatThread(k)" ng-repeat="k in user.participants track by $index" style="margin:0px;">
+            <div class="col-md-2 text-right" style="padding-top:10px;">
+              <div class="" style="height:40px;width:40px;border-radius: 50%;">
+                <img src="{{k.dp}}" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
+              </div>
+            </div>
+            <div class="col-md-10" style="border-bottom:1px solid #f0f0f0;border-top:1px solid #f0f0f0;color:#3bd17a;height:60px;">
+              <p style="line-height:4"> {{k.first_name}} {{k.last_name}}</p>
+            </div>
+          </div>
+
+        </div>
+        <div class="row" style="background-color:white;padding:10px 0px;margin-top:10px;margin-bottom:10px;color:#3bd17a;font-size:17px;border-bottom:10px solid #ececec" ng-if="user.participants.length>0&&!user.is_personal">
+          <div class="col-md-2 text-center">
+            <i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>
+          </div>
+          <div class="col-md-10" ng-click="removeParticipant()">
+            <p>Exit group</p>
           </div>
         </div>
 
       </div>
-      <div class="row" style="background-color:white;padding:10px 0px;margin-top:10px;margin-bottom:10px;color:#3bd17a;font-size:17px;border-bottom:10px solid #ececec" ng-if="user.participants.length>0&&!user.is_personal" >
-        <div class="col-md-2 text-center">
-            <i class="fa fa-sign-out fa-lg" aria-hidden="true" ></i>
-        </div>
-        <div class="col-md-10" ng-click="removeParticipant()">
-          <p >Exit group</p>
-        </div>
-      </div>
-      <div class="row " style=""  >
 
-      </div>
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
 
 
 

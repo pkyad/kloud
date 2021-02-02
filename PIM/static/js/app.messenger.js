@@ -40,6 +40,10 @@
     }
 
 
+    $scope.dismissGrpInfo = function(){
+      $scope.user.is_show=false
+      $scope.showInput=false
+    }
 
     function onevent(args) {
           console.log("Event:", args[0]);
@@ -135,6 +139,75 @@
 
     }
     $scope.getMessages()
+    $scope.contactform={
+      name:'',
+      mobile:'',email:'',notes:'',visitor:''
+    }
+
+
+    $scope.contactSearch = function(query) {
+
+      return $http.get('/api/marketing/contacts/?mobile__icontains=' + query).
+      then(function(response) {
+        return response.data;
+      })
+    };
+
+    $scope.$watch('contactform.mobile', function(newValue) {
+
+
+      console.log($scope.contactform,newValue,'34243');
+      if (typeof newValue ==='object') {
+        newValue = newValue.mobile
+
+      }else {
+        newValue =  newValue
+      }
+
+      $http({
+        method: 'GET',
+        url: '/api/marketing/contacts/?mobile__icontains=' + newValue
+      }).
+      then(function(response) {
+        if ($scope.contactform.mobile.pk != undefined) {
+
+          $scope.contactform.email = $scope.contactform.mobile.email
+          $scope.contactform.notes = $scope.contactform.mobile.notes
+          $scope.contactform.visitor = $scope.contactform.mobile.pk
+          $scope.createContact()
+        }
+        return response.data
+      })
+
+
+
+    })
+
+
+
+
+
+
+
+    $scope.createContact = function(){
+
+      var data = {
+        name:$scope.contactform.name,mobile:$scope.contactform.mobile.mobile,email:$scope.contactform.email,notes:$scope.contactform.notes,visitor:$scope.contactform.mobile.pk
+      }
+
+
+
+      $http({
+        method: 'PATCH',
+        url:'/api/PIM/chatThreads/'+$state.params.id+'/',
+        data:data
+      }).
+      then(function(response) {
+
+
+      })
+
+    }
 
     $scope.getThread = function() {
       $http({
@@ -143,20 +216,15 @@
       }).
       then(function(response) {
         $scope.user = response.data
+
+
         $scope.contactform.name = response.data.name
-        $http({
-          method: 'GET',
-          url: '/api/marketing/contacts/?name__icontains=' + $scope.user.name
-        }).
-        then(function(response) {
-          if (response.data.length >0) {
-            $scope.contactform.mobile = response.data[0].mobile
-            $scope.contactform.email = response.data[0].email
-
-          }
+        $scope.contactform.mobile = response.data.visitor.mobile
+        $scope.contactform.email = response.data.visitor.email
+        $scope.contactform.notes = response.data.visitor.notes
 
 
-        })
+
         $scope.user.is_show = false
       })
     }
@@ -206,61 +274,9 @@
       })
     }
 
-    $scope.contactform={
-      name:'',
-      mobile:'',email:''
-    }
-
-    $scope.$watch('contactform.mobile', function(newValue) {
-
-      $http({
-        method: 'GET',
-        url: '/api/marketing/contacts/?mobile=' + newValue
-      }).
-      then(function(response) {
-        console.log(response.data, newValue,' 12334444 ');
-        if (response.data.length>0) {
-
-          $scope.contactform.pk = response.data[0].pk
-        }
-
-        console.log(response.data,'34343');
-
-      })
 
 
 
-    })
-
-
-    console.log(angular.element($window).bind("scroll", function(e) {
-    alert('scrolled')
-}));
-
-
-    $scope.createContact = function(){
-      var data = {
-        name:$scope.contactform.name,mobile:$scope.contactform.mobile,email:$scope.contactform.email
-      }
-      var method ="POST"
-      var url = '/api/marketing/contacts/'
-      if ($scope.contactform.pk != undefined) {
-        method ="PATCH"
-        url = '/api/marketing/contacts/'+$scope.contactform.pk+'/'
-      }
-      $http({
-        method: method,
-        url:url,
-        data: data
-      }).
-      then(function(response) {
-        $scope.showInput = false
-        if ($scope.contactform.pk == undefined) {
-          $scope.contactform =''
-        }
-
-      })
-    }
 
 
 
@@ -343,6 +359,8 @@
 $scope.showInput = false
   $scope.viewDetails = function(){
     $scope.showInput = true
+
+
   }
 
 $scope.description = false

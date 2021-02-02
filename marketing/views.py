@@ -228,7 +228,8 @@ class TourPlanStopViewSet(viewsets.ModelViewSet):
 class ContactsViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny ,)
     serializer_class = ContactsSerializer
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    # filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filter_backends = [DjangoFilterBackend]
     filter_fields = ['name','source','email','pinCode','mobile' , 'created' , ]
     search_fields = ('name', 'email', 'pinCode', 'state' , 'website' , 'mobile' ,'notes', 'companyName' , 'directNumber' , 'altNumber' , 'altNumber2')
     def get_queryset(self):
