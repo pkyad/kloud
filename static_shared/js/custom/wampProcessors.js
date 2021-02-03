@@ -8,15 +8,19 @@ connection.onopen = function (session) {
    // our event handler we will subscribe on our topic
    //
   function chatResonse (args) {
-    // window.postMessage(args);
-
     var scope = angular.element(document.getElementById('messenger')).scope();
+    if (args[0] == 'T') {
+      scope.showTyping(args[2], args[1])
+    }
+  else{
     scope.$apply(function() {
-      scope.addChat(args[2]);
+      scope.addChat(args[1]);
     });
+  }
   };
 
   function chatSupportResonse(args){
+    console.log(args,'aaaaaaaaaaaaaaaaaaaaaaaaaa');
      var scope = angular.element(document.getElementById('messenger')).scope();
      scope.$apply(function() {
        scope.addChat(args[2]);

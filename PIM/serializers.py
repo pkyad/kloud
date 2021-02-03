@@ -182,7 +182,7 @@ class chatMessageLiteSerializer(serializers.ModelSerializer):
     user = userSearchSerializer(read_only=True,many=False)
     class Meta:
         model = ChatMessage
-        fields = ('pk' , 'user','message','fileType','fileSize','fileName','attachment')
+        fields = ('pk' , 'user','message','fileType','fileSize','fileName','attachment','uid')
 
 
 class chatMessageSerializer(serializers.ModelSerializer):
@@ -211,7 +211,7 @@ class chatMessageSerializer(serializers.ModelSerializer):
                 im.fileType = 'ppt'
             elif im.attachment.name.endswith('.xlsx') or im.attachment.name.endswith('.xls'):
                 im.fileType = 'xl'
-            im.fileSize =  im.attachment.size
+            im.fileSize =  "{:.2f}".format(im.attachment.size)
             im.fileName = im.attachment.name
         except:
             pass
@@ -235,8 +235,103 @@ class chatMessageSerializer(serializers.ModelSerializer):
         return im
 
 
+class ContactsSerializer(serializers.ModelSerializer):
+    # tags = TagSerializer(many=True,read_only=True)
+    # remaining = serializers.SerializerMethodField()
+    class Meta:
+        model = Contacts
+        fields = ('pk' , 'created' , 'referenceId' , 'name', 'email', 'mobile' , 'source' , 'pinCode' , 'notes' , 'tags' ,'subscribe' , 'addrs', 'companyName', 'directNumber', 'altNumber', 'altNumber2', 'website', 'socialLink', 'city', 'state', 'country', 'about', 'lang' )
+        read_only_fields=('subscribe', 'tags')
+    def create(self , validated_data):
+        if 'tags' in validated_data:
+            del validated_data['tags']
+        try:
+
+            if not self.context['request'].user.is_authenticated and "apiKey" not in self.context['request'].data:
+                return
+            else:
+                if self.context['request'].data["apiKey"] != "titan@1234":
+                    return
+        except:
+            pass
+
+        try:
+            contatcObj = Contacts.objects.get(email=self.context['request'].data['email'])
+            contatcObj.subscribe = True
+            for key in [ 'referenceId' , 'name', 'email', 'mobile' , 'source' , 'pinCode' , 'notes' , 'tags' ,'subscribe' , 'addrs', 'companyName', 'directNumber', 'altNumber', 'altNumber2', 'website', 'socialLink', 'city', 'state', 'country', 'about', 'lang']:
+                try:
+                    setattr(contatcObj , key , validated_data[key])
+                except:
+                    pass
+            contatcObj.save()
+            print 'contact already thereeeeeeeee'
+        except:
+            contatcObj = Contacts(**validated_data)
+            contatcObj.subscribe = True
+            # contatcObj.creater = self.context['request'].user
+            # contatcObj.save()
+
+        if 'tags' in self.context['request'].data:
+            for i in self.context['request'].data['tags']:
+                contatcObj.tags.add(Tag.objects.get(pk = int(i)))
+        if 'tagsTxt' in self.context['request'].data:
+            for tagTxt in self.context['request'].data['tagsTxt'].split(','):
+                t,nt = Tag.objects.get_or_create(name = tagTxt)
+                contatcObj.tags.add(t)
+        accountObj = Account.objects.create(title = self.context['request'].data['name'] , group ="Vendor Account")
+        newContact = Contact.objects.create(mobile = contatcObj.mobile, user=self.context['request'].user)
+        newContact.name = contatcObj.name
+        newContact.email = contatcObj.email
+        newContact.street = contatcObj.addrs
+        newContact.city = contatcObj.city
+        newContact.state = contatcObj.state
+        newContact.country = contatcObj.country
+        newContact.pincode = contatcObj.pinCode
+        newContact.save()
+        # contatcObj.contact_ref = newContact
+        contatcObj.save()
+        return contatcObj
+
+    def update(self ,instance, validated_data):
+        for key in [ 'referenceId' , 'name', 'email', 'mobile' , 'source' , 'pinCode' , 'notes' , 'tags' ,'subscribe' , 'addrs', 'companyName', 'directNumber', 'altNumber', 'altNumber2', 'website', 'socialLink', 'city', 'state', 'country', 'about', 'lang']:
+            try:
+                setattr(instance , key , validated_data[key])
+                print key
+            except:
+                pass
+        instance.save()
+        instance.tags.clear()
+        if 'tags' in self.context['request'].data:
+            for i in self.context['request'].data['tags']:
+                instance.tags.add(Tag.objects.get(pk = int(i)))
+            if 'tagsTxt' in self.context['request'].data:
+                for tagTxt in self.context['request'].data['tagsTxt'].split(','):
+                    t,nt = Tag.objects.get_or_create(name = tagTxt)
+                    instance.tags.add(t)
+        if 'leadAdded' in self.context['request'].data:
+            # instance.creater = self.context['request'].user
+            instance.leadDate = date.today()
+
+        # if instance.contact_ref == None:
+        #     newContact = Contact.objects.create(mobile = instance.mobile, user=self.context['request'].user)
+        # else:
+        #     newContact = Contact.objects.get(pk = instance.contact_ref.pk)
+        # newContact.name = instance.name
+        # newContact.email = instance.email
+        # newContact.mobile = instance.mobile
+        # newContact.street = instance.addrs
+        # newContact.city = instance.city
+        # newContact.state = instance.state
+        # newContact.country = instance.country
+        # newContact.pincode = instance.pinCode
+        # newContact.save()
+        # instance.contact_ref = newContact
+        instance.save()
+        return instance
+
 class ChatThreadsSerializer(serializers.ModelSerializer):
     participants = userSearchSerializer(read_only=True,many=True)
+    visitor = ContactsSerializer(read_only=True,many=False)
     name = serializers.SerializerMethodField()
     lastmsg = serializers.SerializerMethodField()
     # agent_dp = serializers.SerializerMethodField()
@@ -246,7 +341,7 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
 
         fields = ( 'pk' , 'created' , 'title', 'participants' , 'description','dp','lastActivity','isLate','visitor','uid','status','customerRating','customerFeedback','company','userDevice','location','userDeviceIp','firstResponseTime','typ','userAssignedTime','firstMessage','channel','transferred','fid','closedOn','closedBy','name','user','is_personal','lastmsg','is_pin')
 
-    
+
     def create(self ,  validated_data):
         c = ChatThread(**validated_data)
         user = self.context['request'].user
@@ -265,14 +360,28 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
     def update(self ,instance, validated_data):
 
 
-        for key in ['status' , 'customerRating' , 'customerFeedback' , 'company','typ','isLate','location', 'visitor','participants','title',  'description','dp','is_pin']:
+        for key in ['status' , 'customerRating' , 'customerFeedback' , 'company','typ','isLate','location', 'participants','title',  'description','dp','is_pin','title','visitor']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
                 pass
+        if 'name' in  self.context['request'].data :
+            instance.title =  self.context['request'].data['name']
         if 'visitor' in self.context['request'].data:
-            instance.visitor = Contacts.objects.get(pk=int(self.context['request'].data['visitor']))
-
+            v,visitorObj = Contacts.objects.get_or_create(mobile=self.context['request'].data['mobile'])
+            print visitorObj,v,'"eeeeeeeeee"'
+            if 'email' in self.context['request'].data:
+                v.email = self.context['request'].data['email']
+            if 'name' in self.context['request'].data:
+                v.name = self.context['request'].data['name']
+            if 'notes' in self.context['request'].data:
+                v.notes = self.context['request'].data['notes']
+            if 'addrs' in self.context['request'].data:
+                v.addrs = self.context['request'].data['addrs']
+            if 'pinCode' in self.context['request'].data:
+                v.pinCode = self.context['request'].data['pinCode']
+            v.save()
+            instance.visitor = v
         if 'participants' in  self.context['request'].data:
             # instance.participants.clear()
             tagged = self.context['request'].data['participants']

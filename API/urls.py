@@ -24,5 +24,5 @@ urlpatterns = [
     url(r'^forum/', include('forum.urls')),
     url(r'^blogging/', include('blogging.urls')),
     url(r'^chatbot/', include('chatbot.urls')),
-    # url(r'^attendance/', include('attendance.urls')),
+    # url(r'^rpa/', include('rpa.urls')),
 ]

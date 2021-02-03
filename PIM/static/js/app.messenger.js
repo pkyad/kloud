@@ -2,29 +2,61 @@
 
     $scope.me = $users.get('mySelf')
 
-
     $scope.user = $users.get(parseInt($state.params.id))
+
+
 
     $scope.publish = function(params){
       for (var i = 0; i < $scope.user.participants.length; i++) {
-        connection.session.publish(wamp_prefix+'service.chat.'+$scope.user.participants[i].pk, params).
-        then(function(publication) {
-        },function(){
-          console.log('Failed to publish message to all');
-        });
+        if ($scope.user.participants[i].pk != $scope.me.pk) {
+          connection.session.publish(wamp_prefix+'service.chat.'+$scope.user.participants[i].pk, params).
+          then(function(publication) {
+            console.log('published');
+          },function(){
+            console.log('Failed to publish message to all');
+          });
+        }
       }
     }
 
-    $scope.addChat = function(signal){
-      // $http({
-      //   method: 'GET',
-      //   url: '/api/PIM/chatMessage/'+signal+'/',
-      // }).
-      // then(function(response) {
-      // })
+    $scope.chatArray = []
 
-      $scope.messages.push(signal)
+    $scope.addChat = function(signal){
+      if ($scope.chatArray[$scope.chatArray.length-1]!= signal) {
+        $scope.chatArray.push(signal)
+        $http({
+          method: 'GET',
+          url: '/api/PIM/chatMessage/'+signal+'/',
+        }).
+        then(function(response) {
+          if (response.data.thread == $state.params.id) {
+            $scope.messages.push(response.data)
+          }
+        })
+      }
     }
+    $scope.show = {
+      showTypingVal : false
+    }
+    $scope.showTyping = function(chatPk, val){
+      if (chatPk == $state.params.id) {
+        $scope.show.showTypingVal = val
+      }
+
+    }
+
+    // $scope.getaddChat = function(signal){
+    //
+    //   $http({
+    //     method: 'GET',
+    //     url: '/api/PIM/chatMessage/'+signal+'/',
+    //   }).
+    //   then(function(response) {
+    //     if (response.data.thread == $state.params.id) {
+    //       $scope.messages.push(response.data)
+    //     }
+    //   })
+    // }
 
 
     $scope.form = {
@@ -40,6 +72,10 @@
     }
 
 
+    $scope.dismissGrpInfo = function(){
+      $scope.user.is_show=false
+      $scope.showInput=false
+    }
 
     function onevent(args) {
           console.log("Event:", args[0]);
@@ -83,6 +119,14 @@
         $scope.replyMsgSelected = {
           'replyMsg' : ''
         }
+        if (response.data.uid!=undefined && response.data.uid!=null) {
+          connection.session.publish('service.support.chat.' + response.data.uid, ['M'  , response.data , new Date() ], {}, {
+            acknowledge: true
+          }).
+          then(function(publication) {
+            console.log("Published");
+          });
+        }
 
         $scope.publish(['M', response.data.pk, $state.params.id])
       })
@@ -91,7 +135,16 @@
 
     $scope.$watch('form.text', function(newValue, oldValue) {
       if (newValue.length>0) {
-        $scope.publish(['T', '' ,$state.params.id ])
+        connection.session.publish('service.support.chat.' + response.data.uid, ['T'  , '' , new Date() ], {}, {
+          acknowledge: true
+        }).
+        then(function(publication) {
+          console.log("Published");
+        });
+        $scope.publish(['T', true ,$state.params.id ])
+      }
+      else{
+          $scope.publish(['T', false ,$state.params.id ])
       }
     })
 
@@ -117,7 +170,6 @@
 
     ]
 
-
     $scope.getMessages = function() {
       $http({
         method: 'GET',
@@ -129,12 +181,143 @@
          $timeout(function() {
            var objDiv = document.getElementById("scrollView");
            objDiv.scrollTop = objDiv.scrollHeight+40;
-
          },500)
       })
 
     }
+
     $scope.getMessages()
+    $scope.contactform={
+      name:'',
+      mobile:'',email:'',notes:'',visitor:'',addrs:'',pinCode:''
+    }
+
+
+    $scope.contactSearch = function(query) {
+
+      return $http.get('/api/marketing/contacts/?limit=20&mobile__icontains=' + query).
+      then(function(response) {
+        return response.data.results;
+      })
+    };
+
+    $scope.limit =20
+    $scope.$watch('contactform.mobile', function(newValue) {
+
+
+      console.log($scope.contactform,newValue,'34243');
+      if (typeof newValue ==='object') {
+        newValue = newValue.mobile
+
+      }else {
+        newValue =  newValue
+      }
+      $http({
+        method: 'GET',
+        url: '/api/marketing/contacts/?limit=20&mobile__icontains=' + newValue
+      }).
+      then(function(response) {
+        if ($scope.contactform.mobile.pk != undefined) {
+
+          $scope.contactform.email = $scope.contactform.mobile.email
+          $scope.contactform.notes = $scope.contactform.mobile.notes
+          $scope.contactform.addrs = $scope.contactform.mobile.addrs
+          $scope.contactform.pinCode = $scope.contactform.mobile.pinCode
+          $scope.contactform.visitor = $scope.contactform.mobile.pk
+        }
+        // $scope.createContact()
+        // if ($scope.contactform.mobile.length >8) {
+        //
+        // }
+        return response.data.results
+      })
+
+
+
+
+    })
+
+
+
+
+    $scope.call = function(num) {
+      $rootScope.$broadcast("call", {type : 'call' , number : num , source : 'dialPad'  });
+    }
+
+    // $scope.call('8328412361')
+    // $scope.call('9702438730')
+
+
+    $scope.$on("call", function(evt, data) {
+      console.log({data : data});
+
+      if (data.id) {
+        $scope.dialer.campaign = data.id;
+      }
+
+      if (data.type == 'call' ) {
+        $scope.dialer.number = data.number;
+
+        if (data.number.length == 10) {
+          numberToCall = '151191' + $scope.dialer.number ;
+        }else{
+          numberToCall = $scope.dialer.number ;
+        }
+
+        // $scope.dialer.number = '7007148138';
+        console.log(data.number);
+
+
+        $scope.dialer.direction = 'out';
+        $scope.dialer.active = true;
+
+        buddyObj = MakeBuddy(undefined, true, false, true, numberToCall, numberToCall);
+        $scope.buddyObj = buddyObj;
+
+        $scope.lineObj = new Line(1,  numberToCall,  numberToCall, buddyObj);
+        AudioCall($scope.lineObj, numberToCall);
+        $scope.dialer.status = 'Connecting'
+      }
+    });
+
+
+    $scope.createContact = function(){
+      console.log($scope.contactform.mobile,'3443');
+      if ($scope.contactform.mobile.length < 8) {
+        Flash.create('warning','Enter correct mobile number')
+        return
+      }
+      var data = {
+        name:$scope.contactform.name,email:$scope.contactform.email,notes:$scope.contactform.notes,pinCode:$scope.contactform.pinCode,addrs:$scope.contactform.addrs
+      }
+      if (typeof $scope.contactform.mobile ==='string') {
+        data.mobile = $scope.contactform.mobile
+      }else {
+
+        data.mobile = $scope.contactform.mobile.mobile
+      }
+      if ($scope.contactform.pk != undefined) {
+          data.visitor = $scope.contactform.pk
+      }else {
+
+        data.visitor = null
+      }
+
+
+      if ($scope.contactform.mobile.length ==10) {
+          $http({
+            method: 'PATCH',
+            url:'/api/PIM/chatThreads/'+$state.params.id+'/',
+            data:data
+          }).
+          then(function(response) {
+
+
+          })
+
+      }
+
+    }
 
     $scope.getThread = function() {
       $http({
@@ -143,20 +326,22 @@
       }).
       then(function(response) {
         $scope.user = response.data
+
+
         $scope.contactform.name = response.data.name
-        $http({
-          method: 'GET',
-          url: '/api/marketing/contacts/?name__icontains=' + $scope.user.name
-        }).
-        then(function(response) {
-          if (response.data.length >0) {
-            $scope.contactform.mobile = response.data[0].mobile
-            $scope.contactform.email = response.data[0].email
+        if (response.data.visitor != null) {
+          $scope.contactform.mobile = response.data.visitor.mobile
+          $scope.contactform.email = response.data.visitor.email
+          $scope.contactform.notes = response.data.visitor.notes
+          $scope.contactform.addrs = response.data.visitor.addrs
+          $scope.contactform.pinCode = response.data.visitor.pinCode
+          $scope.contactform.visitor = response.data.visitor.pk
+          $scope.contactform.pk = response.data.visitor.pk
 
-          }
+        }
 
 
-        })
+
         $scope.user.is_show = false
       })
     }
@@ -206,61 +391,9 @@
       })
     }
 
-    $scope.contactform={
-      name:'',
-      mobile:'',email:''
-    }
-
-    $scope.$watch('contactform.mobile', function(newValue) {
-
-      $http({
-        method: 'GET',
-        url: '/api/marketing/contacts/?mobile=' + newValue
-      }).
-      then(function(response) {
-        console.log(response.data, newValue,' 12334444 ');
-        if (response.data.length>0) {
-
-          $scope.contactform.pk = response.data[0].pk
-        }
-
-        console.log(response.data,'34343');
-
-      })
 
 
 
-    })
-
-
-    console.log(angular.element($window).bind("scroll", function(e) {
-    alert('scrolled')
-}));
-
-
-    $scope.createContact = function(){
-      var data = {
-        name:$scope.contactform.name,mobile:$scope.contactform.mobile,email:$scope.contactform.email
-      }
-      var method ="POST"
-      var url = '/api/marketing/contacts/'
-      if ($scope.contactform.pk != undefined) {
-        method ="PATCH"
-        url = '/api/marketing/contacts/'+$scope.contactform.pk+'/'
-      }
-      $http({
-        method: method,
-        url:url,
-        data: data
-      }).
-      then(function(response) {
-        $scope.showInput = false
-        if ($scope.contactform.pk == undefined) {
-          $scope.contactform =''
-        }
-
-      })
-    }
 
 
 
@@ -343,6 +476,8 @@
 $scope.showInput = false
   $scope.viewDetails = function(){
     $scope.showInput = true
+
+
   }
 
 $scope.description = false
@@ -478,8 +613,17 @@ $scope.postFiles = function(){
       var objDiv = document.getElementById("scrollView");
       console.log(objDiv,'334');
        objDiv.scrollTop = objDiv.scrollHeight+40;
+
        if ($scope.count == $scope.allFiles.length) {
          $scope.allFiles = []
+       }
+       if (response.data.uid!=undefined && response.data.uid!=null) {
+         connection.session.publish('service.support.chat.' + response.data.uid, ['MF'  , response.data.pk , new Date() ], {}, {
+           acknowledge: true
+         }).
+         then(function(publication) {
+           console.log("Published");
+         });
        }
        $scope.publish(['F', response.data.pk, $state.params.id])
     })
@@ -643,6 +787,20 @@ $scope.postFiles = function(){
 
 
 
+        $scope.updatePinned = function(pk,val){
+          $http({
+            method: 'PATCH',
+            url: '/api/PIM/chatThreads/' + pk+'/',
+            data:{
+              is_pin : val
+            },
+          }).
+          then(function(response) {
+            $rootScope.$broadcast("update", {
+            });
+          })
+        }
+
 
     // $scope.getUsers = function() {
     //   console.log("called");
@@ -665,7 +823,6 @@ $scope.postFiles = function(){
 
 
     $scope.getAllUsers = function() {
-      console.log('ssssssssss');
         url = '/api/HR/userSearch/'
 
       if ($scope.search.searchTxt!=null && $scope.search.searchTxt.length > 0) {
@@ -828,7 +985,6 @@ $scope.postFiles = function(){
        $timeout(function() {
          var objDiv = document.getElementById("scrollView");
          objDiv.scrollTop = objDiv.scrollHeight+40;
-         console.log(objDiv.scrollTop);
 
        },500)
     })
