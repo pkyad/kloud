@@ -1,4 +1,4 @@
-<div class="container-fluid" style="background-color:#fafafa;height: 100vh;">
+<div class="container-fluid" style="background-color:#2E3035;height:121vh;">
   <div class="row" style="margin-top:30px;margin-bottom:30px;">
     <div class="col-md-5">
 
@@ -7,29 +7,40 @@
 
     </div>
     <div class="col-md-3">
-      <button type="button" class="createTestBtn btn-block" name="button" ng-click="createStudent()"><img src="/static/images/icons8-plus-48.png"  style="height:18px;padding-right:20px;"alt="">Add new student</button>
+      <button type="button" class="createTestBtn btn-block" name="button" ng-click="createStudent()" style="background:#393C45;border:none !important;"><img src="/static/images/icons8-plus-48.png"  style="height:18px;padding-right:20px;" alt="">Add new student</button>
     </div>
 
 
   </div>
 
   <div class="row" style="margin:0px;margin-left:30px">
-    <table class="table tableNew " cellpadding="4">
-      <thead class="headStrip">
+    <table class="table tableNew" cellpadding="4">
+      <!-- <thead class="headStrip"> -->
+      <thead style="background:#393C45">
         <tr>
+
           <th class="">Student Name</th>
           <th>Mobile</th>
           <th>Email</th>
+          <th>Amount Paid</th>
+          <th>Amount Pending</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
 
-        <tr class="detailStrip" ng-repeat="k in course.contacts track by $index">
+
+        <!-- <tr class="detailStrip" ng-repeat="k in course.enrollments track by $index" style="background:#4a4d53"> -->
+        <tr ng-repeat="k in course.enrollments track by $index" style="background:#4a4d53">
 
 
-          <td>{{k.name}}</td>
-          <td>{{k.mobile}}</td>
-          <td>{{k.email}}</td>
+          <td ng-click="createStudent(k)" style="color:white;">{{k.user.name}}</td>
+          <td ng-click="createStudent(k)" style="color:white;">{{k.user.mobile}}</td>
+          <td ng-click="createStudent(k)" style="color:white;">{{k.user.email}}</td>
+          <td ng-click="createStudent(k)" style="color:white;">{{k.amountPaid}}</td>
+          <td ng-click="createStudent(k)" style="color:white;">{{k.amountPending}}</td>
+          <td   mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="delEnrollment($index)" confirm-button-type="primary"
+            cancel-button-type="default"><i class="fa fa-trash"></i></td>
         </tr>
 
 

@@ -12,9 +12,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='courseactivty',
-            name='time',
-            field=models.DateTimeField(null=True),
-        ),
+        # migrations.AlterField(
+        #     model_name='courseactivty',
+        #     name='time',
+        #     field=models.DateTimeField(null=True),
+        # ),
     ]

@@ -5,10 +5,6 @@
 
   <div  style="margin-top:30px;">
     <div  class="col-md-12">
-      <!-- <div class="col-md-2">
-        <img id="back" onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
-
-      </div> -->
       <div class="col-md-12 text-center">
         <span class="font22"><b> {{activePatientsForm.pk?'Update Patient':'New Patient'}}</b></span>
       </div>
@@ -23,11 +19,13 @@
       <div class="form-group">
         <label>Patient Name</label>
         <div class="{{addNewPatient==true ? 'input-group': ''}}">
-          <input ng-if="activePatientsForm.pk==null" type="text" class="form-control websiteInput" ng-model="activePatientsForm.patient" uib-typeahead="patient as patient.firstName for patient in patientSearch($viewValue)">
-          <input ng-if="activePatientsForm.pk" type="text" class="form-control websiteInput" ng-model="activePatientsForm.patient" uib-typeahead="patient as patient.firstName for patient in patientSearch($viewValue)" disabled>
-          <div ng-if="addNewPatient" class="input-group-addon" style="cursor:pointer;" ng-click="addNewActivePatient(activePatientsForm.patient)">Add</div>
+          <input ng-if="activePatientsForm.pk==null" type="text" class="form-control websiteInput" ng-model="activePatientsForm.patient" uib-typeahead="patient as patient.firstName for patient in patientSearch($viewValue)" >
+          <input ng-if="activePatientsForm.pk" type="text" class="form-control" ng-model="activePatientsForm.patient" uib-typeahead="patient as patient.firstName for patient in patientSearch($viewValue)" disabled>
+          <div ng-if="addNewPatient" class="input-group-addon" style="cursor:pointer;position: relative;left: 155px;border: none; z-index: 9999999;top: 4px;background:transparent;font-weight: bold;left: -55px;" ng-click="addNewActivePatient(activePatientsForm.patient)">Add</div>
         </div>
       </div>
+
+
 
 
       <div class="row" style="margin:0px;">
@@ -69,7 +67,7 @@
         <textarea class="form-control websiteInput" rows="3" ng-model="activePatientsForm.comments" placeholder="comments..."></textarea>
       </div> -->
 
-      <div class="form-group text-center">
+      <div class="form-group text-right">
         <button ng-if="!activePatientsForm.pk" type="submit" class="btn newBtn" ng-click="createActivePatient()">Save</button>
         <button ng-if="activePatientsForm.pk" ng-click="editinPatient()" type="button" class="btn newBtn">
           Update

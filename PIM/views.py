@@ -148,7 +148,8 @@ class ChatThreadsViewSet(viewsets.ModelViewSet):
                     raise ValidationError(detail={'PARAMS' : 'createCookie'})
             return threadObj
 
-        chatObj = ChatThread.objects.filter(participants =  self.request.user) | ChatThread.objects.filter( company = self.request.user.designation.division , participants = None)
+        # chatObj = ChatThread.objects.filter(participants =  self.request.user) | ChatThread.objects.filter( company = self.request.user.designation.division , participants = None).order_by('is_pin')
+        chatObj = ChatThread.objects.filter(company = self.request.user.designation.division).filter(Q(participants =  self.request.user)|Q(participants__isnull = True)).order_by('-is_pin')
 
         if 'search' in self.request.GET :
             chatObj = chatObj.filter(Q(participants__first_name__icontains = self.request.GET['search']) | Q(participants__last_name__icontains = self.request.GET['search']) |  Q(title__icontains = self.request.GET['search']) ).distinct()
@@ -196,29 +197,29 @@ class GetChatThreadsAPIView(APIView):
         return Response(myUsers, status = status.HTTP_200_OK)
 
 class chatMessageViewSet(viewsets.ModelViewSet):
-    permission_classes = (isOwner, )
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, readOnly)
     # queryset = ChatMessage.objects.all()
     serializer_class = chatMessageSerializer
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['created','user','thread']
     def get_queryset(self):
-        qs1 = ChatMessage.objects.filter(user = self.request.user).order_by('-created')
-        if 'mode' in self.request.GET:
-            return qs1
-        else:
-            msgs = []
-            usrs = []
-            # for msg in qs1:
-            #     if msg.originator not in usrs or msg.read == False:
-            #         msgs.append(msg)
-            #         usrs.append(msg.originator)
-            qs2 = ChatMessage.objects.filter(user = self.request.user).order_by('-created')
-            usrs = []
-            for msg in qs2:
-                if msg.user not in usrs:
-                    msgs.append(msg)
-                    usrs.append(msg.user)
-            return msgs[:300]
+        qs1 = ChatMessage.objects.all().order_by('-created')
+        # if 'mode' in self.request.GET:
+        return qs1
+        # else:
+        #     msgs = []
+        #     usrs = []
+        #     # for msg in qs1:
+        #     #     if msg.originator not in usrs or msg.read == False:
+        #     #         msgs.append(msg)
+        #     #         usrs.append(msg.originator)
+        #     qs2 = ChatMessage.objects.filter(user = self.request.user).order_by('-created')
+        #     usrs = []
+        #     for msg in qs2:
+        #         if msg.user not in usrs:
+        #             msgs.append(msg)
+        #             usrs.append(msg.user)
+        #     return msgs[:300]
 
 class chatMessageBetweenViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, readOnly)
@@ -227,10 +228,12 @@ class chatMessageBetweenViewSet(viewsets.ModelViewSet):
     filter_fields = ['created','user','thread']
 
     def get_queryset(self):
+        qs = ChatMessage.objects.all()
         if 'mode' in self.request.GET:
             return ChatMessage.objects.all().order_by('created')
         # reciepient = ChatThread.objects.get(pk = self.request.GET['other'])
-        qs = ChatMessage.objects.filter(thread= self.request.GET['other'])
+        if 'other' in self.request.GET:
+            qs = ChatMessage.objects.filter(thread__pk = int(self.request.GET['other']))
         # if "pk" in self.request.GET:
         #     pk = int(self.request.GET['pk'])
         #     qs1 = ChatMessage.objects.filter(thread= reciepient).filter(id__gt=pk)

@@ -575,7 +575,7 @@ app.controller("LMS.questiontypes", function($scope, $state, $users, $stateParam
       });
 
       editor.on("hover", function() {
-          editor.focus();
+        editor.focus();
       });
       editor.addButton('addImage', {
         text: 'Add Image',
@@ -1110,6 +1110,18 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
     $scope.course = response.data
   })
 
+  $scope.delEnrollment = function(idx){
+    $http({
+      method: 'DELETE',
+      url: '/api/LMS/enrollment/' + $scope.course.enrollments[idx].pk + '/'
+    }).
+    then(function(response) {
+      Flash.create('success','Deleted')
+      $scope.course.enrollments.splice(idx,1)
+    })
+
+  }
+
   $scope.enrollmentForm = {
     user: undefined
   }
@@ -1264,19 +1276,19 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
     })
   } //quiz ends...........................
 
-  $scope.limit =7
-  $scope.offset =0
+  $scope.limit = 7
+  $scope.offset = 0
   $scope.search = {
-    query:''
+    query: ''
   }
   $scope.getActivities = function() {
-    var url = '/api/LMS/courseactivity/?course=' + $state.params.id+'&limit='+$scope.limit+'&offset='+$scope.offset
-    if ($scope.search.query.length >0) {
-      url += "&name__icontains="+$scope.search.query
+    var url = '/api/LMS/courseactivity/?course=' + $state.params.id + '&limit=' + $scope.limit + '&offset=' + $scope.offset
+    if ($scope.search.query.length > 0) {
+      url += "&name__icontains=" + $scope.search.query
     }
     $http({
       method: 'GET',
-      url:url
+      url: url
     }).
     then(function(response) {
       $scope.activitydata = response.data.results
@@ -1285,14 +1297,14 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
     })
   }
   $scope.getActivities()
-  $scope.loadmore = function(){
+  $scope.loadmore = function() {
     if ($scope.next != null) {
       $scope.offset += $scope.limit
       $scope.getActivities()
 
     }
   }
-  $scope.loadless = function(){
+  $scope.loadless = function() {
     if ($scope.prev != null) {
       $scope.offset -= $scope.limit
       $scope.getActivities()
@@ -1312,23 +1324,36 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
   }
   $scope.getContacts()
 
-  $scope.createStudent = function() {
-
+  $scope.createStudent = function(datas) {
     $uibModal.open({
       templateUrl: '/static/ngTemplates/app.LMS.activityLog.createstudent.html',
       size: 'md',
       backdrop: true,
       resolve: {
-
+        datas:function(){
+          return datas
+        }
       },
-      controller: function($scope, $uibModalInstance) {
+      controller: function($scope, $uibModalInstance,datas) {
+        $scope.data = datas
+        console.log($scope.data,'33433');
         $scope.form = {
           contact: '',
           contacts: [],
           contactsList: [],
           name: '',
           email: '',
-          mobile: ''
+          mobile: '',
+          amountPaid: 0,
+          amountPending: 0
+        }
+        if ($scope.data != undefined) {
+          $scope.form.contact = $scope.data.user
+          $scope.form.name = $scope.data.user.name
+          $scope.form.email = $scope.data.user.email
+          $scope.form.amountPaid = $scope.data.amountPaid
+          $scope.form.amountPending = $scope.data.amountPending
+
         }
         $scope.addContacts = function() {
           for (var i = 0; i < $scope.form.contactsList.length; i++) {
@@ -1346,14 +1371,13 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
           }
         }
         $scope.$watch('form.contact', function(query) {
-          console.log(query, 'ewe');
           if (query.length != 8) {
-            return $http.get('/api/clientRelationships/contact/?mobile__contains=' + query).
+            return $http.get('/api/clientRelationships/contact/?typ=student&mobile__contains=' + query).
             then(function(response) {
               $scope.form.name = query.name
               $scope.form.mobile = query.mobile
               $scope.form.email = query.email
-              $scope.form.pk = query.pk
+              $scope.form.contact.pk = query.pk
               return response.data;
             })
 
@@ -1363,14 +1387,14 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
 
         $scope.getContactsearch = function(query) {
           console.log(query);
-          return $http.get('/api/clientRelationships/contact/?mobile__contains=' + query).
+          return $http.get('/api/clientRelationships/contact/?typ=student&mobile__contains=' + query).
           then(function(response) {
             return response.data;
           })
         };
 
         $scope.save = function() {
-          if ($scope.form.pk == undefined) {
+          if ($scope.form.contact.pk == undefined) {
             var method = "POST"
             var url = "/api/clientRelationships/contact/"
             var data = {
@@ -1381,12 +1405,12 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
             }
           } else {
             var method = "PATCH"
-            var url = "/api/clientRelationships/contact/" + $scope.form.pk + '/'
+            var url = "/api/clientRelationships/contact/" + $scope.form.contact.pk + '/'
             var data = {
               mobile: $scope.form.contact.mobile,
               name: $scope.form.contact.name,
               email: $scope.form.contact.email,
-              typ: $scope.form.contact.typ
+              typ: 'student'
             }
 
           }
@@ -1402,20 +1426,46 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
           }).
           then(function(response) {
             Flash.create('success', 'Added')
-            $uibModalInstance.dismiss()
             $scope.form.contacts.push(response.data.pk)
-            $http({
-              method: 'PATCH',
-              url: '/api/LMS/course/' + $state.params.id + '/',
-              data: {
-                contacts: $scope.form.contacts
-              }
-            }).
-            then(function(response) {
-              Flash.create('success', 'Added')
-              $uibModalInstance.dismiss()
+            // $http({
+            //   method: 'PATCH',
+            //   url: '/api/LMS/course/' + $state.params.id + '/',
+            //   data: {
+            //     contacts: $scope.form.contacts
+            //   }
+            // }).
+            // then(function(response) {
+            //   Flash.create('success', 'Added')
+            //
+            // })
 
-            })
+
+          })
+
+          console.log($scope.data,'243490823089490823');
+          if ($scope.data == undefined) {
+            var method ='POST'
+            var url = '/api/LMS/enrollment/'
+            var toSend = {
+              user: $scope.form.contact.pk,
+              amountPaid: $scope.form.amountPaid,
+              amountPending: $scope.form.amountPending,
+              course: $state.params.id
+            }
+          }else {
+            var method ='PATCH'
+            var url = '/api/LMS/enrollment/'+$scope.data.pk+'/'
+
+            var toSend = $scope.form
+          }
+          $http({
+            method: method,
+            url: url,
+            data:toSend
+          }).
+          then(function(response) {
+            Flash.create('success', 'Added')
+            $uibModalInstance.dismiss()
 
           })
         }
@@ -1424,6 +1474,7 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
 
       }, //controller ends
     }).result.then(function() {
+      $scope.getActivities()
 
     }, function() {
       $scope.getActivities()
@@ -1586,21 +1637,22 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
       resolve: {
 
       },
-      controller: function($scope,$http,Flash, $uibModalInstance) {
-        $scope.form =  {
+      controller: function($scope, $http, Flash, $uibModalInstance) {
+        $scope.form = {
           title: '',
           description: '',
           date: new Date(),
           time: new Date(),
           paperDueDate: new Date(),
           recurring: false,
-          stage:'',
-          typ: 'class',course:$state.params.id
+          stage: '',
+          typ: 'class',
+          course: $state.params.id
         }
 
         $scope.save = function() {
-          if ($scope.form.title.length == 0 || $scope.form.stage.length ==0) {
-            Flash.create('warning ','Fill the form')
+          if ($scope.form.title.length == 0 || $scope.form.stage.length == 0) {
+            Flash.create('warning ', 'Fill the form')
             return
           }
           var data = {
@@ -1609,33 +1661,34 @@ app.controller("businessManagement.activityLog", function($scope, $state, $users
             date: $scope.form.date,
             time: $scope.form.time,
             paperDueDate: $scope.form.paperDueDate,
-            typ: 'class',course:$scope.form.course
+            typ: 'class',
+            course: $scope.form.course
           }
-          if ($scope.form.stage =='daily') {
-            data.daily=true
-          }else {
-            data.daily=false
+          if ($scope.form.stage == 'daily') {
+            data.daily = true
+          } else {
+            data.daily = false
 
           }
-          if ($scope.form.stage =='weekly') {
-            data.weekly=true
+          if ($scope.form.stage == 'weekly') {
+            data.weekly = true
 
-          }else {
+          } else {
 
-            data.weekly=false
+            data.weekly = false
           }
-          if ($scope.form.stage =='monthly') {
-            data.monthly=true
+          if ($scope.form.stage == 'monthly') {
+            data.monthly = true
 
-          }else {
+          } else {
 
-            data.monthly=false
+            data.monthly = false
           }
 
           $http({
             method: 'POST',
             url: '/api/LMS/createClass/',
-            data:data
+            data: data
           }).
           then(function(response) {
             Flash.create('success', 'Created...!!!!!')

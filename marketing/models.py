@@ -41,7 +41,7 @@ class Contacts(models.Model):
     socialLink = models.TextField(max_length=300 , null=True , blank = True)
     state = models.TextField(max_length=500 , null=True , blank = True)
     website = models.TextField(max_length=100 , null=True , blank = True)
-
+    division = models.ForeignKey(Division , related_name='marketingcontacts' , null = True)
 
 CAMPAIGN_STATUS = (
     ('created' , 'created'),

@@ -158,41 +158,24 @@ app.controller("controller.home.viewNotes", function($scope, $state, $users, $st
         }
         $scope.getSharedUsers()
 
-
-        // $scope.removeUser = function(idx) {
-        //   // $http({
-        //   //   method: 'DELETE',
-        //   //   url: '/api/PIM/notes/' + $scope.data.pk + '/',
-        //   // }).then(function(response) {
-        //   //   Flash.create("success", "User removed")
-        //   // });
-        // }
-
-
-
         $scope.form = {
           users : ''
         }
 
-        $scope.users = []
-        $scope.usersList = []
         $scope.addUsers = function(){
-          $scope.usersList.push($scope.form.users)
-          $scope.users.push($scope.form.users.pk)
+          $scope.data.shares.push($scope.form.users)
           $scope.form.users = ''
         }
 
 
         $scope.removeUser = function(indx) {
-          $scope.usersList.splice(indx, 1)
+          $scope.data.shares.splice(indx, 1)
         }
-
-
 
         $scope.saveNote = function() {
 
           var dataToSend = {
-            shares : $scope.users
+            shares : $scope.data.shares
           }
 
           $http({
@@ -203,6 +186,8 @@ app.controller("controller.home.viewNotes", function($scope, $state, $users, $st
           then(function(response) {
             $scope.sharedUsers = response.data.shares
             Flash.create('success', 'Note Shared')
+            $uibModalInstance.dismiss();
+
           })
         }
       },

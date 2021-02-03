@@ -93,7 +93,7 @@
         <button type="button" class="btn btn-default btn-block" ng-click="openCreateNote()" style="padding:17px;background:white;border-radius:10px !important;border:1px solid #d3d3d3;"><i class="fa fa-plus"></i></button>
       </div>
     </div>
-    <div class="row" style="cursor:pointer;height:90vh;overflow-y:scroll;">
+    <div class="row" style="cursor:pointer;height:89vh;overflow-y:scroll;">
       <div class="col-md-12 menuItems {{$index == row? 'activeMenu' : ''}}" ng-repeat="a in notes" ng-click="$state.go('home.notes.view', {id : a.pk});getIndex($index)" style="border-bottom:1px solid #e0e0e0">
         <p style="margin-left:35px">{{a.title}} </p>
       </div>

@@ -8,15 +8,38 @@ connection.onopen = function (session) {
    // our event handler we will subscribe on our topic
    //
   function chatResonse (args) {
-    // window.postMessage(args);
-    console.log(args)
+    var scope = angular.element(document.getElementById('messenger')).scope();
+    if (args[0] == 'T') {
+      scope.showTyping(args[2], args[1])
+    }
+  else{
+    scope.$apply(function() {
+      scope.addChat(args[1]);
+    });
+  }
   };
 
   function chatSupportResonse(args){
-    console.log(args)
+    console.log(args,'aaaaaaaaaaaaaaaaaaaaaaaaaa');
+     var scope = angular.element(document.getElementById('messenger')).scope();
+     scope.$apply(function() {
+       scope.addChat(args[2]);
+     });
+    // console.log(args)
+    // var scope = angular.element(document.getElementById('mainChat')).scope();
+    // console.log('sssssssssssssssss');
+    // if (scope == undefined) {
+    //   var mainscope = document.getElementById('main')
+    //   var div = document.createElement("div")
+    //   div.innerHTML = 'new notification'
+    //   div.style = {'width' : '500px' , 'background' : '#e9e9e9' , 'color' : 'white','transition':'width 2s','position':'relative','bottom':'10px';'height' : '300px'}
+    //   mainscope.appendChild(div);
+    //   console.log(mainscope,'aaaaaaaaaaaaaaaaaaaaaa');
+    // }
   }
 
   processNotification = function(args){
+    console.log('ssssssssssssssssssss');
     var scope = angular.element(document.getElementById('main')).scope();
     scope.$apply(function() {
       scope.fetchNotifications(args[0]);

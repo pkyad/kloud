@@ -130,6 +130,8 @@ class ChatThread(models.Model):
     closedBy = models.ForeignKey(User , related_name = 'closedUser' , null = True, blank=True)
     user = models.ForeignKey(User , related_name='externalChatThreads' , null = True)
     is_personal =  models.BooleanField(default = False)
+    is_pin = models.BooleanField(default = False)
+
 
 
 
@@ -168,6 +170,17 @@ class ChatMessage(models.Model):
     fileName = models.TextField(max_length = 20 , null=True)
     replyTo = models.ForeignKey("self" , null = True, related_name="children")
     is_forwarded = models.BooleanField(default = False)
+
+@receiver(post_save, sender=ChatMessage, dispatch_uid="server_post_save")
+def createMessageThread(sender, instance, **kwargs):
+    if instance.thread == None and instance.uid is not None:
+        try:
+            threadObj = ChatThread.objects.get(uid = instance.uid)
+            instance.thread = threadObj
+            instance.save()
+        except:
+            pass
+
 
 
 

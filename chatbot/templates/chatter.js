@@ -345,6 +345,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
   }, 2000);
   connection.onopen = function (session) {
+
      setTimeout(function () {
        inputText.placeholder = "Message...";
        paperClip.style.display = "";
@@ -366,11 +367,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
         return
       }
 
-      if (args[0]=="M") {
-          message = args[1]
-      agentName.innerHTML = args[2].last_name
-      document.getElementById('logo_ji').src=args[2].agentDp
-      }else if (args[0]=="MF") {
+      // if (args[0]=="M") {
+      //     message = args[1]
+      // agentName.innerHTML = args[2].last_name
+      // document.getElementById('logo_ji').src=args[2].agentDp
+      // }else
+       if (args[0]=="MF" || args[0]=="M") {
         agentName.innerHTML = args[2].last_name
         document.getElementById('logo_ji').src=args[2].agentDp
         var attachment;
@@ -386,7 +388,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
         };
 
-        xhttp.open('GET', '{{serverAddress}}/api/chatbot/supportChat/' + args[1].filePk + '/'  , true);
+        xhttp.open('GET', '{{serverAddress}}/api/chatbot/supportChat/' + args[1] + '/'  , true);
         xhttp.send();
         return;
 
@@ -607,17 +609,26 @@ document.addEventListener("DOMContentLoaded", function(event) {
       return;
     }
 
-    if (agentPk) {
+    if (participants.length > 0 && transferred) {
+      console.log("sssssssssss");
       agentOnlineTimeOut = setTimeout(function () {
         isAgentOnline = false;
         onlineStatus.innerHTML = 'Away';
       }, 5000);
-      connection.session.publish(wamp_prefix+'service.support.checkHeartBeat.'+agentPk, ['isOnline' , agentPk, uid] , {}, {
-        acknowledge: true
-      }).
-      then(function(publication) {
-      },function(){
-      });
+
+      for (let i = 0; i < participants.length; i++) {
+        connection.session.publish(wamp_prefix+'service.chat.'+participants[i], ['isOnline' , agentPk, uid] , {}, {
+          acknowledge: true
+        }).
+        then(function(publication) {
+        },function(){
+        });
+      }
+
+
+
+
+
     }else {
       console.log('show online, no agent pk');
       isAgentOnline = true;
@@ -717,7 +728,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         console.log('failed to call '+agentPk+' for closing the chat by customer');
       });
     }
-    
+
   }
 
   var videoOpened = false
@@ -965,7 +976,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
        if (this.readyState == 4 && this.status == 200) {
          setCookie("chatOpenCookie", false, 365);
          var dataToSend = {uid:uid , userEndedChat: 'CHAT CLOSED BY USER' , sentByAgent:false };
-         
+
          for (let i = 0; i < participants.length; i++) {
           connection.session.publish(wamp_prefix+'service.chat.'+participants[i] , [uid , 'CL' , dataToSend ] , {}, {
             acknowledge: true
@@ -975,10 +986,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
           },function(){
             console.log('failed to call '+agentPk+" to end chat");
           });
-           
+
          }
-         
-         
+
+
        }
      };
      xhttp.open('PATCH', '{{serverAddress}}/api/chatbot/publicFacing/chatThread/', true);
@@ -1100,7 +1111,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             }
 
-             
+
          }
        };
        xhttp.open('PATCH', '{{serverAddress}}/api/chatbot/publicFacing/chatThread/', true);
@@ -1297,7 +1308,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
       }
 
-      
+
     }
     if (event.data=='calledToShowVideo') {
 
@@ -1312,7 +1323,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           console.log("Fialed to publish "+agentPk+" for calledToShowVideo");
         });
       }
-      
+
 
     }
     if (event.data=='hideTheMainFrame') {
@@ -1336,7 +1347,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         chatBox_footer.style.borderRadius = footer_bor_rad_no_vid; // footer
       }
     }
-    
+
     if (event.data.event_name=='session_started') {
       if (agentPk) {
         connection.session.call(wamp_prefix + 'service.support.handleQuickActions.' + agentPk, ['session_started',event.data.event_data]).then(
@@ -1545,7 +1556,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           console.log('Failed to publish message to all');
         });
       }
-      
+
 
 
     }
@@ -1862,7 +1873,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         console.log('failed to call service.suuport.agent'+agentPk+' for spying');
       });
     }
-    
+
   }
 
   inputText.addEventListener('keydown', function(evt) {
@@ -1916,7 +1927,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
       }
 
-     function publishMessage(toWhome, chatThreadPk) {
+     function publishMessage(toWhome, chatThreadPk, chatMsgPk) {
        var toWhome = toWhome
        if (toWhome=='toAll') {
          let messageData = dataToSend;
@@ -1932,7 +1943,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
           if (details != "") {
              uidDetails = JSON.parse(details)
           }
-         let dataToPublish = [uid, status, messageData, custID, uidDetails, chatThreadPk, custName, custID]
+         // let dataToPublish = [uid, status, messageData, custID, uidDetails, chatThreadPk, custName, custID]
+          let dataToPublish = [uid, status, chatMsgPk, custID, uidDetails, chatThreadPk, custName, custID]
 
          console.log("botMode");
          console.log(botMode);
@@ -1983,7 +1995,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 });
             }
 
-            
+
           }else{
             document.getElementById('paperPlane').style.color="#A0A0A0"
           }
@@ -2012,9 +2024,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
        dataToSend.uid = uid;
        var xhttp = new XMLHttpRequest();
        xhttp.onreadystatechange = function() {
+         console.log(this.responseText,'this.responseText.pkthis.responseText.pkthis.responseText.pkthis.responseText.pk');
          if (this.readyState == 4 && this.status == 201) {
            chat.messages.push(JSON.parse(this.responseText));
            window.postMessage({autoPlay : true}, "*");
+          }
+          // else if (this.readyState == 4 && this.status == 200) {
+          // }
+          if (isAgentOnline && agentPk) {
+            publishMessage('toOne', chatThreadPk , JSON.parse(this.responseText).pk);
+          }else {
+            publishMessage('toAll', chatThreadPk , JSON.parse(this.responseText).pk);
           }
        }
        xhttp.open('POST', '{{serverAddress}}/api/chatbot/publicFacing/supportChat/', true);
@@ -2029,7 +2049,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 201) {
+          console.log(this.status);
+          if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
              var chatThreadData = JSON.parse(this.responseText)
              threadExist = true
              chatThreadPk = chatThreadData.pk
@@ -2041,7 +2062,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
              pushMessageInView()
              saveMessageInDb()
-             publishMessage('toAll', chatThreadPk);
+             publishMessage('toAll', chatThreadPk ,JSON.parse(this.responseText.pk));
            }
            if (this.readyState == 4 && this.status == 400) {
              if (JSON.parse(this.responseText).uid[0].indexOf('already exists')>=0) {
@@ -2061,11 +2082,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
        }else {
          pushMessageInView()
          saveMessageInDb()
-         if (isAgentOnline && agentPk) {
-            publishMessage('toOne', chatThreadPk);
-          }else {
-            publishMessage('toAll', chatThreadPk);
-          }
+         // if (isAgentOnline && agentPk) {
+         //    publishMessage('toOne', chatThreadPk);
+         //  }else {
+         //    publishMessage('toAll', chatThreadPk);
+         //  }
        }
 
      }
@@ -2134,7 +2155,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         }
 
-        
+
       }
       failedMessages=[]
     }
@@ -2169,7 +2190,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
              if (details != "") {
                 uidDetails = JSON.parse(details)
              }
-            let dataToPublish = [uid , status , fileData , custID, uidDetails, chatThreadPk,custName ];
+            let dataToPublish = [uid , status , fileData.pk , custID, uidDetails, chatThreadPk,custName ];
 
             connection.session.publish(wamp_prefix+'service.support.' + custID, dataToPublish, {}, {
                acknowledge: true
@@ -2181,7 +2202,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
              });
 
           }else {
-            let dataToPublish = [uid , status , fileData];
+            let dataToPublish = [uid , status , fileData.pk];
 
             for (let i = 0; i < participants.length; i++) {
 
@@ -2195,7 +2216,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
               });
             }
 
-            
+
           }
         }
         function saveFileInDataBase() {
@@ -2215,7 +2236,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           var fileData = {}
           var xhttp = new XMLHttpRequest();
           xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 201) {
+            if (this.readyState == 4 && (this.status == 201 || this.status == 200)) {
               var data = JSON.parse(this.responseText)
               filePk = data.pk
               var typ = file.files[0].type.split('/')[0]

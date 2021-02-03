@@ -196,26 +196,41 @@ class PaperSerializer(serializers.ModelSerializer):
         return marks
 
 class EnrollmentSerializer(serializers.ModelSerializer):
+    user = ContactSerializer(many = False , read_only = True)
     class Meta:
         model = Enrollment
-        fields = ('pk' , 'created' , 'course', 'addedBy', 'accepted', 'user' , 'active' )
+        fields = ('pk' , 'created' , 'course', 'addedBy',  'user' , 'active','amountPaid','amountPending' )
         read_only_fields = ('addedBy',)
     def create(self , validated_data):
         e = Enrollment(**validated_data)
         e.addedBy = self.context['request'].user
-        e.accepted = True
+        if 'user'  in self.context['request'].data:
+            contactObj = Contact.objects.get(pk =self.context['request'].data['user'] )
+            e.user  = contactObj
         e.save()
         return e
+    def update(self , instance , validated_data):
+        for key in ['user', 'active','amountPaid','amountPending']:
+            try:
+                setattr(instance , key , validated_data[key])
+            except:
+                pass
+        if 'contact' in self.context['request'].data:
+            instance.user = Contact.objects.get(pk = self.context['request'].data['contact']['pk'] )
+
+        instance.save()
+        return instance
 
 
 
 class CourseSerializer(serializers.ModelSerializer):
     instructor = userSearchSerializer(many = False , read_only = True)
     contacts = ContactSerializer(many = True , read_only = True)
+    enrollments = serializers.SerializerMethodField()
     class Meta:
         model = Course
 
-        fields = ('pk' , 'created' , 'updated', 'enrollmentStatus', 'instructor' , 'user' , 'description' , 'title'  ,'dp','urlSuffix','sellingPrice','discount','contacts','activeCourse','topic')
+        fields = ('pk' , 'created' , 'updated', 'enrollmentStatus', 'instructor' , 'user' , 'description' , 'title'  ,'dp','urlSuffix','sellingPrice','discount','contacts','activeCourse','topic','enrollments')
         read_only_fields = ('user', 'TAs')
     def create(self , validated_data):
         c = Course(**validated_data)
@@ -239,7 +254,8 @@ class CourseSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-
+    def get_enrollments(self,obj):
+        return EnrollmentSerializer(obj.enrollments.all(),many=True).data
 
 
 class CourseActivitySerializer(serializers.ModelSerializer):

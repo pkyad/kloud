@@ -162,10 +162,11 @@ class Enrollment(models.Model):
     created = models.DateTimeField(auto_now_add = True)
     updated = models.DateField(auto_now=True)
     course = models.ForeignKey(Course , null = False , related_name='enrollments')
-    addedBy = models.ForeignKey(User , related_name='lmsUsersAdded')
-    accepted = models.BooleanField(default = True)
-    user = models.ForeignKey(User , null = False)
+    addedBy = models.ForeignKey(User , related_name='lmsUsersAdded' , null = True)
+    user = models.ForeignKey(Contact , null = False)
     active = models.BooleanField(default = True)
+    amountPaid = models.PositiveIntegerField(default = 0)
+    amountPending = models.PositiveIntegerField(default = 0)
 
 ACTIVITY_TYP_CHOICES = (
     ('video','video'),

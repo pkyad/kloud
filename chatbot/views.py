@@ -662,7 +662,7 @@ def publicAPI(request , objectType):
                     now = datetime.datetime.now()
                 except:
                     now = datetime.now()
-                
+
                 chatThObj.closedOn = now
                 chatThObj.status = data['status']
                 # if 'closedByUser' in data:
@@ -702,13 +702,18 @@ def publicAPI(request , objectType):
                     except :
                         pass
             c.save()
+            s = ChatMessage(uid = data['uid'])
+            s.thread = c
+            s.uid = c.uid
+            if 'firstMessage' in data:
+                s.message = data['firstMessage']
+            s.save()
             return JsonResponse({"pk" : c.pk , "transferred" : c.transferred}, status = 201)
         else:
             c = ChatThread.objects.filter(uid = request.GET['uid'] , status = 'started' ).last()
             return JsonResponse(PublicChatThreadSerializer(c , many = False ).data , safe=False)
 
     elif objectType == 'supportChat':
-
 
         if request.method == 'POST':
 
@@ -722,13 +727,29 @@ def publicAPI(request , objectType):
             chatThObj = ChatThread.objects.filter(uid = data['uid'])[0]
             s = ChatMessage(uid = data['uid'])
             s.thread = chatThObj
-
+            s.uid = chatThObj.uid
 
             if 'attachmentType' in data and data['attachmentType'] is not None:
                 s.attachment = request.FILES['attachment']
                 s.attachmentType = data['attachmentType']
             else:
                 s.message = data['message']
+            try:
+                s.attachment = request.FILES['attachment']
+                if s.attachment.name.endswith('.pdf'):
+                    s.fileType = 'pdf'
+                elif s.attachment.name.endswith('.png') or  s.attachment.name.endswith('.jpg') or  s.attachment.name.endswith('.jpeg'):
+                    s.fileType = 'image'
+                elif s.attachment.name.endswith('.doc') or  s.attachment.name.endswith('.docs') or s.attachment.name.endswith('.docx'):
+                    s.fileType = 'word'
+                elif s.attachment.name.endswith('.ppt') or  s.attachment.name.endswith('.pptx'):
+                    s.fileType = 'ppt'
+                elif s.attachment.name.endswith('.xlsx') or s.attachment.name.endswith('.xls'):
+                    s.fileType = 'xl'
+                s.fileSize ="{:.2f}".format(s.attachment.size)
+                s.fileName = s.attachment.name
+            except:
+                pass
 
 
             s.save()
@@ -817,7 +838,7 @@ def publicAPI(request , objectType):
             print "BOT LOGIC ---------------------------------ENDS"
             return JsonResponse(SupportChatSerializer(s , many = False).data , safe=False , status = 201)
         if request.method == 'GET':
-            msgs = ChatMessage.objects.filter(uid = request.GET['uid'], is_hidden = False)
+            msgs = ChatMessage.objects.filter(uid = request.GET['uid'],  is_hidden = False)
             return JsonResponse(SupportChatSerializer(msgs , many = True).data , safe=False)
 
 

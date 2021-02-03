@@ -454,7 +454,7 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'kloud',
+#         'NAME': 'sdpl',
 #         'USER': 'newuser',
 #         'PASSWORD': 'titan@1234',
 #         'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
