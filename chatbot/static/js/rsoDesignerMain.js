@@ -1017,6 +1017,20 @@ app.controller('main', function($scope, $http, $timeout, $aside , $uibModal ) {
 
   }
 
+
+  $scope.viewContext = function(){
+    $aside.open({
+      templateUrl: '/static/ngTemplates/device.variables.html',
+      placement: 'right',
+      size: 'md',
+      backdrop: true,
+      controller: function($scope , $http , $uibModalInstance) {
+
+      }
+    })
+
+
+  }
   $scope.mouseMoved = function(evnt) {
     // console.log(evnt);
 
