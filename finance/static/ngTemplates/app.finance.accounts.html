@@ -3,6 +3,30 @@
   .flex-container {
     display: flex;
   }
+  .newBtn {
+    border: none !important;
+    border-radius: 10px !important;
+
+    padding: 15px;
+
+    font-size: 16px;
+    background: #E01B22;
+    color:  white !important;
+  }
+  .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th{
+    vertical-align:middle
+  }
+  .websiteInput {
+    background:
+      #F2F3F7;
+    color:
+      #555;
+    border-radius: 25px !important;
+    padding: 10px 20px;
+    border: none !important;
+    margin-top: 10px;
+    height: 45px;
+  }
 
 </style>
 <div class="container-fluid" style="padding:0px;">
@@ -17,20 +41,23 @@
         <img src="/static/images/icons8-bank-safe-64.png" class="img img-rounded" width="100px" style="border-radius: 20px;" alt="">
       </div>
     </div>
-    <div class="row font23 text-center" ng-click="$state.go('businessManagement.bankAccounts')" style="background:{{$state.is('businessManagement.bankAccounts')?'white':''}};padding:20px;margin-top:130px;cursor:pointer;">
+    <div class="row font18 text-center" ng-click="$state.go('businessManagement.bankAccounts')" style="background:{{$state.is('businessManagement.bankAccounts')?'white':''}};padding:20px;margin-top:130px;cursor:pointer;">
       Pending Payments
     </div>
-    <div class="row font23 text-center" ng-click="$state.go('businessManagement.bankAccounts.accounts')" style="background:{{$state.is('businessManagement.bankAccounts.accounts')?'white':''}};padding:20px;cursor:pointer;">
+    <div class="row font18 text-center" ng-click="$state.go('businessManagement.bankAccounts.accounts')" style="background:{{$state.is('businessManagement.bankAccounts.accounts')?'white':''}};padding:20px;cursor:pointer;">
       Bank Accounts
     </div>
-    <div class="row font23 text-center" ng-click="$state.go('businessManagement.bankAccounts.pettyCash')" style="background:{{$state.is('businessManagement.bankAccounts.pettyCash')?'white':''}};padding:20px;cursor:pointer;">
+    <div class="row font18 text-center" ng-click="$state.go('businessManagement.bankAccounts.pettyCash')" style="background:{{$state.is('businessManagement.bankAccounts.pettyCash')?'white':''}};padding:20px;cursor:pointer;">
       Petty Cash
     </div>
-    <a href="" ng-click="download()" type="button" class="btn btn-default " style="background: white;color: black;position: absolute;bottom: 83px;border : none !important;border-radius:10px !important;padding: 15px;width: 88%;" >
+    <a href="" ng-click="download()" type="button" class="btn btn-default " style="background: white;color: black;position: absolute;bottom: 153px;border : none !important;border-radius:10px !important;padding: 15px;width: 88%;" >
       Download <img src="/static/images/download-from-cloud.png" style="width:30px;" >
     </a>
-    <button type="button" class="btn btn-default " ng-click="openAccountForm()" style="background: #EAEAEA;color: black;position: absolute;bottom: 13px;border : none !important;border-radius:10px !important;padding: 15px;width: 88%;" >
-      New <img src="/static/images/icons8-plus-math-96.png" style="width:25px;margin-left:10px;" alt="">
+    <button type="button" class="btn btn-default " ng-click="openAccountForm('petty')" style="background: #EAEAEA;color: black;position: absolute;bottom: 83px;border : none !important;border-radius:10px !important;padding: 15px;width: 88%;" >
+      New Petty Account  <img src="/static/images/icons8-plus-math-96.png" style="width:25px;margin-left:10px;" alt="">
+    </button>
+    <button type="button" class="btn newBtn " ng-click="openAccountForm('account')" style="color: white;position: absolute;bottom: 13px;border : none !important;border-radius:10px !important;padding: 15px;width: 88%;" >
+      Create New Account <img src="/static/images/icons8-plus-48.png" style="width:25px;margin-left:10px;" alt="">
     </button>
   </div>
   <div class="col-md-10" style="height:100vh;position:absolute;right:0px;overflow:auto;padding:40px;">
@@ -57,25 +84,34 @@
           </div>
         </div>
         <hr>
-        <div class="container-fluid">
-          <table class="invoiceTable" style="table-layout: auto;width: 100%;background: white;border-radius: 15px;overflow: hidden;border: none !important;">
-            <tr style="background:#eee;">
-              <th>Account</th>
-              <th>Amount</th>
-              <th>Narration</th>
-              <th>Pay from</th>
-              <th>Ref. ID</th>
-              <th></th>
-            </tr>
-            <tr ng-repeat="i in pending track by $index">
-              <td style="text-align:left;padding-left:20px;"><h4 class="font18">{{i.accountNumber}}</h4> {{i.bankName}} ({{i.ifscCode}}) </td>
-              <td style="text-align:left;padding-left:20px;"><h3 class="font24">{{i.amount}}</h3></td>
-              <td style="text-align:left;padding-left:20px;"><h4 class="font18">{{i.narration}}</h4></td>
-              <td><select class="form-control" name="" ng-model="i.account" ng-options="a.title + ' - ' + a.bank + ' - ' + a.contactPerson.username for a in accounts">
-              </select></td>
-              <td><input type="text" class="form-control" name="" value="" ng-model=i.disbursalNote></td>
-              <td ng-click="save($index)"> Mark As Done </td>
-            </tr>
+        <div style="white-space:nowrap">
+          <table class="table table-bordered" style="table-layout: auto;width: 100%;background: white;overflow: hidden;">
+            <thead>
+
+              <tr style="background:#eee;height:45px;">
+                <th class="text-center"  >Account</th>
+                <th class="text-center" >Amount</th>
+                <th class="text-center"  >Narration</th>
+                <th class="text-center" >Pay from</th>
+                <th class="text-center" >Ref. ID</th>
+                <th class="text-center"  ></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="text-center"ng-repeat="i in pending track by $index">
+                <td ><h4 class="font18" style="margin:0px;">{{i.accountNumber}}</h4> {{i.bankName}} ({{i.ifscCode}}) </td>
+                <td ><h3 class="font24" style="margin:0px;">{{i.amount}}</h3></td>
+                <td ><h4 class="font18" style="margin:0px;">{{i.narration}}</h4></td>
+                <td>
+                  <span ><i class="fa fa-caret-down" style="position:absolute;left:66%;padding:10px;z-index:1"></i></span>
+                  <select class="form-control" style="border:none;" name="" ng-model="i.account" ng-options="a.title + ' - ' + a.bank + ' - ' + a.contactPerson.username for a in accounts">
+                  </select>
+                </td>
+                <td><input type="text" class="form-control" name="" placeholder="Enter the Reference Id" value="" ng-model=i.disbursalNote style="border:none;"></td>
+                <td ng-click="save($index)"> Mark As Done </td>
+              </tr>
+
+            </tbody>
           </table>
         </div>
 
@@ -83,28 +119,34 @@
           <h3 class="font24">Recent Payments Made</h3>
         </div>
 
-        <div class="container-fluid" >
-          <table class="invoiceTable" style="table-layout:auto;width:100%;">
-            <tr style="background:#eee;">
-              <th>Sl No.</th>
-              <th>Date</th>
-              <th>Account Number</th>
-              <th>Bank Name</th>
-              <th>Amount</th>
-              <th>IFCS Code</th>
-              <th>Narration</th>
-              <th>Disbursed From</th>
-            </tr>
-            <tr ng-repeat="i in disbData">
-              <td>{{$index+1}}</td>
-              <td>{{i.date}}</td>
-              <td>{{i.accountNumber}}</td>
-              <td>{{i.bankName}}</td>
-              <td>{{i.amount}}</td>
-              <td>{{i.ifscCode}}</td>
-              <td>{{i.narration}}</td>
-              <td>{{i.account.title}} ({{i.account.contactPerson.username}})</td>
-            </tr>
+        <div style="white-space:nowrap" >
+          <table class="table table-bordered " style="table-layout: auto;width: 100%;overflow: hidden;">
+            <thead>
+              <tr style="background:#eee;height:45px;">
+                <th class="text-center" >Sl No.</th>
+                <th class="text-center">Date</th>
+                <th class="text-center">Account Number</th>
+                <th class="text-center">Bank Name</th>
+                <th class="text-center">Amount</th>
+                <th class="text-center">IFCS Code</th>
+                <th class="text-center">Narration</th>
+                <th class="text-center">Disbursed From</th>
+              </tr>
+
+            </thead>
+            <tbody>
+              <tr class="text-center" ng-repeat="i in disbData" style="height:45px;">
+                <td>{{$index+1}}</td>
+                <td>{{i.date}}</td>
+                <td>{{i.accountNumber}}</td>
+                <td>{{i.bankName}}</td>
+                <td>{{i.amount}}</td>
+                <td>{{i.ifscCode}}</td>
+                <td>{{i.narration}}</td>
+                <td>{{i.account.title}} ({{i.account.contactPerson.username}})</td>
+              </tr>
+
+            </tbody>
           </table>
         </div>
       </div>

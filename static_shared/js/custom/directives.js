@@ -969,13 +969,18 @@ app.directive('appdetailedView', function() {
       }
 
 
+      $scope.widthFactor = 0
+      $timeout(function() {
+        $scope.widthFactor=1
+      },900)
+
 
 
       $scope.addUser = function(){
         $uibModal.open({
           templateUrl: '/static/ngTemplates/app.adduser.modal.html',
-          size: 'sm',
-          backdrop: false,
+          size: 'md',
+          backdrop: true,
           resolve: {
             app: function() {
               return $scope.app;
@@ -1005,7 +1010,8 @@ app.directive('appdetailedView', function() {
                 }
               }).
               then(function(response) {
-                $uibModalInstance.dismiss($scope.form.user)
+                console.log(response.data,'434232');
+                $uibModalInstance.dismiss(response.data.data)
                 }, function(error) {
 
                 Flash.create('warning','User Already added')
@@ -1020,13 +1026,14 @@ app.directive('appdetailedView', function() {
             }
 
           },
-        }).result.then(function() {
+        }).result.then(function(data) {
+            $scope.fetchDetails()
+            if (typeof data == 'object') {
+              $scope.users.push(data)
 
+            }
         }, function(data) {
-          if (typeof data == 'object') {
-            $scope.users.push(data)
-
-          }
+          $scope.fetchDetails()
         });
       }
       $scope.openApp = function(){
@@ -1094,6 +1101,20 @@ app.directive('appdetailedView', function() {
 
       }
       $scope.fetchDetails()
+      $scope.delUser = function(idx){
+
+        $http({
+          method: 'DELETE',
+          url: '/api/ERP/userapps/'+$scope.users[idx].pk+'/'
+        }).
+        then(function(response) {
+          $scope.users.splice(idx,1)
+          Flash.create('success','Deleted.....!!')
+        })
+
+      }
+
+
 
       // $scope.getUsers= function(){
       //
