@@ -208,20 +208,20 @@
             <div class="display_picture_view" style="background-image:url({{user.dp?user.dp:'/static/images/userIcon.png'}})">
             </div>
           </div>
-          <div class="{{user.is_show?'col-md-10':'col-md-10'}}col-md-10 col-sm-9" ng-click="user.is_show=true" style="">
+          <div class="{{user.is_show?'col-md-9':'col-md-10'}} col-sm-9" ng-click="user.is_show=true" style="">
             <h5 style="margin-top:0px;">{{user.name}} </h5>
             <p ng-if="!show.showTypingVal">last seen today</p>
               <p ng-if="show.showTypingVal">Typing....</p>
           </div>
 
           <div class="pull-right" >
-            <img src="/static/images/icons8-outgoing-call-30.png" alt="" ng-click="call(user.visitor.mobile)">
+            <img src="/static/images/icons8-outgoing-call-30.png" alt="" ng-click="call(user.visitor.mobile)" style="padding-right:10px;margin-top:5px;">
             <i></i>
             <!-- <i style="padding:10px" class="fa fa-thumb-tack fa-lg " ng-click="setToPin()"></i> -->
-            <img  ng-if="user.is_pin" src="/static/images/icons8-star-filled-48.png" style="height:20px" ng-click="setToPin()" class="pull-right">
-            <img ng-if="!user.is_pin" src="/static/images/icons8-star-filled-50.png" style="height:20px"ng-click="setToPin()" class="pull-right">
+            <img  ng-if="user.is_pin" src="/static/images/icons8-star-filled-48.png" style="height:20px;margin-top:10px;" ng-click="setToPin()" class="pull-right">
+            <img ng-if="!user.is_pin" src="/static/images/icons8-star-filled-50.png" style="height:20px;margin-top:10px;"ng-click="setToPin()" class="pull-right">
 
-          
+
         </div>
       </div>
       <div class="scrollView margin-auto m-bottom-5 padding-2" id="scrollView" style="width:100%;">
@@ -905,6 +905,7 @@
 
       </div>
 
+    </div>
     </div>
     <div class="col-md-4 col-sm-12 Messenger_groupInfo" ng-if="user.is_show" style="">
       <div class="row" style="height: 92.5vh;overflow-y: scroll;scrollbar-width: none;padding: 0px 10px;">

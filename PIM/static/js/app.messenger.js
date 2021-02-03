@@ -195,9 +195,9 @@
 
     $scope.contactSearch = function(query) {
 
-      return $http.get('/api/marketing/contacts/?mobile__icontains=' + query).
+      return $http.get('/api/marketing/contacts/?limit=20&mobile__icontains=' + query).
       then(function(response) {
-        return response.data;
+        return response.data.results;
       })
     };
 
