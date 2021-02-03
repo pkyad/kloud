@@ -120,7 +120,7 @@
           'replyMsg' : ''
         }
         if (response.data.uid!=undefined && response.data.uid!=null) {
-          connection.session.publish('service.support.chat.' + response.data.uid, ['M'  , response.data , new Date() ], {}, {
+          connection.session.publish(wamp_prefix+'service.support.chat.' + response.data.uid, ['M'  , response.data.pk , new Date() ], {}, {
             acknowledge: true
           }).
           then(function(publication) {
@@ -135,7 +135,7 @@
 
     $scope.$watch('form.text', function(newValue, oldValue) {
       if (newValue.length>0) {
-        connection.session.publish('service.support.chat.' + $scope.user.uid, ['T'  , '' , new Date() ], {}, {
+        connection.session.publish(wamp_prefix+'service.support.chat.' + $scope.user.uid, ['T'  , '' , new Date() ], {}, {
           acknowledge: true
         }).
         then(function(publication) {
@@ -618,7 +618,7 @@ $scope.postFiles = function(){
          $scope.allFiles = []
        }
        if (response.data.uid!=undefined && response.data.uid!=null) {
-         connection.session.publish('service.support.chat.' + response.data.uid, ['MF'  , response.data.pk , new Date() ], {}, {
+         connection.session.publish(wamp_prefix+'service.support.chat.' + response.data.uid, ['MF'  , response.data.pk , new Date() ], {}, {
            acknowledge: true
          }).
          then(function(publication) {

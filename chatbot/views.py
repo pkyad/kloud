@@ -982,3 +982,13 @@ def ExternalWindow(request):
         else:
             createMessage(request.POST['uid'] ,  request.POST['message'])
             return JsonResponse({"status" : "ok"} , status = 200)
+
+
+
+class GetVariablesAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes=(permissions.AllowAny,)
+    def get(self , request, format = None):
+        data = request.GET
+
+        return JsonResponse({"status" : "ok"} , status = 200)

@@ -387,7 +387,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
               }
             }
         };
-
+        console.log(args[1],'aaaaaaaaaaaaaaaaa');
         xhttp.open('GET', '{{serverAddress}}/api/chatbot/supportChat/' + args[1] + '/'  , true);
         xhttp.send();
         return;
@@ -2163,6 +2163,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       failedMessages=[]
     }
   }
+
 
   function disableTextArea(placeholder){
     if (placeholder==undefined) {

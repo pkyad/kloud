@@ -1025,7 +1025,7 @@ app.controller('main', function($scope, $http, $timeout, $aside , $uibModal ) {
       size: 'md',
       backdrop: true,
       controller: function($scope , $http , $uibModalInstance) {
-
+        
       }
     })
 

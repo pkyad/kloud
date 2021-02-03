@@ -1,0 +1,43 @@
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-hover" style=" width: 100%;white-space:nowrap">
+          <tbody>
+            <tr style="background-color: #eeeeee;height: 50px;">
+              <th>Key</th>
+              <th>Value</th>
+              <th>Type</th>
+            </tr>
+            <tr ng-repeat="v in contextVariables track by $index" style="">
+              <td>{{v.key}}</td>
+              <td>{{v.typ}}</td>
+            </tr>
+          </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-hover" style=" width: 100%;white-space:nowrap">
+          <tbody>
+            <tr style="background-color: #eeeeee;height: 50px;">
+              <th>Key</th>
+              <th>Value</th>
+              <th>Type</th>
+              <th>Can Update?</th>
+            </tr>
+            <tr ng-repeat="v in dynamicVariables track by $index" style="">
+              <td>{{v.key}}</td>
+              <td>{{v.typ}}</td>
+              <td>{{v.value}}</td>
+              <td>{{v.canUpdate}}</td>
+            </tr>
+          </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
