@@ -26,8 +26,8 @@ from django.http import JsonResponse
 import datetime
 from marketing.models import Contacts
 import getpass
-if getpass.getuser() == 'cioc-d2':
-    from talk import *
+# if getpass.getuser() == 'cioc-d2':
+from talk import *
 from PIM.models import *
 # Create your views here.
 
