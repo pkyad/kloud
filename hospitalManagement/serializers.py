@@ -18,10 +18,11 @@ class PatientSerializer(serializers.ModelSerializer):
         p = Patient(**validated_data)
         p.save()
         division = self.context['request'].user.designation.division
-        uniqueId = str(division.hospPatientCounter)
-        division.hospPatientCounter+=1
-        division.save()
-        p.uniqueId = uniqueId
+        # uniqueId = str(division.hospPatientCounter)
+        # division.hospPatientCounter+=1
+        # division.save()
+        p.uniqueId = str(p.pk).zfill(5)
+        # p.uniqueId = uniqueId
         p.division = division
         p.save()
 
