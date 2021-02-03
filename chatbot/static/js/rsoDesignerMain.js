@@ -604,7 +604,14 @@ app.controller('main', function($scope, $http, $timeout, $aside , $uibModal ) {
 
           $scope.initiate();
 
-          if ($scope.data.blockType == 'invokeUiPath') {
+          if ($scope.data.blockType == 'presentCatalog') {
+
+            $http({url : '/api/finance/category/' , method : 'GET'}).
+            then(function(response) {
+              $scope.catalogs = response.data;
+            });
+
+          } else if ($scope.data.blockType == 'invokeUiPath') {
             $scope.uipathData = {processes : [], environments : [], robots : [] , queues : []}
 
             // $http({url : '/api/support/uipathResources/?type=environment&profile=' + COMPANY_PROFILE , method : 'GET'}).
@@ -612,18 +619,18 @@ app.controller('main', function($scope, $http, $timeout, $aside , $uibModal ) {
             //   $scope.uipathData.environments = response.data.value;
             // });
 
-            $http({url : '/api/chatbot/uipathResources/?type=process&profile=' + COMPANY_PROFILE , method : 'GET'}).
+            $http({url : '/api/chatbot/uipathResources/?type=process'  , method : 'GET'}).
             then(function(response) {
               $scope.uipathData.processes = response.data.value;
             });
 
 
-            $http({url : '/api/chatbot/uipathResources/?type=queues&profile=' + COMPANY_PROFILE , method : 'GET'}).
+            $http({url : '/api/chatbot/uipathResources/?type=queues' , method : 'GET'}).
             then(function(response) {
               $scope.uipathData.queues = response.data.value;
             });
 
-            $http({url : '/api/chatbot/uipathResources/?type=robots&profile=' + COMPANY_PROFILE , method : 'GET'}).
+            $http({url : '/api/chatbot/uipathResources/?type=robots' , method : 'GET'}).
             then(function(response) {
               $scope.uipathData.robots = response.data.value;
 
@@ -711,6 +718,8 @@ app.controller('main', function($scope, $http, $timeout, $aside , $uibModal ) {
             if ($scope.editor2) {
               dataToSend.validation_code = $scope.editor2.getValue();
             }
+          }else if (b.blockType == 'presentCatalog') {
+            dataToSend.endpoint = b.endpoint;
           }
 
           if (b.blockType == 'invokeUiPath') {
@@ -1344,6 +1353,22 @@ app.controller('main', function($scope, $http, $timeout, $aside , $uibModal ) {
         connections : [
           {callbackName : 'success' , connected : false },
           {callbackName : 'failure' , connected : false }
+        ]
+      }
+    }else if (typ == 'presentCatalog') {
+      block = {
+        "name": "Present Catalog Products",
+        "description": "Shows a clicable products catalog",
+        auto_response : 'Please select one of these options', // can we save the PK of the catalog here
+        blockType : typ,
+        "label": label,
+        "color": color,
+        "icon": icon,
+        "newx": posx,
+        "newy": posy,
+        parent : $scope.parentID,
+        connections : [
+          {callbackName : 'success' , connected : false },
         ]
       }
     }else if (typ == 'giveChoices') {

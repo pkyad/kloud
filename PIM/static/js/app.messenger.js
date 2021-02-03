@@ -58,8 +58,8 @@
         $scope.form.file = emptyFile;
         var objDiv = document.getElementById("scrollView");
          objDiv.scrollTop = objDiv.scrollHeight+40;
-        // connection.session.subscribe('service.chat.' + $scope.user.username ,  onevent);
-        // connection.session.publish('service.chat.' + $scope.user.username, ['M', response.data]);
+        connection.session.subscribe('service.chat.' + $scope.user.username ,  onevent);
+        connection.session.publish('service.chat.' + $scope.user.username, ['M', response.data]);
         $scope.replyMsgSelected = {
           'replyMsg' : ''
         }

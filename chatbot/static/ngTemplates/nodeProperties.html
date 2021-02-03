@@ -57,8 +57,11 @@
 
 </div>
 <div class="modal-body" style="margin-top:80px;">
-  <div class="row text-center" style="color:white;background:#4c70af;padding:10px;margin-top:-15px;" ng-if="['getName' , 'getEmail' , 'getMobile' , 'getDate', 'getInput' , 'getFile' , 'giveChoices'].indexOf(block.blockType ) != -1">
+  <div class="row text-center" style="color:white;background:#4c70af;padding:10px;margin-top:-15px;" ng-if="['getName' , 'getEmail' , 'getMobile' , 'getDate', 'getInput' , 'getFile' , 'giveChoices', 'presentCatalog'].indexOf(block.blockType ) != -1">
     Save Result as <input type="text" name="" value="" ng-model="block.context_key" style="background: #6d8bbf;padding: 10px;border: none;border-radius:5px;margin-left:20px;">
+
+    <p ng-if="block.blockType == 'presentCatalog'">The result will be the SKU of the product which the user selected.</p>
+
   </div>
 
   <div class="dropdown" ng-if="block.blockType == 'getInput'" style="margin-top:10px;">
@@ -200,6 +203,14 @@
 
   </div>
 
+  <div class="row" style="margin-top:20px;" ng-if="block.blockType == 'presentCatalog'">
+    <div class="container-fluid">
+      <label>Select a catalog</label>
+      <select class="form-control" ng-model="data.endpoint">
+        <option value="{{catalog.pk}}" ng-repeat="catalog in catalogs">{{catalog.name}}</option>
+      </select>
+    </div>
+  </div>
 
   <div class="row" style="margin-top:20px;" ng-if="block.blockType == 'addCondition'">
     <div class="container-fluid">
