@@ -232,6 +232,12 @@ class chatMessageSerializer(serializers.ModelSerializer):
         if chatThread.uid is not None:
             im.uid = chatThread.uid
         im.save()
+        if im.attachment !=None and im.attachmentType == None:
+            if im.fileType == 'image':
+                im.attachmentType = 'image'
+            else:
+                im.attachmentType = 'application'
+            im.save()
         return im
 
 

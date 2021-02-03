@@ -238,7 +238,7 @@
         </div>
 
         <div class="col-md-4" style="padding:0px;">
-          <div class="col-md-6 toggleHolder text-right" style="padding-top:5px;">
+          <div class="col-md-4 toggleHolder text-right" style="padding-top:5px;">
             <div class="col-md-6" style="padding-top:5px;">
               Auto Play
             </div>
@@ -247,8 +247,13 @@
             </div>
 
           </div>
+          <div class="col-md-4 " style="padding-top:5px;">
+            <div ng-click="viewContext()" style="background:#f7f7f7;height: 44px;padding-top: 10px;cursor:pointer;padding-left:20px;padding-right:20px;">
+              <strong> Variables</strong>
+            </div>
+          </div>
 
-          <div class="col-md-6" style="padding:0px;">
+          <div class="col-md-4" style="padding:0px;">
             <div class="pull-right">
               <div ng-click="playOnWeb()" style="background:#f7f7f7;height: 48px;padding: 10px;margin-right: 35px;cursor:pointer;padding-left:20px;padding-right:20px;">
                 <strong><i class="fa fa-play" style="margin-right:20px;"></i>  Test Your Bot</strong>
@@ -307,6 +312,7 @@
             <li role="menuitem" ng-click="addBlock($index , $event , 'runPython')"><a href=""> Run Python Code</a></li>
 
             <li role="menuitem" ng-click="addBlock($index , $event , 'askForPermission')"><a href=""> Ask for permission </a></li>
+            <li role="menuitem" ng-click="addBlock($index , $event , 'presentCatalog')"><a href=""> Present Product Catalog </a></li>
 
             <!-- <li role="menuitem" ng-click="addBlock($index , $event , 'addCondition')"><a href=""> Add Condition</a></li> -->
 

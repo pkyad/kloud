@@ -1454,3 +1454,32 @@ class CreateScheduleAPI(APIView):
         # except:
         #     pass
         return Response(status = status.HTTP_200_OK)
+
+
+class AddNewLanguageEntry(APIView):
+    renderer_classes = (JSONRenderer,)
+    def post(self , request , format = None):
+        # details = ['Hindi' , 'English' , 'Kannada' , 'Marathi' , 'Telgu' , 'Punjabi']
+        languages = ['hi' , 'en' , 'kn' , 'mr' , 'te' , 'pa']
+        text = request.data['text']
+        for i in languages:
+            if i == 'en':
+                langObj = LanguageTranslation.objects.get_or_create(key = text, value = text , lang = i)
+            else:
+                langObj = LanguageTranslation.objects.get_or_create(key = text, lang = i)
+            print langObj
+        return Response(status = status.HTTP_200_OK)
+
+
+class GetAllLanguageDataAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    def get(self , request , format = None):
+        languages = ['hi'  , 'kn' , 'mr' , 'te' , 'pa']
+        mainObj = LanguageTranslation.objects.filter(lang = 'en')
+        data = []
+        for m in mainObj:
+            val = {'en' : LanguageTranslationSerializer(m, many = False).data}
+            for i in languages:
+                val[i] = LanguageTranslationSerializer(LanguageTranslation.objects.get(lang = i, key = m.key), many = False).data
+            data.append(val)
+        return Response(data,status = status.HTTP_200_OK)

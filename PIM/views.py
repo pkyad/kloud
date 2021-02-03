@@ -228,7 +228,7 @@ class chatMessageBetweenViewSet(viewsets.ModelViewSet):
     filter_fields = ['created','user','thread']
 
     def get_queryset(self):
-        qs = ChatMessage.objects.filter(thread= self.request.GET['other'])
+        qs = ChatMessage.objects.all()
         if 'mode' in self.request.GET:
             return ChatMessage.objects.all().order_by('created')
         # reciepient = ChatThread.objects.get(pk = self.request.GET['other'])

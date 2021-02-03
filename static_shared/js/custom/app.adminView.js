@@ -861,6 +861,51 @@ app.controller('admin.settings.configure.calendar.form' , function($scope ,$uibM
 
 app.controller('admin.settings.configure.language.form', function($scope, $http, $state, $uibModal, Flash) {
 
+  $scope.getAll = function(){
+    $http({
+      method: 'GET',
+      url: '/api/ERP/getAllEntries/',
+    }).
+    then(function(response) {
+      $scope.data = response.data
+    })
+  }
+  $scope.getAll()
+
+  $scope.addLang = function(){
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.organization.addnewentry.html',
+      size: 'md',
+      backdrop: true,
+      controller: function($scope, $uibModalInstance, $rootScope, $http, Flash) {
+        $scope.form = {
+          text : ''
+        }
+
+        $scope.addNewEntry = function() {
+            $http({
+              method: 'POST',
+              url: '/api/ERP/createNewEntry/',
+              data:{
+                text : $scope.form.text
+              }
+            }).
+            then(function(response) {
+              if (response.data) {
+                 $uibModalInstance.dismiss(response.data)
+              }
+            })
+        }
+
+
+      }
+    }).result.then(function() {
+
+    }, function() {
+
+    });
+  }
+
 
 
 })

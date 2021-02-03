@@ -26,8 +26,8 @@ from django.http import JsonResponse
 import datetime
 from marketing.models import Contacts
 import getpass
-if getpass.getuser() == 'cioc-d2':
-    from talk import *
+# if getpass.getuser() == 'cioc-d2':
+from talk import *
 from PIM.models import *
 # Create your views here.
 
@@ -708,7 +708,7 @@ def publicAPI(request , objectType):
             if 'firstMessage' in data:
                 s.message = data['firstMessage']
             s.save()
-            return JsonResponse({"pk" : c.pk , "transferred" : c.transferred}, status = 201)
+            return JsonResponse({"pk" : c.pk , "transferred" : c.transferred, "sentByAgent" : True}, status = 201)
         else:
             c = ChatThread.objects.filter(uid = request.GET['uid'] , status = 'started' ).last()
             return JsonResponse(PublicChatThreadSerializer(c , many = False ).data , safe=False)
@@ -784,6 +784,7 @@ def publicAPI(request , objectType):
             print s.is_hidden
             print chatThObj.transferred
             print s.sentByAgent
+            # after this point its all about robot response
             if s.is_hidden or chatThObj.transferred or s.user is not None:
                 print "Returning : "
                 return JsonResponse(SupportChatSerializer(s , many = False).data , safe=False)
@@ -981,3 +982,21 @@ def ExternalWindow(request):
         else:
             createMessage(request.POST['uid'] ,  request.POST['message'])
             return JsonResponse({"status" : "ok"} , status = 200)
+
+class VariableContextViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = VariableContextSerializer
+    queryset = VariableContext.objects.all()
+
+
+
+
+class GetVariablesAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes=(permissions.AllowAny,)
+    def get(self , request, format = None):
+        data = request.GET
+        chatObj = ChatContext.objects.filter(uid = data['uid'])
+        otherObj = VariableContext.objects.filter(nodeBlock__id = data['id'])
+        data = {'dynamicVariables' : VariableContextSerializer(otherObj, many = True).data , 'contextVariables' : ChatContextSerializer(chatObj, many = True).data}
+        return JsonResponse(data , status = 200)

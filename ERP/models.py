@@ -363,9 +363,10 @@ class UsageBilling(models.Model):
     app= models.ForeignKey(application , related_name='usagebillings' , null = True)
 
 class LanguageTranslation(models.Model):
-    key = models.CharField(max_length = 500 , null = False)
-    value = models.TextField(max_length = 1000 , null = False )
-    
+    key = models.CharField(max_length = 500 , null = True)
+    value = models.TextField(max_length = 1000 , null = True )
+    lang = models.CharField(max_length = 500 , null = True)
+
 
 
 
