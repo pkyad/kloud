@@ -352,3 +352,8 @@ class CalendarSlotsSerializer(serializers.ModelSerializer):
     class Meta:
         model = CalendarSlots
         fields = ('pk' , 'slot', 'day', 'is_available' )
+
+class LanguageTranslationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LanguageTranslation
+        fields = ('pk' , 'key', 'value', 'lang' )

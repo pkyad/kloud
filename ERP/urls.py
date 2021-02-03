@@ -44,4 +44,7 @@ urlpatterns = [
     url(r'getAllSchedule/$' , GetAllSchedulesAPI.as_view()),
     url(r'checkAvailability/$' , CheckAvailabilityAPI.as_view()),
     url(r'addSchedule/$' , CreateScheduleAPI.as_view()),
+    url(r'createNewEntry/$' , AddNewLanguageEntry.as_view()),
+    url(r'getAllEntries/$' , GetAllLanguageDataAPIView.as_view()),
+
 ]

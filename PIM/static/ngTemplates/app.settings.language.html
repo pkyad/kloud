@@ -1,0 +1,36 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row" style="margin-top:15px">
+        <div class="col-md-offset-10 col-md-2">
+          <button type="button" name="button" style="background: #103F8D;color: white;border: none !important;border-radius: 10px !important;padding: 15px;" class="btn-block" ng-click="addLang()"> Add New</button>
+        </div>
+      </div>
+      <div class="row" style="margin-top:15px">
+        <div class="col-md-12">
+          <table class="invoiceTable" style=" width: 100%;">
+            <tbody>
+              <tr style="background-color: #eeeeee;height: 50px;">
+                <th> English </th>
+                <th> Hindi </th>
+                <th> Kannada </th>
+                <th> Marathi </th>
+                <th> Telgu </th>
+                <th> Punjabi </th>
+              </tr>
+
+              <tr ng-repeat="v in data track by $index">
+                <td>{{v.en.value}}</td>
+                <td>  <input type="text " class="form-control" ng-model="v.hi.value"> </td>
+                  <td>  <input type="text " class="form-control" ng-model="v.kn.value"> </td>
+                <td> <input type="text " class="form-control" ng-model="v.mr.value"> </td>
+                <td>  <input type="text " class="form-control" ng-model="v.te.value"> </td>
+                <td>  <input type="text " class="form-control" ng-model="v.pa.value"> </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

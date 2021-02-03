@@ -145,3 +145,10 @@ class NodeSlectionsVariations(models.Model):
 class StartoverVariations(models.Model):
     parent = models.ForeignKey(NodeBlock , null = False , related_name='startover_vatiations')
     txt =  models.CharField(max_length = 500 , null = True)
+
+class VariableContext(models.Model):
+    nodeBlock = models.ForeignKey(NodeBlock , null = False , related_name='variableContexts')
+    key = models.CharField(max_length = 50, null = True)
+    value = models.CharField(max_length = 500, null = True)
+    typ =  models.CharField(max_length = 10, null = True)
+    can_change = models.BooleanField(default = False)

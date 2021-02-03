@@ -1,0 +1,65 @@
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row" >
+        <div class="col-md-12 text-right" >
+          <i ng-click="close()" class="fa fa-close fa-2x"></i>
+          </div>
+        </div>
+
+      <!-- <div class="row">
+        <div class="col-md-12">
+
+          </div>
+        </div> -->
+      <!-- <div class="row">
+        <div class="col-md-12">
+          <table class="table table-hover" style=" width: 100%;white-space:nowrap">
+          <tbody>
+            <tr style="background-color: #eeeeee;height: 50px;">
+              <th>Key</th>
+              <th>Value</th>
+              <th>Type</th>
+            </tr>
+            <tr ng-repeat="v in allData.contextVariables track by $index" style="">
+              <td>{{v.key}}</td>
+              <td>{{v.value}}</td>
+              <td>{{v.typ}}</td>
+            </tr>
+          </tbody>
+          </table>
+        </div>
+      </div> -->
+      <div class="row" style="margin-top:15px">
+        <div class="col-md-12" style="max-height:50vh">
+          <table class="table table-hover" style=" width: 100%;white-space:nowrap">
+          <tbody>
+            <tr style="background-color: #eeeeee;font-size:18px">
+              <th>Key</th>
+              <th>Value</th>
+              <th>Type</th>
+              <th>Can Update?</th>
+              <th></th>
+            </tr>
+            <tr ng-repeat="v in allData.dynamicVariables track by $index" style="font-size:16px">
+              <td>{{v.key}}</td>
+              <td>{{v.typ}}</td>
+              <td>{{v.value}}</td>
+              <td>{{v.can_change?'YES':'NO'}}</td>
+              <td></td>
+            </tr>
+            <tr >
+              <td>  <input class="form-control websiteInput" type="text" ng-model="form.key" placeholder="Add Key"></td>
+              <td><input class="form-control websiteInput" type="text" ng-model="form.typ" placeholder="Add Type"></td>
+              <td><input class="form-control websiteInput" type="text" ng-model="form.value" placeholder="Add Value"></td>
+              <td><input type="checkbox" ng-model="form.can_change"></td>
+              <td class="text-left"><button type="button" name="button" ng-click="add()" class="btn btn-block" style="background:#0015a2;color:#ffffff;border-radius:25px!important">Add</button></td>
+            </tr>
+          </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
