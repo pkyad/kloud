@@ -1664,6 +1664,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
           },false)
         }
       }, 1000);
+
+
       if (message.attachmentType=='image') {
         msgCount++;
         attachedFile = '<img  id="attachedFile'+msgCount+'" src="'+ message.attachment +'" style="width:200px; min-height:10px; box-sizing:border-box;">'
@@ -1710,7 +1712,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
     if (message.logs==null) {
-      if (!message.sentByAgent) {
+      if (!message.sentByAgent&&message.user==null) {
         var msgHtml = '<div id="msg'+chat.messages.length+'" style="margin : 0px 0px 15px; box-sizing:border-box;">'+
                         '<div style=" clear: both; float:right; background-color:var(--windowColor) !important; color:var(--fontAndIconColor) !important;  padding:5px 10px;margin:8px;max-width:94%; border-radius:20px 0px 20px 20px; box-sizing:border-box; ">'+
                           msgDiv+
@@ -1955,6 +1957,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
            }).
            then(function(publication) {
              document.getElementById('paperPlane').style.color="#A0A0A0"
+             console.log('Published');
            },function(){
              console.log('Failed to publish message to all');
            });
