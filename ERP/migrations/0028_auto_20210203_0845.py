@@ -13,19 +13,19 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='usagebilling',
-            name='app',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='usagebillings', to='ERP.application'),
-        ),
-        migrations.AddField(
-            model_name='usagebilling',
-            name='description',
-            field=models.CharField(max_length=250, null=True),
-        ),
-        migrations.AddField(
-            model_name='usagebilling',
-            name='icon',
-            field=models.CharField(max_length=250, null=True),
-        ),
+        # migrations.AddField(
+        #     model_name='usagebilling',
+        #     name='app',
+        #     field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='usagebillings', to='ERP.application'),
+        # ),
+        # migrations.AddField(
+        #     model_name='usagebilling',
+        #     name='description',
+        #     field=models.CharField(max_length=250, null=True),
+        # ),
+        # migrations.AddField(
+        #     model_name='usagebilling',
+        #     name='icon',
+        #     field=models.CharField(max_length=250, null=True),
+        # ),
     ]

@@ -12,19 +12,19 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='languagetranslation',
-            name='lang',
-            field=models.CharField(max_length=500, null=True),
-        ),
-        migrations.AlterField(
-            model_name='languagetranslation',
-            name='key',
-            field=models.CharField(max_length=500, null=True),
-        ),
-        migrations.AlterField(
-            model_name='languagetranslation',
-            name='value',
-            field=models.TextField(max_length=1000, null=True),
-        ),
+        # migrations.AddField(
+        #     model_name='languagetranslation',
+        #     name='lang',
+        #     field=models.CharField(max_length=500, null=True),
+        # ),
+        # migrations.AlterField(
+        #     model_name='languagetranslation',
+        #     name='key',
+        #     field=models.CharField(max_length=500, null=True),
+        # ),
+        # migrations.AlterField(
+        #     model_name='languagetranslation',
+        #     name='value',
+        #     field=models.TextField(max_length=1000, null=True),
+        # ),
     ]
