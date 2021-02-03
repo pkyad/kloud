@@ -708,7 +708,7 @@ def publicAPI(request , objectType):
             if 'firstMessage' in data:
                 s.message = data['firstMessage']
             s.save()
-            return JsonResponse({"pk" : c.pk , "transferred" : c.transferred}, status = 201)
+            return JsonResponse({"pk" : c.pk , "transferred" : c.transferred, "sentByAgent" : True}, status = 201)
         else:
             c = ChatThread.objects.filter(uid = request.GET['uid'] , status = 'started' ).last()
             return JsonResponse(PublicChatThreadSerializer(c , many = False ).data , safe=False)
@@ -784,6 +784,7 @@ def publicAPI(request , objectType):
             print s.is_hidden
             print chatThObj.transferred
             print s.sentByAgent
+            # after this point its all about robot response
             if s.is_hidden or chatThObj.transferred or s.user is not None:
                 print "Returning : "
                 return JsonResponse(SupportChatSerializer(s , many = False).data , safe=False)

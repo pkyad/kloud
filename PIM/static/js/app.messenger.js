@@ -135,7 +135,7 @@
 
     $scope.$watch('form.text', function(newValue, oldValue) {
       if (newValue.length>0) {
-        connection.session.publish('service.support.chat.' + response.data.uid, ['T'  , '' , new Date() ], {}, {
+        connection.session.publish('service.support.chat.' + $scope.user.uid, ['T'  , '' , new Date() ], {}, {
           acknowledge: true
         }).
         then(function(publication) {
