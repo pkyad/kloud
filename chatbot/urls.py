@@ -15,6 +15,8 @@ router.register(r'actionintentinputvariation' , ActionIntentInputVariationViewSe
 router.register(r'connection' , ConnectionViewSet , base_name = 'connection')
 router.register(r'chatThread' , ChatThreadViewSet , base_name = 'chatThread')
 router.register(r'supportChat' , SupportChatViewSet , base_name = 'supportChat')
+router.register(r'variableContext' , VariableContextViewSet , base_name = 'variableContext')
+
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'intentView/(?P<id>[\w|\W]+)/$' , IntentView.as_view() ),

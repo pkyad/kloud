@@ -983,6 +983,12 @@ def ExternalWindow(request):
             createMessage(request.POST['uid'] ,  request.POST['message'])
             return JsonResponse({"status" : "ok"} , status = 200)
 
+class VariableContextViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = VariableContextSerializer
+    queryset = VariableContext.objects.all()
+
+
 
 
 class GetVariablesAPIView(APIView):
@@ -990,5 +996,7 @@ class GetVariablesAPIView(APIView):
     permission_classes=(permissions.AllowAny,)
     def get(self , request, format = None):
         data = request.GET
-
-        return JsonResponse({"status" : "ok"} , status = 200)
+        chatObj = ChatContext.objects.filter(uid = data['uid'])
+        otherObj = VariableContext.objects.filter(nodeBlock__id = data['id'])
+        data = {'dynamicVariables' : VariableContextSerializer(otherObj, many = True).data , 'contextVariables' : ChatContextSerializer(chatObj, many = True).data}
+        return JsonResponse(data , status = 200)

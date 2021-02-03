@@ -172,7 +172,21 @@ function getElementCenter(elem) {
   return {centerX : centerX , centerY : centerY, w : width , h : height}
 }
 
-
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+      }
+  }
+  return "";
+}
 
 app.controller("controller.customer.uipathSettings.modal", function($scope, $timeout, $uibModalInstance,$http , ind) {
   $scope.form = {url : '' , email : '' , password : '' , tenant : '' , error : false, success : false}
@@ -1025,7 +1039,35 @@ app.controller('main', function($scope, $http, $timeout, $aside , $uibModal ) {
       size: 'md',
       backdrop: true,
       controller: function($scope , $http , $uibModalInstance) {
-        
+
+
+      var uid = getCookie("uid");
+
+      $scope.getAll = function(){
+        $http({method : 'GET' , url : '/api/chatbot/getAllVariables/?id='+INTENT_ID+'&uid='+uid}).
+        then(function(response) {
+          $scope.allData = response.data
+        })
+      }
+      $scope.getAll()
+      $scope.reset = function(){
+        $scope.form = {
+          key:'',
+          typ:'',
+          value:'',
+          can_change:false
+        }
+      }
+
+      $scope.add = function(){
+        var dataToSave = $scope.form
+        dataToSave.nodeBlock = parseInt(INTENT_ID)
+        $http({method : 'POST' , url : '/api/chatbot/variableContext/' , data : dataToSave}).
+        then(function(response) {
+          $scope.allData.dynamicVariables.push(response.data)
+          $scope.reset()
+        })
+      }
       }
     })
 

@@ -3,6 +3,11 @@
     <div class="col-md-12">
       <div class="row">
         <div class="col-md-12">
+          
+          </div>
+        </div>
+      <div class="row">
+        <div class="col-md-12">
           <table class="table table-hover" style=" width: 100%;white-space:nowrap">
           <tbody>
             <tr style="background-color: #eeeeee;height: 50px;">
@@ -10,8 +15,9 @@
               <th>Value</th>
               <th>Type</th>
             </tr>
-            <tr ng-repeat="v in contextVariables track by $index" style="">
+            <tr ng-repeat="v in allData.contextVariables track by $index" style="">
               <td>{{v.key}}</td>
+              <td>{{v.value}}</td>
               <td>{{v.typ}}</td>
             </tr>
           </tbody>
@@ -27,12 +33,21 @@
               <th>Value</th>
               <th>Type</th>
               <th>Can Update?</th>
+              <th></th>
             </tr>
-            <tr ng-repeat="v in dynamicVariables track by $index" style="">
+            <tr ng-repeat="v in allData.dynamicVariables track by $index" style="">
               <td>{{v.key}}</td>
               <td>{{v.typ}}</td>
               <td>{{v.value}}</td>
-              <td>{{v.canUpdate}}</td>
+              <td>{{v.can_change?'YES':'NO'}}</td>
+              <td></td>
+            </tr>
+            <tr style="">
+              <td>  <input class="form-control websiteInput" type="text" ng-model="form.key"></td>
+              <td><input class="form-control websiteInput" type="text" ng-model="form.typ"></td>
+              <td><input class="form-control websiteInput" type="text" ng-model="form.value"></td>
+              <td><input type="checkbox" ng-model="form.can_change"></td>
+              <td><button type="button" name="button" ng-click="add()">Add</button></td>
             </tr>
           </tbody>
           </table>

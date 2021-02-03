@@ -151,4 +151,4 @@ class VariableContext(models.Model):
     key = models.CharField(max_length = 50, null = True)
     value = models.CharField(max_length = 500, null = True)
     typ =  models.CharField(max_length = 10, null = True)
-    can_change = models.BooleanField(default = True)
+    can_change = models.BooleanField(default = False)
