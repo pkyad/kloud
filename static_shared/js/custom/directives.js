@@ -1,3 +1,4 @@
+var app = angular.module('app', []);
 
 app.directive("mathjaxBind", function() {
   return {
@@ -1203,6 +1204,9 @@ app.directive('contactusView', function() {
     templateUrl: '/static/ngTemplates/contactusview.html',
     // css: '/static/css/contactusview.css',
     restrict: 'E',
+    scope:{
+      data:'='
+    },
     transclude: true,
     replace: true,
     controller: function($scope, $state, $http, Flash, $rootScope, $filter) {

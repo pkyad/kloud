@@ -28,7 +28,7 @@ app.directive('fileModel', ['$parse', function ($parse) {
 
 app.controller('templateEditor', function($scope, $rootScope , $sce , $http , $timeout,Flash) {
   // $scope.editor1 = ace.edit('aceEditor');
-
+  $scope.checked = true
   $scope.choices = ['Contact Us','Introduction','Image List','Info Section','Testimonials','Widgets','Header','Footer','Others']
 
   $http({method : 'GET' , url : '/api/website/uielementemplate/' + PK + '/'}).
@@ -43,7 +43,7 @@ app.controller('templateEditor', function($scope, $rootScope , $sce , $http , $t
     $timeout(function() {
       var iFrame = document.getElementById('iFrame')
       $scope.editor1 = ace.edit('aceEditor');
-      $scope.editor1.setTheme("ace/theme/XCode");
+      // $scope.editor1.setTheme("ace/theme/XCode");
       $scope.editor1.getSession().setMode("ace/mode/html");
       $scope.editor1.getSession().setUseWorker(false);
       $scope.editor1.setHighlightActiveLine(false);
@@ -51,16 +51,18 @@ app.controller('templateEditor', function($scope, $rootScope , $sce , $http , $t
       ace.require("ace/ext/language_tools");
       $scope.editor1.setOptions({
         enableBasicAutocompletion: true,
-        enableSnippets: true
+        enableSnippets: true,
+
       });
       $scope.editor1.setFontSize("14px");
       $scope.editor1.setBehavioursEnabled(true);
       if ($scope.form != undefined) {
+        console.log($scope.form);
         $scope.editor1.setValue($scope.form.template, -1);
       }
 
       $scope.editor2 = ace.edit('aceEditor2');
-      $scope.editor2.setTheme("ace/theme/XCode");
+      // $scope.editor2.setTheme("ace/theme/XCode");
       $scope.editor2.getSession().setMode("ace/mode/json");
       $scope.editor2.getSession().setUseWorker(false);
       $scope.editor2.setHighlightActiveLine(false);
@@ -121,7 +123,7 @@ app.controller('templateEditor', function($scope, $rootScope , $sce , $http , $t
                 $scope.msg.status =''
                 $scope.msg.text =''
               },2000)
-            return 
+            return
           }
           console.log($scope.uielement,'903842483');
         })
