@@ -1,17 +1,31 @@
-<div class="modal-body">
-  <div class="row">
+<div class="modal-body" style="padding-top:0px;">
+  <div class="row " style="background-color: #8cb4cd;height:50px;">
+    <span class="pull-right"><img src="/static/images/icons8-plus-math-96.png" style="width: 20px;transform: rotate(45deg);margin: 15px;" ng-click="closeModal()"></span>
+  </div>
+  <div class="row" style="margin-top:20px;">
     <div class="col-md-12">
-      <select class="form-control" ng-model="form.user"  ng-options="u.first_name + ' ' + u.last_name for u in selectUsers" >
+      <div class="form-group">
+        <label for="">Select Users</label>
+        <span><i class="fa fa-caret-down" style="position:absolute;right:25px;padding:10px;bottom:20px;"></i></span>
+        <select class="form-control font17" ng-model="form.user"  ng-options="u.first_name + ' ' + u.last_name for u in selectUsers" style="background: #F2F3F7;
+        color: #555;
+        border-radius: 25px !important;
+        padding: 10px 20px;
+        border: none !important;
+        margin-top: 10px;
+        height: 45px;
+        ">
       </select>
+      </div>
     </div>
   </div>
   <div class="row"  style="margin-top:30px">
-    <div class=" col-md-4">
-      <button class="btn btn-block" style="border-radius:25px!important;color:#ffffff;background:rgb(14, 67, 136)" ng-click="addPermision()"> Add</button>
+    <div class=" col-md-4 pull-right">
+      <button class="btn font17 newBtn btn-block" style="border-radius:25px!important;color:#ffffff;background:rgb(14, 67, 136)" ng-click="addPermision()"> Add</button>
     </div>
-    <div class="col-md-6 pull-right">
-      <button class="btn  btn-block" style="border-radius:25px!important;color:#ffffff;background:rgb(193, 12, 0)" ng-click="closeModal()"> Cancel</button>
-    </div>
+    <!-- <div class="col-md-6 pull-right">
+      <button class="btn newBtn btn-block" style="border-radius:25px!important;color:#ffffff;background:rgb(193, 12, 0)" ng-click="closeModal()"> Cancel</button>
+    </div> -->
   </div>
 
 </div>

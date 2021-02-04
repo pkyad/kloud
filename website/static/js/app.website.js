@@ -60,7 +60,7 @@ app.controller('settings', function($scope, $http, $aside, $state, Flash, $users
       defaultTitle: '',
       defaultDescription: '',
       headerTemplate: '',
-      footerTemplate: ''
+      footerTemplate: '',enableChatbot:false
     }
   }
   $scope.reset()
@@ -83,7 +83,7 @@ app.controller('settings', function($scope, $http, $aside, $state, Flash, $users
 
   $scope.$watch('form.headerTemplate', function(query) {
     console.log($scope.me,'4343');
-    if ($scope.form.headerTemplate.pk != undefined) {
+    if ($scope.form.headerTemplate != undefined) {
       $scope.headerUrl = $sce.trustAsResourceUrl('/uielement/?id=' + $scope.form.headerTemplate.pk)
 
     }
@@ -91,7 +91,7 @@ app.controller('settings', function($scope, $http, $aside, $state, Flash, $users
 
 
   $scope.$watch('form.footerTemplate', function(query) {
-    if ($scope.form.footerTemplate.pk != undefined) {
+    if ($scope.form.footerTemplate != undefined) {
         $scope.footerUrl = $sce.trustAsResourceUrl('/uielement/?id=' + $scope.form.footerTemplate.pk)
 
     }
@@ -120,11 +120,12 @@ app.controller('settings', function($scope, $http, $aside, $state, Flash, $users
     var fd = new FormData()
     fd.append('defaultTitle', $scope.form.defaultTitle)
     fd.append('defaultDescription', $scope.form.defaultDescription)
-    if ($scope.form.footerTemplate.pk != undefined) {
+    fd.append('enableChatbot', $scope.form.enableChatbot)
+    if ($scope.form.footerTemplate != undefined) {
       fd.append('footerTemplate', $scope.form.footerTemplate.pk)
 
     }
-    if ($scope.form.headerTemplate.pk != undefined) {
+    if ($scope.form.headerTemplate != undefined) {
       fd.append('headerTemplate', $scope.form.headerTemplate.pk)
 
     }
@@ -147,9 +148,9 @@ app.controller('settings', function($scope, $http, $aside, $state, Flash, $users
 
     }).
     then(function(response) {
+      $scope.form = response.data
       Flash.create('success', 'Created....!!!')
       // $scope.reset()
-      $scope.form = response.data
     })
   }
 
@@ -555,7 +556,7 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
               title: '',
               description: '',
               url: '',
-              ogImage: emptyFile
+              ogImage: emptyFile,enableChat:false
 
             }
 
@@ -574,6 +575,7 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
           fd.append('title', $scope.form.title)
           fd.append('url', $scope.form.url)
           fd.append('description', $scope.form.description)
+          fd.append('enableChat', $scope.form.enableChat)
           if ($scope.form.ogImage != emptyFile && $scope.form.ogImage != null && typeof $scope.form.ogImage != 'string') {
             fd.append('ogImage', $scope.form.ogImage)
 

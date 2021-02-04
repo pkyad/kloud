@@ -1,3 +1,9 @@
+html,
+body {
+  min-height:100%;
+  height: 100%;
+}
+
 .blinkOnHover {
   transition: box-shadow 0.3s ease-in-out;
   cursor: pointer;
@@ -2618,8 +2624,40 @@ padding: 10px 0px;
   padding:70px;
   padding-left:90px
 }
-
+.comment_card {
+  background-image: url('/static/images/img_avatar_card2.png');
+  height: 60px;
+  width: 60px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%
+}
+.page_css{
+  position:absolute;
+  padding-top:100px;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  background-color: #f1f1f1;
+}
+.div_padding{
+  background:#F2F2F2 !important;min-height:120vh;
+}
+.commentQuote{
+  font-size: 36px;color:#ccc;position: absolute;
+  left: 20px;
+}
 @media screen and (min-width: 1279px) and (max-width: 1365px) and (-webkit-device-pixel-ratio: 1) {
+  .commentQuote{
+    left:70px
+  }
+
+  .page_css{
+    margin-left: 0;
+    width: 100%;
+    padding: 100px 100px;
+    background-color: #f1f1f1;
+  }
   .paddl_90_70{
     padding:30px;
     padding-left:50px;
@@ -3031,6 +3069,18 @@ padding: 10px 0px;
 }
 
 @media screen and (min-width: 1366px) and (max-width:1439px) and (-webkit-device-pixel-ratio: 1) {
+  .commentQuote{
+    left:70px
+  }
+  .div_padding{
+    min-height:130vh
+  }
+  .page_css{
+    margin-left: 0;
+    width: 100%;
+    padding: 100px 100px;
+    background-color: #f1f1f1;
+  }
   .paddl_90_70{
     padding:30px;
     padding-left:50px;
@@ -3387,6 +3437,18 @@ padding: 10px 0px;
 }
 
 @media screen and (min-width: 1440px) and (max-width:1620px) and (-webkit-device-pixel-ratio: 1) {
+  .commentQuote{
+    left:100px
+  }
+  .div_padding{
+    min-height:130vh
+  }
+  .page_css{
+    margin-left: 0;
+    width: 100%;
+    padding: 100px 130px;
+    background-color: #f1f1f1;
+  }
   .paddl_90_70{
     padding:30px;
     padding-left:50px;

@@ -14,8 +14,11 @@
         <div class="col-md-2 text-right" style="padding-top:20px;">
           <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
         </div>
-        <div class="col-md-10 ">
+        <div class="col-md-9 ">
           <h3 class="text-muted font24" style="margin-left:15px;">{{account.title}}</h3>
+        </div>
+        <div class="col-md-1 " style="padding:25px 10px;">
+          <i class="fa fa-pencil pull-right" ng-click="openAccountForm(account)" style="font-size:20px"></i>
         </div>
       </div>
       <div class="row text-center">
@@ -64,14 +67,14 @@
         </div>
       </div>
 
-      <div class="row" style="margin-top:30px;" style="white-space:nowrap">
+      <!-- <div class="row" style="margin-top:30px;" style="white-space:nowrap">
         <div class="col-md-4 text-right" style="padding-top:20px;">
         <img src="/static/images/icons8-user-male-64.png" style="width:30px;margin-right:10px;" alt="">  <strong>Contact Person</strong>
         </div>
         <div class="col-md-8" style="padding-top:20px;">
           {{account.contactPerson.pk | getName}} <br><img ng-src="{{account.contactPerson.pk | getDP}}" class="img-circle" width="50"/>
         </div>
-      </div>
+      </div> -->
 
 
 
@@ -81,7 +84,7 @@
 
       <div class="container-fluid" style="margin-top:30px;white-space:nowrap">
         <span>Authorized Signaturies</span> <br> <br>
-        <div class = "col-md-6" ng-repeat="i in account.authorizedSignaturies " style="padding:15px;background:white;border-radius:10px;">  {{i |getName}} </div>
+        <div class = "col-md-6"  style="padding:15px;background:white;border-radius:10px;">  {{account.authorizedSignaturies[0].first_name}} {{account.authorizedSignaturies[0].last_name}} </div>
       </div>
     </div>
     <div class="col-md-8" style="right:0px;height:100vh;overflow:auto;">

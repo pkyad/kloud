@@ -210,6 +210,7 @@ class FeedbackSerializer(serializers.ModelSerializer):
 
 class UserAppSerializer(serializers.ModelSerializer):
     app = applicationSerializer(many=False,read_only=True)
+    user = userSearchSerializer(many=False,read_only=True)
     usersCount = serializers.SerializerMethodField()
     class Meta:
         model = UserApp

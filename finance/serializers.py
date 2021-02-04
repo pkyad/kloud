@@ -64,6 +64,7 @@ class RecursiveField(serializers.Serializer):
 
 class AccountSerializer(serializers.ModelSerializer):
     contactPerson = userSearchSerializer(many=False,read_only=True)
+    authorizedSignaturies = userSearchSerializer(many=True,read_only=True)
     totalExp = serializers.SerializerMethodField()
     class Meta:
         model = Account
@@ -81,8 +82,8 @@ class AccountSerializer(serializers.ModelSerializer):
         print acc,'98898988989'
         acc.save()
         if 'authorizedSignaturies' in self.context['request'].data:
-            for u in self.context['request'].data['authorizedSignaturies']:
-                acc.authorizedSignaturies.add(User.objects.get(pk = int(u)))
+            acc.authorizedSignaturies.add(User.objects.get(pk = self.context['request'].data['authorizedSignaturies']))
+            # for u in self.context['request'].data['authorizedSignaturies']:
 
         acc.save()
         return acc
@@ -100,11 +101,11 @@ class AccountSerializer(serializers.ModelSerializer):
             instance.balance += int(self.context['request'].data['addMoney'])
         instance.authorizedSignaturies.clear()
         if 'authorizedSignaturies' in self.context['request'].data:
-            instance.contactPerson = None
-            for idx,u in enumerate(self.context['request'].data['authorizedSignaturies']):
-                if idx == 0:
-                    instance.contactPerson = User.objects.get(pk = int(u))
-                instance.authorizedSignaturies.add(User.objects.get(pk = int(u)))
+            # instance.contactPerson = None
+            # for idx,u in enumerate(self.context['request'].data['authorizedSignaturies']):
+            #     if idx == 0:
+            #         instance.contactPerson = User.objects.get(pk = int(u))
+                instance.authorizedSignaturies.add(User.objects.get(pk = int(self.context['request'].data['authorizedSignaturies'])))
         instance.save()
         return instance
     def get_totalExp(self, obj):
