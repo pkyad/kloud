@@ -359,6 +359,6 @@ def createMessage(uid, message , fileObj = None):
         requests.post(globalSettings.WAMP_POST_ENDPOINT,
             json={
               'topic': globalSettings.WAMP_PREFIX + 'service.support.chat.' + sc.uid ,
-              'args': [ "M" , sJson , {"agentDp" : logoAdd , "last_name" : chatThObj[0].company.name }, datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ') ]
+              'args': [ "M" , sc.pk , {"agentDp" : logoAdd , "last_name" : chatThObj[0].company.name }, datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ') ]
             }
         )

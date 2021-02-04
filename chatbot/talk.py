@@ -14,6 +14,7 @@ from os.path import isfile, join
 from .uipathHelper import uiPathToken , ReleasekeyGet
 from PIM.models import *
 import math, random
+from finance.models import Category
 
 def isSafe(code):
     for word in ['getcwd', 'open(' , 'open (' , 'import' , ' os ' , ' os' , 'os ' , ' open' , 'open ' , ' open ']:
@@ -169,7 +170,30 @@ def initialiseBlock(node , cntx):
                 renderedMessage +=  '<span onclick="optionTouched(%s)">'%("'"+ conn.condition +"'") +  str(indx + 1) +'. ' + conn.condition +'\n <br>' +'</span>'
 
         createMessage(cntx['uid'] , renderedMessage  )
+    elif node.blockType == 'presentCatalog':
+        print "Rendering the choices div on the screen.....\n\n---------\n"
+        print node.endpoint , 'endpoint'
 
+        scrollProds = '<div class="scrollView">'
+        for prod in Category.objects.get(pk = node.endpoint).categoryInventory.all():
+            print prod
+            try:
+                imgUrl = prod.img1.url
+            except:
+                imgUrl = '/static/images/icon.png'
+            if  prod.description:
+                description = prod.description
+            else:
+                description = 'No description'
+        # for (let j = 0; j < productsArr.length; j++) {
+            scrollProds += '<div class="prodView" onclick="selectCatalogProduct(\''+ prod.sku +'\')"><img src="'+ imgUrl +'"><br><span class="prodHeading">'+ prod.name +'</span><br><span class="prodSubHeading">MRP : '+ str(prod.rate)  +'</span></div>'
+        # }
+        scrollProds += '</div>'
+
+
+
+        createMessage(cntx['uid'] , Template(node.auto_response).render(Context(cntx))  )
+        createMessage(cntx['uid'] , scrollProds  )
     elif node.blockType == 'transfer':
 
         renderedMessage = Template(node.auto_response).render(Context(cntx))
@@ -767,7 +791,82 @@ def getResponse(txt, ctx , compProfile , fil = None):
             initialiseBlock(nxt.to , ctx)
             return ctx
 
-        if config.blockType == 'getMobile':
+        if config.blockType == 'presentCatalog':
+            print '\n\n\n\n\n', config.endpoint
+            # get the catalog and send it to user UI
+            matches = Category.objects.get(pk = config.endpoint).categoryInventory.filter(sku = txt)
+
+            if matches.count()>0:
+                nxt = config.connections.filter(callbackName = 'success').first()
+                prod = matches[0]
+                try:
+                    imgUrl = prod.img1.url
+                except:
+                    imgUrl = '/static/images/icon.png'
+                if  prod.description:
+                    description = prod.description
+                else:
+                    description = 'No description'
+
+                prodDetailsDiv = '<div class="scrollView"><br> <span class="prodHeading"> Here are some more details about the product you selected </span> <br> <div class="prodView" onclick="openProductView(\''+ prod.sku +'\')"><img src="'+ imgUrl +'"><br><span class="prodHeading">'+ prod.name +'</span><br><span class="prodSubHeading">'+ description  +'</span><br><span class="prodSubHeading">MRP : '+ str(prod.rate) +'</span></div></div>'
+
+                createMessage(ctx['uid'] , prodDetailsDiv )
+                ctx[config.context_key] = txt
+                saveContext(config.context_key  , 'str' , ctx)
+            else:
+                if answerFAQandGeneral(txt , ctx , compProfile):
+                    return
+
+                if ctx['retryID'] == step_id and  ctx['retry'] == config.retry:
+                    createMessage(ctx['uid'] , "Please wait while I get my human assistant" )
+                    return transferSession(ctx)
+
+                createMessage(ctx['uid'] , config.failResponse  )
+
+                if config.retry == 0:
+                    ctx['retryID'] = None
+                    ctx['retry'] = 0
+                    nxt = config.connections.filter(callbackName = 'failure')[0]
+
+                    ctx["step_id"]= nxt.to_id
+                    saveContext('retry' , 'int' , ctx)
+                    saveContext('retryID' , 'int' , ctx)
+                    saveContext('step_id' , 'int' , ctx)
+
+                    initialiseBlock(nxt.to , ctx)
+                    return ctx
+
+                ctx["step_id"]=step_id
+                ctx['retryID'] = step_id
+                ctx['retry'] += 1
+
+                saveContext('retry' , 'int' , ctx)
+                saveContext('retryID' , 'int' , ctx)
+                saveContext('step_id' , 'int' , ctx)
+
+                # initialiseBlock(config.parent , ctx)
+                return ctx
+
+            print "-------------------"
+
+            ctx['retryID'] = None
+            ctx['retry'] = 0
+
+
+            ctx["step_id"]= nxt.to_id
+            saveContext('retry' , 'int' , ctx)
+            saveContext('retryID' , 'int' , ctx)
+            saveContext('step_id' , 'int' , ctx)
+
+            initialiseBlock(nxt.to , ctx)
+
+
+            return ctx
+
+
+
+
+        if config.blockType == 'getEmail':
 
             if config.verify and config.context_key + '_otp' in ctx and ctx[config.context_key + '_otp'] != '':
                 if ctx[config.context_key + '_otp'] == txt:

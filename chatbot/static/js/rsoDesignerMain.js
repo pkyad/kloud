@@ -1441,6 +1441,7 @@ app.controller('main', function($scope, $http, $timeout, $aside , $uibModal ) {
         parent : $scope.parentID,
         connections : [
           {callbackName : 'success' , connected : false },
+          {callbackName : 'failure' , connected : false },
         ]
       }
     }else if (typ == 'giveChoices') {
