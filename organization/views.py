@@ -275,12 +275,19 @@ class Getheaderandfooter(APIView):
     def post(self, request, format=None):
         userDivision  = request.user.designation.division.pk
         data = request.data
-        print request.FILES,'439802849083993'
+        print hash_fn.hash(userDivision),'439802849083993'
         d = Division.objects.get(pk = userDivision )
+        d.apiKey = hash_fn.hash(userDivision)
         if 'defaultTitle' in data:
             d.defaultTitle = data['defaultTitle']
         if 'defaultDescription' in data:
             d.defaultDescription = data['defaultDescription']
+        if 'enableChatbot' in data:
+            if data['enableChatbot'] =='true':
+                d.enableChatbot = True
+            else:
+                d.enableChatbot = False
+
         if 'defaultOgImage' in request.FILES:
             d.defaultOgImage = request.FILES['defaultOgImage']
 
