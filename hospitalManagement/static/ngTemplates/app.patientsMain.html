@@ -232,10 +232,6 @@
       <strong> Reports </strong>
     </div>
 
-    <!-- <div class="row font16 menuItems {{$state.is('businessManagement.hospitalManagement.reports11')? 'activeMenu' : ''}}" ng-click="getData()">
-      <strong> get data </strong>
-    </div> -->
-
     <div class="row students" style="">
       <button type="button" class="createCourseBtn btn-block" name="button" ng-click="$state.go('businessManagement.hospitalManagement.newinPatients')"><img src="/static/images/icons8-plus-math-96.png"  style="height:18px;padding-right:20px;"alt="" >Create In Patient</button>
       <br>
@@ -253,19 +249,19 @@
           <!-- <div class="col-md-2 col-md-offset-3">
             <button type="button" class="createTestBtn btn-block" name="button" ng-click="$state.go('businessManagement.hospitalManagement.newpatient')"><img src="/static/images/icons8-plus-48.png"  style="height:18px;padding-right:20px;"alt="" >New</button>
           </div> -->
-          <div class="col-md-3 col-md-offset-9">
+          <div class="col-md-3 col-md-offset-5">
             <div class="form-group">
               <span class="searchIcon" ng-click="fetchData()"><i class="fa fa-search text-right" style="cursor:pointer;"></i></span>
               <input type="text" name="" ng-model="search.query" ng-enter="fetchData()" placeholder="Search...." value="" class="form-control searchInput">
             </div>
           </div>
-          <!-- <div class="col-md-2">
+          <div class="col-md-2">
             <button type="button" class="createTestBtn btn-block" name="button" ng-click="privious()">Prev</button>
           </div>
           <div class="col-md-2">
             <button type="button" class="createTestBtn btn-block" name="button" ng-click="next()">Next</button>
 
-          </div> -->
+          </div>
 
         </div>
 

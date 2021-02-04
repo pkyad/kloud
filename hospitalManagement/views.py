@@ -226,7 +226,10 @@ def invoice(request, response,inv):
     doc = SimpleDocTemplate(response,pagesize=letter, topMargin=0.5*cm,leftMargin=0.1*cm,rightMargin=0.1*cm)
     elements = []
 
-    divisionLogo = inv.activePatient.patient.division.logo
+    # divisionLogo = inv.activePatient.patient.division.logo
+    imagePath = os.path.join(globalSettings.MEDIA_ROOT , str(request.user.designation.division.logo))
+
+
     logo = os.path.join(globalSettings.MEDIA_ROOT , str(divisionLogo))
     f = open(logo, 'rb')
     im = Image(f,height=1*inch ,width=0.6*inch)
@@ -324,9 +327,9 @@ def dischargeSummary(response,dis):
 
     dd = str(dis.patient.dateOfDischarge).split('.')[0]
 
-    dd = defaultfilters.date(dis.patient.dateOfDischarge, "d-m-Y , h:i A")
+    dd = defaultfilters.date(dis.patient.dateOfDischarge + timedelta(hours=5,minutes=30), "d-m-Y , h:i A")
 
-    d = defaultfilters.date(now, "d-m-Y , h:i A")
+    d = defaultfilters.date(now + timedelta(hours=5,minutes=30), "d-m-Y , h:i A")
     if dis.patient.docName:
         dN = dis.patient.docName.name
         dM = dis.patient.docName.mobile
@@ -560,7 +563,7 @@ class HospitalDataMigrations(APIView):
         #     userObj.last_name = item['last_name']
         #     userObj.email = item['email']
         #     userObj.save()
-        #
+
         # #getting doctors
         # doctorData = None
         # doctorDataPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'json', 'doctor.json')
@@ -577,8 +580,8 @@ class HospitalDataMigrations(APIView):
         #     doctorObj.mobile = item['mobile']
         #     doctorObj.division = divisionObj
         #     doctorObj.save()
-        #
-        # #getting patients
+
+        # # getting patients
         # patientData = None
         # patientDataPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'json', 'patient.json')
         # with open(patientDataPath) as json_file:
@@ -586,17 +589,17 @@ class HospitalDataMigrations(APIView):
         #
         # print 'create patient'
         # # creating patients
+        # count = 0
         # for item in patientData:
-        #     patientObj, pat = Patient.objects.get_or_create(uniqueId = item['uniqueId'])
+        #     patientObj, created = Patient.objects.get_or_create(uniqueId = item['uniqueId'], phoneNo = item['phoneNo'], created = item['created'])
         #     patientObj.firstName = item['firstName']
-        #     patientObj.phoneNo = item['phoneNo']
+        #     patientObj.created = item['created']
         #     patientObj.city = item['city']
         #     patientObj.pin = item['pin']
         #     patientObj.emergencyContact2 = item['emergencyContact2']
         #     patientObj.lastName = item['lastName']
         #     patientObj.dateOfBirth = item['dateOfBirth']
         #     patientObj.age = item['age']
-        #     patientObj.uniqueId = item['uniqueId']
         #     patientObj.email = item['email']
         #     patientObj.emergencyContact1 = item['emergencyContact1']
         #     patientObj.street = item['street']
@@ -605,108 +608,138 @@ class HospitalDataMigrations(APIView):
         #     patientObj.division = divisionObj
         #     patientObj.gender = item['gender']
         #     patientObj.save()
-
-
-        print 'active patient'
-        #getting active patients
-        activePatientData = None
-        activePatientDataPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'json', 'activePatient.json')
-        with open(activePatientDataPath) as json_file:
-            activePatientData = json.load(json_file)
-
-        #creating active patients
-        # for item in activePatientData:
-            # patientObj = Patient.objects.get(uniqueId = item['patient']['uniqueId'])
-            # doctorObj = Doctor.objects.get(name = item['docName']['name'])
-            # activePatientObj, act = ActivePatient.objects.get_or_create(patient = patientObj)
-            # activePatientObj.docName = doctorObj
-            # activePatientObj.inTime = item['inTime']
-            # activePatientObj.outTime = item['outTime']
-            # activePatientObj.status = item['status']
-            # activePatientObj.comments = item['comments']
-            # activePatientObj.outPatient = item['outPatient']
-            # activePatientObj.dateOfDischarge = item['dateOfDischarge']
-            # activePatientObj.mlc = item['mlc']
-            # activePatientObj.cash = item['cash']
-            # activePatientObj.insurance = item['insurance']
-            # activePatientObj.opNo = item['opNo']
-            # activePatientObj.msg = item['msg']
-            # activePatientObj.save()
-
-
-        #getting discharge Summary
-        dischargeData = None
-        dischargeDataPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'json', 'discharge.json')
-        with open(dischargeDataPath) as json_file:
-            dischargeData = json.load(json_file)
-
-        print 'create discu'
-        #creating discharge Summary
-        for item in dischargeData:
-            activePatientObj = ActivePatient.objects.get(patient = item['patient']['patient']['uniqueId'])
-            doctorObj = Doctor.objects.get(name = item['docName']['name'])
-            dischargeObj, dis = DischargeSummary.objects.get_or_create(patient = patientObj)
-            if dischargeObj is not None:
-                dischargeObj.patient = activePatientObj
-                dischargeObj.ipNo = doctorObj
-                dischargeObj.mlcNo = item['mlcNo']
-                dischargeObj.firNo = item['firNo']
-                dischargeObj.provisionalDiagnosis = item['provisionalDiagnosis']
-                dischargeObj.finalDiagnosis = item['finalDiagnosis']
-                dischargeObj.complaintsAndReason = item['complaintsAndReason']
-                dischargeObj.summIllness = item['summIllness']
-                dischargeObj.keyFindings = item['keyFindings']
-                dischargeObj.historyOfAlchohol = item['historyOfAlchohol']
-                dischargeObj.pastHistory = item['pastHistory']
-                dischargeObj.familyHistory = item['familyHistory']
-                dischargeObj.summaryKeyInvestigation = item['summaryKeyInvestigation']
-                dischargeObj.courseInHospital = item['courseInHospital']
-                dischargeObj.patientCondition = item['patientCondition']
-                dischargeObj.advice = item['advice']
-                dischargeObj.reviewOn = item['reviewOn']
-                dischargeObj.complications = item['complications']
-                dischargeObj.treatmentGiven = item['treatmentGiven']
-                if len(item['treatingConsultant']) > 0:
-                    for i in item['treatingConsultant']:
-                        print i , 'iiiiiiiiiiiiiiiiiiiiiiiii'
-                        dischargeObj.treatingConsultant.add(Doctor.objects.get(pk = i))
-            dischargeObj.save()
-
+        #     count += 1
+        #     print count , 'count'
         #
+        #     if not created:
+        #         print count, item['uniqueId'], item['pk'], 'not created'
+
+
+
+        # print 'active patient'
+        # #getting active patients
+        # activePatientData = None
+        # activePatientDataPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'json', 'activePatient.json')
+        # with open(activePatientDataPath) as json_file:
+        #     activePatientData = json.load(json_file)
+        #
+        # # creating active patients
+        # count = 0
+        # for item in activePatientData:
+        #     print item['opNo'], 'itemopno'
+        #     patientObj = Patient.objects.filter(uniqueId = item['patient']['uniqueId'])
+        #     doctorObj = Doctor.objects.get(name = item['docName']['name'])
+        #     activePatientObj, created = ActivePatient.objects.get_or_create(patient = patientObj.first(), opNo = item['opNo'], created = item['created'], dateOfDischarge = item['dateOfDischarge'])
+        #     activePatientObj.docName = doctorObj
+        #     activePatientObj.inTime = item['inTime']
+        #     activePatientObj.outTime = item['outTime']
+        #     activePatientObj.status = item['status']
+        #     activePatientObj.comments = item['comments']
+        #     activePatientObj.outPatient = item['outPatient']
+        #     # activePatientObj.dateOfDischarge = item['dateOfDischarge']
+        #     activePatientObj.mlc = item['mlc']
+        #     activePatientObj.cash = item['cash']
+        #     activePatientObj.insurance = item['insurance']
+        #     # activePatientObj.opNo = item['opNo']
+        #     activePatientObj.msg = item['msg']
+        #     activePatientObj.created = item['created']
+        #     activePatientObj.save()
+        #
+        #     count += 1
+        #     print count , 'count'
+        #
+        #     if not created:
+        #         print count, item['opNo'], item['dateOfDischarge'], item['pk'], 'not created'
+
+
+        # #getting discharge Summary
+        # dischargeData = None
+        # dischargeDataPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'json', 'discharge.json')
+        # with open(dischargeDataPath) as json_file:
+        #     dischargeData = json.load(json_file)
+        #
+        # print 'create discu'
+        # #creating discharge Summary
+        # count = 0
+        # for item in dischargeData:
+        #     activePatientObj = ActivePatient.objects.filter(patient__uniqueId = item['patient']['patient']['uniqueId'])
+        #     doctorObj = Doctor.objects.get(name = item['patient']['docName']['name'])
+        #
+        #     dischargeObj, created = DischargeSummary.objects.get_or_create(patient = activePatientObj.first(), ipNo = item['ipNo'], mlcNo = item['mlcNo'], firNo = item['firNo'])
+        #     dischargeObj.provisionalDiagnosis = item['provisionalDiagnosis']
+        #     dischargeObj.finalDiagnosis = item['finalDiagnosis']
+        #     dischargeObj.complaintsAndReason = item['complaintsAndReason']
+        #     dischargeObj.summIllness = item['summIllness']
+        #     dischargeObj.keyFindings = item['keyFindings']
+        #     dischargeObj.historyOfAlchohol = item['historyOfAlchohol']
+        #     dischargeObj.pastHistory = item['pastHistory']
+        #     dischargeObj.familyHistory = item['familyHistory']
+        #     dischargeObj.summaryKeyInvestigation = item['summaryKeyInvestigation']
+        #     dischargeObj.courseInHospital = item['courseInHospital']
+        #     dischargeObj.patientCondition = item['patientCondition']
+        #     dischargeObj.advice = item['advice']
+        #     dischargeObj.reviewOn = item['reviewOn']
+        #     dischargeObj.complications = item['complications']
+        #     dischargeObj.treatmentGiven = item['treatmentGiven']
+        #     if len(item['treatingConsultant']) > 0:
+        #         for i in item['treatingConsultant']:
+        #             dischargeObj.treatingConsultant.add(Doctor.objects.get(pk = i['pk']))
+        #     dischargeObj.save()
+        #     count += 1
+        #     print count , 'count'
+        #
+        #     if not created:
+        #         print count, item['ipNo'], item['mlcNo'], item['firNo'], item['pk'], 'not created'
+
+
+
         # #getting products
         # productData = None
         # productDataPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'json', 'product.json')
         # with open(productDataPath) as json_file:
         #     productData = json.load(json_file)
+        #     print productData , 'pppppppppppd'
         #
         # print 'create product'
         # #creating products
+        # count = 0
         # for item in productData:
-        #     productObj, pro = Product.objects.get_or_create(name = item['name'])
+        #     productObj, created = Product.objects.get_or_create(name = item['name'], rate = item['rate'])
         #     if productObj is not None:
-        #         productObj.rate = item['rate']
         #         productObj.division = divisionObj
         #     productObj.save()
+        #     count += 1
+        #     print count , 'count'
         #
+        #     if not created:
+        #         print count, item['name'], item['rate'], item['pk'], 'not created'
+
+
         #getting invoice
         invoiceData = None
         invoiceDataPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'json', 'invoice.json')
         with open(invoiceDataPath) as json_file:
             invoiceData = json.load(json_file)
 
-        print 'create invocie'
+        print 'create invoice'
         #creating invoice
+        count = 0
         for item in invoiceData:
-            activePatientObj = ActivePatient.objects.get(uniqueId = item['patient']['patient']['uniqueId'])
-            invoiceObj, inv = Product.objects.get_or_create(name = item['name'])
-            if invoiceObj is not None:
-                invoiceObj.activePatient = activePatientObj
-                invoiceObj.grandTotal = item['grandTotal']
-                invoiceObj.invoiceName = item['invoiceName']
-                invoiceObj.discount = item['discount']
-                invoiceObj.products = item['products']
-                invoiceObj.billed = item['billed']
-                invoiceObj.quantity = item['quantity']
+            print item['activePatient']['patient']['uniqueId'], '00000000000000000'
+            activePatientObj = ActivePatient.objects.filter(patient__uniqueId = str(item['activePatient']['patient']['uniqueId']))
+            print activePatientObj , 'aopopoppas'
+            print activePatientObj.first() , 'jjjjjjjjjjjjjjjjjjjjjjjj'
+
+            invoiceObj, created = Invoice.objects.get_or_create(invoiceName = item['invoiceName'], grandTotal = item['grandTotal'], created = item['created'], activePatient = activePatientObj.first())
+            invoiceObj.discount = item['discount']
+            invoiceObj.products = item['products']
+            invoiceObj.created = item['created']
+            invoiceObj.billed = item['billed']
+            invoiceObj.quantity = item['quantity']
             invoiceObj.save()
+            count += 1
+            print count, 'count'
+            if not created:
+                print count,  item['invoiceName'], item['grandTotal'], item['pk'], 'not created'
 
         return Response({'status':'ok'}, status=status.HTTP_200_OK)
