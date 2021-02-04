@@ -386,6 +386,12 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
                 v.addrs = self.context['request'].data['addrs']
             if 'pinCode' in self.context['request'].data:
                 v.pinCode = self.context['request'].data['pinCode']
+            if 'state' in self.context['request'].data:
+                v.state = self.context['request'].data['state']
+            if 'city' in self.context['request'].data:
+                v.city = self.context['request'].data['city']
+            if 'country' in self.context['request'].data:
+                v.country = self.context['request'].data['country']
             v.save()
             instance.visitor = v
         if 'participants' in  self.context['request'].data:
@@ -396,22 +402,46 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
     def get_name(self , obj):
-        name = None
+
+        name = {
+        'name' : ''
+        }
         if obj.title is not None:
-            name = obj.title
-        elif obj.uid != None:
-            if obj.visitor == None:
-                name = obj.uid
+            name = {
+                'name' :  obj.title
+            }
+        if obj.is_personal == False:
+            if obj.visitor == None :
+                name = {
+                    'name' :  obj.uid,
+                    'mobile' :'',
+                    'notes' : '',
+                    'addrs' : '',
+                    'pinCode' : '',
+                    'email' : ''
+                }
             else:
-                name = obj.vistor.name
-        else:
-            if obj.title == None:
-                name = ''
-                try:
-                    if len(obj.participants.exclude(pk = self.context['request'].user.pk)) > 0:
-                        name = obj.participants.exclude(pk = self.context['request'].user.pk)[0].first_name
-                except:
-                    pass
+                name = {
+                    'name' :  obj.visitor.name,
+                    'mobile' : obj.visitor.mobile,
+                    'notes' : obj.visitor.notes,
+                    'addrs' : obj.visitor.addrs,
+                    'pinCode' : obj.visitor.pinCode,
+                    'email' : obj.visitor.email,
+                    'pk':obj.visitor.pk
+                }
+        if obj.is_personal == True:
+            try:
+                if len(obj.participants.exclude(pk = self.context['request'].user.pk)) > 0:
+                    user = obj.participants.exclude(pk = self.context['request'].user.pk)[0]
+                    name = {
+                        'name' :  user.first_name + ' ' + user.last_name,
+                        'mobile' : user.profile.mobile,
+                        'email' : user.email,
+                        'pk' : user.pk
+                    }
+            except:
+                pass
         # if obj.title == None:
         #     obj.title = ''
         return name

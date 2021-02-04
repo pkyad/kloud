@@ -15,17 +15,17 @@
                 <th> Hindi </th>
                 <th> Kannada </th>
                 <th> Marathi </th>
-                <th> Telgu </th>
+                <th> Telugu </th>
                 <th> Punjabi </th>
               </tr>
 
               <tr ng-repeat="v in data track by $index">
                 <td>{{v.en.value}}</td>
-                <td>  <input type="text " class="form-control" ng-model="v.hi.value"> </td>
-                  <td>  <input type="text " class="form-control" ng-model="v.kn.value"> </td>
-                <td> <input type="text " class="form-control" ng-model="v.mr.value"> </td>
-                <td>  <input type="text " class="form-control" ng-model="v.te.value"> </td>
-                <td>  <input type="text " class="form-control" ng-model="v.pa.value"> </td>
+                <td>  <input type="text " class="form-control" ng-model="v.hi.value" ng-blur="updateLang(v.hi)"> </td>
+                  <td>  <input type="text " class="form-control" ng-model="v.kn.value" ng-blur="updateLang(v.kn)"> </td>
+                <td> <input type="text " class="form-control" ng-model="v.mr.value" ng-blur="updateLang(v.mr)"> </td>
+                <td>  <input type="text " class="form-control" ng-model="v.te.value" ng-blur="updateLang(v.te)"> </td>
+                <td>  <input type="text " class="form-control" ng-model="v.pa.value" ng-blur="updateLang(v.pa)"> </td>
               </tr>
             </tbody>
           </table>

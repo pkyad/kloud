@@ -345,6 +345,7 @@ transition-duration: 0.8s;
       var wampBindName = "{{user.pk}}";
       var BRAND_LOGO = "{{BRAND_LOGO}}";
       var SOURCE_LIST = {{sourceList|safe}};
+      var LANG_DATA_LIST = {{langDataList|safe}};
       var SHOW_COMMON_APPS = '{{commonApps}}';
       var DEFAULT_STATE = '{{defaultState}}';
       var HOME_STATE = '{{homeState}}';
@@ -368,6 +369,7 @@ transition-duration: 0.8s;
       var DIVISION_NAME = '{{division.name}}';
       var IS_ON_SUPPORT = '{{isOnSupport}}' == 'True';
       var wamp_prefix = '{{wamp_prefix}}';
+
     </script>
     <script src="{% static 'js/moment-with-locales-2.24.0.min.js' %}"></script>
     <script src="{% static 'js/sip-0.11.6.min.js' %}"></script>
