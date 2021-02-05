@@ -375,7 +375,7 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
             instance.title =  self.context['request'].data['name']
         if 'visitor' in self.context['request'].data:
             v,visitorObj = Contacts.objects.get_or_create(mobile=self.context['request'].data['mobile'])
-            print visitorObj,v,'"eeeeeeeeee"'
+            # print visitorObj,v,'"eeeeeeeeee"',self.context['request'].data['name']
             if 'email' in self.context['request'].data:
                 v.email = self.context['request'].data['email']
             if 'name' in self.context['request'].data:

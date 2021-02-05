@@ -330,16 +330,16 @@ padding: 5px;">
             </div>
             <div class="">
               <p class="font10" ng-if="u.lastmsg.fileType == null">
-                {{u.lastmsg.message}}
+                {{u.lastmsg.message | limitTo:35}}
               </p>
               <p ng-if="u.lastmsg.fileType == 'image'" class="font14">
                 <i class="fa fa-camera"></i> Photo
               </p>
               <p ng-if="u.lastmsg.fileType == 'xl' || u.lastmsg.fileType == 'pdf' || u.lastmsg.fileType == 'word' || u.lastmsg.fileType == 'ppt' " class="font12">
-                <i class="fa fa-file-text-o"></i> {{u.lastmsg.fileName}}
+                <i class="fa fa-file-text-o"></i> {{u.lastmsg.fileName | limitTo:35}}
               </p>
               <p ng-if="u.lastmsg.fileType == null && u.lastmsg.fileType == 'image'">
-                {{u.lastmsg.message}}
+                {{u.lastmsg.message | limitTo:35}}
               </p>
             </div>
           </div>
