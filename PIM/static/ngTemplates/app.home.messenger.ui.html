@@ -917,11 +917,11 @@
 
           </div>
         </div>
-        <div class="row  " style="padding:10px;border-bottom:10px solid #ececec ">
-          <div class="col-md-12 " style="margin-top:30px" ng-if="!user.uid">
+        <div class="row  " style="padding:10px;border-bottom:10px solid #ececec "  ng-if="!user.uid">
+          <div class="col-md-12 " style="margin-top:30px">
             <div class="display_picture" style="background-image:url({{user.dp?user.dp:'/static/images/userIcon.png'}});background-size:contain;background-repeat:norepeat;background-position:center" >
               <!-- <img ng-src="{{user.dp}}"  onerror="this.src='/static/images/userIcon.png'" style="width:150px;height:150px;" class="img img-circle"> -->
-              <input type="file" class="file_upload" ng-model="user.dp" onchange="angular.element(this).scope().fileNameChanged(this.files)" />
+              <input type="file"  ng-if="!user.is_personal" class="file_upload" ng-model="user.dp" onchange="angular.element(this).scope().fileNameChanged(this.files)" />
               <div class="highlight" ng-if="!user.is_personal">
                 <i class="fa fa-camera fa-3x"></i> <br /> CHANGE ICON
               </div>
@@ -929,31 +929,9 @@
             </div>
 
           </div>
-          <div class="row" style="padding-bottom:10px;">
+        </div>
+          <div class="row" style="padding-bottom:10px;" ng-if="user.uid">
             <div class="col-md-12">
-              <h5 ng-if="!showInput&&user.uid">
-
-                <span>
-
-                </span>
-                <span ng-if="!user.is_personal">
-                  {{user.name.mobile}}
-                </span><br><br>
-                <span >
-                  {{user.name.name}}
-                </span><br><br>
-                <span ng-if="!user.is_personal">
-                  {{user.name.email}}
-
-                </span><br><br>
-                <span ng-if="!user.is_personal">
-                  location:{{user.name.addrs}} - {{user.name.pinCode}}
-                </span><br><br>
-                <span> Created on {{user.created | date:"dd/MM/y HH:MM"}}</span>
-                <i ng-if="!user.is_personal" class="fa {{showInput?'':'fa-pencil'}} pull-right" style="font-size:15px;" ng-click="viewDetails()"></i>
-              </h5>
-              <div class="" ng-if="showInput">
-                <!-- <p>{{contactform.mobile}}</p> -->
                 <div class="form-group">
                   <label for=""> Mobile Number </label>
                   <input type="text" class="form-control" ng-model="user.name.mobile" uib-typeahead="contact as contact.mobile for contact in contactSearch($viewValue)" placeholder="Enter the mobile number" name="" value=""
@@ -987,37 +965,28 @@
 
                 </div>
 
-              </div>
               <!-- <i class="fa  fa-check pull-right"  style="font-size:15px;" ng-click="createContact()" ng-show="showInput"></i>  -->
 
             </div>
 
 
           </div>
-        </div>
+
         <div class="row " style="background-color:white;margin-bottom:10px;padding:10px 0px;margin-top:10px;border-bottom:10px solid #ececec" >
           <div class="col-md-12">
             <div class="form-group">
-              <label for="" style="color:#3bd17a;font-weight:normal">Notes</label>
-              <h5 ng-hide="showNote" >{{user.visitor.notes}} <i class="fa fa-pencil pull-right" ng-click="showNote=true" ng-init="showNote=false"></i></h5>
-              <textarea name="name" ng-if="!user.is_personal && showNote" class="form-control" ng-model="contactform.notes" rows="8" cols="80" style="border:none;background: #ededed;border-radius: 20px;padding: 25px;resize:none;" ng-change="createContact()"></textarea>
+              <label for=""  style="color:#3bd17a;font-weight:normal" ng-if="user.uid">Notes</label>
+                <label for=""  style="color:#3bd17a;font-weight:normal" ng-if="!user.uid">Description</label>
+              <h5  ng-if="user.is_personal">{{user.description}} </h5>
+                    <textarea name="name" ng-if="!user.is_personal&&!user.uid" class="form-control" ng-model="user.description" rows="8" cols="80" style="border:none;background: #ededed;border-radius: 20px;padding: 25px;resize:none;" ng-change="updateDescription()"></textarea>
+              <textarea name="name" ng-if="!user.is_personal&&user.uid" class="form-control" ng-model="user.name.notes" rows="8" cols="80" style="border:none;background: #ededed;border-radius: 20px;padding: 25px;resize:none;" ng-change="createContact()"></textarea>
             </div>
-            <!-- <p style="color:#3bd17a"> Description </p>
-              <h5 ng-if="!description">{{user.description}}
-              </h5>
-              <div class="input-group" ng-if="description">
-                <textarea type="text" class="form-control" ng-model="user.description" name=""  value="" style="border:none;border-bottom:2px solid #3bd17a">
-                </textarea>
-                <span class="input-group-btn" >
-                  <i class="fa  fa-check" style="font-size:15px;" ng-click="editThread('description')" ng-show="description"></i>
-                </span>
-              </div> -->
           </div>
         </div>
         <div class="row " style="background-color:white;margin-bottom:10px;padding:10px 0px;margin-top:10px;border-bottom:10px solid #ececec" ng-if="user.is_personal">
           <div class="col-md-12">
             <p style="color:#3bd17a"> About and phone number </p>
-            <h5 ng-if="!description"> +91 {{contactform.mobile}}
+            <h5 ng-if="!description"> +91 {{user.name.mobile}}
               <!-- <i class="fa fa-pencil pull-right" style="font-size:15px;" ng-click="viewDescription()" ></i> -->
             </h5>
             <div class="input-group" ng-if="description">
@@ -1035,8 +1004,8 @@
           </div>
         </div>
 
-        <div class="row" style="border-bottom:10px solid #ececec">
-          <div class="row participants" ng-click="addParticipants()" ng-if="!user.is_personal" style="margin:0px;">
+        <div class="row" style="border-bottom:10px solid #ececec"  ng-if="!user.is_personal">
+          <div class="row participants" ng-click="addParticipants()" style="margin:0px;">
             <div class="col-md-2 text-right" style="padding-top:10px;">
               <div class="" style="height:40px;width:40px;background-color:#3bd17a;border-radius: 50%;padding: 10px;">
                 <i class="fa fa-user-plus" aria-hidden="true" style="font-size:20px;color:white;"></i>

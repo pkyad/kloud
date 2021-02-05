@@ -26,7 +26,7 @@ from PIM.models import *
 from website.models import *
 from HR.serializers import userSearchSerializer
 from taskBoard.serializers import mediaSerializer
-from finance.models import Sale
+from finance.models import Sale,SalesQty
 from rest_framework import filters
 from django.utils import translation
 from marketing.models import Contacts
@@ -45,7 +45,7 @@ from tempfile import mktemp
 from django.db.models import Sum
 from zoomapi import *
 from ERP.models import LanguageTranslation
-
+from paypal.standard.forms import PayPalPaymentsForm
 
 
 def generateOTPCode(length = 4):
@@ -1138,102 +1138,102 @@ def makeOnlinePayment(request):
         return redirect("/razorpayPaymentInitiate/?orderid=" + request.GET['orderid'])
 
 
-import razorpay
-def razorpayPaymentInitiate(request):
-    orderid = request.GET['orderid']
-    orderObj = OutBoundInvoice.objects.get(pk=orderid)
-    razorpay_key = globalSettings.RAZORPAY_KEY
-    razorpay_secret = globalSettings.RAZORPAY_SECRET
-    razorpay_client = razorpay.Client(auth=(razorpay_key, razorpay_secret))
+# import razorpay
+# def razorpayPaymentInitiate(request):
+#     orderid = request.GET['orderid']
+#     orderObj = OutBoundInvoice.objects.get(pk=orderid)
+#     razorpay_key = globalSettings.RAZORPAY_KEY
+#     razorpay_secret = globalSettings.RAZORPAY_SECRET
+#     razorpay_client = razorpay.Client(auth=(razorpay_key, razorpay_secret))
+#
+#     payload = {
+#         'amount':int(orderObj.total*100),
+#         'currency':'INR',
+#         'receipt':str(orderObj.pk),
+#         'payment_capture':1,
+#     }
+#
+#     razorpayOrderObj = razorpay_client.order.create(data=payload)
+#
+#     razorpayOrderID = razorpayOrderObj['id']
+#     print razorpayOrderID, 'razorpayOrderID'
+#
+#     orderObj.paymentRef = razorpayOrderID
+#
+#     orderObj.save()
+#     print orderObj.paymentRef, 'paymentRef'
+#
+#     imageUrl = globalSettings.SITE_ADDRESS+globalSettings.BRAND_LOGO
+#     emailid = orderObj.email
+#     if emailid is None:
+#         emailid = ''
+#
+#     formData =  {
+#         "action" :  "https://checkout.razorpay.com/v1/checkout.js",
+#         "key": razorpay_key,
+#         "amount": int(orderObj.total*100),
+#         "logo": imageUrl,
+#         "razorpay_order_id": razorpayOrderID,
+#         "cust_name": orderObj.personName,
+#         "brand":"ERP",
+#         "mobile": str(orderObj.phone),
+#         "email": emailid,
+#         'orderid':str(orderObj.pk),
+#         'netbanking':'true',
+#         'card':'true',
+#         'wallet':'true',
+#         'upi':'true',
+#         'emi':'false',
+#         'themeColor':'#808080',
+#         'callback_url':globalSettings.SITE_ADDRESS+'/razorpayPaymentResponse/',
+#         'redirect':'true',
+#     }
+#
+#
+#     return render(request , 'razorpay.payment.html' , formData)
+#
+# @csrf_exempt
+# def razorpayPaymentResponse(request):
+#     print request.POST,'request.POST'
+#     razorpay_client = razorpay.Client(auth=(globalSettings.RAZORPAY_KEY, globalSettings.RAZORPAY_SECRET))
+#
+#     params_dict = dict(request.POST.iteritems())
+#
+#     try:
+#         orderObj = OutBoundInvoice.objects.get(paymentRef=params_dict['razorpay_order_id'])
+#     except:
+#         return JsonResponse({'success': False},status =500)
+#
+#
+#     signature_dict = {
+#     'razorpay_order_id': params_dict['razorpay_order_id'],
+#     'razorpay_payment_id': params_dict['razorpay_payment_id'],
+#     'razorpay_signature': params_dict['razorpay_signature']
+#     }
+#
+#     print params_dict,'params_dict'
+#
+#     try:
+#         razorpay_client.utility.verify_payment_signature(signature_dict)
+#     except:
+#         return JsonResponse({'success': False},status =500)
+#
+#     razorResponse = json.dumps(razorpay_client.payment.fetch(params_dict['razorpay_payment_id']))
+#     razorResponse = json.loads(razorResponse)
+#
+#
+#     if razorResponse['status'] == 'captured':
+#         return updateAndProcessOrder( orderObj.pk, float(razorResponse['amount'])/100)
+#     else:
+#         return JsonResponse({'success': False})
 
-    payload = {
-        'amount':int(orderObj.total*100),
-        'currency':'INR',
-        'receipt':str(orderObj.pk),
-        'payment_capture':1,
-    }
 
-    razorpayOrderObj = razorpay_client.order.create(data=payload)
-
-    razorpayOrderID = razorpayOrderObj['id']
-    print razorpayOrderID, 'razorpayOrderID'
-
-    orderObj.paymentRef = razorpayOrderID
-
-    orderObj.save()
-    print orderObj.paymentRef, 'paymentRef'
-
-    imageUrl = globalSettings.SITE_ADDRESS+globalSettings.BRAND_LOGO
-    emailid = orderObj.email
-    if emailid is None:
-        emailid = ''
-
-    formData =  {
-        "action" :  "https://checkout.razorpay.com/v1/checkout.js",
-        "key": razorpay_key,
-        "amount": int(orderObj.total*100),
-        "logo": imageUrl,
-        "razorpay_order_id": razorpayOrderID,
-        "cust_name": orderObj.personName,
-        "brand":"ERP",
-        "mobile": str(orderObj.phone),
-        "email": emailid,
-        'orderid':str(orderObj.pk),
-        'netbanking':'true',
-        'card':'true',
-        'wallet':'true',
-        'upi':'true',
-        'emi':'false',
-        'themeColor':'#808080',
-        'callback_url':globalSettings.SITE_ADDRESS+'/razorpayPaymentResponse/',
-        'redirect':'true',
-    }
-
-
-    return render(request , 'razorpay.payment.html' , formData)
-
-@csrf_exempt
-def razorpayPaymentResponse(request):
-    print request.POST,'request.POST'
-    razorpay_client = razorpay.Client(auth=(globalSettings.RAZORPAY_KEY, globalSettings.RAZORPAY_SECRET))
-
-    params_dict = dict(request.POST.iteritems())
-
-    try:
-        orderObj = OutBoundInvoice.objects.get(paymentRef=params_dict['razorpay_order_id'])
-    except:
-        return JsonResponse({'success': False},status =500)
-
-
-    signature_dict = {
-    'razorpay_order_id': params_dict['razorpay_order_id'],
-    'razorpay_payment_id': params_dict['razorpay_payment_id'],
-    'razorpay_signature': params_dict['razorpay_signature']
-    }
-
-    print params_dict,'params_dict'
-
-    try:
-        razorpay_client.utility.verify_payment_signature(signature_dict)
-    except:
-        return JsonResponse({'success': False},status =500)
-
-    razorResponse = json.dumps(razorpay_client.payment.fetch(params_dict['razorpay_payment_id']))
-    razorResponse = json.loads(razorResponse)
-
-
-    if razorResponse['status'] == 'captured':
-        return updateAndProcessOrder( orderObj.pk, float(razorResponse['amount'])/100)
-    else:
-        return JsonResponse({'success': False})
-
-
-def updateAndProcessOrder(orderID , amnt, referenceId=None):
-    orderObj = OutBoundInvoice.objects.get(pk =orderID )
-    orderObj.paidAmount = amnt
-    orderObj.save()
-
-    return JsonResponse({'success':True},status =200)
+# def updateAndProcessOrder(orderID , amnt, referenceId=None):
+#     orderObj = OutBoundInvoice.objects.get(pk =orderID )
+#     orderObj.paidAmount = amnt
+#     orderObj.save()
+#
+#     return JsonResponse({'success':True},status =200)
 
 
 class GetAppSettings(APIView):
@@ -1524,3 +1524,261 @@ class GetAllLanguageDataAPIView(APIView):
                 val[i] = LanguageTranslationSerializer(LanguageTranslation.objects.get(lang = i, key = m.key), many = False).data
             data.append(val)
         return Response(data,status = status.HTTP_200_OK)
+
+
+# class GetPaymentLinkAPIView(APIView):
+#     renderer_classes = (JSONRenderer,)
+#     def get(self , request , format = None):
+
+import hashlib, datetime, random
+def payuPaymentInitiate(request , data):
+    # What you want the button to do.
+    # orderid = request.GET['orderid']
+    # orderObj = Order.objects.get(pk = orderid)
+
+
+    hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10";
+
+    hash_string = '';
+    hashVarsSeq = hashSequence.split('|');
+    hash_object = hashlib.sha256(b'randint(0,20)')
+    trxnID = hash_object.hexdigest()[0:20]
+
+    posted = data
+
+
+    for hvs in hashVarsSeq:
+        try:
+            hash_string += posted[hvs];
+        except:
+            hash_string += ''
+
+        hash_string += '|'
+
+    # orderObj.paymentRefId = trxnID
+    # orderObj.save()
+    print hash_string,'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',globalSettings.PAYU_MERCHANT_SALT,'vvvvvvvvvvvvvvvvvvvvv'
+    hash_string += globalSettings.PAYU_MERCHANT_SALT[0]
+    hashh = hashlib.sha512(hash_string).hexdigest().lower()
+    formData =  {
+        "action" :  "https://secure.payu.in/_payment",
+        "key": globalSettings.PAYU_MERCHANT_KEY,
+        "txnid": data['txnid'],
+        "hash" : hashh,
+        "hash_string" : hash_string,
+        "posted": posted
+    }
+
+
+    return render(request , 'payu.payment.html' , formData)
+
+@csrf_exempt
+def payuMoneyInitiate(request, data):
+    # What you want the button to do.
+    # orderid = request.GET['orderid']
+    print data
+    orderid = data['id']
+    orderObj = Order.objects.get(pk=orderid)
+
+
+
+    hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10";
+
+    hash_string = '';
+    hashVarsSeq = hashSequence.split('|');
+    hash_object = hashlib.sha256(b'randint(0,20)')
+    trxnID = hash_object.hexdigest()[0:20]
+    print '8088024500'
+    posted = {"key"  : globalSettings.PAYU_MERCHANT_KEY ,
+        "txnid" : orderid ,
+        "amount" : str(orderObj.amountToPaid),
+        "productinfo" : "Sterling select products",
+        "firstname" : orderObj.orderBy.first_name,
+        "email" : str(orderObj.orderBy.email),
+        "phone" : orderObj.orderBy.profile.mobile,
+        "surl" :  globalSettings.SITE_ADDRESS +'/payUPaymentResponse/',
+        "furl" : globalSettings.SITE_ADDRESS +'/payUPaymentResponse/'}
+
+    for hvs in hashVarsSeq:
+        try:
+            hash_string += posted[hvs];
+        except:
+            hash_string += ''
+
+        hash_string += '|'
+
+    orderObj.paymentRefId = trxnID
+    orderObj.save()
+
+    hash_string += globalSettings.PAYU_MERCHANT_SALT
+    hashh = hashlib.sha512(hash_string).hexdigest().lower()
+    formData =  {
+        "action" :  "https://secure.payu.in/_payment",
+        "key": globalSettings.PAYU_MERCHANT_KEY,
+        "txnid": orderid,
+        "hash" : hashh,
+        "hash_string" : hash_string,
+        "posted": posted
+    }
+
+
+    return JsonResponse(formData, status = status.HTTP_200_OK)
+
+import razorpay
+def razorpayPaymentInitiate(request, data):
+
+    razorpay_key = globalSettings.RAZORPAY_KEY
+    razorpay_secret = globalSettings.RAZORPAY_SECRET
+    razorpay_client = razorpay.Client(auth=(razorpay_key, razorpay_secret))
+
+
+    payload = {
+        'amount':int(data['amount']),
+        'currency':'INR',
+        'receipt':str(data['orderid']),
+        'payment_capture':1,
+    }
+
+
+    razorpayOrderObj = razorpay_client.order.create(data=payload)
+
+    razorpayOrderID = razorpayOrderObj['id']
+
+    onlinePay = OnlinePaymentDetails.objects.create(amount = data['amount'], payId = data['orderid'] , refId =  razorpayOrderID )
+
+    onlinePay.save()
+
+    razorpayOrderID =  onlinePay.refId
+
+    imageUrl = globalSettings.SITE_ADDRESS+globalSettings.BRAND_LOGO
+    # emailid = orderObj.orderBy.email
+    # if emailid is None:
+    #     emailid = ''
+
+    formData =  {
+        "action" :  "https://checkout.razorpay.com/v1/checkout.js",
+        "key": razorpay_key,
+        "amount": int(data['amount']),
+        "logo": imageUrl,
+        "razorpay_order_id": razorpayOrderID,
+        "cust_name": data['cust_name'],
+        "brand":data['brand'],
+        "mobile": data['mobile'],
+        "email": data['email'],
+        'orderid':data['orderid'],
+        'netbanking':'true',
+        'card':'true',
+        'wallet':'true',
+        'upi':'true',
+        'emi':'false',
+        # 'themeColor':storeobj.themeColor,
+        'callback_url':globalSettings.SITE_ADDRESS+'/razorpayPaymentResponse/',
+        'redirect':'true',
+        'successUrl' : data['successUrl'],
+        'failure' : data['failure']
+    }
+
+
+    return render(request , 'razorpay.payment.html' , formData)
+
+@csrf_exempt
+def razorpayPaymentResponse(request):
+    print request.POST,'request.POST'
+    razorpay_client = razorpay.Client(auth=(globalSettings.RAZORPAY_KEY, globalSettings.RAZORPAY_SECRET))
+
+    params_dict = dict(request.POST.iteritems())
+
+    try:
+        orderObj = OnlinePaymentDetails.objects.get(refId=params_dict['razorpay_order_id'])
+    except:
+        return redirect(params_dict['failureRedirect'])
+
+
+    signature_dict = {
+    'razorpay_order_id': params_dict['razorpay_order_id'],
+    'razorpay_payment_id': params_dict['razorpay_payment_id'],
+    'razorpay_signature': params_dict['razorpay_signature']
+    }
+
+    print params_dict,'params_dict'
+
+    try:
+        razorpay_client.utility.verify_payment_signature(signature_dict)
+    except ValueError:
+        return redirect(params_dict['failureRedirect'])
+
+    razorResponse = json.dumps(razorpay_client.payment.fetch(params_dict['razorpay_payment_id']))
+    razorResponse = json.loads(razorResponse)
+
+
+    print razorResponse
+    orderObj.paymentGatewayType = str(razorResponse['method'])
+    orderObj.is_success = True
+    orderObj.save()
+    return JsonResponse({'success':True},status =200)
+    # if razorResponse['status'] == 'captured':
+    # else:
+    #     if orderObj.osType == 'ios' or orderObj.osType == 'android':
+    #         return redirect("/orderFailure?mobile=1")
+    #     else:
+    #         return redirect("/orderFailure")
+
+
+# def updateAndProcessOrder(orderID , amnt, referenceId=None):
+#
+#     orderObj = OutBoundInvoice.objects.get(pk =orderID )
+#     orderObj.paidAmount = amnt
+#     orderObj.save()
+#
+#     return JsonResponse({'success':True},status =200)
+
+
+def GetPaymentLink(request):
+    # data = json.loads(request.body)
+    data = request.GET
+    print data['redirect']
+    if data['id'].startswith('sale_'):
+        id = data['id'].split('sale_')[1]
+        name = []
+        product = ''
+        total = 0
+        orderObj = Sale.objects.get(pk=int(id))
+        outBound = SalesQty.objects.filter(outBound = int(id))
+        count = 0
+        for i in outBound:
+            count += 1
+            total  +=  i.total
+            item = i.product  +  ' + '
+            if count==len(outBound):
+                name.append(i.product)
+            else:
+                name.append(item)
+        for i in name:
+            product += i
+        # onlinePay = OnlinePaymentDetails.objects.create(amount = total, payId = id)
+        # payuData = {"key"  : globalSettings.PAYU_MERCHANT_KEY ,
+        #     "txnid" : id ,
+        #     "amount" : str(total),
+        #     "productinfo" : name,
+        #     "firstname" : orderObj.personName,
+        #     "email" : str(orderObj.email),
+        #     "phone" : orderObj.phone,
+        #     "surl" :  globalSettings.SITE_ADDRESS +'/payUPaymentResponse/',
+        #     "furl" : globalSettings.SITE_ADDRESS +'/payUPaymentResponse/'}
+        # return payuPaymentInitiate(request, payuData)
+
+        razorPayData = {
+                "amount": int(total*100),
+                "cust_name": orderObj.personName,
+                "brand":orderObj.name,
+                "mobile": str(orderObj.phone),
+                "email": orderObj.email,
+                'orderid':str(orderObj.pk),
+                'callback_url':globalSettings.SITE_ADDRESS+'/razorpayPaymentResponse/',
+                'successUrl' :  data['redirect'],
+                'failure' : data['failureRedirect']
+        }
+
+        return razorpayPaymentInitiate(request,razorPayData)
+
+    # return Response( status = status.HTTP_200_OK)

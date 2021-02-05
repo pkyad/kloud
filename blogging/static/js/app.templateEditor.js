@@ -95,7 +95,7 @@ app.controller('templateEditor', function($scope, $rootScope , $sce , $http , $t
 
           fd.append('sampleImg', $scope.form.sampleImg)
         }
-        console.log();
+        console.log($scope.form,'w349023984923482347');
         $http({
           method: 'PATCH',
           url: '/api/website/uielementemplate/' + $scope.form.pk + '/',

@@ -375,7 +375,7 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
             instance.title =  self.context['request'].data['name']
         if 'visitor' in self.context['request'].data:
             v,visitorObj = Contacts.objects.get_or_create(mobile=self.context['request'].data['mobile'])
-            print visitorObj,v,'"eeeeeeeeee"'
+            # print visitorObj,v,'"eeeeeeeeee"',self.context['request'].data['name']
             if 'email' in self.context['request'].data:
                 v.email = self.context['request'].data['email']
             if 'name' in self.context['request'].data:
@@ -411,7 +411,7 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
                 'name' :  obj.title
             }
         if obj.is_personal == False:
-            if obj.visitor == None :
+            if obj.visitor == None and obj.uid!= None:
                 name = {
                     'name' :  obj.uid,
                     'mobile' :'',
@@ -420,7 +420,7 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
                     'pinCode' : '',
                     'email' : ''
                 }
-            else:
+            elif obj.visitor != None :
                 name = {
                     'name' :  obj.visitor.name,
                     'mobile' : obj.visitor.mobile,

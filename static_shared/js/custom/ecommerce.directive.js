@@ -40,6 +40,9 @@ app.directive('ecommerceBanners', function() {
     restrict: 'E',
     replace: false,
     transclude: true,
+    scope:{
+      data:'='
+    },
     controller: function($scope, $state, $stateParams, $users) {
       $scope.me = $users.get('mySelf')
       $scope.curoselAsset = {
@@ -52,7 +55,7 @@ app.directive('ecommerceBanners', function() {
         // nav:true,
         responsive: {
           0: {
-            items: 2
+            items: 1
           },
           479: {
             items: 2
@@ -106,7 +109,7 @@ app.directive('secondlevelBanners', function() {
         loop: true,
         responsive: {
           0: {
-            items: 2
+            items: 1
           },
           479: {
             items: 2
@@ -153,8 +156,13 @@ app.directive('ecommerceNewproducts', function() {
     restrict: 'E',
     replace: false,
     transclude: true,
+    scope:{
+      data:'='
+    },
     controller: function($scope, $state, $stateParams, $users) {
       $scope.me = $users.get('mySelf')
+      $scope.items = $scope.data
+      console.log($scope.items,'243423');
       $scope.recentProductsProperties = {
         lazyLoad: false,
         loop: false,
@@ -166,7 +174,7 @@ app.directive('ecommerceNewproducts', function() {
 
         responsive: {
           0: {
-            items: 2
+            items: 1
           },
           479: {
             items: 2
@@ -437,7 +445,7 @@ app.directive('ecommerceBestdeals', function() {
         // nav:true,
         responsive: {
           0: {
-            items: 2
+            items: 1
           },
           479: {
             items: 2
@@ -786,7 +794,7 @@ app.directive('recentlyViewedproducts', function() {
         // nav:true,
         responsive: {
           0: {
-            items: 2
+            items: 1
           },
           479: {
             items: 2
@@ -934,7 +942,7 @@ app.directive('ecommercePartners', function() {
         // nav:true,
         responsive: {
           0: {
-            items: 2
+            items: 1
           },
           479: {
             items: 2
@@ -1019,7 +1027,7 @@ app.directive('ecommerceTestimonials', function() {
         // nav:true,
         responsive: {
           0: {
-            items: 2
+            items: 1
           },
           479: {
             items: 2
