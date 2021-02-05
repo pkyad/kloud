@@ -5,7 +5,7 @@
 
 
         <div ng-if="value.type == 'string'">
-          <input type="text" class="form-control" ng-model="value.string" >
+          <input type="text" class="form-control" ng-model="value.string" uib-typeahead="k as k.name for k in  productSearch($viewValue)" >
         </div>
         <div ng-if="value.type == 'image'">
             <div class="row">

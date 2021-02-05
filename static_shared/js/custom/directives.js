@@ -959,6 +959,30 @@ app.directive('appdetailedView', function() {
       // addCart: '='
     },
     controller: function($scope, $state, $http, Flash, $rootScope, $filter,$location, $users, $timeout,$uibModal) {
+
+      $scope.appMediaPro = {
+        lazyLoad: false,
+        loop: true,
+        items: 1,
+        autoplay: true,
+        autoplayTimeout: 10000,
+        dots: true,
+        // nav:true,
+        responsive: {
+          0: {
+            items: 1
+          },
+          479: {
+            items: 2
+          },
+          600: {
+            items: 3
+          },
+          1000: {
+            items: 2,
+          }
+        },
+      };
         $scope.step = 'notinstalled'
         $scope.me = $users.get('mySelf');
         $scope.division = $scope.me.designation.division

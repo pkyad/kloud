@@ -598,7 +598,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 print Inventory
 class RateListSerializer(serializers.ModelSerializer):
-    division= DivisionSerializer(many=False,read_only = True)
+    # division= DivisionSerializer(many=False,read_only = True)
     class Meta:
         model = Inventory
         fields=('pk','created','name','value','rate','qtyAdded','refurnished','refurnishedAdded','sellable','description','richtxtDesc','taxCode','img1','img2','img3','category','division','buyingPrice','sku','taxRate','mrp')
