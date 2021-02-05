@@ -26,7 +26,7 @@ from PIM.models import *
 from website.models import *
 from HR.serializers import userSearchSerializer
 from taskBoard.serializers import mediaSerializer
-from finance.models import Sale
+from finance.models import Sale,SalesQty
 from rest_framework import filters
 from django.utils import translation
 from marketing.models import Contacts
@@ -45,7 +45,7 @@ from tempfile import mktemp
 from django.db.models import Sum
 from zoomapi import *
 from ERP.models import LanguageTranslation
-
+from paypal.standard.forms import PayPalPaymentsForm
 
 
 def generateOTPCode(length = 4):
@@ -1524,3 +1524,60 @@ class GetAllLanguageDataAPIView(APIView):
                 val[i] = LanguageTranslationSerializer(LanguageTranslation.objects.get(lang = i, key = m.key), many = False).data
             data.append(val)
         return Response(data,status = status.HTTP_200_OK)
+
+
+# class GetPaymentLinkAPIView(APIView):
+#     renderer_classes = (JSONRenderer,)
+#     def get(self , request , format = None):
+
+
+def paypal_return_view(request):
+    orderObj = Sale.objects.last()
+    outbound = orderObj.id
+    outBoundQty = SalesQty.objects.filter(outBound = int(outbound))
+    total = 0
+    for i in outBoundQty:
+        total  += round(i.total,2)
+    # return updateAndProcessOrder(request,outbound, total)
+    data = {'type' : 'success'}
+    return JsonResponse(data,status = status.HTTP_200_OK)
+
+def paypal_cancel_view(request):
+    return redirect('http://192.168.0.111:8000/checkout')
+
+
+def GetPaymentLink(request):
+    data = {'id' : 'sale_18' , 'redirect':'http://localhost:8000'}
+    if data['id'].startswith('sale_'):
+        id = data['id'].split('sale_')[1]
+        name = []
+        product = ''
+        total = 0
+        orderObj = Sale.objects.get(pk=int(id))
+        outBound = SalesQty.objects.filter(outBound = int(id))
+        count = 0
+        for i in outBound:
+            count += 1
+            total  +=  i.total
+            item = i.product  +  ' + '
+            if count==len(outBound):
+                name.append(i.product)
+            else:
+                name.append(item)
+        for i in name:
+            product += i
+
+        paypal_dict = {
+            "business": globalSettings.PAYPAL_RECEIVER_EMAIL,
+            "amount": str(total),
+            "item_name": product,
+            "invoice": id,
+            'currency_code': 'INR',
+            "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+            "return": request.build_absolute_uri(reverse('paypal_return_view')),
+            "cancel_return": request.build_absolute_uri(reverse('paypal_cancel_view')),
+            "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
+        }
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    context = {"form": form}
+    return render(request, "paypal.payment.html", context)

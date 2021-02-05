@@ -346,7 +346,7 @@ padding: 5px;">
         </div>
         <div class="col-md-1 col-sm-1 " style="padding:0px;">
             <!-- <i class="fa fa-star"> </i> -->
-            <img class="pinned" ng-if="u.is_pin" src="/static/images/icons8-star-filled-48.png" style="height:20px" ng-click="u.is_pin=!u.is_pin;updatePinned(u.pk,u.is_pin)">
+            <img ng-if="u.is_pin" src="/static/images/icons8-star-filled-48.png" style="height:20px" ng-click="u.is_pin=!u.is_pin;updatePinned(u.pk,u.is_pin)">
             <img class="pinned" ng-if="!u.is_pin" src="/static/images/icons8-star-filled-50.png" style="height:20px" ng-click="u.is_pin=!u.is_pin;updatePinned(u.pk,u.is_pin)">
         </div>
       </div>

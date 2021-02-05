@@ -49,6 +49,20 @@
 
     }
 
+    $scope.updateDescription = function(){
+
+      $http({
+        method: 'PATCH',
+        url: '/api/PIM/chatThreads/'+$state.params.id+'/',
+        data:{
+          description : $scope.user.description
+        }
+      }).
+      then(function(response) {
+
+      })
+    }
+
     // $scope.getaddChat = function(signal){
     //
     //   $http({
@@ -315,7 +329,6 @@
       if ($scope.user.name.pk) {
           data.visitor = $scope.user.name.pk
       }else {
-
         data.visitor = null
       }
 
