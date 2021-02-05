@@ -872,6 +872,19 @@ app.controller('admin.settings.configure.language.form', function($scope, $http,
   }
   $scope.getAll()
 
+  $scope.updateLang = function(data){
+    $http({
+      method: 'POST',
+      url: '/api/ERP/createNewEntry/',
+      data:{
+        id : data.pk,
+        value:data.value
+      }
+    }).
+    then(function(response) {
+    })
+  }
+
   $scope.addLang = function(){
     $uibModal.open({
       templateUrl: '/static/ngTemplates/app.organization.addnewentry.html',
@@ -881,13 +894,12 @@ app.controller('admin.settings.configure.language.form', function($scope, $http,
         $scope.form = {
           text : ''
         }
-
         $scope.addNewEntry = function() {
             $http({
               method: 'POST',
               url: '/api/ERP/createNewEntry/',
               data:{
-                text : $scope.form.text
+                text : $scope.form.text,
               }
             }).
             then(function(response) {
@@ -896,13 +908,17 @@ app.controller('admin.settings.configure.language.form', function($scope, $http,
               }
             })
         }
-
-
       }
     }).result.then(function() {
 
-    }, function() {
-
+    }, function(data) {
+      if (data.created) {
+        $scope.data.push(data.val)
+      }
+      else{
+        Flash.create('warning' , 'Already Added')
+        return
+      }
     });
   }
 

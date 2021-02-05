@@ -209,7 +209,7 @@
             </div>
           </div>
           <div class="{{user.is_show?'col-md-9':'col-md-10'}} col-sm-9" ng-click="user.is_show=true" style="">
-            <h5 style="margin-top:0px;">{{user.name}} </h5>
+            <h5 style="margin-top:0px;">{{user.name.name}} </h5>
             <p ng-if="!show.showTypingVal">last seen today</p>
               <p ng-if="show.showTypingVal">Typing....</p>
           </div>
@@ -917,8 +917,8 @@
           </div>
         </div>
         <div class="row  " style="padding:10px;border-bottom:10px solid #ececec ">
-          <div class="col-md-12 " style="margin-top:30px">
-            <div class="display_picture" style="background-image:url({{user.dp?user.dp:'/static/images/userIcon.png'}});background-size:contain;background-repeat:norepeat;background-position:center" ng-if="user.is_personal">
+          <div class="col-md-12 " style="margin-top:30px" ng-if="!user.uid">
+            <div class="display_picture" style="background-image:url({{user.dp?user.dp:'/static/images/userIcon.png'}});background-size:contain;background-repeat:norepeat;background-position:center" >
               <!-- <img ng-src="{{user.dp}}"  onerror="this.src='/static/images/userIcon.png'" style="width:150px;height:150px;" class="img img-circle"> -->
               <input type="file" class="file_upload" ng-model="user.dp" onchange="angular.element(this).scope().fileNameChanged(this.files)" />
               <div class="highlight" ng-if="!user.is_personal">
@@ -930,23 +930,23 @@
           </div>
           <div class="row" style="padding-bottom:10px;">
             <div class="col-md-12">
-              <h5 ng-if="!showInput ">
+              <h5 ng-if="!showInput&&user.uid">
 
                 <span>
 
                 </span>
                 <span ng-if="!user.is_personal">
-                  {{user.visitor.mobile}}
+                  {{user.name.mobile}}
                 </span><br><br>
                 <span >
-                  {{user.name}}
+                  {{user.name.name}}
                 </span><br><br>
                 <span ng-if="!user.is_personal">
-                  {{user.visitor.email}}
+                  {{user.name.email}}
 
                 </span><br><br>
-                <span>
-                  location:{{user.vistor.addrs}}{{user.vistor.city}},{{user.visitor.state}}-{{user.visitor.pinCode}},{{user.visitor.country}}
+                <span ng-if="!user.is_personal">
+                  location:{{user.name.addrs}} - {{user.name.pinCode}}
                 </span><br><br>
                 <span> Created on {{user.created | date:"dd/MM/y HH:MM"}}</span>
                 <i ng-if="!user.is_personal" class="fa {{showInput?'':'fa-pencil'}} pull-right" style="font-size:15px;" ng-click="viewDetails()"></i>
@@ -954,15 +954,15 @@
               <div class="" ng-if="showInput">
                 <!-- <p>{{contactform.mobile}}</p> -->
                 <div class="form-group">
-                  <label for=""> Mobile Number</label>
-                  <input type="text" class="form-control" ng-model="contactform.mobile" uib-typeahead="contact as contact.mobile for contact in contactSearch($viewValue)" placeholder="Enter the mobile number" name="" value=""
+                  <label for=""> Mobile Number </label>
+                  <input type="text" class="form-control" ng-model="user.name.mobile" uib-typeahead="contact as contact.mobile for contact in contactSearch($viewValue)" placeholder="Enter the mobile number" name="" value=""
                     style="border:none;background: #ededed;border-radius: 20px;padding: 25px;" ng-change="createContact()">
 
                 </div>
 
                 <div class="form-group">
                   <label for="">Fullname</label>
-                  <input type="text" class="form-control" ng-model="contactform.name" name="" value="" style="border:none;background: #ededed;border-radius: 20px;padding: 25px;" ng-change="createContact()">
+                  <input type="text" class="form-control" ng-model="user.name.name" name="" value="" style="border:none;background: #ededed;border-radius: 20px;padding: 25px;" ng-change="createContact()">
 
                 </div>
                 <!-- <div class="form-group" ng-if="!user.is_personal">
@@ -971,18 +971,18 @@
                 </div> -->
                 <div class="form-group">
                   <label for="">Email</label>
-                  <input type="email" class="form-control" placeholder="Enter the email" ng-model="contactform.email" name="" value="" style="border:none;background: #ededed;border-radius: 20px;padding: 25px;" ng-change="createContact()">
+                  <input type="email" class="form-control" placeholder="Enter the email" ng-model="user.name.email" name="" value="" style="border:none;background: #ededed;border-radius: 20px;padding: 25px;" ng-change="createContact()">
 
                 </div>
 
                 <div class="form-group">
                   <label for="">Address</label>
-                  <input type="text" class="form-control" ng-model="contactform.addrs" name="" value="" style="border:none;background: #ededed;border-radius: 20px;padding: 25px;" ng-change="createContact()">
+                  <input type="text" class="form-control" ng-model="user.name.addrs" name="" value="" style="border:none;background: #ededed;border-radius: 20px;padding: 25px;" ng-change="createContact()">
 
                 </div>
                 <div class="form-group">
                   <label for="">Pincode</label>
-                  <input type="text" class="form-control" ng-model="contactform.pinCode" name="" value="" style="border:none;background: #ededed;border-radius: 20px;padding: 25px;" ng-change="createContact()">
+                  <input type="text" class="form-control" ng-model="user.name.pinCode" name="" value="" style="border:none;background: #ededed;border-radius: 20px;padding: 25px;" ng-change="createContact()">
 
                 </div>
 

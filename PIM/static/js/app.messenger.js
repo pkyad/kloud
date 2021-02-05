@@ -1,17 +1,24 @@
   app.controller("controller.messenger.explore", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal, $rootScope, $timeout,$window) {
 
+    // $scope.firstMesg = 'Manage Employees Account'
+
     $scope.me = $users.get('mySelf')
+
+    // $scope.user = $users.get(parseInt($state.params.id))
+
 
 
     $scope.publish = function(params){
-      for (var i = 0; i < $scope.user.participants.length; i++) {
-        if ($scope.user.participants[i].pk != $scope.me.pk) {
-          connection.session.publish(wamp_prefix+'service.chat.'+$scope.user.participants[i].pk, params).
-          then(function(publication) {
-            console.log('published');
-          },function(){
-            console.log('Failed to publish message to all');
-          });
+      if ($scope.user!=undefined) {
+        for (var i = 0; i < $scope.user.participants.length; i++) {
+          if ($scope.user.participants[i].pk != $scope.me.pk) {
+            connection.session.publish(wamp_prefix+'service.chat.'+$scope.user.participants[i].pk, params).
+            then(function(publication) {
+              console.log('published');
+            },function(){
+              console.log('Failed to publish message to all');
+            });
+          }
         }
       }
     }
@@ -184,10 +191,10 @@
     }
 
     $scope.getMessages()
-    $scope.contactform={
-      name:'',
-      mobile:'',email:'',notes:'',visitor:'',addrs:'',pinCode:''
-    }
+    // $scope.contactform={
+    //   name:'',
+    //   mobile:'',email:'',notes:'',visitor:'',addrs:'',pinCode:''
+    // }
 
 
     $scope.contactSearch = function(query) {
@@ -199,40 +206,53 @@
     };
 
     $scope.limit =20
-    $scope.$watch('contactform.mobile', function(newValue) {
+    // $scope.$watch('user.name.mobile', function(newValue) {
+    //
+    //
+    //   console.log($scope.user.name,newValue,'34243');
+    //   if (typeof newValue ==='object') {
+    //     newValue = newValue.mobile
+    //
+    //   }else {
+    //     newValue =  newValue
+    //   }
+    //   $http({
+    //     method: 'GET',
+    //     url: '/api/marketing/contacts/?limit=20&mobile__icontains=' + newValue
+    //   }).
+    //   then(function(response) {
+    //     if ($scope.contactform.mobile.pk != undefined) {
+    //
+    //       $scope.contactform.email = $scope.contactform.mobile.email
+    //       $scope.contactform.notes = $scope.contactform.mobile.notes
+    //       $scope.contactform.addrs = $scope.contactform.mobile.addrs
+    //       $scope.contactform.pinCode = $scope.contactform.mobile.pinCode
+    //       $scope.contactform.visitor = $scope.contactform.mobile.pk
+    //     }
+    //     // $scope.createContact()
+    //     // if ($scope.contactform.mobile.length >8) {
+    //     //
+    //     // }
+    //     return response.data.results
+    //   })
+    //
+    //
+    //
+    //
+    // })
 
-
-      console.log($scope.contactform,newValue,'34243');
-      if (typeof newValue ==='object') {
-        newValue = newValue.mobile
-
-      }else {
-        newValue =  newValue
-      }
-      $http({
-        method: 'GET',
-        url: '/api/marketing/contacts/?limit=20&mobile__icontains=' + newValue
-      }).
-      then(function(response) {
-        if ($scope.contactform.mobile.pk != undefined) {
-
-          $scope.contactform.email = $scope.contactform.mobile.email
-          $scope.contactform.notes = $scope.contactform.mobile.notes
-          $scope.contactform.addrs = $scope.contactform.mobile.addrs
-          $scope.contactform.pinCode = $scope.contactform.mobile.pinCode
-          $scope.contactform.visitor = $scope.contactform.mobile.pk
+  $scope.$watch('user.name.mobile', function(newValue) {
+    if ($scope.user!=undefined && typeof $scope.user.name.mobile == 'object') {
+          $scope.user.name.email = $scope.user.name.mobile.email
+          $scope.user.name.notes = $scope.user.name.mobile.notes
+          $scope.user.name.addrs = $scope.user.name.mobile.addrs
+          $scope.user.name.pinCode = $scope.user.name.mobile.pinCode
+          $scope.user.name.pk = $scope.user.name.mobile.pk
+          $scope.user.name.mobile = $scope.user.name.mobile.mobile
+          $scope.createContact()
         }
-        // $scope.createContact()
-        // if ($scope.contactform.mobile.length >8) {
-        //
-        // }
-        return response.data.results
-      })
+  })
 
-
-
-
-    })
 
 
 
@@ -279,29 +299,28 @@
 
 
     $scope.createContact = function(){
-      console.log($scope.contactform.mobile,'3443');
-      if ($scope.contactform.mobile.length < 8) {
+      if ($scope.user.name.mobile.length < 8) {
         Flash.create('warning','Enter correct mobile number')
         return
       }
       var data = {
-        name:$scope.contactform.name,email:$scope.contactform.email,notes:$scope.contactform.notes,pinCode:$scope.contactform.pinCode,addrs:$scope.contactform.addrs
+        name:$scope.user.name.name,email:$scope.user.name.email,notes:$scope.user.name.notes,pinCode:$scope.user.name.pinCode,addrs:$scope.user.name.addrs
       }
-      if (typeof $scope.contactform.mobile ==='string') {
-        data.mobile = $scope.contactform.mobile
+      if (typeof $scope.user.name.mobile ==='string') {
+        data.mobile = $scope.user.name.mobile
       }else {
 
-        data.mobile = $scope.contactform.mobile.mobile
+        data.mobile = $scope.user.name.mobile.mobile
       }
-      if ($scope.contactform.pk != undefined) {
-          data.visitor = $scope.contactform.pk
+      if ($scope.user.name.pk) {
+          data.visitor = $scope.user.name.pk
       }else {
 
         data.visitor = null
       }
 
 
-      if ($scope.contactform.mobile.length ==10) {
+      if ($scope.user.name.mobile.length ==10) {
           $http({
             method: 'PATCH',
             url:'/api/PIM/chatThreads/'+$state.params.id+'/',
@@ -325,17 +344,17 @@
         $scope.user = response.data
         console.log($scope.user,'$scope.user');
 
-        $scope.contactform.name = response.data.name
-        if (response.data.visitor != null) {
-          $scope.contactform.mobile = response.data.visitor.mobile
-          $scope.contactform.email = response.data.visitor.email
-          $scope.contactform.notes = response.data.visitor.notes
-          $scope.contactform.addrs = response.data.visitor.addrs
-          $scope.contactform.pinCode = response.data.visitor.pinCode
-          $scope.contactform.visitor = response.data.visitor.pk
-          $scope.contactform.pk = response.data.visitor.pk
-
-        }
+        // $scope.contactform.name = response.data.name
+        // if (response.data.visitor != null) {
+        //   $scope.contactform.mobile = response.data.visitor.mobile
+        //   $scope.contactform.email = response.data.visitor.email
+        //   $scope.contactform.notes = response.data.visitor.notes
+        //   $scope.contactform.addrs = response.data.visitor.addrs
+        //   $scope.contactform.pinCode = response.data.visitor.pinCode
+        //   $scope.contactform.visitor = response.data.visitor.pk
+        //   $scope.contactform.pk = response.data.visitor.pk
+        //
+        // }
 
 
 
