@@ -376,3 +376,12 @@ class CalendarSlots(models.Model):
     day =  models.CharField(max_length = 500 , null = True)
     is_available = models.BooleanField(default=False)
     user =  models.ForeignKey(User, related_name='calendarSlotsUser' , null = True)
+
+
+class OnlinePaymentDetails(models.Model):
+    created = models.DateTimeField(auto_now_add = True)
+    payId = models.CharField(max_length = 50, null = True , blank = True) #combination of pk
+    amount = models.FloatField(null=True , default=0)
+    refId =  models.CharField(max_length = 50, null = True , blank = True)
+    paymentGatewayType = models.CharField(max_length = 50, null = True , blank = True)
+    is_success = models.BooleanField(default=False)

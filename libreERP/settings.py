@@ -303,8 +303,18 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 DEPENDENT_DETAILS = False
 
+PAYU_MERCHANT_KEY = "gtKFFx",
+
+PAYU_MERCHANT_SALT = "eCwWELxi",
+
+# And add the PAYU_MODE to 'TEST' for testing and 'LIVE' for production.
+PAYU_MODE = "TEST"
+
+
 EXTERNAL_SITE = 'http://ionasterisk.cioc.in:8000'
 
+RAZORPAY_KEY = 'rzp_test_3Ct6rWweINJ79F'
+RAZORPAY_SECRET = '1lRQEdS4EDjPKTYEdHoVqd6i'
 
 
 CORS_ALLOW_HEADERS = (
