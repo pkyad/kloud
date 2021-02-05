@@ -4,9 +4,6 @@
 
     $scope.me = $users.get('mySelf')
 
-    // $scope.user = $users.get(parseInt($state.params.id))
-
-
 
     $scope.publish = function(params){
       if ($scope.user!=undefined) {
