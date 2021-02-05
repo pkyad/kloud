@@ -4,6 +4,10 @@ function optionTouched(msg) {
   CHATTER_FUNCTION.sendCustomMessage(msg , false , false)
 }
 
+function selectCatalogProduct(msg) {
+  CHATTER_FUNCTION.sendCustomMessage(msg , false , false)
+}
+
 
 document.addEventListener("DOMContentLoaded", function(event) {
   var removeAudioVideo = false;
@@ -1817,26 +1821,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       }else {
         div.innerHTML = messageDiv(chat.messages[i])
       }
-      // related to the product carosal
-      // var productsArr = [
-      //   {image : 'https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png' , title : 'A product Title' , subTitle : '$20 only'},
-      //   {image : 'https://systunix.com/media/POS/productV2/1591031671_11_covid-safety-key-500x500.jpg' , title : 'second Title' , subTitle : '$20 only'},
-      //   {image : 'https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png' , title : 'A product Title' , subTitle : '$20 only'},
-      // ]
-
-      // var scrollProds = '<div class="scrollView">'
-      // for (let j = 0; j < productsArr.length; j++) {
-      //   const prod = productsArr[j];
-      //   scrollProds += '<div class="prodView prodId'+j+'"><img src="'+ prod.image +'"><br><span class="prodHeading">'+ prod.title +'</span><br><span class="prodSubHeading">'+ prod.subTitle +'</span></div>'
-      // }
-      // scrollProds += '</div>'
-
-      // console.log(scrollProds);
-      // div.innerHTML = scrollProds;
-      // div.onclick = function(evt){
-      //   console.log(evt.target)
-      //   sendMessage(evt.target.className);
-      // }
+      
       messageBox.appendChild(div);
     }
     scroll();

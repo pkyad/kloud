@@ -598,10 +598,13 @@ class CategorySerializer(serializers.ModelSerializer):
 
 print Inventory
 class RateListSerializer(serializers.ModelSerializer):
-    division= DivisionSerializer(many=False,read_only = True)
+<<<<<<< HEAD
+=======
+    # division= DivisionSerializer(many=False,read_only = True)
+>>>>>>> ae32b7ef9e71cc675b2c442414eb0c707d6ea990
     class Meta:
         model = Inventory
-        fields=('pk','created','name','value','rate','qtyAdded','refurnished','refurnishedAdded','sellable','description','richtxtDesc','taxCode','img1','img2','img3','category','division','buyingPrice','sku','taxRate','mrp')
+        fields=('pk','created','name','value','rate','qtyAdded','refurnished','refurnishedAdded','sellable','description','richtxtDesc','taxCode','img1','img2','img3','category','buyingPrice','sku','taxRate','mrp')
     def create(self , validated_data):
         inven = Inventory(**validated_data)
         try:

@@ -1,5 +1,5 @@
 var app = angular.module('app', ['ui.router', 'flash', 'ngSanitize', 'ngDraggable', 'ui.bootstrap','angular-owl-carousel-2']);
-//
+
 app.filter('to_trusted', ['$sce', function($sce) {
   return function(text) {
     return $sce.trustAsHtml(text);
@@ -15,7 +15,7 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider, $provide)
 
 });
 
-app.run(['$rootScope', '$state', '$stateParams','$http', function($rootScope, $state, $stateParams,$http) {
+app.run(['$rootScope', '$state', '$stateParams', function($rootScope, $state, $stateParams) {
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
   $rootScope.$on("$stateChangeError", console.log.bind(console));
@@ -37,11 +37,9 @@ app.directive('fileModel', ['$parse', function($parse) {
   };
 }]);
 
-app.controller('mains', function($scope, $http, $state, Flash, $sce, $uibModal) {
-  console.log(window.location.href);
-  alert('983298492349023094')
+app.controller('pages', function($scope, $http, $state, Flash, $sce, $uibModal) {
   $scope.isDisabled = true
-  console.log(page,'4343324432123232');
+
   $scope.publish = function() {
     $http({
       method: 'GET',
@@ -139,21 +137,20 @@ app.controller('mains', function($scope, $http, $state, Flash, $sce, $uibModal) 
 
   $scope.getComponents = function() {
     $scope.data = $scope.form
+    console.log($scope.data,'34343');
     $http({
       method: 'GET',
-      url: '/api/website/components/?parent=' + $scope.page.pk,
+      url: '/api/website/components/?parent=' + page,
     }).
     then(function(response) {
       $scope.components = response.data
-      for (var i = 0; i < $scope.components.length; i++) {
-        // $scope.components[i].template = $sce.trustAsHtml($scope.components[i].template);
-        $scope.components[i].data = JSON.parse($scope.components[i].data)
-      }
+      // for (var i = 0; i < $scope.components.length; i++) {
+      //   $scope.components[i].data = JSON.parse($scope.components[i].data)
+      // }
     })
   }
 
-
-
+$scope.getComponents()
 
   $scope.createPage = function() {
     $uibModal.open({
@@ -273,6 +270,9 @@ app.controller('mains', function($scope, $http, $state, Flash, $sce, $uibModal) 
       controller: function($scope, $http,$uibModal, $uibModalInstance, data, idx, $timeout) {
 
         $scope.component = data;
+        console.log(data,'32490340234890');
+        $scope.component.data = JSON.parse($scope.component.data)
+        // console.log(typeof $scope.component.data,'233');
         $scope.idx = idx;
         $scope.files = {};
 
@@ -352,6 +352,13 @@ app.controller('mains', function($scope, $http, $state, Flash, $sce, $uibModal) 
               $scope.add = function(){
                 $uibModalInstance.dismiss({data : $scope.form , key : $scope.key})
               }
+              $scope.productSearch = function(query) {
+
+                return $http.get('/api/finance/inventory/?limit=20&mobile__icontains=' + query).
+                then(function(response) {
+                  return response.data.results;
+                })
+              };
 
             }
           }).result.then(function(d){

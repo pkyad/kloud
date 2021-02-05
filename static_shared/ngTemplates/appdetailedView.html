@@ -1,4 +1,4 @@
-<div class="container-fluid " style="">
+<div class="container-fluid " >
   <div class="row div_padding">
     <div class="col-md-8 col-md-offset-2 page_css" style="padding-top:100px;">
       <div class="">
@@ -52,14 +52,22 @@
           </div>
         </div>
         <div class="" ng-if="appMedia.length>0">
-          <div class="row">
-            <div class="col-md-3" ng-repeat="i in appMedia.slice(0,4) track by $index">
-              <div class="" style="background-image:url({{i.attachment}});height:400px;background-size:cover;margin-bottom:10px;">
+          <!-- <div class="row"  style="display:flex" >
+            <div class="col-md-6" style="width:100%" ng-repeat="i in appMedia.slice(0,4) track by $index">
+              <div class="" style="background-image:url({{i.attachment}});height:400px;background-size:contain;margin-bottom:10px;background-position: center;background-repeat: no-repeat;">
 
               </div>
 
             </div>
-          </div>
+          </div> -->
+          <ng-owl-carousel class="owl-theme " owl-items="appMedia" owl-properties="appMediaPro" owl-ready="ready($api)">
+            <div class="col-md-6" style="width:100%" ng-repeat="i in appMedia.slice(0,4) track by $index">
+              <div class="" style="background-image:url({{i.attachment}});height:400px;background-size:contain;margin-bottom:10px;background-position: center;background-repeat: no-repeat;">
+
+              </div>
+
+            </div>
+          </ng-owl-carousel>
         </div>
         <div class="" ng-if="is_staff">
           <div class="row">
@@ -211,7 +219,7 @@ right: 25px;margin: 20px 0px;" ng-click="delUser($index)">
         </div>
         <div class="row">
 
-          <div class="row" style="margin:0px;margin-bottom:20px;background:white;padding: 40px;border-radius: 10px;border:1px solid #ccc" ng-repeat="k in app.feedback track by $index">
+          <div class="row" style="margin:0px;margin-bottom:20px;background:white;padding: 40px;border-radius: 10px;border:1px solid #ccc;background:url('/static/images/4.png') no-repeat top left,url('/static/images/3.png') no-repeat bottom right;background-size: contain, contain;" ng-repeat="k in app.feedback track by $index">
 
             <div class=""  style="">
 
@@ -220,7 +228,7 @@ right: 25px;margin: 20px 0px;" ng-click="delUser($index)">
 
                 <div class="">
             <div class="" style="padding: 29px 0px;">
-              <p >{{k.text}}  <span>
+              <p >{{k.text}} <span>
                 <i class="fa fa-quote-left" aria-hidden="true" style="font-size: 36px;color:#ccc;transform: rotate(180deg);position:absolute;margin-left:18px;margin-top:10px;"></i>
 
               </span> </p>

@@ -29,6 +29,7 @@ import getpass
 # if getpass.getuser() == 'cioc-d2':
 # from talk import *
 from PIM.models import *
+
 # Create your views here.
 
 def intentDesignerView(request , id):
@@ -413,6 +414,9 @@ class GetExampleInputView(APIView):
         if nb.blockType == 'giveChoices':
             valid = True
             txt = nb.connections.all()[0].condition
+        elif nb.blockType == 'presentCatalog':
+            valid = True
+            txt = Category.objects.get(pk = nb.endpoint).categoryInventory.all().first().sku
 
         return JsonResponse({"valid" : valid , 'txt' : txt} ,status =200 )
 

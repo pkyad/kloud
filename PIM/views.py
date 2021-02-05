@@ -149,10 +149,10 @@ class ChatThreadsViewSet(viewsets.ModelViewSet):
             return threadObj
 
         # chatObj = ChatThread.objects.filter(participants =  self.request.user) | ChatThread.objects.filter( company = self.request.user.designation.division , participants = None).order_by('is_pin')
-        allObj = ChatThread.objects.filter(company = self.request.user.designation.division).filter(Q(participants =  self.request.user)|Q(participants__isnull = True))
-        chatObj2 = allObj.filter(is_pin = False).order_by('-updated')
-        chatObj1 = allObj.filter(is_pin = True)
-        chatObj = chatObj1|chatObj2
+        chatObj = ChatThread.objects.filter(company = self.request.user.designation.division).filter(Q(participants =  self.request.user)|Q(participants__isnull = True)).order_by('-updated')
+        # chatObj2 = allObj.filter(is_pin = False).order_by('-updated')
+        # chatObj1 = allObj.filter(is_pin = True)
+        # chatObj = chatObj1|chatObj2
 
         if 'search' in self.request.GET :
             chatObj = chatObj.filter(Q(participants__first_name__icontains = self.request.GET['search']) | Q(participants__last_name__icontains = self.request.GET['search']) |  Q(title__icontains = self.request.GET['search']) ).distinct()
@@ -246,9 +246,9 @@ class chatMessageBetweenViewSet(viewsets.ModelViewSet):
         #     # qs2 = ChatMessage.objects.filter(user = self.request.user )
         # # qs = qs1 | qs2
         # qs = qs1
-        for msg in qs:
-            msg.read = True
-            msg.save()
+        # for msg in qs:
+        #     msg.read = True
+        #     msg.save()
         return qs.order_by('created')[:150]
 
 
