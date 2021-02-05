@@ -2861,9 +2861,9 @@ padding: 10px 0px;
 
   .nav-sidebar .active .displayName {
     white-space: nowrap;
-    position: absolute;
-    width: 100%;
-    animation: floatText 10s infinite normal ease-in-out;
+    /* position: absolute;
+    width: 100%; */
+    /* animation: floatText 10s infinite normal ease-in-out; */
   }
 
   .logo {
@@ -3359,9 +3359,9 @@ padding: 10px 0px;
 
   .nav-sidebar .active .displayName {
     white-space: nowrap;
-    position: absolute;
-    width: 100%;
-    animation: floatText 10s infinite normal ease-in-out;
+    /* position: absolute;
+    width: 100%; */
+    /* animation: floatText 10s infinite normal ease-in-out; */
   }
 
   .appImg {
@@ -3700,9 +3700,9 @@ padding: 10px 0px;
 
   .nav-sidebar .active .displayName {
     white-space: nowrap;
-    position: absolute;
-    width: 100%;
-    animation: floatText 10s infinite normal ease-in-out;
+    /* position: absolute;
+    width: 100%; */
+    /* animation: floatText 10s infinite normal ease-in-out; */
   }
 
   .font20 {
