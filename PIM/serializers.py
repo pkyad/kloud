@@ -411,7 +411,7 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
                 'name' :  obj.title
             }
         if obj.is_personal == False:
-            if obj.visitor == None :
+            if obj.visitor == None and obj.uid!= None:
                 name = {
                     'name' :  obj.uid,
                     'mobile' :'',
@@ -420,7 +420,7 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
                     'pinCode' : '',
                     'email' : ''
                 }
-            else:
+            elif obj.visitor != None :
                 name = {
                     'name' :  obj.visitor.name,
                     'mobile' : obj.visitor.mobile,
