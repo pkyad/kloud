@@ -596,7 +596,6 @@ class CategorySerializer(serializers.ModelSerializer):
         cat.save()
         return cat
 
-print Inventory
 class RateListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Inventory

@@ -213,9 +213,8 @@
             <p ng-if="!show.showTypingVal">last seen today</p>
               <p ng-if="show.showTypingVal">Typing....</p>
           </div>
-
           <div class="pull-right" >
-            <img src="/static/images/icons8-outgoing-call-30.png" alt="" ng-click="call(user.visitor.mobile)" style="padding-right:10px;margin-top:5px;">
+            <img src="/static/images/icons8-outgoing-call-30.png" alt="" ng-click="call(user.name.mobile)" style="padding-right:10px;margin-top:5px;cursor: pointer;">
             <i></i>
             <!-- <i style="padding:10px" class="fa fa-thumb-tack fa-lg " ng-click="setToPin()"></i> -->
             <img  ng-if="user.is_pin" src="/static/images/icons8-star-filled-48.png" style="height:20px;margin-top:10px;" ng-click="setToPin()" class="pull-right">
@@ -323,7 +322,7 @@
                     <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
                   </div>
                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#cfe9ba">
                   <span style="color:#7bbaf4">
                     <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
@@ -354,7 +353,7 @@
                     <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
                   </div>
                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#cfe9ba">
                   <span style="color:#7bbaf4">
                     <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
@@ -390,7 +389,7 @@
                     <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
                   </div>
                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#cfe9ba">
                   <span style="color:#7bbaf4">
                     <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
@@ -418,7 +417,7 @@
                     <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
                   </div>
                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#cfe9ba">
                   <span style="color:#7bbaf4">
                     <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
@@ -451,7 +450,7 @@
                     <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
                   </div>
                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#cfe9ba">
                   <span style="color:#7bbaf4">
                     <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
@@ -504,7 +503,7 @@
                     <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
                   </div>
                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#cfe9ba">
                   <span style="color:#7bbaf4">
                     <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
@@ -549,7 +548,7 @@
                     <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
                   </div>
                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#cfe9ba">
                   <span style="color:#7bbaf4">
                     <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
@@ -601,7 +600,7 @@
                     <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
                   </div>
                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#cfe9ba">
                   <span style="color:#7bbaf4">
                     <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
@@ -646,7 +645,7 @@
                     <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
                   </div>
                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#cfe9ba">
                   <span style="color:#7bbaf4">
                     <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
@@ -699,7 +698,7 @@
                     <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
                   </div>
                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#cfe9ba">
                   <span style="color:#7bbaf4">
                     <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
@@ -744,7 +743,7 @@
                     <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
                   </div>
                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#cfe9ba">
                   <span style="color:#7bbaf4">
                     <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
@@ -796,7 +795,7 @@
                     <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
                   </div>
                 </span>
-                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#fbd4d3">
+                <div ng-if="message.replyTo.pk" style="padding:5px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#cfe9ba">
                   <span style="color:#7bbaf4">
                     <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
                     <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>

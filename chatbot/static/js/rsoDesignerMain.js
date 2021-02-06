@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ui.bootstrap', 'ngAside', 'uiSwitch']);
+var app = angular.module('app', ['ui.bootstrap', 'ngAside', 'uiSwitch','flash']);
 
 app.config(function($httpProvider) {
 
@@ -246,7 +246,7 @@ app.controller("controller.customer.uipathSettings.modal", function($scope, $tim
 
 
 
-app.controller('main', function($scope, $http, $timeout, $aside , $uibModal ) {
+app.controller('main', function($scope, $http, $timeout, $aside , $uibModal, Flash ) {
 
   if (window.location.href.indexOf('cloned') != -1) {
     var uri = window.location.toString();
@@ -1040,8 +1040,8 @@ app.controller('main', function($scope, $http, $timeout, $aside , $uibModal ) {
       placement: 'bottom',
       size: 'md',
       backdrop: false,
-      controller: function($scope , $http , $uibModalInstance) {
-
+      controller: function($scope , $http , $uibModalInstance, Flash) {
+      $scope.allTypes = ['int' , 'str' , 'float' , 'array']
 
       var uid = getCookie("uid");
 
@@ -1055,11 +1055,25 @@ app.controller('main', function($scope, $http, $timeout, $aside , $uibModal ) {
       $scope.reset = function(){
         $scope.form = {
           key:'',
-          typ:'',
+          typ:$scope.allTypes[0],
           value:'',
           can_change:false
         }
       }
+        $scope.reset()
+      $scope.delete = function(indx){
+        $http({method : 'DELETE' , url : '/api/chatbot/variableContext/'+$scope.allData.dynamicVariables[indx].pk+'/'}).
+        then(function(response) {
+          $scope.allData.dynamicVariables.splice(indx,1)
+        })
+      }
+
+
+      $scope.edit = function(indx){
+        $scope.form = $scope.allData.dynamicVariables[indx]
+        $scope.allData.dynamicVariables.splice(indx,1)
+      }
+
 
       $scope.close = function(){
          $uibModalInstance.dismiss()
@@ -1080,10 +1094,46 @@ app.controller('main', function($scope, $http, $timeout, $aside , $uibModal ) {
         }
         var dataToSave = $scope.form
         dataToSave.nodeBlock = parseInt(INTENT_ID)
-        $http({method : 'POST' , url : '/api/chatbot/variableContext/' , data : dataToSave}).
+        var url = '/api/chatbot/variableContext/'
+        var method = 'POST'
+        if ($scope.form.pk) {
+          url+=$scope.form.pk+'/'
+          method = 'PATCH'
+        }
+        $http({method : method , url : url , data : dataToSave}).
         then(function(response) {
           $scope.allData.dynamicVariables.push(response.data)
+          Flash.create('success' , 'Added!')
           $scope.reset()
+        })
+      }
+
+      $scope.edit = function(indx){
+        var data = $scope.allData.dynamicVariables[indx]
+        if (data.key == undefined || data.key == null || data.key.length == 0 ) {
+            Flash.create('warning' , 'Add Key')
+            return
+        }
+        if (data.typ == undefined || data.typ == null || data.typ.length == 0 ) {
+            Flash.create('warning' , 'Add Type')
+            return
+        }
+        if (data.value == undefined || data.value == null || data.value.length == 0 ) {
+            Flash.create('warning' , 'Add Value')
+            return
+        }
+        var dataToSave = data
+        dataToSave.nodeBlock = parseInt(INTENT_ID)
+        var url = '/api/chatbot/variableContext/'
+        var method = 'POST'
+        if (data.pk) {
+          url+=data.pk+'/'
+          method = 'PATCH'
+        }
+        $http({method : method , url : url , data : dataToSave}).
+        then(function(response) {
+          $scope.allData.dynamicVariables[indx].edit = false
+          Flash.create('success' , 'Updated!')
         })
       }
       }

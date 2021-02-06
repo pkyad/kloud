@@ -4,9 +4,6 @@
 
     $scope.me = $users.get('mySelf')
 
-    // $scope.user = $users.get(parseInt($state.params.id))
-
-
 
     $scope.publish = function(params){
       if ($scope.user!=undefined) {
@@ -355,7 +352,7 @@
       }).
       then(function(response) {
         $scope.user = response.data
-
+        console.log($scope.user,'$scope.user');
 
         // $scope.contactform.name = response.data.name
         // if (response.data.visitor != null) {
@@ -905,12 +902,12 @@ $scope.postFiles = function(){
     }
 
 
-  $scope.startnewChat = function(indx){
+  $scope.startnewChat = function(id){
     $http({
       method: 'POST',
       url: '/api/PIM/createNewChat/',
       data:{
-          participant:$scope.allUsers[indx].pk
+          participant: id
       }
     }).
     then(function(response) {
