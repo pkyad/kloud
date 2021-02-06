@@ -46,7 +46,7 @@ urlpatterns = [
     url(r'addSchedule/$' , CreateScheduleAPI.as_view()),
     url(r'createNewEntry/$' , AddNewLanguageEntry.as_view()),
     url(r'getAllEntries/$' , GetAllLanguageDataAPIView.as_view()),
-    # url(r'getPaymentLink/$' , GetPaymentLinkAPIView.as_view()),
+    url(r'getPaymentLink/$' , GetPaymentLinkAPIView.as_view()),
 
 
 ]

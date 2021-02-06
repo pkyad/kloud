@@ -206,6 +206,7 @@
 
     </style>
   </head>
+  <div flash-message="4000" style="position:fixed;top:70px;right:10px;z-index:9999;min-width:300px;"></div>
   {% verbatim %}
   <body ng-controller="main" ng-mousemove="mouseMoved($event)" >
 
@@ -460,6 +461,7 @@
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/angular.min.js' %}"></script>
     <script src="/static/js/angular-ui-switch.min.js"></script>
+    <script src="{% static 'js/angular-flash.js' %}"></script>
     <script src="{% static 'js/ui-bootstrap-tpls-0.14.3.min.js' %}"></script>
     <script src="{% static 'js/angular-aside.min.js' %}"></script>
     <script src="{% static 'js/rsoDesignerMain.js' %}"></script>
