@@ -565,6 +565,13 @@ class applicationMediaViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['app','typ']
 
+class MobileapplicationMediaViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny ,)
+    queryset = MobileapplicationMedia.objects.all()
+    serializer_class = MobileapplicationMediaSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['app','typ']
+
 
 class ApplicationFeatureViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny ,)
@@ -745,7 +752,9 @@ class GetApplicationDetailsApi(APIView):
         appObj = application.objects.get(pk = int(self.request.GET['app']))
         appData = applicationSerializer(appObj, many = False).data
         mediaObj = applicationMedia.objects.filter(app = appObj)
+        mobmediaObj = MobileapplicationMedia.objects.filter(app = appObj)
         appMedias = applicationMediaSerializer(mediaObj, many = True).data
+        mobileMedias = MobileapplicationMediaSerializer(mobmediaObj, many = True).data
         feedObj = Feedback.objects.filter(app = appObj)
         appFeedbacks = FeedbackSerializer(feedObj, many = True).data
         apps = InstalledApp.objects.filter(app__pk=request.GET['app'])
@@ -761,7 +770,7 @@ class GetApplicationDetailsApi(APIView):
         userAppobj = UserApp.objects.filter(user = self.request.user, app = appObj)
         if userAppobj.count()>0:
             is_user_installed = True
-        data = {'appData' : appData , 'appMedias' : appMedias , 'appFeedbacks' : appFeedbacks ,'appUser' : appUser , 'installedApp' : installedAppObj, 'is_staff' : is_staff , 'is_user_installed' : is_user_installed}
+        data = {'appData' : appData , 'appMedias' : appMedias ,'mobileMedia':mobileMedias,'appFeedbacks' : appFeedbacks ,'appUser' : appUser , 'installedApp' : installedAppObj, 'is_staff' : is_staff , 'is_user_installed' : is_user_installed}
         return Response(data,status = status.HTTP_200_OK)
 
 class serviceViewSet(viewsets.ModelViewSet):

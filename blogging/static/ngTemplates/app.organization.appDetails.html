@@ -17,7 +17,7 @@
     width: 100%;
     height: 100%;
   }
-  
+
 </style>
 <div class="container-fluid">
   <div class="col-md-10 col-md-offset-1" style="padding-top:50px;">
@@ -229,7 +229,7 @@
 
     <div class="row" style="margin:0px;margin-top:70px;">
       <div class="row" style="margin:0px;">
-          <h4> <b>Application Media </b></h4>
+          <h4> <b>Application Media for Web </b></h4>
 
       </div><br>
       <div class="row">
@@ -247,6 +247,33 @@ right: 10px;top: -10%;padding: 5px;background:white;border-radius: 50%;"></i></s
           <div style="background:#f3f3f3;color:ffffff;border-radius:15px;padding:40px;height:100px">
             <i class="fa fa-plus" style="background-color:transparent;color:black;box-shadow:none;padding:0px;"></i>
             <input type="file" file-model="mediaForm.attachment" onchange="angular.element(this).scope().fileupload(this.files)" class="file_upload" multiple />
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row" style="margin:0px;margin-top:70px;">
+      <div class="row" style="margin:0px;">
+          <h4> <b>Application Media for Mobile </b></h4>
+
+      </div><br>
+      <div class="row">
+        <div class="col-md-2" ng-repeat="k in mobilemediaForm.medialist track by $index">
+          <span ng-click="delMobileMedia($index)"><i class="fa fa-times" style="position: absolute;z-index: 99;
+right: 10px;top: -10%;padding: 5px;background:white;border-radius: 50%;"></i></span>
+          <div class="" ng-if="k.typ =='image'" style="background-image:url('{{k.attachment}}');height:100px;margin-bottom:10px;">
+
+          </div>
+          <div class="" ng-if="k.typ =='video'" style="background-image:url('/static/images/video.png');height:100px;margin-bottom:10px;background-size: cover;background-repeat: no-repeat;background-position: center;">
+
+          </div>
+        </div>
+        <div class="col-md-2 text-center">
+          <div style="background:#f3f3f3;color:ffffff;border-radius:15px;padding:40px;height:100px">
+            <i class="fa fa-plus" style="background-color:transparent;color:black;box-shadow:none;padding:0px;"></i>
+            <input type="file" file-model="mobilemediaForm.attachment"  onchange="angular.element(this).scope().uploadMobile(this.files)" class="file_upload" multiple />
           </div>
 
         </div>

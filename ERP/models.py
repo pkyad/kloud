@@ -146,6 +146,12 @@ class applicationMedia(models.Model):
     attachment = models.FileField(upload_to = getappMediauploadPath , null = True )
     app =  models.ForeignKey(application , related_name='appMedia' , null = True)
 
+class MobileapplicationMedia(models.Model):
+    created = models.DateTimeField(auto_now_add = True)
+    typ = models.CharField(max_length=200, null = True)
+    attachment = models.FileField(upload_to = getappMediauploadPath , null = True )
+    app =  models.ForeignKey(application , related_name='mobileMedia' , null = True)
+
 class ApplicationFeature(models.Model):
     created = models.DateTimeField(auto_now_add = True)
     name = models.CharField(max_length=200, null = False)

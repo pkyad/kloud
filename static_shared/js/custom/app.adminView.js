@@ -937,6 +937,7 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
      then(function(response) {
        $scope.data = response.data;
        $scope.mediaForm.medialist =  response.data.appMedia
+       $scope.mobilemediaForm.medialist =  response.data.mobileMedia
      })
 
    }
@@ -944,8 +945,53 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
 
 
 
+   $scope.refreshs = function(){
+
+     $scope.mobilemediaForm = {
+       typ:'',attachment:emptyFile,medialist:[],name:''
+     }
+
+   }
+   $scope.refreshs()
+
+   $scope.uploadMobile = function(file){
+     console.log(file,'WEqwer');
+     $scope.files = file[0]
+     var fd = new FormData()
+
+     fd.append('attachment',$scope.files)
+     fd.append('name',$scope.files.name)
+     fd.append('app',$state.params.id)
 
 
+     $http({
+       method: 'POST',
+       url: '/api/ERP/mobileapplicationmedia/',
+       data: fd,
+       transformRequest: angular.identity,
+       headers: {
+         'Content-Type': undefined
+       }
+     }).
+     then(function(response) {
+
+       Flash.create('success', "Created...!")
+       $scope.mobilemediaForm.medialist.push(response.data)
+     })
+   }
+
+
+$scope.delMobileMedia = function(indx){
+  $http({
+    method: 'DELETE',
+    url: '/api/ERP/mobileapplicationmedia/'+$scope.mobilemediaForm.medialist[indx].pk+'/',
+
+  }).
+  then(function(response) {
+    $scope.mobilemediaForm.medialist.splice(indx,1)
+    Flash.create('success', "Deleted....!")
+  })
+}
 
 
    $scope.saveApp = function() {
