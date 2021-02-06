@@ -625,6 +625,8 @@ app.controller('main', function($scope, $http, $timeout, $aside , $uibModal ) {
               $scope.catalogs = response.data;
             });
 
+          }else if ($scope.data.blockType == 'prepareOrder') {
+
           } else if ($scope.data.blockType == 'invokeUiPath') {
             $scope.uipathData = {processes : [], environments : [], robots : [] , queues : []}
 
@@ -1425,6 +1427,24 @@ app.controller('main', function($scope, $http, $timeout, $aside , $uibModal ) {
         connections : [
           {callbackName : 'success' , connected : false },
           {callbackName : 'failure' , connected : false }
+        ]
+      }
+    }else if (typ == 'prepareOrder') {
+      block = {
+        "name": "Create an Ecommerce order",
+        "description": "",
+        auto_response : 'Please wait while I create your order', // can we save the PK of the catalog here
+        blockType : typ,
+        "label": 'System',
+        "color": color,
+        context_key : 'saleOrder',
+        "icon": icon,
+        "newx": posx,
+        "newy": posy,
+        parent : $scope.parentID,
+        connections : [
+          {callbackName : 'success' , connected : false },
+          {callbackName : 'failure' , connected : false },
         ]
       }
     }else if (typ == 'presentCatalog') {

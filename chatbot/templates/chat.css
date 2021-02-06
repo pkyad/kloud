@@ -574,7 +574,7 @@ div.scrollView .prodView:hover {\
   bottom:0px;\
   width:100%;\
   min-height: 80px;\
-  background-color: white;\
+  background-color: #f6f6f6;\
   border-radius:"+footer_bor_rad_no_vid+";\
 }\
 .chatBox_footer  textarea {\

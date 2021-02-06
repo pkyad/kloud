@@ -40,5 +40,3 @@ var welcomeMessage = '{{welcomeMessage}}'
 var debuggerMode = '{{debugger}}';
 var agentOnlineTimeOut;
 var csrfToken = "{% csrf_token %}".split("value='")[1].split("' />")[0];
-console.log(csrfToken)
-//<input type='hidden' name='csrfmiddlewaretoken' value='UUC8InYqovy50LmvycB4ZAl7N5jwLA3D1IoTRspoEPRbfUQt2zjbz5l2LcX0de6B' />
