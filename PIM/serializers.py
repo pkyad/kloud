@@ -205,6 +205,7 @@ class chatMessageSerializer(serializers.ModelSerializer):
                 im.fileType = 'pdf'
             elif im.attachment.name.endswith('.png') or  im.attachment.name.endswith('.jpg') or  im.attachment.name.endswith('.jpeg'):
                 im.fileType = 'image'
+                print 'aaaaaaaaaaaaaa'
             elif im.attachment.name.endswith('.doc') or  im.attachment.name.endswith('.docs') or im.attachment.name.endswith('.docx'):
                 im.fileType = 'word'
             elif im.attachment.name.endswith('.ppt') or  im.attachment.name.endswith('.pptx'):
@@ -212,6 +213,7 @@ class chatMessageSerializer(serializers.ModelSerializer):
             elif im.attachment.name.endswith('.xlsx') or im.attachment.name.endswith('.xls'):
                 im.fileType = 'xl'
             im.fileSize =  "{:.2f}".format(im.attachment.size)
+            print im.fileSize,'aaaaaaaaaaaaaa'
             im.fileName = im.attachment.name
         except:
             pass

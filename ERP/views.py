@@ -1276,6 +1276,24 @@ class UserAppViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['app', 'user']
 
+def helpCreateUser(name,mobile):
+    profObj = pofile.objects.filter(mobile = mobile)
+    if userObj.count()>0:
+        user = profObj.user
+    else:
+        user = User.objects.create(username = mobile , first_name = name)
+        profile = user.profile
+        profile.mobile = mobile
+        profile.save()
+        designation = user.designation
+        div = Division.create(name = name,website = 'NA',pan = 'NA',cin = 'NA')
+        designation.division = div
+        unitObj = Unit.objects.create(name = 'HQ' , address = 'Address Not Available' , city = 'NA' , state = 'NA' , country = 'NA' , pincode= 'NA' , division = division , areaCode= division.name + str(division.pk) )
+        designation.unit = unitObj
+        designation.save()
+    response = {user : user.pk}
+    return response
+
 
 def CreateUnit(val):
     if 'division_pk' in val:
@@ -1634,30 +1652,27 @@ def payuMoneyInitiate(request, data):
     return JsonResponse(formData, status = status.HTTP_200_OK)
 
 import razorpay
-def razorpayPaymentInitiate(request, data):
+def razorpayPaymentInitiate(request):
 
     razorpay_key = globalSettings.RAZORPAY_KEY
     razorpay_secret = globalSettings.RAZORPAY_SECRET
     razorpay_client = razorpay.Client(auth=(razorpay_key, razorpay_secret))
+    onlinePay = OnlinePaymentDetails.objects.get(pk = request.GET['id'])
 
 
     payload = {
-        'amount':int(data['amount']),
+        'amount':int(onlinePay.amount),
         'currency':'INR',
-        'receipt':str(data['orderid']),
+        'receipt':str(onlinePay.pk),
         'payment_capture':1,
     }
 
 
     razorpayOrderObj = razorpay_client.order.create(data=payload)
-
+    onlinePay.initiateResponse = razorpayOrderObj
     razorpayOrderID = razorpayOrderObj['id']
-
-    onlinePay = OnlinePaymentDetails.objects.create(amount = data['amount'], payId = data['orderid'] , refId =  razorpayOrderID )
-
+    onlinePay.refId =  razorpayOrderID
     onlinePay.save()
-
-    razorpayOrderID =  onlinePay.refId
 
     imageUrl = globalSettings.SITE_ADDRESS+globalSettings.BRAND_LOGO
     # emailid = orderObj.orderBy.email
@@ -1667,14 +1682,14 @@ def razorpayPaymentInitiate(request, data):
     formData =  {
         "action" :  "https://checkout.razorpay.com/v1/checkout.js",
         "key": razorpay_key,
-        "amount": int(data['amount']),
+        "amount": int(onlinePay.amount*100),
         "logo": imageUrl,
         "razorpay_order_id": razorpayOrderID,
-        "cust_name": data['cust_name'],
-        "brand":data['brand'],
-        "mobile": data['mobile'],
-        "email": data['email'],
-        'orderid':data['orderid'],
+        "cust_name":onlinePay.cust_name,
+        "brand":onlinePay.brand,
+        "mobile": onlinePay.mobile,
+        "email": onlinePay.email,
+        'orderid':onlinePay.pk,
         'netbanking':'true',
         'card':'true',
         'wallet':'true',
@@ -1683,8 +1698,8 @@ def razorpayPaymentInitiate(request, data):
         # 'themeColor':storeobj.themeColor,
         'callback_url':globalSettings.SITE_ADDRESS+'/razorpayPaymentResponse/',
         'redirect':'true',
-        'successUrl' : data['successUrl'],
-        'failure' : data['failure']
+        # 'successUrl' : data['successUrl'],
+        # 'failure' : data['failure']
     }
 
 
@@ -1692,7 +1707,7 @@ def razorpayPaymentInitiate(request, data):
 
 @csrf_exempt
 def razorpayPaymentResponse(request):
-    print request.POST,'request.POST'
+    print request.GET,'request.POST'
     razorpay_client = razorpay.Client(auth=(globalSettings.RAZORPAY_KEY, globalSettings.RAZORPAY_SECRET))
 
     params_dict = dict(request.POST.iteritems())
@@ -1700,9 +1715,9 @@ def razorpayPaymentResponse(request):
     try:
         orderObj = OnlinePaymentDetails.objects.get(refId=params_dict['razorpay_order_id'])
     except:
-        return redirect(params_dict['failureRedirect'])
+        return redirect('/')
 
-
+    orderObj.successorfailureRes = params_dict
     signature_dict = {
     'razorpay_order_id': params_dict['razorpay_order_id'],
     'razorpay_payment_id': params_dict['razorpay_payment_id'],
@@ -1714,7 +1729,9 @@ def razorpayPaymentResponse(request):
     try:
         razorpay_client.utility.verify_payment_signature(signature_dict)
     except ValueError:
-        return redirect(params_dict['failureRedirect'])
+        orderObj.is_failure = True
+        orderObj.save()
+        return redirect(orderObj.failureUrl)
 
     razorResponse = json.dumps(razorpay_client.payment.fetch(params_dict['razorpay_payment_id']))
     razorResponse = json.loads(razorResponse)
@@ -1724,7 +1741,10 @@ def razorpayPaymentResponse(request):
     orderObj.paymentGatewayType = str(razorResponse['method'])
     orderObj.is_success = True
     orderObj.save()
-    return JsonResponse({'success':True},status =200)
+    if orderObj.source == 'chatbot' and orderObj.chatUid is not None:
+        chatThObj =  ChatThread.objects.get(uid = orderObj.chatUid)
+        chatMsg = ChatMessage.objects.create(uid = orderObj.chatUid, thread = chatThObj, message = 'Payment is successful', sentByAgent = True)
+    return redirect(orderObj.successUrl)
     # if razorResponse['status'] == 'captured':
     # else:
     #     if orderObj.osType == 'ios' or orderObj.osType == 'android':
@@ -1742,52 +1762,36 @@ def razorpayPaymentResponse(request):
 #     return JsonResponse({'success':True},status =200)
 
 
-def GetPaymentLink(request):
-    # data = json.loads(request.body)
-    data = request.GET
-    print data['redirect']
-    if data['id'].startswith('sale_'):
-        id = data['id'].split('sale_')[1]
-        name = []
-        product = ''
-        total = 0
-        orderObj = Sale.objects.get(pk=int(id))
-        outBound = SalesQty.objects.filter(outBound = int(id))
-        count = 0
-        for i in outBound:
-            count += 1
-            total  +=  i.total
-            item = i.product  +  ' + '
-            if count==len(outBound):
-                name.append(i.product)
-            else:
-                name.append(item)
-        for i in name:
-            product += i
-        # onlinePay = OnlinePaymentDetails.objects.create(amount = total, payId = id)
-        # payuData = {"key"  : globalSettings.PAYU_MERCHANT_KEY ,
-        #     "txnid" : id ,
-        #     "amount" : str(total),
-        #     "productinfo" : name,
-        #     "firstname" : orderObj.personName,
-        #     "email" : str(orderObj.email),
-        #     "phone" : orderObj.phone,
-        #     "surl" :  globalSettings.SITE_ADDRESS +'/payUPaymentResponse/',
-        #     "furl" : globalSettings.SITE_ADDRESS +'/payUPaymentResponse/'}
-        # return payuPaymentInitiate(request, payuData)
+# def GetPaymentLink(request):
+#     data = json.loads(request.body)
+    # data = request.GET
+    # print data['redirect']
+class GetPaymentLinkAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    def post(self , request , format = None):
+        data = request.data
+        if data['id'].startswith('sale_'):
+            id = data['id'].split('sale_')[1]
+            name = []
+            product = ''
+            total = 0
+            orderObj = Sale.objects.get(pk=int(id))
+            outBound = SalesQty.objects.filter(outBound = int(id))
+            count = 0
+            for i in outBound:
+                count += 1
+                total  +=  i.total
+                item = i.product  +  ' + '
+                if count==len(outBound):
+                    name.append(i.product)
+                else:
+                    name.append(item)
+            for i in name:
+                product += i
+            onlinePay = OnlinePaymentDetails.objects.create(amount = total, payId = data['id'] ,  source = data['source'], successUrl = data['successUrl'] , failureUrl = data['failureUrl'] , cust_name =  orderObj.personName, brand = orderObj.name, mobile = orderObj.phone, email = orderObj.email  )
+            if 'uid' in data:
+                onlinePay.chatUid = data['uid']
+                onlinePay.save()
 
-        razorPayData = {
-                "amount": int(total*100),
-                "cust_name": orderObj.personName,
-                "brand":orderObj.name,
-                "mobile": str(orderObj.phone),
-                "email": orderObj.email,
-                'orderid':str(orderObj.pk),
-                'callback_url':globalSettings.SITE_ADDRESS+'/razorpayPaymentResponse/',
-                'successUrl' :  data['redirect'],
-                'failure' : data['failureRedirect']
-        }
-
-        return razorpayPaymentInitiate(request,razorPayData)
-
-    # return Response( status = status.HTTP_200_OK)
+        data = '/razorpayPaymentInitiate/?id='+str(onlinePay.pk)
+        return Response(data, status = status.HTTP_200_OK)
