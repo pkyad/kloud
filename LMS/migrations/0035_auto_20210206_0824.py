@@ -12,18 +12,18 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='enrollment',
-            name='accepted',
-        ),
-        migrations.AddField(
-            model_name='enrollment',
-            name='amountPaid',
-            field=models.PositiveIntegerField(default=0),
-        ),
-        migrations.AddField(
-            model_name='enrollment',
-            name='amountPending',
-            field=models.PositiveIntegerField(default=0),
-        ),
+        # migrations.RemoveField(
+        #     model_name='enrollment',
+        #     name='accepted',
+        # ),
+        # migrations.AddField(
+        #     model_name='enrollment',
+        #     name='amountPaid',
+        #     field=models.PositiveIntegerField(default=0),
+        # ),
+        # migrations.AddField(
+        #     model_name='enrollment',
+        #     name='amountPending',
+        #     field=models.PositiveIntegerField(default=0),
+        # ),
     ]

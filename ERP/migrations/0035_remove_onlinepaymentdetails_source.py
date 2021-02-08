@@ -12,8 +12,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='onlinepaymentdetails',
-            name='source',
-        ),
+        # migrations.RemoveField(
+        #     model_name='onlinepaymentdetails',
+        #     name='source',
+        # ),
     ]
