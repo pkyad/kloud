@@ -35,26 +35,34 @@
           <table class="table table-hover" style=" width: 100%;white-space:nowrap">
           <tbody>
             <tr style="background-color: #eeeeee;font-size:18px">
+              <th></th>
               <th>Key</th>
               <th>Value</th>
               <th>Type</th>
-              <th>Can Update?</th>
+              <!-- <th>Can Update?</th> -->
               <th></th>
             </tr>
-            <tr ng-repeat="v in allData.dynamicVariables track by $index" style="font-size:16px">
-              <td>{{v.key}}</td>
-              <td>{{v.typ}}</td>
-              <td>{{v.value}}</td>
-              <td>{{v.can_change?'YES':'NO'}}</td>
-              <td></td>
+            <tr ng-repeat="v in allData.dynamicVariables track by $index" style="font-size:16px" ng-click="v.edit=true">
+              <!-- <td style="width:3%"  mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="delete($index)" confirm-button-type="danger" cancel-button-type="default" ><img src="/static/images/delete.png" style="height:20px" ></td> -->
+              <td style="width:3%"  ><img src="/static/images/delete.png" style="height:20px" ng-click="delete($index)">   </td>
+              <td><span ng-if="!v.edit">{{v.key}}</span> <input  ng-if="v.edit" class="form-control websiteInput" type="text" ng-model="v.key" placeholder="Add Key"> </td>
+              <td><span ng-if="!v.edit">{{v.value}} </span> <input  ng-if="v.edit" class="form-control websiteInput" type="text" ng-model="v.value" placeholder="Add Value"> </td>
+              <td><span ng-if="!v.edit">{{v.typ}} </span> <select  ng-if="v.edit" class="form-control websiteInput" name="" ng-model="v.typ" ng-options = "k for k in allTypes"  placeholder="Select type">
+              </select> </td>
+              <!-- <td>{{v.can_change?'YES':'NO'}}</td> -->
+              <td><button ng-if="v.edit" type="button" name="button"  class="btn btn-block" style="background:#0015a2;color:#ffffff;border-radius:25px!important" ng-click="edit($index)">Save</button></td>
             </tr>
             <tr >
+              <td ></td>
               <td>  <input class="form-control websiteInput" type="text" ng-model="form.key" placeholder="Add Key"></td>
-              <td><input class="form-control websiteInput" type="text" ng-model="form.typ" placeholder="Add Type"></td>
+              <!-- <td><input class="form-control websiteInput" type="text" ng-model="form.typ" placeholder="Add Type"></td> -->
               <td><input class="form-control websiteInput" type="text" ng-model="form.value" placeholder="Add Value"></td>
-              <td><input type="checkbox" ng-model="form.can_change"></td>
+              <td> <select class="form-control websiteInput" name="" ng-model="form.typ" ng-options = "k for k in allTypes"  placeholder="Select type">
+              </select> </td>
+              <!-- <td><input type="checkbox" ng-model="form.can_change"></td> -->
               <td class="text-left"><button type="button" name="button" ng-click="add()" class="btn btn-block" style="background:#0015a2;color:#ffffff;border-radius:25px!important">Add</button></td>
             </tr>
+
           </tbody>
           </table>
         </div>
