@@ -237,6 +237,7 @@ class chatMessageBetweenViewSet(viewsets.ModelViewSet):
         # reciepient = ChatThread.objects.get(pk = self.request.GET['other'])
         if 'other' in self.request.GET:
             qs = ChatMessage.objects.filter(thread__pk = int(self.request.GET['other']))
+
         # if "pk" in self.request.GET:
         #     pk = int(self.request.GET['pk'])
         #     qs1 = ChatMessage.objects.filter(thread= reciepient).filter(id__gt=pk)

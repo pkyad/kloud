@@ -343,6 +343,16 @@ app.filter('language' , function($users){
   }
 })
 
+app.filter('installedMenus' , function($users){
+  return function(val){
+    var menusData = INSTALLED_MENU_LIST
+    if (menusData[val]!=undefined) {
+      return menusData[val]
+    }
+    return false
+  }
+})
+
 // app.filter('getDivision' , function($http){
 //
 //   return function(divisionPk){

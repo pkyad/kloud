@@ -4411,7 +4411,6 @@ app.controller("businessManagement.importexport.invoice", function($scope, $stat
 
 app.controller("businessManagement.importexport.invoice.form", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal, $rootScope, $timeout, ) {
   if ($state.is('businessManagement.importexport.editInvoice')) {
-    console.log("MMMMMMMMMMMMMMMMMMMMMMMMMMM", $stateParams.id);
     $http({
       url: '/api/importexport/invoice/' + $stateParams.id + '/',
       method: 'GET',
@@ -4518,8 +4517,6 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
       $scope.$watch('form.billName', function(newValue, oldValue) {
 
         if (typeof newValue === 'object') {
-          console.log(newValue,'log herer');
-          console.log($scope.form.toggleVendor,'log herer');
           if ($scope.form.toggleVendor == false) {
             $scope.form.billName = newValue.name
             $scope.form.billAddress.street = newValue.street
@@ -4647,7 +4644,8 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
           sgstVal: 0,
           igst: 0,
           igstVal: 0,
-          total: 0
+          total: 0,
+          gst: 0
         });
       }
       $scope.deleteData = function(pkVal, idx) {
@@ -4676,11 +4674,10 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
       };
       $scope.calculate = function() {
         for (var i = 0; i < $scope.products.length; i++) {
-          console.log($scope.gstcode, $scope.gstCal, 'kkkkkkkkkkkkkkkkkkk');
           if ($scope.gstcode === $scope.gstCal) {
-            $scope.products[i].cgst = 9
+            $scope.products[i].cgst = parseFloat(($scope.products[i].gst/2).toFixed(2))
             $scope.products[i].cgstVal = parseFloat((($scope.products[i].cgst * $scope.products[i].taxableprice) / 100).toFixed(2))
-            $scope.products[i].sgst = 9
+            $scope.products[i].sgst = parseFloat(($scope.products[i].gst/2).toFixed(2))
             $scope.products[i].sgstVal = parseFloat((($scope.products[i].sgst * $scope.products[i].taxableprice) / 100).toFixed(2))
             $scope.products[i].igst = 0
             $scope.products[i].igstVal = 0
@@ -4689,7 +4686,10 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
             $scope.products[i].cgstVal = 0
             $scope.products[i].sgst = 0
             $scope.products[i].sgstVal = 0
-            $scope.products[i].igst = 18
+            if($scope.products[i].gst == null || isNaN($scope.products[i].gst)){
+              $scope.products[i].gst = 18
+            }
+            $scope.products[i].igst = parseFloat(($scope.products[i].gst).toFixed(2))
             $scope.products[i].igstVal = parseFloat((($scope.products[i].igst * $scope.products[i].taxableprice) / 100).toFixed(2))
           }
           $scope.products[i].total = parseFloat(($scope.products[i].taxableprice + $scope.products[i].cgstVal + $scope.products[i].sgstVal + $scope.products[i].igstVal).toFixed(2))
@@ -4716,6 +4716,7 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
 
 
       $scope.$watch('products', function(newValue, oldValue) {
+        console.log(newValue,'newValue');
         var pkList = []
         for (var i = 0; i < newValue.length; i++) {
 
@@ -4732,10 +4733,15 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
             $scope.products[i] = newValue[i].part_no
             $scope.products[i].product = ppk
             $scope.products[i].qty = 1
+            $scope.products[i].gst = 18
             $scope.products[i].taxableprice = parseFloat((newValue[i].part_no.price * $scope.products[i].qty).toFixed(2))
             $scope.calculate()
           } else {
             pkList.push(newValue[i].part_no)
+            if(newValue[i].gst == null || isNaN(newValue[i].gst)){
+              newValue[i].gst = 18
+            }
+            $scope.products[i].gst = parseFloat(newValue[i].gst)
             $scope.products[i].price = parseFloat(newValue[i].price)
             $scope.products[i].taxableprice = parseFloat((newValue[i].price * newValue[i].qty).toFixed(2))
             $scope.products[i].cgst = newValue[i].cgst
@@ -4753,7 +4759,6 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
       $scope.updateProgress = false;
       $scope.updateInvoice = function() {
         $scope.updateProgress = true;
-        console.log("truuuuuuuuuuu");
         if ($scope.form.invoiceNumber == null || $scope.form.invoiceNumber.length == 0) {
           Flash.create('danger', 'Invoice No. Is Required')
           return
@@ -5893,7 +5898,6 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
       machineRunning: '',
       comm_nr: ''
     }
-    console.log("MMMMMMMMMMMMMMMMMMMMMMMMMMM", $stateParams.id);
     $http({
       url: '/api/importexport/complaintManagement/' + $stateParams.id + '/',
       method: 'GET',
@@ -5980,16 +5984,6 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
     }
   }
   $scope.resetForm()
-  // function dateToString(date) {
-  //   if (typeof date == 'object') {
-  //     day = date.getDate()
-  //     month = date.getMonth() + 1
-  //     year = date.getFullYear()
-  //     return year + '-' + month + '-' + day
-  //   } else {
-  //     return date
-  //   }
-  // }
 
   $scope.complaintProcessing = false;
 
@@ -6033,10 +6027,10 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
       data: data
     }).then(function(response) {
       if ($scope.form.pk == null) {
-        Flash.create('success', 'New User Created');
+        Flash.create('success', 'New complaint Created');
         $scope.resetForm();
       } else {
-        Flash.create('success', 'Updated');
+        Flash.create('success', 'Complaint Updated');
         $scope.resetForm();
 
       }
@@ -6098,7 +6092,6 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
 app.controller("businessManagement.importexport.CMSView", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal, $rootScope, $permissions, $timeout, ) {
   $scope.me = $users.get('mySelf');
   $scope.complaintId = $stateParams.id
-  console.log($scope.complaintId);
 
   $scope.fetchData = function() {
     let url = '/api/importexport/complaintManagement/?complaintId=' + $scope.complaintId
@@ -6128,8 +6121,6 @@ app.controller("businessManagement.importexport.CMSView", function($scope, $stat
       data: sendStatus,
     }).
     then(function(response) {
-      console.log("innnnnnnnnnnnnn");
-      // $scope.form.push(response.data)
       Flash.create('success', 'Sent for approval');
       $scope.fetchData()
       link = window.location
@@ -6151,12 +6142,9 @@ app.controller("businessManagement.importexport.CMSView", function($scope, $stat
 
 
   $scope.complaintApproval = function(pk) {
-    console.log("innnnnnnnnnnnn");
-    // var date = new Date().toJSON().split('T')[0]
     var sendStatus = {
       status: 'Closed',
       is_CloseApproved: 'true',
-      // closedDate: date,
 
     }
     $http({
@@ -6165,7 +6153,6 @@ app.controller("businessManagement.importexport.CMSView", function($scope, $stat
       data: sendStatus,
     }).
     then(function(response) {
-      // $scope.form.status = response.data.status
       Flash.create('success', 'Approved');
       $scope.fetchData()
     })
@@ -6187,7 +6174,6 @@ app.controller("businessManagement.importexport.CMSView", function($scope, $stat
       data: sendStatus,
     }).
     then(function(response) {
-      // $scope.form.status = response.data.status
       Flash.create('success', 'Rejected');
       $scope.fetchData()
     })
@@ -6200,7 +6186,6 @@ app.controller("businessManagement.importexport.CMSView", function($scope, $stat
       backdrop: false,
       resolve: {
         data: function() {
-          console.log(pk, "uibbbbbbbbb");
           return pk;
 
         },
@@ -6221,7 +6206,6 @@ app.controller("businessManagement.importexport.CMSView", function($scope, $stat
           })
         };
 
-        // $scope.genericUserSearch1()
         $scope.complaintClose = function() {
           if ($scope.form.date == '') {
             Flash.create('warning', 'Please Add Tentative Closing Date')
