@@ -348,8 +348,9 @@ def home(request):
     menusData = {}
     for i in ApplicationFeature.objects.all():
         menusData[i.name] = i.enabled
-        if i.enabled  == True and  InstalledApp.objects.filter(parent = division).count()==0:
+        if i.enabled  == True and  InstalledApp.objects.filter(parent = division, app = i.parent).count()==0:
             menusData[i.name] = False
+    menusData = json.dumps(menusData)
 
 
 
@@ -357,7 +358,7 @@ def home(request):
 
     response =  render(request , 'ngBase.html' , {'wamp_prefix' : globalSettings.WAMP_PREFIX ,'isOnSupport' : isOnSupport , 'division' : division , 'homeState': homeState , 'dashboardEnabled' : u.profile.isDashboard , 'wampServer' : globalSettings.WAMP_SERVER, 'appsWithJs' : jsFilesList \
     ,'appsWithCss' : apps.filter(haveCss=True) , 'useCDN' : globalSettings.USE_CDN , 'BRAND_LOGO' : brandLogo \
-    ,'BRAND_NAME' :  globalSettings.BRAND_NAME,'sourceList':globalSettings.SOURCE_LIST , 'commonApps' : globalSettings.SHOW_COMMON_APPS , 'defaultState' : state, 'limit_expenses_count':globalSettings.LIMIT_EXPENSE_COUNT  , 'MATERIAL_INWARD' : MATERIAL_INWARD, 'DIVISIONPK' : divisionPk , "SIP" : SIP_DETAILS ,"NOTIFICATIONCOUNT":notificationCount,'telephony' : telephony , 'simpleMode' : simpleMode, 'messaging' : messaging,  "wampLongPoll" : globalSettings.WAMP_LONG_POLL,'langDataList' : langDataList})
+    ,'BRAND_NAME' :  globalSettings.BRAND_NAME,'sourceList':globalSettings.SOURCE_LIST , 'commonApps' : globalSettings.SHOW_COMMON_APPS , 'defaultState' : state, 'limit_expenses_count':globalSettings.LIMIT_EXPENSE_COUNT  , 'MATERIAL_INWARD' : MATERIAL_INWARD, 'DIVISIONPK' : divisionPk , "SIP" : SIP_DETAILS ,"NOTIFICATIONCOUNT":notificationCount,'telephony' : telephony , 'simpleMode' : simpleMode, 'messaging' : messaging,  "wampLongPoll" : globalSettings.WAMP_LONG_POLL,'langDataList' : langDataList,'menusData':menusData})
     # response.set_cookie('lang', 'en')
     return response
 
@@ -1316,7 +1317,17 @@ class getAllSettings(APIView):
         user = self.request.user
         designation = user.designation
         data = [{'groupName' : 'Company Details' , 'groupState' : 'admin.configure'},{'groupName' : 'Integrations' , 'groupState' : 'admin.integrations'}]
-        val = {'groupName' : 'Reports Formats Configuration' , 'val' : [{'name' : 'Cashflow Statement' , 'state' : 'admin.cashflow'},{'name' : 'Profit and Loss statement' , 'state' : 'admin.pnl'},{'name' : 'Balancesheet' , 'state' : 'admin.balancesheet'}]}
+        repList = [{'name' : 'Cashflow Statement' , 'state' : 'admin.cashflow'},{'name' : 'Profit and Loss statement' , 'state' : 'admin.pnl'},{'name' : 'Balancesheet' , 'state' : 'admin.balancesheet'}]
+        val = {'groupName' : 'Reports Formats Configuration' , 'val' : []}
+        for i in repList:
+            featObj = ApplicationFeature.objects.filter(name = i['name'], enabled = True).first()
+            try:
+                if InstalledApp.objects.filter(parent = designation.division, app__in = [featObj.parent.pk]):
+                    val['val'].append(i)
+            except:
+                pass
+
+        # val = {'groupName' : 'Reports Formats Configuration' , 'val' : [{'name' : 'Cashflow Statement' , 'state' : 'admin.cashflow'},{'name' : 'Profit and Loss statement' , 'state' : 'admin.pnl'},{'name' : 'Balancesheet' , 'state' : 'admin.balancesheet'}]}
         data.append(val)
         val = []
         settings = {'groupName' : 'PDF Terms and Conditions' }
@@ -1326,7 +1337,16 @@ class getAllSettings(APIView):
         if len(val)>0:
             settings['val'] = val
             data.append(settings)
-        data.append({'groupName' : 'Others' , 'val' : [{'name' : 'Master Price / Rate List' , 'state' : 'admin.pricesheet'},{'name' : 'Email Templates' , 'state' : 'admin.templates'},{'name' : 'Company / National Holidays' , 'state' : 'admin.holidays'},{'name' : 'HR Policy Documents' , 'state' : 'admin.documents'},{'name' : 'Cost Centers' , 'state' : 'admin.costCenters'}]})
+        othersList = [{'name' : 'Master Price / Rate List' , 'state' : 'admin.pricesheet'},{'name' : 'Email Templates' , 'state' : 'admin.templates'},{'name' : 'Company / National Holidays' , 'state' : 'admin.holidays'},{'name' : 'HR Policy Documents' , 'state' : 'admin.documents'},{'name' : 'Cost Centers' , 'state' : 'admin.costCenters'}]
+        others ={'groupName' : 'Others' , 'val' : []}
+        for i in othersList:
+            featObj = ApplicationFeature.objects.filter(name = i['name'], enabled = True).first()
+            try:
+                if InstalledApp.objects.filter(parent = designation.division, app__in = [featObj.parent.pk]):
+                    others['val'].append(i)
+            except:
+                pass
+        data.append(others)
         return Response(data,status=status.HTTP_200_OK)
 
 
