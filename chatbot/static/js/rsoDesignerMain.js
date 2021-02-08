@@ -470,8 +470,24 @@ app.controller('main', function($scope, $http, $timeout, $aside , $uibModal, Fla
       placement: 'left',
       size: 'md',
       backdrop: true,
-      controller: function($scope , $http , $uibModalInstance , block) {
+      resolve : {
+        variables : function() {
+          variables = [];
 
+          for (var i = 0; i < $scope.blocks.length; i++) {
+            if ($scope.blocks[i].context_key && variables.indexOf($scope.blocks[i].context_key) == -1 ) {
+              variables.push($scope.blocks[i].context_key)
+            }
+          }
+          return variables
+        },
+        block: function () {
+          return $scope.blocks[ind];
+        }
+      },
+      controller: function($scope , $http , $uibModalInstance , block, variables) {
+
+        $scope.variables = variables;
 
         $scope.autoFill = function(typ) {
           if (typ == 'orderid') {
@@ -838,11 +854,6 @@ app.controller('main', function($scope, $http, $timeout, $aside , $uibModal, Fla
         }
 
 
-      },
-      resolve: {
-       block: function () {
-         return $scope.blocks[ind];
-        }
       }
     })
   }
