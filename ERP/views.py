@@ -755,8 +755,8 @@ class GetApplicationDetailsApi(APIView):
         appMedias = applicationMediaSerializer(mediaObj, many = True).data
         feedObj = Feedback.objects.filter(app = appObj)
         appFeedbacks = FeedbackSerializer(feedObj, many = True).data
-        apps = InstalledApp.objects.filter(app__pk=request.GET['app'])
-        userApps = UserApp.objects.filter(app = appObj)
+        apps = InstalledApp.objects.filter(app__pk= int(request.GET['app']) , parent = division)
+        userApps = UserApp.objects.filter(app = appObj, user__designation__division = division)
         # userApps = UserApp.objects.filter(app = appObj).values_list('user__pk', flat=True).distinct()
         # users = User.objects.filter(pk__in = userApps , designation__division = division)
         # appUser = userSearchSerializer(users , many =True).data
@@ -1282,22 +1282,10 @@ class UserAppViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['app', 'user']
 
-def helpCreateUser(name,mobile):
-    profObj = pofile.objects.filter(mobile = mobile)
-    if userObj.count()>0:
-        user = profObj.user
-    else:
-        user = User.objects.create(username = mobile , first_name = name)
-        profile = user.profile
-        profile.mobile = mobile
-        profile.save()
-        designation = user.designation
-        div = Division.create(name = name,website = 'NA',pan = 'NA',cin = 'NA')
-        designation.division = div
-        unitObj = Unit.objects.create(name = 'HQ' , address = 'Address Not Available' , city = 'NA' , state = 'NA' , country = 'NA' , pincode= 'NA' , division = division , areaCode= division.name + str(division.pk) )
-        designation.unit = unitObj
-        designation.save()
-    response = {user : user.pk}
+def helperCreateUser(name,email):
+    division = Division.objects.create(name = name,website = 'NA',pan = 'NA',cin = 'NA')
+    unit = Unit.objects.create(name = 'HQ' , address = 'Address Not Available' , city = 'NA' , state = 'NA' , country = 'NA' , pincode= 'NA' , division = division ,  areaCode= division.name + str(division.pk) , email  = email )
+    response = {'division' : division.pk , 'unit' : unit.pk}
     return response
 
 
@@ -1819,4 +1807,40 @@ class GetPaymentLinkAPIView(APIView):
                 onlinePay.save()
 
         data = '/razorpayPaymentInitiate/?id='+str(onlinePay.pk)
+        return Response(data, status = status.HTTP_200_OK)
+
+
+def randomPassword():
+    length = 12
+    chars = string.digits
+    rnd = random.SystemRandom()
+    return ''.join(rnd.choice(chars) for i in range(length))
+
+class AddNewUserAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def post(self , request , format = None):
+        val = request.data
+        data = {}
+        userObj = User.objects.filter(email = val['email'])
+        if userObj.count()>0:
+            user = userObj.first()
+        else:
+            user = User.objects.create(username = val['username'] , first_name = val['first_name'] , last_name = val['last_name'], email = val['email'] )
+            # profile = user.profile
+            # # profile.mobile = mobile
+            # profile.save()
+        if user.designation.division == None:
+            resData = helperCreateUser(val['first_name'], val['email'])
+            designation = user.designation
+            designation.division = Division.objects.get(pk = int(resData['division']))
+            designation.unit = Unit.objects.get(pk = int(resData['unit']))
+            designation.save()
+        profile = user.profile
+        token = randomPassword()
+        profile.linkToken = token
+        profile.save()
+        user.is_staff = True
+        user.save()
+        data = {'url' : globalSettings.SITE_ADDRESS+ '/tlogin/?token=' + profile.linkToken}
         return Response(data, status = status.HTTP_200_OK)
