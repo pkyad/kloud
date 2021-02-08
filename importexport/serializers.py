@@ -175,6 +175,7 @@ class BoMSerializer(serializers.ModelSerializer):
         b.save()
         if 'project' in self.context['request'].data:
             b.project = Projects.objects.get(pk=int(self.context['request'].data['project']))
+        b.quantity2 = int(self.context['request'].data['quantity1'])
         b.save()
         return b
     def update (self, instance, validated_data):
@@ -497,10 +498,10 @@ class complaintManagementSerializer(serializers.ModelSerializer):
         date = obj.date
         registeredBy = obj.registeredBy.first_name
         description = obj.description
-        to_email = []
-        users = User.objects.filter(designation__division = divisionObj)
-        for item in users:
-            to_email.append(item.email)
+        to_email = ['raj@cioc.co.in']
+        # users = User.objects.filter(designation__division = divisionObj)
+        # for item in users:
+        #     to_email.append(item.email)
         ctx = {
             'recieverName' : "Hi Sir/Ma'am",
             'customer':customer,
@@ -511,7 +512,7 @@ class complaintManagementSerializer(serializers.ModelSerializer):
             'description':description,
             'obj': obj,
         }
-        email_subject = 'New complaint Registered'
+        email_subject = 'New complaint : {0} - {1}'.format(customer,obj.comm_nr)
         email_body = get_template('app.importexport.complaint.notification.html').render(ctx)
         msg = EmailMessage(email_subject, email_body, to = to_email)
         msg.content_subtype = 'html'
