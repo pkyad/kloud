@@ -32,6 +32,10 @@
         then(function(response) {
           if (response.data.thread == $state.params.id) {
             $scope.messages.push(response.data)
+            $timeout(function() {
+              var objDiv = document.getElementById("scrollView");
+              objDiv.scrollTop = objDiv.scrollHeight+40;
+            },500)
           }
         })
       }
