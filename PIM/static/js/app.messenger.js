@@ -129,8 +129,10 @@
         $scope.messages.push(response.data)
         $scope.form.text = '';
         $scope.form.file = emptyFile;
-        var objDiv = document.getElementById("scrollView");
-         objDiv.scrollTop = objDiv.scrollHeight+40;
+        $timeout(function() {
+          var objDiv = document.getElementById("scrollView");
+          objDiv.scrollTop = objDiv.scrollHeight+40;
+        },500)
         $scope.replyMsgSelected = {
           'replyMsg' : ''
         }
@@ -642,6 +644,10 @@ $scope.postFiles = function(){
 
        if ($scope.count == $scope.allFiles.length) {
          $scope.allFiles = []
+         $timeout(function() {
+           var objDiv = document.getElementById("scrollView");
+           objDiv.scrollTop = objDiv.scrollHeight+40;
+         },500)
        }
        if (response.data.uid!=undefined && response.data.uid!=null) {
          connection.session.publish(wamp_prefix+'service.support.chat.' + response.data.uid, ['MF'  , response.data.pk , new Date() ], {}, {
