@@ -25,7 +25,21 @@ app.controller("controller.home", function($scope, $state, $http, $uibModal, $ti
   $scope.labels2 = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
   $scope.data2 = [300, 500, 100];
 
-
+  // $scope.testApi = function(){
+  //   $http({
+  //     method: 'POST',
+  //     url: '/api/ERP/addNewUser/',
+  //     data: {
+  //     username : 'ankitakrrr',
+  //     first_name : 'Ankita',
+  //     last_name : 'Kadam',
+  //     email : 'ankita.rrr@aaa.in'
+  //   },
+  //   }).
+  //   then(function(response) {
+  //
+  //   })
+  // }
 
 
   // new Chart(document.getElementById("home-mixed-chart"), {

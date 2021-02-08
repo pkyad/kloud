@@ -694,6 +694,9 @@ class GetMyAppsView(APIView):
         if 'displayName__icontains' in request.GET:
             apps = apps.filter(app__displayName__icontains = request.GET['displayName__icontains'] )
 
+        if 'inMenu' in request.GET:
+            apps = apps.filter(app__inMenu = True)
+
         for userapp in apps:
             app = userapp.app
             state = None

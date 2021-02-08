@@ -878,8 +878,9 @@ app.directive('appstoreView', function() {
     //   data: '=',
     //   // addCart: '='
     // },
-    controller: function($scope, $state, $http, Flash, $rootScope, $filter, $uibModal) {
+    controller: function($scope, $state, $http, Flash, $rootScope, $filter, $uibModal, $users) {
       $scope.showLogo = true
+      $scope.me = $users.get('mySelf');
       if ($state.current.name == '') {
           $scope.showLogo = false
       }
@@ -888,9 +889,9 @@ app.directive('appstoreView', function() {
         searchText:''
       }
       $scope.allApps = function(){
-        var url = '/api/ERP/getapplication/'
+        var url = '/api/ERP/getapplication/?isMenu=true'
         if ($scope.search.searchText.length>0) {
-            url+='?displayName__icontains='+$scope.search.searchText
+            url+='&displayName__icontains='+$scope.search.searchText
         }
         $http({
           method: 'GET',

@@ -60,6 +60,7 @@ class application(models.Model):
     rating_one =  models.CharField(max_length = 30 , default="1" )
     appStoreUrl = models.TextField(max_length = 500 , null = True )
     playStoreUrl = models.TextField(max_length = 500 , null = True )
+    inMenu = models.BooleanField(default = True)
     def __unicode__(self):
         return self.name
 

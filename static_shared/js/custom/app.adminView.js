@@ -1235,7 +1235,7 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
 
          $http({
            method: 'GET',
-           url: '/api/ERP/applicationfeature/?parent=' + $state.params.id + '/'
+           url: '/api/ERP/applicationfeature/?parent=' + $state.params.id
          }).
          then(function(response) {
            $scope.appFeatures = response.data;

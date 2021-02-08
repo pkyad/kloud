@@ -46,6 +46,7 @@ from django.db.models import Sum
 from zoomapi import *
 from ERP.models import LanguageTranslation
 from paypal.standard.forms import PayPalPaymentsForm
+from django.db.models import BooleanField
 
 
 def generateOTPCode(length = 4):
@@ -342,16 +343,22 @@ def home(request):
         for  j in otherLang:
             val[j.lang] = LanguageTranslationSerializer(j,many = False).data
         langDataList[i.key] = val
-        # langDataList.append(val)
     langDataList = json.dumps(langDataList)
-    # langDataList = json.dumps(langDataList)
+
+    menusData = {}
+    for i in ApplicationFeature.objects.all():
+        menusData[i.name] = i.enabled
+        if i.enabled  == True and  InstalledApp.objects.filter(parent = division, app = i.parent).count()==0:
+            menusData[i.name] = False
+    menusData = json.dumps(menusData)
 
 
-    # pma_lang
+
+
 
     response =  render(request , 'ngBase.html' , {'wamp_prefix' : globalSettings.WAMP_PREFIX ,'isOnSupport' : isOnSupport , 'division' : division , 'homeState': homeState , 'dashboardEnabled' : u.profile.isDashboard , 'wampServer' : globalSettings.WAMP_SERVER, 'appsWithJs' : jsFilesList \
     ,'appsWithCss' : apps.filter(haveCss=True) , 'useCDN' : globalSettings.USE_CDN , 'BRAND_LOGO' : brandLogo \
-    ,'BRAND_NAME' :  globalSettings.BRAND_NAME,'sourceList':globalSettings.SOURCE_LIST , 'commonApps' : globalSettings.SHOW_COMMON_APPS , 'defaultState' : state, 'limit_expenses_count':globalSettings.LIMIT_EXPENSE_COUNT  , 'MATERIAL_INWARD' : MATERIAL_INWARD, 'DIVISIONPK' : divisionPk , "SIP" : SIP_DETAILS ,"NOTIFICATIONCOUNT":notificationCount,'telephony' : telephony , 'simpleMode' : simpleMode, 'messaging' : messaging,  "wampLongPoll" : globalSettings.WAMP_LONG_POLL,'langDataList' : langDataList})
+    ,'BRAND_NAME' :  globalSettings.BRAND_NAME,'sourceList':globalSettings.SOURCE_LIST , 'commonApps' : globalSettings.SHOW_COMMON_APPS , 'defaultState' : state, 'limit_expenses_count':globalSettings.LIMIT_EXPENSE_COUNT  , 'MATERIAL_INWARD' : MATERIAL_INWARD, 'DIVISIONPK' : divisionPk , "SIP" : SIP_DETAILS ,"NOTIFICATIONCOUNT":notificationCount,'telephony' : telephony , 'simpleMode' : simpleMode, 'messaging' : messaging,  "wampLongPoll" : globalSettings.WAMP_LONG_POLL,'langDataList' : langDataList,'menusData':menusData})
     # response.set_cookie('lang', 'en')
     return response
 
@@ -571,7 +578,7 @@ class ApplicationFeatureViewSet(viewsets.ModelViewSet):
     queryset = ApplicationFeature.objects.all()
     serializer_class = ApplicationFeatureSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['parent','name','displayName']
+    filter_fields = ['parent','name']
 
 
 class LocationTrackerAPI(APIView):
@@ -748,8 +755,8 @@ class GetApplicationDetailsApi(APIView):
         appMedias = applicationMediaSerializer(mediaObj, many = True).data
         feedObj = Feedback.objects.filter(app = appObj)
         appFeedbacks = FeedbackSerializer(feedObj, many = True).data
-        apps = InstalledApp.objects.filter(app__pk=request.GET['app'])
-        userApps = UserApp.objects.filter(app = appObj)
+        apps = InstalledApp.objects.filter(app__pk= int(request.GET['app']) , parent = division)
+        userApps = UserApp.objects.filter(app = appObj, user__designation__division = division)
         # userApps = UserApp.objects.filter(app = appObj).values_list('user__pk', flat=True).distinct()
         # users = User.objects.filter(pk__in = userApps , designation__division = division)
         # appUser = userSearchSerializer(users , many =True).data
@@ -895,6 +902,7 @@ class applicationViewSet(viewsets.ModelViewSet):
                 return getApps(User.objects.get(username = self.request.GET['user']))
             return application.objects.filter(published = True)
 
+
 class getapplicationViewSet(viewsets.ModelViewSet):
     permission_classes = (readOnly,)
     serializer_class = applicationSerializer
@@ -903,6 +911,13 @@ class getapplicationViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         u = self.request.user
         ap = application.objects.filter(admin = False)
+        try:
+            div = u.designation.division
+            installedApps = InstalledApp.objects.filter(parent = div).values_list('app__pk').distinct()
+            ap = ap.annotate(is_installed=Case(When(id__in = installedApps, then=True),default=False,output_field=BooleanField()))
+            ap = ap.order_by('-is_installed')
+        except:
+            pass
         if 'statealias' in self.request.GET:
             ap = ap.filter(stateAlias__isnull = False)
         return ap
@@ -1267,22 +1282,10 @@ class UserAppViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['app', 'user']
 
-def helpCreateUser(name,mobile):
-    profObj = pofile.objects.filter(mobile = mobile)
-    if userObj.count()>0:
-        user = profObj.user
-    else:
-        user = User.objects.create(username = mobile , first_name = name)
-        profile = user.profile
-        profile.mobile = mobile
-        profile.save()
-        designation = user.designation
-        div = Division.create(name = name,website = 'NA',pan = 'NA',cin = 'NA')
-        designation.division = div
-        unitObj = Unit.objects.create(name = 'HQ' , address = 'Address Not Available' , city = 'NA' , state = 'NA' , country = 'NA' , pincode= 'NA' , division = division , areaCode= division.name + str(division.pk) )
-        designation.unit = unitObj
-        designation.save()
-    response = {user : user.pk}
+def helperCreateUser(name,email):
+    division = Division.objects.create(name = name,website = 'NA',pan = 'NA',cin = 'NA')
+    unit = Unit.objects.create(name = 'HQ' , address = 'Address Not Available' , city = 'NA' , state = 'NA' , country = 'NA' , pincode= 'NA' , division = division ,  areaCode= division.name + str(division.pk) , email  = email )
+    response = {'division' : division.pk , 'unit' : unit.pk}
     return response
 
 
@@ -1302,7 +1305,17 @@ class getAllSettings(APIView):
         user = self.request.user
         designation = user.designation
         data = [{'groupName' : 'Company Details' , 'groupState' : 'admin.configure'},{'groupName' : 'Integrations' , 'groupState' : 'admin.integrations'}]
-        val = {'groupName' : 'Reports Formats Configuration' , 'val' : [{'name' : 'Cashflow Statement' , 'state' : 'admin.cashflow'},{'name' : 'Profit and Loss statement' , 'state' : 'admin.pnl'},{'name' : 'Balancesheet' , 'state' : 'admin.balancesheet'}]}
+        repList = [{'name' : 'Cashflow Statement' , 'state' : 'admin.cashflow'},{'name' : 'Profit and Loss statement' , 'state' : 'admin.pnl'},{'name' : 'Balancesheet' , 'state' : 'admin.balancesheet'}]
+        val = {'groupName' : 'Reports Formats Configuration' , 'val' : []}
+        for i in repList:
+            featObj = ApplicationFeature.objects.filter(name = i['name'], enabled = True).first()
+            try:
+                if InstalledApp.objects.filter(parent = designation.division, app__in = [featObj.parent.pk]):
+                    val['val'].append(i)
+            except:
+                pass
+
+        # val = {'groupName' : 'Reports Formats Configuration' , 'val' : [{'name' : 'Cashflow Statement' , 'state' : 'admin.cashflow'},{'name' : 'Profit and Loss statement' , 'state' : 'admin.pnl'},{'name' : 'Balancesheet' , 'state' : 'admin.balancesheet'}]}
         data.append(val)
         val = []
         settings = {'groupName' : 'PDF Terms and Conditions' }
@@ -1312,7 +1325,16 @@ class getAllSettings(APIView):
         if len(val)>0:
             settings['val'] = val
             data.append(settings)
-        data.append({'groupName' : 'Others' , 'val' : [{'name' : 'Master Price / Rate List' , 'state' : 'admin.pricesheet'},{'name' : 'Email Templates' , 'state' : 'admin.templates'},{'name' : 'Company / National Holidays' , 'state' : 'admin.holidays'},{'name' : 'HR Policy Documents' , 'state' : 'admin.documents'},{'name' : 'Cost Centers' , 'state' : 'admin.costCenters'}]})
+        othersList = [{'name' : 'Master Price / Rate List' , 'state' : 'admin.pricesheet'},{'name' : 'Email Templates' , 'state' : 'admin.templates'},{'name' : 'Company / National Holidays' , 'state' : 'admin.holidays'},{'name' : 'HR Policy Documents' , 'state' : 'admin.documents'},{'name' : 'Cost Centers' , 'state' : 'admin.costCenters'}]
+        others ={'groupName' : 'Others' , 'val' : []}
+        for i in othersList:
+            featObj = ApplicationFeature.objects.filter(name = i['name'], enabled = True).first()
+            try:
+                if InstalledApp.objects.filter(parent = designation.division, app__in = [featObj.parent.pk]):
+                    others['val'].append(i)
+            except:
+                pass
+        data.append(others)
         return Response(data,status=status.HTTP_200_OK)
 
 
@@ -1785,4 +1807,40 @@ class GetPaymentLinkAPIView(APIView):
                 onlinePay.save()
 
         data = '/razorpayPaymentInitiate/?id='+str(onlinePay.pk)
+        return Response(data, status = status.HTTP_200_OK)
+
+
+def randomPassword():
+    length = 12
+    chars = string.digits
+    rnd = random.SystemRandom()
+    return ''.join(rnd.choice(chars) for i in range(length))
+
+class AddNewUserAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def post(self , request , format = None):
+        val = request.data
+        data = {}
+        userObj = User.objects.filter(email = val['email'])
+        if userObj.count()>0:
+            user = userObj.first()
+        else:
+            user = User.objects.create(username = val['username'] , first_name = val['first_name'] , last_name = val['last_name'], email = val['email'] )
+            # profile = user.profile
+            # # profile.mobile = mobile
+            # profile.save()
+        if user.designation.division == None:
+            resData = helperCreateUser(val['first_name'], val['email'])
+            designation = user.designation
+            designation.division = Division.objects.get(pk = int(resData['division']))
+            designation.unit = Unit.objects.get(pk = int(resData['unit']))
+            designation.save()
+        profile = user.profile
+        token = randomPassword()
+        profile.linkToken = token
+        profile.save()
+        user.is_staff = True
+        user.save()
+        data = {'url' : globalSettings.SITE_ADDRESS+ '/tlogin/?token=' + profile.linkToken}
         return Response(data, status = status.HTTP_200_OK)
