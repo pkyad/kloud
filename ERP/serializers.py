@@ -37,9 +37,10 @@ class serviceSerializer(serializers.ModelSerializer):
     user = userSearchSerializer(many = False , read_only = True)
     address = addressSerializer(many = False, read_only = True)
     contactPerson = userSearchSerializer(many = False , read_only = True)
+    contact_count = serializers.SerializerMethodField()
     class Meta:
         model = service
-        fields = ('pk' , 'created' ,'name' , 'user' , 'cin' , 'tin' , 'address' , 'mobile' , 'telephone' , 'logo' , 'about', 'doc', 'web','contactPerson','vendor'  , 'bankName' , 'accountNumber' , 'ifscCode','paymentTerm')
+        fields = ('pk' , 'created' ,'name' , 'user' , 'cin' , 'tin' , 'address' , 'mobile' , 'telephone' , 'logo' , 'about', 'doc', 'web','contactPerson','vendor'  , 'bankName' , 'accountNumber' , 'ifscCode','paymentTerm','contact_count')
 
     def assignValues(self , instance , validated_data):
         if 'name' in validated_data:
@@ -86,6 +87,8 @@ class serviceSerializer(serializers.ModelSerializer):
         self.assignValues(instance , validated_data)
         instance.save()
         return instance
+    def get_contact_count(self , obj):
+        return obj.contacts.all().count()
 
 class serviceLiteSerializer(serializers.ModelSerializer):
     address = addressSerializer(many = False, read_only = True)
