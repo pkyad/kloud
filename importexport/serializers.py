@@ -498,10 +498,10 @@ class complaintManagementSerializer(serializers.ModelSerializer):
         date = obj.date
         registeredBy = obj.registeredBy.first_name
         description = obj.description
-        to_email = ['raj@cioc.co.in']
-        # users = User.objects.filter(designation__division = divisionObj)
-        # for item in users:
-        #     to_email.append(item.email)
+        to_email = []
+        users = User.objects.filter(designation__division = divisionObj)
+        for item in users:
+            to_email.append(item.email)
         ctx = {
             'recieverName' : "Hi Sir/Ma'am",
             'customer':customer,
