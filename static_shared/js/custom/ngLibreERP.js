@@ -107,7 +107,7 @@ app.controller('main', function($scope, $state, $users, $aside, $http, $timeout,
       mode = 'others'
     }
 
-    $http({method : 'GET' , url : '/api/HR/myApps/' , params : {displayName__icontains : $scope.globalSearch.txt , mode : mode }}).
+    $http({method : 'GET' , url : '/api/HR/myApps/' , params : {displayName__icontains : $scope.globalSearch.txt , mode : mode, 'inMenu' : true }}).
     then(function(response) {
       $scope.globalSearch.results = response.data.apps;
       $scope.globalSearch.canAccessSettings = response.data.settings;

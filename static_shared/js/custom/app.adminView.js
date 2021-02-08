@@ -1176,6 +1176,7 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
        },
        controller: function($scope, $uibModalInstance, $rootScope, $http, Flash, app) {
          $scope.app = app
+         console.log($scope.app,'aaaaaaaaaaaaaaaa');
          $scope.form = {
            name:'',parent:'',enabled:true
          }
@@ -1235,7 +1236,7 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
 
          $http({
            method: 'GET',
-           url: '/api/ERP/applicationfeature/?parent=' + $state.params.id + '/'
+           url: '/api/ERP/applicationfeature/?parent=' + $state.params.id 
          }).
          then(function(response) {
            $scope.appFeatures = response.data;

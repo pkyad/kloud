@@ -134,6 +134,8 @@ class DownloadInvoice(APIView):
             return Response({'fileUrl' : file_name }, status = status.HTTP_200_OK)
         return response
 
+
+
 class ContactLiteViewSet(viewsets.ModelViewSet):
     permission_classes = (isOwner, )
     serializer_class = ContactLiteSerializer
@@ -142,6 +144,15 @@ class ContactLiteViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Contact.objects.all()
+
+class ServiceAllViewSet(viewsets.ModelViewSet):
+    permission_classes = (isOwner, )
+    serializer_class = serviceAllSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['name', 'company', 'mobile', 'email','typ']
+    def get_queryset(self):
+        divsn = self.request.user.designation.division
+        return service.objects.filter(division = divsn)
 
 class ContactViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny, )

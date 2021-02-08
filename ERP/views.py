@@ -46,6 +46,7 @@ from django.db.models import Sum
 from zoomapi import *
 from ERP.models import LanguageTranslation
 from paypal.standard.forms import PayPalPaymentsForm
+from django.db.models import BooleanField
 
 
 def generateOTPCode(length = 4):
@@ -342,12 +343,17 @@ def home(request):
         for  j in otherLang:
             val[j.lang] = LanguageTranslationSerializer(j,many = False).data
         langDataList[i.key] = val
-        # langDataList.append(val)
     langDataList = json.dumps(langDataList)
-    # langDataList = json.dumps(langDataList)
+
+    menusData = {}
+    for i in ApplicationFeature.objects.all():
+        menusData[i.name] = i.enabled
+        if i.enabled  == True and  InstalledApp.objects.filter(parent = division).count()==0:
+            menusData[i.name] = False
 
 
-    # pma_lang
+
+
 
     response =  render(request , 'ngBase.html' , {'wamp_prefix' : globalSettings.WAMP_PREFIX ,'isOnSupport' : isOnSupport , 'division' : division , 'homeState': homeState , 'dashboardEnabled' : u.profile.isDashboard , 'wampServer' : globalSettings.WAMP_SERVER, 'appsWithJs' : jsFilesList \
     ,'appsWithCss' : apps.filter(haveCss=True) , 'useCDN' : globalSettings.USE_CDN , 'BRAND_LOGO' : brandLogo \
@@ -571,7 +577,7 @@ class ApplicationFeatureViewSet(viewsets.ModelViewSet):
     queryset = ApplicationFeature.objects.all()
     serializer_class = ApplicationFeatureSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['parent','name','displayName']
+    filter_fields = ['parent','name']
 
 
 class LocationTrackerAPI(APIView):
@@ -895,6 +901,7 @@ class applicationViewSet(viewsets.ModelViewSet):
                 return getApps(User.objects.get(username = self.request.GET['user']))
             return application.objects.filter(published = True)
 
+
 class getapplicationViewSet(viewsets.ModelViewSet):
     permission_classes = (readOnly,)
     serializer_class = applicationSerializer
@@ -903,6 +910,13 @@ class getapplicationViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         u = self.request.user
         ap = application.objects.filter(admin = False)
+        try:
+            div = u.designation.division
+            installedApps = InstalledApp.objects.filter(parent = div).values_list('app__pk').distinct()
+            ap = ap.annotate(is_installed=Case(When(id__in = installedApps, then=True),default=False,output_field=BooleanField()))
+            ap = ap.order_by('-is_installed')
+        except:
+            pass
         if 'statealias' in self.request.GET:
             ap = ap.filter(stateAlias__isnull = False)
         return ap
