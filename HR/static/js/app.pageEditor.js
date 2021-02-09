@@ -192,8 +192,8 @@ $scope.getComponents()
             title: '',
             description: '',
             url: '',
-            ogImage: emptyFile
-
+            ogImage: emptyFile,
+            enableChat:false
           }
 
         }
@@ -204,6 +204,7 @@ $scope.getComponents()
           fd.append('title', $scope.form.title)
           fd.append('url', $scope.form.url)
           fd.append('description', $scope.form.description)
+          fd.append('enableChat', $scope.form.enableChat)
           if ($scope.form.ogImage != emptyFile && $scope.form.ogImage != null && typeof $scope.form.ogImage != 'string') {
             fd.append('ogImage', $scope.form.ogImage)
 
@@ -211,7 +212,7 @@ $scope.getComponents()
 
           $http({
             method: 'PATCH',
-            url: '/api/website/page/' + data + '/',
+            url: '/api/website/page/' + data.pk + '/',
             data: fd,
             transformRequest: angular.identity,
             headers: {
@@ -270,8 +271,72 @@ $scope.getComponents()
       controller: function($scope, $http,$uibModal, $uibModalInstance, data, idx, $timeout) {
 
         $scope.component = data;
-        console.log(data,'32490340234890');
         $scope.component.data = JSON.parse($scope.component.data)
+        console.log($scope.component.data,'34343');
+        $scope.search = {
+
+          searchVal:''
+        }
+        $scope.productSearch = function(query) {
+
+          return $http.get('/api/finance/inventory/?limit=20&mobile__icontains=' + query).
+          then(function(response) {
+            return response.data.results;
+          })
+        };
+
+        // $scope.editArrayObj = function(field, idx, key) {
+        //   console.log(field,field.form, idx, key,'43443432');
+        //   if(idx == -1){
+        //     data = angular.copy(field.form)
+        //   }else{
+        //     data = field.array[idx];
+        //   }
+        //   $scope.idx = idx;
+        //   $scope.key = key;
+        //   $scope.form = data;
+        //   console.log(data, '324342');
+        //
+        //   $scope.add = function(){
+        //       $scope.component.data[$scope.key].array.push($scope.form.data)
+        //   }
+        //
+        // }
+
+        $scope.appMediaPro = {
+          lazyLoad: false,
+          loop: true,
+          items: 1,
+          autoplay: true,
+          autoplayTimeout: 10000,
+          dots: true,
+          // nav:true,
+          responsive: {
+            0: {
+              items: 1
+            },
+            479: {
+              items: 2
+            },
+            600: {
+              items: 3
+            },
+            1000: {
+              items: 4,
+            }
+          },
+        };
+
+        $scope.add = function(){
+          console.log($scope.search.searchVal,'eqwerqwerwerrwer');
+        }
+
+
+        // from here on everything will go inside the directive
+        // from here on everything will go inside the directive
+        ///static/ngTemplates/app.website.uitemplateEditable.html
+        console.log(data,'32490340234890');
+
         // console.log(typeof $scope.component.data,'233');
         $scope.idx = idx;
         $scope.files = {};
@@ -321,53 +386,63 @@ $scope.getComponents()
             $uibModalInstance.dismiss()
           })
         }
-
         $scope.editArrayObj = function(field, idx, key) {
+          console.log(field, idx, key,'43443432');
           if(idx == -1){
             data = angular.copy(field.form)
           }else{
             data = field.array[idx];
           }
 
-          $uibModal.open({
-            templateUrl: '/static/ngTemplates/app.website.arrayObjEditor.html',
-            size: 'lg',
-            backdrop: true,
-            resolve: {
-              data: function() {
-                return data
-              },
-              idx: function() {
-                return idx
-              },
-              key : function(){
-                return key
-              }
-            },
-            controller: function($scope, $http, $uibModalInstance, data, idx, key) {
-              $scope.idx = idx;
-              $scope.key = key;
-              $scope.form = data;
 
-              $scope.add = function(){
-                $uibModalInstance.dismiss({data : $scope.form , key : $scope.key})
-              }
-              $scope.productSearch = function(query) {
+          $scope.idx = idx;
+          $scope.key = key;
+          $scope.form = data;
+          console.log(key,idx,data,'23432342yfdgd');
 
-                return $http.get('/api/finance/inventory/?limit=20&mobile__icontains=' + query).
-                then(function(response) {
-                  return response.data.results;
-                })
-              };
+          $scope.add = function(){
+          }
+          $scope.component.data[$scope.key].array.push(data)
 
-            }
-          }).result.then(function(d){
+          // $scope.productSearch = function(query) {
+          //
+          //   return $http.get('/api/finance/inventory/?limit=20&mobile__icontains=' + query).
+          //   then(function(response) {
+          //     return response.data.results;
+          //   })
+          // };
 
-          }, function(r){
-            console.log({r});
-            console.log(r.data);
-            $scope.component.data[r.key].array.push(r.data)
-          });
+          // $uibModal.open({
+          //   templateUrl: '/static/ngTemplates/app.website.arrayObjEditor.html',
+          //   size: 'lg',
+          //   backdrop: true,
+          //   resolve: {
+          //     data: function() {
+          //       return data
+          //     },
+          //     idx: function() {
+          //       return idx
+          //     },
+          //     key : function(){
+          //       return key
+          //     }
+          //   },
+          //   controller: function($scope, $http, $uibModalInstance, data, idx, key) {
+          //
+          //
+          //
+          //
+          //
+          //
+          //
+          //   }
+          // }).result.then(function(d){
+          //
+          // }, function(r){
+          //   console.log({r});
+          //   console.log(r.data);
+          //   $scope.component.data[r.key].array.push(r.data)
+          // });
         }
 
 

@@ -69,6 +69,24 @@
             </div>
           </ng-owl-carousel>
         </div>
+        <div class="" ng-if="mobileMedia.length>0">
+          <div class="row"   >
+            <div class="col-md-3"  ng-repeat="i in mobileMedia.slice(0,4) track by $index">
+              <div class="" style="background-image:url({{i.attachment}});height:400px;background-size:contain;margin-bottom:10px;background-position: center;background-repeat: no-repeat;">
+
+              </div>
+
+            </div>
+          </div>
+          <!-- <ng-owl-carousel class="owl-theme " owl-items="appMedia" owl-properties="appMediaPro" owl-ready="ready($api)">
+            <div class="col-md-6" style="width:100%" ng-repeat="i in appMedia.slice(0,4) track by $index">
+              <div class="" style="background-image:url({{i.attachment}});height:400px;background-size:contain;margin-bottom:10px;background-position: center;background-repeat: no-repeat;">
+
+              </div>
+
+            </div>
+          </ng-owl-carousel> -->
+        </div>
         <div class="" ng-if="is_staff">
           <div class="row">
             <div class="col-md-12">

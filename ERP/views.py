@@ -572,6 +572,13 @@ class applicationMediaViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['app','typ']
 
+class MobileapplicationMediaViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny ,)
+    queryset = MobileapplicationMedia.objects.all()
+    serializer_class = MobileapplicationMediaSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['app','typ']
+
 
 class ApplicationFeatureViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny ,)
@@ -748,6 +755,10 @@ class GetApplicationDetailsApi(APIView):
     renderer_classes = (JSONRenderer,)
     permission_classes = (permissions.AllowAny ,)
     def get(self , request , format = None):
+
+        division = self.request.user.designation.division
+        
+
         if self.request.user.pk:
             division = self.request.user.designation.division
             appObj = application.objects.get(pk = int(self.request.GET['app']))
@@ -758,6 +769,8 @@ class GetApplicationDetailsApi(APIView):
             appFeedbacks = FeedbackSerializer(feedObj, many = True).data
             apps = InstalledApp.objects.filter(app__pk= int(request.GET['app']) , parent = division)
             userApps = UserApp.objects.filter(app = appObj, user__designation__division = division)
+            mobmediaObj = MobileapplicationMedia.objects.filter(app = appObj)
+            mobileMedias = MobileapplicationMediaSerializer(mobmediaObj, many = True).data
             # userApps = UserApp.objects.filter(app = appObj).values_list('user__pk', flat=True).distinct()
             # users = User.objects.filter(pk__in = userApps , designation__division = division)
             # appUser = userSearchSerializer(users , many =True).data
@@ -780,7 +793,8 @@ class GetApplicationDetailsApi(APIView):
             installedAppObj = []
             is_staff = False
             is_user_installed = False
-        data = {'appData' : appData , 'appMedias' : appMedias , 'appFeedbacks' : appFeedbacks ,'appUser' : appUser , 'installedApp' : installedAppObj, 'is_staff' : is_staff , 'is_user_installed' : is_user_installed}
+        data = {'appData' : appData , 'appMedias' : appMedias ,'mobileMedia':mobileMedias,'appFeedbacks' : appFeedbacks ,'appUser' : appUser , 'installedApp' : installedAppObj, 'is_staff' : is_staff , 'is_user_installed' : is_user_installed}
+        # data = {'appData' : appData , 'appMedias' : appMedias , 'appFeedbacks' : appFeedbacks ,'appUser' : appUser , 'installedApp' : installedAppObj, 'is_staff' : is_staff , 'is_user_installed' : is_user_installed}
         return Response(data,status = status.HTTP_200_OK)
 
 class serviceViewSet(viewsets.ModelViewSet):
@@ -908,10 +922,13 @@ class applicationViewSet(viewsets.ModelViewSet):
 
 
         if not u.is_superuser:
+
             return getApps(u)
         else:
+
             if 'user' in self.request.GET:
                 return getApps(User.objects.get(username = self.request.GET['user']))
+
             return application.objects.filter(published = True)
 
 

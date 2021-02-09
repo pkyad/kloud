@@ -322,7 +322,7 @@ app.directive('productCards', function() {
     controller: function($scope, $state, $http, Flash, $rootScope, $users, $timeout, $filter) {
 
       $scope.item = $scope.list
-
+      console.log($scope.item,'3ZXcXZczx34');
 
       $scope.me = $users.get('mySelf');
       $scope.priceDisplay = false
@@ -656,12 +656,12 @@ app.directive('ecommerceHotproducts', function() {
     restrict: 'E',
     transclude: true,
     replace: true,
-    // scope: {
-    //
-    // },
+    scope: {
+      data:"="
+    },
     controller: function($scope, $state, $http, Flash, $rootScope, $users, $filter, $interval) {
-
-
+      $scope.items = $scope.data
+      console.log($scope.items);
       $scope.hotproducts = {
         "heading": "Hot Products",
         "items": [{

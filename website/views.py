@@ -45,10 +45,12 @@ class PageViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     serializer_class = PageSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['title' , 'url']
+    filter_fields = ['title' , 'url','user']
     def get_queryset(self):
+        # divsn = self.request.user.designation.division
+        # toReturn = Page.objects.filter(user__designation__division=divsn)
         divsn = self.request.user.designation.division
-        toReturn = Page.objects.filter(user__designation__division=divsn)
+        toReturn = Page.objects.filter(user__designation__division=divsn,user=self.request.user )
         if 'search' in self.request.GET:
             val = self.request.GET['search']
             toReturn = toReturn.filter(Q(title__icontains = val) | Q(url__icontains = val) | Q(description__icontains =  val))
@@ -64,10 +66,17 @@ class ComponentsViewSet(viewsets.ModelViewSet):
 
 class UIelementTemplateViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
-    queryset = UIelementTemplate.objects.all()
     serializer_class = UIelementTemplateSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['name' , 'template','templateCategory']
+    filter_fields = ['name' , 'template','templateCategory','live']
+    def get_queryset(self):
+        toReturn = UIelementTemplate.objects.all()
+        divsn = self.request.user.designation.division
+        if 'templateCategory' in self.request.GET:
+            toReturn = toReturn.filter(live=True,templateCategory__icontains = self.request.GET['templateCategory'])
+        return toReturn
+
+
 
 class PublishAPIView(APIView):
     def get(self , request , format = None):

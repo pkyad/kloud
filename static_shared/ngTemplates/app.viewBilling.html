@@ -1,8 +1,8 @@
 <div class="container-fluid" style="overflow-y:scroll;min-height:100vh">
-  <div class="col-md-8 col-md-offset-2" style="padding-bottom:35px;">
+  <div class="col-md-8 col-md-offset-2 billingDiv" >
     <div class="" style="padding: 35px 20px;background-color:#fedd2c;
 border-radius: 20px 20px 0px 0px;
-margin: 100px 0px;
+
 margin-bottom: 0px;height:150px;">
       <div class="row">
         <div class="col-md-6">
@@ -16,10 +16,12 @@ margin-bottom: 0px;height:150px;">
         <div class="col-md-4">
           <div class="row">
             <div class="col-md-6">
+              <label for="">Year</label>
               <select class="" ng-model="select.year" ng-options="p for p in years" ng-change="getBillingData()" style="background:#ebebeb;border:none;text-align:right;width:100%;border-radius:25px">
               </select>
             </div>
             <div class="col-md-6">
+              <label for="">Month</label>
               <select class="" ng-model="select.month" ng-options=" m for m in monthList" ng-change="getBillingData()" style="background:#ebebeb;border:none;text-align:right;width:100%;border-radius:25px">
               </select>
             </div>
