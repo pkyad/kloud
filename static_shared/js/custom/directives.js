@@ -887,6 +887,9 @@ app.directive('appstoreView', function() {
         if (window.pageYOffset > sticky) {
           header.style.position = 'fixed'
           header.style.width = '100%'
+          if ($state.current.name != '') {
+            header.style.width = '90%'
+          }
           header.style.top = '0'
           header.style.zIndex = "1"
           header.style.paddingTop = '20px'
@@ -894,6 +897,7 @@ app.directive('appstoreView', function() {
         }
          else {
           header.style.position = 'relative'
+          header.style.width = '100%'
         }
       }
 
