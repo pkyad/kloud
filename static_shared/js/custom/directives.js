@@ -960,6 +960,11 @@ app.directive('appdetailedView', function() {
       // addCart: '='
     },
     controller: function($scope, $state, $http, Flash, $rootScope, $filter,$location, $users, $timeout,$uibModal) {
+      $scope.isMobile = false
+      if (screen.width <= 480) {
+        $scope.isMobile = true
+      }
+
 
       $scope.appMediaPro = {
         lazyLoad: false,
@@ -975,6 +980,29 @@ app.directive('appdetailedView', function() {
           },
           479: {
             items: 2
+          },
+          600: {
+            items: 3
+          },
+          1000: {
+            items: 2,
+          }
+        },
+      };
+      $scope.mobileMediaPro = {
+        lazyLoad: false,
+        loop: true,
+        items: 1,
+        autoplay: true,
+        autoplayTimeout: 10000,
+        dots: true,
+        // nav:true,
+        responsive: {
+          0: {
+            items: 1
+          },
+          479: {
+            items: 1
           },
           600: {
             items: 3
