@@ -41,7 +41,10 @@ body {
   color: black !important;
   outline: none !important;
 }
-
+.appStoreDiv{
+  min-height: 100vh;
+  padding: 0px 200px;
+}
 .navbar-dark .navLink:hover,
 .navbar-dark .navLink:focus {
   color: #ff6900 !important;
@@ -4223,8 +4226,50 @@ ul.bulletstyle {
   }
 }
 
-@media only screen and (min-width:1601px) {
+.istalled{
+  position: absolute;
+bottom: 22px;
+right: -53px;
+height: 149px;
+width: 100px;
+background:
+#5c9d68;
+transform: rotate(-49deg);
+}
+@media only screen and (min-width:1280px) and (max-width:1440px) {
 
+  .appStoreDiv{
+    padding:0px 50px;
+  }
+  .installed{
+    position: absolute;
+  bottom: -36px;
+  right: -40px;
+  height: 180px;
+  width: 75px;
+  background:
+  #5c9d68;
+  }
+}
+@media only screen and (min-width:1441px) and (max-width:1600px) {
+
+  .appStoreDiv{
+    padding:0px 120px;
+  }
+  .installed{
+    position: absolute;
+  bottom: -36px;
+  right: -40px;
+  height: 180px;
+  width: 75px;
+  background:
+  #5c9d68;
+  }
+}
+@media only screen and (min-width:1601px) {
+  /* .appStoreDiv{
+    padding:0px 50px;
+  } */
   /* for hd screens starts here.... */
   .videocontainer {
     height: 68vh;

@@ -192,8 +192,8 @@ $scope.getComponents()
             title: '',
             description: '',
             url: '',
-            ogImage: emptyFile
-
+            ogImage: emptyFile,
+            enableChat:false
           }
 
         }
@@ -204,6 +204,7 @@ $scope.getComponents()
           fd.append('title', $scope.form.title)
           fd.append('url', $scope.form.url)
           fd.append('description', $scope.form.description)
+          fd.append('enableChat', $scope.form.enableChat)
           if ($scope.form.ogImage != emptyFile && $scope.form.ogImage != null && typeof $scope.form.ogImage != 'string') {
             fd.append('ogImage', $scope.form.ogImage)
 
@@ -211,7 +212,7 @@ $scope.getComponents()
 
           $http({
             method: 'PATCH',
-            url: '/api/website/page/' + data + '/',
+            url: '/api/website/page/' + data.pk + '/',
             data: fd,
             transformRequest: angular.identity,
             headers: {

@@ -2658,7 +2658,14 @@ width: 100%;
   margin-top:50px;margin-bottom:30px;
 
 }
+.appStoreDiv{
+  min-height: 100vh;
+  padding: 0px 200px;
+}
 @media screen and (min-width: 1279px) and (max-width: 1365px) and (-webkit-device-pixel-ratio: 1) {
+  .appStoreDiv{
+    padding:0px 50px;
+  }
   .billingDiv{
     width: 95%;
     margin-left: 1%;
