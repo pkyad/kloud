@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=0.5">
   <title>Template Editor : {{pk}}</title>
   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" charset="utf-8">
   <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" charset="utf-8">
@@ -35,7 +35,7 @@
     #aceEditorPreValidator,
     #aceEditorValidator {
       width: 100%;
-      height: 600px;
+      height: 100%;
       border-top: solid 2px #eee;
       border-bottom: solid 2px #eee;
     }
@@ -58,7 +58,123 @@
 
 <body ng-app="app" ng-controller="templateEditor" style="background:#f2f3f7">
   {% verbatim %}
-  <div class="container-fluid" style="padding:10px;background:black;color:white;">
+  <div class="alert alert-{{msg.status}} text-center" style="position: absolute;z-index: 99999999;top: 10%;
+left: 40%;width:30%">
+  <strong>{{msg.text}}</strong>
+  </div>
+    <div class="container-fluid">
+      <div class="row" style="background-color:white;height:100vh">
+        <div class="col-md-2" style="height:100%;border-right:1px solid #ccc;overflow-y:scroll">
+          <div class="text-center" >
+            <div class="row" style="border-top:1px solid #ccc;border-bottom:1px solid #ccc;padding:20px;">
+              <h4><a href=""> template.html</a></h4>
+              <p>{{msg.text}}</p>
+            </div>
+            <div class="row" style="border-bottom:1px solid #ccc;padding:20px;">
+              <h4><a href=""> style.css</a></h4>
+            </div>
+            <div class="row" style="border-bottom:1px solid #ccc;padding:20px;">
+              <h4><a href="" > data.json</a></h4>
+            </div>
+            <div class="row" style="border-bottom:1px solid #ccc;padding:20px;">
+              <h4> <a href="#">Images</a>  <img src="/static/images/upload.png" style="height:30px;float:right"></h4>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class=""  style="position:absolute;bottom:50px;">
+              <div class="container-fluid" >
+                <div class="row">
+                  <div class="col-md-12">
+                    <label>Name: {{form.name}} </label>
+                  </div>
+
+
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <label for="">Category: {{form.templateCategory}}</label>
+
+                  </div>
+
+
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label>Live</label>
+                    <input type="checkbox" ng-model="form.live">
+                  </div>
+
+                </div>
+
+
+
+
+
+              </div>
+            </div>
+            <div class=""  >
+              <button type="button"  name="button"  class="btn" ng-click="editTemplate(form)" style="position: absolute;bottom: 0;
+width: 100%;
+background:
+#103F8D;
+color:
+white;
+border: none !important;
+border-radius: 0px !important;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+padding: 15px;"  > <i class="fa fa-pencil" ></i> edit the details </button>
+            </div>
+
+            </div>
+            <div class="row" style="margin:0px;"  ng-if="showDetails" >
+              <div class="form-group">
+                <label for="">Name</label>
+                <input type="text" name="" value="" class="form-control" ng-model="form.name" style="border-radius: 15px;background:#4d4d4d;color:white;border: none;">
+              </div>
+
+
+                  <div class="form-group">
+                    <label for="">Category</label>
+                    <select class="form-control" name="" ng-model = "form.templateCategory" ng-options="k for k in choices">
+
+                    </select>
+
+                </div>
+                <div class="form-group">
+                  <label for="">Mobile Preview</label>
+                  <input type="file" file-model="form.mobilePreview">
+                  <img src="{{form.mobilePreview}}" alt=""style="height:95px;width:100%">
+                </div>
+                <div class="form-group">
+                  <label for="">Web Preview</label>
+                  <input type="file" file-model="form.sampleImg">
+                  <img src="{{form.sampleImg}}" alt=""style="height:150px;width:100%;">
+                </div>
+              </div>
+              <div class="">
+                <button type="button" ng-show="showDetails" class="btn btn-primary" name="button" ng-click="save();showDetails=false">Save</button>
+              </div>
+            </div>
+        <div class="col-md-5" style="height:100%;">
+          <!-- <div id="aceEditor2" class="" ng-bind-html="form.defaultData" >
+          </div> -->
+          <div id="aceEditor" class="" ng-bind-html="form.defaultData" >
+          </div>
+        </div>
+        <div class="col-md-5">
+
+        </div>
+      </div>
+
+    </div>
+
+
+
+  <!-- <div class="container-fluid" style="padding:10px;background:black;color:white;">
     <div class="col-md-1">
       <label>Name</label>
     </div>
@@ -95,8 +211,7 @@
       <label>Live</label>
       <input type="checkbox" ng-model="form.live">
     </div>
-    <!-- <div class="col-md-1">
-    </div> -->
+
     <div class="col-md-1">
       <button type="button" class="btn btn-primary" name="button" ng-click="save()">Save</button>
     </div>
@@ -113,23 +228,20 @@
         </div>
       </div>
       <div class="col-md-2">
-        <!-- <iframe width="100%" height="600" ng-src="{{uielement}}" frameborder="0"      allowfullscreen  ></iframe> -->
-        <!-- <iframe width="100%" height="768"  ng-src="{{uielement}}"  style="-webkit-transform:scale(0.5);-moz-transform-scale(0.5);"></iframe> -->
+        <iframe width="100%" height="600" ng-src="{{uielement}}" frameborder="0"      allowfullscreen  ></iframe>
+        <iframe width="100%" height="768"  ng-src="{{uielement}}"  style="-webkit-transform:scale(0.5);-moz-transform-scale(0.5);"></iframe>
       </div>
     </div>
       <div class="row" style="margin:0px;">
-        <iframe id="iFrame" ng-src="{{uielement}}" name="template" style="height:50vh;-webkit-transform:scale(0.5);-moz-transform-scale(0.5);"  width="100%" frameborder="0"      allowfullscreen>
+        <iframe id="iFrame" ng-src="{{uielement}}" name="template"  width="100%" frameborder="0"      allowfullscreen>
         </iframe>
 
       </div>
 
 
-  </div>
+  </div> -->
 
-  <div class="alert alert-{{msg.status}} text-center" style="position: absolute;z-index: 99999999;top: 10%;
-left: 40%;width:30%">
-  <strong>{{msg.text}}</strong>
-  </div>
+
 
 
 

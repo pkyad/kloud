@@ -73,7 +73,7 @@ class UIelementTemplateViewSet(viewsets.ModelViewSet):
         toReturn = UIelementTemplate.objects.all()
         divsn = self.request.user.designation.division
         if 'templateCategory' in self.request.GET:
-            toReturn = toReturn.filter(live=True)
+            toReturn = toReturn.filter(live=True,templateCategory__icontains = self.request.GET['templateCategory'])
         return toReturn
 
 

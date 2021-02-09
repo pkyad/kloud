@@ -21,6 +21,8 @@ router.register(r'applicationfeature' , ApplicationFeatureViewSet , base_name='a
 router.register(r'usageBilling' , UsageBillingViewSet , base_name='usageBilling')
 router.register(r'calendarSlot' , CalendarSlotViewSet , base_name='calendarSlot')
 router.register(r'userapps' , UserAppViewSet , base_name='userapps')
+router.register(r'appversioning' , AppVersioningViewSet , base_name='appversioning')
+
 
 urlpatterns = [
     url(r'^', include(router.urls)),

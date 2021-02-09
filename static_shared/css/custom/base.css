@@ -2656,15 +2656,21 @@ width: 100%;
   padding-bottom: 35px;
   position: absolute;
   margin-top:50px;margin-bottom:30px;
+  width: 60%;
+}
 
 }
 .appStoreDiv{
   min-height: 100vh;
   padding: 0px 200px;
 }
+
 @media screen and (min-width: 1279px) and (max-width: 1365px) and (-webkit-device-pixel-ratio: 1) {
   .appStoreDiv{
     padding:0px 50px;
+  }
+  .whatsappWeb{
+    bottom:100px;
   }
   .billingDiv{
     width: 95%;
@@ -3091,6 +3097,13 @@ width: 100%;
 }
 
 @media screen and (min-width: 1366px) and (max-width:1439px) and (-webkit-device-pixel-ratio: 1) {
+  .billingDiv{
+    width: 95%;
+    margin-left: 1%;
+  }
+  .whatsappWeb{
+    bottom:100px;
+  }
   .commentQuote{
     left:70px
   }

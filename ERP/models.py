@@ -403,3 +403,12 @@ class OnlinePaymentDetails(models.Model):
     initiateResponse = models.TextField(max_length = 10000 , null = True ,blank=True)
     successorfailureRes = models.TextField(max_length = 20000 , null = True ,blank=True)
     is_failure = models.BooleanField(default=False)
+
+
+class AppVersioning(models.Model):
+    created = models.DateTimeField(auto_now_add = True)
+    minVersion = models.CharField(max_length = 50, null = True , blank = True)
+    latestVersion = models.CharField(max_length = 50, null = True , blank = True)
+    enabled = models.BooleanField(default=False)
+    app = models.ForeignKey(application , related_name='versions' , null = False)
+    title = models.CharField(max_length = 50, null = True , blank = True)

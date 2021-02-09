@@ -1500,6 +1500,52 @@ $scope.delMobileMedia = function(indx){
    }
 
 
+   $scope.addVersioning = function() {
+     $uibModal.open({
+       templateUrl: '/static/ngTemplates/app.organization.appversioning.html',
+       size: 'md',
+       backdrop: true,
+       // resolve: {
+       //   feedback: function() {
+       //     return feedback
+       //   }
+       // },
+       controller: function($scope, $uibModalInstance, $rootScope, $http, Flash) {
+         $scope.form = {
+           minVersion : '',
+           latestVersion:'',
+           enabled:false,
+           title:''
+         }
+         $scope.save = function(){
+           var dataToSend = $scope.form
+           dataToSend.app = $state.params.id
+           $http({
+             method: 'POST',
+             url: '/api/ERP/appversioning/',
+             data : dataToSend
+           }).
+           then(function(response) {
+
+
+           })
+         }
+       }
+     }).result.then(function() {
+
+     }, function() {
+
+     });
+
+
+
+
+
+
+
+   }
+
+
    $scope.delFeedback = function(idx){
      $http({
        method: 'DELETE',

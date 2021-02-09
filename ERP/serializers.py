@@ -102,9 +102,10 @@ class applicationSerializer(serializers.ModelSerializer):
     mobileMedia = serializers.SerializerMethodField()
     usersCount = serializers.SerializerMethodField()
     is_app_installed = serializers.SerializerMethodField()
+    versions = serializers.SerializerMethodField()
     class Meta:
         model = application
-        fields = ( 'pk', 'name', 'module' , 'description' , 'icon'  ,  'haveJs' , 'haveCss' , 'published', 'displayName','stateAlias','appMedia','windows','ios','mac','android','rating_five','rating_four','rating_three','rating_two','rating_one','usersCount','appStoreUrl' , 'playStoreUrl','is_app_installed','mobileMedia')
+        fields = ( 'pk', 'name', 'module' , 'description' , 'icon'  ,  'haveJs' , 'haveCss' , 'published', 'displayName','stateAlias','appMedia','windows','ios','mac','android','rating_five','rating_four','rating_three','rating_two','rating_one','usersCount','appStoreUrl' , 'playStoreUrl','is_app_installed','inMenu','mobileMedia','versions')
     def update(self , instance , validated_data):
         for key in ['displayName' , 'description' , 'webpage','windows','ios','mac','android','rating_five','rating_four','rating_three','rating_two','rating_one']:
             try:
@@ -137,6 +138,8 @@ class applicationSerializer(serializers.ModelSerializer):
         except:
             pass
         return is_installed
+    def get_versions(self , obj):
+        return AppVersioningSerializer(obj.versions.all(), many = True).data
 
 class applicationMediaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -383,3 +386,9 @@ class LanguageTranslationSerializer(serializers.ModelSerializer):
     class Meta:
         model = LanguageTranslation
         fields = ('pk' , 'key', 'value', 'lang' )
+
+
+class AppVersioningSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AppVersioning
+        fields = ('pk' , 'minVersion', 'latestVersion', 'enabled' , 'app','title')
