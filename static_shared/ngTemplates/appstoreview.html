@@ -324,6 +324,16 @@
     .installed{
       position: absolute;right: -53px;height: 149px;width: 100px;background: #5c9d68;transform: rotate(-49deg);
     }
+    .firstApp{
+      position: absolute;
+bottom: 14px;
+right: -45px;
+height: 150px;
+width: 100px;
+background:
+#5c9d68;
+transform: rotate(-49deg);
+    }
     @media only screen and (min-device-width : 320px) and (max-device-width : 600px) {
 
       #Boxes .secondbox {
@@ -454,6 +464,10 @@ right: -40px;
 height: 125px;
 width: 105px;
 bottom:20px    !important;
+      }
+      .firstApp{
+        bottom: -5px;
+        right: -32px;
       }
 
       #page2bgImage #divText {
@@ -607,12 +621,12 @@ bottom:20px    !important;
               <div class="apps" style="background:url('{{allApplication[0].icon}}')no-repeat center;">
               </div>
             </div>
-            <div class="col-md-6 col-xs-12" id="fAppdescription1">
+            <div class="col-md-9 col-xs-12" id="fAppdescription1" style="position:relative">
               <h4>{{allApplication[0].displayName}}</h4>
               <span><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></span>
-              <div style="position: absolute;bottom: 7px;right: -223px;height: 149px;width: 100px;background: #5c9d68;transform: rotate(-49deg);" ng-if="allApplication[0].is_app_installed">
+              <div  class="firstApp" ng-if="allApplication[0].is_app_installed">
                 <!-- <img src="/static/images/icons8-check-mark-144.png" style="width: 47px;transform: rotate(-56deg);margin-top: 54px;" alt=""> -->
-                <div style="width: 47px;transform: rotate(90deg);margin-top: 54px;color: white;font-size: 11px;"> INSTALLED </div>
+                <div style="width: 55px;transform: rotate(90deg);margin-top: 75px;color: white;font-size: 11px;"> INSTALLED </div>
               </div>
             </div>
 
@@ -624,14 +638,16 @@ bottom:20px    !important;
               <div class="hidden-xs apps" style="background:url('{{allApplication[1].icon}}')no-repeat center;">
               </div>
             </div>
-            <div class="col-md-6" id="fAppdescription2">
+            <div class="col-md-9" id="fAppdescription2" style="position:relative">
               <h4 class="maintitle">{{allApplication[1].displayName}}</h4>
               <span><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></span>
-              <div style="position: absolute;bottom: 7px;right: -223px;height: 149px;width: 100px;background: #5c9d68;transform: rotate(-49deg);" ng-if="allApplication[1].is_app_installed">
-                <!-- <img src="/static/images/icons8-check-mark-144.png" style="width: 47px;transform: rotate(-56deg);margin-top: 54px;" alt=""> -->
-                <div style="width: 47px;transform: rotate(90deg);margin-top: 54px;color: white;font-size: 11px;"> INSTALLED </div>
+              <div class="firstApp" style=""   ng-if="allApplication[1].is_app_installed">
+                <!-- <img src="/static/images/icons8-check-mark-144.png" style="width: 47px;transform: rotate(-56deg);margin-top: 54px;" alt="" style="position: absolute;bottom: 7px;right: -223px;height: 149px;width: 100px;background: #5c9d68;transform: rotate(-49deg);> -->
+                <div style="width: 55px;transform: rotate(90deg);margin-top: 75px;color: white;font-size: 11px;"> INSTALLED </div>
               </div>
             </div>
+
+
           </div>
         </div>
       </div>

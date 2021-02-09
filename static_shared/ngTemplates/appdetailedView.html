@@ -32,19 +32,20 @@
             </div>
             <div class="visible-xs">
               <div class="row">
-                <div class="col-xs-8 " style="color:#8c8c8c;margin:0px;">
+                <!-- <div class="col-xs-8 " style="color:#8c8c8c;margin:0px;">
 
-                </div>
-                <div class="col-xs-4" ng-if="is_staff">
+                </div> -->
+                <div class="col-xs-12" ng-if="is_staff">
+
                   <button type="button" class="btn btn-success btn-block" name="button" ng-click="install()" ng-show="step=='notinstalled'" style="border-radius:50px!important;background:#02a33e;color:white;border:none!important">Install</button>
 
                   <button type="button" class="btn btn-success btn-block" name="button" ng-show="step=='installing'" style="border-radius:50px!important;background:#02a33e;color:white;border:none!important"> <i class="fa fa-spinner fa-spin"></i>
                   </button>
 
-                  <button style="margin-top:0px;border-radius:50px!important;color: #fb0000;border: 2px solid #fb0000 !important;padding: 10px;font-size: 17px;" type="button" class="btn" name="button" ng-show="step=='installed'"
+                  <button style="margin-top:0px;border-radius:50px!important;color: #fb0000;border: 2px solid #fb0000 !important;padding: 10px;font-size: 17px;" type="button" class="btn btn-block" name="button" ng-show="step=='installed'"
                     ng-click="unInstall()">Uninstall </button>
 
-                  <button class="btn btn-primary btn-block" ng-click="openApp()" style="border-radius:50px!important;background:#0010fc;color:white;border:none!important">Open</button>
+                  <button class="btn  btn-block" ng-click="openApp()" style="border-radius:50px!important;background:#0010fc;color:white;border:none!important;">Open</button>
                 </div>
               </div>
             </div>
@@ -80,7 +81,7 @@
           </div> -->
           <ng-owl-carousel class="owl-theme " owl-items="mobileMedia" owl-properties="mobileMediaPro" owl-ready="ready($api)">
             <div class="col-md-6" style="width:100%" ng-repeat="i in mobileMedia.slice(0,4) track by $index">
-              <div class="" style="background-image:url({{i.attachment}});height:400px;background-size:cover;margin-bottom:10px;background-position: center;background-repeat: no-repeat;">
+              <div class="" style="background-image:url({{i.attachment}});height:400px;background-size:contain;margin-bottom:10px;background-position: center;background-repeat: no-repeat;">
 
               </div>
 

@@ -43,7 +43,7 @@ body {
 }
 .appStoreDiv{
   min-height: 100vh;
-  padding: 0px 200px;
+  padding: 0px 100px;
 }
 .navbar-dark .navLink:hover,
 .navbar-dark .navLink:focus {

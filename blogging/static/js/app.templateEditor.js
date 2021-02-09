@@ -26,7 +26,7 @@ app.directive('fileModel', ['$parse', function ($parse) {
   };
 }]);
 
-app.controller('templateEditor', function($scope, $rootScope , $sce , $http , $timeout,Flash) {
+app.controller('templateEditor', function($scope, $rootScope , $sce , $http , $timeout,Flash,$uibModal) {
   // $scope.editor1 = ace.edit('aceEditor');
   $scope.checked = true
   $scope.choices = ['Contact Us','Introduction','Image List','Info Section','Testimonials','Widgets','Header','Footer','Others']
@@ -36,6 +36,57 @@ app.controller('templateEditor', function($scope, $rootScope , $sce , $http , $t
     $scope.form = response.data;
     $scope.setupEditor();
   })
+
+  $scope.editTemplate = function(data) {
+
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.website.editTemplate.html',
+      size: 'lg',
+      backdrop: true,
+      resolve: {
+        data:function(){
+          return data
+        }
+      },
+      controller: function($scope, $http, $uibModalInstance,data) {
+        $scope.form = data
+        $scope.choices = ['Contact Us','Introduction','Image List','Info Section','Testimonials','Widgets','Header','Footer','Others']
+
+        var fd = new FormData();
+        fd.append('name',$scope.form.name)
+        fd.append('templateCategory',$scope.form.templateCategory)
+        fd.append('live',$scope.form.live)
+        if ($scope.form.sampleImg != emptyFile && typeof $scope.form.sampleImg != 'string') {
+          fd.append('sampleImg',$scope.form.sampleImg)
+
+        }
+        if ($scope.form.mobilePreview != emptyFile && typeof $scope.form.mobilePreview != 'string') {
+          fd.append('mobilePreview',$scope.form.mobilePreview)
+
+        }
+
+        $scope.save = function(){
+          $http({method : 'PATCH' , url : '/api/website/uielementemplate/' + PK + '/',data: fd,
+          transformRequest: angular.identity,
+          headers: {
+            'Content-Type': undefined
+          }
+        }).
+          then(function(response) {
+          })
+        }
+
+
+
+      }
+
+    }).result.then(function() {}, function() {
+    });
+
+
+  }
+
+
 
 
   $scope.setupEditor = function() {
