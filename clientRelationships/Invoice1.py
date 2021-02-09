@@ -286,7 +286,9 @@ class PageNumCanvas(canvas.Canvas):
             imal.drawHeight = 0.8*inch
             imal.drawWidth = 2*inch
             imal.hAlign = 'RIGHT'
-        tab5 = Table([[ima , imal]],colWidths=[6*inch, 6*inch])
+            tab5 = Table([[ima , imal]],colWidths=[6*inch, 6*inch])
+        else:
+            tab5 = Table([[ima]])
         tab5.wrapOn(self, 1 * mm, self._pagesize[1] - 25 * mm)
         tab5.drawOn(self, 1 * mm, self._pagesize[1] - 25 * mm)
         # from svglib.svglib import svg2rlg

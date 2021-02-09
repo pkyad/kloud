@@ -889,6 +889,7 @@ app.directive('appstoreView', function() {
           header.style.width = '100%'
           header.style.top = '0'
           header.style.zIndex = "1"
+          header.style.paddingTop = '20px'
 
         }
          else {

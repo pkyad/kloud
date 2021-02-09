@@ -64,8 +64,29 @@ margin-bottom:20px;
 {% endblock %}
 
 
+
 {% block header %}
-  {% include 'app.HR.header.html'%}
+{% include 'app.HR.header.html'%}
+<script>
+  window.onscroll = function() {myFunction()};
+  var header = document.getElementById("myHeader");
+  var sticky = header.offsetTop;
+  function myFunction() {
+    if (window.pageYOffset > sticky) {
+      header.style.position = 'fixed'
+      header.style.width = '80%'
+      header.style.top = '0'
+      header.style.zIndex = "3"
+     header.style.paddingTop = '20px'
+      header.style.paddingBottom = '20px'
+    }
+    else {
+      header.style.position = 'relative'
+      header.style.width = '100%'
+
+    }
+  }
+</script>
 {% endblock %}
 
 {% block content %}
@@ -74,9 +95,8 @@ margin-bottom:20px;
   <appdetailed-view > </appdetailed-view>
 {% endverbatim %}
 
-
-
 {% endblock %}
+
 
 
 {% block footer %}

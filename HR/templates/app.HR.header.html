@@ -77,10 +77,10 @@
     <div class="" >
       <div class="" id="navbar" >
         <nav >
-          <div class="row"   id="myHeader">
+          <div class="row"   id="myHeader" style="background:#ffffff">
             <div class="col-md-10 col-xs-6">
               <div class="navbar-header">
-                <a  id="text"  href="/"><img src="/static/images/xicon.png" style="width:75px;" alt="" >Kloud ERP</a>
+                <a  id="text"  href="/"><img src="/static/images/xicon.png" style="width:75px;padding-right: 0px;" alt="" >Kloud ERP</a>
               </div>
 
             </div>
@@ -88,7 +88,7 @@
               <!-- <ul class="nav navbar-nav navbar-right"> -->
                 <!-- <li><a type="button" class="btn btn-default " name="button" id="signup" style="float:right"> Sign Up</a></li> -->
                 {% if request.user.pk %}
-                  <a type="button" href="/ERP/"  name="button" class="btn btn-default btn-block" style="height:60px;border-radius: 50px !important;padding-top:20px;" >Go To Backend</a>
+                  <a type="button" href="/ERP/"  name="button" class="btn btn-default btn-block" style="height:60px;border-radius: 50px !important;padding-top:20px;font-size: 14px;" >Go To Backend</a>
                 {% else %}
                   <!-- <li><a href="/login/"style="float:right" >Login  </a></li> -->
                   <a type="button" href="/login/"  name="button" class="btn btn-default btn-block" style="height:60px;border-radius: 50px !important;padding-top:20px;" >Login</a>
