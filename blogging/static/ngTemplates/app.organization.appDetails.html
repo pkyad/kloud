@@ -330,18 +330,20 @@ right: 10px;top: -10%;padding: 5px;background:white;border-radius: 50%;"></i></s
       <table class="table table-bordered">
         <thead>
           <th class="text-center" style="width:50px;">S.NO</th>
-          <th class="text-center">Name</th>
-          <th class="text-center">Rating</th>
-          <th class="text-center" colspan="2">Given Feedback</th>
+          <th class="text-center">Title</th>
+          <th class="text-center">Min Version</th>
+          <th class="text-center">Latest Version</th>
+          <th class="text-center">Enabled</th>
           <!-- <th colspan="2"></th> -->
 
         </thead>
         <tbody>
-          <tr ng-repeat="k in data.feedback track by $index">
+          <tr ng-repeat="k in data.versions track by $index">
             <td class="text-center">{{$index+1}}</td>
-            <td class="text-center">{{k.name}}</td>
-            <td class="text-center">{{k.star}}</td>
-            <td class="text-center">{{k.text}}</td>
+            <td class="text-center">{{k.title}}</td>
+            <td class="text-center">{{k.minVersion}}</td>
+            <td class="text-center">{{k.latestVersion}}</td>
+            <td class="text-center">{{k.enabled}}</td>
             <td class="text-center" style="width:90px;">
               <div class="pull-right">
                 <i class="fa fa-pencil" style="padding-right:25px;" ng-click="giveFeedback(k)"></i>
