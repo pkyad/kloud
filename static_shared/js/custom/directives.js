@@ -980,13 +980,15 @@ app.directive('appdetailedView', function() {
             items: 3
           },
           1000: {
-            items: 2,
+            items: 4,
           }
         },
       };
         $scope.step = 'notinstalled'
-        $scope.me = $users.get('mySelf');
+      $scope.me = $users.get('mySelf');
+      if ($scope.me!=null) {
         $scope.division = $scope.me.designation.division
+      }
       if ($state.is('workforceManagement.appDetails')) {
         var id = $state.params.id;
       }else{
@@ -1153,7 +1155,7 @@ app.directive('appdetailedView', function() {
           $scope.app = $scope.allData.appData
           $scope.users =  $scope.allData.appUser
           $scope.appMedia =  $scope.allData.appMedias
-          $scope.appMedia =  $scope.allData.appMedias
+          $scope.mobileMedia =  $scope.allData.mobileMedia
           $scope.app.feedback = $scope.allData.appFeedbacks
           $scope.installedApp = $scope.allData.installedApp
           $scope.is_staff =  $scope.allData.is_staff

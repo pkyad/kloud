@@ -15,6 +15,7 @@ router.register(r'genericPincode' , GenericPincodeViewSet , base_name='genericPi
 router.register(r'appsettings' , appSettingsFieldViewSet , base_name='genericPincode')
 router.register(r'menuitems' , MenuItemsViewSet , base_name='menuitems')
 router.register(r'applicationmedia' , applicationMediaViewSet , base_name='applicationmedia')
+router.register(r'mobileapplicationmedia' , MobileapplicationMediaViewSet , base_name='mobileapplicationmedia')
 router.register(r'feedback' , FeedbackViewSet , base_name='feedback')
 router.register(r'applicationfeature' , ApplicationFeatureViewSet , base_name='applicationfeature')
 router.register(r'usageBilling' , UsageBillingViewSet , base_name='usageBilling')

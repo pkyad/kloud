@@ -12,9 +12,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='onlinepaymentdetails',
-            name='initiateResponse',
-            field=models.TextField(blank=True, max_length=10000, null=True),
-        ),
+        # migrations.AlterField(
+        #     model_name='onlinepaymentdetails',
+        #     name='initiateResponse',
+        #     field=models.TextField(blank=True, max_length=10000, null=True),
+        # ),
     ]

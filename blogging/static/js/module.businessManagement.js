@@ -230,6 +230,7 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
     then(function(response) {
       $scope.data = response.data;
       $scope.mediaForm.medialist =  response.data.appMedia
+      $scope.mobilemediaForm.medialist =  response.data.mobileMedia
     })
 
   }
@@ -528,7 +529,7 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
 
         $http({
           method: 'GET',
-          url: '/api/ERP/applicationfeature/?parent=' + $state.params.id + '/'
+          url: '/api/ERP/applicationfeature/?parent=' + $state.params.id
         }).
         then(function(response) {
           $scope.appFeatures = response.data;

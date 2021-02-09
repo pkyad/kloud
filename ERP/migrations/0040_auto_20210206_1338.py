@@ -12,19 +12,19 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='onlinepaymentdetails',
-            name='initiateResponse',
-            field=models.CharField(blank=True, max_length=50, null=True),
-        ),
-        migrations.AddField(
-            model_name='onlinepaymentdetails',
-            name='is_failure',
-            field=models.BooleanField(default=False),
-        ),
-        migrations.AddField(
-            model_name='onlinepaymentdetails',
-            name='successorfailureRes',
-            field=models.TextField(blank=True, max_length=20000, null=True),
-        ),
+        # migrations.AddField(
+        #     model_name='onlinepaymentdetails',
+        #     name='initiateResponse',
+        #     field=models.CharField(blank=True, max_length=50, null=True),
+        # ),
+        # migrations.AddField(
+        #     model_name='onlinepaymentdetails',
+        #     name='is_failure',
+        #     field=models.BooleanField(default=False),
+        # ),
+        # migrations.AddField(
+        #     model_name='onlinepaymentdetails',
+        #     name='successorfailureRes',
+        #     field=models.TextField(blank=True, max_length=20000, null=True),
+        # ),
     ]
