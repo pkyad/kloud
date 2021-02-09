@@ -39,4 +39,6 @@ urlpatterns = [
     url(r'appInstaller/$' , AppInstallerView.as_view(), name="appInstaller" ),
     url(r'updatePushToken/$' , UpdatePushTokenView.as_view(), name="updatePushToken" ),
     url(r'regNewUser/$' , RegNewUserView.as_view(), name="regNewUser" ),
+
+
 ]

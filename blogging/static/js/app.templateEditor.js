@@ -56,14 +56,15 @@ app.controller('templateEditor', function($scope, $rootScope , $sce , $http , $t
         fd.append('name',$scope.form.name)
         fd.append('templateCategory',$scope.form.templateCategory)
         fd.append('live',$scope.form.live)
-        if ($scope.form.sampleImg != emptyFile && typeof $scope.form.sampleImg != 'string') {
-          fd.append('sampleImg',$scope.form.sampleImg)
+        fd.append('sampleImg',$scope.form.sampleImg)
+        fd.append('mobilePreview',$scope.form.mobilePreview)
+        if ( typeof $scope.form.sampleImg != 'string') {
 
         }
-        if ($scope.form.mobilePreview != emptyFile && typeof $scope.form.mobilePreview != 'string') {
-          fd.append('mobilePreview',$scope.form.mobilePreview)
+        if (typeof $scope.form.mobilePreview != 'string') {
 
         }
+        console.log($scope.form,'324432');
 
         $scope.save = function(){
           $http({method : 'PATCH' , url : '/api/website/uielementemplate/' + PK + '/',data: fd,
@@ -73,6 +74,8 @@ app.controller('templateEditor', function($scope, $rootScope , $sce , $http , $t
           }
         }).
           then(function(response) {
+
+
           })
         }
 

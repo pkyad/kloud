@@ -101,6 +101,9 @@ def termsofservices(request):
 def privacypolicy(request):
     context={}
     return render(request, 'app.HR.privacypolicy.html',context)
+def refundpolicy(request):
+    context={}
+    return render(request, 'app.HR.refundpolicy.html',context)
 
 def pageeditor(request,id):
     page = Page.objects.get(pk = id)

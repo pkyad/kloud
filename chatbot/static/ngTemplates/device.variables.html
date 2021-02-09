@@ -44,10 +44,10 @@
             </tr>
             <tr ng-repeat="v in allData.dynamicVariables track by $index" style="font-size:16px" ng-click="v.edit=true">
               <!-- <td style="width:3%"  mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="delete($index)" confirm-button-type="danger" cancel-button-type="default" ><img src="/static/images/delete.png" style="height:20px" ></td> -->
-              <td style="width:3%"  ><img src="/static/images/delete.png" style="height:20px" ng-click="delete($index)">   </td>
-              <td><input class="form-control websiteInput" type="text" ng-model="v.key" placeholder="Add Key"  ng-click="edit($index)"> </td>
-              <td><input  class="form-control websiteInput" type="text" ng-model="v.value" placeholder="Add Value"  ng-click="edit($index)" </td>
-              <td> <select class="form-control websiteInput" name="" ng-model="v.typ" ng-options = "k for k in allTypes"   ng-click="edit($index)" placeholder="Select type">
+              <td style="width:3%"  ><img src="/static/images/delete.png" style="height:20px" ng-blur="delete($index)">   </td>
+              <td><input class="form-control websiteInput" type="text" ng-model="v.key" placeholder="Add Key"  ng-blur="edit($index)"> </td>
+              <td><input  class="form-control websiteInput" type="text" ng-model="v.value" placeholder="Add Value"  ng-blur="edit($index)" </td>
+              <td> <select class="form-control websiteInput" name="" ng-model="v.typ" ng-options = "k for k in allTypes"   ng-blur="edit($index)" placeholder="Select type">
               </select> </td>
               <!-- <td>{{v.can_change?'YES':'NO'}}</td> -->
               <td style="width:5%"></td>

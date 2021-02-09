@@ -1,5 +1,5 @@
 <div class="container-fluid " >
-  <div class="row div_padding">
+  <div class="row div_padding" style="padding-top: 0px;">
     <div class="col-md-8 col-md-offset-2 page_css" style="padding-top:100px;">
       <div class="">
         <div class="row">
@@ -25,7 +25,7 @@
                   <button style="background:white;margin-top:0px;border-radius:50px!important;color: #fb0000;border: 2px solid #fb0000 !important;padding: 10px;font-size: 17px;" type="button" class="btn btn-block" name="button"
                     ng-show="step=='installed'" ng-click="unInstall()">Uninstall </button>
                 </div>
-                <div class="col-md-2 pull-right" ng-show="step=='installed'&&is_user_installed">
+                <div class="col-md-2 pull-right" ng-show="step=='installed'&&is_user_installed&&app.inMenu">
                   <button class="btn btn-primary btn-block" ng-click="openApp()" style="border-radius:50px!important;background:#032757;color:white;border:none!important;padding: 10px;font-size: 17px;">Open</button>
                 </div>
               </div>

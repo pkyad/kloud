@@ -879,6 +879,28 @@ app.directive('appstoreView', function() {
     //   // addCart: '='
     // },
     controller: function($scope, $state, $http, Flash, $rootScope, $filter, $uibModal, $users) {
+      window.onscroll = function() {myFunction()};
+
+      var header = document.getElementById("topheader");
+      var sticky = header.offsetTop;
+      function myFunction() {
+        if (window.pageYOffset > sticky) {
+          header.style.position = 'fixed'
+          header.style.width = '100%'
+          if ($state.current.name != '') {
+            header.style.width = '90%'
+          }
+          header.style.top = '0'
+          header.style.zIndex = "1"
+          header.style.paddingTop = '20px'
+
+        }
+         else {
+          header.style.position = 'relative'
+          header.style.width = '100%'
+        }
+      }
+
       $scope.showLogo = true
       $scope.me = $users.get('mySelf');
       if ($state.current.name == '') {

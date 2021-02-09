@@ -317,6 +317,41 @@ right: 10px;top: -10%;padding: 5px;background:white;border-radius: 50%;"></i></s
         </tbody>
       </table>
     </div>
+    <div class="row" style="margin-top:70px;">
+      <div class="col-md-6">
+          <h4> <b>Application Versioning </b></h4>
+
+      </div>
+      <div class="col-md-2  pull-right">
+        <button type="button" name="button" class="btn defaultBtn btn-block text-center" ng-click="addVersioning()"><i class="fa fa-plus" style="background-color:transparent;color:black;box-shadow:none;padding:0px;"></i></button>
+      </div>
+    </div>
+    <div class="row" style="margin:20px 0px;">
+      <table class="table table-bordered">
+        <thead>
+          <th class="text-center" style="width:50px;">S.NO</th>
+          <th class="text-center">Name</th>
+          <th class="text-center">Rating</th>
+          <th class="text-center" colspan="2">Given Feedback</th>
+          <!-- <th colspan="2"></th> -->
+
+        </thead>
+        <tbody>
+          <tr ng-repeat="k in data.feedback track by $index">
+            <td class="text-center">{{$index+1}}</td>
+            <td class="text-center">{{k.name}}</td>
+            <td class="text-center">{{k.star}}</td>
+            <td class="text-center">{{k.text}}</td>
+            <td class="text-center" style="width:90px;">
+              <div class="pull-right">
+                <i class="fa fa-pencil" style="padding-right:25px;" ng-click="giveFeedback(k)"></i>
+                <i class="fa fa-trash" ng-click="delFeedback($index)"></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
 </div>

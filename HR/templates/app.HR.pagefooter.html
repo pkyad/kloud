@@ -290,15 +290,6 @@
           <a href="/blog" target="_self" style="margin-bottom:4px;padding:0px;">
             <h5>Blog</h5>
           </a>
-          {% if request.user.pk %}
-          <a href="/academy/{{request.user.designation.division.pk}}/" target="_self" style="margin-bottom:4px;padding:0px;">
-            <h5>Academy</h5>
-          </a>
-          {% else %}
-            <a href="/login/" target="_self" style="margin-bottom:4px;padding:0px;">
-              <h5>Academy</h5>
-            </a>
-          {% endif %}
         </div>
         <br>
         <div class="row">
@@ -317,6 +308,7 @@
           <ul class="list-unstyled ">
             <li style="display:inline;color:#FA949D;"><a href="/terms">Terms & Conditions </a></li>
             <li style="display:inline;padding-left:10px;"><a href="/privacypolicy">Privacy Policy</a></li>
+            <li style="display:inline;padding-left:10px;"><a href="/refundpolicy">Refund Policy</a></li>
           </ul>
         </div>
         <br>
