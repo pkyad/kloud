@@ -904,10 +904,13 @@ class applicationViewSet(viewsets.ModelViewSet):
 
 
         if not u.is_superuser:
+
             return getApps(u)
         else:
+
             if 'user' in self.request.GET:
                 return getApps(User.objects.get(username = self.request.GET['user']))
+            
             return application.objects.filter(published = True)
 
 

@@ -2889,7 +2889,7 @@ padding: 10px 0px;
 
   .whatsapp {
     margin:  0px;
-    bottom:155px;
+    bottom:155px !important;
   }
   .whatsappCall{
     bottom:85px !important;
@@ -3397,7 +3397,7 @@ padding: 10px 0px;
   }
 
   .whatsapp {
-    bottom: 135px;
+    bottom: 135px !important;
   }
   .whatsappCall {
     bottom: 70px !important;
