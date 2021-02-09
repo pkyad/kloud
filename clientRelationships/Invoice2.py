@@ -433,6 +433,7 @@ def genInvoice(response, contract, request):
     ima.drawHeight = 0.8*inch
     ima.drawWidth = 1*inch
     ima.hAlign = 'RIGHT'
+    # tab5 = Table([[ima , imal]],colWidths=[6*inch, 6*inch])
     imageTable = [[ima]]
     tabHeaderImage = Table(imageTable)
     toHeading1  =  Paragraph("<para align='left'><strong>%s</strong></para>"%(divsn.name ), tableheaderparaStyle)
@@ -444,11 +445,19 @@ def genInvoice(response, contract, request):
     tableHeading2 = [[toHeading3 , toHeading5]]
     tabHeader = Table(tableHeading ,colWidths=[6*inch])
     tabHeader1 = Table(tableHeading1 ,colWidths=[6*inch])
-    tabHeader2 = Table(tableHeading2 ,colWidths=[1.5*inch, 2*inch])
+    tabHeader2 = Table(tableHeading2 ,colWidths=[2*inch, 2*inch])
     deatailTable = [[tabHeader],[tabHeader1],[tabHeader2]]
     tabHeaderall = Table(deatailTable )
-    hedaerdata = [[tabHeaderImage,'',tabHeaderall]]
-    header = Table(hedaerdata,colWidths=[1*inch,1*inch,5*inch])
+    imal = ''
+    if contract.termsAndCondition.logo:
+        imagePathLogo = os.path.join(globalSettings.MEDIA_ROOT , str(contract.termsAndCondition.logo))
+        fl = open(imagePathLogo, 'rb')
+        imal = Image(fl)
+        imal.drawHeight = 0.8*inch
+        imal.drawWidth = 2*inch
+        imal.hAlign = 'RIGHT'
+    hedaerdata = [[tabHeaderImage,tabHeaderall,imal]]
+    header = Table(hedaerdata,colWidths=[1*inch,5*inch, 2*inch])
     story.append(header)
 
 

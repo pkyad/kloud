@@ -985,8 +985,10 @@ app.directive('appdetailedView', function() {
         },
       };
         $scope.step = 'notinstalled'
-        $scope.me = $users.get('mySelf');
+      $scope.me = $users.get('mySelf');
+      if ($scope.me!=null) {
         $scope.division = $scope.me.designation.division
+      }
       if ($state.is('workforceManagement.appDetails')) {
         var id = $state.params.id;
       }else{

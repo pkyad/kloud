@@ -167,9 +167,9 @@ def renderheaderfooter(request):
     return render(request, 'app.HR.headerandfooter.html',{'header':header,'footer':footer})
 
 def appdetails(request):
-    app = application.objects.get(pk = request.GET['id'])
-    appMedia = app.appMedia.all()
-    return render(request, 'app.HR.appdetails.html',{'app':app,'appMedia':appMedia})
+    # app = application.objects.get(pk = request.GET['id'])
+    # appMedia = app.appMedia.all()
+    return render(request, 'app.HR.appdetails.html')
 
 
 def ProductDetails(request):

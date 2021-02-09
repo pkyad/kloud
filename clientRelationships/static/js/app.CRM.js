@@ -442,6 +442,9 @@ $scope.getAll()
     if (formdata.companyPamphlet != null && formdata.companyPamphlet != emptyFile && typeof formdata.companyPamphlet != 'string') {
       fd.append('companyPamphlet', formdata.companyPamphlet);
     }
+    if (formdata.logo != null && formdata.logo != emptyFile && typeof formdata.logo != 'string') {
+      fd.append('logo', formdata.logo);
+    }
     var method = 'POST'
     var url = '/api/clientRelationships/crmtermsAndConditions/'
     if (formdata.pk) {
