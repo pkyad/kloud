@@ -321,7 +321,9 @@
       background-size: contain !important;
       background-position: top !important;
     }
-
+    .installed{
+      position: absolute;right: -53px;height: 149px;width: 100px;background: #5c9d68;transform: rotate(-49deg);
+    }
     @media only screen and (min-device-width : 320px) and (max-device-width : 600px) {
 
       #Boxes .secondbox {
@@ -445,6 +447,13 @@
     @media screen and (min-width: 1200px) and (max-width: 1600px) and (-webkit-min-device-pixel-ratio: 1) {
       #page2bgImage {
         height: 400px;
+      }
+      .installed{
+        position: absolute;
+right: -40px;
+height: 125px;
+width: 105px;
+bottom:20px    !important;
       }
 
       #page2bgImage #divText {
@@ -643,7 +652,7 @@
                   <div class="col-md-8 col-xs-6">
                     <h4 class="maintitle" style="padding-bottom:10px;">{{k.displayName}}</h4>
                     <p style="height:20px;">4.3 <i class="fa fa-star"></i></p>
-                    <div style="position: absolute;{{k.displayName.length>13?'bottom: 53px;':'bottom: 22px'}};right: -53px;height: 149px;width: 100px;background: #5c9d68;transform: rotate(-49deg);" ng-if="k.is_app_installed">
+                    <div class="installed" style="{{k.displayName.length>13?'bottom: 53px;':'bottom: 22px'}};" ng-if="k.is_app_installed">
                       <!-- <img src="/static/images/icons8-check-mark-144.png" style="width: 47px;transform: rotate(-56deg);margin-top: 54px;" alt=""> -->
                       <div style="width: 47px;transform: rotate(90deg);margin-top: 54px;color: white;font-size: 11px;"> INSTALLED </div>
                     </div>
@@ -669,7 +678,7 @@
                   <div class="col-md-8 col-xs-6">
                     <h4 class="maintitle" style="padding-bottom:10px;">{{k.displayName}}</h4>
                     <p style="height:20px;">4.3 <i class="fa fa-star"></i></p>
-                    <div style="position: absolute;{{k.displayName.length>13?'bottom: 53px;':'bottom: 22px'}};right: -53px;height: 149px;width: 100px;background: #5c9d68;transform: rotate(-49deg);" ng-if="k.is_app_installed">
+                    <div class="installed" style="{{k.displayName.length>13?'bottom: 53px;':'bottom: 22px'}};" ng-if="k.is_app_installed">
                       <!-- <img src="/static/images/icons8-check-mark-144.png" style="width: 47px;transform: rotate(-56deg);margin-top: 54px;" alt=""> -->
                       <div style="width: 47px;transform: rotate(90deg);margin-top: 54px;color: white;font-size: 11px;"> INSTALLED </div>
                     </div>

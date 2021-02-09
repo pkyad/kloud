@@ -3831,6 +3831,9 @@ ul.bulletstyle {
 .rpa_buy {
   padding: 30px;
 }
+.istalled{
+  position: absolute;right: -53px;height: 149px;width: 100px;background: #5c9d68;transform: rotate(-49deg);
+}
 
 /* .academy_play {
   font-size: 105px !important;
@@ -4226,16 +4229,7 @@ ul.bulletstyle {
   }
 }
 
-.istalled{
-  position: absolute;
-bottom: 22px;
-right: -53px;
-height: 149px;
-width: 100px;
-background:
-#5c9d68;
-transform: rotate(-49deg);
-}
+
 @media only screen and (min-width:1280px) and (max-width:1440px) {
 
   .appStoreDiv{
