@@ -238,6 +238,8 @@ class chatMessageBetweenViewSet(viewsets.ModelViewSet):
         if 'other' in self.request.GET:
             qs = ChatMessage.objects.filter(thread__pk = int(self.request.GET['other']))
 
+        if 'sorted'  in self.request.GET:
+            return ChatMessage.objects.filter(thread__pk = int(self.request.GET['sorted'])).order_by('-created')
         # if "pk" in self.request.GET:
         #     pk = int(self.request.GET['pk'])
         #     qs1 = ChatMessage.objects.filter(thread= reciepient).filter(id__gt=pk)
@@ -251,6 +253,21 @@ class chatMessageBetweenViewSet(viewsets.ModelViewSet):
         #     msg.read = True
         #     msg.save()
         return qs.order_by('created')[:150]
+
+
+class GetChatMessages(APIView):
+    permission_classes = (permissions.AllowAny ,)
+    def get(self , request , format = None):
+        offset = request.GET['offset']
+        limit = request.GET['limit']
+        chatObj = ChatMessage.objects.filter(thread__pk = int(request.GET['id'])).order_by('-created')
+        allObj = []
+        toRet = []
+        chatObj = chatObj[offset:limit]
+        for num in reversed(range(len(chatObj))):
+            allObj.append(chatObj[num])
+        toRet = chatMessageSerializer(allObj, many = True).data
+        return Response(toRet, status = status.HTTP_200_OK)
 
 
 class NoteBookViewSet(viewsets.ModelViewSet):

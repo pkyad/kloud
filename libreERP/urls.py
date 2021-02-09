@@ -59,6 +59,7 @@ urlpatterns = [
     url(r'^course/(?P<id>\d+)/(?P<urlSuffix>[\w|\W]+)', coursedetails , name ='coursedetails'),
     url(r'^articles/(?P<articleUrl>[\w|\W]+)', renderedArticleView , name ='blogs/(?P<articleUrl>[\w|\W]+)'),
     url(r'^privacypolicy', privacypolicy , name ='privacypolicy'),
+    url(r'^refundpolicy', refundpolicy , name ='refundpolicy'),
     url(r'^careers', careers , name ='careers'),
     url(r'^career/(?P<id>\d+)', career , name ='career'),
     url(r'^apply', renderedModalView , name ='renderedModalView'),
