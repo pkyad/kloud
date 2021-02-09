@@ -1000,6 +1000,46 @@ app.directive('appdetailedView', function() {
       },900)
 
 
+      $scope.viewImages = function(indx){
+        $uibModal.open({
+          templateUrl: '/static/ngTemplates/app.viewImages.modal.html',
+          size: 'md',
+          backdrop: true,
+          resolve: {
+            indx: function() {
+              return indx;
+            },
+            data: function() {
+              return $scope.appMedia;
+            },
+          },
+          controller: function($scope, $users , $uibModalInstance, indx, data) {
+          $scope.data = data
+          $scope.selectedIndx = indx
+          $scope.imageInView =  $scope.data[$scope.selectedIndx]
+          $scope.next = function(){
+            if ($scope.selectedIndx<$scope.data.length-1) {
+                $scope.selectedIndx +=1
+                $scope.imageInView = $scope.data[$scope.selectedIndx]
+
+            }
+
+          }
+          $scope.prev = function(){
+            if ($scope.selectedIndx!=0) {
+                $scope.selectedIndx -=1
+                $scope.imageInView = $scope.data[$scope.selectedIndx]
+
+            }
+
+          }
+
+          },
+        })
+
+      }
+
+
 
       $scope.addUser = function(){
         $uibModal.open({
