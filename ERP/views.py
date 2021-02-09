@@ -757,7 +757,7 @@ class GetApplicationDetailsApi(APIView):
     def get(self , request , format = None):
 
         division = self.request.user.designation.division
-        
+
 
         if self.request.user.pk:
             division = self.request.user.designation.division
@@ -1490,6 +1490,14 @@ class CalendarSlotViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     queryset = CalendarSlots.objects.all()
     serializer_class = CalendarSlotsSerializer
+    # filter_backends = [DjangoFilterBackend]
+    # filter_fields = ['month' , 'year']
+
+
+class AppVersioningViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    queryset = AppVersioning.objects.all()
+    serializer_class = AppVersioningSerializer
     # filter_backends = [DjangoFilterBackend]
     # filter_fields = ['month' , 'year']
 

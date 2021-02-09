@@ -383,3 +383,9 @@ class LanguageTranslationSerializer(serializers.ModelSerializer):
     class Meta:
         model = LanguageTranslation
         fields = ('pk' , 'key', 'value', 'lang' )
+
+
+class AppVersioningSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AppVersioning
+        fields = ('pk' , 'minVersion', 'latestVersion', 'enabled' , 'app')

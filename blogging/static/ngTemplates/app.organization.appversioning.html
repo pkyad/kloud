@@ -1,0 +1,52 @@
+<div class="modal-body">
+  <div class="row">
+      <div class="col-md-12">
+        <div class="row text-center">
+          <div class="col-md-12">
+          <h3>{{form.pk?'Edit':'Create'}} Version</h3>
+          </div>
+        </div>
+        <br><br>
+        <div class="row">
+            <div class="col-md-12">
+          <div class="form-group">
+            <label >Title:</label>
+            <input type="text" class="form-control websiteInput" ng-model="form.title" placeholder="Enter the Title" >
+          </div>
+        </div>'
+        </div>'
+        <div class="row">
+          <div class="col-md-12">
+          <div class="form-group">
+            <label >Maximum Version:</label>
+            <input type="text" class="form-control websiteInput" ng-model="form.minVersion" placeholder="Enter the Maximum Version" >
+          </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-12">
+          <div class="form-group">
+            <label >Latest Version:</label>
+            <input type="text" class="form-control websiteInput"  ng-model="form.latestVersion" placeholder="Enter  the Latest Version">
+          </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-12">
+          <div class="form-group">
+            <label >Enabled?:</label>
+            <input type="checkbox"  ng-model="form.enabled">
+          </div>
+          </div>
+        </div>
+        <br><br>
+        <div class="row">
+          <div class="col-md-2 pull-right">
+            <button type="button" class="btn newBtn btn-block" name="button" ng-click="save()">Save</button>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
