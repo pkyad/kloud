@@ -89,7 +89,7 @@
               </div> -->
   </div>
 
-  <div ng-if="enableMessaing" class="whatsapp text-center" ng-click="$state.go('home.messenger')" style="bottom:{{enableTelephony?'180px':'130px;'}}">
+  <div ng-if="enableMessaing" class="{{enableTelephony?'whatsapp':'whatsappWeb'}} text-center" ng-click="$state.go('home.messenger')" >
     <img  class="otherIcons" src="/static/images/icons8-whatsapp-128.png" >
     <div class="whatsappCount"  >
                 1

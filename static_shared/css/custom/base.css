@@ -2647,7 +2647,22 @@ padding: 10px 0px;
   font-size: 36px;color:#ccc;position: absolute;
   left: 20px;
 }
+.whatsappWeb{
+  position: absolute;
+bottom: 130px;
+width: 100%;
+}
+.billingDiv{
+  padding-bottom: 35px;
+  position: absolute;
+  margin-top:50px;margin-bottom:30px;
+
+}
 @media screen and (min-width: 1279px) and (max-width: 1365px) and (-webkit-device-pixel-ratio: 1) {
+  .billingDiv{
+    width: 95%;
+    margin-left: 1%;
+  }
   .commentQuote{
     left:70px
   }
@@ -3397,7 +3412,7 @@ padding: 10px 0px;
   }
 
   .whatsapp {
-    bottom: 135px !important;
+    bottom: 140px !important;
   }
   .whatsappCall {
     bottom: 70px !important;
@@ -3437,6 +3452,13 @@ padding: 10px 0px;
 }
 
 @media screen and (min-width: 1440px) and (max-width:1620px) and (-webkit-device-pixel-ratio: 1) {
+  .whatsappWeb{
+    bottom:110px;
+  }
+  .billingDiv{
+    margin-left: 1%;
+    width: 95%;
+  }
   .commentQuote{
     left:100px
   }
