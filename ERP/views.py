@@ -1490,10 +1490,15 @@ class GetAllSchedulesAPI(APIView):
             for i in weekdays:
                 for j in slots:
                     obj = CalendarSlots.objects.create(day = i , slot = j, user = user)
+            allData =[]
+            for i in slots:
+                objs =  CalendarSlotsSerializer(CalendarSlots.objects.filter(slot = i, user = user), many = True).data
+                val = {'slot' : i, 'data' : objs}
+                allData.append(val)
         else:
             allData =[]
             for i in slots:
-                objs =  CalendarSlotsSerializer(CalendarSlots.objects.filter(slot = i), many = True).data
+                objs =  CalendarSlotsSerializer(slotObj.filter(slot = i), many = True).data
                 val = {'slot' : i, 'data' : objs}
                 allData.append(val)
         return Response(allData, status = status.HTTP_200_OK)
