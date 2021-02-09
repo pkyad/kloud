@@ -454,7 +454,7 @@ def genInvoice(response, contract, request):
         fl = open(imagePathLogo, 'rb')
         imal = Image(fl)
         imal.drawHeight = 0.8*inch
-        imal.drawWidth = 2*inch
+        imal.drawWidth = 1.5*inch
         imal.hAlign = 'RIGHT'
     hedaerdata = [[tabHeaderImage,tabHeaderall,imal]]
     header = Table(hedaerdata,colWidths=[1*inch,5*inch, 2*inch])
