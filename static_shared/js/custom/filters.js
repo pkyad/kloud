@@ -346,7 +346,9 @@ app.filter('language' , function($users){
 app.filter('installedMenus' , function($users){
   return function(val){
     var menusData = INSTALLED_MENU_LIST
-    console.log("sssssssssssssssssssssssss");
+    if (menusData[val]!=undefined) {
+      return menusData[val]
+    }
     return false
   }
 })

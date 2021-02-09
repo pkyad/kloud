@@ -1079,7 +1079,7 @@ app.controller('sideMenu', function($scope, $http, $aside, $state, Flash, $users
   }, false);
 
   $scope.openSwitcher = function(){
-    $state.go('home.viewProfile.expenseClaims');
+    $state.go('home.viewProfile.profile');
   }
 
   var mode = 'recent'

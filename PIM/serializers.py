@@ -396,6 +396,8 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
                 v.country = self.context['request'].data['country']
             v.save()
             instance.visitor = v
+        if 'selfParticipant' in  self.context['request'].data:
+            instance.participants.add(self.context['request'].user)
         if 'participants' in  self.context['request'].data:
             # instance.participants.clear()
             tagged = self.context['request'].data['participants']

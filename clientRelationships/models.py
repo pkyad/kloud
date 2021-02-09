@@ -73,6 +73,7 @@ class Contact(models.Model):
     ended = models.DateField(null = True)
     division = models.ForeignKey(Division , related_name='divisionContacts' , null = True)
     typ = models.CharField(choices = CONTACTS_CHOICES , max_length = 50 , default = 'b2b')
+    isFav =  models.BooleanField(default = False)
 
 class CustomerSession(models.Model):
     created = models.DateTimeField(auto_now_add = True)

@@ -16,14 +16,14 @@
 <div class="">
 
   <div class="col-md-2" style="background:#FAFAFA;height:100vh;padding:0px;padding-left:10px;overflow:hidden;position: fixed;">
-    <div class="row" ng-repeat="a in appsettings">
+    <div class="row" ng-repeat="a in appsettings" >
       <div class="col-md-12">
-        <div class="row {{$state.is(a.groupState) ? 'activeMenuItem':''}}" style="padding:15px;{{$state.is(a.groupState) ? 'cursor:pointer':''}}" ng-click="$state.go(a.groupState)">
+        <div class="row {{$state.is(a.groupState) ? 'activeMenuItem':''}}" style="padding:15px;{{$state.is(a.groupState) ? 'cursor:pointer':''}}" ng-click="$state.go(a.groupState)" ng-if="!a.val||a.val.length>0">
           <div class="container-fluid" style="font-weight: bold;">
             {{a.groupName}}
           </div>
         </div>
-        <div ng-repeat="s in a.val" class="row taskMenuItem {{$state.is(s.state) ? 'activeMenuItem':''}}" style="padding:15px;" ng-click="$state.go(s.state)">
+        <div ng-repeat="s in a.val" class="row taskMenuItem {{$state.is(s.state) ? 'activeMenuItem':''}}" style="padding:15px;" ng-click="$state.go(s.state)" >
           <div class="container-fluid">
             {{s.name}}
           </div>

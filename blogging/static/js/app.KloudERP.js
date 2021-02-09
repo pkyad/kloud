@@ -86,7 +86,7 @@ app.controller('businessManagement.kloudERP', function($scope, $state, $users, $
         }
 
       },
-      controller: 'workforceManagement.organization.division.form',
+      controller: 'workforceManagement.organization.division.form'
     }).result.then(function() {
       $scope.getallCompanies();
     }, function() {

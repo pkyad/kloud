@@ -171,7 +171,81 @@ app.config(function($stateProvider) {
          }
 
        },
-       controller: 'workforceManagement.organization.division.form',
+       controller: function($scope, $state, $stateParams, $http, Flash, $uibModal, data, $uibModalInstance) {
+
+         console.log(
+           'dfdgdfgdfgdfg'
+         );
+
+         console.log($scope.tab);
+
+         $scope.resetForm = function() {
+           $scope.form = {
+             'name': '',
+             'email': '',
+             'logo': emptyFile,
+             'username': '',
+             'userNumber': '',
+           }
+         }
+
+         if (data != undefined) {
+           $scope.mode = 'edit';
+           $scope.form = data;
+           $scope.form.logo = emptyFile;
+         } else {
+           $scope.mode = 'new';
+           $scope.resetForm();
+         }
+
+         $scope.save = function() {
+           console.log('entered');
+           var f = $scope.form;
+           var url = '/api/organization/divisions/';
+
+           var fd = new FormData();
+           if (f.logo != emptyFile && f.logo != null) {
+             fd.append('logo', f.logo)
+           }
+
+           if (f.name.length == 0) {
+             Flash.create('warning', 'Name, CIN and PAN are required')
+             return
+           }
+
+           fd.append('name', f.name);
+           fd.append('email', f.email);
+           fd.append('username', f.username);
+           fd.append('userNumber', f.userNumber);
+
+           console.log(fd);
+           if ($scope.mode == 'new') {
+             var method = 'POST';
+           } else {
+             var method = 'PATCH';
+             url += f.pk + '/'
+           }
+
+
+           $http({
+             method: method,
+             url: url,
+             data: fd,
+             transformRequest: angular.identity,
+             headers: {
+               'Content-Type': undefined
+             }
+           }).
+           then(function(response) {
+             $scope.form.pk = response.data.pk;
+             Flash.create('success', 'Saved')
+             if ($scope.mode == 'new') {
+               $scope.resetForm();
+             };
+             $uibModalInstance.dismiss()
+           })
+         }
+       }
      }).result.then(function() {
        $scope.getallCompanies();
      }, function() {
@@ -1222,7 +1296,6 @@ $scope.delMobileMedia = function(indx){
        },
        controller: function($scope, $uibModalInstance, $rootScope, $http, Flash, app) {
          $scope.app = app
-         console.log($scope.app,'aaaaaaaaaaaaaaaa');
          $scope.form = {
            name:'',parent:'',enabled:true
          }
@@ -1282,7 +1355,7 @@ $scope.delMobileMedia = function(indx){
 
          $http({
            method: 'GET',
-           url: '/api/ERP/applicationfeature/?parent=' + $state.params.id 
+           url: '/api/ERP/applicationfeature/?parent=' + $state.params.id
          }).
          then(function(response) {
            $scope.appFeatures = response.data;
