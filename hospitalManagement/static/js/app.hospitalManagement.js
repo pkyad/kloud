@@ -101,7 +101,7 @@ app.config(function($stateProvider) {
 
 app.controller("businessManagement.hospitalManagement", function($scope, $rootScope, $state, $users, $stateParams, $http, Flash, $uibModal) {
 
-  $scope.limit = 8
+  $scope.limit = 20
   $scope.offset = 0
   $scope.count = 0
 
@@ -136,17 +136,6 @@ app.controller("businessManagement.hospitalManagement", function($scope, $rootSc
     })
   }
   $scope.fetchData()
-
-  $scope.getData = function(){
-    $http({
-      method: 'GET',
-      url:  '/api/hospitalManagement/hospMigration/'
-    }).
-    then(function(response) {
-      console.log(response);
-
-    })
-  }
 
 });
 
@@ -546,7 +535,7 @@ app.controller('businessManagement.activePatient.explore', function($scope, $htt
 
   $scope.invoices = [];
   $scope.doctorSearch = function(query) {
-    return $http.get('/api/hospitalManagement/doctor/?name__contains=' + query).
+    return $http.get('/api/hospitalManagement/doctor/?name__icontains=' + query).
     then(function(response) {
       return response.data;
     })
@@ -581,6 +570,7 @@ app.controller('businessManagement.activePatient.explore', function($scope, $htt
         console.log('newwwwwwwwwwwwwwww');
         $scope.refresh();
         $scope.dischargeSummForm.patient = $scope.data
+        console.log($scope.dischargeSummForm.patient);
         $scope.dischargeSummForm.primaryDoctor = $scope.data.docName
       }
     })
@@ -614,7 +604,7 @@ app.controller('businessManagement.activePatient.explore', function($scope, $htt
       treatmentGiven: '',
       docList: [],
       docListPk: [],
-      primaryDoctor: $scope.data.docName
+      // primaryDoctor: $scope.data.docName
     }
   }
 
@@ -949,7 +939,7 @@ app.controller('businessManagement.activePatient.explore', function($scope, $htt
 app.controller("businessManagement.activePatients", function($scope, $rootScope, $state, $users, $stateParams, $http, Flash, $uibModal) {
 
 
-  $scope.limit = 10
+  $scope.limit = 20
   $scope.offset = 0
   $scope.count = 0
 
@@ -966,11 +956,13 @@ app.controller("businessManagement.activePatients", function($scope, $rootScope,
       $scope.fetchData()
     }
   }
+
   $scope.search = {
     query: ''
   }
   $scope.fetchData = function() {
     let url = '/api/hospitalManagement/activePatient/?limit=' + $scope.limit + '&offset=' + $scope.offset
+    // let url = '/api/hospitalManagement/activePatient/'
     if ($scope.search.query.length > 0) {
       url = url + '&name=' + $scope.search.query
     }
@@ -997,7 +989,8 @@ app.controller("businessManagement.activePatients.form", function($scope, $rootS
     })
   };
   $scope.doctorSearch = function(query) {
-    return $http.get('/api/hospitalManagement/doctor/?name__contains=' + query).
+    console.log(query);
+    return $http.get('/api/hospitalManagement/doctor/?name__icontains=' + query).
     then(function(response) {
       return response.data;
     })
@@ -1594,7 +1587,7 @@ app.controller('businessManagement.outPatient.explore', function($scope, $http, 
 app.controller("businessManagement.outPatient", function($scope, $rootScope, $state, $users, $stateParams, $http, Flash, $uibModal) {
 
 
-  $scope.limit = 10
+  $scope.limit = 20
   $scope.offset = 0
   $scope.count = 0
 
@@ -1616,6 +1609,7 @@ app.controller("businessManagement.outPatient", function($scope, $rootScope, $st
   }
   $scope.fetchData = function() {
     let url = '/api/hospitalManagement/activePatient/?limit=' + $scope.limit + '&offset=' + $scope.offset + '&outPatient=true'
+    // let url = '/api/hospitalManagement/activePatient/?outPatient=true'
     if ($scope.search.query.length > 0) {
       url = url + '&name=' + $scope.search.query
     }
@@ -1888,38 +1882,39 @@ app.controller('businessManagement.outPatient.form', function($scope, $http, $as
 
 app.controller("businessManagement.hospitalManagement.servicesOffered", function($scope, $state, $users, $stateParams, $http, Flash, $timeout) {
 
-  $scope.limit = 10
-  $scope.offset = 0
-  $scope.count = 0
-
-  $scope.privious = function() {
-    if ($scope.offset > 0) {
-      $scope.offset -= $scope.limit
-      $scope.fetchData()
-    }
-  }
-
-  $scope.next = function() {
-    if ($scope.offset < $scope.count) {
-      $scope.offset += $scope.limit
-      $scope.fetchData()
-    }
-  }
+  // $scope.limit = 10
+  // $scope.offset = 0
+  // $scope.count = 0
+  //
+  // $scope.privious = function() {
+  //   if ($scope.offset > 0) {
+  //     $scope.offset -= $scope.limit
+  //     $scope.fetchData()
+  //   }
+  // }
+  //
+  // $scope.next = function() {
+  //   if ($scope.offset < $scope.count) {
+  //     $scope.offset += $scope.limit
+  //     $scope.fetchData()
+  //   }
+  // }
   $scope.search = {
     query: ''
   }
   $scope.fetchData = function() {
-    let url = '/api/hospitalManagement/product/?limit=' + $scope.limit + '&offset=' + $scope.offset
+    // let url = '/api/hospitalManagement/product/?limit=' + $scope.limit + '&offset=' + $scope.offset
+    let url = '/api/hospitalManagement/product/'
     if ($scope.search.query.length > 0) {
-      url = url + '&name=' + $scope.search.query
+      url = url + '?name=' + $scope.search.query
     }
     $http({
       method: 'GET',
       url: url
     }).
     then(function(response) {
-      $scope.allData = response.data.results
-      $scope.count = response.data.count
+      $scope.allData = response.data
+      // $scope.count = response.data.count
     })
   }
   $scope.fetchData()
@@ -1983,39 +1978,40 @@ app.controller("businessManagement.services.form", function($scope, $rootScope, 
 });
 app.controller("businessManagement.hospitalManagement.doctors", function($scope, $state, $users, $stateParams, $http, Flash, $timeout) {
 
-  $scope.limit = 10
-  $scope.offset = 0
-  $scope.count = 0
-
-  $scope.privious = function() {
-    if ($scope.offset > 0) {
-      $scope.offset -= $scope.limit
-      $scope.fetchData()
-    }
-  }
-
-  $scope.next = function() {
-    if ($scope.offset < $scope.count) {
-      $scope.offset += $scope.limit
-      $scope.fetchData()
-    }
-  }
+  // $scope.limit = 10
+  // $scope.offset = 0
+  // $scope.count = 0
+  //
+  // $scope.privious = function() {
+  //   if ($scope.offset > 0) {
+  //     $scope.offset -= $scope.limit
+  //     $scope.fetchData()
+  //   }
+  // }
+  //
+  // $scope.next = function() {
+  //   if ($scope.offset < $scope.count) {
+  //     $scope.offset += $scope.limit
+  //     $scope.fetchData()
+  //   }
+  // }
   $scope.search = {
     query: ''
   }
   $scope.fetchData = function() {
-
-    let url = '/api/hospitalManagement/doctor/?limit=' + $scope.limit + '&offset=' + $scope.offset
+    // let url = '/api/hospitalManagement/doctor/?limit=' + $scope.limit + '&offset=' + $scope.offset
+    var url = '/api/hospitalManagement/doctor/'
     if ($scope.search.query.length > 0) {
-      url = url + '&name=' + $scope.search.query
+      url += '?name__icontains=' + $scope.search.query
     }
+
     $http({
       method: 'GET',
       url: url
     }).
     then(function(response) {
-      $scope.allData = response.data.results
-      $scope.count = response.data.count
+      $scope.allData = response.data
+      // $scope.count = response.data.count
     })
   }
   $scope.fetchData()

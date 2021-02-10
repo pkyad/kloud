@@ -38,7 +38,7 @@
   <div class="" id="courses" style="height:84vh;overflow-y: scroll;scroll-behavior: smooth;scrollbar-width: none;">
     <div class="row detailStrip" ng-repeat="a in allData" >
       <div class="col-md-3" ng-click="$state.go('businessManagement.hospitalManagement.exploreinPatients',{'id':a.pk})">
-        <h4>{{a.patient.firstName}} {{a.patient.lastName}}</h4>
+        <h4 style="cursor:pointer;">{{a.patient.firstName}} {{a.patient.lastName}}</h4>
       </div>
       <div class="col-md-3" ng-click="$state.go('businessManagement.hospitalManagement.exploreinPatients',{'id':a.pk})">
         {{a.patient.phoneNo}}
@@ -49,7 +49,7 @@
       <div class="col-md-3 id="back">
         <div class="btn-group">
           <a
-          ng-click="$state.go('businessManagement.hospitalManagement.editinPatients',{'id':a.pk})"><img height="20" width="20" src="https://img.icons8.com/color/50/000000/edit.png" /></a>
+          ng-click="$state.go('businessManagement.hospitalManagement.editinPatients',{'id':a.pk})"><img style="cursor:pointer" height="20" width="20" src="https://img.icons8.com/color/50/000000/edit.png" /></a>
         </div>
         <a </a>
       </div>

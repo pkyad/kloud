@@ -650,6 +650,9 @@ class UnInstallApp(APIView):
         div = request.user.designation.division
         app = InstalledApp.objects.get(pk =int(params['id']))
         mainApp = app.app
+        if mainApp.name == 'app.organization':
+            div.simpleMode = True
+            div.save()
         app.delete()
         usersAppObj = UserApp.objects.filter(user__designation__division = div, app = mainApp)
         usersAppObj.delete()
@@ -672,7 +675,11 @@ class InstallUserApp(APIView):
         if 'type' in params:
             user = request.user
             div = user.designation.division
-            app, created = InstalledApp.objects.get_or_create(parent = div , app = application.objects.get(pk = params['app']) , priceAsAdded = params['priceAsAdded'] , addedBy= request.user)
+            appDetails = application.objects.get(pk = params['app'])
+            if appDetails.name == 'app.organization':
+                div.simpleMode = False
+                div.save()
+            app, created = InstalledApp.objects.get_or_create(parent = div , app = appDetails, priceAsAdded = params['priceAsAdded'] , addedBy= request.user)
             app.save()
             ua = UserApp(user = user , app = application.objects.get(pk = params['app'])  )
             ua.save()
