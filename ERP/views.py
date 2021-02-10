@@ -986,6 +986,15 @@ class GetappusersAPI(APIView):
             print data,'er'
         return Response({'data':userSearchSerializer(data,many=True).data},status=status.HTTP_200_OK)
 
+@csrf_exempt
+def versionDetails(request,app):
+    data = {}
+    obj = AppVersioning.objects.filter(title = app)
+    if obj.count()>0:
+        selectedObj = obj.first()
+        data = {'minVersion' : selectedObj.minVersion , 'latestVersion' : selectedObj.latestVersion}
+    return JsonResponse(data)
+
 
 @csrf_exempt
 def WhatsappHookView(request):
@@ -1498,8 +1507,10 @@ class AppVersioningViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     queryset = AppVersioning.objects.all()
     serializer_class = AppVersioningSerializer
-    # filter_backends = [DjangoFilterBackend]
-    # filter_fields = ['month' , 'year']
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['title' ]
+
+
 
 
 class GetAllSchedulesAPI(APIView):
@@ -1599,6 +1610,13 @@ class GetAllLanguageDataAPIView(APIView):
     def get(self , request , format = None):
         languages = ['hi'  , 'kn' , 'mr' , 'te' , 'pa']
         mainObj = LanguageTranslation.objects.filter(lang = 'en')
+        offset = int(request.GET['offset'])
+        limit = int(request.GET['limit'])
+        print offset,limit
+        limit = offset+limit
+        if 'search' in request.GET:
+            mainObj = mainObj.filter(value__icontains = request.GET['search'])
+        mainObj = mainObj[offset:limit]
         data = []
         for m in mainObj:
             val = {'en' : LanguageTranslationSerializer(m, many = False).data}

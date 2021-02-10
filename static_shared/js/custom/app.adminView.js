@@ -71,6 +71,11 @@ app.config(function($stateProvider) {
       templateUrl: '/static/ngTemplates/app.settings.language.html',
       controller: 'admin.settings.configure.language.form'
    })
+   .state('version', {
+      url: "/version",
+      templateUrl: '/static/ngTemplates/app.settings.version.html',
+      controller: 'admin.settings.configure.version.form'
+   })
    .state('appDetails', {
       url: "/:id",
       templateUrl: '/static/ngTemplates/app.organization.appDetails.html',
@@ -933,12 +938,128 @@ app.controller('admin.settings.configure.calendar.form' , function($scope ,$uibM
 
 
 
+
+app.controller('admin.settings.configure.version.form', function($scope, $http, $state, $uibModal, Flash) {
+
+$scope.search = {
+  searchValue : '',
+}
+
+$scope.getAll = function(){
+  var url = '/api/ERP/appversioning/'
+  if ($scope.search.searchValue.length>0) {
+    url+='?title__icontains='+$scope.search.searchValue
+  }
+  $http({
+    method:'GET',
+    url:url
+  }).then(function(response){
+    $scope.versions = response.data
+  })
+
+}
+$scope.getAll()
+
+
+  $scope.addVersioning = function(indx) {
+    if (indx!=undefined) {
+       data = $scope.versions[indx]
+    }
+    else{
+      data = indx
+    }
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.organization.appversioning.html',
+      size: 'md',
+      backdrop: true,
+      resolve: {
+        data: function() {
+          return data
+        }
+      },
+      controller: function($scope, $uibModalInstance, $rootScope, $http, Flash, data) {
+        $scope.form = {
+          minVersion : '',
+          latestVersion:'',
+          enabled:false,
+          title:''
+        }
+        if (data!=undefined) {
+          $scope.form = data
+        }
+        $scope.save = function(){
+          var dataToSend = $scope.form
+          var method = 'POST'
+          var url = '/api/ERP/appversioning/'
+          if ($scope.form.pk) {
+            method = 'PATCH'
+            url+=$scope.form.pk+'/'
+          }
+          $http({
+            method: method,
+            url: url,
+            data : dataToSend
+          }).
+          then(function(response) {
+            Flash.create('success','Saved')
+            if ($scope.form.pk) {
+              $uibModalInstance.dismiss()
+            }
+            else{
+              $uibModalInstance.dismiss(response.data)
+            }
+          })
+        }
+      }
+    }).result.then(function() {
+
+    }, function(returndata) {
+      if (returndata!=undefined) {
+        $scope.data.versions.push(returndata)
+      }
+    });
+  }
+
+
+  $scope.delete = function(indx){
+    $http({
+      method:'DELETE',
+      url:'/api/ERP/appversioning/'+$scope.versions[indx].pk+'/'
+    }).then(function(response){
+      $scope.versions.splice(indx,1)
+    })
+  }
+
+
+})
+
 app.controller('admin.settings.configure.language.form', function($scope, $http, $state, $uibModal, Flash) {
 
+  $scope.search = {
+    searchValue:'',
+  }
+
+  $scope.page = 0;
+  $scope.next = function() {
+    $scope.page += 1;
+    $scope.getAll();
+  }
+  $scope.prev = function() {
+    if ($scope.page == 0) {
+      return;
+    }
+    $scope.page -= 1;
+    $scope.getAll();
+  }
+
   $scope.getAll = function(){
+    var url =  '/api/ERP/getAllEntries/?limit=10&offset=' + 10 * $scope.page;
+    if ($scope.search.searchValue.length>0) {
+      url+='&search='+$scope.search.searchValue
+    }
     $http({
       method: 'GET',
-      url: '/api/ERP/getAllEntries/',
+      url: url,
     }).
     then(function(response) {
       $scope.data = response.data
@@ -958,6 +1079,20 @@ app.controller('admin.settings.configure.language.form', function($scope, $http,
     then(function(response) {
     })
   }
+
+  // $scope.updateLangEng = function(data, other){
+  //   $http({
+  //     method: 'POST',
+  //     url: '/api/ERP/createNewEntry/',
+  //     data:{
+  //       id : data.pk,
+  //       value:data.value.
+  //       oldvalue : other.key
+  //     }
+  //   }).
+  //   then(function(response) {
+  //   })
+  // }
 
   $scope.addLang = function(){
     $uibModal.open({
@@ -1082,6 +1217,7 @@ $scope.delMobileMedia = function(indx){
      fd.append('rating_three', $scope.data.rating_three)
      fd.append('rating_four', $scope.data.rating_four)
      fd.append('rating_five', $scope.data.rating_five)
+     fd.append('inMenu', $scope.data.inMenu)
 
      $http({
        method: 'PATCH',
@@ -1491,59 +1627,10 @@ $scope.delMobileMedia = function(indx){
        $scope.getApp()
      });
 
-
-
-
-
-
-
    }
 
 
-   $scope.addVersioning = function() {
-     $uibModal.open({
-       templateUrl: '/static/ngTemplates/app.organization.appversioning.html',
-       size: 'md',
-       backdrop: true,
-       // resolve: {
-       //   feedback: function() {
-       //     return feedback
-       //   }
-       // },
-       controller: function($scope, $uibModalInstance, $rootScope, $http, Flash) {
-         $scope.form = {
-           minVersion : '',
-           latestVersion:'',
-           enabled:false,
-           title:''
-         }
-         $scope.save = function(){
-           var dataToSend = $scope.form
-           dataToSend.app = $state.params.id
-           $http({
-             method: 'POST',
-             url: '/api/ERP/appversioning/',
-             data : dataToSend
-           }).
-           then(function(response) {
 
-
-           })
-         }
-       }
-     }).result.then(function() {
-
-     }, function() {
-
-     });
-
-
-
-
-
-
-
-   }
 
 
    $scope.delFeedback = function(idx){

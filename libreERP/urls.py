@@ -78,6 +78,7 @@ urlpatterns = [
     url(r'activities' , activityView , name = "activity"),
     url(r'^externalWindow/', ExternalWindow , name ='externalWindow'),
     url(r'^zoomAuthRedirect/', ZoomAuthRedirect , name ='zoomAuthRedirect'),
+    url(r'^version/(?P<app>[\w|\W]+)/', versionDetails , name ='versionDetails'),
     # url(r'^getPaymentLink/', GetPaymentLink , name ='getPaymentLink'),
 
 
