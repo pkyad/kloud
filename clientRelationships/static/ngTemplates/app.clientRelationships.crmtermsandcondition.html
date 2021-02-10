@@ -190,6 +190,8 @@
                       <div class="row" ng-if="d.version == 'V1'">
                         <div class="col-md-4" style="height:152px;background:url({{settings.logo}});background-size:contain;background-repeat:no-repeat;margin:0px;">
                         </div>
+                        <div class="col-md-4 col-md-offset-4 pull-right" ng-if="d.logo" style="height:152px;background:url({{d.logo}});background-size:contain;background-repeat:no-repeat;margin:0px;">
+                        </div>
                       </div>
                       <div class="row" ng-if="d.version == 'V2'">
                         <div class="col-md-2" style="height:152px;background:url({{settings.logo}});background-size:contain;background-repeat:no-repeat;margin:0px;">
@@ -216,6 +218,8 @@
                               <p style="margin:0px"><b> Company's PAN : </b> {{settings.pan}} </p>
                             </div>
                           </div>
+                        </div>
+                        <div class="col-md-2 pull-right" ng-if="d.logo" style="height:152px;background:url({{d.logo}});background-size:contain;background-repeat:no-repeat;margin:0px;">
                         </div>
                       </div>
                       <div class="row" ng-if="d.version == 'V3'">
@@ -448,12 +452,20 @@
                   </div>
 
                   <div class="row">
-                      <div class="col-md-4">
+                      <div class="col-md-2">
                         <label>Pamphlet</label>
                       </div>
-                      <div class="col-md-8">
+                      <div class="col-md-4">
                         <div class="form-group">
                           <input type="file" file-model="d.companyPamphlet">
+                        </div>
+                      </div>
+                      <div class="col-md-2" ng-if="d.version == 'V1' || d.version == 'V2'">
+                        <label>Logo</label>
+                      </div>
+                      <div class="col-md-4" ng-if="d.version == 'V1' || d.version == 'V2'">
+                        <div class="form-group">
+                          <input type="file" file-model="d.logo">
                         </div>
                       </div>
                   </div>

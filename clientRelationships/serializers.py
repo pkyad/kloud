@@ -30,12 +30,24 @@ class ContactLiteSerializer(serializers.ModelSerializer):
         read_only_fields = ( 'user' ,'name', 'company', 'email', 'mobile' , 'designation', 'dp', 'male', 'city' , 'street' , 'pincode' , 'country' , 'state','typ')
 
 
+class serviceAllSerializer(serializers.ModelSerializer):
+    user = userSearchSerializer(many = False , read_only = True)
+    address = addressSerializer(many = False, read_only = True)
+    contactPerson = userSearchSerializer(many = False , read_only = True)
+    contact_details = serializers.SerializerMethodField()
+    class Meta:
+        model = service
+        fields = ('pk' , 'created' ,'name' , 'user' , 'cin' , 'tin' , 'address' , 'mobile' , 'telephone' , 'logo' , 'about', 'doc', 'web','contactPerson','vendor'  , 'bankName' , 'accountNumber' , 'ifscCode','paymentTerm','contact_details')
+    def get_contact_details(self , obj):
+        return ContactLiteSerializer(obj.contacts.all(), many = True).data
+
+
 class ContactSerializer(serializers.ModelSerializer):
     company = serviceSerializer(many = False , read_only = True)
     courseCount = serializers.SerializerMethodField()
     class Meta:
         model = Contact
-        fields = ('pk' , 'user' ,'name', 'created' , 'updated' , 'company', 'email' , 'emailSecondary', 'mobile' , 'mobileSecondary' , 'designation' , 'notes' , 'linkedin', 'facebook', 'dp', 'male' , 'city' , 'street' , 'pincode' , 'country' , 'state','isGst','courseCount','typ')
+        fields = ('pk' , 'user' ,'name', 'created' , 'updated' , 'company', 'email' , 'emailSecondary', 'mobile' , 'mobileSecondary' , 'designation' , 'notes' , 'linkedin', 'facebook', 'dp', 'male' , 'city' , 'street' , 'pincode' , 'country' , 'state','isGst','courseCount','typ','isFav')
         read_only_fields = ('user', )
     def create(self , validated_data):
         c = Contact(**validated_data)
@@ -45,7 +57,7 @@ class ContactSerializer(serializers.ModelSerializer):
         c.save()
         return c
     def update(self ,instance, validated_data):
-        for key in ['name', 'email' , 'emailSecondary', 'mobile' , 'mobileSecondary' , 'designation' , 'notes' , 'linkedin', 'facebook', 'dp', 'male', 'city' , 'street' , 'pincode' , 'country' , 'state','isGst','typ']:
+        for key in ['name', 'email' , 'emailSecondary', 'mobile' , 'mobileSecondary' , 'designation' , 'notes' , 'linkedin', 'facebook', 'dp', 'male', 'city' , 'street' , 'pincode' , 'country' , 'state','isGst','typ','isFav']:
             try:
                 setattr(instance , key , validated_data[key])
             except:

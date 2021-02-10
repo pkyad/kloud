@@ -37,9 +37,10 @@ class serviceSerializer(serializers.ModelSerializer):
     user = userSearchSerializer(many = False , read_only = True)
     address = addressSerializer(many = False, read_only = True)
     contactPerson = userSearchSerializer(many = False , read_only = True)
+    contact_count = serializers.SerializerMethodField()
     class Meta:
         model = service
-        fields = ('pk' , 'created' ,'name' , 'user' , 'cin' , 'tin' , 'address' , 'mobile' , 'telephone' , 'logo' , 'about', 'doc', 'web','contactPerson','vendor'  , 'bankName' , 'accountNumber' , 'ifscCode','paymentTerm')
+        fields = ('pk' , 'created' ,'name' , 'user' , 'cin' , 'tin' , 'address' , 'mobile' , 'telephone' , 'logo' , 'about', 'doc', 'web','contactPerson','vendor'  , 'bankName' , 'accountNumber' , 'ifscCode','paymentTerm','contact_count')
 
     def assignValues(self , instance , validated_data):
         if 'name' in validated_data:
@@ -86,6 +87,8 @@ class serviceSerializer(serializers.ModelSerializer):
         self.assignValues(instance , validated_data)
         instance.save()
         return instance
+    def get_contact_count(self , obj):
+        return obj.contacts.all().count()
 
 class serviceLiteSerializer(serializers.ModelSerializer):
     address = addressSerializer(many = False, read_only = True)
@@ -96,13 +99,14 @@ class serviceLiteSerializer(serializers.ModelSerializer):
 
 class applicationSerializer(serializers.ModelSerializer):
     appMedia = serializers.SerializerMethodField()
+    mobileMedia = serializers.SerializerMethodField()
     usersCount = serializers.SerializerMethodField()
     is_app_installed = serializers.SerializerMethodField()
     class Meta:
         model = application
-        fields = ( 'pk', 'name', 'module' , 'description' , 'icon'  ,  'haveJs' , 'haveCss' , 'published', 'displayName','stateAlias','appMedia','windows','ios','mac','android','rating_five','rating_four','rating_three','rating_two','rating_one','usersCount','appStoreUrl' , 'playStoreUrl','is_app_installed')
+        fields = ( 'pk', 'name', 'module' , 'description' , 'icon'  ,  'haveJs' , 'haveCss' , 'published', 'displayName','stateAlias','appMedia','windows','ios','mac','android','rating_five','rating_four','rating_three','rating_two','rating_one','usersCount','appStoreUrl' , 'playStoreUrl','is_app_installed','inMenu','mobileMedia')
     def update(self , instance , validated_data):
-        for key in ['displayName' , 'description' , 'webpage','windows','ios','mac','android','rating_five','rating_four','rating_three','rating_two','rating_one']:
+        for key in ['displayName' , 'description' , 'webpage','windows','ios','mac','android','rating_five','rating_four','rating_three','rating_two','rating_one','inMenu']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
@@ -115,6 +119,9 @@ class applicationSerializer(serializers.ModelSerializer):
     def get_appMedia(self , obj):
 
         return applicationMediaSerializer(obj.appMedia.all(),many=True).data
+    def get_mobileMedia(self , obj):
+
+        return MobileapplicationMediaSerializer(obj.mobileMedia.all(),many=True).data
     def get_usersCount(self , obj):
         apps = InstalledApp.objects.filter(app__pk=obj.pk).values_list('app__pk').distinct()
         userapp = UserApp.objects.filter(app__in = apps).values_list('user__pk').distinct()
@@ -131,6 +138,7 @@ class applicationSerializer(serializers.ModelSerializer):
             pass
         return is_installed
 
+
 class applicationMediaSerializer(serializers.ModelSerializer):
     class Meta:
         model = applicationMedia
@@ -142,7 +150,25 @@ class applicationMediaSerializer(serializers.ModelSerializer):
             appMedia.app = appObj
 
         imgTyp = self.context['request'].data['name']
-        if imgTyp.endswith('.jpg') or imgTyp.endswith('.jpeg') or  imgTyp.endswith('.png'):
+        if imgTyp.endswith('.jpg') or imgTyp.endswith('.jpeg') or  imgTyp.endswith('.png') or  imgTyp.endswith('.PNG') or imgTyp.endswith('.JPG') or imgTyp.endswith('.JPEG'):
+            appMedia.typ= 'image'
+        else:
+            appMedia.typ= 'video'
+        appMedia.save()
+        return appMedia
+
+class MobileapplicationMediaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MobileapplicationMedia
+        fields = ( 'pk','created','app','typ','attachment')
+    def create(self , validated_data):
+        appMedia =  MobileapplicationMedia(**validated_data)
+        if 'app' in self.context['request'].data:
+            appObj = application.objects.get(pk=  self.context['request'].data['app'] )
+            appMedia.app = appObj
+
+        imgTyp = self.context['request'].data['name']
+        if imgTyp.endswith('.jpg') or imgTyp.endswith('.jpeg') or  imgTyp.endswith('.png') or  imgTyp.endswith('.PNG') or imgTyp.endswith('.JPG') or imgTyp.endswith('.JPEG'):
             appMedia.typ= 'image'
         else:
             appMedia.typ= 'video'
@@ -358,3 +384,14 @@ class LanguageTranslationSerializer(serializers.ModelSerializer):
     class Meta:
         model = LanguageTranslation
         fields = ('pk' , 'key', 'value', 'lang' )
+
+
+class AppVersioningSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AppVersioning
+        fields = ('pk' , 'minVersion', 'latestVersion', 'enabled' , 'app','title')
+
+class CheckAppVersioningSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AppVersioning
+        fields = ('minVersion', 'latestVersion')

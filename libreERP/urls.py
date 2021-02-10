@@ -59,6 +59,7 @@ urlpatterns = [
     url(r'^course/(?P<id>\d+)/(?P<urlSuffix>[\w|\W]+)', coursedetails , name ='coursedetails'),
     url(r'^articles/(?P<articleUrl>[\w|\W]+)', renderedArticleView , name ='blogs/(?P<articleUrl>[\w|\W]+)'),
     url(r'^privacypolicy', privacypolicy , name ='privacypolicy'),
+    url(r'^refundpolicy', refundpolicy , name ='refundpolicy'),
     url(r'^careers', careers , name ='careers'),
     url(r'^career/(?P<id>\d+)', career , name ='career'),
     url(r'^apply', renderedModalView , name ='renderedModalView'),
@@ -77,6 +78,9 @@ urlpatterns = [
     url(r'activities' , activityView , name = "activity"),
     url(r'^externalWindow/', ExternalWindow , name ='externalWindow'),
     url(r'^zoomAuthRedirect/', ZoomAuthRedirect , name ='zoomAuthRedirect'),
+    url(r'^version/(?P<app>[\w|\W]+)/', versionDetails , name ='versionDetails'),
+    # url(r'^getPaymentLink/', GetPaymentLink , name ='getPaymentLink'),
+
 
     # url(r'extractorTester/$' , ExtractorTesterView.as_view() , name = "extractorTester"),
 

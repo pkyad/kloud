@@ -278,9 +278,19 @@ class PageNumCanvas(canvas.Canvas):
         ima.drawHeight = 0.8*inch
         ima.drawWidth = 2*inch
         ima.hAlign = 'RIGHT'
-        tab5 = Table([[ima]])
-        tab5.wrapOn(self, 1 * mm, self._pagesize[1] - 25 * mm)
-        tab5.drawOn(self, 1 * mm, self._pagesize[1] - 25 * mm)
+        imal = ''
+        if self.contract.termsAndCondition.logo:
+            imagePathLogo = os.path.join(globalSettings.MEDIA_ROOT , str(self.contract.termsAndCondition.logo))
+            fl = open(imagePathLogo, 'rb')
+            imal = Image(fl)
+            imal.drawHeight = 0.8*inch
+            imal.drawWidth = 1.5*inch
+            imal.hAlign = 'RIGHT'
+            tab5 = Table([[ima , imal]],colWidths=[6*inch, 6*inch])
+        else:
+            tab5 = Table([[ima]])
+        tab5.wrapOn(self, 8 * mm, self._pagesize[1] - 25 * mm)
+        tab5.drawOn(self, 8 * mm, self._pagesize[1] - 25 * mm)
         # from svglib.svglib import svg2rlg
         #
         # if self.contract.status in ['billed', 'approved', 'recieved']:

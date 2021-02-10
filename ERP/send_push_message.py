@@ -5,16 +5,15 @@ from exponent_server_sdk import PushResponseError
 from exponent_server_sdk import PushServerError
 from requests.exceptions import ConnectionError
 from requests.exceptions import HTTPError
-# import rollbar
 
 
 # Basic arguments. You should extend this function with the push features you
 # want to use, or simply pass in a `PushMessage` object.
-def send_push_message(token, message, extra=None):
-    print extra
+def send_push_message(token,title, message, extra=None):
     try:
         response = PushClient().publish(
             PushMessage(to=token,
+                        title=title,
                         body=message,
                         data=extra))
     except PushServerError as exc:
@@ -22,6 +21,7 @@ def send_push_message(token, message, extra=None):
         rollbar.report_exc_info(
             extra_data={
                 'token': token,
+                'title':title,
                 'message': message,
                 'extra': extra,
                 'errors': exc.errors,
@@ -32,7 +32,7 @@ def send_push_message(token, message, extra=None):
         # Encountered some Connection or HTTP error - retry a few times in
         # case it is transient.
         rollbar.report_exc_info(
-            extra_data={'token': token, 'message': message, 'extra': extra})
+            extra_data={'token': token,'title':title, 'message': message, 'extra': extra})
         raise self.retry(exc=exc)
 
     try:
@@ -51,6 +51,7 @@ def send_push_message(token, message, extra=None):
             extra_data={
                 'token': token,
                 'message': message,
+                'title':title,
                 'extra': extra,
                 'push_response': exc.push_response._asdict(),
             })
@@ -58,5 +59,5 @@ def send_push_message(token, message, extra=None):
 
 
 if __name__=='__main__':
-    token = 'ExponentPushToken[x4rjtUNuOWOj5pgZJW3RkU]'
-    send_push_message(token,'Welcome from cioc')
+    token = 'ExponentPushToken[0Wu6IkJoz0ZVdEkDtX-rdC]'
+    send_push_message(token,'Order updated','Welcome from cioc')

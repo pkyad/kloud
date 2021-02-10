@@ -1,5 +1,3 @@
-
-
 <div class="" style="cursor:pointer;">
   <style media="screen">
     body {
@@ -298,7 +296,8 @@
       box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;
       background: #0F2027;
       padding: 20px;
-      background: linear-gradient(to right, #EEE, #F6F6F6, #D0D3D0);;
+      background: linear-gradient(to right, #EEE, #F6F6F6, #D0D3D0);
+      ;
     }
 
     #page2Column1 #columnBox2 {
@@ -313,23 +312,37 @@
 
     .apps {
       height: 180px;
-      background-size: contain !important;background-position:top !important;
+      background-size: contain !important;
+      background-position: top !important;
     }
 
     .appImgage {
       height: 150px;
       background-size: contain !important;
-      background-position:top !important;
+      background-position: top !important;
     }
-
+    .installed{
+      position: absolute;right: -53px;height: 149px;width: 100px;background: #5c9d68;transform: rotate(-49deg);
+    }
+    .firstApp{
+      position: absolute;
+bottom: 14px;
+right: -45px;
+height: 150px;
+width: 100px;
+background:
+#5c9d68;
+transform: rotate(-49deg);
+    }
     @media only screen and (min-device-width : 320px) and (max-device-width : 600px) {
 
       #Boxes .secondbox {
         margin-bottom: 20px;
-        padding:10px;
+        padding: 10px;
       }
+
       #Boxes {
-        padding:10px !important;
+        padding: 10px !important;
       }
 
       #btns .newBtn {
@@ -343,13 +356,15 @@
       #navbar ul {
         display: flex;
       }
+
       .maintitle {
-        font-size:20px !important;
+        font-size: 20px !important;
       }
+
       .appImgage {
-        height:130px !important;
-        padding:0px !important;
-        margin:0px !important;
+        height: 130px !important;
+        padding: 0px !important;
+        margin: 0px !important;
       }
 
       #page2Column1 #columnBox1 {
@@ -443,6 +458,17 @@
       #page2bgImage {
         height: 400px;
       }
+      .installed{
+        position: absolute;
+right: -40px;
+height: 125px;
+width: 105px;
+bottom:20px    !important;
+      }
+      .firstApp{
+        bottom: -5px;
+        right: -32px;
+      }
 
       #page2bgImage #divText {
         padding: 30px;
@@ -478,9 +504,7 @@
         font-size: 20px;
       }
 
-      .appImgage {
-
-      }
+      .appImgage {}
 
       .row1 p {
         font-size: 14px;
@@ -513,147 +537,190 @@
         background-size: contain !important;
         background-position: top !important;
       }
-      #page2bgImage #divText span{
-        font-size:50px;
+
+      #page2bgImage #divText span {
+        font-size: 50px;
       }
-      #fAppdescription1 h4{
-        font-size:25px;
+
+      #fAppdescription1 h4 {
+        font-size: 25px;
 
       }
-      #fAppdescription2 h4{
-        font-size:25px;
+
+      #fAppdescription2 h4 {
+        font-size: 25px;
       }
     }
 
     @media only screen and (min-width : 250px) and (max-width : 600px) {
 
 
-      #page2bgImage{
-        margin:15px !important;
+      #page2bgImage {
+        margin: 15px !important;
       }
     }
+
     @media only screen and (min-width : 600px) and (max-width : 991px) {
-      #page2bgImage{
-        margin:15px !important;
+      #page2bgImage {
+        margin: 15px !important;
       }
 
     }
-    </style>
+  </style>
+<div class=" container-fluid " style="padding:0px">
   <div class="row" style="margin:0px;">
-    <div class="col-md-1 col-md-offset-1 col-sm-12"  >
-        <!-- <img src="/static/images/xicon.png" style="width: 40px;position: absolute;left: 33px;top: 10px;" alt=""> -->
-        <div style="margin-bottom:30px;background:url('/static/images/xicon.png')no-repeat center;;background-size:contain;height:60px" ng-if="showLogo"> </div>
-    </div>
-    <div class="col-md-8  col-sm-12" style="margin-bottom:30px">
-        <input type="text" class="form-control" ng-model="search.searchText" style="border: none;border-radius: 50px;background: #f6f5f4;height: 60px;padding-left: 60px;"  placeholder="Search" ng-change="allApps()" ng-model-options="{debounce:1000}">
-          <img src="/static/images/icons8-search-512.png" style="width: 40px;position: absolute;left: 33px;top: 10px;" alt="">
-    </div>
-    <div class="col-md-1 " >
-      <button type="button" name="button" class="btn btn-block" style="height:60px;border-radius: 50px !important;background:" ng-click="$state.go('workforceManagement.billing')">Billing</button>
-    </div>
-    <div class="col-md-5 col-md-offset-1" id="page2bgImage">
-      <div class="" id="divText">
-        <span>What's new</span>
-        <p id="title">App Store</p>
-
-        <p id="description">Are you searching for the apps then you are at the right place </p>
+    <div class="col-md-12">
+      <div class="row" id="topheader" style="background:#ffffff;padding-top:5px">
+    <div class="col-md-2  col-sm-12">
+      <!-- <img src="/static/images/xicon.png" style="width: 40px;position: absolute;left: 33px;top: 10px;" alt=""> -->
+      <!-- <div style="margin-bottom:30px;background:url('/static/images/xicon.png')no-repeat center;;background-size:contain;height:60px">  </div>
+        <div style="color:#1A2763;font-weight: 700;font-size: 25px;">  Kloud ERP  </div> -->
+        <div style="color:#1A2763;font-weight: 700;font-size: 22px;"><img src="/static/images/xicon.png" style="width:75px;">Kloud ERP</div>
       </div>
-    </div>
-    <div class="col-md-5" id="page2Column1" style="padding-right:0px;" >
-      <div class="container-fluid" id="columnBox1" style="overflow:hidden" ng-click="appDetails(allApplication[0].pk)" ng-if="allApplication.length>0">
-        <div class="row" style="margin:0px;">
-          <div class="col-md-3 col-xs-12">
-            <div class="apps" style="background:url('{{allApplication[0].icon}}')no-repeat center;">
-            </div>
-          </div>
-          <div class="col-md-6 col-xs-12" id="fAppdescription1"  >
-            <h4>{{allApplication[0].displayName}}</h4>
-            <span><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></span>
-            <div   style="position: absolute;bottom: 7px;right: -223px;height: 149px;width: 100px;background: #5c9d68;transform: rotate(-49deg);" ng-if="allApplication[0].is_app_installed">
-              <!-- <img src="/static/images/icons8-check-mark-144.png" style="width: 47px;transform: rotate(-56deg);margin-top: 54px;" alt=""> -->
-              <div style="width: 47px;transform: rotate(90deg);margin-top: 54px;color: white;font-size: 11px;" > INSTALLED </div>
-            </div>
-          </div>
-
-        </div>
+      <div class="col-md-7  col-sm-12" style="margin-bottom:30px">
+        <input type="text" class="form-control" ng-model="search.searchText" style="border: none;border-radius: 50px;background: #f6f5f4;height: 60px;padding-left: 60px;" placeholder="Search" ng-change="allApps()" ng-model-options="{debounce:1000}">
+        <img src="/static/images/icons8-search-512.png" style="width: 40px;position: absolute;left: 33px;top: 10px;" alt="">
       </div>
-      <div class="container-fluid" id="columnBox2"  ng-click="appDetails(allApplication[1].pk)" style="cursor:pointer;overflow:hidden"  ng-if="allApplication.length>1">
-        <div class="row" style="margin:0px;">
-          <div class="col-md-3">
-            <div class="hidden-xs apps" style="background:url('{{allApplication[1].icon}}')no-repeat center;">
-            </div>
-          </div>
-          <div class="col-md-6" id="fAppdescription2">
-            <h4 class="maintitle">{{allApplication[1].displayName}}</h4>
-            <span><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></span>
-            <div   style="position: absolute;bottom: 7px;right: -223px;height: 149px;width: 100px;background: #5c9d68;transform: rotate(-49deg);" ng-if="allApplication[1].is_app_installed">
-              <!-- <img src="/static/images/icons8-check-mark-144.png" style="width: 47px;transform: rotate(-56deg);margin-top: 54px;" alt=""> -->
-              <div style="width: 47px;transform: rotate(90deg);margin-top: 54px;color: white;font-size: 11px;" > INSTALLED </div>
-            </div>
+      <div class="col-md-2 ">
+        <div class="row"  ng-if="me.pk&&showLogo">
+          <div class="col-md-12">
+            <button type="button" name="button" class="btn btn-block" style="height:60px;border-radius: 50px !important" ng-click="$state.go('workforceManagement.billing')">Billing</button>
           </div>
         </div>
+        <div class="row"  ng-if="!me.pk">
+          <div class="col-md-12">
+            <a type="button" href="/login/"  name="button" class="btn btn-default btn-block" style="height:60px;border-radius: 50px !important;padding-top:20px;" >Login</a>
+          </div>
+        </div>
+        <div class="row"  ng-if="me.pk&&!showLogo">
+          <div class="col-md-12">
+            <a type="button" href="/ERP/"  name="button" class="btn btn-default btn-block" style="height:60px;border-radius: 50px !important;padding-top:20px;" >Go To Backend</a>
+          </div>
+        </div>
+        <!-- <div class="col-md-6 col-xs-6">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/login/" type="button" class="btn btn-default " name="button" id="signup" class="sign">Sign Up</a></li>
+            <li><a href="/ERP/">Go To Backend</a></li>
+            <li><a href="/login/">Login</a></li>
+          </ul>
+
+        </div> -->
       </div>
     </div>
-  </div>
-  <div class="row" style="margin:0px;" ng-if="allApplication.length>2">
-    <div class="col-md-10 col-md-offset-1" id="Boxes">
-      <div class="row">
-        <div class="col-md-4  " ng-click="appDetails(k.pk)" ng-repeat="k in allApplication.slice(2)" style="margin-bottom:10px;">
-          <div ng-if="$index % 3 == 0">
-          <div class="{{$index % 3 == 0? 'row3':$index % 2 == 0?'row2':$index % 1 == 0?'row1':''}}"  style="overflow: hidden;">
-            <div class="row" style="margin:0px">
-              <div class="col-md-4 col-xs-6">
 
-                <div class="appImgage" style="background:url('{{k.icon}}')no-repeat center;">
+    <div class="appStoreDiv">
+      <div class="row" style="margin:0px;">
+        <div class="col-md-6 " id="page2bgImage">
+          <div class="" id="divText">
+            <span>What's new</span>
+            <p id="title">App Store</p>
+
+            <p id="description">Are you searching for the apps then you are at the right place </p>
+          </div>
+        </div>
+        <div class="col-md-6" id="page2Column1" style="padding-right:0px;">
+          <div class="container-fluid" id="columnBox1" style="overflow:hidden" ng-click="appDetails(allApplication[0].pk)" ng-if="allApplication.length>0">
+            <div class="row" style="margin:0px;">
+              <div class="col-md-3 col-xs-12">
+                <div class="apps" style="background:url('{{allApplication[0].icon}}')no-repeat center;">
                 </div>
               </div>
-              <div class="col-md-8 col-xs-6">
-                <h4 class="maintitle" style="padding-bottom:10px;">{{k.displayName}}</h4>
-                <p style="height:20px;">4.3 <i class="fa fa-star"></i></p>
-                <div   style="position: absolute;{{k.displayName.length>13?'bottom: 53px;':'bottom: 22px'}};right: -53px;height: 149px;width: 100px;background: #5c9d68;transform: rotate(-49deg);" ng-if="k.is_app_installed">
+              <div class="col-md-9 col-xs-12" id="fAppdescription1" style="position:relative">
+                <h4>{{allApplication[0].displayName}}</h4>
+                <span><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></span>
+                <div  class="firstApp" ng-if="allApplication[0].is_app_installed">
                   <!-- <img src="/static/images/icons8-check-mark-144.png" style="width: 47px;transform: rotate(-56deg);margin-top: 54px;" alt=""> -->
-                  <div style="width: 47px;transform: rotate(90deg);margin-top: 54px;color: white;font-size: 11px;" > INSTALLED </div>
+                  <div style="width: 55px;transform: rotate(90deg);margin-top: 75px;color: white;font-size: 11px;"> INSTALLED </div>
                 </div>
               </div>
+
             </div>
-            <div class="row" style="margin:0px;padding-top:30px;">
-              <div class="col-md-12 col-xs-12">
-                <p>{{k.description}}</p>
+          </div>
+          <div class="container-fluid" id="columnBox2" ng-click="appDetails(allApplication[1].pk)" style="cursor:pointer;overflow:hidden" ng-if="allApplication.length>1">
+            <div class="row" style="margin:0px;">
+              <div class="col-md-3">
+                <div class="hidden-xs apps" style="background:url('{{allApplication[1].icon}}')no-repeat center;">
+                </div>
               </div>
+              <div class="col-md-9" id="fAppdescription2" style="position:relative">
+                <h4 class="maintitle">{{allApplication[1].displayName}}</h4>
+                <span><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></span>
+                <div class="firstApp" style=""   ng-if="allApplication[1].is_app_installed">
+                  <!-- <img src="/static/images/icons8-check-mark-144.png" style="width: 47px;transform: rotate(-56deg);margin-top: 54px;" alt="" style="position: absolute;bottom: 7px;right: -223px;height: 149px;width: 100px;background: #5c9d68;transform: rotate(-49deg);> -->
+                  <div style="width: 55px;transform: rotate(90deg);margin-top: 75px;color: white;font-size: 11px;"> INSTALLED </div>
+                </div>
+              </div>
+
+
             </div>
-
           </div>
-          </div>
-            <div ng-if="$index % 3 != 0">
-              <div class="{{$index % 3 == 0? 'row1':$index % 2 == 0?'row2':$index % 1 == 0?'row1':''}}" style="overflow: hidden;">
-                <div class="row" style="margin:0px">
-                  <div class="col-md-4 col-xs-6">
-
-                    <div class="appImgage" style="background:url('{{k.icon}}')no-repeat center;">
-
-                    </div>
-                  </div>
-                  <div class="col-md-8 col-xs-6">
-                    <h4 class="maintitle" style="padding-bottom:10px;">{{k.displayName}}</h4>
-                    <p style="height:20px;">4.3 <i class="fa fa-star"></i></p>
-                    <div   style="position: absolute;{{k.displayName.length>13?'bottom: 53px;':'bottom: 22px'}};right: -53px;height: 149px;width: 100px;background: #5c9d68;transform: rotate(-49deg);" ng-if="k.is_app_installed">
-                      <!-- <img src="/static/images/icons8-check-mark-144.png" style="width: 47px;transform: rotate(-56deg);margin-top: 54px;" alt=""> -->
-                      <div style="width: 47px;transform: rotate(90deg);margin-top: 54px;color: white;font-size: 11px;" > INSTALLED </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row" style="margin:0px;padding-top:30px;">
-                  <div class="col-md-12 col-xs-12">
-                    <p>{{k.description}}</p>
-                  </div>
-                </div>
-              </div>
-              </div>
         </div>
 
-
-
       </div>
+      <div class="row" style="margin:0px;" ng-if="allApplication.length>2">
+        <div  id="Boxes">
+          <div class="row">
+            <div class="col-md-4  " ng-click="appDetails(k.pk)" ng-repeat="k in allApplication.slice(2)" style="margin-bottom:10px;">
+              <div ng-if="$index % 3 == 0">
+                <div class="{{$index % 3 == 0? 'row3':$index % 2 == 0?'row2':$index % 1 == 0?'row1':''}}" style="overflow: hidden;">
+                  <div class="row" style="margin:0px">
+                    <div class="col-md-4 col-xs-6">
+
+                      <div class="appImgage" style="background:url('{{k.icon}}')no-repeat center;">
+                      </div>
+                    </div>
+                    <div class="col-md-8 col-xs-6">
+                      <h4 class="maintitle" style="padding-bottom:10px;">{{k.displayName}}</h4>
+                      <p style="height:20px;">4.3 <i class="fa fa-star"></i></p>
+                      <div class="installed" style="{{k.displayName.length>13?'bottom: 53px;':'bottom: 22px'}};" ng-if="k.is_app_installed">
+                        <!-- <img src="/static/images/icons8-check-mark-144.png" style="width: 47px;transform: rotate(-56deg);margin-top: 54px;" alt=""> -->
+                        <div style="width: 47px;transform: rotate(90deg);margin-top: 54px;color: white;font-size: 11px;"> INSTALLED </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" style="margin:0px;padding-top:30px;">
+                    <div class="col-md-12 col-xs-12">
+                      <p>{{k.description}}</p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div ng-if="$index % 3 != 0">
+                <div class="{{$index % 3 == 0? 'row1':$index % 2 == 0?'row2':$index % 1 == 0?'row1':''}}" style="overflow: hidden;">
+                  <div class="row" style="margin:0px">
+                    <div class="col-md-4 col-xs-6">
+
+                      <div class="appImgage" style="background:url('{{k.icon}}')no-repeat center;">
+
+                      </div>
+                    </div>
+                    <div class="col-md-8 col-xs-6">
+                      <h4 class="maintitle" style="padding-bottom:10px;">{{k.displayName}}</h4>
+                      <p style="height:20px;">4.3 <i class="fa fa-star"></i></p>
+                      <div class="installed" style="{{k.displayName.length>13?'bottom: 53px;':'bottom: 22px'}};" ng-if="k.is_app_installed">
+                        <!-- <img src="/static/images/icons8-check-mark-144.png" style="width: 47px;transform: rotate(-56deg);margin-top: 54px;" alt=""> -->
+                        <div style="width: 47px;transform: rotate(90deg);margin-top: 54px;color: white;font-size: 11px;"> INSTALLED </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" style="margin:0px;padding-top:30px;">
+                    <div class="col-md-12 col-xs-12">
+                      <p>{{k.description}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+
     </div>
-  </div>
+
+</div>
+
 </div>

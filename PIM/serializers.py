@@ -205,6 +205,7 @@ class chatMessageSerializer(serializers.ModelSerializer):
                 im.fileType = 'pdf'
             elif im.attachment.name.endswith('.png') or  im.attachment.name.endswith('.jpg') or  im.attachment.name.endswith('.jpeg'):
                 im.fileType = 'image'
+                print 'aaaaaaaaaaaaaa'
             elif im.attachment.name.endswith('.doc') or  im.attachment.name.endswith('.docs') or im.attachment.name.endswith('.docx'):
                 im.fileType = 'word'
             elif im.attachment.name.endswith('.ppt') or  im.attachment.name.endswith('.pptx'):
@@ -212,6 +213,7 @@ class chatMessageSerializer(serializers.ModelSerializer):
             elif im.attachment.name.endswith('.xlsx') or im.attachment.name.endswith('.xls'):
                 im.fileType = 'xl'
             im.fileSize =  "{:.2f}".format(im.attachment.size)
+            print im.fileSize,'aaaaaaaaaaaaaa'
             im.fileName = im.attachment.name
         except:
             pass
@@ -375,7 +377,7 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
             instance.title =  self.context['request'].data['name']
         if 'visitor' in self.context['request'].data:
             v,visitorObj = Contacts.objects.get_or_create(mobile=self.context['request'].data['mobile'])
-            print visitorObj,v,'"eeeeeeeeee"'
+            # print visitorObj,v,'"eeeeeeeeee"',self.context['request'].data['name']
             if 'email' in self.context['request'].data:
                 v.email = self.context['request'].data['email']
             if 'name' in self.context['request'].data:
@@ -394,6 +396,8 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
                 v.country = self.context['request'].data['country']
             v.save()
             instance.visitor = v
+        if 'selfParticipant' in  self.context['request'].data:
+            instance.participants.add(self.context['request'].user)
         if 'participants' in  self.context['request'].data:
             # instance.participants.clear()
             tagged = self.context['request'].data['participants']
@@ -411,7 +415,7 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
                 'name' :  obj.title
             }
         if obj.is_personal == False:
-            if obj.visitor == None :
+            if obj.visitor == None and obj.uid!= None:
                 name = {
                     'name' :  obj.uid,
                     'mobile' :'',
@@ -420,7 +424,7 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
                     'pinCode' : '',
                     'email' : ''
                 }
-            else:
+            elif obj.visitor != None :
                 name = {
                     'name' :  obj.visitor.name,
                     'mobile' : obj.visitor.mobile,

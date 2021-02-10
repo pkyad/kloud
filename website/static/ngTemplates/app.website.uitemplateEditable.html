@@ -10,7 +10,7 @@
         <div class="row">
           <div class="col-md-4">
             <!-- <label class="text-muted">File</label> -->
-            <input type="file"  file-model="files[key]" > <br>
+            <input type="file" file-model="files[key]"> <br>
             <button ng-click="uploadmediafile(files[key] , key)">Upload</button> <br>
             <label class="text-muted">Alt Text</label>
             <input type="text" class="form-control" ng-model="value.altText"> <br>
@@ -24,62 +24,193 @@
         </div>
       </div>
       <div ng-if="value.type == 'switch'">
-        <input type="checkbox"  ng-model="value.switch">
+        <input type="checkbox" ng-model="value.switch">
       </div>
 
       <div ng-if="value.type == 'array'">
-
         <div class="row">
-          <div class="col-md-4" ng-repeat="object in value.array track by $index" style="padding:20px;">
-            <div style="height:80px;border-radius:10px;background:#1D2870;color:white;padding:10px;" class="container-fluid">
-              <div ng-repeat="(key1, value1) in object">
-                <div ng-if="$index<2">
-                  <label>{{key1}}</label> <br>
-                  <span ng-if="value1.type == 'string'">{{value1.string}}</span>
-                  <span ng-if="value1.type == 'image'">{{value1.imageUrl}}</span>
-                </div>
+          <div class="col-md-4" ng-repeat="object in value.array track by $index ">
+
+            <!-- <div ng-repeat="(key1, value1) in i" style="position:relative">
+              <div ng-if="$index<2">
+                <label>{{key1}} {{value1}}</label> <br>
+                <span ng-if="value1.type == 'string'">{{value1.string.name}}</span>
+                <span ng-if="value1.type == 'image'">{{value1.string.img1}}</span>
               </div>
 
+            </div> -->
+
+            <span style="position:absolute;right:25px;padding:10px;" ng-click="value.array.splice($index,1)"><i class="fa fa-times"></i></span>
+            <div ng-repeat="(key1, value1) in object track by $index" ng-if="value1.string.pk">
+              <div class="text-center mediaformobilenext_specificpage" style="left:10%;">
+                <div class="simple_listcss_rare" style="height:160px;">
+                  <div class="" style="height:170px;width:130px;margin:auto;margin-top:10%;background:url({{value1.string.img1}}) center center no-repeat;background-size: contain;">
+
+                  </div>
+                </div>
+                <!-- <p>{{value1.string}}</p> -->
+                <div class="col-md-12" style="margin-top:10px;padding:0% 15%;">
+                  <span style="font-weight:500;font-size:16px;color:black;padding-right:10px;" class=" "><i class="fa fa-inr"></i>{{value1.string.rate}}</span>
+                  <strike>
+                    <span style="font-size:12px;" class=" "> <i class="fa fa-inr"></i>{{value1.string.mrp}}</span>
+                  </strike>
+                  <p style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;font-weight:400;color:black;" ng-if="!list.displayName" class=" ">{{value1.string.name}}</p>
+
+                </div>
+
+              </div>
+
+              <!-- <div ng-if="$index<2">
+                <label>{{key1}} {{value1}}</label> <br>
+                <span ng-if="value1.type == 'string'">{{value1.string.name}}</span>
+                <span ng-if="value1.type == 'image'">{{value1.string.img1}}</span>
+              </div> -->
+
             </div>
+
           </div>
-          <div class="col-md-2" style="padding:20px;cursor:pointer;">
+        </div>
+        <!-- <div class="row" style="padding:20px;cursor:pointer;">
+          <div class="col-md-2">
             <div ng-click="editArrayObj(value, -1, key)" style="height:80px;background:#eee;border-radius:10px;padding:30px;" class="container-fluid text-center">
               Add
             </div>
+
           </div>
-        </div>
 
 
+        </div> -->
+
+        <!-- <div class="row">
+
+            <ng-owl-carousel class="owl-theme " owl-items="value.array" owl-properties="appMediaPro" owl-ready="ready($api)">
+              <div class="col-md-12"  ng-repeat="object in value.array ">
+                <span style="position:absolute;right:25px;padding:10px;" ng-click="value.array.splice($index,1)"><i class="fa fa-times"></i></span>
+                <div ng-repeat="(key1, value1) in i" style="position:relative">
+                  <div ng-if="$index<2">
+                    <label>{{key1}} {{value1}}</label> <br>
+                    <span ng-if="value1.type == 'string'">{{value1.string.name}}</span>
+                    <span ng-if="value1.type == 'image'">{{value1.string.img1}}</span>
+                  </div>
+
+                </div>
+
+                <span style="position:absolute;right:25px;padding:10px;color:white" ng-click="value.array.splice($index,1)"><i class="fa fa-times"></i></span>
+                <div ng-repeat="(key1, value1) in object track by $index" ng-if="value1.string.pk">
+                  <div class="text-center mediaformobilenext_specificpage" style="left:10%;">
+                    <div class="simple_listcss_rare" style="height:160px;">
+                      <div class="" style="height:170px;width:130px;margin:auto;margin-top:10%;background:url({{value1.string.img1}}) center center no-repeat;background-size: contain;">
+
+                      </div>
+                    </div>
+                    <div class="col-md-12" style="margin-top:10px;padding:0% 15%;">
+                      <span  style="font-weight:500;font-size:16px;color:black;padding-right:10px;" class=" "><i class="fa fa-inr"></i>{{value1.string.rate}}</span>
+                      <strike>
+                        <span style="font-size:12px;" class=" "> <i class="fa fa-inr"></i>{{value1.string.mrp}}</span>
+                      </strike>
+                      <p style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;font-weight:400;color:black;" ng-if="!list.displayName" class=" ">{{value1.string.name}}</p>
+
+                    </div>
+
+                  </div>
+
+                  <div ng-if="$index<2">
+                    <label>{{key1}} {{value1}}</label> <br>
+                    <span ng-if="value1.type == 'string'">{{value1.string.name}}</span>
+                    <span ng-if="value1.type == 'image'">{{value1.string.img1}}</span>
+                  </div>
+
+                </div>
+
+              </div>
 
 
+            </ng-owl-carousel>
+          </div> -->
 
-      </div>
-
-      <div ng-if="value.type == 'color'">
-        <input type="color"  ng-model="value.color">
-      </div>
-      <div ng-if="value.type == 'link'">
         <div class="row">
-          <div class="col-md-4">
-            <label class="text-muted">Label</label>
-            <input type="text" name="" class="form-control" ng-model="value.text">
-          </div>
-          <div class="col-md-4">
-            <label class="text-muted">Link</label>
-            <input type="text" name="" class="form-control" ng-model="value.url">
-          </div>
-          <div class="col-md-4">
-            <label class="text-muted">Open In New Tab</label> <br>
-            <input type="checkbox" ng-model="value.openAsNewTab">
-          </div>
+
+          <!-- <div class="col-md-4" ng-repeat="object in value.array track by $index" style="padding:20px;" >
+              <span style="position:absolute;right:25px;padding:10px;color:white" ng-click="value.array.splice($index,1)"><i class="fa fa-times"></i></span>
+              <div ng-repeat="(key1, value1) in object track by $index" ng-if="value1.string.pk">
+                <div class="text-center mediaformobilenext_specificpage" style="left:10%;">
+                  <div class="simple_listcss_rare" style="height:160px;">
+                    <div class="" style="height:170px;width:130px;margin:auto;margin-top:10%;background:url({{value1.string.img1}}) center center no-repeat;background-size: contain;">
+
+                    </div>
+                  </div>
+                  <div class="col-md-12" style="margin-top:10px;padding:0% 15%;">
+                    <span  style="font-weight:500;font-size:16px;color:black;padding-right:10px;" class=" "><i class="fa fa-inr"></i>{{value1.string.rate}}</span>
+                    <strike>
+                      <span style="font-size:12px;" class=" "> <i class="fa fa-inr"></i>{{value1.string.mrp}}</span>
+                    </strike>
+                    <p style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;font-weight:400;color:black;" ng-if="!list.displayName" class=" ">{{value1.string.name}}</p>
+
+                  </div>
+
+                </div>
+
+                <div ng-if="$index<2">
+                  <label>{{key1}} {{value1}}</label> <br>
+                  <span ng-if="value1.type == 'string'">{{value1.string.name}}</span>
+                  <span ng-if="value1.type == 'image'">{{value1.string.img1}}</span>
+                </div>
+
+              </div>
+              <div style="height:80px;border-radius:10px;background:#1D2870;color:white;padding:10px;" class="container-fluid">
+
+              </div>
+            </div> -->
+          <!-- <div class="col-md-2" style="padding:20px;cursor:pointer;">
+              <div ng-click="editArrayObj(value, -1, key)" style="height:80px;background:#eee;border-radius:10px;padding:30px;" class="container-fluid text-center">
+                Add
+              </div> -->
         </div>
       </div>
+
+
+      <div class=""  ng-repeat="(key1,value1) in value.form">
+        <div class="input-group" ng-if="value1.type=='string'">
+          <input type="text" class="form-control" ng-model="value1.string" uib-typeahead="k as k.name for k in  productSearch($viewValue)">
+          <div class="input-group-btn">
+            <button class="btn btn-primary" type="submit" ng-click="editArrayObj(value, -1, key)""> add
+              <i class=" fa fa-plus"></i>
+            </div>
+
+          </div>
+
+      </div>
+
+
 
 
     </div>
-  </div>
 
-  <div class="row text-right" style="padding:15px;">
-    <button type="button" class="btn btn-primary" name="button" ng-click="save(component.data)">Save</button>
+    <div ng-if="value.type == 'color'">
+      <input type="color" ng-model="value.color">
+    </div>
+    <div ng-if="value.type == 'link'">
+      <div class="row">
+        <div class="col-md-4">
+          <label class="text-muted">Label</label>
+          <input type="text" name="" class="form-control" ng-model="value.text">
+        </div>
+        <div class="col-md-4">
+          <label class="text-muted">Link</label>
+          <input type="text" name="" class="form-control" ng-model="value.url">
+        </div>
+        <div class="col-md-4">
+          <label class="text-muted">Open In New Tab</label> <br>
+          <input type="checkbox" ng-model="value.openAsNewTab">
+        </div>
+      </div>
+    </div>
+
+
   </div>
+</div>
+
+<div class="row text-right" style="padding:15px;">
+  <button type="button" class="btn btn-primary" name="button" ng-click="save(component.data)">Save</button>
+</div>
 </div>

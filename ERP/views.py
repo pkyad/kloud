@@ -26,7 +26,7 @@ from PIM.models import *
 from website.models import *
 from HR.serializers import userSearchSerializer
 from taskBoard.serializers import mediaSerializer
-from finance.models import Sale
+from finance.models import Sale,SalesQty
 from rest_framework import filters
 from django.utils import translation
 from marketing.models import Contacts
@@ -45,7 +45,8 @@ from tempfile import mktemp
 from django.db.models import Sum
 from zoomapi import *
 from ERP.models import LanguageTranslation
-
+from paypal.standard.forms import PayPalPaymentsForm
+from django.db.models import BooleanField
 
 
 def generateOTPCode(length = 4):
@@ -342,16 +343,22 @@ def home(request):
         for  j in otherLang:
             val[j.lang] = LanguageTranslationSerializer(j,many = False).data
         langDataList[i.key] = val
-        # langDataList.append(val)
     langDataList = json.dumps(langDataList)
-    # langDataList = json.dumps(langDataList)
+
+    menusData = {}
+    for i in ApplicationFeature.objects.all():
+        menusData[i.name] = i.enabled
+        if i.enabled  == True and  InstalledApp.objects.filter(parent = division, app = i.parent).count()==0:
+            menusData[i.name] = False
+    menusData = json.dumps(menusData)
 
 
-    # pma_lang
+
+
 
     response =  render(request , 'ngBase.html' , {'wamp_prefix' : globalSettings.WAMP_PREFIX ,'isOnSupport' : isOnSupport , 'division' : division , 'homeState': homeState , 'dashboardEnabled' : u.profile.isDashboard , 'wampServer' : globalSettings.WAMP_SERVER, 'appsWithJs' : jsFilesList \
     ,'appsWithCss' : apps.filter(haveCss=True) , 'useCDN' : globalSettings.USE_CDN , 'BRAND_LOGO' : brandLogo \
-    ,'BRAND_NAME' :  globalSettings.BRAND_NAME,'sourceList':globalSettings.SOURCE_LIST , 'commonApps' : globalSettings.SHOW_COMMON_APPS , 'defaultState' : state, 'limit_expenses_count':globalSettings.LIMIT_EXPENSE_COUNT  , 'MATERIAL_INWARD' : MATERIAL_INWARD, 'DIVISIONPK' : divisionPk , "SIP" : SIP_DETAILS ,"NOTIFICATIONCOUNT":notificationCount,'telephony' : telephony , 'simpleMode' : simpleMode, 'messaging' : messaging,  "wampLongPoll" : globalSettings.WAMP_LONG_POLL,'langDataList' : langDataList})
+    ,'BRAND_NAME' :  globalSettings.BRAND_NAME,'sourceList':globalSettings.SOURCE_LIST , 'commonApps' : globalSettings.SHOW_COMMON_APPS , 'defaultState' : state, 'limit_expenses_count':globalSettings.LIMIT_EXPENSE_COUNT  , 'MATERIAL_INWARD' : MATERIAL_INWARD, 'DIVISIONPK' : divisionPk , "SIP" : SIP_DETAILS ,"NOTIFICATIONCOUNT":notificationCount,'telephony' : telephony , 'simpleMode' : simpleMode, 'messaging' : messaging,  "wampLongPoll" : globalSettings.WAMP_LONG_POLL,'langDataList' : langDataList,'menusData':menusData})
     # response.set_cookie('lang', 'en')
     return response
 
@@ -565,13 +572,20 @@ class applicationMediaViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['app','typ']
 
+class MobileapplicationMediaViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny ,)
+    queryset = MobileapplicationMedia.objects.all()
+    serializer_class = MobileapplicationMediaSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['app','typ']
+
 
 class ApplicationFeatureViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny ,)
     queryset = ApplicationFeature.objects.all()
     serializer_class = ApplicationFeatureSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['parent','name','displayName']
+    filter_fields = ['parent','name']
 
 
 class LocationTrackerAPI(APIView):
@@ -741,27 +755,46 @@ class GetApplicationDetailsApi(APIView):
     renderer_classes = (JSONRenderer,)
     permission_classes = (permissions.AllowAny ,)
     def get(self , request , format = None):
+
         division = self.request.user.designation.division
-        appObj = application.objects.get(pk = int(self.request.GET['app']))
-        appData = applicationSerializer(appObj, many = False).data
-        mediaObj = applicationMedia.objects.filter(app = appObj)
-        appMedias = applicationMediaSerializer(mediaObj, many = True).data
-        feedObj = Feedback.objects.filter(app = appObj)
-        appFeedbacks = FeedbackSerializer(feedObj, many = True).data
-        apps = InstalledApp.objects.filter(app__pk=request.GET['app'])
-        userApps = UserApp.objects.filter(app = appObj)
-        # userApps = UserApp.objects.filter(app = appObj).values_list('user__pk', flat=True).distinct()
-        # users = User.objects.filter(pk__in = userApps , designation__division = division)
-        # appUser = userSearchSerializer(users , many =True).data
-        appUser = UserAppSerializer(userApps , many =True).data
-        installedApp = InstalledApp.objects.filter(app = appObj , parent = division).first()
-        installedAppObj = InstalledAppSerializer(installedApp , many = False).data
-        is_staff = self.request.user.is_staff
-        is_user_installed = False
-        userAppobj = UserApp.objects.filter(user = self.request.user, app = appObj)
-        if userAppobj.count()>0:
-            is_user_installed = True
-        data = {'appData' : appData , 'appMedias' : appMedias , 'appFeedbacks' : appFeedbacks ,'appUser' : appUser , 'installedApp' : installedAppObj, 'is_staff' : is_staff , 'is_user_installed' : is_user_installed}
+
+
+        if self.request.user.pk:
+            division = self.request.user.designation.division
+            appObj = application.objects.get(pk = int(self.request.GET['app']))
+            appData = applicationSerializer(appObj, many = False).data
+            mediaObj = applicationMedia.objects.filter(app = appObj)
+            appMedias = applicationMediaSerializer(mediaObj, many = True).data
+            feedObj = Feedback.objects.filter(app = appObj)
+            appFeedbacks = FeedbackSerializer(feedObj, many = True).data
+            apps = InstalledApp.objects.filter(app__pk= int(request.GET['app']) , parent = division)
+            userApps = UserApp.objects.filter(app = appObj, user__designation__division = division)
+            mobmediaObj = MobileapplicationMedia.objects.filter(app = appObj)
+            mobileMedias = MobileapplicationMediaSerializer(mobmediaObj, many = True).data
+            # userApps = UserApp.objects.filter(app = appObj).values_list('user__pk', flat=True).distinct()
+            # users = User.objects.filter(pk__in = userApps , designation__division = division)
+            # appUser = userSearchSerializer(users , many =True).data
+            appUser = UserAppSerializer(userApps , many =True).data
+            installedApp = InstalledApp.objects.filter(app = appObj , parent = division).first()
+            installedAppObj = InstalledAppSerializer(installedApp , many = False).data
+            is_staff = self.request.user.is_staff
+            is_user_installed = False
+            userAppobj = UserApp.objects.filter(user = self.request.user, app = appObj)
+            if userAppobj.count()>0:
+                is_user_installed = True
+        else:
+            appObj = application.objects.get(pk = int(self.request.GET['app']))
+            appData = applicationSerializer(appObj, many = False).data
+            mediaObj = applicationMedia.objects.filter(app = appObj)
+            appMedias = applicationMediaSerializer(mediaObj, many = True).data
+            feedObj = Feedback.objects.filter(app = appObj)
+            appFeedbacks = FeedbackSerializer(feedObj, many = True).data
+            appUser = []
+            installedAppObj = []
+            is_staff = False
+            is_user_installed = False
+        data = {'appData' : appData , 'appMedias' : appMedias ,'mobileMedia':mobileMedias,'appFeedbacks' : appFeedbacks ,'appUser' : appUser , 'installedApp' : installedAppObj, 'is_staff' : is_staff , 'is_user_installed' : is_user_installed}
+        # data = {'appData' : appData , 'appMedias' : appMedias , 'appFeedbacks' : appFeedbacks ,'appUser' : appUser , 'installedApp' : installedAppObj, 'is_staff' : is_staff , 'is_user_installed' : is_user_installed}
         return Response(data,status = status.HTTP_200_OK)
 
 class serviceViewSet(viewsets.ModelViewSet):
@@ -889,11 +922,15 @@ class applicationViewSet(viewsets.ModelViewSet):
 
 
         if not u.is_superuser:
+
             return getApps(u)
         else:
+
             if 'user' in self.request.GET:
                 return getApps(User.objects.get(username = self.request.GET['user']))
+
             return application.objects.filter(published = True)
+
 
 class getapplicationViewSet(viewsets.ModelViewSet):
     permission_classes = (readOnly,)
@@ -903,6 +940,13 @@ class getapplicationViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         u = self.request.user
         ap = application.objects.filter(admin = False)
+        try:
+            div = u.designation.division
+            installedApps = InstalledApp.objects.filter(parent = div).values_list('app__pk').distinct()
+            ap = ap.annotate(is_installed=Case(When(id__in = installedApps, then=True),default=False,output_field=BooleanField()))
+            ap = ap.order_by('-is_installed')
+        except:
+            pass
         if 'statealias' in self.request.GET:
             ap = ap.filter(stateAlias__isnull = False)
         return ap
@@ -941,6 +985,15 @@ class GetappusersAPI(APIView):
             data = User.objects.filter(designation__apps__in = apps)
             print data,'er'
         return Response({'data':userSearchSerializer(data,many=True).data},status=status.HTTP_200_OK)
+
+@csrf_exempt
+def versionDetails(request,app):
+    data = {}
+    obj = AppVersioning.objects.filter(title = app)
+    if obj.count()>0:
+        selectedObj = obj.first()
+        data = {'minVersion' : selectedObj.minVersion , 'latestVersion' : selectedObj.latestVersion}
+    return JsonResponse(data)
 
 
 @csrf_exempt
@@ -1138,102 +1191,102 @@ def makeOnlinePayment(request):
         return redirect("/razorpayPaymentInitiate/?orderid=" + request.GET['orderid'])
 
 
-import razorpay
-def razorpayPaymentInitiate(request):
-    orderid = request.GET['orderid']
-    orderObj = OutBoundInvoice.objects.get(pk=orderid)
-    razorpay_key = globalSettings.RAZORPAY_KEY
-    razorpay_secret = globalSettings.RAZORPAY_SECRET
-    razorpay_client = razorpay.Client(auth=(razorpay_key, razorpay_secret))
+# import razorpay
+# def razorpayPaymentInitiate(request):
+#     orderid = request.GET['orderid']
+#     orderObj = OutBoundInvoice.objects.get(pk=orderid)
+#     razorpay_key = globalSettings.RAZORPAY_KEY
+#     razorpay_secret = globalSettings.RAZORPAY_SECRET
+#     razorpay_client = razorpay.Client(auth=(razorpay_key, razorpay_secret))
+#
+#     payload = {
+#         'amount':int(orderObj.total*100),
+#         'currency':'INR',
+#         'receipt':str(orderObj.pk),
+#         'payment_capture':1,
+#     }
+#
+#     razorpayOrderObj = razorpay_client.order.create(data=payload)
+#
+#     razorpayOrderID = razorpayOrderObj['id']
+#     print razorpayOrderID, 'razorpayOrderID'
+#
+#     orderObj.paymentRef = razorpayOrderID
+#
+#     orderObj.save()
+#     print orderObj.paymentRef, 'paymentRef'
+#
+#     imageUrl = globalSettings.SITE_ADDRESS+globalSettings.BRAND_LOGO
+#     emailid = orderObj.email
+#     if emailid is None:
+#         emailid = ''
+#
+#     formData =  {
+#         "action" :  "https://checkout.razorpay.com/v1/checkout.js",
+#         "key": razorpay_key,
+#         "amount": int(orderObj.total*100),
+#         "logo": imageUrl,
+#         "razorpay_order_id": razorpayOrderID,
+#         "cust_name": orderObj.personName,
+#         "brand":"ERP",
+#         "mobile": str(orderObj.phone),
+#         "email": emailid,
+#         'orderid':str(orderObj.pk),
+#         'netbanking':'true',
+#         'card':'true',
+#         'wallet':'true',
+#         'upi':'true',
+#         'emi':'false',
+#         'themeColor':'#808080',
+#         'callback_url':globalSettings.SITE_ADDRESS+'/razorpayPaymentResponse/',
+#         'redirect':'true',
+#     }
+#
+#
+#     return render(request , 'razorpay.payment.html' , formData)
+#
+# @csrf_exempt
+# def razorpayPaymentResponse(request):
+#     print request.POST,'request.POST'
+#     razorpay_client = razorpay.Client(auth=(globalSettings.RAZORPAY_KEY, globalSettings.RAZORPAY_SECRET))
+#
+#     params_dict = dict(request.POST.iteritems())
+#
+#     try:
+#         orderObj = OutBoundInvoice.objects.get(paymentRef=params_dict['razorpay_order_id'])
+#     except:
+#         return JsonResponse({'success': False},status =500)
+#
+#
+#     signature_dict = {
+#     'razorpay_order_id': params_dict['razorpay_order_id'],
+#     'razorpay_payment_id': params_dict['razorpay_payment_id'],
+#     'razorpay_signature': params_dict['razorpay_signature']
+#     }
+#
+#     print params_dict,'params_dict'
+#
+#     try:
+#         razorpay_client.utility.verify_payment_signature(signature_dict)
+#     except:
+#         return JsonResponse({'success': False},status =500)
+#
+#     razorResponse = json.dumps(razorpay_client.payment.fetch(params_dict['razorpay_payment_id']))
+#     razorResponse = json.loads(razorResponse)
+#
+#
+#     if razorResponse['status'] == 'captured':
+#         return updateAndProcessOrder( orderObj.pk, float(razorResponse['amount'])/100)
+#     else:
+#         return JsonResponse({'success': False})
 
-    payload = {
-        'amount':int(orderObj.total*100),
-        'currency':'INR',
-        'receipt':str(orderObj.pk),
-        'payment_capture':1,
-    }
 
-    razorpayOrderObj = razorpay_client.order.create(data=payload)
-
-    razorpayOrderID = razorpayOrderObj['id']
-    print razorpayOrderID, 'razorpayOrderID'
-
-    orderObj.paymentRef = razorpayOrderID
-
-    orderObj.save()
-    print orderObj.paymentRef, 'paymentRef'
-
-    imageUrl = globalSettings.SITE_ADDRESS+globalSettings.BRAND_LOGO
-    emailid = orderObj.email
-    if emailid is None:
-        emailid = ''
-
-    formData =  {
-        "action" :  "https://checkout.razorpay.com/v1/checkout.js",
-        "key": razorpay_key,
-        "amount": int(orderObj.total*100),
-        "logo": imageUrl,
-        "razorpay_order_id": razorpayOrderID,
-        "cust_name": orderObj.personName,
-        "brand":"ERP",
-        "mobile": str(orderObj.phone),
-        "email": emailid,
-        'orderid':str(orderObj.pk),
-        'netbanking':'true',
-        'card':'true',
-        'wallet':'true',
-        'upi':'true',
-        'emi':'false',
-        'themeColor':'#808080',
-        'callback_url':globalSettings.SITE_ADDRESS+'/razorpayPaymentResponse/',
-        'redirect':'true',
-    }
-
-
-    return render(request , 'razorpay.payment.html' , formData)
-
-@csrf_exempt
-def razorpayPaymentResponse(request):
-    print request.POST,'request.POST'
-    razorpay_client = razorpay.Client(auth=(globalSettings.RAZORPAY_KEY, globalSettings.RAZORPAY_SECRET))
-
-    params_dict = dict(request.POST.iteritems())
-
-    try:
-        orderObj = OutBoundInvoice.objects.get(paymentRef=params_dict['razorpay_order_id'])
-    except:
-        return JsonResponse({'success': False},status =500)
-
-
-    signature_dict = {
-    'razorpay_order_id': params_dict['razorpay_order_id'],
-    'razorpay_payment_id': params_dict['razorpay_payment_id'],
-    'razorpay_signature': params_dict['razorpay_signature']
-    }
-
-    print params_dict,'params_dict'
-
-    try:
-        razorpay_client.utility.verify_payment_signature(signature_dict)
-    except:
-        return JsonResponse({'success': False},status =500)
-
-    razorResponse = json.dumps(razorpay_client.payment.fetch(params_dict['razorpay_payment_id']))
-    razorResponse = json.loads(razorResponse)
-
-
-    if razorResponse['status'] == 'captured':
-        return updateAndProcessOrder( orderObj.pk, float(razorResponse['amount'])/100)
-    else:
-        return JsonResponse({'success': False})
-
-
-def updateAndProcessOrder(orderID , amnt, referenceId=None):
-    orderObj = OutBoundInvoice.objects.get(pk =orderID )
-    orderObj.paidAmount = amnt
-    orderObj.save()
-
-    return JsonResponse({'success':True},status =200)
+# def updateAndProcessOrder(orderID , amnt, referenceId=None):
+#     orderObj = OutBoundInvoice.objects.get(pk =orderID )
+#     orderObj.paidAmount = amnt
+#     orderObj.save()
+#
+#     return JsonResponse({'success':True},status =200)
 
 
 class GetAppSettings(APIView):
@@ -1267,6 +1320,12 @@ class UserAppViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['app', 'user']
 
+def helperCreateUser(name,email):
+    division = Division.objects.create(name = name,website = 'NA',pan = 'NA',cin = 'NA')
+    unit = Unit.objects.create(name = 'HQ' , address = 'Address Not Available' , city = 'NA' , state = 'NA' , country = 'NA' , pincode= 'NA' , division = division ,  areaCode= division.name + str(division.pk) , email  = email )
+    response = {'division' : division.pk , 'unit' : unit.pk}
+    return response
+
 
 def CreateUnit(val):
     if 'division_pk' in val:
@@ -1284,7 +1343,17 @@ class getAllSettings(APIView):
         user = self.request.user
         designation = user.designation
         data = [{'groupName' : 'Company Details' , 'groupState' : 'admin.configure'},{'groupName' : 'Integrations' , 'groupState' : 'admin.integrations'}]
-        val = {'groupName' : 'Reports Formats Configuration' , 'val' : [{'name' : 'Cashflow Statement' , 'state' : 'admin.cashflow'},{'name' : 'Profit and Loss statement' , 'state' : 'admin.pnl'},{'name' : 'Balancesheet' , 'state' : 'admin.balancesheet'}]}
+        repList = [{'name' : 'Cashflow Statement' , 'state' : 'admin.cashflow'},{'name' : 'Profit and Loss statement' , 'state' : 'admin.pnl'},{'name' : 'Balancesheet' , 'state' : 'admin.balancesheet'}]
+        val = {'groupName' : 'Reports Formats Configuration' , 'val' : []}
+        for i in repList:
+            featObj = ApplicationFeature.objects.filter(name = i['name'], enabled = True).first()
+            try:
+                if InstalledApp.objects.filter(parent = designation.division, app__in = [featObj.parent.pk]):
+                    val['val'].append(i)
+            except:
+                pass
+
+        # val = {'groupName' : 'Reports Formats Configuration' , 'val' : [{'name' : 'Cashflow Statement' , 'state' : 'admin.cashflow'},{'name' : 'Profit and Loss statement' , 'state' : 'admin.pnl'},{'name' : 'Balancesheet' , 'state' : 'admin.balancesheet'}]}
         data.append(val)
         val = []
         settings = {'groupName' : 'PDF Terms and Conditions' }
@@ -1294,7 +1363,16 @@ class getAllSettings(APIView):
         if len(val)>0:
             settings['val'] = val
             data.append(settings)
-        data.append({'groupName' : 'Others' , 'val' : [{'name' : 'Master Price / Rate List' , 'state' : 'admin.pricesheet'},{'name' : 'Email Templates' , 'state' : 'admin.templates'},{'name' : 'Company / National Holidays' , 'state' : 'admin.holidays'},{'name' : 'HR Policy Documents' , 'state' : 'admin.documents'},{'name' : 'Cost Centers' , 'state' : 'admin.costCenters'}]})
+        othersList = [{'name' : 'Master Price / Rate List' , 'state' : 'admin.pricesheet'},{'name' : 'Email Templates' , 'state' : 'admin.templates'},{'name' : 'Company / National Holidays' , 'state' : 'admin.holidays'},{'name' : 'HR Policy Documents' , 'state' : 'admin.documents'},{'name' : 'Cost Centers' , 'state' : 'admin.costCenters'}]
+        others ={'groupName' : 'Others' , 'val' : []}
+        for i in othersList:
+            featObj = ApplicationFeature.objects.filter(name = i['name'], enabled = True).first()
+            try:
+                if InstalledApp.objects.filter(parent = designation.division, app__in = [featObj.parent.pk]):
+                    others['val'].append(i)
+            except:
+                pass
+        data.append(others)
         return Response(data,status=status.HTTP_200_OK)
 
 
@@ -1425,6 +1503,16 @@ class CalendarSlotViewSet(viewsets.ModelViewSet):
     # filter_fields = ['month' , 'year']
 
 
+class AppVersioningViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    queryset = AppVersioning.objects.all()
+    serializer_class = AppVersioningSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['title' ]
+
+
+
+
 class GetAllSchedulesAPI(APIView):
     renderer_classes = (JSONRenderer,)
     def get(self , request , format = None):
@@ -1438,10 +1526,15 @@ class GetAllSchedulesAPI(APIView):
             for i in weekdays:
                 for j in slots:
                     obj = CalendarSlots.objects.create(day = i , slot = j, user = user)
+            allData =[]
+            for i in slots:
+                objs =  CalendarSlotsSerializer(CalendarSlots.objects.filter(slot = i, user = user), many = True).data
+                val = {'slot' : i, 'data' : objs}
+                allData.append(val)
         else:
             allData =[]
             for i in slots:
-                objs =  CalendarSlotsSerializer(CalendarSlots.objects.filter(slot = i), many = True).data
+                objs =  CalendarSlotsSerializer(slotObj.filter(slot = i), many = True).data
                 val = {'slot' : i, 'data' : objs}
                 allData.append(val)
         return Response(allData, status = status.HTTP_200_OK)
@@ -1517,6 +1610,13 @@ class GetAllLanguageDataAPIView(APIView):
     def get(self , request , format = None):
         languages = ['hi'  , 'kn' , 'mr' , 'te' , 'pa']
         mainObj = LanguageTranslation.objects.filter(lang = 'en')
+        offset = int(request.GET['offset'])
+        limit = int(request.GET['limit'])
+        print offset,limit
+        limit = offset+limit
+        if 'search' in request.GET:
+            mainObj = mainObj.filter(value__icontains = request.GET['search'])
+        mainObj = mainObj[offset:limit]
         data = []
         for m in mainObj:
             val = {'en' : LanguageTranslationSerializer(m, many = False).data}
@@ -1524,3 +1624,283 @@ class GetAllLanguageDataAPIView(APIView):
                 val[i] = LanguageTranslationSerializer(LanguageTranslation.objects.get(lang = i, key = m.key), many = False).data
             data.append(val)
         return Response(data,status = status.HTTP_200_OK)
+
+
+# class GetPaymentLinkAPIView(APIView):
+#     renderer_classes = (JSONRenderer,)
+#     def get(self , request , format = None):
+
+import hashlib, datetime, random
+def payuPaymentInitiate(request , data):
+    # What you want the button to do.
+    # orderid = request.GET['orderid']
+    # orderObj = Order.objects.get(pk = orderid)
+
+
+    hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10";
+
+    hash_string = '';
+    hashVarsSeq = hashSequence.split('|');
+    hash_object = hashlib.sha256(b'randint(0,20)')
+    trxnID = hash_object.hexdigest()[0:20]
+
+    posted = data
+
+
+    for hvs in hashVarsSeq:
+        try:
+            hash_string += posted[hvs];
+        except:
+            hash_string += ''
+
+        hash_string += '|'
+
+    # orderObj.paymentRefId = trxnID
+    # orderObj.save()
+    print hash_string,'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',globalSettings.PAYU_MERCHANT_SALT,'vvvvvvvvvvvvvvvvvvvvv'
+    hash_string += globalSettings.PAYU_MERCHANT_SALT[0]
+    hashh = hashlib.sha512(hash_string).hexdigest().lower()
+    formData =  {
+        "action" :  "https://secure.payu.in/_payment",
+        "key": globalSettings.PAYU_MERCHANT_KEY,
+        "txnid": data['txnid'],
+        "hash" : hashh,
+        "hash_string" : hash_string,
+        "posted": posted
+    }
+
+
+    return render(request , 'payu.payment.html' , formData)
+
+@csrf_exempt
+def payuMoneyInitiate(request, data):
+    # What you want the button to do.
+    # orderid = request.GET['orderid']
+    print data
+    orderid = data['id']
+    orderObj = Order.objects.get(pk=orderid)
+
+
+
+    hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10";
+
+    hash_string = '';
+    hashVarsSeq = hashSequence.split('|');
+    hash_object = hashlib.sha256(b'randint(0,20)')
+    trxnID = hash_object.hexdigest()[0:20]
+    print '8088024500'
+    posted = {"key"  : globalSettings.PAYU_MERCHANT_KEY ,
+        "txnid" : orderid ,
+        "amount" : str(orderObj.amountToPaid),
+        "productinfo" : "Sterling select products",
+        "firstname" : orderObj.orderBy.first_name,
+        "email" : str(orderObj.orderBy.email),
+        "phone" : orderObj.orderBy.profile.mobile,
+        "surl" :  globalSettings.SITE_ADDRESS +'/payUPaymentResponse/',
+        "furl" : globalSettings.SITE_ADDRESS +'/payUPaymentResponse/'}
+
+    for hvs in hashVarsSeq:
+        try:
+            hash_string += posted[hvs];
+        except:
+            hash_string += ''
+
+        hash_string += '|'
+
+    orderObj.paymentRefId = trxnID
+    orderObj.save()
+
+    hash_string += globalSettings.PAYU_MERCHANT_SALT
+    hashh = hashlib.sha512(hash_string).hexdigest().lower()
+    formData =  {
+        "action" :  "https://secure.payu.in/_payment",
+        "key": globalSettings.PAYU_MERCHANT_KEY,
+        "txnid": orderid,
+        "hash" : hashh,
+        "hash_string" : hash_string,
+        "posted": posted
+    }
+
+
+    return JsonResponse(formData, status = status.HTTP_200_OK)
+
+import razorpay
+def razorpayPaymentInitiate(request):
+
+    razorpay_key = globalSettings.RAZORPAY_KEY
+    razorpay_secret = globalSettings.RAZORPAY_SECRET
+    razorpay_client = razorpay.Client(auth=(razorpay_key, razorpay_secret))
+    onlinePay = OnlinePaymentDetails.objects.get(pk = request.GET['id'])
+
+
+    payload = {
+        'amount':int(onlinePay.amount),
+        'currency':'INR',
+        'receipt':str(onlinePay.pk),
+        'payment_capture':1,
+    }
+
+
+    razorpayOrderObj = razorpay_client.order.create(data=payload)
+    onlinePay.initiateResponse = razorpayOrderObj
+    razorpayOrderID = razorpayOrderObj['id']
+    onlinePay.refId =  razorpayOrderID
+    onlinePay.save()
+
+    imageUrl = globalSettings.SITE_ADDRESS+globalSettings.BRAND_LOGO
+    # emailid = orderObj.orderBy.email
+    # if emailid is None:
+    #     emailid = ''
+
+    formData =  {
+        "action" :  "https://checkout.razorpay.com/v1/checkout.js",
+        "key": razorpay_key,
+        "amount": int(onlinePay.amount*100),
+        "logo": imageUrl,
+        "razorpay_order_id": razorpayOrderID,
+        "cust_name":onlinePay.cust_name,
+        "brand":onlinePay.brand,
+        "mobile": onlinePay.mobile,
+        "email": onlinePay.email,
+        'orderid':onlinePay.pk,
+        'netbanking':'true',
+        'card':'true',
+        'wallet':'true',
+        'upi':'true',
+        'emi':'false',
+        # 'themeColor':storeobj.themeColor,
+        'callback_url':globalSettings.SITE_ADDRESS+'/razorpayPaymentResponse/',
+        'redirect':'true',
+        # 'successUrl' : data['successUrl'],
+        # 'failure' : data['failure']
+    }
+
+
+    return render(request , 'razorpay.payment.html' , formData)
+
+@csrf_exempt
+def razorpayPaymentResponse(request):
+    print request.GET,'request.POST'
+    razorpay_client = razorpay.Client(auth=(globalSettings.RAZORPAY_KEY, globalSettings.RAZORPAY_SECRET))
+
+    params_dict = dict(request.POST.iteritems())
+
+    try:
+        orderObj = OnlinePaymentDetails.objects.get(refId=params_dict['razorpay_order_id'])
+    except:
+        return redirect('/')
+
+    orderObj.successorfailureRes = params_dict
+    signature_dict = {
+    'razorpay_order_id': params_dict['razorpay_order_id'],
+    'razorpay_payment_id': params_dict['razorpay_payment_id'],
+    'razorpay_signature': params_dict['razorpay_signature']
+    }
+
+    print params_dict,'params_dict'
+
+    try:
+        razorpay_client.utility.verify_payment_signature(signature_dict)
+    except ValueError:
+        orderObj.is_failure = True
+        orderObj.save()
+        return redirect(orderObj.failureUrl)
+
+    razorResponse = json.dumps(razorpay_client.payment.fetch(params_dict['razorpay_payment_id']))
+    razorResponse = json.loads(razorResponse)
+
+
+    print razorResponse
+    orderObj.paymentGatewayType = str(razorResponse['method'])
+    orderObj.is_success = True
+    orderObj.save()
+    if orderObj.source == 'chatbot' and orderObj.chatUid is not None:
+        chatThObj =  ChatThread.objects.get(uid = orderObj.chatUid)
+        chatMsg = ChatMessage.objects.create(uid = orderObj.chatUid, thread = chatThObj, message = 'Payment is successful', sentByAgent = True)
+    return redirect(orderObj.successUrl)
+    # if razorResponse['status'] == 'captured':
+    # else:
+    #     if orderObj.osType == 'ios' or orderObj.osType == 'android':
+    #         return redirect("/orderFailure?mobile=1")
+    #     else:
+    #         return redirect("/orderFailure")
+
+
+# def updateAndProcessOrder(orderID , amnt, referenceId=None):
+#
+#     orderObj = OutBoundInvoice.objects.get(pk =orderID )
+#     orderObj.paidAmount = amnt
+#     orderObj.save()
+#
+#     return JsonResponse({'success':True},status =200)
+
+
+# def GetPaymentLink(request):
+#     data = json.loads(request.body)
+    # data = request.GET
+    # print data['redirect']
+class GetPaymentLinkAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    def post(self , request , format = None):
+        data = request.data
+        if data['id'].startswith('sale_'):
+            id = data['id'].split('sale_')[1]
+            name = []
+            product = ''
+            total = 0
+            orderObj = Sale.objects.get(pk=int(id))
+            outBound = SalesQty.objects.filter(outBound = int(id))
+            count = 0
+            for i in outBound:
+                count += 1
+                total  +=  i.total
+                item = i.product  +  ' + '
+                if count==len(outBound):
+                    name.append(i.product)
+                else:
+                    name.append(item)
+            for i in name:
+                product += i
+            onlinePay = OnlinePaymentDetails.objects.create(amount = total, payId = data['id'] ,  source = data['source'], successUrl = data['successUrl'] , failureUrl = data['failureUrl'] , cust_name =  orderObj.personName, brand = orderObj.name, mobile = orderObj.phone, email = orderObj.email  )
+            if 'uid' in data:
+                onlinePay.chatUid = data['uid']
+                onlinePay.save()
+
+        data = '/razorpayPaymentInitiate/?id='+str(onlinePay.pk)
+        return Response(data, status = status.HTTP_200_OK)
+
+
+def randomPassword():
+    length = 12
+    chars = string.digits
+    rnd = random.SystemRandom()
+    return ''.join(rnd.choice(chars) for i in range(length))
+
+class AddNewUserAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def post(self , request , format = None):
+        val = request.data
+        data = {}
+        userObj = User.objects.filter(email = val['email'])
+        if userObj.count()>0:
+            user = userObj.first()
+        else:
+            user = User.objects.create(username = val['username'] , first_name = val['first_name'] , last_name = val['last_name'], email = val['email'] )
+            # profile = user.profile
+            # # profile.mobile = mobile
+            # profile.save()
+        if user.designation.division == None:
+            resData = helperCreateUser(val['first_name'], val['email'])
+            designation = user.designation
+            designation.division = Division.objects.get(pk = int(resData['division']))
+            designation.unit = Unit.objects.get(pk = int(resData['unit']))
+            designation.save()
+        profile = user.profile
+        token = randomPassword()
+        profile.linkToken = token
+        profile.save()
+        user.is_staff = True
+        user.save()
+        data = {'url' : globalSettings.SITE_ADDRESS+ '/tlogin/?token=' + profile.linkToken}
+        return Response(data, status = status.HTTP_200_OK)

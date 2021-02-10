@@ -15,11 +15,16 @@ router.register(r'genericPincode' , GenericPincodeViewSet , base_name='genericPi
 router.register(r'appsettings' , appSettingsFieldViewSet , base_name='genericPincode')
 router.register(r'menuitems' , MenuItemsViewSet , base_name='menuitems')
 router.register(r'applicationmedia' , applicationMediaViewSet , base_name='applicationmedia')
+router.register(r'mobileapplicationmedia' , MobileapplicationMediaViewSet , base_name='mobileapplicationmedia')
 router.register(r'feedback' , FeedbackViewSet , base_name='feedback')
 router.register(r'applicationfeature' , ApplicationFeatureViewSet , base_name='applicationfeature')
 router.register(r'usageBilling' , UsageBillingViewSet , base_name='usageBilling')
 router.register(r'calendarSlot' , CalendarSlotViewSet , base_name='calendarSlot')
 router.register(r'userapps' , UserAppViewSet , base_name='userapps')
+router.register(r'appversioning' , AppVersioningViewSet , base_name='appversioning')
+
+
+
 
 urlpatterns = [
     url(r'^', include(router.urls)),
@@ -46,5 +51,8 @@ urlpatterns = [
     url(r'addSchedule/$' , CreateScheduleAPI.as_view()),
     url(r'createNewEntry/$' , AddNewLanguageEntry.as_view()),
     url(r'getAllEntries/$' , GetAllLanguageDataAPIView.as_view()),
+    url(r'getPaymentLink/$' , GetPaymentLinkAPIView.as_view()),
+    url(r'addNewUser/$' , AddNewUserAPIView.as_view()),
+
 
 ]

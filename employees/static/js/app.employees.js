@@ -80,9 +80,7 @@ app.controller('controller.billing', function($scope, $state, $users, $statePara
     month : $scope.monthList[$scope.date.getMonth()]
   }
 
-  $scope.doughnutAmount = []
-  $scope.doughnutLabels = []
-  $scope.doughnutColors = []
+
   function random_rgba() {
     var o = Math.round,
     r = Math.random,
@@ -96,6 +94,9 @@ app.controller('controller.billing', function($scope, $state, $users, $statePara
     }).
     then(function(response) {
       $scope.allBilledItems = response.data
+      $scope.doughnutAmount = []
+      $scope.doughnutLabels = []
+      $scope.doughnutColors = []
       $scope.amount =0
       for (var i = 0; i < $scope.allBilledItems.obj.length; i++) {
           if (i <=3 ) {
@@ -111,45 +112,51 @@ app.controller('controller.billing', function($scope, $state, $users, $statePara
       $scope.doughnutLabels.splice(4,0,'Others')
       $scope.doughnutAmount.splice(4,0,$scope.amount)
       $scope.doughnutColors.splice(4,0,'red')
-      clr= random_rgba()
-      new Chart(document.getElementById("Billing-doughnut"), {
-        type: 'doughnut',
-        data: {
-          labels:   $scope.doughnutLabels,
-          datasets: [{
-            backgroundColor: $scope.doughnutColors,
-            borderColor: "#ccc",
-            borderWidth: 1,
-            data: $scope.doughnutAmount,
-          }],
-        },
-        options: {
-          cutoutPercentage: 65,
-          legend: {
-            display: true
-          },
-          title: {
-
-            display: true,
-            text: '',
-
-          },
-          elements: {
-            center: {
-              text: '61%',
-            }
-          }
-
-        },
-      });
+      $scope.graphs()
     })
   }
   $scope.getBillingData()
+  clr= random_rgba()
+
+
+
+  $scope.graphs = function(){
+    new Chart(document.getElementById("Billing-doughnut"), {
+    type: 'doughnut',
+    data: {
+      labels:   $scope.doughnutLabels,
+      datasets: [{
+        backgroundColor: $scope.doughnutColors,
+        borderColor: "#ccc",
+        borderWidth: 1,
+        data: $scope.doughnutAmount,
+      }],
+    },
+    options: {
+      cutoutPercentage: 65,
+      legend: {
+        display: true
+      },
+      title: {
+
+        display: true,
+        text: '',
+
+      },
+      elements: {
+        center: {
+          text: '61%',
+        }
+      }
+
+    },
+  });
+
+  }
   console.log($scope.doughnutAmount,$scope.doughnutLabels,'324');
 
 
 
-  clr = 'green'
 
 
 

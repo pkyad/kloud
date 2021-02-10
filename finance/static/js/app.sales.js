@@ -232,6 +232,27 @@ $scope.getFilters()
 })
 
 app.controller('businessManagement.finance.invoicing.explore', function($scope, $http, $aside, $state, Flash, $users, $filter,  $uibModal, $timeout) {
+
+  // $scope.postPay = function(){
+  //
+  //   $http({
+  //     method: 'POST',
+  //     url: '/api/ERP/getPaymentLink/',
+  //     data : {
+  //       'id' : 'sale_18' ,
+  //      'successUrl':'http://localhost:8000',
+  //      'failureUrl':'http://localhost:8000',
+  //      'source': 'chatbot',
+  //      'uid': '1612342739382'
+  //     },
+  //   }).
+  //   then(function(response) {
+  //     window.location.href = response.data
+  //   })
+  //
+  // }
+
+
 $scope.min_height  = 70
 $scope.productForm = {
   product: '',

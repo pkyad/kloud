@@ -878,8 +878,31 @@ app.directive('appstoreView', function() {
     //   data: '=',
     //   // addCart: '='
     // },
-    controller: function($scope, $state, $http, Flash, $rootScope, $filter, $uibModal) {
+    controller: function($scope, $state, $http, Flash, $rootScope, $filter, $uibModal, $users) {
+      window.onscroll = function() {myFunction()};
+
+      var header = document.getElementById("topheader");
+      var sticky = header.offsetTop;
+      function myFunction() {
+        if (window.pageYOffset > sticky) {
+          header.style.position = 'fixed'
+          header.style.width = '100%'
+          if ($state.current.name != '') {
+            header.style.width = '90%'
+          }
+          header.style.top = '0'
+          header.style.zIndex = "1"
+          header.style.paddingTop = '20px'
+
+        }
+         else {
+          header.style.position = 'relative'
+          header.style.width = '100%'
+        }
+      }
+
       $scope.showLogo = true
+      $scope.me = $users.get('mySelf');
       if ($state.current.name == '') {
           $scope.showLogo = false
       }
@@ -888,9 +911,9 @@ app.directive('appstoreView', function() {
         searchText:''
       }
       $scope.allApps = function(){
-        var url = '/api/ERP/getapplication/'
+        var url = '/api/ERP/getapplication/?isMenu=true'
         if ($scope.search.searchText.length>0) {
-            url+='?displayName__icontains='+$scope.search.searchText
+            url+='&displayName__icontains='+$scope.search.searchText
         }
         $http({
           method: 'GET',
@@ -959,9 +982,63 @@ app.directive('appdetailedView', function() {
       // addCart: '='
     },
     controller: function($scope, $state, $http, Flash, $rootScope, $filter,$location, $users, $timeout,$uibModal) {
+      $scope.isMobile = false
+      if (screen.width <= 480) {
+        $scope.isMobile = true
+      }
+
+
+      $scope.appMediaPro = {
+        lazyLoad: false,
+        loop: true,
+        items: 1,
+        autoplay: true,
+        autoplayTimeout: 10000,
+        dots: true,
+        // nav:true,
+        responsive: {
+          0: {
+            items: 1
+          },
+          479: {
+            items: 2
+          },
+          600: {
+            items: 3
+          },
+          1000: {
+            items: 2,
+          }
+        },
+      };
+      $scope.mobileMediaPro = {
+        lazyLoad: false,
+        loop: true,
+        items: 1,
+        autoplay: true,
+        autoplayTimeout: 10000,
+        dots: true,
+        // nav:true,
+        responsive: {
+          0: {
+            items: 1
+          },
+          479: {
+            items: 1
+          },
+          600: {
+            items: 3
+          },
+          1000: {
+            items: 4,
+          }
+        },
+      };
         $scope.step = 'notinstalled'
-        $scope.me = $users.get('mySelf');
+      $scope.me = $users.get('mySelf');
+      if ($scope.me!=null) {
         $scope.division = $scope.me.designation.division
+      }
       if ($state.is('workforceManagement.appDetails')) {
         var id = $state.params.id;
       }else{
@@ -973,6 +1050,46 @@ app.directive('appdetailedView', function() {
       $timeout(function() {
         $scope.widthFactor=1
       },900)
+
+
+      $scope.viewImages = function(indx){
+        $uibModal.open({
+          templateUrl: '/static/ngTemplates/app.viewImages.modal.html',
+          size: 'md',
+          backdrop: true,
+          resolve: {
+            indx: function() {
+              return indx;
+            },
+            data: function() {
+              return $scope.appMedia;
+            },
+          },
+          controller: function($scope, $users , $uibModalInstance, indx, data) {
+          $scope.data = data
+          $scope.selectedIndx = indx
+          $scope.imageInView =  $scope.data[$scope.selectedIndx]
+          $scope.next = function(){
+            if ($scope.selectedIndx<$scope.data.length-1) {
+                $scope.selectedIndx +=1
+                $scope.imageInView = $scope.data[$scope.selectedIndx]
+
+            }
+
+          }
+          $scope.prev = function(){
+            if ($scope.selectedIndx!=0) {
+                $scope.selectedIndx -=1
+                $scope.imageInView = $scope.data[$scope.selectedIndx]
+
+            }
+
+          }
+
+          },
+        })
+
+      }
 
 
 
@@ -1088,7 +1205,7 @@ app.directive('appdetailedView', function() {
           $scope.app = $scope.allData.appData
           $scope.users =  $scope.allData.appUser
           $scope.appMedia =  $scope.allData.appMedias
-          $scope.appMedia =  $scope.allData.appMedias
+          $scope.mobileMedia =  $scope.allData.mobileMedia
           $scope.app.feedback = $scope.allData.appFeedbacks
           $scope.installedApp = $scope.allData.installedApp
           $scope.is_staff =  $scope.allData.is_staff

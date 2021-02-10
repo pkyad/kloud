@@ -60,6 +60,7 @@ class application(models.Model):
     rating_one =  models.CharField(max_length = 30 , default="1" )
     appStoreUrl = models.TextField(max_length = 500 , null = True )
     playStoreUrl = models.TextField(max_length = 500 , null = True )
+    inMenu = models.BooleanField(default = True)
     def __unicode__(self):
         return self.name
 
@@ -145,6 +146,12 @@ class applicationMedia(models.Model):
     typ = models.CharField(max_length=200, null = True)
     attachment = models.FileField(upload_to = getappMediauploadPath , null = True )
     app =  models.ForeignKey(application , related_name='appMedia' , null = True)
+
+class MobileapplicationMedia(models.Model):
+    created = models.DateTimeField(auto_now_add = True)
+    typ = models.CharField(max_length=200, null = True)
+    attachment = models.FileField(upload_to = getappMediauploadPath , null = True )
+    app =  models.ForeignKey(application , related_name='mobileMedia' , null = True)
 
 class ApplicationFeature(models.Model):
     created = models.DateTimeField(auto_now_add = True)
@@ -376,3 +383,32 @@ class CalendarSlots(models.Model):
     day =  models.CharField(max_length = 500 , null = True)
     is_available = models.BooleanField(default=False)
     user =  models.ForeignKey(User, related_name='calendarSlotsUser' , null = True)
+
+
+class OnlinePaymentDetails(models.Model):
+    created = models.DateTimeField(auto_now_add = True)
+    payId = models.CharField(max_length = 50, null = True , blank = True) #combination of pk
+    amount = models.FloatField(null=True , default=0)
+    refId =  models.CharField(max_length = 50, null = True , blank = True)
+    paymentGatewayType = models.CharField(max_length = 50, null = True , blank = True)
+    is_success = models.BooleanField(default=False)
+    source = models.CharField(max_length = 50, null = True , blank = True)
+    chatUid = models.CharField(max_length = 50, null = True , blank = True)
+    successUrl =  models.CharField(max_length = 50, null = True , blank = True)
+    failureUrl =  models.CharField(max_length = 50, null = True , blank = True)
+    email = models.CharField(max_length = 50, null = True , blank = True)
+    cust_name = models.CharField(max_length = 50, null = True , blank = True)
+    brand = models.CharField(max_length = 50, null = True , blank = True)
+    mobile = models.CharField(max_length = 50, null = True , blank = True)
+    initiateResponse = models.TextField(max_length = 10000 , null = True ,blank=True)
+    successorfailureRes = models.TextField(max_length = 20000 , null = True ,blank=True)
+    is_failure = models.BooleanField(default=False)
+
+
+class AppVersioning(models.Model):
+    created = models.DateTimeField(auto_now_add = True)
+    minVersion = models.CharField(max_length = 50, null = True , blank = True)
+    latestVersion = models.CharField(max_length = 50, null = True , blank = True)
+    enabled = models.BooleanField(default=False)
+    app = models.ForeignKey(application , related_name='versions' , null = False)
+    title = models.CharField(max_length = 50, null = True , blank = True)

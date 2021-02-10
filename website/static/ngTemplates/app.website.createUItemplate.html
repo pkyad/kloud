@@ -70,7 +70,11 @@
     <div class="col-md-9">
 
       <div class="row elementCard" ng-repeat="element in elements" style="margin:0px;margin-bottom:20px;padding:20px;{{form.selectedIndex == $index ? 'background:#eee;': ''}}" ng-click="form.selectedIndex = $index;">
-        <div class="col-md-8">
+        <div class="col-md-1">
+          <i class="fa fa-circle" style="color:{{element.live?'green':'red'}}"></i>
+
+        </div>
+        <div class="col-md-7">
           <h4>{{element.name}}</h4>
           <img src="{{element.sampleImg}}" style="max-height:100px;" alt="">
         </div>

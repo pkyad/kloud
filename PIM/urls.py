@@ -26,6 +26,6 @@ urlpatterns = [
     url(r'createNewChat/$' , CreateNewChatAPIView.as_view()),
     url(r'removeParticipant/$' , RemoveParticipantAPIView.as_view()),
     url(r'forwardMeg/$' , ForwardMessageAPIView.as_view()),
-
+    url(r'getChatMessage/$' , GetChatMessages.as_view()),
 
 ]

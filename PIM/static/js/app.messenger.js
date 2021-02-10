@@ -4,9 +4,6 @@
 
     $scope.me = $users.get('mySelf')
 
-    // $scope.user = $users.get(parseInt($state.params.id))
-
-
 
     $scope.publish = function(params){
       if ($scope.user!=undefined) {
@@ -35,6 +32,10 @@
         then(function(response) {
           if (response.data.thread == $state.params.id) {
             $scope.messages.push(response.data)
+            $timeout(function() {
+              var objDiv = document.getElementById("scrollView");
+              objDiv.scrollTop = objDiv.scrollHeight+40;
+            },500)
           }
         })
       }
@@ -47,6 +48,20 @@
         $scope.show.showTypingVal = val
       }
 
+    }
+
+    $scope.updateDescription = function(){
+
+      $http({
+        method: 'PATCH',
+        url: '/api/PIM/chatThreads/'+$state.params.id+'/',
+        data:{
+          description : $scope.user.description
+        }
+      }).
+      then(function(response) {
+
+      })
     }
 
     // $scope.getaddChat = function(signal){
@@ -118,8 +133,10 @@
         $scope.messages.push(response.data)
         $scope.form.text = '';
         $scope.form.file = emptyFile;
-        var objDiv = document.getElementById("scrollView");
-         objDiv.scrollTop = objDiv.scrollHeight+40;
+        $timeout(function() {
+          var objDiv = document.getElementById("scrollView");
+          objDiv.scrollTop = objDiv.scrollHeight+40;
+        },500)
         $scope.replyMsgSelected = {
           'replyMsg' : ''
         }
@@ -315,7 +332,6 @@
       if ($scope.user.name.pk) {
           data.visitor = $scope.user.name.pk
       }else {
-
         data.visitor = null
       }
 
@@ -342,7 +358,7 @@
       }).
       then(function(response) {
         $scope.user = response.data
-
+        console.log($scope.user,'$scope.user');
 
         // $scope.contactform.name = response.data.name
         // if (response.data.visitor != null) {
@@ -632,6 +648,10 @@ $scope.postFiles = function(){
 
        if ($scope.count == $scope.allFiles.length) {
          $scope.allFiles = []
+         $timeout(function() {
+           var objDiv = document.getElementById("scrollView");
+           objDiv.scrollTop = objDiv.scrollHeight+40;
+         },500)
        }
        if (response.data.uid!=undefined && response.data.uid!=null) {
          connection.session.publish(wamp_prefix+'service.support.chat.' + response.data.uid, ['MF'  , response.data.pk , new Date() ], {}, {
@@ -892,12 +912,12 @@ $scope.postFiles = function(){
     }
 
 
-  $scope.startnewChat = function(indx){
+  $scope.startnewChat = function(id){
     $http({
       method: 'POST',
       url: '/api/PIM/createNewChat/',
       data:{
-          participant:$scope.allUsers[indx].pk
+          participant: id
       }
     }).
     then(function(response) {

@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ui.router', 'ui.bootstrap', 'mwl.confirm', 'flash', 'angular-owl-carousel-2']);
+var app = angular.module('app', ['ui.router', 'ui.bootstrap','mwl.confirm', 'flash', 'angular-owl-carousel-2']);
 
 app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
@@ -60,6 +60,8 @@ app.controller('main', function($scope, $state,Flash, $http, $timeout, $uibModal
 
     });
   }
+
+
 
 
 

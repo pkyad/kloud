@@ -1,0 +1,64 @@
+<html>
+
+<head >
+
+</head>
+
+<body style="display:none;">
+  <h2>Please wait...</h2>
+  <br/>
+  <form action={{ action }} method="post" name="payuForm" >
+        <input type="hidden" name="key" value="{{ key }}" />
+        <input type="hidden" name="hash_string" value="{{ hash_string }}" />
+        <input type="hidden" name="hash" value="{{ hash }}"/>
+         <input type="hidden" name="posted" value="{{ posted }}"/>
+        <input type="hidden" name="txnid" value="{{ txnid }}" />
+        <table>
+          <tr>
+            <td><b>Mandatory Parameters</b></td>
+          </tr>
+          <tr>
+           <td>Amount: </td>
+            <td><input type="hidden" name="amount" value="{{ posted.amount|default:'' }}" /></td>
+            <td>First Name: </td>
+            <td><input type="hidden" name="firstname" id="firstname" value="{{ posted.firstname|default:'' }}" /></td>
+          </tr>
+          <tr>
+            <td>Email: </td>
+            <td><input type="hidden" name="email" id="email" value="{{ posted.email|default:'' }}" /></td>
+            <td>Phone: </td>
+            <td><input type="hidden" name="phone" value="{{ posted.phone|default:'' }}" /></td>
+          </tr>
+          <tr>
+            <td>Product Info: </td>
+            <td colspan="3"><textarea type="hidden" name="productinfo">{{ posted.productinfo|default:'' }}</textarea></td>
+          </tr>
+          <tr>
+            <td>Success URI: </td>
+            <td colspan="3"><input type="hidden" name="surl" value="{{ posted.surl }}" size="64" /></td>
+          </tr>
+          <tr>
+            <td>Failure URI: </td>
+            <td colspan="3"><input type="hidden" name="furl" value="{{ posted.furl }}" size="64" /></td>
+          </tr>
+
+          <tr>
+            <td colspan="3"><input type="hidden" name="service_provider" value="payu_paisa" size="64" /></td>
+          </tr>
+
+
+          <td colspan="4"><input type="submit"  style="display:none;" value="Submit" /></td>
+        </table>
+      </form>
+
+  <script type="text/javascript">
+
+    var payuForm = document.forms.payuForm;
+    payuForm.submit();
+
+  </script>
+
+
+</body>
+
+</html>

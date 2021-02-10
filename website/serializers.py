@@ -62,7 +62,7 @@ class UIelementTemplateSerializer(serializers.ModelSerializer):
         model = UIelementTemplate
         fields = ('pk' , 'created','name','defaultData','sampleImg','template','mobilePreview','live','templateCategory' )
     def update(self, instance , validated_data):
-        for key in ['name' , 'template','live','defaultData','templateCategory']:
+        for key in ['name' , 'template','live','defaultData','templateCategory','mobilePreview','sampleImg']:
             try:
                 setattr(instance , key , validated_data[key])
             except:

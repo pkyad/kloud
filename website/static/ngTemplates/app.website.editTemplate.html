@@ -1,0 +1,43 @@
+<div class="modal-header">
+
+</div>
+<div class="modal-body">
+  <div class="row" style="margin:0px;"   >
+    <div class="form-group">
+      <label for="">Name</label>
+      <input type="text" name="" value="" class="form-control" ng-model="form.name" style="border-radius: 15px;background:#4d4d4d;color:white;border: none;">
+    </div>
+
+
+        <div class="form-group">
+          <label for="">Category</label>
+          <select class="form-control" name="" ng-model = "form.templateCategory" ng-options="k for k in choices">
+
+          </select>
+
+      </div>
+      <div class="form-group">
+        <label for="">Mobile Preview</label>
+        <input type="file" file-model="form.mobilePreview">
+        <img src="{{form.mobilePreview}}" alt=""style="height:95px;width:100%">
+      </div>
+      <div class="form-group">
+        <label for="">Web Preview</label>
+        <input type="file" file-model="form.sampleImg">
+        <img src="{{form.sampleImg}}" alt=""style="height:150px;width:100%;">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label>Live {{form.live}}</label>
+        <input type="checkbox" ng-model="form.live">
+      </div>
+
+    </div>
+</div>
+<div class="modal-footer">
+  <div class="">
+    <button type="button"  class="btn btn-primary" name="button" ng-click="save()">Save</button>
+  </div>
+
+</div>

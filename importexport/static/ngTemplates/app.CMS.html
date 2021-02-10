@@ -76,9 +76,9 @@
                 <div class="col-md-2 text-center">{{p.complaintRef}}</div>
                 <div class="col-md-2 text-center">{{p.status}}</div>
                 <div class="col-md-2 text-center" id="back">
-                  <button type="button" class="btn btn-success" ng-click="changeState(p.pk)" ng-if="p.registeredBy.is_staff" name="button">View </button>
+                  <button type="button" class="btn btn-success" ng-click="changeState(p.pk)"  name="button">View </button>
                   <button type="button" class="btn btn-primary" ng-include="'/static/ngTemplates/app..CMS.view.html'" name="button">View</button>
-                  <button type="button" class="btn btn-primary" ng-if="!p.is_RefurbishedBind" ng-click="$state.go('businessManagement.importexport.editCMS',{'id':p.pk})" name="button">edit <i class="fa fa-edit"></i></button>
+                  <button type="button" class="btn btn-primary"  ng-click="$state.go('businessManagement.importexport.editCMS',{'id':p.pk})" name="button">edit <i class="fa fa-edit"></i></button>
                   <button type="button" class="btn btn-warning" mwl-confirm title="Process Complaint Delete" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="Delete(p.pk)"
                     confirm-button-type="success" cancel-button-type="default">Remove <i class="fa fa-trash"></i></button>
                 </div>

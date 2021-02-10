@@ -71,6 +71,11 @@ app.config(function($stateProvider) {
       templateUrl: '/static/ngTemplates/app.settings.language.html',
       controller: 'admin.settings.configure.language.form'
    })
+   .state('version', {
+      url: "/version",
+      templateUrl: '/static/ngTemplates/app.settings.version.html',
+      controller: 'admin.settings.configure.version.form'
+   })
    .state('appDetails', {
       url: "/:id",
       templateUrl: '/static/ngTemplates/app.organization.appDetails.html',
@@ -171,7 +176,81 @@ app.config(function($stateProvider) {
          }
 
        },
-       controller: 'workforceManagement.organization.division.form',
+       controller: function($scope, $state, $stateParams, $http, Flash, $uibModal, data, $uibModalInstance) {
+
+         console.log(
+           'dfdgdfgdfgdfg'
+         );
+
+         console.log($scope.tab);
+
+         $scope.resetForm = function() {
+           $scope.form = {
+             'name': '',
+             'email': '',
+             'logo': emptyFile,
+             'username': '',
+             'userNumber': '',
+           }
+         }
+
+         if (data != undefined) {
+           $scope.mode = 'edit';
+           $scope.form = data;
+           $scope.form.logo = emptyFile;
+         } else {
+           $scope.mode = 'new';
+           $scope.resetForm();
+         }
+
+         $scope.save = function() {
+           console.log('entered');
+           var f = $scope.form;
+           var url = '/api/organization/divisions/';
+
+           var fd = new FormData();
+           if (f.logo != emptyFile && f.logo != null) {
+             fd.append('logo', f.logo)
+           }
+
+           if (f.name.length == 0) {
+             Flash.create('warning', 'Name, CIN and PAN are required')
+             return
+           }
+
+           fd.append('name', f.name);
+           fd.append('email', f.email);
+           fd.append('username', f.username);
+           fd.append('userNumber', f.userNumber);
+
+           console.log(fd);
+           if ($scope.mode == 'new') {
+             var method = 'POST';
+           } else {
+             var method = 'PATCH';
+             url += f.pk + '/'
+           }
+
+
+           $http({
+             method: method,
+             url: url,
+             data: fd,
+             transformRequest: angular.identity,
+             headers: {
+               'Content-Type': undefined
+             }
+           }).
+           then(function(response) {
+             $scope.form.pk = response.data.pk;
+             Flash.create('success', 'Saved')
+             if ($scope.mode == 'new') {
+               $scope.resetForm();
+             };
+             $uibModalInstance.dismiss()
+           })
+         }
+       }
      }).result.then(function() {
        $scope.getallCompanies();
      }, function() {
@@ -859,12 +938,128 @@ app.controller('admin.settings.configure.calendar.form' , function($scope ,$uibM
 
 
 
+
+app.controller('admin.settings.configure.version.form', function($scope, $http, $state, $uibModal, Flash) {
+
+$scope.search = {
+  searchValue : '',
+}
+
+$scope.getAll = function(){
+  var url = '/api/ERP/appversioning/'
+  if ($scope.search.searchValue.length>0) {
+    url+='?title__icontains='+$scope.search.searchValue
+  }
+  $http({
+    method:'GET',
+    url:url
+  }).then(function(response){
+    $scope.versions = response.data
+  })
+
+}
+$scope.getAll()
+
+
+  $scope.addVersioning = function(indx) {
+    if (indx!=undefined) {
+       data = $scope.versions[indx]
+    }
+    else{
+      data = indx
+    }
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.organization.appversioning.html',
+      size: 'md',
+      backdrop: true,
+      resolve: {
+        data: function() {
+          return data
+        }
+      },
+      controller: function($scope, $uibModalInstance, $rootScope, $http, Flash, data) {
+        $scope.form = {
+          minVersion : '',
+          latestVersion:'',
+          enabled:false,
+          title:''
+        }
+        if (data!=undefined) {
+          $scope.form = data
+        }
+        $scope.save = function(){
+          var dataToSend = $scope.form
+          var method = 'POST'
+          var url = '/api/ERP/appversioning/'
+          if ($scope.form.pk) {
+            method = 'PATCH'
+            url+=$scope.form.pk+'/'
+          }
+          $http({
+            method: method,
+            url: url,
+            data : dataToSend
+          }).
+          then(function(response) {
+            Flash.create('success','Saved')
+            if ($scope.form.pk) {
+              $uibModalInstance.dismiss()
+            }
+            else{
+              $uibModalInstance.dismiss(response.data)
+            }
+          })
+        }
+      }
+    }).result.then(function() {
+
+    }, function(returndata) {
+      if (returndata!=undefined) {
+        $scope.data.versions.push(returndata)
+      }
+    });
+  }
+
+
+  $scope.delete = function(indx){
+    $http({
+      method:'DELETE',
+      url:'/api/ERP/appversioning/'+$scope.versions[indx].pk+'/'
+    }).then(function(response){
+      $scope.versions.splice(indx,1)
+    })
+  }
+
+
+})
+
 app.controller('admin.settings.configure.language.form', function($scope, $http, $state, $uibModal, Flash) {
 
+  $scope.search = {
+    searchValue:'',
+  }
+
+  $scope.page = 0;
+  $scope.next = function() {
+    $scope.page += 1;
+    $scope.getAll();
+  }
+  $scope.prev = function() {
+    if ($scope.page == 0) {
+      return;
+    }
+    $scope.page -= 1;
+    $scope.getAll();
+  }
+
   $scope.getAll = function(){
+    var url =  '/api/ERP/getAllEntries/?limit=10&offset=' + 10 * $scope.page;
+    if ($scope.search.searchValue.length>0) {
+      url+='&search='+$scope.search.searchValue
+    }
     $http({
       method: 'GET',
-      url: '/api/ERP/getAllEntries/',
+      url: url,
     }).
     then(function(response) {
       $scope.data = response.data
@@ -884,6 +1079,20 @@ app.controller('admin.settings.configure.language.form', function($scope, $http,
     then(function(response) {
     })
   }
+
+  // $scope.updateLangEng = function(data, other){
+  //   $http({
+  //     method: 'POST',
+  //     url: '/api/ERP/createNewEntry/',
+  //     data:{
+  //       id : data.pk,
+  //       value:data.value.
+  //       oldvalue : other.key
+  //     }
+  //   }).
+  //   then(function(response) {
+  //   })
+  // }
 
   $scope.addLang = function(){
     $uibModal.open({
@@ -937,6 +1146,7 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
      then(function(response) {
        $scope.data = response.data;
        $scope.mediaForm.medialist =  response.data.appMedia
+       $scope.mobilemediaForm.medialist =  response.data.mobileMedia
      })
 
    }
@@ -944,8 +1154,53 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
 
 
 
+   $scope.refreshs = function(){
+
+     $scope.mobilemediaForm = {
+       typ:'',attachment:emptyFile,medialist:[],name:''
+     }
+
+   }
+   $scope.refreshs()
+
+   $scope.uploadMobile = function(file){
+     console.log(file,'WEqwer');
+     $scope.files = file[0]
+     var fd = new FormData()
+
+     fd.append('attachment',$scope.files)
+     fd.append('name',$scope.files.name)
+     fd.append('app',$state.params.id)
 
 
+     $http({
+       method: 'POST',
+       url: '/api/ERP/mobileapplicationmedia/',
+       data: fd,
+       transformRequest: angular.identity,
+       headers: {
+         'Content-Type': undefined
+       }
+     }).
+     then(function(response) {
+
+       Flash.create('success', "Created...!")
+       $scope.mobilemediaForm.medialist.push(response.data)
+     })
+   }
+
+
+$scope.delMobileMedia = function(indx){
+  $http({
+    method: 'DELETE',
+    url: '/api/ERP/mobileapplicationmedia/'+$scope.mobilemediaForm.medialist[indx].pk+'/',
+
+  }).
+  then(function(response) {
+    $scope.mobilemediaForm.medialist.splice(indx,1)
+    Flash.create('success', "Deleted....!")
+  })
+}
 
 
    $scope.saveApp = function() {
@@ -962,6 +1217,7 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
      fd.append('rating_three', $scope.data.rating_three)
      fd.append('rating_four', $scope.data.rating_four)
      fd.append('rating_five', $scope.data.rating_five)
+     fd.append('inMenu', $scope.data.inMenu)
 
      $http({
        method: 'PATCH',
@@ -1235,7 +1491,7 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
 
          $http({
            method: 'GET',
-           url: '/api/ERP/applicationfeature/?parent=' + $state.params.id + '/'
+           url: '/api/ERP/applicationfeature/?parent=' + $state.params.id
          }).
          then(function(response) {
            $scope.appFeatures = response.data;
@@ -1371,13 +1627,10 @@ app.controller('businessManagement.appsDetails', function($scope, $http, $state,
        $scope.getApp()
      });
 
-
-
-
-
-
-
    }
+
+
+
 
 
    $scope.delFeedback = function(idx){

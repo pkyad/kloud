@@ -106,7 +106,25 @@ class UserViewSet(viewsets.ModelViewSet):
     search_fields = ('email','designation','profile','first_name','last_name')
     serializer_class = userSerializer
     def get_queryset(self):
-        divsn = self.request.user.designation.division
+        user = self.request.user
+        divsn = user.designation.division
+        profileObj = user.profile
+        # if profileObj.sipUserName is None:
+        #     try:
+        #         idVal = 100 + int(user.pk)
+        #         URL = 'https://'+globalSettings.SIP_WSS_SERVER +"/createAnEndpoint/?exten="+str(idVal)+"&username="+profileObj.mobile+str(divsn.pk)
+        #         r = requests.get(url = URL)
+        #         data = r.json()
+        #         print data, 'datatata'
+        #         profileObj.sipUserName = data['auths'][0]['username']
+        #         profileObj.sipPassword = data['auths'][0]['password']
+        #         profileObj.sipExtension = data['exten']
+        #         profileObj.save()
+        #
+        #     except:
+        #         print 'issue in createAnEndpoint'
+        #         pass
+
         if 'reportingTo' in self.request.GET:
             userPks = list(designation.objects.filter(reportingTo = int(self.request.GET['reportingTo']) , division = divsn ).values_list('user__pk',flat=True))
             print userPks,'userpkkkkkkkkkkk'
@@ -675,6 +693,9 @@ class GetMyAppsView(APIView):
 
         if 'displayName__icontains' in request.GET:
             apps = apps.filter(app__displayName__icontains = request.GET['displayName__icontains'] )
+
+        if 'inMenu' in request.GET:
+            apps = apps.filter(app__inMenu = True)
 
         for userapp in apps:
             app = userapp.app

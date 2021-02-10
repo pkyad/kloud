@@ -2,7 +2,16 @@
   <div class="row">
     <div class="col-md-12">
       <div class="row" style="margin-top:15px">
-        <div class="col-md-offset-10 col-md-2">
+        <div class="col-md-offset-2 col-md-1 " >
+          <button type="button" name="button" class="btn defaultBtn btn-block text-center" ng-click="prev()" style="margin-top: 4px;">Prev</button>
+        </div>
+        <div class="col-md-1 ">
+          <button type="button" name="button" class="btn defaultBtn btn-block text-center" ng-click="next()"  style="margin-top: 4px;"> Next</button>
+        </div>
+        <div class=" col-md-6">
+            <input type="text" class="form-control" placeholder="Search with english text"  ng-model="search.searchValue" style="height: 44px;margin-top: 4px;" ng-change="getAll()">
+        </div>
+        <div class="col-md-2">
           <button type="button" name="button" style="background: #103F8D;color: white;border: none !important;border-radius: 10px !important;padding: 15px;" class="btn-block" ng-click="addLang()"> Add New</button>
         </div>
       </div>
@@ -18,9 +27,8 @@
                 <th> Telugu </th>
                 <th> Punjabi </th>
               </tr>
-
               <tr ng-repeat="v in data track by $index">
-                <td>{{v.en.value}}</td>
+                <td><input type="text " class="form-control" ng-model="v.en.value" ng-blur="updateLang(v.en)"> </td>
                 <td>  <input type="text " class="form-control" ng-model="v.hi.value" ng-blur="updateLang(v.hi)"> </td>
                   <td>  <input type="text " class="form-control" ng-model="v.kn.value" ng-blur="updateLang(v.kn)"> </td>
                 <td> <input type="text " class="form-control" ng-model="v.mr.value" ng-blur="updateLang(v.mr)"> </td>

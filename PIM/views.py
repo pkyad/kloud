@@ -149,10 +149,10 @@ class ChatThreadsViewSet(viewsets.ModelViewSet):
             return threadObj
 
         # chatObj = ChatThread.objects.filter(participants =  self.request.user) | ChatThread.objects.filter( company = self.request.user.designation.division , participants = None).order_by('is_pin')
-        allObj = ChatThread.objects.filter(company = self.request.user.designation.division).filter(Q(participants =  self.request.user)|Q(participants__isnull = True))
-        chatObj2 = allObj.filter(is_pin = False).order_by('-updated')
-        chatObj1 = allObj.filter(is_pin = True)
-        chatObj = chatObj1|chatObj2
+        chatObj = ChatThread.objects.filter(company = self.request.user.designation.division).filter(Q(participants =  self.request.user)|Q(participants__isnull = True)).order_by('-updated')
+        # chatObj2 = allObj.filter(is_pin = False).order_by('-updated')
+        # chatObj1 = allObj.filter(is_pin = True)
+        # chatObj = chatObj1|chatObj2
 
         if 'search' in self.request.GET :
             chatObj = chatObj.filter(Q(participants__first_name__icontains = self.request.GET['search']) | Q(participants__last_name__icontains = self.request.GET['search']) |  Q(title__icontains = self.request.GET['search']) ).distinct()
@@ -237,6 +237,9 @@ class chatMessageBetweenViewSet(viewsets.ModelViewSet):
         # reciepient = ChatThread.objects.get(pk = self.request.GET['other'])
         if 'other' in self.request.GET:
             qs = ChatMessage.objects.filter(thread__pk = int(self.request.GET['other']))
+
+        if 'sorted'  in self.request.GET:
+            return ChatMessage.objects.filter(thread__pk = int(self.request.GET['sorted'])).order_by('-created')
         # if "pk" in self.request.GET:
         #     pk = int(self.request.GET['pk'])
         #     qs1 = ChatMessage.objects.filter(thread= reciepient).filter(id__gt=pk)
@@ -246,10 +249,25 @@ class chatMessageBetweenViewSet(viewsets.ModelViewSet):
         #     # qs2 = ChatMessage.objects.filter(user = self.request.user )
         # # qs = qs1 | qs2
         # qs = qs1
-        for msg in qs:
-            msg.read = True
-            msg.save()
+        # for msg in qs:
+        #     msg.read = True
+        #     msg.save()
         return qs.order_by('created')[:150]
+
+
+class GetChatMessages(APIView):
+    permission_classes = (permissions.AllowAny ,)
+    def get(self , request , format = None):
+        offset = request.GET['offset']
+        limit = request.GET['limit']
+        chatObj = ChatMessage.objects.filter(thread__pk = int(request.GET['id'])).order_by('-created')
+        allObj = []
+        toRet = []
+        chatObj = chatObj[offset:limit]
+        for num in reversed(range(len(chatObj))):
+            allObj.append(chatObj[num])
+        toRet = chatMessageSerializer(allObj, many = True).data
+        return Response(toRet, status = status.HTTP_200_OK)
 
 
 class NoteBookViewSet(viewsets.ModelViewSet):

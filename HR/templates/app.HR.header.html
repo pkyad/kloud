@@ -72,27 +72,28 @@
 
  </style>
 
-<div class="container-fluid" >
+<div class="container-fluid">
   <div class="col-md-10 col-md-offset-1" id="page1startingdiv">
     <div class="" >
       <div class="" id="navbar" >
         <nav >
-          <div class="row" >
-            <div class="col-md-6 col-xs-6">
+          <div class="row"   id="myHeader" style="background:#ffffff">
+            <div class="col-md-10 col-xs-6">
               <div class="navbar-header">
-                <a  id="text"  href="/"><img src="/static/images/zigmasmall.svg" alt="" >Kloud ERP</a>
+                <a  id="text"  href="/"><img src="/static/images/xicon.png" style="width:75px;padding-right: 0px;" alt="" >Kloud ERP</a>
               </div>
 
             </div>
-            <div class="col-md-6 col-xs-6">
-              <ul class="nav navbar-nav navbar-right">
-                <li><a type="button" class="btn btn-default " name="button" id="signup" style="float:right"> Sign Up</a></li>
+            <div class="col-md-2 col-xs-6">
+              <!-- <ul class="nav navbar-nav navbar-right"> -->
+                <!-- <li><a type="button" class="btn btn-default " name="button" id="signup" style="float:right"> Sign Up</a></li> -->
                 {% if request.user.pk %}
-                  <li><a href="/ERP/" style="float:right">Go To Backend </a></li>
+                  <a type="button" href="/ERP/"  name="button" class="btn btn-default btn-block" style="height:60px;border-radius: 50px !important;padding-top:20px;font-size: 14px;" >Go To Backend</a>
                 {% else %}
-                  <li><a href="/login/"style="float:right" >Login  </a></li>
+                  <!-- <li><a href="/login/"style="float:right" >Login  </a></li> -->
+                  <a type="button" href="/login/"  name="button" class="btn btn-default btn-block" style="height:60px;border-radius: 50px !important;padding-top:20px;" >Login</a>
                 {% endif %}
-              </ul>
+              <!-- </ul> -->
 
             </div>
 

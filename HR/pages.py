@@ -101,6 +101,9 @@ def termsofservices(request):
 def privacypolicy(request):
     context={}
     return render(request, 'app.HR.privacypolicy.html',context)
+def refundpolicy(request):
+    context={}
+    return render(request, 'app.HR.refundpolicy.html',context)
 
 def pageeditor(request,id):
     page = Page.objects.get(pk = id)
@@ -110,8 +113,7 @@ def pageeditor(request,id):
 
         i.template = i.template.replace('$data' , 'components[%s].data'%(indx))
         data += i.template
-    print data
-
+        print data
     API_KEY = ''
     if page.enableChat:
         API_KEY = request.user.designation.division.apiKey
@@ -168,9 +170,9 @@ def renderheaderfooter(request):
     return render(request, 'app.HR.headerandfooter.html',{'header':header,'footer':footer})
 
 def appdetails(request):
-    app = application.objects.get(pk = request.GET['id'])
-    appMedia = app.appMedia.all()
-    return render(request, 'app.HR.appdetails.html',{'app':app,'appMedia':appMedia})
+    # app = application.objects.get(pk = request.GET['id'])
+    # appMedia = app.appMedia.all()
+    return render(request, 'app.HR.appdetails.html')
 
 
 def ProductDetails(request):
