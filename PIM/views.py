@@ -79,7 +79,10 @@ class SaveImageAPIView(APIView):
         f.close()
         im1 = Image.open(os.path.join(globalSettings.BASE_DIR, 'media_root/%s' %(file.name)))
         width, height = im1.size
-        fileDetails = globalSettings.SITE_ADDRESS + '/media/'+ file.name
+        if 'template' in request.data:
+            fileDetails = '/media/'+ file.name
+        else:
+            fileDetails = globalSettings.SITE_ADDRESS + '/media/'+ file.name
         data = {'link':fileDetails,'height':height,'width':width}
         return Response(data, status = status.HTTP_200_OK)
 
