@@ -52,21 +52,20 @@ app.controller('templateEditor', function($scope, $rootScope , $sce , $http , $t
         $scope.form = data
         $scope.choices = ['Contact Us','Introduction','Image List','Info Section','Testimonials','Widgets','Header','Footer','Others']
 
-        var fd = new FormData();
-        fd.append('name',$scope.form.name)
-        fd.append('templateCategory',$scope.form.templateCategory)
-        fd.append('live',$scope.form.live)
-        fd.append('sampleImg',$scope.form.sampleImg)
-        fd.append('mobilePreview',$scope.form.mobilePreview)
-        if ( typeof $scope.form.sampleImg != 'string') {
-
-        }
-        if (typeof $scope.form.mobilePreview != 'string') {
-
-        }
-        console.log($scope.form,'324432');
 
         $scope.save = function(){
+          var fd = new FormData();
+          fd.append('name',$scope.form.name)
+          fd.append('templateCategory',$scope.form.templateCategory)
+          fd.append('live', $scope.form.live)
+          if ($scope.form.mobilePreview != null && typeof($scope.form.mobilePreview) == 'object' ) {
+
+            fd.append('mobilePreview', $scope.form.mobilePreview)
+          }
+          if ($scope.form.sampleImg != null && typeof($scope.form.sampleImg) == 'object' ) {
+
+            fd.append('sampleImg', $scope.form.sampleImg)
+          }
           $http({method : 'PATCH' , url : '/api/website/uielementemplate/' + PK + '/',data: fd,
           transformRequest: angular.identity,
           headers: {
