@@ -1,150 +1,212 @@
-[{
-  "id" : 1,
-  "input" : "May I know what you are exactly looking for?",
-  "response" : "Sure, I will help you",
-  "input_variation" : [""],
-  "url":"https://essgi.net/",
-  "type": "Default"
-},{
-  "id" : 2,
-  "input" : "Welcome",
-  "response" : "",
-  "input_variation" : ["", ""],
-  "auto_response" : "",
-  "type": "General"
-},{
-  "id" : 3,
-  "input" : "",
-  "response" : "Sorry, but I don't understand, please provide your contact details, our team will contact you shortly",
-  "input_variation" : ["", ""],
-  "url":"https://essgi.net/",
-  "type": "Fail"
+{
+  "heading": {
+    "label": "Heading",
+    "type": "string",
+    "string": "APP"
+  },
+  "subheading": {
+    "label": "Subheading",
+    "type": "string",
+    "string": "The best App,smooth and streamlined interface"
+  },
+  "description": {
+    "label": "Description",
+    "type": "string",
+    "string": "Description"
+  },
+  "backgroundimage": {
+    "label": "Background Image",
+    "type": "image",
+    "imageUrl": "/static/images/page3bgImage.png",
+    "altText": "background image alt text"
+  },
+  "btntxt": {
+    "label": "Button 1 Heading",
+    "type": "string",
+    "string": "Read More"
+  },
+  "btncolor": {
+    "label": "Button 1 Color",
+    "type": "color",
+    "color": "white"
+  },
+  "title": {
+    "label": "Title",
+    "type": "string",
+    "string": " Manage your Office from your Pocket "
+  },
+  "subtitle": {
+    "label": "Sub title",
+    "type": "string",
+    "string": " Product delivery is faster than ever "
+  },
+  "secondbtntxt": {
+    "label": "Button 2 Heading",
+    "type": "string",
+    "string": "Read More"
+  },
+  "secondbtncolor": {
+    "label": "Button 2 Color",
+    "type": "color",
+    "color": "white"
+  },
+  "css": {
+    "type": "css",
+    "string": "
+  
+      "
 
-},{
-  "id" : 4,
-  "input" : "APC is a UPS or a stablizer?",
-  "response" : "It is a UPS",
-  "input_variation" : ["What is APC"],
-  "url": "https://essgi.net/upsnbatteries.html",
-  "type": "FAQ"
-},{
-  "id" : 5,
-  "input" : "Can I connect power cord extension to the UPS?",
-  "response" : "You can connect extension",
-  "input_variation" : ["", ""],
-  "url": "",
-  "type": "FAQ"
-},{
-  "id" : 6,
-  "input" : "what are the computers and laptops you have?",
-  "response" : "",
-  "input_variation" : ["", ""],
-  "url": "https://essgi.net/Computersnlaptops.html",
-  "type": "FAQ"
-},{
-  "id" : 7,
-  "input" : "what are the products available for shipping?",
-  "response" : "",
-  "input_variation" : ["", ""],
-  "url": "https://essgi.net/",
-  "type": "FAQ"
-},{
-  "id" : 8,
-  "input" : "what are the printers and scanners you have?",
-  "response" : "",
-  "input_variation" : ["I want computer accessories", "wiFi router", "pendrive", "headphone", "canon", "keyboard"],
-  "url": "https://essgi.net/Computeraccessories.html",
-  "type": "FAQ"
-},{
-  "id" : 9,
-  "input" : "what is the difference between ups and battery?",
-  "response" : "",
-  "input_variation" : ["", ""],
-  "url": "https://essgi.net/upsnbatteries.html",
-  "type": "FAQ"
-},{
-  "id" : 10,
-  "input" : "smartphones",
-  "response" : "",
-  "input_variation" : ["tablets", ""],
-  "url": "https://essgi.net/smartphonesntabs.html",
-  "type": "FAQ"
-},{
-  "id" : 11,
-  "input" : "solar inverter",
-  "response" : "",
-  "input_variation" : ["solar hybrid power plants", "rooftop solar plant", "green energy"],
-  "url": "https://essgi.net/solarrooftop.html",
-  "type": "FAQ"
-},{
-  "id" : 12,
-  "input" : "computer repair",
-  "response" : "",
-  "input_variation" : ["installation", "not working"],
-  "url": "https://essgi.net/support.html",
-  "type": "FAQ"
-},{
-  "id" : 13,
-  "input" : "ups repair",
-  "response" : "",
-  "input_variation" : ["battery repair", "ups not working"],
-  "url": "https://essgi.net/apcupssupport.html",
-  "type": "FAQ"
-},{
-  "id" : 14,
-  "input" : "service",
-  "response" : "",
-  "input_variation" : ["request service"],
-  "url": "https://essgi.net/raise-issue.html",
-  "type": "FAQ"
-},{
-  "id" : 15,
-  "input" : "service center",
-  "response" : "",
-  "input_variation" : ["hp", "Dell", "Lenovo", "Samsung"],
-  "url": "https://essgi.net/asc.html",
-  "type": "FAQ"
-},{
-  "id" : 16,
-  "input" : "canon warranty",
-  "response" : "",
-  "input_variation" : [""],
-  "url": "https://service.canon.co.in/service-edge/custRegistration.do",
-  "type": "FAQ"
-},{
-  "id" : 17,
-  "input" : "UPS warranty",
-  "response" : "",
-  "input_variation" : [""],
-  "url": "https://essgi.net/sib.html",
-  "type": "FAQ"
-},{
-  "id" : 18,
-  "input" : "What is your working hours?",
-  "response" : "Our working hours is 9am - 6pm",
-  "input_variation" : [""],
-  "url": "",
-  "type": "FAQ"
-},{
-  "id" : 19,
-  "input" : "Do you work on sundays?",
-  "response" : "No",
-  "input_variation" : [""],
-  "url": "",
-  "type": "FAQ"
-},{
-  "id" : 20,
-  "input" : "where is your office located?",
-  "response" : "our branch office is located in Hosa road",
-  "input_variation" : [""],
-  "url": "",
-  "type": "FAQ"
-},{
-  "id" : 21,
-  "input" : "Do you deliver products outside India?",
-  "response" : "Yes",
-  "input_variation" : [""],
-  "url": "",
-  "type": "FAQ"
-}
-]
+
+    }
+
+  }
+
+  [{
+    "id": 1,
+    "input": "May I know what you are exactly looking for?",
+    "response": "Sure, I will help you",
+    "input_variation": [""],
+    "url": "https://essgi.net/",
+    "type": "Default"
+  }, {
+    "id": 2,
+    "input": "Welcome",
+    "response": "",
+    "input_variation": ["", ""],
+    "auto_response": "",
+    "type": "General"
+  }, {
+    "id": 3,
+    "input": "",
+    "response": "Sorry, but I don't understand, please provide your contact details, our team will contact you shortly",
+    "input_variation": ["", ""],
+    "url": "https://essgi.net/",
+    "type": "Fail"
+
+  }, {
+    "id": 4,
+    "input": "APC is a UPS or a stablizer?",
+    "response": "It is a UPS",
+    "input_variation": ["What is APC"],
+    "url": "https://essgi.net/upsnbatteries.html",
+    "type": "FAQ"
+  }, {
+    "id": 5,
+    "input": "Can I connect power cord extension to the UPS?",
+    "response": "You can connect extension",
+    "input_variation": ["", ""],
+    "url": "",
+    "type": "FAQ"
+  }, {
+    "id": 6,
+    "input": "what are the computers and laptops you have?",
+    "response": "",
+    "input_variation": ["", ""],
+    "url": "https://essgi.net/Computersnlaptops.html",
+    "type": "FAQ"
+  }, {
+    "id": 7,
+    "input": "what are the products available for shipping?",
+    "response": "",
+    "input_variation": ["", ""],
+    "url": "https://essgi.net/",
+    "type": "FAQ"
+  }, {
+    "id": 8,
+    "input": "what are the printers and scanners you have?",
+    "response": "",
+    "input_variation": ["I want computer accessories", "wiFi router", "pendrive", "headphone", "canon", "keyboard"],
+    "url": "https://essgi.net/Computeraccessories.html",
+    "type": "FAQ"
+  }, {
+    "id": 9,
+    "input": "what is the difference between ups and battery?",
+    "response": "",
+    "input_variation": ["", ""],
+    "url": "https://essgi.net/upsnbatteries.html",
+    "type": "FAQ"
+  }, {
+    "id": 10,
+    "input": "smartphones",
+    "response": "",
+    "input_variation": ["tablets", ""],
+    "url": "https://essgi.net/smartphonesntabs.html",
+    "type": "FAQ"
+  }, {
+    "id": 11,
+    "input": "solar inverter",
+    "response": "",
+    "input_variation": ["solar hybrid power plants", "rooftop solar plant", "green energy"],
+    "url": "https://essgi.net/solarrooftop.html",
+    "type": "FAQ"
+  }, {
+    "id": 12,
+    "input": "computer repair",
+    "response": "",
+    "input_variation": ["installation", "not working"],
+    "url": "https://essgi.net/support.html",
+    "type": "FAQ"
+  }, {
+    "id": 13,
+    "input": "ups repair",
+    "response": "",
+    "input_variation": ["battery repair", "ups not working"],
+    "url": "https://essgi.net/apcupssupport.html",
+    "type": "FAQ"
+  }, {
+    "id": 14,
+    "input": "service",
+    "response": "",
+    "input_variation": ["request service"],
+    "url": "https://essgi.net/raise-issue.html",
+    "type": "FAQ"
+  }, {
+    "id": 15,
+    "input": "service center",
+    "response": "",
+    "input_variation": ["hp", "Dell", "Lenovo", "Samsung"],
+    "url": "https://essgi.net/asc.html",
+    "type": "FAQ"
+  }, {
+    "id": 16,
+    "input": "canon warranty",
+    "response": "",
+    "input_variation": [""],
+    "url": "https://service.canon.co.in/service-edge/custRegistration.do",
+    "type": "FAQ"
+  }, {
+    "id": 17,
+    "input": "UPS warranty",
+    "response": "",
+    "input_variation": [""],
+    "url": "https://essgi.net/sib.html",
+    "type": "FAQ"
+  }, {
+    "id": 18,
+    "input": "What is your working hours?",
+    "response": "Our working hours is 9am - 6pm",
+    "input_variation": [""],
+    "url": "",
+    "type": "FAQ"
+  }, {
+    "id": 19,
+    "input": "Do you work on sundays?",
+    "response": "No",
+    "input_variation": [""],
+    "url": "",
+    "type": "FAQ"
+  }, {
+    "id": 20,
+    "input": "where is your office located?",
+    "response": "our branch office is located in Hosa road",
+    "input_variation": [""],
+    "url": "",
+    "type": "FAQ"
+  }, {
+    "id": 21,
+    "input": "Do you deliver products outside India?",
+    "response": "Yes",
+    "input_variation": [""],
+    "url": "",
+    "type": "FAQ"
+  }]

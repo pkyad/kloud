@@ -4,6 +4,9 @@
 {% for component in components %}
 
 <div ng-app="app" ng-controller="main" ng-init='data = {{component.data | safe}}'>
+  <style media="screen">
+    {{component.css}}
+  </style>
   {{component.template | safe}}
 </div>
 {% endfor %}

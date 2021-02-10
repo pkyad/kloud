@@ -32,7 +32,6 @@
 
     #aceEditor,
     #aceEditor2,
-    #aceEditor3,
     #aceEditorPreValidator,
     #aceEditorValidator {
       width: 100%;
@@ -56,53 +55,34 @@
   </style>
 
 </head>
-<body ng-app="app" ng-controller="templateEditor" style="background:#f2f3f7">
 
+<body ng-app="app" ng-controller="templateEditor" style="background:#f2f3f7">
   {% verbatim %}
   <div class="alert alert-{{msg.status}} text-center" style="position: absolute;z-index: 99999999;top: 10%;
 left: 40%;width:30%">
     <strong>{{msg.text}}</strong>
   </div>
-  <div class="container-fluid" style="padding:0px;overflow:hidden">
-    <div class="row" style="background-color:black;height:100vh;overflow-y:hidden">
-      <div class="col-md-2" style="height:100%;border-right:1px solid #ccc;">
-        <div class="text-left">
-          <div class="row" ng-click="showFile('template')" style="border-top:1px solid #ccc;border-bottom:1px solid #ccc;padding:20px;">
-            <h4 style="color:white"><img src="/static/images/html.webp" style="height:25px;margin-right:10px;"alt="">template.html</h4>
+  <div class="container-fluid">
+    <div class="row" style="background-color:white;height:100vh">
+      <div class="col-md-2" style="height:100%;border-right:1px solid #ccc;overflow-y:scroll">
+        <div class="text-center">
+          <div class="row" style="border-top:1px solid #ccc;border-bottom:1px solid #ccc;padding:20px;">
+            <h4><a href=""> template.html</a></h4>
             <p>{{msg.text}}</p>
           </div>
-          <div class="row" style="border-bottom:1px solid #ccc;padding:20px;" ng-click="showFile('style')">
-            <h4 style="color:white"> <img src="/static/images/css.webp" style="height:25px;margin-right:10px;"alt="">style.css</h4>
-          </div>
-          <div class="row" style="border-bottom:1px solid #ccc;padding:20px;" ng-click="showFile('data')">
-            <h4 style="color:white"> <img src="/static/images/json.png" style="height:25px;margin-right:10px;"alt=""> data.json</a></h4>
+          <div class="row" style="border-bottom:1px solid #ccc;padding:20px;">
+            <h4><a href=""> style.css</a></h4>
           </div>
           <div class="row" style="border-bottom:1px solid #ccc;padding:20px;">
-            <h4 style="color:white"> Images
-              <span style="float:right;">
-        <img src="/static/images/upload.png" style="width:30px">
-        <input type="file" file-model="imageform.file" class="file_upload"  onchange="angular.element(this).scope().fileupload(this.files)" style="opacity: 0;position: absolute;
-z-index: 1;margin-top:-30px;">
-      </span>
-
-               <!-- <img src="/static/images/upload.png" style="height:30px;"></h4> -->
+            <h4><a href=""> data.json</a></h4>
           </div>
-          <div class="row" ng-repeat="k in imageform.images " style="color:white;padding:10px 0px;">
-            <div class="col-md-2">
-              <img ng-src="{{k.link}}" alt="" style="height:30px;">
-            </div>
-            <div class="col-md-8">
-              <p>{{k.name}}</p>
-            </div>
-            <div class="col-md-1">
-              <span><i class="fa fa-clipboard" aria-hidden="true" ng-click="copyUrl(k.link)" style="font-size:20px;"></i></span>
-            </div>
+          <div class="row" style="border-bottom:1px solid #ccc;padding:20px;">
+            <h4> <a href="#">Images</a> <img src="/static/images/upload.png" style="height:30px;float:right"></h4>
           </div>
-
         </div>
 
         <div class="row">
-          <div class="" style="position:absolute;bottom:50px;color:white;">
+          <div class="" style="position:absolute;bottom:50px;">
             <div class="container-fluid">
               <div class="row">
                 <div class="col-md-12">
@@ -142,21 +122,13 @@ border-radius: 0px !important;  padding: 15px;"> <i class="fa fa-pencil"></i> ed
 
       </div>
       <div class="col-md-5" style="height:100%;">
-
-
-
-        <div id="aceEditor" class="" ng-show="stage == 'template'" ng-bind-html="form.template">
-
-        </div>
-        <div id="aceEditor2" class="" ng-show="stage == 'data'" ng-bind-html="form.defaultData">
-
-        </div>
-        <div id="aceEditor3" class="" ng-show="stage == 'style'" ng-bind-html="form.css">
-
+        <!-- <div id="aceEditor2" class="" ng-bind-html="form.defaultData" >
+          </div> -->
+        <div id="aceEditor" class="" ng-bind-html="form.defaultData">
         </div>
       </div>
       <div class="col-md-5">
-        <iframe src="{{uielement}}" width="100%" height="100%" style="border:none;height:100vh" allowfullscreen></iframe>
+
       </div>
     </div>
 
@@ -164,6 +136,72 @@ border-radius: 0px !important;  padding: 15px;"> <i class="fa fa-pencil"></i> ed
 
 
 
+  <!-- <div class="container-fluid" style="padding:10px;background:black;color:white;">
+    <div class="col-md-1">
+      <label>Name</label>
+    </div>
+    <div class="col-md-1">
+      <input type="text" name="" value="" class="form-control" ng-model="form.name" style="border-radius: 15px;background:#4d4d4d;color:white;border: none;">
+    </div>
+    <div class="col-md-1">
+      <label>Mobile Preview</label>
+    </div>
+    <div class="col-md-2">
+      <input type="file" file-model="form.mobilePreview">
+    </div>
+    <div class="col-md-1">
+      <label>Web Preview</label>
+    </div>
+    <div class="col-md-2">
+      <input type="file" file-model="form.sampleImg">
+    </div>
+
+    <div class="col-md-1">
+      <label for="">Category</label>
+
+    </div>
+    <div class="col-md-1">
+
+      <div class="form-group">
+        <select class="form-control" name="" ng-model = "form.templateCategory" ng-options="k for k in choices">
+
+        </select>
+
+      </div>
+    </div>
+    <div class="col-md-1">
+      <label>Live</label>
+      <input type="checkbox" ng-model="form.live">
+    </div>
+
+    <div class="col-md-1">
+      <button type="button" class="btn btn-primary" name="button" ng-click="save()">Save</button>
+    </div>
+  </div>
+  <div class="container-fluid" >
+    <div class="row">
+
+      <div class="col-md-4">
+        <div id="aceEditor2" class="" ng-bind-html="form.defaultData" >
+        </div>
+      </div>
+      <div class="col-md-6" style="padding:0px;">
+        <div id="aceEditor" class="" ng-bind-html="form.template">
+        </div>
+      </div>
+      <div class="col-md-2">
+        <iframe width="100%" height="600" ng-src="{{uielement}}" frameborder="0"      allowfullscreen  ></iframe>
+        <iframe width="100%" height="768"  ng-src="{{uielement}}"  style="-webkit-transform:scale(0.5);-moz-transform-scale(0.5);"></iframe>
+      </div>
+    </div>
+      <div class="row" style="margin:0px;">
+        <iframe id="iFrame" ng-src="{{uielement}}" name="template"  width="100%" frameborder="0"      allowfullscreen>
+        </iframe>
+
+      </div>
+
+
+  </div> -->
 
 
 

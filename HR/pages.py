@@ -129,6 +129,7 @@ def renderpage(request,url):
 
 def uielement(request):
     component = UIelementTemplate.objects.get(pk = request.GET['id'])
+    
     return render(request, 'app.HR.pageElement.html',{'data':component})
 
 

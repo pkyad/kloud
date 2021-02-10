@@ -60,9 +60,9 @@ class ComponentsSerializer(serializers.ModelSerializer):
 class UIelementTemplateSerializer(serializers.ModelSerializer):
     class Meta:
         model = UIelementTemplate
-        fields = ('pk' , 'created','name','defaultData','sampleImg','template','mobilePreview','live','templateCategory' )
+        fields = ('pk' , 'created','name','defaultData','sampleImg','template','mobilePreview','live','templateCategory','css','images' )
     def update(self, instance , validated_data):
-        for key in ['name' , 'template','live','defaultData','templateCategory','mobilePreview','sampleImg']:
+        for key in ['name' , 'template','live','defaultData','templateCategory','mobilePreview','sampleImg','css','images']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
@@ -75,5 +75,7 @@ class UIelementTemplateSerializer(serializers.ModelSerializer):
             instance.sampleImg = data['sampleImg']
         if 'mobilePreview' in data:
             instance.mobilePreview = data['mobilePreview']
+        if 'images' in data:
+            instance.images = data['images']
         instance.save()
         return instance
