@@ -37,6 +37,8 @@ from pytz import timezone
 from django.template import defaultfilters
 from datetime import timedelta
 from rest_framework.renderers import JSONRenderer
+from HR.models import designation
+
 
 # Create your views here.
 
@@ -55,7 +57,7 @@ class PatientViewSet(viewsets.ModelViewSet):
     filter_fields = ['uniqueId', 'firstName', 'division']
     def get_queryset(self):
         division = self.request.user.designation.division.pk
-        patientObjs = Patient.objects.filter(division = division)
+        patientObjs = Patient.objects.filter(division = division).order_by('firstName')
         if 'name' in self.request.GET:
             queryset = patientObjs.filter(firstName__icontains = str(self.request.GET['name']))
             return queryset
@@ -71,12 +73,13 @@ class DoctorViewSet(viewsets.ModelViewSet):
     filter_fields = ['name', 'division']
     def get_queryset(self):
         division = self.request.user.designation.division.pk
-        doctorObjs = Doctor.objects.filter(division = division)
+        doctorObjs = Doctor.objects.filter(division = division).order_by('name')
+        toReturn = doctorObjs
         if 'name' in self.request.GET:
-            queryset = doctorObjs.filter(name__icontains = str(self.request.GET['name']))
-            return queryset
+            toReturn = doctorObjs.filter(name__icontains = str(self.request.GET['name']))
+            return toReturn
         else:
-            return doctorObjs
+            return toReturn
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -171,6 +174,7 @@ def invoice(request, response,inv):
     now = datetime.datetime.now()
     aprilFst_20 = datetime.date(2020,04,01)
     if inv.activePatient.outPatient:
+        print 'outpatient'
         print 'in patient'
         refId = inv.activePatient.opNo
         a = ''
@@ -208,6 +212,7 @@ def invoice(request, response,inv):
         # d = defaultfilters.date(inv.activePatient.dateOfDischarge + timedelta(hours=5,minutes=30), "d-m-Y , h:i A")
         d = defaultfilters.date(inv.activePatient.dateOfDischarge, "d-m-Y , h:i A")
         try:
+            print inv.activePatient.dischargeSummary.all() , 'iiiiiiiiiiiiiiiiiii'
             refId = inv.activePatient.dischargeSummary.get().ipNo
         except DischargeSummary.DoesNotExist:
             refId = ''
@@ -224,16 +229,23 @@ def invoice(request, response,inv):
     elements = []
 
     divisionLogo = inv.activePatient.patient.division.logo
+    # imagePath = os.path.join(globalSettings.MEDIA_ROOT , str(request.user.designation.division.logo))
+
+
     logo = os.path.join(globalSettings.MEDIA_ROOT , str(divisionLogo))
     f = open(logo, 'rb')
     im = Image(f,height=1*inch ,width=0.6*inch)
     unitObj = request.user.designation.unit
+    print unitObj , 'uououuuuouoouououo'
 
     p1=[
-       Paragraph("<para fontSize=30 alignment='center' leading=25 textColor=darkblue><b>{0}</b></para>".format(unitObj.name), styles['Normal']),
-       Paragraph("<para fontSize=11 alignment='center' textColor=darkblue>{0}</para>".format(unitObj.address),styles['Normal']),
-       Paragraph("<para fontSize=11 alignment='center' leftIndent=5 textColor=darkblue><strong>{0} </strong></para>".format(unitObj.mobile),styles['Normal']),
-       Paragraph("<para fontSize=11 alignment='center' leftIndent=5 textColor=darkblue><strong>{0} </strong></para>".format(unitObj.areaCode),styles['Normal']),
+       # Paragraph("<para fontSize=30 alignment='center' leading=25 textColor=darkblue><b>{0}</b></para>".format(request.user.designation.division.name), styles['Normal']),
+       # Paragraph("<para fontSize=11 alignment='center' textColor=darkblue>{0}</para>".format(unitObj.address),styles['Normal']),
+       # Paragraph("<para fontSize=11 alignment='center' leftIndent=5 textColor=darkblue><strong>{0} </strong></para>".format(unitObj.mobile),styles['Normal']),
+       # Paragraph("<para fontSize=11 alignment='center' leftIndent=5 textColor=darkblue><strong>{0} </strong></para>".format(unitObj.areaCode),styles['Normal']),
+       Paragraph("<para fontSize=30 alignment='center' leading=25 textColor=darkblue><b> CHAITANYA HOSPITAL </b></para>",styles['Normal']),
+       Paragraph("<para fontSize=11  spaceBefore=12 leftIndent=5 textColor=darkblue># 80, 3rd Cross, P & T Colony, R. T. Nagar, Bangalore - 560 032. Ph : 2333 3581, Fax : 2343 2633</para>",styles['Normal']),
+       Paragraph("<para fontSize=11 alignment='left'  leftIndent=5 textColor=darkblue><strong>Reg. No. 711 / 95-96 </strong></para>",styles['Normal']),
        ]
 
 
@@ -297,7 +309,7 @@ def invoice(request, response,inv):
         elements.append(Paragraph("<para fontSize=10 alignment='right' rightIndent=70><b> Amount recieved : {0} </b></para>".format(total-inv.discount),styles['Normal']))
         elements.append(Paragraph("<para fontSize=10 alignment='right' rightIndent=70><b> Discount Amount / Due amount: {0} </b></para>".format(inv.discount),styles['Normal']))
     elements.append(Spacer(1, 30))
-    # elements.append(Paragraph("<para fontSize=10 alignment='right' leading=15 rightIndent=50> FOR CHAITANYA HOSPITAL </para>",styles['Normal']))
+    elements.append(Paragraph("<para fontSize=10 alignment='right' leading=15 rightIndent=50> FOR CHAITANYA HOSPITAL </para>",styles['Normal']))
     elements.append(Paragraph("<para fontSize=10 alignment='right' rightIndent=50> {0} </para>".format(inv.activePatient.msg),styles['Normal']))
 
     doc.build(elements)
@@ -321,9 +333,9 @@ def dischargeSummary(response,dis):
 
     dd = str(dis.patient.dateOfDischarge).split('.')[0]
 
-    dd = defaultfilters.date(dis.patient.dateOfDischarge, "d-m-Y , h:i A")
+    dd = defaultfilters.date(dis.patient.dateOfDischarge + timedelta(hours=5,minutes=30), "d-m-Y , h:i A")
 
-    d = defaultfilters.date(now, "d-m-Y , h:i A")
+    d = defaultfilters.date(now + timedelta(hours=5,minutes=30), "d-m-Y , h:i A")
     if dis.patient.docName:
         dN = dis.patient.docName.name
         dM = dis.patient.docName.mobile
@@ -527,7 +539,7 @@ class HospitalDataMigrations(APIView):
     renderer_classes = (JSONRenderer,)
     permission_classes = (permissions.AllowAny, )
     def get(self, request, format=None):
-        divisionPK = 4
+        divisionPK = 7
         divisionObj = Division.objects.get(pk = divisionPK)
 
         # getting users
@@ -537,170 +549,212 @@ class HospitalDataMigrations(APIView):
             userData = json.load(json_file)
 
         #creating users
+        print 'create user'
         for item in userData:
-            u, userObj = User.objects.get_or_create(username = item['username'])
-            if userObj is not None:
-                userObj.first_name = item['first_name']
-                userObj.last_name = item['last_name']
-                profileObj = userObj.profile
-                profileObj.mobile = item['profile']['mobile']
+            userObj, u = User.objects.get_or_create(username = item['username'])
+            designationObj = userObj.designation
+            designationObj.division = divisionObj
+            designationObj.save()
 
-        #getting doctors users
+            profileObj = userObj.profile
+            profileObj.mobile = item['profile']['mobile']
+            profileObj.email = item['profile']['email']
+            profileObj.save()
+
+            payrollObj = userObj.payroll
+            payrollObj.user = userObj
+            payrollObj.save()
+
+            userObj.first_name = item['first_name']
+            userObj.last_name = item['last_name']
+            userObj.email = item['email']
+            userObj.save()
+
+        #getting doctors
         doctorData = None
         doctorDataPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'json', 'doctor.json')
         with open(doctorDataPath) as json_file:
             doctorData = json.load(json_file)
 
         #creating doctors
+        print 'create doctor'
         for item in doctorData:
-            d, doctorObj = User.objects.get_or_create(username = item['username'])
-            if doctorObj is not None:
-                doctorObj.name = item['first_name']
-                doctorObj.department = item['last_name']
-                doctorObj.education = item['last_name']
-                doctorObj.mobile = item['last_name']
-                doctorObj.division = divisionObj
+            doctorObj, doc = Doctor.objects.get_or_create(name = item['name'])
+            doctorObj.name = item['name']
+            doctorObj.department = item['department']
+            doctorObj.education = item['education']
+            doctorObj.mobile = item['mobile']
+            doctorObj.created = item['created']
+            doctorObj.division = divisionObj
+            doctorObj.save()
 
-        #getting doctors users
-        doctorData = None
-        doctorDataPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'json', 'doctor.json')
-        with open(doctorDataPath) as json_file:
-            doctorData = json.load(json_file)
+        # getting patients
+        patientData = None
+        patientDataPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'json', 'patient.json')
+        with open(patientDataPath) as json_file:
+            patientData = json.load(json_file)
 
-        #creating patient
-        for item in doctorData:
-            doctorObj = User.objects.get_or_create(username = item['username'])
-            if doctorObj is not None:
-                doctorObj.name = item['first_name']
-                doctorObj.department = item['last_name']
-                doctorObj.education = item['last_name']
-                doctorObj.mobile = item['last_name']
-                doctorObj.division = divisionObj
+        print 'create patient'
+        # creating patients
+        count = 0
+        for item in patientData:
+            patientObj, created = Patient.objects.get_or_create(uniqueId = item['uniqueId'], phoneNo = item['phoneNo'], created = item['created'])
+            patientObj.firstName = item['firstName']
+            patientObj.created = item['created']
+            patientObj.city = item['city']
+            patientObj.pin = item['pin']
+            patientObj.emergencyContact2 = item['emergencyContact2']
+            patientObj.lastName = item['lastName']
+            patientObj.dateOfBirth = item['dateOfBirth']
+            patientObj.age = item['age']
+            patientObj.email = item['email']
+            patientObj.emergencyContact1 = item['emergencyContact1']
+            patientObj.street = item['street']
+            patientObj.state = item['state']
+            patientObj.country = item['country']
+            patientObj.division = divisionObj
+            patientObj.gender = item['gender']
+            patientObj.save()
+            count += 1
+            print count , 'count'
+
+            if not created:
+                print count, item['uniqueId'], item['pk'], 'not created'
 
 
-        # #creating Service
-        # companyPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','bruderer_service.json')
-        # with open(companyPath) as json_file:
-        #     comapnyData = json.load(json_file)
-        #     for item in comapnyData:
-        #
-        #         try:
-        #             if item['user'] is not None:
-        #                 userObj = User.objects.get(username = item['user']['username'])
-        #         except:
-        #             print item['user'], 'user'
-        #             userObjData = [x for x in userData if x['pk'] == item['user']]
-        #             userObj = User.objects.get(username = userObjData[0]['username'])
-        #         else:
-        #             userObj = User.objects.get(username = 'gopinath')
-        #
-        #
-        #         objs = service.objects.filter(name = item['name'],user = userObj)
-        #         obj = None
-        #         if len(objs)>0:
-        #             obj = objs[0]
-        #         if len(objs) == 0:
-        #             print item['name'], 'name '
-        #             if item['name'] != 'cioc':
-        #                 obj = service.objects.create(name = item['name'],user = userObj)
-        #
-        #         if obj is not None:
-        #             obj.customerName = item['customerName']
-        #             obj.created = item['created']
-        #             obj.mobile = item['mobile']
-        #             obj.gst = item['gst']
-        #             obj.division = divisionObj
-        #
-        #             if item['address'] is not None:
-        #                 addressObj = address.objects.create(city = item['address']['city'], country = item['address']['country'], lon = item['address']['lon'] , pincode = item['address']['pincode'], state = item['address']['state'],street = item['address']['street'],lat = item['address']['lat'])
-        #
-        #                 obj.address = addressObj
-        #
-        #             obj.save()
-        #             print 'company', obj.name, obj.pk
-        #
-        #
-        # inventoryData = None
-        # inventoryPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','bruderer_inventory.json')
-        # with open(inventoryPath) as json_file:
-        #     inventoryData = json.load(json_file)
-        # projectData = None
-        # projectPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','bruderer_projects.json')
-        # with open(projectPath) as json_file:
-        #     projectData = json.load(json_file)
-        #
-        # productPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','bruderer_products.json')
-        # with open(productPath) as json_file:
-        #     productData = json.load(json_file)
-        #
-        # materialIssueMainPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','bruderer_materialIssueMain.json')
-        # with open(materialIssueMainPath) as json_file:
-        #     data = json.load(json_file)
-        #     for item in data:
-        #         projectObj = None
-        #         userObj = None
-        #         if item['project'] is not None:
-        #             projectObj = Projects.objects.get(title = item['project']['title'],boeRefNumber = item['project']['boeRefNumber'],comm_nr = item['project']['comm_nr'],quote_ref = item['project']['quote_ref'],invoiceNumber = item['project']['invoiceNumber'],status = item['project']['status'],clearingCharges1 = item['project']['clearingCharges1'],poDate = item['project']['poDate'],invoiceValue = item['project']['invoiceValue'])
-        #         else:
-        #             print item['pk'], 'project is none'
-        #             break
-        #
-        #         if item['user'] is not None:
-        #             try:
-        #                 userObj = User.objects.get(username = item['user']['username'])
-        #             except:
-        #                 userObj = User.objects.get(username = 'gopinath')
-        #
-        #
-        #         if userObj and projectObj is not None:
-        #             materialMainObj, created = MaterialIssueMain.objects.get_or_create(project = projectObj, user = userObj,created = item['created'],division = divisionObj)
-        #             materialMainObj.save()
-        #             materialMainObj.materialIssue.clear()
-        #             print materialMainObj.pk , "material issue"
-        #             if len(item['materialIssue'])>0:
-        #                 for issueItem in item['materialIssue']:
-        #                     productObj = None
-        #                     productObj = Products.objects.get(part_no = issueItem['product']['part_no'])
-        #
-        #                     if productObj is not None:
-        #
-        #                         stockVal = []
-        #
-        #                         stockData =  ast.literal_eval(issueItem['stock'])
-        #                         print stockData, 'stockData'
-        #                         for stockItem in stockData:
-        #                             projectObjs = [x for x in projectData if x['pk'] == stockItem['project']]
-        #                             productObjs = [x for x in productData if x['pk'] == stockItem['product']]
-        #                             inventoryObjs = [x for x in inventoryData if x['pk'] == stockItem['inventory']]
-        #                             print len(projectObjs), 'projectObjs'
-        #                             print len(productObjs), 'productObjs'
-        #                             print len(inventoryObjs), 'inventoryObjs'
-        #                             projectObj = projectObjs[0]
-        #                             productObjStockVal = productObjs[0]
-        #                             inventoryObj = inventoryObjs[0]
-        #                             # if len(projectObjs)>1 or len(productObjs)>1 or len(inventoryObjs)>0:
-        #                             #     print 1/0
-        #
-        #                             projectObj = Projects.objects.get(title = projectObj['title'],boeRefNumber = projectObj['boeRefNumber'],comm_nr = projectObj['comm_nr'],quote_ref = projectObj['quote_ref'],invoiceNumber = projectObj['invoiceNumber'],status = projectObj['status'],clearingCharges1 = projectObj['clearingCharges1'],poDate = projectObj['poDate'],invoiceValue = projectObj['invoiceValue'])
-        #
-        #                             productObjStockVal = Products.objects.get(part_no = productObjStockVal['part_no'])
-        #
-        #                             inventoryObj = Inventory.objects.get(project = projectObj, product = productObjStockVal,qty = inventoryObj['qty'],rate = inventoryObj['rate'],addedqty = inventoryObj['addedqty'])
-        #
-        #                             stockVal.append({'part_no':stockItem['part_no'],'qty': stockItem['qty'],'inventory':inventoryObj.pk,'project':inventoryObj.project.pk,'savedqty':stockItem['savedqty'],'product':inventoryObj.product.pk,'addedqty':stockItem['addedqty'],'comm_nr':stockItem['comm_nr']})
-        #
-        #
-        #                         print stockVal , 'stockVal'
-        #                         materialIssueObj  = MaterialIssue.objects.create(product = productObj, qty = issueItem['qty'],price = issueItem['price'],stock = stockVal, division = divisionObj)
-        #                         materialIssueObj.created = issueItem['created']
-        #                         materialIssueObj.save()
-        #
-        #                         materialMainObj.materialIssue.add(materialIssueObj)
-        #                         materialMainObj.save()
-        #                     else:
-        #                         print  issueItem['pk'] , 'product obj'
-        #
-        #
-        #             materialMainObj.save()
+
+        # print 'active patient'
+        #getting active patients
+        activePatientData = None
+        activePatientDataPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'json', 'activePatient.json')
+        with open(activePatientDataPath) as json_file:
+            activePatientData = json.load(json_file)
+
+        # creating active patients
+        count = 0
+        for item in activePatientData:
+            patientObj = Patient.objects.get(uniqueId = item['patient']['uniqueId'], created = item['patient']['created'])
+            doctorObj = Doctor.objects.get(name = item['docName']['name'])
+            activePatientObj, created = ActivePatient.objects.get_or_create(patient = patientObj, opNo = item['opNo'], created = item['created'], dateOfDischarge = item['dateOfDischarge'])
+            activePatientObj.docName = doctorObj
+            activePatientObj.inTime = item['inTime']
+            activePatientObj.outTime = item['outTime']
+            activePatientObj.status = item['status']
+            activePatientObj.comments = item['comments']
+            activePatientObj.outPatient = item['outPatient']
+            activePatientObj.dateOfDischarge = item['dateOfDischarge']
+            activePatientObj.mlc = item['mlc']
+            activePatientObj.cash = item['cash']
+            activePatientObj.insurance = item['insurance']
+            activePatientObj.opNo = item['opNo']
+            activePatientObj.msg = item['msg']
+            activePatientObj.created = item['created']
+            activePatientObj.save()
+
+            count += 1
+            print count , 'count'
+
+            if not created:
+                print count, item['opNo'], item['dateOfDischarge'], item['pk'], 'not created'
+
+
+        #getting discharge Summary
+        dischargeData = None
+        dischargeDataPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'json', 'discharge.json')
+        with open(dischargeDataPath) as json_file:
+            dischargeData = json.load(json_file)
+
+        print 'create discu'
+        #creating discharge Summary
+        count = 0
+        for item in dischargeData:
+
+            activePatientObj = ActivePatient.objects.get(patient__uniqueId = item['patient']['patient']['uniqueId'], created = item['patient']['created'])
+
+            dischargeObj, created = DischargeSummary.objects.get_or_create(patient = activePatientObj, ipNo = item['ipNo'], mlcNo = item['mlcNo'], firNo = item['firNo'])
+            dischargeObj.provisionalDiagnosis = item['provisionalDiagnosis']
+            dischargeObj.finalDiagnosis = item['finalDiagnosis']
+            dischargeObj.complaintsAndReason = item['complaintsAndReason']
+            dischargeObj.summIllness = item['summIllness']
+            dischargeObj.keyFindings = item['keyFindings']
+            dischargeObj.historyOfAlchohol = item['historyOfAlchohol']
+            dischargeObj.pastHistory = item['pastHistory']
+            dischargeObj.mlcNo = item['mlcNo']
+            dischargeObj.firNo = item['firNo']
+            dischargeObj.ipNo = item['ipNo']
+            dischargeObj.familyHistory = item['familyHistory']
+            dischargeObj.summaryKeyInvestigation = item['summaryKeyInvestigation']
+            dischargeObj.courseInHospital = item['courseInHospital']
+            dischargeObj.patientCondition = item['patientCondition']
+            dischargeObj.advice = item['advice']
+            dischargeObj.reviewOn = item['reviewOn']
+            dischargeObj.complications = item['complications']
+            dischargeObj.treatmentGiven = item['treatmentGiven']
+            if len(item['treatingConsultant']) > 0:
+                for i in item['treatingConsultant']:
+                    dischargeObj.treatingConsultant.add(Doctor.objects.get(name = item['patient']['docName']['name']))
+            dischargeObj.save()
+            count += 1
+            print count , 'count'
+
+            if not created:
+                print count, item['ipNo'], item['mlcNo'], item['firNo'], item['pk'], 'not created'
+
+
+        #getting products
+        productData = None
+        productDataPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'json', 'product.json')
+        with open(productDataPath) as json_file:
+            productData = json.load(json_file)
+
+        print 'create product'
+        #creating products
+        count = 0
+        for item in productData:
+            productObj, created = Product.objects.get_or_create(name = item['name'], rate = item['rate'], created = item['created'])
+            productObj.created = item['created']
+            productObj.division = divisionObj
+            productObj.save()
+            count += 1
+            print count , 'count'
+
+            if not created:
+                print count, item['name'], item['rate'], item['pk'], 'not created'
+
+
+        #getting invoice
+        invoiceData = None
+        invoiceDataPath = os.path.join(globalSettings.BASE_DIR, 'static_shared', 'json', 'invoice_test.json')
+        with open(invoiceDataPath) as json_file:
+            invoiceData = json.load(json_file)
+
+        #creating invoice
+        count = 0
+        for item in invoiceData:
+            activePatientObj = ActivePatient.objects.get(patient__uniqueId = item['activePatient']['patient']['uniqueId'], created = item['activePatient']['created'])
+
+            invoiceObj, created = Invoice.objects.get_or_create(invoiceName = item['invoiceName'], grandTotal = item['grandTotal'], created = item['created'], activePatient = activePatientObj)
+
+            twoDigitsYear = str(datetime.date.today().year)[2:]
+
+            if not activePatientObj.outPatient:
+                invoiceObj.billNo = 'CB'+ str(divisionObj.hospPatientInBillCounter) + '/' +twoDigitsYear
+
+            else:
+                invoiceObj.billNo = str(divisionObj.hospPatientInBillCounter) + '/' +twoDigitsYear
+
+
+            divisionObj.hospPatientInBillCounter +=1
+            divisionObj.save()
+
+            invoiceObj.discount = item['discount']
+            invoiceObj.products = item['products']
+            invoiceObj.created = item['created']
+            invoiceObj.billed = item['billed']
+            invoiceObj.quantity = item['quantity']
+            invoiceObj.save()
+            count += 1
+            if not created:
+                print count,  item['invoiceName'], item['grandTotal'], item['pk'], 'not created'
 
         return Response({'status':'ok'}, status=status.HTTP_200_OK)

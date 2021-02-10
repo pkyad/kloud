@@ -4,7 +4,11 @@ cursor:pointer;
 }
 </style>
 <div class="container-fluid">
-  <breadcrumb></breadcrumb>
+  <div class="row">
+    <div class="col-md-12" style="margin-left:20px">
+      <breadcrumb></breadcrumb>
+    </div>
+  </div>
 <div class="row" style="margin-top:20px;">
   <div  class="col-md-12">
     <!-- <div class="col-md-2">
@@ -44,7 +48,7 @@ cursor:pointer;
           </div>
         </div>
       </div>
-      <div class="row text-center">
+      <div class="row text-right">
         <div class="form-group">
           <button ng-if="!productForm.pk" type="button" class="btn newBtn" ng-click="save()">Save</button>
         </div>
