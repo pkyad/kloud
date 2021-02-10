@@ -104,9 +104,9 @@ class applicationSerializer(serializers.ModelSerializer):
     is_app_installed = serializers.SerializerMethodField()
     class Meta:
         model = application
-        fields = ( 'pk', 'name', 'module' , 'description' , 'icon'  ,  'haveJs' , 'haveCss' , 'published', 'displayName','stateAlias','appMedia','windows','ios','mac','android','rating_five','rating_four','rating_three','rating_two','rating_one','usersCount','appStoreUrl' , 'playStoreUrl','is_app_installed','inMenu','mobileMedia')
+        fields = ( 'pk', 'name', 'module' , 'description' , 'icon'  ,  'haveJs' , 'haveCss' , 'published', 'displayName','stateAlias','appMedia','windows','ios','mac','android','rating_five','rating_four','rating_three','rating_two','rating_one','usersCount','appStoreUrl' , 'playStoreUrl','is_app_installed','inMenu','mobileMedia','admin','totalRatings')
     def update(self , instance , validated_data):
-        for key in ['displayName' , 'description' , 'webpage','windows','ios','mac','android','rating_five','rating_four','rating_three','rating_two','rating_one','inMenu']:
+        for key in ['displayName' , 'description' , 'webpage','windows','ios','mac','android','rating_five','rating_four','rating_three','rating_two','rating_one','inMenu','admin','totalRatings']:
             try:
                 setattr(instance , key , validated_data[key])
             except:

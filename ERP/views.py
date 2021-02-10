@@ -755,10 +755,6 @@ class GetApplicationDetailsApi(APIView):
     renderer_classes = (JSONRenderer,)
     permission_classes = (permissions.AllowAny ,)
     def get(self , request , format = None):
-
-        division = self.request.user.designation.division
-
-
         if self.request.user.pk:
             division = self.request.user.designation.division
             appObj = application.objects.get(pk = int(self.request.GET['app']))
@@ -789,8 +785,11 @@ class GetApplicationDetailsApi(APIView):
             appMedias = applicationMediaSerializer(mediaObj, many = True).data
             feedObj = Feedback.objects.filter(app = appObj)
             appFeedbacks = FeedbackSerializer(feedObj, many = True).data
+            mobmediaObj = MobileapplicationMedia.objects.filter(app = appObj)
+            mobileMedias = MobileapplicationMediaSerializer(mobmediaObj, many = True).data
             appUser = []
             installedAppObj = []
+
             is_staff = False
             is_user_installed = False
         data = {'appData' : appData , 'appMedias' : appMedias ,'mobileMedia':mobileMedias,'appFeedbacks' : appFeedbacks ,'appUser' : appUser , 'installedApp' : installedAppObj, 'is_staff' : is_staff , 'is_user_installed' : is_user_installed}

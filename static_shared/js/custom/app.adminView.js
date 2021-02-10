@@ -1218,7 +1218,8 @@ $scope.delMobileMedia = function(indx){
      fd.append('rating_four', $scope.data.rating_four)
      fd.append('rating_five', $scope.data.rating_five)
      fd.append('inMenu', $scope.data.inMenu)
-
+     fd.append('admin', $scope.data.admin)
+     fd.append('totalRatings' , $scope.data.totalRatings)
      $http({
        method: 'PATCH',
        url: '/api/ERP/application/' + $state.params.id + '/',
