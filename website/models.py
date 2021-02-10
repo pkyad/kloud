@@ -23,7 +23,7 @@ class Page(models.Model):
     description = models.TextField(max_length=1000,null=True)
     ogImage = models.FileField(upload_to = getSampleImagePath ,  null = True)
     user =  models.ForeignKey(User , related_name = 'pages' , null = True)
-
+    enableChat = models.BooleanField(default=False)
 class Components(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     component_type = models.CharField(max_length=250,null=True)

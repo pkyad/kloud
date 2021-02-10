@@ -1,9 +1,11 @@
 app.controller('businessManagement.finance.accounts.form', function($scope, $http, $aside, $state, Flash, $users, $filter,  account, $uibModalInstance) {
 
+  $scope.accounts = account
   console.log(account);
   if (account.pk) {
     $scope.mode = 'edit';
     $scope.form = account
+    $scope.accounts='account'
     console.log(account, '98089089');
   } else {
     $scope.mode = 'new';
@@ -316,6 +318,32 @@ app.controller('businessManagement.finance.accounts.item', function($scope, $htt
 
 
 app.controller('businessManagement.finance.accounts.explore', function($scope, $http, $aside, $uibModal, $state) {
+
+  $scope.openAccountForm = function(data) {
+    console.log(data);
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.finance.accounts.form.html',
+      size: 'lg',
+      backdrop: true,
+      resolve: {
+        account: function() {
+          if (data == undefined || data == null) {
+            return {};
+          } else {
+            return data;
+          }
+        },
+      },
+      controller: 'businessManagement.finance.accounts.form',
+    }).result.then(function() {
+
+    }, function(res) {
+      if (res == 'saved') {
+          $scope.allAccounts()
+      }
+
+    });
+  }
 
   $scope.getBankIcon = function(bankName) {
     if (bankIconMap[bankName]) {

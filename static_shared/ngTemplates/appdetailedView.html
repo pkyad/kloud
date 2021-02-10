@@ -1,5 +1,5 @@
-<div class="container-fluid div_padding" style="background:#F2F2F2 !important;min-height:100vh;">
-  <div class="">
+<div class="container-fluid " style="">
+  <div class="row div_padding">
     <div class="col-md-8 col-md-offset-2 page_css" style="padding-top:100px;">
       <div class="">
         <div class="row">
@@ -12,16 +12,18 @@
             <h3 style="font-size:30px;">{{app.displayName}} </h3>
             <div class="col-md-8" style="padding:0px;">
               <p>{{app.description}}</p>
-              <h1 style="font-size:50px;color: #ff8b5a;"> <span style="color:#e1e1e1;">Rated</span> {{app.usersCount.appRating}} <small style="color:#e1e1e1">/5</small> </h1>
+              <h1 class="font50" style="color: #ff8b5a;"> <span style="color:#e1e1e1;">Rated</span> {{app.usersCount.appRating}} <small style="color:#e1e1e1">/5</small> </h1>
             </div>
-            <div class="hidden-xs" >
+            <div class="hidden-xs">
 
-              <div class="row" style="margin-top:20px;" >
+              <div class="row" style="margin-top:20px;">
 
                 <div class="col-md-offset-8 col-md-2 {{step!='installed'?'pull-right':''}}" ng-if="is_staff">
                   <button type="button" class="btn btn-success btn-block" name="button" ng-click="install()" ng-show="step=='notinstalled'" style="border-radius:50px!important;background:#02a33e;color:white;border:none!important">Install</button>
-                  <button type="button" class="btn btn-success btn-block" name="button" ng-show="step=='installing'" style="border-radius:50px!important;background:#02a33e;color:white;border:none!important"> <i class="fa fa-spinner fa-spin"></i> </button>
-                  <button style="background:white;margin-top:0px;border-radius:50px!important;color: #fb0000;border: 2px solid #fb0000 !important;padding: 10px;font-size: 17px;" type="button" class="btn btn-block" name="button" ng-show="step=='installed'" ng-click="unInstall()" >Uninstall </button>
+                  <button type="button" class="btn btn-success btn-block" name="button" ng-show="step=='installing'" style="border-radius:50px!important;background:#02a33e;color:white;border:none!important"> <i class="fa fa-spinner fa-spin"></i>
+                  </button>
+                  <button style="background:white;margin-top:0px;border-radius:50px!important;color: #fb0000;border: 2px solid #fb0000 !important;padding: 10px;font-size: 17px;" type="button" class="btn btn-block" name="button"
+                    ng-show="step=='installed'" ng-click="unInstall()">Uninstall </button>
                 </div>
                 <div class="col-md-2 pull-right" ng-show="step=='installed'&&is_user_installed">
                   <button class="btn btn-primary btn-block" ng-click="openApp()" style="border-radius:50px!important;background:#032757;color:white;border:none!important;padding: 10px;font-size: 17px;">Open</button>
@@ -33,13 +35,15 @@
                 <div class="col-xs-8 " style="color:#8c8c8c;margin:0px;">
 
                 </div>
-                <div class="col-xs-4"  ng-if="is_staff">
+                <div class="col-xs-4" ng-if="is_staff">
                   <button type="button" class="btn btn-success btn-block" name="button" ng-click="install()" ng-show="step=='notinstalled'" style="border-radius:50px!important;background:#02a33e;color:white;border:none!important">Install</button>
-                  
-                  <button type="button" class="btn btn-success btn-block" name="button" ng-show="step=='installing'" style="border-radius:50px!important;background:#02a33e;color:white;border:none!important"> <i class="fa fa-spinner fa-spin"></i> </button>
-                  
-                  <button style="margin-top:0px;border-radius:50px!important;color: #fb0000;border: 2px solid #fb0000 !important;padding: 10px;font-size: 17px;" type="button" class="btn" name="button" ng-show="step=='installed'" ng-click="unInstall()" >Uninstall </button>
-                  
+
+                  <button type="button" class="btn btn-success btn-block" name="button" ng-show="step=='installing'" style="border-radius:50px!important;background:#02a33e;color:white;border:none!important"> <i class="fa fa-spinner fa-spin"></i>
+                  </button>
+
+                  <button style="margin-top:0px;border-radius:50px!important;color: #fb0000;border: 2px solid #fb0000 !important;padding: 10px;font-size: 17px;" type="button" class="btn" name="button" ng-show="step=='installed'"
+                    ng-click="unInstall()">Uninstall </button>
+
                   <button class="btn btn-primary btn-block" ng-click="openApp()" style="border-radius:50px!important;background:#0010fc;color:white;border:none!important">Open</button>
                 </div>
               </div>
@@ -58,8 +62,8 @@
           </div>
         </div>
         <div class="" ng-if="is_staff">
-          <div class="row" >
-            <div class="col-md-12" >
+          <div class="row">
+            <div class="col-md-12">
               <h4 ng-if="users.length>0">USERS</h4>
             </div>
             <!-- <div class="col-md-4" >
@@ -75,17 +79,19 @@
               </div>
             </div> -->
           </div>
-          <div class="row" >
+          <div class="row">
             <div class="col-md-3" ng-repeat="k in users track by $index" ng-if="users.length>0">
-              <div class="" style="padding: 15px;margin:10px 0px;background:white;border-radius:15px;">
-                <h4>{{k.first_name}} {{k.last_name}}</h4>
+              <img src="/static/images/icons8-plus-math-96.png" style="width: 20px;transform: rotate(45deg);position: absolute;
+right: 25px;margin: 20px 0px;" ng-click="delUser($index)">
+              <div class="" style="padding: 15px;margin:10px 0px;background:white;border-radius:15px;min-height:127px;border: 1px solid #f1f1f1;">
+                <h4>{{k.user.first_name}} {{k.user.last_name}}</h4>
                 <!-- <p>{{k.username}}</p> -->
-                <p>{{k.email}}</p>
-                <p>{{k.profile.mobile}}</p>
+                <p>{{k.user.email}}</p>
+                <p>{{k.user.profile.mobile}}</p>
               </div>
             </div>
-            <div class="col-md-3" ng-if="step=='installed'" >
-              <div class="text-center" style="background:white;border-radius:15px;padding: 15px;margin:10px 0px;min-height:127px;padding-top:42px" ng-click="addUser()">
+            <div class="col-md-3" ng-if="step=='installed'">
+              <div class="text-center" style="background:white;border-radius:15px;padding: 15px;margin:10px 0px;min-height:127px;padding-top:42px;border: 1px solid #f1f1f1;" ng-click="addUser()">
                 <!-- <i class="fa fa-plus fa-3x"> </i> -->
                 <img src="/static/images/icons8-plus-math-96.png" style="width: 50px;">
               </div>
@@ -145,7 +151,7 @@
               <div class="" style="padding-right:15px">
                 <p style="padding:5px 0px;">5</p>
               </div>
-              <div class="" style="width:{{app.rating_five}}%">
+              <div class="" style="width:{{app.rating_five*widthFactor}}%;transition:all 0.3s;">
                 <div class="" style="background-color:#5cb85c;height:25px;margin:0px;margin-bottom:10px;">
 
                 </div>
@@ -155,7 +161,7 @@
               <div class="" style="padding-right:15px">
                 <p style="padding:5px 0px;">4</p>
               </div>
-              <div style="width:{{app.rating_four}}%">
+              <div style="width:{{app.rating_four*widthFactor}}%;transition: all 0.3s;">
                 <div class="" style="background-color:#9ace6a;height:25px;margin-bottom:10px;">
 
                 </div>
@@ -167,7 +173,7 @@
               <div style="padding-right:15px">
                 <p style="padding:5px 0px;">3</p>
               </div>
-              <div style="width:{{app.rating_three}}%">
+              <div style="width:{{app.rating_three*widthFactor}}%;transition:all 0.3s;">
                 <div class="" style="background-color:#ffcf02;height:25px;margin-bottom:10px;">
 
                 </div>
@@ -178,7 +184,7 @@
               <div style="padding-right:15px">
                 <p style="padding:5px 0px;">2</p>
               </div>
-              <div style="width:{{app.rating_two}}%">
+              <div style="width:{{app.rating_two*widthFactor}}%;transition:all 0.3s;">
                 <div class="" style="background-color:#ffb234;height:25px;margin-bottom:10px;">
 
                 </div>
@@ -189,7 +195,7 @@
               <div style="padding-right:15px">
                 <p style="padding:5px 0px;">1</p>
               </div>
-              <div style="width:{{app.rating_one}}%">
+              <div style="width:{{app.rating_one*widthFactor}}%;transition: all 0.3s;">
                 <div class="" style="background-color:#ff8b5a;height:25px;margin-bottom:10px;">
 
                 </div>
@@ -205,41 +211,53 @@
         </div>
         <div class="row">
 
-          <div class="row" style="margin:0px;margin-bottom:20px;" ng-repeat="k in app.feedback track by $index">
-            <div class="col-md-1">
-              <div class="comment_card" style="">
+          <div class="row" style="margin:0px;margin-bottom:20px;background:white;padding: 40px;border-radius: 10px;border:1px solid #ccc" ng-repeat="k in app.feedback track by $index">
 
-              </div>
+            <div class=""  style="">
+
+              <i class="fa fa-quote-left commentQuote" aria-hidden="true" style=""></i>
+              <div class="col-md-10">
+
+                <div class="">
+            <div class="" style="padding: 29px 0px;">
+              <p >{{k.text}}  <span>
+                <i class="fa fa-quote-left" aria-hidden="true" style="font-size: 36px;color:#ccc;transform: rotate(180deg);position:absolute;margin-left:18px;margin-top:10px;"></i>
+
+              </span> </p>
+
             </div>
-            <div class="col-md-11 col-xs-12 no_padding">
-              <div class="row" style="margin:0px;">
-                <div class="col-md-10 col-xs-8">
-                  <h4>{{k.name}}</h4>
-                  <div class="row" style="margin:0px;">
-                    <!-- <i class="fa {{k.star <=1  || k.star==2 || k.star==3 ||  k.star==4 || k.star==5?'fa-star':'fa-star-o'}}" aria-hidden="true"></i> -->
-                    <!-- <i class="fa {{k.star <=1  || k.star>=1?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
-                    <i class="fa {{ k.star >1 || k.star >=2 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
-                    <i class="fa {{ k.star >=3 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
-                    <i class="fa {{ k.star >=4 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>
-                    <i class="fa {{ k.star ==5 ?'fa-star':'fa-star-o'}}" aria-hidden="true"></i>  -->
 
-                    <img src=" {{k.star <=1  || k.star>=1?'/static/images/icons8-star-filled-48.png':'/static/images/icons8-star-filled-50.png'}}" style="width:12px">
-                    <img src=" {{ k.star >1 || k.star >=2 ?'/static/images/icons8-star-filled-48.png':'/static/images/icons8-star-filled-50.png'}}" style="width:12px">
-                    <img src=" {{ k.star >=3 ?'/static/images/icons8-star-filled-48.png':'/static/images/icons8-star-filled-50.png'}}" style="width:12px">
-                    <img src=" {{ k.star >=4 ?'/static/images/icons8-star-filled-48.png':'/static/images/icons8-star-filled-50.png'}}" style="width:12px">
-                    <img src=" {{ k.star ==5 ?'/static/images/icons8-star-filled-48.png':'/static/images/icons8-star-filled-50.png'}}" style="width:12px"> {{k.created | date:'MMMM dd, y'}}
+
+
+                  <div class="" >
+                    <h4>{{k.name}}</h4>
 
                   </div>
                 </div>
+                <div class="row" style="margin:0px;">
+                  <div>
+                    <div class="row" style="margin:0px;">
+
+
+                      <img src=" {{k.star <=1  || k.star>=1?'/static/images/icons8-star-filled-48.png':'/static/images/icons8-star-filled-50.png'}}" style="width:12px">
+                      <img src=" {{ k.star >1 || k.star >=2 ?'/static/images/icons8-star-filled-48.png':'/static/images/icons8-star-filled-50.png'}}" style="width:12px">
+                      <img src=" {{ k.star >=3 ?'/static/images/icons8-star-filled-48.png':'/static/images/icons8-star-filled-50.png'}}" style="width:12px">
+                      <img src=" {{ k.star >=4 ?'/static/images/icons8-star-filled-48.png':'/static/images/icons8-star-filled-50.png'}}" style="width:12px">
+                      <img src=" {{ k.star ==5 ?'/static/images/icons8-star-filled-48.png':'/static/images/icons8-star-filled-50.png'}}" style="width:12px"> {{k.created | date:'MMMM dd, y'}}
+
+                    </div>
+                  </div>
+
+                </div>
+
 
               </div>
 
-              <div class="row showText" style="margin: 15px;line-height:2">
+              <div class="col-md-2 text-center">
+              <img alt="" src="/static/images/img_avatar_card2.png" class="img img-circle" style="height: 80px;">
+                <!-- <div class="comment_card" style="">
 
-                <p ng-if="!show" style="height:20px;overflow:hidden;">{{k.text}} </p><span ng-if="show">{{k.text}}</span>
-                <span class="badge" ng-click="show= !show" ng-show="!show" style="background:transparent;color:#ccc;
-                  border: 1px solid #ccc;padding: 5px;cursor:pointer;border-radius: 5px;">Full Review </span>
-
+                </div> -->
               </div>
 
             </div>

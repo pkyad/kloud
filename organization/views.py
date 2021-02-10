@@ -25,6 +25,7 @@ from clientRelationships.models import CRMTermsAndConditions, Contact, Contract
 
 from finance.models import Inventory
 from HR.serializers import userSearchSerializer
+from ERP.serializers import UserAppSerializer
 # Create your views here.
 
 
@@ -274,12 +275,19 @@ class Getheaderandfooter(APIView):
     def post(self, request, format=None):
         userDivision  = request.user.designation.division.pk
         data = request.data
-        print request.FILES,'439802849083993'
+        print hash_fn.hash(userDivision),'439802849083993'
         d = Division.objects.get(pk = userDivision )
+        d.apiKey = hash_fn.hash(userDivision)
         if 'defaultTitle' in data:
             d.defaultTitle = data['defaultTitle']
         if 'defaultDescription' in data:
             d.defaultDescription = data['defaultDescription']
+        if 'enableChatbot' in data:
+            if data['enableChatbot'] =='true':
+                d.enableChatbot = True
+            else:
+                d.enableChatbot = False
+
         if 'defaultOgImage' in request.FILES:
             d.defaultOgImage = request.FILES['defaultOgImage']
 
@@ -671,7 +679,9 @@ class InstallUserApp(APIView):
             # userObj = userSearchSerializer(user, many = False).data
             # userAppObj = UserAppsSerializerr(user, many = False).data
             # data = {'userObj' : userObj, 'apps' : apps}
-            return Response(status=status.HTTP_200_OK)
+            data = UserAppSerializer(ua,many=False).data
+            return Response({'data':data},status=status.HTTP_200_OK)
         ua = UserApp(user = User.objects.get(pk = int(params['user'])) , app = application.objects.get(pk = int(params['app']))  )
         ua.save()
-        return Response(status=status.HTTP_200_OK)
+        data = UserAppSerializer(ua,many=False).data
+        return Response({'data':data},status=status.HTTP_200_OK)

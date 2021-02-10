@@ -2,3556 +2,4267 @@
     {
         "pk": 1, 
         "rate": 100, 
-        "name": "BLOOD GROUP AND RH TYPE"
+        "name": "BLOOD GROUP AND RH TYPE", 
+        "created": "2018-06-22T13:53:34.590963Z"
     }, 
     {
         "pk": 2, 
         "rate": 500, 
-        "name": "DR P M PATIL (CONSULTATION CHARGES)"
+        "name": "DR P M PATIL (CONSULTATION CHARGES)", 
+        "created": "2018-06-22T13:53:34.590963Z"
     }, 
     {
         "pk": 3, 
         "rate": 250, 
-        "name": "ECG WITH REPORT"
+        "name": "ECG WITH REPORT", 
+        "created": "2018-06-22T13:53:34.590963Z"
     }, 
     {
         "pk": 4, 
         "rate": 1400, 
-        "name": "ROOM AND NURSING CHARGES"
+        "name": "ROOM AND NURSING CHARGES", 
+        "created": "2018-06-22T13:53:34.590963Z"
     }, 
     {
         "pk": 5, 
         "rate": 150, 
-        "name": "BLOOD WIDAL"
+        "name": "BLOOD WIDAL", 
+        "created": "2018-06-23T15:34:29.110032Z"
     }, 
     {
         "pk": 6, 
         "rate": 150, 
-        "name": "RA FACTOR"
+        "name": "RA FACTOR", 
+        "created": "2018-06-24T08:43:54.205839Z"
     }, 
     {
         "pk": 7, 
         "rate": 650, 
-        "name": "LIPID PROFILE"
+        "name": "LIPID PROFILE", 
+        "created": "2018-06-24T08:44:15.698039Z"
     }, 
     {
         "pk": 8, 
         "rate": 850, 
-        "name": "LIVER FUNCTION TEST"
+        "name": "LIVER FUNCTION TEST", 
+        "created": "2018-06-24T08:44:32.047304Z"
     }, 
     {
         "pk": 9, 
         "rate": 450, 
-        "name": "DR P M PATIL FOLLOW UP CHARGES"
+        "name": "DR P M PATIL FOLLOW UP CHARGES", 
+        "created": "2018-06-24T08:46:29.104824Z"
     }, 
     {
         "pk": 10, 
         "rate": 500, 
-        "name": "DR GEETA PATIL (CONSULTATION CHARGES)"
+        "name": "DR GEETA PATIL (CONSULTATION CHARGES)", 
+        "created": "2018-06-24T08:46:55.628066Z"
     }, 
     {
         "pk": 11, 
         "rate": 300, 
-        "name": "DR GEETA PATIL FOLLOW UP CHARGES"
+        "name": "DR GEETA PATIL FOLLOW UP CHARGES", 
+        "created": "2018-06-24T08:47:12.928437Z"
     }, 
     {
         "pk": 12, 
         "rate": 880, 
-        "name": "BCG+OPV+HEPATITIS B"
+        "name": "BCG+OPV+HEPATITIS B", 
+        "created": "2018-06-24T08:47:46.070846Z"
     }, 
     {
         "pk": 13, 
         "rate": 450, 
-        "name": "RAPID MALARIA TEST"
+        "name": "RAPID MALARIA TEST", 
+        "created": "2018-06-24T08:49:02.243659Z"
     }, 
     {
         "pk": 14, 
         "rate": 450, 
-        "name": "TYPHIDOT TEST"
+        "name": "TYPHIDOT TEST", 
+        "created": "2018-06-24T08:49:15.091670Z"
     }, 
     {
         "pk": 15, 
         "rate": 350, 
-        "name": "CBC WITH ESR"
+        "name": "CBC WITH ESR", 
+        "created": "2018-06-24T08:50:58.354631Z"
     }, 
     {
         "pk": 16, 
         "rate": 50, 
-        "name": "RANDOM BLOOD SUGAR"
+        "name": "RANDOM BLOOD SUGAR", 
+        "created": "2018-06-24T08:51:30.446220Z"
     }, 
     {
         "pk": 17, 
         "rate": 50, 
-        "name": "BLOOD GLUCOSE"
+        "name": "BLOOD GLUCOSE", 
+        "created": "2018-06-24T08:51:46.620498Z"
     }, 
     {
         "pk": 18, 
         "rate": 450, 
-        "name": "SR ELECTROLYTES"
+        "name": "SR ELECTROLYTES", 
+        "created": "2018-06-24T08:51:59.701960Z"
     }, 
     {
         "pk": 19, 
         "rate": 150, 
-        "name": "BLOOD UREA"
+        "name": "BLOOD UREA", 
+        "created": "2018-06-24T08:52:10.533621Z"
     }, 
     {
         "pk": 20, 
         "rate": 150, 
-        "name": "SR CREATININE"
+        "name": "SR CREATININE", 
+        "created": "2018-06-24T08:52:24.587353Z"
     }, 
     {
         "pk": 21, 
         "rate": 880, 
-        "name": "BCG+OPV+HEPATITIS B"
+        "name": "BCG+OPV+HEPATITIS B", 
+        "created": "2018-06-24T08:53:16.494424Z"
     }, 
     {
         "pk": 22, 
         "rate": 1700, 
-        "name": "ECHOCARDIOGRAPHY"
+        "name": "ECHOCARDIOGRAPHY", 
+        "created": "2018-06-24T08:53:33.657137Z"
     }, 
     {
         "pk": 23, 
         "rate": 750, 
-        "name": "WEIL FELIX TEST"
+        "name": "WEIL FELIX TEST", 
+        "created": "2018-06-24T08:57:02.687741Z"
     }, 
     {
         "pk": 24, 
         "rate": 100, 
-        "name": "URINE ROUTINE"
+        "name": "URINE ROUTINE", 
+        "created": "2018-06-24T08:57:14.653475Z"
     }, 
     {
         "pk": 25, 
         "rate": 100, 
-        "name": "STOOL ROUTINE"
+        "name": "STOOL ROUTINE", 
+        "created": "2018-06-24T08:57:33.881989Z"
     }, 
     {
         "pk": 26, 
         "rate": 100, 
-        "name": "URINE BS BP"
+        "name": "URINE BS BP", 
+        "created": "2018-06-24T08:58:00.634002Z"
     }, 
     {
         "pk": 27, 
         "rate": 900, 
-        "name": "URINE C/S"
+        "name": "URINE C/S", 
+        "created": "2018-06-24T08:58:12.933167Z"
     }, 
     {
         "pk": 28, 
         "rate": 800, 
-        "name": "STOOL C/S"
+        "name": "STOOL C/S", 
+        "created": "2018-06-24T08:58:27.274393Z"
     }, 
     {
         "pk": 29, 
         "rate": 1000, 
-        "name": "BACTAC BLOOD C/S"
+        "name": "BACTAC BLOOD C/S", 
+        "created": "2018-06-24T08:58:55.976675Z"
     }, 
     {
         "pk": 30, 
         "rate": 1000, 
-        "name": "ABG"
+        "name": "ABG", 
+        "created": "2018-06-24T08:59:03.379629Z"
     }, 
     {
         "pk": 31, 
         "rate": 1200, 
-        "name": "NS1 ANTIGEN DENGUE IGM, IGG"
+        "name": "NS1 ANTIGEN DENGUE IGM, IGG", 
+        "created": "2018-06-24T08:59:45.551350Z"
     }, 
     {
         "pk": 32, 
         "rate": 150, 
-        "name": "SR SGOT"
+        "name": "SR SGOT", 
+        "created": "2018-06-24T08:59:59.746615Z"
     }, 
     {
         "pk": 33, 
         "rate": 150, 
-        "name": "SR SGPT"
+        "name": "SR SGPT", 
+        "created": "2018-06-24T09:00:09.063170Z"
     }, 
     {
         "pk": 34, 
         "rate": 150, 
-        "name": "SR ALKALINE PHOSPHATASE"
+        "name": "SR ALKALINE PHOSPHATASE", 
+        "created": "2018-06-24T09:00:26.110277Z"
     }, 
     {
         "pk": 35, 
         "rate": 450, 
-        "name": "RETROVIRAL TEST ( I & II)"
+        "name": "RETROVIRAL TEST ( I & II)", 
+        "created": "2018-06-24T09:00:52.600799Z"
     }, 
     {
         "pk": 36, 
         "rate": 150, 
-        "name": "VDRL"
+        "name": "VDRL", 
+        "created": "2018-06-24T09:01:05.599219Z"
     }, 
     {
         "pk": 37, 
         "rate": 450, 
-        "name": "HBsAG"
+        "name": "HBsAG", 
+        "created": "2018-06-24T09:01:18.158045Z"
     }, 
     {
         "pk": 38, 
         "rate": 900, 
-        "name": "ANTI HCV"
+        "name": "ANTI HCV", 
+        "created": "2018-06-24T09:01:29.274018Z"
     }, 
     {
         "pk": 39, 
         "rate": 450, 
-        "name": "PROTHROMBIN TIME"
+        "name": "PROTHROMBIN TIME", 
+        "created": "2018-06-24T09:02:56.665346Z"
     }, 
     {
         "pk": 40, 
         "rate": 450, 
-        "name": "APTT"
+        "name": "APTT", 
+        "created": "2018-06-24T09:03:11.249453Z"
     }, 
     {
         "pk": 41, 
         "rate": 150, 
-        "name": "BT CT"
+        "name": "BT CT", 
+        "created": "2018-06-24T09:03:22.238262Z"
     }, 
     {
         "pk": 42, 
         "rate": 1250, 
-        "name": "SR VITAMIN B12"
+        "name": "SR VITAMIN B12", 
+        "created": "2018-06-24T09:03:47.218522Z"
     }, 
     {
         "pk": 43, 
         "rate": 1500, 
-        "name": "VITAMIN D3 ASSAY"
+        "name": "VITAMIN D3 ASSAY", 
+        "created": "2018-06-24T09:03:57.241153Z"
     }, 
     {
         "pk": 44, 
         "rate": 150, 
-        "name": "SR CALCIUM"
+        "name": "SR CALCIUM", 
+        "created": "2018-06-24T09:04:07.863126Z"
     }, 
     {
         "pk": 45, 
         "rate": 150, 
-        "name": "SR PHOSPHORUS"
+        "name": "SR PHOSPHORUS", 
+        "created": "2018-06-24T09:04:23.271673Z"
     }, 
     {
         "pk": 46, 
         "rate": 150, 
-        "name": "SR URIC ACID"
+        "name": "SR URIC ACID", 
+        "created": "2018-06-24T09:04:34.118803Z"
     }, 
     {
         "pk": 47, 
         "rate": 500, 
-        "name": "T3 T4 TSH"
+        "name": "T3 T4 TSH", 
+        "created": "2018-06-24T09:04:52.260580Z"
     }, 
     {
         "pk": 48, 
         "rate": 800, 
-        "name": "FREE T3 T4 TSH"
+        "name": "FREE T3 T4 TSH", 
+        "created": "2018-06-24T09:05:06.086633Z"
     }, 
     {
         "pk": 49, 
         "rate": 1000, 
-        "name": "SR TESTOSTERON"
+        "name": "SR TESTOSTERON", 
+        "created": "2018-06-24T09:05:27.256031Z"
     }, 
     {
         "pk": 50, 
         "rate": 1000, 
-        "name": "TROPONINE- T"
+        "name": "TROPONINE- T", 
+        "created": "2018-06-24T09:05:39.044957Z"
     }, 
     {
         "pk": 51, 
         "rate": 450, 
-        "name": "SR CKMB"
+        "name": "SR CKMB", 
+        "created": "2018-06-24T09:05:51.547660Z"
     }, 
     {
         "pk": 52, 
         "rate": 450, 
-        "name": "SR CKNAC"
+        "name": "SR CKNAC", 
+        "created": "2018-06-24T09:06:06.527409Z"
     }, 
     {
         "pk": 53, 
         "rate": 1200, 
-        "name": "FOLATE ASSAY"
+        "name": "FOLATE ASSAY", 
+        "created": "2018-06-24T09:06:18.574114Z"
     }, 
     {
         "pk": 54, 
         "rate": 100, 
-        "name": "SPUTUM FOR GM STAIN"
+        "name": "SPUTUM FOR GM STAIN", 
+        "created": "2018-06-24T09:06:31.659863Z"
     }, 
     {
         "pk": 55, 
         "rate": 100, 
-        "name": "SPUTUM AFB"
+        "name": "SPUTUM AFB", 
+        "created": "2018-06-24T09:06:44.062670Z"
     }, 
     {
         "pk": 56, 
         "rate": 900, 
-        "name": "SPUTUM C/S"
+        "name": "SPUTUM C/S", 
+        "created": "2018-06-24T09:06:59.171101Z"
     }, 
     {
         "pk": 57, 
         "rate": 1200, 
-        "name": "ANA PROFILE"
+        "name": "ANA PROFILE", 
+        "created": "2018-06-24T09:07:26.582336Z"
     }, 
     {
         "pk": 58, 
         "rate": 1200, 
-        "name": "ANTI DS DNA"
+        "name": "ANTI DS DNA", 
+        "created": "2018-06-24T09:07:40.258405Z"
     }, 
     {
         "pk": 59, 
         "rate": 150, 
-        "name": "SR BILIRUBIN"
+        "name": "SR BILIRUBIN", 
+        "created": "2018-06-24T09:07:51.085924Z"
     }, 
     {
         "pk": 60, 
         "rate": 550, 
-        "name": "CRP"
+        "name": "CRP", 
+        "created": "2018-06-24T09:08:06.248773Z"
     }, 
     {
         "pk": 61, 
         "rate": 150, 
-        "name": "PS FOR MP"
+        "name": "PS FOR MP", 
+        "created": "2018-06-24T09:08:46.084169Z"
     }, 
     {
         "pk": 62, 
         "rate": 200, 
-        "name": "PS FOR TYPE OF ANAEMIA"
+        "name": "PS FOR TYPE OF ANAEMIA", 
+        "created": "2018-06-24T09:09:00.316124Z"
     }, 
     {
         "pk": 63, 
         "rate": 500, 
-        "name": "FNAC  OF LYMPHNODE"
+        "name": "FNAC  OF LYMPHNODE", 
+        "created": "2018-06-24T09:09:20.125149Z"
     }, 
     {
         "pk": 64, 
         "rate": 500, 
-        "name": "FNAC OF THYROID"
+        "name": "FNAC OF THYROID", 
+        "created": "2018-06-24T09:09:34.612900Z"
     }, 
     {
         "pk": 65, 
         "rate": 150, 
-        "name": "URINE PREGNANCY TEST"
+        "name": "URINE PREGNANCY TEST", 
+        "created": "2018-06-24T09:10:49.370210Z"
     }, 
     {
         "pk": 66, 
         "rate": 600, 
-        "name": "RENAL FUNCTION TEST"
+        "name": "RENAL FUNCTION TEST", 
+        "created": "2018-06-24T09:11:32.186987Z"
     }, 
     {
         "pk": 67, 
         "rate": 250, 
-        "name": "RETICULOCYTE COUNT"
+        "name": "RETICULOCYTE COUNT", 
+        "created": "2018-06-24T09:12:27.908827Z"
     }, 
     {
         "pk": 68, 
         "rate": 250, 
-        "name": "DIRECT COOMB TEST"
+        "name": "DIRECT COOMB TEST", 
+        "created": "2018-06-24T09:12:40.773054Z"
     }, 
     {
         "pk": 69, 
         "rate": 250, 
-        "name": "INDIRECT COOMB TEST"
+        "name": "INDIRECT COOMB TEST", 
+        "created": "2018-06-24T09:13:04.423074Z"
     }, 
     {
         "pk": 70, 
         "rate": 850, 
-        "name": "SR FERRITIN"
+        "name": "SR FERRITIN", 
+        "created": "2018-06-24T09:13:28.349558Z"
     }, 
     {
         "pk": 71, 
         "rate": 250, 
-        "name": "SR IRON"
+        "name": "SR IRON", 
+        "created": "2018-06-24T09:13:42.560118Z"
     }, 
     {
         "pk": 72, 
         "rate": 500, 
-        "name": "SR IRON, TIBC"
+        "name": "SR IRON, TIBC", 
+        "created": "2018-06-24T09:14:37.988658Z"
     }, 
     {
         "pk": 73, 
         "rate": 1200, 
-        "name": "HB ELECTROPHORESIS"
+        "name": "HB ELECTROPHORESIS", 
+        "created": "2018-06-24T09:14:53.710274Z"
     }, 
     {
         "pk": 74, 
         "rate": 1800, 
-        "name": "CSF ANALYSIS"
+        "name": "CSF ANALYSIS", 
+        "created": "2018-06-24T09:15:12.891843Z"
     }, 
     {
         "pk": 75, 
         "rate": 1000, 
-        "name": "CSF C/S"
+        "name": "CSF C/S", 
+        "created": "2018-06-24T09:15:25.218394Z"
     }, 
     {
         "pk": 76, 
         "rate": 150, 
-        "name": "STOOL REDUCING SUBSTANCES"
+        "name": "STOOL REDUCING SUBSTANCES", 
+        "created": "2018-06-24T09:15:52.708863Z"
     }, 
     {
         "pk": 77, 
         "rate": 50, 
-        "name": "STOOL OCCULT BLOOD"
+        "name": "STOOL OCCULT BLOOD", 
+        "created": "2018-06-24T09:16:05.749382Z"
     }, 
     {
         "pk": 78, 
         "rate": 1500, 
-        "name": "CANCA"
+        "name": "CANCA", 
+        "created": "2018-06-24T09:16:30.641652Z"
     }, 
     {
         "pk": 79, 
         "rate": 1500, 
-        "name": "PANCA"
+        "name": "PANCA", 
+        "created": "2018-06-24T09:16:38.793884Z"
     }, 
     {
         "pk": 80, 
         "rate": 1000, 
-        "name": "SR IGE"
+        "name": "SR IGE", 
+        "created": "2018-06-24T09:16:57.551936Z"
     }, 
     {
         "pk": 81, 
         "rate": 850, 
-        "name": "HAV"
+        "name": "HAV", 
+        "created": "2018-06-24T09:17:19.022141Z"
     }, 
     {
         "pk": 82, 
         "rate": 850, 
-        "name": "HCV"
+        "name": "HCV", 
+        "created": "2018-06-24T09:17:31.847514Z"
     }, 
     {
         "pk": 83, 
         "rate": 900, 
-        "name": "SR AMMONIA"
+        "name": "SR AMMONIA", 
+        "created": "2018-06-24T09:17:45.405638Z"
     }, 
     {
         "pk": 84, 
         "rate": 850, 
-        "name": "HEV"
+        "name": "HEV", 
+        "created": "2018-06-24T09:17:56.488913Z"
     }, 
     {
         "pk": 85, 
         "rate": 5000, 
-        "name": "QUNTEFERON GOLD TEST"
+        "name": "QUNTEFERON GOLD TEST", 
+        "created": "2018-06-24T09:18:43.772510Z"
     }, 
     {
         "pk": 86, 
         "rate": 1500, 
-        "name": "BONE MARROW EXAM"
+        "name": "BONE MARROW EXAM", 
+        "created": "2018-06-24T09:19:00.783011Z"
     }, 
     {
         "pk": 87, 
         "rate": 450, 
-        "name": "CHEST XRAY PA VIEW"
+        "name": "CHEST XRAY PA VIEW", 
+        "created": "2018-06-24T09:19:45.197978Z"
     }, 
     {
         "pk": 88, 
         "rate": 350, 
-        "name": "CHEST XRAY AP"
+        "name": "CHEST XRAY AP", 
+        "created": "2018-06-24T09:19:56.750355Z"
     }, 
     {
         "pk": 89, 
         "rate": 400, 
-        "name": "X RAY PNS"
+        "name": "X RAY PNS", 
+        "created": "2018-06-24T09:20:05.537457Z"
     }, 
     {
         "pk": 90, 
         "rate": 450, 
-        "name": "XRAY ABDOMEN"
+        "name": "XRAY ABDOMEN", 
+        "created": "2018-06-24T09:20:17.224074Z"
     }, 
     {
         "pk": 91, 
         "rate": 400, 
-        "name": "X RAY ADENOID - NASOPHARYNX"
+        "name": "X RAY ADENOID - NASOPHARYNX", 
+        "created": "2018-06-24T09:20:33.226338Z"
     }, 
     {
         "pk": 92, 
         "rate": 500, 
-        "name": "X RAY CERVICAL SPINE AP/LAT"
+        "name": "X RAY CERVICAL SPINE AP/LAT", 
+        "created": "2018-06-24T09:20:51.967443Z"
     }, 
     {
         "pk": 93, 
         "rate": 400, 
-        "name": "X RAY KNEE AP AND LATERAL"
+        "name": "X RAY KNEE AP AND LATERAL", 
+        "created": "2018-06-24T09:21:11.694834Z"
     }, 
     {
         "pk": 94, 
         "rate": 400, 
-        "name": "XRAY ELBOW AP AND LATERAL"
+        "name": "XRAY ELBOW AP AND LATERAL", 
+        "created": "2018-06-24T09:21:28.378586Z"
     }, 
     {
         "pk": 95, 
         "rate": 400, 
-        "name": "XRAY HAND AP/LAT"
+        "name": "XRAY HAND AP/LAT", 
+        "created": "2018-06-24T09:21:44.047083Z"
     }, 
     {
         "pk": 96, 
         "rate": 500, 
-        "name": "X RAY THIGH AP/LAT"
+        "name": "X RAY THIGH AP/LAT", 
+        "created": "2018-06-24T09:21:57.180638Z"
     }, 
     {
         "pk": 97, 
         "rate": 500, 
-        "name": "X RAY LEG AP/LAT"
+        "name": "X RAY LEG AP/LAT", 
+        "created": "2018-06-24T09:22:27.668723Z"
     }, 
     {
         "pk": 98, 
         "rate": 500, 
-        "name": "X RAY SKULL AP/LAT"
+        "name": "X RAY SKULL AP/LAT", 
+        "created": "2018-06-24T09:22:41.628071Z"
     }, 
     {
         "pk": 99, 
         "rate": 350, 
-        "name": "X RAY FINGER AP AND LAT"
+        "name": "X RAY FINGER AP AND LAT", 
+        "created": "2018-06-24T09:22:59.620396Z"
     }, 
     {
         "pk": 100, 
         "rate": 2500, 
-        "name": "D - DIMER"
+        "name": "D - DIMER", 
+        "created": "2018-06-24T09:23:11.557022Z"
     }, 
     {
         "pk": 101, 
         "rate": 150, 
-        "name": "SEMEN ANALYSIS"
+        "name": "SEMEN ANALYSIS", 
+        "created": "2018-06-24T09:23:25.704880Z"
     }, 
     {
         "pk": 102, 
         "rate": 1100, 
-        "name": "CA 19.8(PANCREAS)"
+        "name": "CA 19.8(PANCREAS)", 
+        "created": "2018-06-24T09:24:09.580426Z"
     }, 
     {
         "pk": 103, 
         "rate": 1500, 
-        "name": "CA 125 (OVARY)"
+        "name": "CA 125 (OVARY)", 
+        "created": "2018-06-24T09:25:05.499640Z"
     }, 
     {
         "pk": 104, 
         "rate": 1000, 
-        "name": "PSA (PROSTATE)"
+        "name": "PSA (PROSTATE)", 
+        "created": "2018-06-24T09:26:33.926603Z"
     }, 
     {
         "pk": 105, 
         "rate": 250, 
-        "name": "TSH"
+        "name": "TSH", 
+        "created": "2018-06-24T09:27:36.906516Z"
     }, 
     {
         "pk": 106, 
         "rate": 1000, 
-        "name": "SPINAL TAP ( HOSPITAL CHARGES)"
+        "name": "SPINAL TAP ( HOSPITAL CHARGES)", 
+        "created": "2018-06-24T09:28:39.114848Z"
     }, 
     {
         "pk": 107, 
         "rate": 1500, 
-        "name": "PEURAL TAPPING (HOSPITAL CHARGES)"
+        "name": "PEURAL TAPPING (HOSPITAL CHARGES)", 
+        "created": "2018-06-24T09:29:28.583926Z"
     }, 
     {
         "pk": 108, 
         "rate": 2000, 
-        "name": "PLEURAL FLUID ANALYSIS"
+        "name": "PLEURAL FLUID ANALYSIS", 
+        "created": "2018-06-24T09:29:42.913711Z"
     }, 
     {
         "pk": 109, 
         "rate": 1000, 
-        "name": "PLEURAL FLUID C/S"
+        "name": "PLEURAL FLUID C/S", 
+        "created": "2018-06-24T09:29:55.037865Z"
     }, 
     {
         "pk": 110, 
         "rate": 1000, 
-        "name": "ASCITIC FLUID C/S"
+        "name": "ASCITIC FLUID C/S", 
+        "created": "2018-06-24T09:30:12.412501Z"
     }, 
     {
         "pk": 111, 
         "rate": 1500, 
-        "name": "ASCITIC FLUID EXAM"
+        "name": "ASCITIC FLUID EXAM", 
+        "created": "2018-06-24T09:30:37.391864Z"
     }, 
     {
         "pk": 112, 
         "rate": 1500, 
-        "name": "ASCITIC FLUID TAPPING ( HOSPITAL CHARGES)"
+        "name": "ASCITIC FLUID TAPPING ( HOSPITAL CHARGES)", 
+        "created": "2018-06-24T09:31:04.699444Z"
     }, 
     {
         "pk": 113, 
         "rate": 150, 
-        "name": "ABSOLUTE EOSINOFIL COUNT"
+        "name": "ABSOLUTE EOSINOFIL COUNT", 
+        "created": "2018-06-24T09:31:20.274590Z"
     }, 
     {
         "pk": 114, 
         "rate": 40, 
-        "name": "FASTING BLOOD SUGAR"
+        "name": "FASTING BLOOD SUGAR", 
+        "created": "2018-06-24T09:31:50.565210Z"
     }, 
     {
         "pk": 115, 
         "rate": 40, 
-        "name": "POST PRANDIAL BLOOD SUGAR"
+        "name": "POST PRANDIAL BLOOD SUGAR", 
+        "created": "2018-06-24T09:32:03.254739Z"
     }, 
     {
         "pk": 116, 
         "rate": 900, 
-        "name": "GTT"
+        "name": "GTT", 
+        "created": "2018-06-24T09:32:13.666904Z"
     }, 
     {
         "pk": 117, 
         "rate": 900, 
-        "name": "GCT"
+        "name": "GCT", 
+        "created": "2018-06-24T09:32:25.261656Z"
     }, 
     {
         "pk": 118, 
         "rate": 300, 
-        "name": "NST"
+        "name": "NST", 
+        "created": "2018-06-24T09:32:54.137404Z"
     }, 
     {
         "pk": 119, 
         "rate": 750, 
-        "name": "FOETAL MONITORING"
+        "name": "FOETAL MONITORING", 
+        "created": "2018-06-24T09:33:23.473874Z"
     }, 
     {
         "pk": 120, 
         "rate": 750, 
-        "name": "FOETAL MONITORING"
+        "name": "FOETAL MONITORING", 
+        "created": "2018-06-24T09:33:35.495651Z"
     }, 
     {
         "pk": 121, 
         "rate": 1000, 
-        "name": "FOETAL MONITORING"
+        "name": "FOETAL MONITORING", 
+        "created": "2018-06-24T09:33:46.759002Z"
     }, 
     {
         "pk": 122, 
         "rate": 150, 
-        "name": "Td"
+        "name": "Td", 
+        "created": "2018-06-24T09:34:08.921251Z"
     }, 
     {
         "pk": 123, 
         "rate": 1100, 
-        "name": "BOOSTERIX(Tdap)"
+        "name": "BOOSTERIX(Tdap)", 
+        "created": "2018-06-24T09:34:42.450407Z"
     }, 
     {
         "pk": 124, 
         "rate": 2600, 
-        "name": "INFANRIX HEXA"
+        "name": "INFANRIX HEXA", 
+        "created": "2018-06-24T09:35:31.177518Z"
     }, 
     {
         "pk": 125, 
         "rate": 150, 
-        "name": "SR TOTAL PROTEIN"
+        "name": "SR TOTAL PROTEIN", 
+        "created": "2018-06-24T09:35:54.974467Z"
     }, 
     {
         "pk": 126, 
         "rate": 1600, 
-        "name": "DIALYSIS CHARGES"
+        "name": "DIALYSIS CHARGES", 
+        "created": "2018-06-24T09:36:24.707634Z"
     }, 
     {
         "pk": 127, 
         "rate": 80, 
-        "name": "NEBULISATION"
+        "name": "NEBULISATION", 
+        "created": "2018-06-24T09:36:37.167735Z"
     }, 
     {
         "pk": 128, 
         "rate": 30, 
-        "name": "STEAM INHALATION"
+        "name": "STEAM INHALATION", 
+        "created": "2018-06-24T09:36:47.975293Z"
     }, 
     {
         "pk": 129, 
         "rate": 150, 
-        "name": "DPT"
+        "name": "DPT", 
+        "created": "2018-06-24T09:37:00.376661Z"
     }, 
     {
         "pk": 130, 
         "rate": 4000, 
-        "name": "PREVANAR (PNEUMOCOCCAL)"
+        "name": "PREVANAR (PNEUMOCOCCAL)", 
+        "created": "2018-06-24T09:37:24.460821Z"
     }, 
     {
         "pk": 131, 
         "rate": 1500, 
-        "name": "SYNFLORIX(PNEUMOCOCCAL)"
+        "name": "SYNFLORIX(PNEUMOCOCCAL)", 
+        "created": "2018-06-24T09:37:56.248752Z"
     }, 
     {
         "pk": 132, 
         "rate": 700, 
-        "name": "INFLUVAC JUNIOR"
+        "name": "INFLUVAC JUNIOR", 
+        "created": "2018-06-24T09:38:13.630017Z"
     }, 
     {
         "pk": 133, 
         "rate": 800, 
-        "name": "INFLUVAC"
+        "name": "INFLUVAC", 
+        "created": "2018-06-24T09:38:24.246984Z"
     }, 
     {
         "pk": 134, 
         "rate": 1200, 
-        "name": "HAVRIX JUNIOR"
+        "name": "HAVRIX JUNIOR", 
+        "created": "2018-06-24T09:38:39.003718Z"
     }, 
     {
         "pk": 135, 
         "rate": 2500, 
-        "name": "PRIORIX TETRA"
+        "name": "PRIORIX TETRA", 
+        "created": "2018-06-24T09:39:05.085317Z"
     }, 
     {
         "pk": 136, 
         "rate": 3000, 
-        "name": "GARDASIL"
+        "name": "GARDASIL", 
+        "created": "2018-06-24T09:39:15.905696Z"
     }, 
     {
         "pk": 137, 
         "rate": 4000, 
-        "name": "HEXAXIM"
+        "name": "HEXAXIM", 
+        "created": "2018-06-24T09:39:26.147200Z"
     }, 
     {
         "pk": 138, 
         "rate": 700, 
-        "name": "ROTAVAC"
+        "name": "ROTAVAC", 
+        "created": "2018-06-24T09:40:01.002861Z"
     }, 
     {
         "pk": 139, 
         "rate": 700, 
-        "name": "ROTASIL"
+        "name": "ROTASIL", 
+        "created": "2018-06-24T09:40:09.335957Z"
     }, 
     {
         "pk": 140, 
         "rate": 650, 
-        "name": "PRIORIX"
+        "name": "PRIORIX", 
+        "created": "2018-06-24T09:40:21.048677Z"
     }, 
     {
         "pk": 141, 
         "rate": 2000, 
-        "name": "TYPBAR TCV -PFS"
+        "name": "TYPBAR TCV -PFS", 
+        "created": "2018-06-24T09:41:03.866261Z"
     }, 
     {
         "pk": 142, 
         "rate": 1200, 
-        "name": "BIOVAC A"
+        "name": "BIOVAC A", 
+        "created": "2018-06-24T09:41:22.127828Z"
     }, 
     {
         "pk": 143, 
         "rate": 550, 
-        "name": "QUADRUVAC"
+        "name": "QUADRUVAC", 
+        "created": "2018-06-24T09:41:51.802095Z"
     }, 
     {
         "pk": 144, 
         "rate": 2000, 
-        "name": "VARIPED"
+        "name": "VARIPED", 
+        "created": "2018-06-24T09:42:42.680076Z"
     }, 
     {
         "pk": 145, 
         "rate": 2000, 
-        "name": "VARILIX"
+        "name": "VARILIX", 
+        "created": "2018-06-24T09:42:55.351679Z"
     }, 
     {
         "pk": 146, 
         "rate": 1000, 
-        "name": "ABDOMINOPELVIC ULTRASONOGRAPHY"
+        "name": "ABDOMINOPELVIC ULTRASONOGRAPHY", 
+        "created": "2018-06-24T09:44:19.065077Z"
     }, 
     {
         "pk": 147, 
         "rate": 800, 
-        "name": "OBSTETRIC SCAN"
+        "name": "OBSTETRIC SCAN", 
+        "created": "2018-06-24T09:44:31.833242Z"
     }, 
     {
         "pk": 148, 
         "rate": 1000, 
-        "name": "THYROID SCAN"
+        "name": "THYROID SCAN", 
+        "created": "2018-06-24T09:44:41.397417Z"
     }, 
     {
         "pk": 149, 
         "rate": 1000, 
-        "name": "SCROTAL SCAN"
+        "name": "SCROTAL SCAN", 
+        "created": "2018-06-24T09:44:59.427701Z"
     }, 
     {
         "pk": 150, 
         "rate": 1000, 
-        "name": "BREAST SCAN"
+        "name": "BREAST SCAN", 
+        "created": "2018-06-24T09:45:10.189864Z"
     }, 
     {
         "pk": 151, 
         "rate": 1600, 
-        "name": "NECK VESSEL DOPPLER"
+        "name": "NECK VESSEL DOPPLER", 
+        "created": "2018-06-24T09:45:27.811388Z"
     }, 
     {
         "pk": 152, 
         "rate": 1800, 
-        "name": "VENOUS DOPPLER STUDY"
+        "name": "VENOUS DOPPLER STUDY", 
+        "created": "2018-06-24T09:45:52.677058Z"
     }, 
     {
         "pk": 153, 
         "rate": 1500, 
-        "name": "TMT"
+        "name": "TMT", 
+        "created": "2018-06-24T09:46:01.458555Z"
     }, 
     {
         "pk": 154, 
         "rate": 2500, 
-        "name": "UPPER GI ENDOSCOPY"
+        "name": "UPPER GI ENDOSCOPY", 
+        "created": "2018-06-24T09:46:21.069148Z"
     }, 
     {
         "pk": 155, 
         "rate": 5500, 
-        "name": "COLONOSCOPY"
+        "name": "COLONOSCOPY", 
+        "created": "2018-06-24T09:46:33.403956Z"
     }, 
     {
         "pk": 156, 
         "rate": 1000, 
-        "name": "PAP SMEAR"
+        "name": "PAP SMEAR", 
+        "created": "2018-06-24T09:46:43.030780Z"
     }, 
     {
         "pk": 157, 
         "rate": 1000, 
-        "name": "HIGH VAGINAL C/S"
+        "name": "HIGH VAGINAL C/S", 
+        "created": "2018-06-24T09:46:58.935646Z"
     }, 
     {
         "pk": 158, 
         "rate": 600, 
-        "name": "PFT"
+        "name": "PFT", 
+        "created": "2018-06-24T09:47:08.746189Z"
     }, 
     {
         "pk": 159, 
         "rate": 400, 
-        "name": "SUTURING AND DRESSING"
+        "name": "SUTURING AND DRESSING", 
+        "created": "2018-06-24T09:48:38.818289Z"
     }, 
     {
         "pk": 160, 
         "rate": 100, 
-        "name": "DRESSING"
+        "name": "DRESSING", 
+        "created": "2018-06-24T09:48:55.617249Z"
     }, 
     {
         "pk": 161, 
         "rate": 150, 
-        "name": "DRESSING (MEDIUM)"
+        "name": "DRESSING (MEDIUM)", 
+        "created": "2018-06-24T09:49:12.836270Z"
     }, 
     {
         "pk": 162, 
         "rate": 450, 
-        "name": "DRESSING (BIG)"
+        "name": "DRESSING (BIG)", 
+        "created": "2018-06-24T09:50:19.913734Z"
     }, 
     {
         "pk": 163, 
         "rate": 50, 
-        "name": "BP CHECK UP"
+        "name": "BP CHECK UP", 
+        "created": "2018-06-24T09:50:35.710386Z"
     }, 
     {
         "pk": 164, 
         "rate": 30, 
-        "name": "IM INJECTION"
+        "name": "IM INJECTION", 
+        "created": "2018-06-24T09:50:50.069345Z"
     }, 
     {
         "pk": 165, 
         "rate": 50, 
-        "name": "IV INJECTION"
+        "name": "IV INJECTION", 
+        "created": "2018-06-24T09:51:03.373674Z"
     }, 
     {
         "pk": 166, 
         "rate": 50, 
-        "name": "ANAMOL SUPPOSITORY"
+        "name": "ANAMOL SUPPOSITORY", 
+        "created": "2018-06-24T09:51:18.767719Z"
     }, 
     {
         "pk": 167, 
         "rate": 50, 
-        "name": "GRBS"
+        "name": "GRBS", 
+        "created": "2018-06-24T09:51:28.308148Z"
     }, 
     {
         "pk": 168, 
         "rate": 250, 
-        "name": "INSERTING CANNULA"
+        "name": "INSERTING CANNULA", 
+        "created": "2018-06-24T09:51:39.814368Z"
     }, 
     {
         "pk": 169, 
         "rate": 200, 
-        "name": "ENEMA"
+        "name": "ENEMA", 
+        "created": "2018-06-24T09:51:52.393113Z"
     }, 
     {
         "pk": 170, 
         "rate": 200, 
-        "name": "PULSE OXYMETRY"
+        "name": "PULSE OXYMETRY", 
+        "created": "2018-06-24T09:52:08.052860Z"
     }, 
     {
         "pk": 171, 
         "rate": 100, 
-        "name": "SUTURE REMOVAL"
+        "name": "SUTURE REMOVAL", 
+        "created": "2018-06-24T09:52:44.078226Z"
     }, 
     {
         "pk": 172, 
         "rate": 2000, 
-        "name": "SUTURE  MATERICAL CHARGES"
+        "name": "SUTURE  MATERICAL CHARGES", 
+        "created": "2018-06-24T09:52:57.899349Z"
     }, 
     {
         "pk": 173, 
         "rate": 1000, 
-        "name": "I AND D"
+        "name": "I AND D", 
+        "created": "2018-06-24T09:53:09.306332Z"
     }, 
     {
         "pk": 174, 
         "rate": 800, 
-        "name": "FOLLICULAR SCAN (FIRST )"
+        "name": "FOLLICULAR SCAN (FIRST )", 
+        "created": "2018-06-24T09:55:05.525257Z"
     }, 
     {
         "pk": 175, 
         "rate": 650, 
-        "name": "FOLLICULAR SCAN (FOLLOW UP)"
+        "name": "FOLLICULAR SCAN (FOLLOW UP)", 
+        "created": "2018-06-24T09:55:28.109373Z"
     }, 
     {
         "pk": 176, 
         "rate": 400, 
-        "name": "CONSULTATION(FIRST)"
+        "name": "CONSULTATION(FIRST)", 
+        "created": "2018-06-24T09:56:07.200984Z"
     }, 
     {
         "pk": 177, 
         "rate": 350, 
-        "name": "CONSULTATION (FOLLOW UP)"
+        "name": "CONSULTATION (FOLLOW UP)", 
+        "created": "2018-06-24T09:56:41.971048Z"
     }, 
     {
         "pk": 178, 
         "rate": 500, 
-        "name": "AMBULANCE CHARGES"
+        "name": "AMBULANCE CHARGES", 
+        "created": "2018-06-24T09:57:36.140753Z"
     }, 
     {
         "pk": 179, 
         "rate": 1000, 
-        "name": "TVS SCAN"
+        "name": "TVS SCAN", 
+        "created": "2018-06-24T09:57:47.381640Z"
     }, 
     {
         "pk": 180, 
         "rate": 2500, 
-        "name": "EEG"
+        "name": "EEG", 
+        "created": "2018-06-24T09:59:32.400776Z"
     }, 
     {
         "pk": 181, 
         "rate": 400, 
-        "name": "PHYSIOTHERAY"
+        "name": "PHYSIOTHERAY", 
+        "created": "2018-06-24T10:00:11.207537Z"
     }, 
     {
         "pk": 182, 
         "rate": 600, 
-        "name": "SUPERSPECIALIST CONSULTATION"
+        "name": "SUPERSPECIALIST CONSULTATION", 
+        "created": "2018-06-24T10:01:28.768540Z"
     }, 
     {
         "pk": 183, 
         "rate": 250, 
-        "name": "URETHRAL CATHETERISATION"
+        "name": "URETHRAL CATHETERISATION", 
+        "created": "2018-06-24T10:02:03.764751Z"
     }, 
     {
         "pk": 184, 
         "rate": 250, 
-        "name": "RYLE'S TUBE INSERTION"
+        "name": "RYLE'S TUBE INSERTION", 
+        "created": "2018-06-24T10:02:19.476108Z"
     }, 
     {
         "pk": 185, 
         "rate": 1000, 
-        "name": "POP(HOSPITAL CHARGES)"
+        "name": "POP(HOSPITAL CHARGES)", 
+        "created": "2018-06-24T10:02:51.886847Z"
     }, 
     {
         "pk": 186, 
         "rate": 1500, 
-        "name": "POP (HOSPITAL CHARGES)"
+        "name": "POP (HOSPITAL CHARGES)", 
+        "created": "2018-06-24T10:03:13.338765Z"
     }, 
     {
         "pk": 187, 
         "rate": 2000, 
-        "name": "POP( HOSPITAL CHARGES)"
+        "name": "POP( HOSPITAL CHARGES)", 
+        "created": "2018-06-24T10:03:40.031980Z"
     }, 
     {
         "pk": 188, 
         "rate": 350, 
-        "name": "CAUTERISATION"
+        "name": "CAUTERISATION", 
+        "created": "2018-06-24T10:04:05.320376Z"
     }, 
     {
         "pk": 189, 
         "rate": 250, 
-        "name": "BURNS DRESSING"
+        "name": "BURNS DRESSING", 
+        "created": "2018-06-24T10:05:02.897165Z"
     }, 
     {
         "pk": 190, 
         "rate": 1250, 
-        "name": "SEMI PRIVATE WARD CHARGES"
+        "name": "SEMI PRIVATE WARD CHARGES", 
+        "created": "2018-06-24T10:13:16.790102Z"
     }, 
     {
         "pk": 191, 
         "rate": 250, 
-        "name": "DUTY DOCTOR CHARGES IN WARD"
+        "name": "DUTY DOCTOR CHARGES IN WARD", 
+        "created": "2018-06-24T10:14:03.126622Z"
     }, 
     {
         "pk": 192, 
         "rate": 300, 
-        "name": "DUTY DOCTOR CHARGES IN ROOM"
+        "name": "DUTY DOCTOR CHARGES IN ROOM", 
+        "created": "2018-06-24T10:14:18.024582Z"
     }, 
     {
         "pk": 193, 
         "rate": 350, 
-        "name": "DUTY DOCTOR CHARGES IN AC ROOM"
+        "name": "DUTY DOCTOR CHARGES IN AC ROOM", 
+        "created": "2018-06-24T10:14:33.368888Z"
     }, 
     {
         "pk": 194, 
         "rate": 300, 
-        "name": "PERINEAL CARE  IN ROOM"
+        "name": "PERINEAL CARE  IN ROOM", 
+        "created": "2018-06-24T10:15:38.058104Z"
     }, 
     {
         "pk": 195, 
         "rate": 300, 
-        "name": "BABY CARE ROOM"
+        "name": "BABY CARE ROOM", 
+        "created": "2018-06-24T10:18:28.910957Z"
     }, 
     {
         "pk": 196, 
         "rate": 250, 
-        "name": "BABY CARE IN WARD"
+        "name": "BABY CARE IN WARD", 
+        "created": "2018-06-24T10:18:45.915204Z"
     }, 
     {
         "pk": 197, 
         "rate": 250, 
-        "name": "PERINEAL CARE IN WARD"
+        "name": "PERINEAL CARE IN WARD", 
+        "created": "2018-06-24T10:19:12.153339Z"
     }, 
     {
         "pk": 198, 
         "rate": 350, 
-        "name": "PERINEAL CARE IN ROOM"
+        "name": "PERINEAL CARE IN ROOM", 
+        "created": "2018-06-24T10:19:26.134673Z"
     }, 
     {
         "pk": 199, 
         "rate": 6000, 
-        "name": "ADULT ICU NURSING MONITORING CHARGES"
+        "name": "ADULT ICU NURSING MONITORING CHARGES", 
+        "created": "2018-06-24T10:23:24.332314Z"
     }, 
     {
         "pk": 200, 
         "rate": 350, 
-        "name": "DUTY DOCTOR CHARGES IN ICU"
+        "name": "DUTY DOCTOR CHARGES IN ICU", 
+        "created": "2018-06-24T10:23:53.183761Z"
     }, 
     {
         "pk": 201, 
         "rate": 5000, 
-        "name": "PICU NURSING MONITORING CHARGES"
+        "name": "PICU NURSING MONITORING CHARGES", 
+        "created": "2018-06-24T10:24:11.102378Z"
     }, 
     {
         "pk": 202, 
         "rate": 350, 
-        "name": "DUTY DOCTOR CHARGES IN PICU"
+        "name": "DUTY DOCTOR CHARGES IN PICU", 
+        "created": "2018-06-24T10:24:28.076896Z"
     }, 
     {
         "pk": 203, 
         "rate": 1000, 
-        "name": "OXYGEN THERAPY"
+        "name": "OXYGEN THERAPY", 
+        "created": "2018-06-24T10:24:47.085640Z"
     }, 
     {
         "pk": 204, 
         "rate": 150, 
-        "name": "PULSE OXYMETRY"
+        "name": "PULSE OXYMETRY", 
+        "created": "2018-06-24T10:25:01.742258Z"
     }, 
     {
         "pk": 205, 
         "rate": 2000, 
-        "name": "BIPAP"
+        "name": "BIPAP", 
+        "created": "2018-06-24T10:25:11.691055Z"
     }, 
     {
         "pk": 206, 
         "rate": 5000, 
-        "name": "VENTILATOR"
+        "name": "VENTILATOR", 
+        "created": "2018-06-24T10:25:22.027055Z"
     }, 
     {
         "pk": 207, 
         "rate": 2500, 
-        "name": "BUBBLE CPAP"
+        "name": "BUBBLE CPAP", 
+        "created": "2018-06-24T10:25:39.739323Z"
     }, 
     {
         "pk": 208, 
         "rate": 300, 
-        "name": "INFUSION PUMP CHARGES"
+        "name": "INFUSION PUMP CHARGES", 
+        "created": "2018-06-24T10:25:57.655766Z"
     }, 
     {
         "pk": 209, 
         "rate": 200, 
-        "name": "BLOOD TRANSFUSION"
+        "name": "BLOOD TRANSFUSION", 
+        "created": "2018-06-24T10:26:36.938408Z"
     }, 
     {
         "pk": 210, 
         "rate": 2000, 
-        "name": "SINGLE PRIVATE NON AC ROOM CHARGES"
+        "name": "SINGLE PRIVATE NON AC ROOM CHARGES", 
+        "created": "2018-06-24T10:27:13.377803Z"
     }, 
     {
         "pk": 211, 
         "rate": 300, 
-        "name": "NURSING CHARGES IN SINGLE ROOM NON A/C"
+        "name": "NURSING CHARGES IN SINGLE ROOM NON A/C", 
+        "created": "2018-06-24T10:27:43.500855Z"
     }, 
     {
         "pk": 212, 
         "rate": 2300, 
-        "name": "SINGLE PRIVATE AC ROOM CHARGES"
+        "name": "SINGLE PRIVATE AC ROOM CHARGES", 
+        "created": "2018-06-24T10:27:58.481924Z"
     }, 
     {
         "pk": 213, 
         "rate": 350, 
-        "name": "NURSING CHARGES IN SINGLE ROOM A/C"
+        "name": "NURSING CHARGES IN SINGLE ROOM A/C", 
+        "created": "2018-06-24T10:28:09.616454Z"
     }, 
     {
         "pk": 214, 
         "rate": 400, 
-        "name": "FLUSH THERAPY"
+        "name": "FLUSH THERAPY", 
+        "created": "2018-06-24T10:28:24.812080Z"
     }, 
     {
         "pk": 215, 
         "rate": 0, 
-        "name": "OPERATION THEATRE CHARGES"
+        "name": "OPERATION THEATRE CHARGES", 
+        "created": "2018-06-24T15:08:28.086575Z"
     }, 
     {
         "pk": 216, 
         "rate": 6500, 
-        "name": "LABOUR ROOM CHARGES"
+        "name": "LABOUR ROOM CHARGES", 
+        "created": "2018-06-24T15:08:48.029800Z"
     }, 
     {
         "pk": 217, 
         "rate": 1500, 
-        "name": "PEDIATRICIAN IN NICU"
+        "name": "PEDIATRICIAN IN NICU", 
+        "created": "2018-06-26T08:09:10.619982Z"
     }, 
     {
         "pk": 218, 
         "rate": 1200, 
-        "name": "PEDIATRICIAN IN ROOM"
+        "name": "PEDIATRICIAN IN ROOM", 
+        "created": "2018-06-26T08:09:23.462446Z"
     }, 
     {
         "pk": 219, 
         "rate": 0, 
-        "name": "MEDICINES"
+        "name": "MEDICINES", 
+        "created": "2018-06-26T08:09:36.049530Z"
     }, 
     {
         "pk": 220, 
         "rate": 300, 
-        "name": "REGISTRATION"
+        "name": "REGISTRATION", 
+        "created": "2018-06-26T12:22:36.711087Z"
     }, 
     {
         "pk": 221, 
         "rate": 2000, 
-        "name": "LUMBAR PUNCTURE"
+        "name": "LUMBAR PUNCTURE", 
+        "created": "2018-06-26T12:23:28.777112Z"
     }, 
     {
         "pk": 222, 
         "rate": 250, 
-        "name": "NURSING CHARGES IN SEMI PRIVATE WARD"
+        "name": "NURSING CHARGES IN SEMI PRIVATE WARD", 
+        "created": "2018-06-26T12:42:58.042660Z"
     }, 
     {
         "pk": 223, 
         "rate": 550, 
-        "name": "SR AMYLASE"
+        "name": "SR AMYLASE", 
+        "created": "2018-06-26T12:43:21.730243Z"
     }, 
     {
         "pk": 224, 
         "rate": 550, 
-        "name": "SR LIPASE"
+        "name": "SR LIPASE", 
+        "created": "2018-06-26T12:43:31.982493Z"
     }, 
     {
         "pk": 225, 
         "rate": 750, 
-        "name": "C3 COMPLEMENTS"
+        "name": "C3 COMPLEMENTS", 
+        "created": "2018-06-26T12:43:59.092024Z"
     }, 
     {
         "pk": 226, 
         "rate": 750, 
-        "name": "C4 COMPLEMENTS"
+        "name": "C4 COMPLEMENTS", 
+        "created": "2018-06-26T12:44:06.908331Z"
     }, 
     {
         "pk": 227, 
         "rate": 350, 
-        "name": "PULMONARY FUNCTION TEST"
+        "name": "PULMONARY FUNCTION TEST", 
+        "created": "2018-06-26T12:45:19.378884Z"
     }, 
     {
         "pk": 228, 
         "rate": 1000, 
-        "name": "DR NEEHAR PATIL(PEDIATRIC SURGEON)"
+        "name": "DR NEEHAR PATIL(PEDIATRIC SURGEON)", 
+        "created": "2018-06-30T08:18:24.088805Z"
     }, 
     {
         "pk": 229, 
         "rate": 700, 
-        "name": "GLY HB%"
+        "name": "GLY HB%", 
+        "created": "2018-06-30T08:18:44.660246Z"
     }, 
     {
         "pk": 230, 
         "rate": 0, 
-        "name": "LAPROSCOPIC INSTRUMENTS CHARGES"
+        "name": "LAPROSCOPIC INSTRUMENTS CHARGES", 
+        "created": "2018-06-30T08:20:54.790409Z"
     }, 
     {
         "pk": 231, 
         "rate": 0, 
-        "name": "DR RAVI KUMAR(GEN SURGEON)"
+        "name": "DR RAVI KUMAR(GEN SURGEON)", 
+        "created": "2018-06-30T08:21:59.398528Z"
     }, 
     {
         "pk": 232, 
         "rate": 0, 
-        "name": "DR SUNITHA (ANAESTHETIST)"
+        "name": "DR SUNITHA (ANAESTHETIST)", 
+        "created": "2018-06-30T08:24:20.090418Z"
     }, 
     {
         "pk": 233, 
         "rate": 1200, 
-        "name": "DR RAVI NAIK (PEDIATRICIAN)"
+        "name": "DR RAVI NAIK (PEDIATRICIAN)", 
+        "created": "2018-06-30T08:25:02.023571Z"
     }, 
     {
         "pk": 234, 
         "rate": 0, 
-        "name": "DR V S RAMESH (GASTROENTEROLOGIST)"
+        "name": "DR V S RAMESH (GASTROENTEROLOGIST)", 
+        "created": "2018-06-30T08:25:34.776216Z"
     }, 
     {
         "pk": 235, 
         "rate": 0, 
-        "name": "DR CHANDAN (CARDIOLOGIST)"
+        "name": "DR CHANDAN (CARDIOLOGIST)", 
+        "created": "2018-06-30T08:25:52.467450Z"
     }, 
     {
         "pk": 236, 
         "rate": 600, 
-        "name": "DR SANTOSH (NEUROLOGIST)"
+        "name": "DR SANTOSH (NEUROLOGIST)", 
+        "created": "2018-06-30T08:26:37.991505Z"
     }, 
     {
         "pk": 237, 
         "rate": 600, 
-        "name": "DR SHIVAPRASAD (NEPHROLOGIST)"
+        "name": "DR SHIVAPRASAD (NEPHROLOGIST)", 
+        "created": "2018-06-30T08:27:11.453646Z"
     }, 
     {
         "pk": 238, 
         "rate": 0, 
-        "name": "DR MUNIRAJU M (ENT SURGEON)"
+        "name": "DR MUNIRAJU M (ENT SURGEON)", 
+        "created": "2018-06-30T08:27:49.253450Z"
     }, 
     {
         "pk": 239, 
         "rate": 0, 
-        "name": "DR JAWAD AHMED (ENT SURGEON)"
+        "name": "DR JAWAD AHMED (ENT SURGEON)", 
+        "created": "2018-06-30T08:28:06.911106Z"
     }, 
     {
         "pk": 240, 
         "rate": 0, 
-        "name": "DR RAMESH BABU (DERMATOLOGIST)"
+        "name": "DR RAMESH BABU (DERMATOLOGIST)", 
+        "created": "2018-06-30T08:28:30.837714Z"
     }, 
     {
         "pk": 241, 
         "rate": 0, 
-        "name": "DR SHABEER AHMED (RADIOLOGIST)"
+        "name": "DR SHABEER AHMED (RADIOLOGIST)", 
+        "created": "2018-06-30T08:28:56.851031Z"
     }, 
     {
         "pk": 242, 
         "rate": 0, 
-        "name": "DR CHANDRASHEKAR (PSYCHIATRIST)"
+        "name": "DR CHANDRASHEKAR (PSYCHIATRIST)", 
+        "created": "2018-06-30T08:29:30.929195Z"
     }, 
     {
         "pk": 243, 
         "rate": 0, 
-        "name": "DR DEEPSHIKA JHA (OB & GYNAEC)"
+        "name": "DR DEEPSHIKA JHA (OB & GYNAEC)", 
+        "created": "2018-06-30T08:30:05.494362Z"
     }, 
     {
         "pk": 244, 
         "rate": 0, 
-        "name": "DR JAYASHREE KEWALRAMANI ( OB & GYNAEC)"
+        "name": "DR JAYASHREE KEWALRAMANI ( OB & GYNAEC)", 
+        "created": "2018-06-30T08:31:31.433080Z"
     }, 
     {
         "pk": 245, 
         "rate": 0, 
-        "name": "DR VIJAY KUMAR C (OB & GYNAEC)"
+        "name": "DR VIJAY KUMAR C (OB & GYNAEC)", 
+        "created": "2018-06-30T08:32:06.103573Z"
     }, 
     {
         "pk": 246, 
         "rate": 600, 
-        "name": "DR SYED IMRAN (ORTHOPEDICIAN)"
+        "name": "DR SYED IMRAN (ORTHOPEDICIAN)", 
+        "created": "2018-06-30T08:32:35.960750Z"
     }, 
     {
         "pk": 247, 
         "rate": 0, 
-        "name": "DR SAIRA ZIA ( OB & GYNAEC)"
+        "name": "DR SAIRA ZIA ( OB & GYNAEC)", 
+        "created": "2018-06-30T08:32:59.488481Z"
     }, 
     {
         "pk": 248, 
         "rate": 0, 
-        "name": "DR VIDYADHAR ( ORTHOPEDICIAN)"
+        "name": "DR VIDYADHAR ( ORTHOPEDICIAN)", 
+        "created": "2018-06-30T08:33:20.705956Z"
     }, 
     {
         "pk": 249, 
         "rate": 0, 
-        "name": "DR GEETA PATIL (PEDIATRICIAN)"
+        "name": "DR GEETA PATIL (PEDIATRICIAN)", 
+        "created": "2018-06-30T08:33:45.188077Z"
     }, 
     {
         "pk": 250, 
         "rate": 0, 
-        "name": "DR CHETAN SATISH (PLASTIC SURGEON)"
+        "name": "DR CHETAN SATISH (PLASTIC SURGEON)", 
+        "created": "2018-06-30T08:35:06.573497Z"
     }, 
     {
         "pk": 251, 
         "rate": 0, 
-        "name": "DR TEJUS CHERANJEEVI (UROLOGISIT)"
+        "name": "DR TEJUS CHERANJEEVI (UROLOGISIT)", 
+        "created": "2018-06-30T08:36:11.792840Z"
     }, 
     {
         "pk": 252, 
         "rate": 0, 
-        "name": "DR PRAKASH (NEURO SURGEON)"
+        "name": "DR PRAKASH (NEURO SURGEON)", 
+        "created": "2018-06-30T08:37:09.000596Z"
     }, 
     {
         "pk": 253, 
         "rate": 0, 
-        "name": "DR SREERAM RAMALINGAM (OPTHAMOLOGIST)"
+        "name": "DR SREERAM RAMALINGAM (OPTHAMOLOGIST)", 
+        "created": "2018-06-30T08:38:18.359073Z"
     }, 
     {
         "pk": 254, 
         "rate": 0, 
-        "name": "DR VEERENDRA KUMAR (ONCO SURGEON)"
+        "name": "DR VEERENDRA KUMAR (ONCO SURGEON)", 
+        "created": "2018-06-30T08:38:44.098226Z"
     }, 
     {
         "pk": 255, 
         "rate": 200, 
-        "name": "MR R K SINGH (PHYSIOTHERAPIST)"
+        "name": "MR R K SINGH (PHYSIOTHERAPIST)", 
+        "created": "2018-06-30T08:39:24.043684Z"
     }, 
     {
         "pk": 256, 
         "rate": 0, 
-        "name": "DR B S RAMESH (GEN SURGEON)"
+        "name": "DR B S RAMESH (GEN SURGEON)", 
+        "created": "2018-06-30T08:40:02.935432Z"
     }, 
     {
         "pk": 257, 
         "rate": 0, 
-        "name": "DR NARASHIMAMUTHY (ANAESTHETIST)"
+        "name": "DR NARASHIMAMUTHY (ANAESTHETIST)", 
+        "created": "2018-06-30T08:40:37.881012Z"
     }, 
     {
         "pk": 258, 
         "rate": 0, 
-        "name": "DR PRAVEEN PRASAD (ANAESTHETIST)"
+        "name": "DR PRAVEEN PRASAD (ANAESTHETIST)", 
+        "created": "2018-06-30T08:41:17.870252Z"
     }, 
     {
         "pk": 259, 
         "rate": 0, 
-        "name": "DR VARUN REDDY (ANAESTHETIST)"
+        "name": "DR VARUN REDDY (ANAESTHETIST)", 
+        "created": "2018-06-30T08:41:48.704926Z"
     }, 
     {
         "pk": 260, 
         "rate": 0, 
-        "name": "DR RAJA (ANAESTHETIST)"
+        "name": "DR RAJA (ANAESTHETIST)", 
+        "created": "2018-06-30T08:42:08.384134Z"
     }, 
     {
         "pk": 261, 
         "rate": 0, 
-        "name": "DR NARENDRA BABU (PEDIATRIC SURGEON)"
+        "name": "DR NARENDRA BABU (PEDIATRIC SURGEON)", 
+        "created": "2018-06-30T08:45:25.204933Z"
     }, 
     {
         "pk": 262, 
         "rate": 0, 
-        "name": "DR VINAY JADHAV (PEDIATRIC SURGEON)"
+        "name": "DR VINAY JADHAV (PEDIATRIC SURGEON)", 
+        "created": "2018-06-30T08:45:49.984640Z"
     }, 
     {
         "pk": 263, 
         "rate": 0, 
-        "name": "DR MOHAN RAJ (ANAESTHETIST)"
+        "name": "DR MOHAN RAJ (ANAESTHETIST)", 
+        "created": "2018-06-30T08:46:33.020521Z"
     }, 
     {
         "pk": 264, 
         "rate": 0, 
-        "name": "DR SHIVAKUMAR K S (UROLOGIST)"
+        "name": "DR SHIVAKUMAR K S (UROLOGIST)", 
+        "created": "2018-06-30T08:47:07.712197Z"
     }, 
     {
         "pk": 265, 
         "rate": 0, 
-        "name": "SK THERAPY"
+        "name": "SK THERAPY", 
+        "created": "2018-06-30T08:50:14.401973Z"
     }, 
     {
         "pk": 266, 
         "rate": 0, 
-        "name": "DR SUNITHA (ANAESTHETIST)"
+        "name": "DR SUNITHA (ANAESTHETIST)", 
+        "created": "2018-06-30T08:55:10.259292Z"
     }, 
     {
         "pk": 267, 
         "rate": 0, 
-        "name": "DR RAMESH (ANAESTHETIST)"
+        "name": "DR RAMESH (ANAESTHETIST)", 
+        "created": "2018-06-30T08:55:39.371393Z"
     }, 
     {
         "pk": 268, 
         "rate": 250, 
-        "name": "FLUSH THERAPY"
+        "name": "FLUSH THERAPY", 
+        "created": "2018-06-30T08:56:17.884135Z"
     }, 
     {
         "pk": 269, 
         "rate": 200, 
-        "name": "BLOOD TANSFUSION"
+        "name": "BLOOD TANSFUSION", 
+        "created": "2018-06-30T08:57:27.515633Z"
     }, 
     {
         "pk": 270, 
         "rate": 1000, 
-        "name": "I & D"
+        "name": "I & D", 
+        "created": "2018-06-30T09:01:09.827966Z"
     }, 
     {
         "pk": 271, 
         "rate": 1500, 
-        "name": "TRIPLE SURFACE PHOTOTHERAPY CHARGES"
+        "name": "TRIPLE SURFACE PHOTOTHERAPY CHARGES", 
+        "created": "2018-06-30T09:04:46.664673Z"
     }, 
     {
         "pk": 272, 
         "rate": 1250, 
-        "name": "DOUBLE SURFACE PHOTOTHERAPY CHARGES"
+        "name": "DOUBLE SURFACE PHOTOTHERAPY CHARGES", 
+        "created": "2018-06-30T09:18:02.095522Z"
     }, 
     {
         "pk": 273, 
         "rate": 1000, 
-        "name": "RESCUCITATION"
+        "name": "RESCUCITATION", 
+        "created": "2018-06-30T09:19:17.817159Z"
     }, 
     {
         "pk": 274, 
         "rate": 0, 
-        "name": "DC SHOCK"
+        "name": "DC SHOCK", 
+        "created": "2018-06-30T09:19:27.540292Z"
     }, 
     {
         "pk": 275, 
         "rate": 500, 
-        "name": "STOMACH WASH"
+        "name": "STOMACH WASH", 
+        "created": "2018-06-30T09:20:02.221102Z"
     }, 
     {
         "pk": 276, 
         "rate": 1250, 
-        "name": "ALPHA FETA PROTEIN"
+        "name": "ALPHA FETA PROTEIN", 
+        "created": "2018-06-30T09:20:26.222129Z"
     }, 
     {
         "pk": 277, 
         "rate": 0, 
-        "name": "DEBRIDEMENT"
+        "name": "DEBRIDEMENT", 
+        "created": "2018-06-30T09:20:49.666969Z"
     }, 
     {
         "pk": 278, 
         "rate": 0, 
-        "name": "BLOOD COMPONENT"
+        "name": "BLOOD COMPONENT", 
+        "created": "2018-06-30T09:21:35.911218Z"
     }, 
     {
         "pk": 279, 
         "rate": 0, 
-        "name": "IMPLANT CHARGES"
+        "name": "IMPLANT CHARGES", 
+        "created": "2018-06-30T09:22:11.850729Z"
     }, 
     {
         "pk": 280, 
         "rate": 7500, 
-        "name": "MRI BRAIN"
+        "name": "MRI BRAIN", 
+        "created": "2018-06-30T09:23:21.475371Z"
     }, 
     {
         "pk": 281, 
         "rate": 3000, 
-        "name": "CT BRAIN"
+        "name": "CT BRAIN", 
+        "created": "2018-06-30T09:23:36.086100Z"
     }, 
     {
         "pk": 282, 
         "rate": 3500, 
-        "name": "CT THROAX"
+        "name": "CT THROAX", 
+        "created": "2018-06-30T09:23:45.127366Z"
     }, 
     {
         "pk": 283, 
         "rate": 4500, 
-        "name": "CT ABDOMEN"
+        "name": "CT ABDOMEN", 
+        "created": "2018-06-30T09:23:58.494753Z"
     }, 
     {
         "pk": 284, 
         "rate": 7500, 
-        "name": "MRI ABDOMEN"
+        "name": "MRI ABDOMEN", 
+        "created": "2018-06-30T09:24:13.109925Z"
     }, 
     {
         "pk": 285, 
         "rate": 0, 
-        "name": "AMBULANCE CHARGES"
+        "name": "AMBULANCE CHARGES", 
+        "created": "2018-06-30T09:24:23.421730Z"
     }, 
     {
         "pk": 286, 
         "rate": 6000, 
-        "name": "STENT REMOVAL  PROCEDURE CHARGES"
+        "name": "STENT REMOVAL  PROCEDURE CHARGES", 
+        "created": "2018-06-30T09:24:54.155980Z"
     }, 
     {
         "pk": 287, 
         "rate": 0, 
-        "name": "AV FISTULA"
+        "name": "AV FISTULA", 
+        "created": "2018-06-30T09:25:20.016837Z"
     }, 
     {
         "pk": 288, 
         "rate": 2500, 
-        "name": "DOUBLE MARKER TEST"
+        "name": "DOUBLE MARKER TEST", 
+        "created": "2018-06-30T09:25:32.861848Z"
     }, 
     {
         "pk": 289, 
         "rate": 3500, 
-        "name": "TRIPLE MARKER TEST"
+        "name": "TRIPLE MARKER TEST", 
+        "created": "2018-06-30T09:25:46.331286Z"
     }, 
     {
         "pk": 290, 
         "rate": 7500, 
-        "name": "GAD ANTIBODY TEST"
+        "name": "GAD ANTIBODY TEST", 
+        "created": "2018-06-30T09:26:35.203561Z"
     }, 
     {
         "pk": 291, 
         "rate": 0, 
-        "name": "K WIRE FIXATION"
+        "name": "K WIRE FIXATION", 
+        "created": "2018-06-30T09:27:01.917213Z"
     }, 
     {
         "pk": 292, 
         "rate": 0, 
-        "name": "CO PAYMENT CHARGES"
+        "name": "CO PAYMENT CHARGES", 
+        "created": "2018-06-30T09:27:30.337565Z"
     }, 
     {
         "pk": 293, 
         "rate": 4000, 
-        "name": "GENE EXPERT FOR M TUBERCLOSIS"
+        "name": "GENE EXPERT FOR M TUBERCLOSIS", 
+        "created": "2018-06-30T09:28:12.688389Z"
     }, 
     {
         "pk": 294, 
         "rate": 0, 
-        "name": "STAPLER AND TACKERS"
+        "name": "STAPLER AND TACKERS", 
+        "created": "2018-06-30T09:28:33.187314Z"
     }, 
     {
         "pk": 295, 
         "rate": 0, 
-        "name": "MESH REPAIR CHARGES"
+        "name": "MESH REPAIR CHARGES", 
+        "created": "2018-06-30T09:29:49.761618Z"
     }, 
     {
         "pk": 296, 
         "rate": 0, 
-        "name": "CT KUB"
+        "name": "CT KUB", 
+        "created": "2018-06-30T09:30:14.110004Z"
     }, 
     {
         "pk": 297, 
         "rate": 0, 
-        "name": "DR INTEZAR (INTENSIVIST)"
+        "name": "DR INTEZAR (INTENSIVIST)", 
+        "created": "2018-06-30T09:30:33.704094Z"
     }, 
     {
         "pk": 298, 
         "rate": 0, 
-        "name": "DR PREMALATHA (PED NEPHROLOGIST)"
+        "name": "DR PREMALATHA (PED NEPHROLOGIST)", 
+        "created": "2018-06-30T09:30:49.179444Z"
     }, 
     {
         "pk": 299, 
         "rate": 0, 
-        "name": "WATER BED"
+        "name": "WATER BED", 
+        "created": "2018-06-30T09:33:41.380590Z"
     }, 
     {
         "pk": 300, 
         "rate": 150, 
-        "name": "AIR BED"
+        "name": "AIR BED", 
+        "created": "2018-06-30T09:33:49.921962Z"
     }, 
     {
         "pk": 301, 
         "rate": 0, 
-        "name": "LIPTHOTRYPSY"
+        "name": "LIPTHOTRYPSY", 
+        "created": "2018-06-30T09:34:23.051195Z"
     }, 
     {
         "pk": 302, 
         "rate": 5000, 
-        "name": "I C D INSERTION IN OT"
+        "name": "I C D INSERTION IN OT", 
+        "created": "2018-06-30T09:34:51.441870Z"
     }, 
     {
         "pk": 303, 
         "rate": 1000, 
-        "name": "CHIKUNGUNYA IGM ANTIBODIES TEST"
+        "name": "CHIKUNGUNYA IGM ANTIBODIES TEST", 
+        "created": "2018-06-30T09:35:30.373446Z"
     }, 
     {
         "pk": 304, 
         "rate": 1000, 
-        "name": "SR TSEUDOCHOLINESTRASE"
+        "name": "SR TSEUDOCHOLINESTRASE", 
+        "created": "2018-06-30T09:35:57.008533Z"
     }, 
     {
         "pk": 305, 
         "rate": 0, 
-        "name": "STEIZ BATH"
+        "name": "STEIZ BATH", 
+        "created": "2018-06-30T09:36:22.208567Z"
     }, 
     {
         "pk": 306, 
         "rate": 400, 
-        "name": "ERRECT ABDOMEN"
+        "name": "ERRECT ABDOMEN", 
+        "created": "2018-06-30T09:36:37.462188Z"
     }, 
     {
         "pk": 307, 
         "rate": 0, 
-        "name": "MRI DORAL SPINE"
+        "name": "MRI DORAL SPINE", 
+        "created": "2018-06-30T09:37:09.313919Z"
     }, 
     {
         "pk": 308, 
         "rate": 3500, 
-        "name": "TB GOLD"
+        "name": "TB GOLD", 
+        "created": "2018-06-30T09:37:32.312843Z"
     }, 
     {
         "pk": 309, 
         "rate": 0, 
-        "name": "CT PELVIS"
+        "name": "CT PELVIS", 
+        "created": "2018-06-30T09:38:13.023618Z"
     }, 
     {
         "pk": 310, 
         "rate": 750, 
-        "name": "SR INSULIN"
+        "name": "SR INSULIN", 
+        "created": "2018-06-30T09:38:31.060133Z"
     }, 
     {
         "pk": 311, 
         "rate": 0, 
-        "name": "BRONCHOSCOPY"
+        "name": "BRONCHOSCOPY", 
+        "created": "2018-06-30T09:38:47.664734Z"
     }, 
     {
         "pk": 312, 
         "rate": 0, 
-        "name": "CT CORONARY ANGIOGRAPHY"
+        "name": "CT CORONARY ANGIOGRAPHY", 
+        "created": "2018-06-30T09:39:15.285569Z"
     }, 
     {
         "pk": 313, 
         "rate": 0, 
-        "name": "MRI LT SHOULDER"
+        "name": "MRI LT SHOULDER", 
+        "created": "2018-06-30T09:39:32.703805Z"
     }, 
     {
         "pk": 314, 
         "rate": 0, 
-        "name": "C ARM CHARGES"
+        "name": "C ARM CHARGES", 
+        "created": "2018-06-30T09:40:00.693212Z"
     }, 
     {
         "pk": 315, 
         "rate": 700, 
-        "name": "G6 PD LEVEL"
+        "name": "G6 PD LEVEL", 
+        "created": "2018-07-01T06:33:09.080702Z"
     }, 
     {
         "pk": 316, 
         "rate": 1250, 
-        "name": "DR P M PATIL (PHYSICIAN) IN ROOM"
+        "name": "DR P M PATIL (PHYSICIAN) IN ROOM", 
+        "created": "2018-07-05T09:53:41.768918Z"
     }, 
     {
         "pk": 317, 
         "rate": 1000, 
-        "name": "DR GEETA PATIL (PEDIATRICIAN)"
+        "name": "DR GEETA PATIL (PEDIATRICIAN)", 
+        "created": "2018-07-05T09:54:00.093245Z"
     }, 
     {
         "pk": 318, 
         "rate": 300, 
-        "name": "DUTY DOCTOR CHARGES"
+        "name": "DUTY DOCTOR CHARGES", 
+        "created": "2018-07-06T10:27:03.177248Z"
     }, 
     {
         "pk": 319, 
         "rate": 0, 
-        "name": "DR SATISH (MLC CONSULTANT)"
+        "name": "DR SATISH (MLC CONSULTANT)", 
+        "created": "2018-07-07T11:18:25.043755Z"
     }, 
     {
         "pk": 320, 
         "rate": 5000, 
-        "name": "CVC INSERTION CHARGES"
+        "name": "CVC INSERTION CHARGES", 
+        "created": "2018-07-09T04:55:16.959192Z"
     }, 
     {
         "pk": 321, 
         "rate": 1500, 
-        "name": "PROCEDURE"
+        "name": "PROCEDURE", 
+        "created": "2018-07-09T06:43:10.741855Z"
     }, 
     {
         "pk": 322, 
         "rate": 600, 
-        "name": "MEASLES"
+        "name": "MEASLES", 
+        "created": "2018-07-09T07:58:44.710266Z"
     }, 
     {
         "pk": 323, 
         "rate": 600, 
-        "name": "MMR"
+        "name": "MMR", 
+        "created": "2018-07-09T07:58:55.154766Z"
     }, 
     {
         "pk": 324, 
         "rate": 800, 
-        "name": "SR CORTISOL"
+        "name": "SR CORTISOL", 
+        "created": "2018-07-10T06:18:50.321579Z"
     }, 
     {
         "pk": 325, 
         "rate": 3400, 
-        "name": "MCU"
+        "name": "MCU", 
+        "created": "2018-07-10T07:30:09.824475Z"
     }, 
     {
         "pk": 326, 
         "rate": 400, 
-        "name": "X RAY FOOT AP BLIQUE"
+        "name": "X RAY FOOT AP BLIQUE", 
+        "created": "2018-07-10T14:03:18.709775Z"
     }, 
     {
         "pk": 327, 
         "rate": 650, 
-        "name": "HBAIC"
+        "name": "HBAIC", 
+        "created": "2018-07-11T14:43:25.338606Z"
     }, 
     {
         "pk": 328, 
         "rate": 0, 
-        "name": "DR JYOTHI LAKSHMI (OB AND GYNAEC)"
+        "name": "DR JYOTHI LAKSHMI (OB AND GYNAEC)", 
+        "created": "2018-07-11T15:03:02.784378Z"
     }, 
     {
         "pk": 329, 
         "rate": 400, 
-        "name": "X RAY ANKLE AP LAT"
+        "name": "X RAY ANKLE AP LAT", 
+        "created": "2018-07-12T15:03:21.084786Z"
     }, 
     {
         "pk": 330, 
         "rate": 400, 
-        "name": "DR DEEPSHIKA CONSULTATION CHARGES"
+        "name": "DR DEEPSHIKA CONSULTATION CHARGES", 
+        "created": "2018-07-13T06:33:48.779060Z"
     }, 
     {
         "pk": 331, 
         "rate": 1000, 
-        "name": "HISTOPATHOLOGY"
+        "name": "HISTOPATHOLOGY", 
+        "created": "2018-07-13T12:48:18.427730Z"
     }, 
     {
         "pk": 332, 
         "rate": 0, 
-        "name": "DR MANJULA S PATIL (OB&GYNAEC)"
+        "name": "DR MANJULA S PATIL (OB&GYNAEC)", 
+        "created": "2018-07-16T08:11:16.121465Z"
     }, 
     {
         "pk": 333, 
         "rate": 400, 
-        "name": "DR MANJULA S PATIL CONSULTAION CHARGES"
+        "name": "DR MANJULA S PATIL CONSULTAION CHARGES", 
+        "created": "2018-07-16T08:12:11.739229Z"
     }, 
     {
         "pk": 334, 
         "rate": 350, 
-        "name": "DR MANJULA S PATIL FOLLOW UP CHARGES"
+        "name": "DR MANJULA S PATIL FOLLOW UP CHARGES", 
+        "created": "2018-07-16T08:12:29.052638Z"
     }, 
     {
         "pk": 335, 
         "rate": 400, 
-        "name": "DR VIDYADHAR CONSULTATION CHARGES"
+        "name": "DR VIDYADHAR CONSULTATION CHARGES", 
+        "created": "2018-07-16T08:19:14.745861Z"
     }, 
     {
         "pk": 336, 
         "rate": 500, 
-        "name": "X RAY WRIST AP/LAT"
+        "name": "X RAY WRIST AP/LAT", 
+        "created": "2018-07-16T08:21:28.554808Z"
     }, 
     {
         "pk": 337, 
         "rate": 500, 
-        "name": "DR V S RAMESH CONSULTATION CHARGES"
+        "name": "DR V S RAMESH CONSULTATION CHARGES", 
+        "created": "2018-07-16T08:29:07.602657Z"
     }, 
     {
         "pk": 338, 
         "rate": 500, 
-        "name": "DR CHANDAN CONSULTATION CHARGES"
+        "name": "DR CHANDAN CONSULTATION CHARGES", 
+        "created": "2018-07-16T08:29:25.667464Z"
     }, 
     {
         "pk": 339, 
         "rate": 500, 
-        "name": "DR CHANDRASHEKAR CONSULTATION CHARGES"
+        "name": "DR CHANDRASHEKAR CONSULTATION CHARGES", 
+        "created": "2018-07-16T08:30:23.859781Z"
     }, 
     {
         "pk": 340, 
         "rate": 600, 
-        "name": "DR SANTOSH CONSULTATION CHARGES"
+        "name": "DR SANTOSH CONSULTATION CHARGES", 
+        "created": "2018-07-16T08:30:43.277149Z"
     }, 
     {
         "pk": 341, 
         "rate": 400, 
-        "name": "DR CHANDRASHEKAR FOLLOW UP CHARGES"
+        "name": "DR CHANDRASHEKAR FOLLOW UP CHARGES", 
+        "created": "2018-07-16T08:31:06.188366Z"
     }, 
     {
         "pk": 342, 
         "rate": 600, 
-        "name": "DR SHIVAPRASAD CONSULTATION CHARGES"
+        "name": "DR SHIVAPRASAD CONSULTATION CHARGES", 
+        "created": "2018-07-16T08:32:53.595050Z"
     }, 
     {
         "pk": 343, 
         "rate": 850, 
-        "name": "DR RAMESH BABU CONSULTATION CHARGES"
+        "name": "DR RAMESH BABU CONSULTATION CHARGES", 
+        "created": "2018-07-16T08:46:57.052350Z"
     }, 
     {
         "pk": 344, 
         "rate": 500, 
-        "name": "NASAL PACKING"
+        "name": "NASAL PACKING", 
+        "created": "2018-07-17T06:22:59.037586Z"
     }, 
     {
         "pk": 345, 
         "rate": 100, 
-        "name": "TOTAL CHOLESTROL"
+        "name": "TOTAL CHOLESTROL", 
+        "created": "2018-07-17T07:12:49.883409Z"
     }, 
     {
         "pk": 346, 
         "rate": 450, 
-        "name": "SHOULDER X RAY"
+        "name": "SHOULDER X RAY", 
+        "created": "2018-07-17T08:20:34.942862Z"
     }, 
     {
         "pk": 347, 
         "rate": 450, 
-        "name": "PELVIS X RAY"
+        "name": "PELVIS X RAY", 
+        "created": "2018-07-17T08:21:59.785087Z"
     }, 
     {
         "pk": 348, 
         "rate": 400, 
-        "name": "X RAY L S SPAIN AP/LAT"
+        "name": "X RAY L S SPAIN AP/LAT", 
+        "created": "2018-07-18T13:05:17.659726Z"
     }, 
     {
         "pk": 349, 
         "rate": 150, 
-        "name": "MANTOUX TEST"
+        "name": "MANTOUX TEST", 
+        "created": "2018-07-19T06:26:00.306627Z"
     }, 
     {
         "pk": 350, 
         "rate": 100, 
-        "name": "PLATELET COUNT"
+        "name": "PLATELET COUNT", 
+        "created": "2018-07-19T06:54:16.281545Z"
     }, 
     {
         "pk": 351, 
         "rate": 1000, 
-        "name": "INTUBATION"
+        "name": "INTUBATION", 
+        "created": "2018-07-21T03:57:19.532259Z"
     }, 
     {
         "pk": 352, 
         "rate": 2500, 
-        "name": "DENGUE TITRE"
+        "name": "DENGUE TITRE", 
+        "created": "2018-07-21T06:25:02.561933Z"
     }, 
     {
         "pk": 353, 
         "rate": 1000, 
-        "name": "CHEST ULTRASONOGRAPHY"
+        "name": "CHEST ULTRASONOGRAPHY", 
+        "created": "2018-07-21T06:26:57.966383Z"
     }, 
     {
         "pk": 354, 
         "rate": 2600, 
-        "name": "PRO BNP"
+        "name": "PRO BNP", 
+        "created": "2018-07-21T14:07:02.749786Z"
     }, 
     {
         "pk": 355, 
         "rate": 1000, 
-        "name": "BLOOD C/S"
+        "name": "BLOOD C/S", 
+        "created": "2018-07-21T14:07:27.590988Z"
     }, 
     {
         "pk": 356, 
         "rate": 600, 
-        "name": "DR SHRIVATSAV (PULMONOGIST)"
+        "name": "DR SHRIVATSAV (PULMONOGIST)", 
+        "created": "2018-07-21T14:15:13.293233Z"
     }, 
     {
         "pk": 357, 
         "rate": 500, 
-        "name": "URINE SPOT SOD"
+        "name": "URINE SPOT SOD", 
+        "created": "2018-07-21T14:16:34.779069Z"
     }, 
     {
         "pk": 358, 
         "rate": 100, 
-        "name": "URINE KETONES"
+        "name": "URINE KETONES", 
+        "created": "2018-07-22T07:14:59.186253Z"
     }, 
     {
         "pk": 359, 
         "rate": 1200, 
-        "name": "SERUM HOMOCYTINE ASSAY"
+        "name": "SERUM HOMOCYTINE ASSAY", 
+        "created": "2018-07-24T06:16:11.557797Z"
     }, 
     {
         "pk": 360, 
         "rate": 3300, 
-        "name": "LUPUS ANTICOAGULANT"
+        "name": "LUPUS ANTICOAGULANT", 
+        "created": "2018-07-24T06:16:47.720434Z"
     }, 
     {
         "pk": 361, 
         "rate": 1500, 
-        "name": "ANTI CARDIOLEPIN ANTIBODY"
+        "name": "ANTI CARDIOLEPIN ANTIBODY", 
+        "created": "2018-07-24T06:20:55.340480Z"
     }, 
     {
         "pk": 362, 
         "rate": 450, 
-        "name": "URINE MICRO ALBUMINE"
+        "name": "URINE MICRO ALBUMINE", 
+        "created": "2018-07-24T13:22:46.885453Z"
     }, 
     {
         "pk": 363, 
         "rate": 450, 
-        "name": "URINE FOR MICRO ALBUMIN"
+        "name": "URINE FOR MICRO ALBUMIN", 
+        "created": "2018-07-24T13:25:40.968490Z"
     }, 
     {
         "pk": 364, 
         "rate": 250, 
-        "name": "ADEISOSIN"
+        "name": "ADEISOSIN", 
+        "created": "2018-07-25T07:02:39.158513Z"
     }, 
     {
         "pk": 365, 
         "rate": 1200, 
-        "name": "LEPTOSPIRA ANTIBODY"
+        "name": "LEPTOSPIRA ANTIBODY", 
+        "created": "2018-07-26T13:57:43.278379Z"
     }, 
     {
         "pk": 366, 
         "rate": 500, 
-        "name": "DR MANJUNATH(NEUROLOGIST)"
+        "name": "DR MANJUNATH(NEUROLOGIST)", 
+        "created": "2018-07-26T14:36:00.087412Z"
     }, 
     {
         "pk": 367, 
         "rate": 1500, 
-        "name": "SR ACE LEVEL"
+        "name": "SR ACE LEVEL", 
+        "created": "2018-07-26T14:43:12.488281Z"
     }, 
     {
         "pk": 368, 
         "rate": 400, 
-        "name": "DR MUNIRAJU (ENT) CONSULTATION CHARGES"
+        "name": "DR MUNIRAJU (ENT) CONSULTATION CHARGES", 
+        "created": "2018-07-28T14:30:30.424259Z"
     }, 
     {
         "pk": 369, 
         "rate": 350, 
-        "name": "DR MUNIRAJU (ENT) FOLLOW UP CHARGES"
+        "name": "DR MUNIRAJU (ENT) FOLLOW UP CHARGES", 
+        "created": "2018-07-28T14:30:56.277837Z"
     }, 
     {
         "pk": 370, 
         "rate": 450, 
-        "name": "DR TEJUS CHERANJEEVI (UROLOGISIT) FOLLOW UP CHARGES"
+        "name": "DR TEJUS CHERANJEEVI (UROLOGISIT) FOLLOW UP CHARGES", 
+        "created": "2018-07-28T14:32:44.493093Z"
     }, 
     {
         "pk": 371, 
         "rate": 500, 
-        "name": "DR TEJUS CHERANJEEVI (UROLOGISIT)CONSULTATION CHARGES"
+        "name": "DR TEJUS CHERANJEEVI (UROLOGISIT)CONSULTATION CHARGES", 
+        "created": "2018-07-28T14:33:11.641196Z"
     }, 
     {
         "pk": 372, 
         "rate": 400, 
-        "name": "DR NEEHAR PATIL(GEN SURGEON) CONSULTATION CHARGES"
+        "name": "DR NEEHAR PATIL(GEN SURGEON) CONSULTATION CHARGES", 
+        "created": "2018-07-28T14:34:51.466755Z"
     }, 
     {
         "pk": 373, 
         "rate": 350, 
-        "name": "DR NEEHAR PATIL(GEN SURGEON) FOLLOW UP  CHARGES"
+        "name": "DR NEEHAR PATIL(GEN SURGEON) FOLLOW UP  CHARGES", 
+        "created": "2018-07-28T14:35:39.616024Z"
     }, 
     {
         "pk": 374, 
         "rate": 350, 
-        "name": "DR DEEPSHIKA FOLLOW  UP CHARGES"
+        "name": "DR DEEPSHIKA FOLLOW  UP CHARGES", 
+        "created": "2018-07-28T14:40:31.085179Z"
     }, 
     {
         "pk": 375, 
         "rate": 550, 
-        "name": "DR SHIVAPRASAD FOLLOW UP CHARGES"
+        "name": "DR SHIVAPRASAD FOLLOW UP CHARGES", 
+        "created": "2018-07-28T14:43:19.751820Z"
     }, 
     {
         "pk": 376, 
         "rate": 400, 
-        "name": "DR HEMALATHA (PEDIA) CONSULTATION CHARGES"
+        "name": "DR HEMALATHA (PEDIA) CONSULTATION CHARGES", 
+        "created": "2018-07-28T14:44:23.606768Z"
     }, 
     {
         "pk": 377, 
         "rate": 350, 
-        "name": "DR HEMALATHA (PEDIA) FOLLOW UP CHARGES"
+        "name": "DR HEMALATHA (PEDIA) FOLLOW UP CHARGES", 
+        "created": "2018-07-28T14:44:52.227665Z"
     }, 
     {
         "pk": 378, 
         "rate": 500, 
-        "name": "DR SAIRA ZIA ( OB & GYNAEC) CONSULTATION CHARGES"
+        "name": "DR SAIRA ZIA ( OB & GYNAEC) CONSULTATION CHARGES", 
+        "created": "2018-07-28T14:48:42.728844Z"
     }, 
     {
         "pk": 379, 
         "rate": 400, 
-        "name": "DR SAIRA ZIA ( OB & GYNAEC) FOLLOW UP CHARGES"
+        "name": "DR SAIRA ZIA ( OB & GYNAEC) FOLLOW UP CHARGES", 
+        "created": "2018-07-28T14:49:01.122221Z"
     }, 
     {
         "pk": 380, 
         "rate": 400, 
-        "name": "DR SYED IMRAN (ORTHOPEDICIAN) CONSULTATION CHARGES"
+        "name": "DR SYED IMRAN (ORTHOPEDICIAN) CONSULTATION CHARGES", 
+        "created": "2018-07-28T14:49:54.013891Z"
     }, 
     {
         "pk": 381, 
         "rate": 350, 
-        "name": "DR SYED IMRAN (ORTHOPEDICIAN) FOLLOW UP CHARGES"
+        "name": "DR SYED IMRAN (ORTHOPEDICIAN) FOLLOW UP CHARGES", 
+        "created": "2018-07-28T14:50:12.549642Z"
     }, 
     {
         "pk": 382, 
         "rate": 0, 
-        "name": "ASSISTANT SURGEON"
+        "name": "ASSISTANT SURGEON", 
+        "created": "2018-07-30T06:22:33.629342Z"
     }, 
     {
         "pk": 383, 
         "rate": 3500, 
-        "name": "EMIRELLE INSERTION"
+        "name": "EMIRELLE INSERTION", 
+        "created": "2018-07-30T13:03:10.718622Z"
     }, 
     {
         "pk": 384, 
         "rate": 200, 
-        "name": "PLATELET TRANSFUSION"
+        "name": "PLATELET TRANSFUSION", 
+        "created": "2018-07-31T14:39:57.311990Z"
     }, 
     {
         "pk": 385, 
         "rate": 18900, 
-        "name": "BREAST LUMPECTOMY AS PER GIPSA"
+        "name": "BREAST LUMPECTOMY AS PER GIPSA", 
+        "created": "2018-08-02T07:24:08.189289Z"
     }, 
     {
         "pk": 386, 
         "rate": 150, 
-        "name": "CATHETER"
+        "name": "CATHETER", 
+        "created": "2018-08-05T04:36:47.618562Z"
     }, 
     {
         "pk": 387, 
         "rate": 100, 
-        "name": "SPO2"
+        "name": "SPO2", 
+        "created": "2018-08-06T08:42:08.589196Z"
     }, 
     {
         "pk": 388, 
         "rate": 19000, 
-        "name": "DILATATION AND CURRETAGE PACKAGE CHARGES"
+        "name": "DILATATION AND CURRETAGE PACKAGE CHARGES", 
+        "created": "2018-08-07T06:06:22.645293Z"
     }, 
     {
         "pk": 389, 
         "rate": 2000, 
-        "name": "ENTEROSHEILD"
+        "name": "ENTEROSHEILD", 
+        "created": "2018-08-07T06:16:17.037425Z"
     }, 
     {
         "pk": 390, 
         "rate": 1200, 
-        "name": "ANA ANTIDS DNA"
+        "name": "ANA ANTIDS DNA", 
+        "created": "2018-08-07T09:19:33.368703Z"
     }, 
     {
         "pk": 391, 
         "rate": 200, 
-        "name": "PS FOR SMEAR STUDY"
+        "name": "PS FOR SMEAR STUDY", 
+        "created": "2018-08-07T09:19:51.524174Z"
     }, 
     {
         "pk": 392, 
         "rate": 1500, 
-        "name": "AVAXIM JUNIOR"
+        "name": "AVAXIM JUNIOR", 
+        "created": "2018-08-09T13:15:17.935720Z"
     }, 
     {
         "pk": 393, 
         "rate": 200, 
-        "name": "SR MAGNESIUM"
+        "name": "SR MAGNESIUM", 
+        "created": "2018-08-10T06:17:41.802341Z"
     }, 
     {
         "pk": 394, 
         "rate": 550, 
-        "name": "URINECALCIUM CREATININE RATIO"
+        "name": "URINECALCIUM CREATININE RATIO", 
+        "created": "2018-08-11T08:38:14.569614Z"
     }, 
     {
         "pk": 395, 
         "rate": 5000, 
-        "name": "NICU,NURSING AND MONITORING CHARGES"
+        "name": "NICU,NURSING AND MONITORING CHARGES", 
+        "created": "2018-08-15T13:01:32.629969Z"
     }, 
     {
         "pk": 396, 
         "rate": 750, 
-        "name": "DR PRABHA"
+        "name": "DR PRABHA", 
+        "created": "2018-08-15T13:02:53.167187Z"
     }, 
     {
         "pk": 397, 
         "rate": 1500, 
-        "name": "LED SINGLE SURFACE PHOTOTHERAPY"
+        "name": "LED SINGLE SURFACE PHOTOTHERAPY", 
+        "created": "2018-08-17T06:09:58.091395Z"
     }, 
     {
         "pk": 398, 
         "rate": 1800, 
-        "name": "PERITONEAL FLUID ANALYSIS"
+        "name": "PERITONEAL FLUID ANALYSIS", 
+        "created": "2018-08-17T08:06:10.316023Z"
     }, 
     {
         "pk": 399, 
         "rate": 2500, 
-        "name": "WARD  CHARGES FOR EVACUATION"
+        "name": "WARD  CHARGES FOR EVACUATION", 
+        "created": "2018-08-18T08:55:51.759209Z"
     }, 
     {
         "pk": 400, 
         "rate": 0, 
-        "name": "DR SURESH (ANAESTHESILOGIST)"
+        "name": "DR SURESH (ANAESTHESILOGIST)", 
+        "created": "2018-08-20T05:25:58.705479Z"
     }, 
     {
         "pk": 401, 
         "rate": 600, 
-        "name": "X RAY THORACOLUMBAR SPINE AP/LAT"
+        "name": "X RAY THORACOLUMBAR SPINE AP/LAT", 
+        "created": "2018-08-20T08:53:13.741830Z"
     }, 
     {
         "pk": 402, 
         "rate": 46200, 
-        "name": "LSCS GIPSA PACKAGE CHARGES"
+        "name": "LSCS GIPSA PACKAGE CHARGES", 
+        "created": "2018-08-20T09:19:55.687877Z"
     }, 
     {
         "pk": 403, 
         "rate": 0, 
-        "name": "CO-PAYMENT CHARGES"
+        "name": "CO-PAYMENT CHARGES", 
+        "created": "2018-08-21T04:25:19.409347Z"
     }, 
     {
         "pk": 404, 
         "rate": 800, 
-        "name": "PUS FOR C/S"
+        "name": "PUS FOR C/S", 
+        "created": "2018-08-21T05:21:09.022049Z"
     }, 
     {
         "pk": 405, 
         "rate": 400, 
-        "name": "DR VIDYADHAR CONSULTATION CHARGES"
+        "name": "DR VIDYADHAR CONSULTATION CHARGES", 
+        "created": "2018-08-22T05:36:08.364510Z"
     }, 
     {
         "pk": 406, 
         "rate": 100, 
-        "name": "HAEMOGLOBIN"
+        "name": "HAEMOGLOBIN", 
+        "created": "2018-08-22T05:36:23.563229Z"
     }, 
     {
         "pk": 407, 
         "rate": 100, 
-        "name": "PCV"
+        "name": "PCV", 
+        "created": "2018-08-22T05:36:27.804629Z"
     }, 
     {
         "pk": 408, 
         "rate": 0, 
-        "name": "DR SANJAY (ORHTO)"
+        "name": "DR SANJAY (ORHTO)", 
+        "created": "2018-08-22T05:36:43.900635Z"
     }, 
     {
         "pk": 409, 
         "rate": 850, 
-        "name": "URINE BENZODIBINE"
+        "name": "URINE BENZODIBINE", 
+        "created": "2018-08-22T06:10:29.442045Z"
     }, 
     {
         "pk": 410, 
         "rate": 200, 
-        "name": "SR CPK"
+        "name": "SR CPK", 
+        "created": "2018-08-23T03:48:39.960849Z"
     }, 
     {
         "pk": 411, 
         "rate": 1600, 
-        "name": "PHYSICIAN CHARGES IN ICU"
+        "name": "PHYSICIAN CHARGES IN ICU", 
+        "created": "2018-08-24T10:25:46.590330Z"
     }, 
     {
         "pk": 412, 
         "rate": 400, 
-        "name": "ADA"
+        "name": "ADA", 
+        "created": "2018-08-25T07:21:10.307104Z"
     }, 
     {
         "pk": 413, 
         "rate": 250, 
-        "name": "LDH"
+        "name": "LDH", 
+        "created": "2018-08-25T07:21:29.006544Z"
     }, 
     {
         "pk": 414, 
         "rate": 150, 
-        "name": "INFUSION CHARGES"
+        "name": "INFUSION CHARGES", 
+        "created": "2018-08-26T05:41:59.419459Z"
     }, 
     {
         "pk": 415, 
         "rate": 2000, 
-        "name": "MTP CHARGES"
+        "name": "MTP CHARGES", 
+        "created": "2018-08-27T07:03:43.172783Z"
     }, 
     {
         "pk": 416, 
         "rate": 500, 
-        "name": "DR L N RAJU (PHY) CONSULTATION CHARGES"
+        "name": "DR L N RAJU (PHY) CONSULTATION CHARGES", 
+        "created": "2018-08-29T10:43:31.315897Z"
     }, 
     {
         "pk": 417, 
         "rate": 0, 
-        "name": "DR L N RAJU (PHYSICIAN)"
+        "name": "DR L N RAJU (PHYSICIAN)", 
+        "created": "2018-08-30T10:32:03.378496Z"
     }, 
     {
         "pk": 418, 
         "rate": 15000, 
-        "name": "CYSTOSCOPY & STENT REMOVAL"
+        "name": "CYSTOSCOPY & STENT REMOVAL", 
+        "created": "2018-09-02T05:29:14.011584Z"
     }, 
     {
         "pk": 419, 
         "rate": 21294, 
-        "name": "FISTULECTOMY AS PER GISPA"
+        "name": "FISTULECTOMY AS PER GISPA", 
+        "created": "2018-09-03T13:15:56.189762Z"
     }, 
     {
         "pk": 420, 
         "rate": 1200, 
-        "name": "DR P M PATIL (PHYSICIAN) IN WARD"
+        "name": "DR P M PATIL (PHYSICIAN) IN WARD", 
+        "created": "2018-09-07T05:32:59.280670Z"
     }, 
     {
         "pk": 421, 
         "rate": 1600, 
-        "name": "DR P M PATIL (PHYSICIAN) IN ICU"
+        "name": "DR P M PATIL (PHYSICIAN) IN ICU", 
+        "created": "2018-09-07T05:39:14.603391Z"
     }, 
     {
         "pk": 422, 
         "rate": 700, 
-        "name": "CEA LEVELS"
+        "name": "CEA LEVELS", 
+        "created": "2018-09-15T05:10:12.609343Z"
     }, 
     {
         "pk": 423, 
         "rate": 1000, 
-        "name": "NEURO ULTRASONOGRAPHY"
+        "name": "NEURO ULTRASONOGRAPHY", 
+        "created": "2018-09-19T08:34:08.457918Z"
     }, 
     {
         "pk": 424, 
         "rate": 175, 
-        "name": "TRESIVAC"
+        "name": "TRESIVAC", 
+        "created": "2018-09-21T13:38:32.537384Z"
     }, 
     {
         "pk": 425, 
         "rate": 50, 
-        "name": "POLIO"
+        "name": "POLIO", 
+        "created": "2018-09-21T13:39:37.476841Z"
     }, 
     {
         "pk": 426, 
         "rate": 400, 
-        "name": "HIP X RAY"
+        "name": "HIP X RAY", 
+        "created": "2018-09-22T06:01:59.751980Z"
     }, 
     {
         "pk": 427, 
         "rate": 7300, 
-        "name": "MRI LS SPINE AP/LAT"
+        "name": "MRI LS SPINE AP/LAT", 
+        "created": "2018-09-25T06:28:44.894564Z"
     }, 
     {
         "pk": 428, 
         "rate": 1500, 
-        "name": "E R ROOM CHARGES"
+        "name": "E R ROOM CHARGES", 
+        "created": "2018-09-26T05:48:02.514760Z"
     }, 
     {
         "pk": 429, 
         "rate": 1500, 
-        "name": "PERITONEAL FLUID C/S"
+        "name": "PERITONEAL FLUID C/S", 
+        "created": "2018-09-29T06:26:36.784510Z"
     }, 
     {
         "pk": 430, 
         "rate": 1000, 
-        "name": "PERITONEAL FLUID C/S AEROBIC"
+        "name": "PERITONEAL FLUID C/S AEROBIC", 
+        "created": "2018-09-29T06:32:11.085475Z"
     }, 
     {
         "pk": 431, 
         "rate": 1000, 
-        "name": "PERITONEAL FLUID C/S ANAEROBIC"
+        "name": "PERITONEAL FLUID C/S ANAEROBIC", 
+        "created": "2018-09-29T06:32:29.486425Z"
     }, 
     {
         "pk": 432, 
         "rate": 1000, 
-        "name": "PERITONEAL FLUID C/S FUNGAL"
+        "name": "PERITONEAL FLUID C/S FUNGAL", 
+        "created": "2018-09-29T06:32:42.631989Z"
     }, 
     {
         "pk": 433, 
         "rate": 4000, 
-        "name": "URETEROSCOPE"
+        "name": "URETEROSCOPE", 
+        "created": "2018-10-02T08:31:53.249116Z"
     }, 
     {
         "pk": 434, 
         "rate": 600, 
-        "name": "DR NEEHAR PATIL (GEN SURGEON)"
+        "name": "DR NEEHAR PATIL (GEN SURGEON)", 
+        "created": "2018-10-02T10:21:41.887178Z"
     }, 
     {
         "pk": 435, 
         "rate": 8500, 
-        "name": "DR RAJENDRA PRASAD"
+        "name": "DR RAJENDRA PRASAD", 
+        "created": "2018-10-02T15:25:14.128352Z"
     }, 
     {
         "pk": 436, 
         "rate": 0, 
-        "name": "DR V N RAJU (ANAESTHETIOLOGIST)"
+        "name": "DR V N RAJU (ANAESTHETIOLOGIST)", 
+        "created": "2018-10-03T07:11:10.065157Z"
     }, 
     {
         "pk": 437, 
         "rate": 100, 
-        "name": "STOOL HANGING DROP"
+        "name": "STOOL HANGING DROP", 
+        "created": "2018-10-06T06:21:33.135182Z"
     }, 
     {
         "pk": 438, 
         "rate": 450, 
-        "name": "X RAY CHEST PA VIEW"
+        "name": "X RAY CHEST PA VIEW", 
+        "created": "2018-10-06T13:35:27.490691Z"
     }, 
     {
         "pk": 439, 
         "rate": 450, 
-        "name": "SERUM ELECTROLYTES"
+        "name": "SERUM ELECTROLYTES", 
+        "created": "2018-10-06T13:37:30.339393Z"
     }, 
     {
         "pk": 440, 
         "rate": 350, 
-        "name": "SERUM ELECTROLYTES"
+        "name": "SERUM ELECTROLYTES", 
+        "created": "2018-10-06T13:37:30.468254Z"
     }, 
     {
         "pk": 441, 
         "rate": 450, 
-        "name": "CBC WITH ESR"
+        "name": "CBC WITH ESR", 
+        "created": "2018-10-06T13:38:09.542894Z"
     }, 
     {
         "pk": 442, 
         "rate": 8500, 
-        "name": "MRI BRAIN WITH ANGIOGRAM"
+        "name": "MRI BRAIN WITH ANGIOGRAM", 
+        "created": "2018-10-09T08:31:21.045616Z"
     }, 
     {
         "pk": 443, 
         "rate": 1800, 
-        "name": "DIALYSIS CHARGES"
+        "name": "DIALYSIS CHARGES", 
+        "created": "2018-10-10T07:58:35.215176Z"
     }, 
     {
         "pk": 444, 
         "rate": 1600, 
-        "name": "LEG VESSEL DOPPLER STUDY"
+        "name": "LEG VESSEL DOPPLER STUDY", 
+        "created": "2018-10-10T08:02:20.052108Z"
     }, 
     {
         "pk": 445, 
         "rate": 2500, 
-        "name": "PERITONEAL ASPIRATION"
+        "name": "PERITONEAL ASPIRATION", 
+        "created": "2018-10-10T15:08:48.738411Z"
     }, 
     {
         "pk": 446, 
         "rate": 600, 
-        "name": "ALPHA FETA PROTEIN"
+        "name": "ALPHA FETA PROTEIN", 
+        "created": "2018-10-11T09:23:11.259583Z"
     }, 
     {
         "pk": 447, 
         "rate": 400, 
-        "name": "DR GURURAJ S PURANIK (ORTHO) CONSULTATION CHARGES"
+        "name": "DR GURURAJ S PURANIK (ORTHO) CONSULTATION CHARGES", 
+        "created": "2018-10-12T06:05:06.432145Z"
     }, 
     {
         "pk": 448, 
         "rate": 600, 
-        "name": "X-RAY KNEE AP LAT"
+        "name": "X-RAY KNEE AP LAT", 
+        "created": "2018-10-12T07:03:34.044632Z"
     }, 
     {
         "pk": 449, 
         "rate": 1500, 
-        "name": "CARM"
+        "name": "CARM", 
+        "created": "2018-10-12T07:04:19.626752Z"
     }, 
     {
         "pk": 450, 
         "rate": 7500, 
-        "name": "HOSPITAL TERMINATION CHARGES"
+        "name": "HOSPITAL TERMINATION CHARGES", 
+        "created": "2018-10-14T06:03:17.542326Z"
     }, 
     {
         "pk": 451, 
         "rate": 800, 
-        "name": "ET SECRITION C/S"
+        "name": "ET SECRITION C/S", 
+        "created": "2018-10-16T03:45:36.832944Z"
     }, 
     {
         "pk": 452, 
         "rate": 1500, 
-        "name": "CD4 CD8 COUNTS"
+        "name": "CD4 CD8 COUNTS", 
+        "created": "2018-10-17T10:36:14.664609Z"
     }, 
     {
         "pk": 453, 
         "rate": 2500, 
-        "name": "TISSUE TRANSGLUTAMASE"
+        "name": "TISSUE TRANSGLUTAMASE", 
+        "created": "2018-10-17T10:36:14.779798Z"
     }, 
     {
         "pk": 454, 
         "rate": 2600, 
-        "name": "EASY SIX"
+        "name": "EASY SIX", 
+        "created": "2018-10-20T13:28:46.135051Z"
     }, 
     {
         "pk": 455, 
         "rate": 1800, 
-        "name": "SR CERULOPLASMIN"
+        "name": "SR CERULOPLASMIN", 
+        "created": "2018-10-20T15:04:29.339556Z"
     }, 
     {
         "pk": 456, 
         "rate": 2400, 
-        "name": "TRANSFERRIN LEVEL"
+        "name": "TRANSFERRIN LEVEL", 
+        "created": "2018-10-20T15:04:47.434376Z"
     }, 
     {
         "pk": 457, 
         "rate": 15000, 
-        "name": "DR V S RAMESH OESPHAEGEAL PROCEDURE AND OT"
+        "name": "DR V S RAMESH OESPHAEGEAL PROCEDURE AND OT", 
+        "created": "2018-10-20T15:08:38.932774Z"
     }, 
     {
         "pk": 458, 
         "rate": 600, 
-        "name": "THRACOLUMABR XRAY"
+        "name": "THRACOLUMABR XRAY", 
+        "created": "2018-10-20T15:08:57.228561Z"
     }, 
     {
         "pk": 459, 
         "rate": 8000, 
-        "name": "MRCP"
+        "name": "MRCP", 
+        "created": "2018-10-20T15:19:57.296416Z"
     }, 
     {
         "pk": 460, 
         "rate": 50, 
-        "name": "OPV"
+        "name": "OPV", 
+        "created": "2018-10-23T05:24:11.514829Z"
     }, 
     {
         "pk": 461, 
         "rate": 600, 
-        "name": "DR MANJUNATH(NEURO)"
+        "name": "DR MANJUNATH(NEURO)", 
+        "created": "2018-10-24T06:52:11.494265Z"
     }, 
     {
         "pk": 462, 
         "rate": 550, 
-        "name": "HEPATITIS B"
+        "name": "HEPATITIS B", 
+        "created": "2018-10-27T07:07:02.811669Z"
     }, 
     {
         "pk": 463, 
         "rate": 100, 
-        "name": "INJ PETHIDINE"
+        "name": "INJ PETHIDINE", 
+        "created": "2018-10-28T05:46:04.311753Z"
     }, 
     {
         "pk": 464, 
         "rate": 1000, 
-        "name": "PARATHYROID HARMONE"
+        "name": "PARATHYROID HARMONE", 
+        "created": "2018-10-28T05:57:09.950241Z"
     }, 
     {
         "pk": 465, 
         "rate": 1200, 
-        "name": "FLUQUADRI"
+        "name": "FLUQUADRI", 
+        "created": "2018-11-03T07:41:05.745736Z"
     }, 
     {
         "pk": 466, 
         "rate": 41580, 
-        "name": "ABDOMINAL HYSTRECTOMY AS PER GIPSA PACKAGES"
+        "name": "ABDOMINAL HYSTRECTOMY AS PER GIPSA PACKAGES", 
+        "created": "2018-11-12T13:07:39.893698Z"
     }, 
     {
         "pk": 467, 
         "rate": 1200, 
-        "name": "PEDIATRICIAN IN WARD"
+        "name": "PEDIATRICIAN IN WARD", 
+        "created": "2018-11-12T14:00:37.687817Z"
     }, 
     {
         "pk": 468, 
         "rate": 1250, 
-        "name": "PEDIATRICIAN"
+        "name": "PEDIATRICIAN", 
+        "created": "2018-11-13T08:47:07.180408Z"
     }, 
     {
         "pk": 469, 
         "rate": 7500, 
-        "name": "CT ABDOMEN AND PELVIES"
+        "name": "CT ABDOMEN AND PELVIES", 
+        "created": "2018-11-13T15:40:10.069180Z"
     }, 
     {
         "pk": 470, 
         "rate": 250, 
-        "name": "BCG"
+        "name": "BCG", 
+        "created": "2018-11-15T12:36:36.074483Z"
     }, 
     {
         "pk": 471, 
         "rate": 50, 
-        "name": "BLOOD SUGAR"
+        "name": "BLOOD SUGAR", 
+        "created": "2018-11-15T12:37:23.669909Z"
     }, 
     {
         "pk": 472, 
         "rate": 0, 
-        "name": "INSTRUMENTS CHARGES"
+        "name": "INSTRUMENTS CHARGES", 
+        "created": "2018-11-16T05:45:44.948323Z"
     }, 
     {
         "pk": 473, 
         "rate": 1000, 
-        "name": "BOOSTERIX"
+        "name": "BOOSTERIX", 
+        "created": "2018-11-17T07:59:39.399466Z"
     }, 
     {
         "pk": 474, 
         "rate": 1000, 
-        "name": "THROAT SWAB C/S"
+        "name": "THROAT SWAB C/S", 
+        "created": "2018-11-18T06:11:44.183258Z"
     }, 
     {
         "pk": 475, 
         "rate": 2500, 
-        "name": "THROAT SWAB FOR H1N1"
+        "name": "THROAT SWAB FOR H1N1", 
+        "created": "2018-11-18T06:12:00.157208Z"
     }, 
     {
         "pk": 476, 
         "rate": 1500, 
-        "name": "PLEURAL FLUID ASPIRATION"
+        "name": "PLEURAL FLUID ASPIRATION", 
+        "created": "2018-11-19T08:04:17.565436Z"
     }, 
     {
         "pk": 477, 
         "rate": 500, 
-        "name": "LDH"
+        "name": "LDH", 
+        "created": "2018-11-28T08:00:42.790547Z"
     }, 
     {
         "pk": 478, 
         "rate": 12000, 
-        "name": "CYSTOSCOPE + DILATATION CHARGES"
+        "name": "CYSTOSCOPE + DILATATION CHARGES", 
+        "created": "2018-12-01T09:30:03.725297Z"
     }, 
     {
         "pk": 479, 
         "rate": 6000, 
-        "name": "CT CHEST"
+        "name": "CT CHEST", 
+        "created": "2018-12-03T06:49:38.597596Z"
     }, 
     {
         "pk": 480, 
         "rate": 5000, 
-        "name": "DR NAGESH (ANESTHESIOLOGIST)"
+        "name": "DR NAGESH (ANESTHESIOLOGIST)", 
+        "created": "2018-12-05T15:02:03.409447Z"
     }, 
     {
         "pk": 481, 
         "rate": 5000, 
-        "name": "DR NAGESH  (ANAESTHETIOLOGIST)"
+        "name": "DR NAGESH  (ANAESTHETIOLOGIST)", 
+        "created": "2018-12-05T15:08:39.564409Z"
     }, 
     {
         "pk": 482, 
         "rate": 4000, 
-        "name": "VENTILATOR"
+        "name": "VENTILATOR", 
+        "created": "2018-12-10T09:01:13.344398Z"
     }, 
     {
         "pk": 483, 
         "rate": 500, 
-        "name": "CAUSLTLY"
+        "name": "CAUSLTLY", 
+        "created": "2018-12-11T06:34:17.082046Z"
     }, 
     {
         "pk": 484, 
         "rate": 1000, 
-        "name": "EXPLORATION UNDER LA"
+        "name": "EXPLORATION UNDER LA", 
+        "created": "2018-12-11T09:43:45.974869Z"
     }, 
     {
         "pk": 485, 
         "rate": 1500, 
-        "name": "OXYGEN THERAPY"
+        "name": "OXYGEN THERAPY", 
+        "created": "2018-12-11T09:59:07.820999Z"
     }, 
     {
         "pk": 486, 
         "rate": 4500, 
-        "name": "MRA"
+        "name": "MRA", 
+        "created": "2018-12-12T14:01:32.157534Z"
     }, 
     {
         "pk": 487, 
         "rate": 1000, 
-        "name": "ULTRASONOGRAPHY OF KNEE"
+        "name": "ULTRASONOGRAPHY OF KNEE", 
+        "created": "2018-12-19T06:56:53.141182Z"
     }, 
     {
         "pk": 488, 
         "rate": 1200, 
-        "name": "ANTI PLATELET ANTIBODY"
+        "name": "ANTI PLATELET ANTIBODY", 
+        "created": "2018-12-20T15:07:40.358044Z"
     }, 
     {
         "pk": 489, 
         "rate": 150, 
-        "name": "HB  PCV"
+        "name": "HB  PCV", 
+        "created": "2018-12-21T13:04:34.736735Z"
     }, 
     {
         "pk": 490, 
         "rate": 0, 
-        "name": "DIFFERENCE  AMOUNT"
+        "name": "DIFFERENCE  AMOUNT", 
+        "created": "2018-12-21T14:10:03.491672Z"
     }, 
     {
         "pk": 491, 
         "rate": 350, 
-        "name": "URINE FOR MALIGNANT CELLS"
+        "name": "URINE FOR MALIGNANT CELLS", 
+        "created": "2018-12-22T12:48:18.482095Z"
     }, 
     {
         "pk": 492, 
         "rate": 2000, 
-        "name": "NERVE CONDUCTION STUDY"
+        "name": "NERVE CONDUCTION STUDY", 
+        "created": "2018-12-27T07:05:07.284794Z"
     }, 
     {
         "pk": 493, 
         "rate": 4000, 
-        "name": "VASCULITIES PROFILE"
+        "name": "VASCULITIES PROFILE", 
+        "created": "2018-12-27T13:36:02.525789Z"
     }, 
     {
         "pk": 494, 
         "rate": 500, 
-        "name": "ERRECT ADOMEN X-RAY"
+        "name": "ERRECT ADOMEN X-RAY", 
+        "created": "2018-12-27T14:13:58.407808Z"
     }, 
     {
         "pk": 495, 
         "rate": 150, 
-        "name": "REVAC B"
+        "name": "REVAC B", 
+        "created": "2018-12-29T07:01:41.204009Z"
     }, 
     {
         "pk": 496, 
         "rate": 600, 
-        "name": "DR PARICHAY PERIKAL (NEURO SURGEON)"
+        "name": "DR PARICHAY PERIKAL (NEURO SURGEON)", 
+        "created": "2018-12-29T09:35:24.772391Z"
     }, 
     {
         "pk": 497, 
         "rate": 600, 
-        "name": "DR ARJUN (UROLOGIST)"
+        "name": "DR ARJUN (UROLOGIST)", 
+        "created": "2019-01-14T14:01:20.601764Z"
     }, 
     {
         "pk": 498, 
         "rate": 750, 
-        "name": "EMERGENCY PEADITRICIAN VISIT AT NIGHT"
+        "name": "EMERGENCY PEADITRICIAN VISIT AT NIGHT", 
+        "created": "2019-01-23T07:26:15.509551Z"
     }, 
     {
         "pk": 499, 
         "rate": 600, 
-        "name": "FT3 FT4"
+        "name": "FT3 FT4", 
+        "created": "2019-01-23T08:20:24.724666Z"
     }, 
     {
         "pk": 500, 
         "rate": 2500, 
-        "name": "BIPAP"
+        "name": "BIPAP", 
+        "created": "2019-01-23T13:36:44.625427Z"
     }, 
     {
         "pk": 501, 
         "rate": 400, 
-        "name": "INFUSION PUMP CHARGES"
+        "name": "INFUSION PUMP CHARGES", 
+        "created": "2019-01-23T13:37:01.099187Z"
     }, 
     {
         "pk": 502, 
         "rate": 3000, 
-        "name": "LARYNGCAL ENDOSCOPY"
+        "name": "LARYNGCAL ENDOSCOPY", 
+        "created": "2019-01-23T13:47:32.281559Z"
     }, 
     {
         "pk": 503, 
         "rate": 7000, 
-        "name": "AS PER GISPA PACAKAGE DJ  STENT REMOVING CHARGES"
+        "name": "AS PER GISPA PACAKAGE DJ  STENT REMOVING CHARGES", 
+        "created": "2019-01-23T14:25:12.229517Z"
     }, 
     {
         "pk": 504, 
         "rate": 1600, 
-        "name": "RENAL DOPPLER STUDY"
+        "name": "RENAL DOPPLER STUDY", 
+        "created": "2019-01-25T11:42:29.711635Z"
     }, 
     {
         "pk": 505, 
         "rate": 2500, 
-        "name": "CARDIOVERSION"
+        "name": "CARDIOVERSION", 
+        "created": "2019-01-29T07:21:33.981875Z"
     }, 
     {
         "pk": 506, 
         "rate": 1400, 
-        "name": "SINGLE PRIVATE NON AC ROOM CHARGES"
+        "name": "SINGLE PRIVATE NON AC ROOM CHARGES", 
+        "created": "2019-02-02T04:22:10.630487Z"
     }, 
     {
         "pk": 507, 
         "rate": 1500, 
-        "name": "ROOM CHARGES"
+        "name": "ROOM CHARGES", 
+        "created": "2019-02-02T10:19:35.080889Z"
     }, 
     {
         "pk": 508, 
         "rate": 2000, 
-        "name": "WARD CHARGES AND NURSING CHARGES"
+        "name": "WARD CHARGES AND NURSING CHARGES", 
+        "created": "2019-02-02T15:28:36.563110Z"
     }, 
     {
         "pk": 509, 
         "rate": 250, 
-        "name": "NURSING CHARGES"
+        "name": "NURSING CHARGES", 
+        "created": "2019-02-02T15:28:49.046060Z"
     }, 
     {
         "pk": 510, 
         "rate": 1500, 
-        "name": "C PEPTIDE"
+        "name": "C PEPTIDE", 
+        "created": "2019-02-04T05:48:59.839463Z"
     }, 
     {
         "pk": 511, 
         "rate": 400, 
-        "name": "NASAL X RAY"
+        "name": "NASAL X RAY", 
+        "created": "2019-02-06T04:21:55.047238Z"
     }, 
     {
         "pk": 512, 
         "rate": 5000, 
-        "name": "ADULT ICU NURSING MONITORING CHARGES"
+        "name": "ADULT ICU NURSING MONITORING CHARGES", 
+        "created": "2019-02-07T05:50:33.395686Z"
     }, 
     {
         "pk": 513, 
         "rate": 10000, 
-        "name": "LT LOWER URETERIC D J STENT REMOVAL IN LOCAL ANAESTHETIC"
+        "name": "LT LOWER URETERIC D J STENT REMOVAL IN LOCAL ANAESTHETIC", 
+        "created": "2019-02-07T08:02:11.908984Z"
     }, 
     {
         "pk": 514, 
         "rate": 500, 
-        "name": "DR GURURAJ S PURANIK (ORTHOPEDICIAN)"
+        "name": "DR GURURAJ S PURANIK (ORTHOPEDICIAN)", 
+        "created": "2019-02-08T05:54:12.489265Z"
     }, 
     {
         "pk": 515, 
         "rate": 1400, 
-        "name": "ROOM  CHARGES"
+        "name": "ROOM  CHARGES", 
+        "created": "2019-02-10T05:03:26.893850Z"
     }, 
     {
         "pk": 516, 
         "rate": 100, 
-        "name": "HB"
+        "name": "HB", 
+        "created": "2019-02-10T05:09:01.315195Z"
     }, 
     {
         "pk": 517, 
         "rate": 1000, 
-        "name": "PAUL BUNNEL TEST"
+        "name": "PAUL BUNNEL TEST", 
+        "created": "2019-02-12T07:24:08.875838Z"
     }, 
     {
         "pk": 518, 
         "rate": 1000, 
-        "name": "NECK ULTRASONOGRAPHY"
+        "name": "NECK ULTRASONOGRAPHY", 
+        "created": "2019-02-12T07:24:22.520773Z"
     }, 
     {
         "pk": 519, 
         "rate": 200, 
-        "name": "TC DC"
+        "name": "TC DC", 
+        "created": "2019-02-15T06:36:38.146147Z"
     }, 
     {
         "pk": 520, 
         "rate": 100, 
-        "name": "FHS"
+        "name": "FHS", 
+        "created": "2019-02-19T04:59:18.132438Z"
     }, 
     {
         "pk": 521, 
         "rate": 150, 
-        "name": "BOWEL WASH"
+        "name": "BOWEL WASH", 
+        "created": "2019-02-20T06:12:03.205902Z"
     }, 
     {
         "pk": 522, 
         "rate": 2500, 
-        "name": "BOWEL CONTRAST STUDY"
+        "name": "BOWEL CONTRAST STUDY", 
+        "created": "2019-02-20T06:12:22.965563Z"
     }, 
     {
         "pk": 523, 
         "rate": 50, 
-        "name": "WASH"
+        "name": "WASH", 
+        "created": "2019-02-24T05:12:18.315192Z"
     }, 
     {
         "pk": 524, 
         "rate": 500, 
-        "name": "HOSPITAL CHARGES"
+        "name": "HOSPITAL CHARGES", 
+        "created": "2019-02-26T08:15:04.737827Z"
     }, 
     {
         "pk": 525, 
         "rate": 4000, 
-        "name": "UPPER GI ENDOSCOPY + RUT"
+        "name": "UPPER GI ENDOSCOPY + RUT", 
+        "created": "2019-03-02T05:56:29.836956Z"
     }, 
     {
         "pk": 526, 
         "rate": 2000, 
-        "name": "ATTENDERS ROOM CHARGES"
+        "name": "ATTENDERS ROOM CHARGES", 
+        "created": "2019-03-02T10:37:59.345002Z"
     }, 
     {
         "pk": 527, 
         "rate": 17000, 
-        "name": "UPPER GI ENDOSCOPY & EVL"
+        "name": "UPPER GI ENDOSCOPY & EVL", 
+        "created": "2019-03-10T05:10:59.253452Z"
     }, 
     {
         "pk": 528, 
         "rate": 2000, 
-        "name": "PERITONEAL PARACENTESIS"
+        "name": "PERITONEAL PARACENTESIS", 
+        "created": "2019-03-10T06:20:08.318310Z"
     }, 
     {
         "pk": 529, 
         "rate": 450, 
-        "name": "PLAIN X RAY ABDOMEN"
+        "name": "PLAIN X RAY ABDOMEN", 
+        "created": "2019-03-10T07:29:27.360789Z"
     }, 
     {
         "pk": 530, 
         "rate": 500, 
-        "name": "PROFESSIONAL CHARGES"
+        "name": "PROFESSIONAL CHARGES", 
+        "created": "2019-03-18T07:19:41.248763Z"
     }, 
     {
         "pk": 531, 
         "rate": 33431, 
-        "name": "MESH TRACKER CHARGES"
+        "name": "MESH TRACKER CHARGES", 
+        "created": "2019-03-20T09:23:59.663634Z"
     }, 
     {
         "pk": 532, 
         "rate": 850, 
-        "name": "STEPALIC SUBCAP FLUID FOR C/S"
+        "name": "STEPALIC SUBCAP FLUID FOR C/S", 
+        "created": "2019-03-20T11:33:59.388746Z"
     }, 
     {
         "pk": 533, 
         "rate": 1000, 
-        "name": "HEPATIC SUBCAP FLUID ANALYSIS"
+        "name": "HEPATIC SUBCAP FLUID ANALYSIS", 
+        "created": "2019-03-20T11:34:34.133985Z"
     }, 
     {
         "pk": 534, 
         "rate": 2000, 
-        "name": "CSF CYTOLOGY BIOCHEM C/S"
+        "name": "CSF CYTOLOGY BIOCHEM C/S", 
+        "created": "2019-03-25T06:43:47.632173Z"
     }, 
     {
         "pk": 535, 
         "rate": 2600, 
-        "name": "PROCALCITONIN"
+        "name": "PROCALCITONIN", 
+        "created": "2019-03-26T08:26:38.469028Z"
     }, 
     {
         "pk": 536, 
         "rate": 2500, 
-        "name": "USG GUIDED HEPATIC SUBCAP FLUID ASPIRATION"
+        "name": "USG GUIDED HEPATIC SUBCAP FLUID ASPIRATION", 
+        "created": "2019-03-26T08:28:09.655098Z"
     }, 
     {
         "pk": 537, 
         "rate": 500, 
-        "name": "SPINAL TAP (HOSPITAL CHARGES)"
+        "name": "SPINAL TAP (HOSPITAL CHARGES)", 
+        "created": "2019-03-27T06:06:05.066412Z"
     }, 
     {
         "pk": 538, 
         "rate": 1800, 
-        "name": "VERIPED"
+        "name": "VERIPED", 
+        "created": "2019-04-13T14:43:59.186426Z"
     }, 
     {
         "pk": 539, 
         "rate": 27405, 
-        "name": "NORMAL DELIVERY CHARGES"
+        "name": "NORMAL DELIVERY CHARGES", 
+        "created": "2019-04-15T12:09:37.822072Z"
     }, 
     {
         "pk": 540, 
         "rate": 250, 
-        "name": "WOUND  CARE"
+        "name": "WOUND  CARE", 
+        "created": "2019-04-18T06:53:36.105648Z"
     }, 
     {
         "pk": 541, 
         "rate": 5000, 
-        "name": "FEMORAL CATHETER INSERTION"
+        "name": "FEMORAL CATHETER INSERTION", 
+        "created": "2019-04-18T10:07:29.752950Z"
     }, 
     {
         "pk": 542, 
         "rate": 0, 
-        "name": "OT MEDICINES"
+        "name": "OT MEDICINES", 
+        "created": "2019-05-04T07:02:27.320806Z"
     }, 
     {
         "pk": 543, 
         "rate": 2500, 
-        "name": "ANTI MICROSOMAL ANTIBODY"
+        "name": "ANTI MICROSOMAL ANTIBODY", 
+        "created": "2019-05-09T11:22:50.590592Z"
     }, 
     {
         "pk": 544, 
         "rate": 1000, 
-        "name": "PSEUDOCHOLINESTERASE"
+        "name": "PSEUDOCHOLINESTERASE", 
+        "created": "2019-05-09T11:24:04.242313Z"
     }, 
     {
         "pk": 545, 
         "rate": 530, 
-        "name": "EMERGENCY MEDICINES"
+        "name": "EMERGENCY MEDICINES", 
+        "created": "2019-05-11T12:35:17.048743Z"
     }, 
     {
         "pk": 546, 
         "rate": 8500, 
-        "name": "GIPSA PACKAGE FOR D & C CHARGES"
+        "name": "GIPSA PACKAGE FOR D & C CHARGES", 
+        "created": "2019-05-18T06:22:31.923404Z"
     }, 
     {
         "pk": 547, 
         "rate": 1000, 
-        "name": "HBC ANTIBODY"
+        "name": "HBC ANTIBODY", 
+        "created": "2019-05-20T13:54:23.944383Z"
     }, 
     {
         "pk": 548, 
         "rate": 1000, 
-        "name": "HBE ANTIGEN"
+        "name": "HBE ANTIGEN", 
+        "created": "2019-05-20T13:59:19.532762Z"
     }, 
     {
         "pk": 549, 
         "rate": 0, 
-        "name": "DR RAJENDRA PRASAD (VASCULAR SURGEON)"
+        "name": "DR RAJENDRA PRASAD (VASCULAR SURGEON)", 
+        "created": "2019-05-25T04:20:47.485013Z"
     }, 
     {
         "pk": 550, 
         "rate": 1000, 
-        "name": "Attempted Liver Abscess Aspiration under USG Guidence"
+        "name": "Attempted Liver Abscess Aspiration under USG Guidence", 
+        "created": "2019-05-25T07:20:40.902387Z"
     }, 
     {
         "pk": 551, 
         "rate": 6500, 
-        "name": "IJV CATHER INSERTING USG GUIDENCE"
+        "name": "IJV CATHER INSERTING USG GUIDENCE", 
+        "created": "2019-05-27T09:28:06.530056Z"
     }, 
     {
         "pk": 552, 
         "rate": 3500, 
-        "name": "SLEEP STUDY"
+        "name": "SLEEP STUDY", 
+        "created": "2019-05-30T06:34:08.712046Z"
     }, 
     {
         "pk": 553, 
         "rate": 150, 
-        "name": "SERUM PROTIEN"
+        "name": "SERUM PROTIEN", 
+        "created": "2019-05-30T14:48:11.134315Z"
     }, 
     {
         "pk": 554, 
         "rate": 150, 
-        "name": "SERUM CHOLESTEROL"
+        "name": "SERUM CHOLESTEROL", 
+        "created": "2019-05-30T14:48:49.395264Z"
     }, 
     {
         "pk": 555, 
         "rate": 400, 
-        "name": "DR SOMASUNDAR (PEDIATRICIAN)"
+        "name": "DR SOMASUNDAR (PEDIATRICIAN)", 
+        "created": "2019-05-31T12:45:57.086278Z"
     }, 
     {
         "pk": 556, 
         "rate": 13900, 
-        "name": "AS PER GISPA PACKAGES IS AV FISTULA  CAHRGES"
+        "name": "AS PER GISPA PACKAGES IS AV FISTULA  CAHRGES", 
+        "created": "2019-06-01T13:12:16.267105Z"
     }, 
     {
         "pk": 557, 
         "rate": 30000, 
-        "name": "BANGALORE KIDNEY STONE"
+        "name": "BANGALORE KIDNEY STONE", 
+        "created": "2019-06-09T07:27:38.844234Z"
     }, 
     {
         "pk": 558, 
         "rate": 100, 
-        "name": "POTASSIUM"
+        "name": "POTASSIUM", 
+        "created": "2019-06-13T10:15:31.518602Z"
     }, 
     {
         "pk": 559, 
         "rate": 450, 
-        "name": "KUB PLAIN X RAY"
+        "name": "KUB PLAIN X RAY", 
+        "created": "2019-06-14T07:58:31.111325Z"
     }, 
     {
         "pk": 560, 
         "rate": 100, 
-        "name": "URINE ANALYSIS"
+        "name": "URINE ANALYSIS", 
+        "created": "2019-06-19T05:45:12.099310Z"
     }, 
     {
         "pk": 561, 
         "rate": 450, 
-        "name": "X RAY LEFT ARM AP AND LATERAL VIEW"
+        "name": "X RAY LEFT ARM AP AND LATERAL VIEW", 
+        "created": "2019-06-21T05:34:42.269600Z"
     }, 
     {
         "pk": 562, 
         "rate": 31500, 
-        "name": "LAP  APPENDECTOMY CHARGES AS PER GISPA PACKAGE"
+        "name": "LAP  APPENDECTOMY CHARGES AS PER GISPA PACKAGE", 
+        "created": "2019-06-21T12:08:09.430108Z"
     }, 
     {
         "pk": 563, 
         "rate": 1000, 
-        "name": "MINOR  OPERATION THEATRE CHARGES"
+        "name": "MINOR  OPERATION THEATRE CHARGES", 
+        "created": "2019-06-21T14:21:41.515146Z"
     }, 
     {
         "pk": 564, 
         "rate": 1500, 
-        "name": "DR P M PATIL (PHYSICIAN) IN AC ROOM"
+        "name": "DR P M PATIL (PHYSICIAN) IN AC ROOM", 
+        "created": "2019-06-22T13:32:12.432663Z"
     }, 
     {
         "pk": 565, 
         "rate": 1000, 
-        "name": "PLATELET RDP UNITS"
+        "name": "PLATELET RDP UNITS", 
+        "created": "2019-06-23T05:49:48.446123Z"
     }, 
     {
         "pk": 566, 
         "rate": 5000, 
-        "name": "DR MANJU BHARATH (GEN SURGEON)"
+        "name": "DR MANJU BHARATH (GEN SURGEON)", 
+        "created": "2019-06-24T05:38:39.838776Z"
     }, 
     {
         "pk": 567, 
         "rate": 29000, 
-        "name": "MESH FOR LAP CHARGES"
+        "name": "MESH FOR LAP CHARGES", 
+        "created": "2019-06-24T05:48:48.613055Z"
     }, 
     {
         "pk": 568, 
         "rate": 200, 
-        "name": "FFB (FRESH FROZEN PLASMA)"
+        "name": "FFB (FRESH FROZEN PLASMA)", 
+        "created": "2019-06-27T06:49:24.932434Z"
     }, 
     {
         "pk": 569, 
         "rate": 30, 
-        "name": "SITZ BATH"
+        "name": "SITZ BATH", 
+        "created": "2019-07-05T04:29:03.506830Z"
     }, 
     {
         "pk": 570, 
         "rate": 1250, 
-        "name": "DR SRIRAM  (PHYSICIAN)  IN ROOM"
+        "name": "DR SRIRAM  (PHYSICIAN)  IN ROOM", 
+        "created": "2019-07-06T05:07:39.114458Z"
     }, 
     {
         "pk": 571, 
         "rate": 1250, 
-        "name": "PHYSICIANS CHARGES IN WARD"
+        "name": "PHYSICIANS CHARGES IN WARD", 
+        "created": "2019-07-08T11:29:07.280442Z"
     }, 
     {
         "pk": 572, 
         "rate": 750, 
-        "name": "URO FLOWMETRI"
+        "name": "URO FLOWMETRI", 
+        "created": "2019-07-09T07:25:53.210463Z"
     }, 
     {
         "pk": 573, 
         "rate": 600, 
-        "name": "SALINE STOMACH WASH"
+        "name": "SALINE STOMACH WASH", 
+        "created": "2019-07-10T07:22:24.874602Z"
     }, 
     {
         "pk": 574, 
         "rate": 15000, 
-        "name": "CIRCUMCISSION  AS PER GIPSA PACKAGE"
+        "name": "CIRCUMCISSION  AS PER GIPSA PACKAGE", 
+        "created": "2019-07-10T08:47:04.411255Z"
     }, 
     {
         "pk": 575, 
         "rate": 1500, 
-        "name": "ROOM CHARGES NON A/C"
+        "name": "ROOM CHARGES NON A/C", 
+        "created": "2019-07-18T06:40:47.058077Z"
     }, 
     {
         "pk": 576, 
         "rate": 10000, 
-        "name": "TUBECTOMY CHARGES"
+        "name": "TUBECTOMY CHARGES", 
+        "created": "2019-07-18T07:50:44.223149Z"
     }, 
     {
         "pk": 577, 
         "rate": 1800, 
-        "name": "HEPATITIS A"
+        "name": "HEPATITIS A", 
+        "created": "2019-07-22T06:18:56.197928Z"
     }, 
     {
         "pk": 578, 
         "rate": 3000, 
-        "name": "CT PNS AXIAL AND CORONAL"
+        "name": "CT PNS AXIAL AND CORONAL", 
+        "created": "2019-07-24T11:56:55.671361Z"
     }, 
     {
         "pk": 579, 
         "rate": 0, 
-        "name": "DR SATISH (ONCO SURGEON)"
+        "name": "DR SATISH (ONCO SURGEON)", 
+        "created": "2019-08-05T07:45:14.561114Z"
     }, 
     {
         "pk": 580, 
         "rate": 10000, 
-        "name": "DEQVERAIN`S DISEASE RT WRIST PROCEDURE"
+        "name": "DEQVERAIN`S DISEASE RT WRIST PROCEDURE", 
+        "created": "2019-08-13T11:07:05.805685Z"
     }, 
     {
         "pk": 581, 
         "rate": 900, 
-        "name": "ABG"
+        "name": "ABG", 
+        "created": "2019-08-14T10:55:01.873146Z"
     }, 
     {
         "pk": 582, 
         "rate": 2000, 
-        "name": "BLADDER WASH"
+        "name": "BLADDER WASH", 
+        "created": "2019-08-16T05:59:22.890166Z"
     }, 
     {
         "pk": 583, 
         "rate": 300, 
-        "name": "DRESSING"
+        "name": "DRESSING", 
+        "created": "2019-08-18T13:31:15.018799Z"
     }, 
     {
         "pk": 584, 
         "rate": 500, 
-        "name": "DR S RAMALINGA (OPHTHALMOLOGIST)"
+        "name": "DR S RAMALINGA (OPHTHALMOLOGIST)", 
+        "created": "2019-08-26T05:28:07.318813Z"
     }, 
     {
         "pk": 585, 
         "rate": 1200, 
-        "name": "DR SRIRAM  (PHYSICIAN)  IN WARD"
+        "name": "DR SRIRAM  (PHYSICIAN)  IN WARD", 
+        "created": "2019-08-29T04:32:09.277496Z"
     }, 
     {
         "pk": 586, 
         "rate": 600, 
-        "name": "LOPARIN INJECTION 0.6MG"
+        "name": "LOPARIN INJECTION 0.6MG", 
+        "created": "2019-09-08T07:50:36.741628Z"
     }, 
     {
         "pk": 587, 
         "rate": 60, 
-        "name": "INJ ADRENALINE"
+        "name": "INJ ADRENALINE", 
+        "created": "2019-09-15T04:10:51.842137Z"
     }, 
     {
         "pk": 588, 
         "rate": 31500, 
-        "name": "URS AS PER GIPSA PACKAGE"
+        "name": "URS AS PER GIPSA PACKAGE", 
+        "created": "2019-09-28T04:41:51.481477Z"
     }, 
     {
         "pk": 589, 
         "rate": 0, 
-        "name": "DR SAGAR (ANAESTHETIOLOGIST)"
+        "name": "DR SAGAR (ANAESTHETIOLOGIST)", 
+        "created": "2019-10-12T06:33:18.541584Z"
     }, 
     {
         "pk": 590, 
         "rate": 0, 
-        "name": "DD"
+        "name": "DD", 
+        "created": "2019-10-12T06:34:46.898630Z"
     }, 
     {
         "pk": 591, 
         "rate": 5000, 
-        "name": "ANA PROFILE"
+        "name": "ANA PROFILE", 
+        "created": "2019-10-13T12:41:29.856117Z"
     }, 
     {
         "pk": 592, 
         "rate": 1400, 
-        "name": "ANA IF"
+        "name": "ANA IF", 
+        "created": "2019-10-13T12:42:11.616217Z"
     }, 
     {
         "pk": 593, 
         "rate": 0, 
-        "name": "DR REHAN (GEN SURGEON)"
+        "name": "DR REHAN (GEN SURGEON)", 
+        "created": "2019-10-15T03:51:37.368529Z"
     }, 
     {
         "pk": 594, 
         "rate": 400, 
-        "name": "DR REHAN (GEN SURGEON) CONSULTATION CHARGES"
+        "name": "DR REHAN (GEN SURGEON) CONSULTATION CHARGES", 
+        "created": "2019-10-15T03:51:37.393186Z"
     }, 
     {
         "pk": 595, 
         "rate": 0, 
-        "name": "DR NIYAZ (GEN SURGEON)"
+        "name": "DR NIYAZ (GEN SURGEON)", 
+        "created": "2019-10-15T03:51:37.417144Z"
     }, 
     {
         "pk": 596, 
         "rate": 1500, 
-        "name": "L P PROCEDURE"
+        "name": "L P PROCEDURE", 
+        "created": "2019-10-16T06:52:27.953848Z"
     }, 
     {
         "pk": 597, 
         "rate": 0, 
-        "name": "OT ASSISTANT"
+        "name": "OT ASSISTANT", 
+        "created": "2019-10-17T06:12:21.694097Z"
     }, 
     {
         "pk": 598, 
         "rate": 5000, 
-        "name": "MENECETRA"
+        "name": "MENECETRA", 
+        "created": "2019-10-17T13:37:41.488256Z"
     }, 
     {
         "pk": 599, 
         "rate": 26500, 
-        "name": "AS PER GISPA PACKAGE PROLAPSED HAEMORRHOIDS WITH FISSURE"
+        "name": "AS PER GISPA PACKAGE PROLAPSED HAEMORRHOIDS WITH FISSURE", 
+        "created": "2019-10-21T10:51:09.845927Z"
     }, 
     {
         "pk": 600, 
         "rate": 500, 
-        "name": "DIETICIAN"
+        "name": "DIETICIAN", 
+        "created": "2019-10-25T06:08:44.215281Z"
     }, 
     {
         "pk": 601, 
         "rate": 10500, 
-        "name": "MRI CERVICAL SPINE"
+        "name": "MRI CERVICAL SPINE", 
+        "created": "2019-10-30T13:16:57.787236Z"
     }, 
     {
         "pk": 602, 
         "rate": 150, 
-        "name": "OBSERVATION"
+        "name": "OBSERVATION", 
+        "created": "2019-10-31T08:31:14.784122Z"
     }, 
     {
         "pk": 603, 
         "rate": 3000, 
-        "name": "(ANAESTHETIST)"
+        "name": "(ANAESTHETIST)", 
+        "created": "2019-11-01T06:25:34.972992Z"
     }, 
     {
         "pk": 604, 
         "rate": 600, 
-        "name": "X RAY L S SPINE"
+        "name": "X RAY L S SPINE", 
+        "created": "2019-11-04T06:41:30.583112Z"
     }, 
     {
         "pk": 605, 
         "rate": 3500, 
-        "name": "VENTILATOR"
+        "name": "VENTILATOR", 
+        "created": "2019-11-13T06:56:10.931966Z"
     }, 
     {
         "pk": 606, 
         "rate": 500, 
-        "name": "ANTI TPO ANTIBODY"
+        "name": "ANTI TPO ANTIBODY", 
+        "created": "2019-11-18T13:41:40.777314Z"
     }, 
     {
         "pk": 607, 
         "rate": 1000, 
-        "name": "GASTRIC ASPIRATION CHAGRES"
+        "name": "GASTRIC ASPIRATION CHAGRES", 
+        "created": "2019-12-03T14:35:05.501046Z"
     }, 
     {
         "pk": 608, 
         "rate": 100, 
-        "name": "GRAM STAIN"
+        "name": "GRAM STAIN", 
+        "created": "2019-12-05T06:52:49.073957Z"
     }, 
     {
         "pk": 609, 
         "rate": 1600, 
-        "name": "DOPPLER STUDY CHARGES"
+        "name": "DOPPLER STUDY CHARGES", 
+        "created": "2019-12-07T12:54:34.878678Z"
     }, 
     {
         "pk": 610, 
         "rate": 600, 
-        "name": "RT  FEMUR AP / LAT"
+        "name": "RT  FEMUR AP / LAT", 
+        "created": "2019-12-12T06:34:49.996873Z"
     }, 
     {
         "pk": 611, 
         "rate": 5000, 
-        "name": "RENAL BIOPSY WITH USG GUIDENCE"
+        "name": "RENAL BIOPSY WITH USG GUIDENCE", 
+        "created": "2019-12-16T08:10:24.355646Z"
     }, 
     {
         "pk": 612, 
         "rate": 400, 
-        "name": "DR NISHA ( OBG AND GYN)"
+        "name": "DR NISHA ( OBG AND GYN)", 
+        "created": "2019-12-20T05:10:28.463753Z"
     }, 
     {
         "pk": 613, 
         "rate": 3500, 
-        "name": "URS & STENT CHARGES"
+        "name": "URS & STENT CHARGES", 
+        "created": "2019-12-22T06:52:19.759545Z"
     }, 
     {
         "pk": 614, 
         "rate": 200, 
-        "name": "TD"
+        "name": "TD", 
+        "created": "2019-12-26T06:01:33.238897Z"
     }, 
     {
         "pk": 615, 
         "rate": 1250, 
-        "name": "PHYSICIAN CHARGES IN ROOM"
+        "name": "PHYSICIAN CHARGES IN ROOM", 
+        "created": "2019-12-28T12:43:28.554424Z"
     }, 
     {
         "pk": 616, 
         "rate": 1600, 
-        "name": "DR SRIRAM (PHYSICIAN) IN ICU"
+        "name": "DR SRIRAM (PHYSICIAN) IN ICU", 
+        "created": "2019-12-30T08:54:23.896810Z"
     }, 
     {
         "pk": 617, 
         "rate": 2200, 
-        "name": "MYCOBACTERIUM TUBERCULOSIS"
+        "name": "MYCOBACTERIUM TUBERCULOSIS", 
+        "created": "2020-01-02T14:22:03.154270Z"
     }, 
     {
         "pk": 618, 
         "rate": 600, 
-        "name": "DR TARUN (UROLOGIST)"
+        "name": "DR TARUN (UROLOGIST)", 
+        "created": "2020-01-05T05:20:45.778324Z"
     }, 
     {
         "pk": 619, 
         "rate": 10000, 
-        "name": "OESOPHAEGEAL VARICAL LIGATION EVL"
+        "name": "OESOPHAEGEAL VARICAL LIGATION EVL", 
+        "created": "2020-01-08T15:30:18.291335Z"
     }, 
     {
         "pk": 620, 
         "rate": 400, 
-        "name": "DR NISHA CONSULTATION CHARGES"
+        "name": "DR NISHA CONSULTATION CHARGES", 
+        "created": "2020-01-17T08:16:14.234685Z"
     }, 
     {
         "pk": 621, 
         "rate": 350, 
-        "name": "DR DEEPSHIKA FOLLOW UP CHARGES"
+        "name": "DR DEEPSHIKA FOLLOW UP CHARGES", 
+        "created": "2020-01-17T08:16:28.364322Z"
     }, 
     {
         "pk": 622, 
         "rate": 600, 
-        "name": "DR TARUN (UROLOGIST) CONSULTATION CHARGES"
+        "name": "DR TARUN (UROLOGIST) CONSULTATION CHARGES", 
+        "created": "2020-01-18T13:55:54.881202Z"
     }, 
     {
         "pk": 623, 
         "rate": 500, 
-        "name": "SR IONISED CALCIUM"
+        "name": "SR IONISED CALCIUM", 
+        "created": "2020-01-18T15:28:20.101078Z"
     }, 
     {
         "pk": 624, 
         "rate": 2400, 
-        "name": "DISPOSABLE GUN FOR RENAL BIOPSY"
+        "name": "DISPOSABLE GUN FOR RENAL BIOPSY", 
+        "created": "2020-01-19T06:19:51.096852Z"
     }, 
     {
         "pk": 625, 
         "rate": 6500, 
-        "name": "ANA SCREENING IMMUNO FLORESCENCE"
+        "name": "ANA SCREENING IMMUNO FLORESCENCE", 
+        "created": "2020-01-19T06:23:35.147451Z"
     }, 
     {
         "pk": 626, 
         "rate": 100, 
-        "name": "PUS GRAM STAIN"
+        "name": "PUS GRAM STAIN", 
+        "created": "2020-01-22T15:24:54.347896Z"
     }, 
     {
         "pk": 627, 
         "rate": 2000, 
-        "name": "MOTHERS BED CHARGES"
+        "name": "MOTHERS BED CHARGES", 
+        "created": "2020-02-08T13:30:50.031245Z"
     }, 
     {
         "pk": 628, 
         "rate": 15000, 
-        "name": "TRACHEOSTOMY DR MUNIRAJU IN OT CHARGES"
+        "name": "TRACHEOSTOMY DR MUNIRAJU IN OT CHARGES", 
+        "created": "2020-02-09T08:03:15.214136Z"
     }, 
     {
         "pk": 629, 
         "rate": 850, 
-        "name": "ET C/S"
+        "name": "ET C/S", 
+        "created": "2020-02-09T08:03:28.587248Z"
     }, 
     {
         "pk": 630, 
         "rate": 0, 
-        "name": "DR RAVI NAIK (PEDIATRICIAN)"
+        "name": "DR RAVI NAIK (PEDIATRICIAN)", 
+        "created": "2020-02-14T05:12:41.978478Z"
     }, 
     {
         "pk": 631, 
         "rate": 2000, 
-        "name": "TETRAXIM"
+        "name": "TETRAXIM", 
+        "created": "2020-02-22T07:43:06.426226Z"
     }, 
     {
         "pk": 632, 
         "rate": 2000, 
-        "name": "OXYGEN THERAPY"
+        "name": "OXYGEN THERAPY", 
+        "created": "2020-02-24T10:25:55.741257Z"
     }, 
     {
         "pk": 633, 
         "rate": 1700, 
-        "name": "TWIN SHARING CHARGES"
+        "name": "TWIN SHARING CHARGES", 
+        "created": "2020-03-02T15:11:15.635741Z"
     }, 
     {
         "pk": 634, 
         "rate": 1500, 
-        "name": "VACCUM EXTRACTION"
+        "name": "VACCUM EXTRACTION", 
+        "created": "2020-03-04T07:46:07.089937Z"
     }, 
     {
         "pk": 635, 
         "rate": 2000, 
-        "name": "DRUG ABUSE PANEL"
+        "name": "DRUG ABUSE PANEL", 
+        "created": "2020-03-07T14:59:09.932407Z"
     }, 
     {
         "pk": 636, 
         "rate": 0, 
-        "name": "DR H V SRINIVAS (NEUROLOGIST)"
+        "name": "DR H V SRINIVAS (NEUROLOGIST)", 
+        "created": "2020-03-10T07:10:07.033444Z"
     }, 
     {
         "pk": 637, 
         "rate": 3500, 
-        "name": "ENMG"
+        "name": "ENMG", 
+        "created": "2020-03-10T07:10:41.227674Z"
     }, 
     {
         "pk": 638, 
         "rate": 4800, 
-        "name": "HTLV1 ANTI BODY TEST"
+        "name": "HTLV1 ANTI BODY TEST", 
+        "created": "2020-03-10T07:11:46.562889Z"
     }, 
     {
         "pk": 639, 
         "rate": 300, 
-        "name": "TWIN SHARING NURSING CHARGES"
+        "name": "TWIN SHARING NURSING CHARGES", 
+        "created": "2020-03-11T12:44:54.409214Z"
     }, 
     {
         "pk": 640, 
         "rate": 500, 
-        "name": "ASLO TITRE"
+        "name": "ASLO TITRE", 
+        "created": "2020-03-15T05:05:07.425632Z"
     }, 
     {
         "pk": 641, 
         "rate": 2800, 
-        "name": "LEISHMANIA ANTIBODY TEST"
+        "name": "LEISHMANIA ANTIBODY TEST", 
+        "created": "2020-03-21T08:17:59.525590Z"
     }, 
     {
         "pk": 642, 
         "rate": 0, 
-        "name": "DR MEGHA (OB& GYNAEC)"
+        "name": "DR MEGHA (OB& GYNAEC)", 
+        "created": "2020-03-27T13:18:00.283771Z"
     }, 
     {
         "pk": 643, 
         "rate": 400, 
-        "name": "DR MEGHA CONSULTATION CHARGES"
+        "name": "DR MEGHA CONSULTATION CHARGES", 
+        "created": "2020-04-02T14:12:23.009865Z"
     }, 
     {
         "pk": 644, 
         "rate": 150, 
-        "name": "POP (REMOVAL CHARGES)"
+        "name": "POP (REMOVAL CHARGES)", 
+        "created": "2020-04-06T05:55:06.208962Z"
     }, 
     {
         "pk": 645, 
         "rate": 300, 
-        "name": "GAMMA TEST"
+        "name": "GAMMA TEST", 
+        "created": "2020-04-10T06:00:38.062969Z"
     }, 
     {
         "pk": 646, 
         "rate": 350, 
-        "name": "DR MEGHA FOLLOW UP CHARGES"
+        "name": "DR MEGHA FOLLOW UP CHARGES", 
+        "created": "2020-04-20T07:29:10.584204Z"
     }, 
     {
         "pk": 647, 
         "rate": 1600, 
-        "name": "BIOPSY"
+        "name": "BIOPSY", 
+        "created": "2020-04-27T08:15:38.873096Z"
     }, 
     {
         "pk": 648, 
         "rate": 1500, 
-        "name": "EMERGENCY  ULTRASONOGRAPHY"
+        "name": "EMERGENCY  ULTRASONOGRAPHY", 
+        "created": "2020-05-01T09:25:31.692807Z"
     }, 
     {
         "pk": 649, 
         "rate": 4500, 
-        "name": "DR RAMESH AESTHESIOLOGIST"
+        "name": "DR RAMESH AESTHESIOLOGIST", 
+        "created": "2020-05-01T13:44:19.091681Z"
     }, 
     {
         "pk": 650, 
         "rate": 1400, 
-        "name": "ROTA VAC 5D"
+        "name": "ROTA VAC 5D", 
+        "created": "2020-05-11T13:39:14.632581Z"
     }, 
     {
         "pk": 651, 
         "rate": 500, 
-        "name": "PROFESSIONAL CHARGES"
+        "name": "PROFESSIONAL CHARGES", 
+        "created": "2020-05-15T04:13:54.745305Z"
     }, 
     {
         "pk": 652, 
         "rate": 2500, 
-        "name": "TREATMENT CHARGES IN CASUALTY"
+        "name": "TREATMENT CHARGES IN CASUALTY", 
+        "created": "2020-05-15T04:15:37.350917Z"
     }, 
     {
         "pk": 653, 
         "rate": 1000, 
-        "name": "BED CHARGES"
+        "name": "BED CHARGES", 
+        "created": "2020-05-15T04:19:12.605378Z"
     }, 
     {
         "pk": 654, 
         "rate": 10000, 
-        "name": "HARMONIC QAUTERY"
+        "name": "HARMONIC QAUTERY", 
+        "created": "2020-05-18T05:41:15.396208Z"
     }, 
     {
         "pk": 655, 
         "rate": 1000, 
-        "name": "DR RAGHAVENDRA (NEPHROLOGIST)"
+        "name": "DR RAGHAVENDRA (NEPHROLOGIST)", 
+        "created": "2020-06-01T14:25:13.040168Z"
     }, 
     {
         "pk": 656, 
         "rate": 100, 
-        "name": "VACCINATION FILE"
+        "name": "VACCINATION FILE", 
+        "created": "2020-06-06T13:02:58.272868Z"
     }, 
     {
         "pk": 657, 
         "rate": 150, 
-        "name": "SR ALBANIM"
+        "name": "SR ALBANIM", 
+        "created": "2020-06-07T07:33:21.323510Z"
     }, 
     {
         "pk": 658, 
         "rate": 600, 
-        "name": "DR RAGHAVENDRA (NEPHROLOGY)"
+        "name": "DR RAGHAVENDRA (NEPHROLOGY)", 
+        "created": "2020-06-10T08:26:24.631000Z"
     }, 
     {
         "pk": 659, 
         "rate": 1700, 
-        "name": "THYROID SCAN"
+        "name": "THYROID SCAN", 
+        "created": "2020-06-10T14:23:23.659575Z"
     }, 
     {
         "pk": 660, 
         "rate": 3000, 
-        "name": "DR PUSHPA (ANTHE)"
+        "name": "DR PUSHPA (ANTHE)", 
+        "created": "2020-07-02T05:24:18.902106Z"
     }, 
     {
         "pk": 661, 
         "rate": 0, 
-        "name": "THERAPEUTIC URETEROSCOPEMUNDER SAB"
+        "name": "THERAPEUTIC URETEROSCOPEMUNDER SAB", 
+        "created": "2020-07-02T06:17:26.671540Z"
     }, 
     {
         "pk": 662, 
         "rate": 7500, 
-        "name": "PERITONEAL BIOPSY CT GUIDED & HPR"
+        "name": "PERITONEAL BIOPSY CT GUIDED & HPR", 
+        "created": "2020-07-07T09:00:12.314532Z"
     }, 
     {
         "pk": 663, 
         "rate": 6500, 
-        "name": "HR CT CHEST"
+        "name": "HR CT CHEST", 
+        "created": "2020-07-07T09:00:50.173340Z"
     }, 
     {
         "pk": 664, 
         "rate": 1400, 
-        "name": "ROTAVAC HD"
+        "name": "ROTAVAC HD", 
+        "created": "2020-07-13T07:00:46.440521Z"
     }, 
     {
         "pk": 665, 
         "rate": 100, 
-        "name": "SODIUM"
+        "name": "SODIUM", 
+        "created": "2020-07-13T09:56:22.053002Z"
     }, 
     {
         "pk": 666, 
         "rate": 100, 
-        "name": "POTASSIUM"
+        "name": "POTASSIUM", 
+        "created": "2020-07-13T09:56:38.338823Z"
     }, 
     {
         "pk": 667, 
         "rate": 1700, 
-        "name": "SINGLE PRIVATE NON AC ROOM CHARGES"
+        "name": "SINGLE PRIVATE NON AC ROOM CHARGES", 
+        "created": "2020-07-20T06:50:25.639828Z"
     }, 
     {
         "pk": 668, 
         "rate": 500, 
-        "name": "DR ZIA (ANAESTHETIST)"
+        "name": "DR ZIA (ANAESTHETIST)", 
+        "created": "2020-07-30T06:23:11.958040Z"
     }, 
     {
         "pk": 669, 
         "rate": 2000, 
-        "name": "C4T INSERTION"
+        "name": "C4T INSERTION", 
+        "created": "2020-08-05T11:53:07.537621Z"
     }, 
     {
         "pk": 670, 
         "rate": 2000, 
-        "name": "DR ZIA (ANAESTHETIST)"
+        "name": "DR ZIA (ANAESTHETIST)", 
+        "created": "2020-08-05T15:02:25.607808Z"
     }, 
     {
         "pk": 671, 
         "rate": 50, 
-        "name": "TOTAL COUNT"
+        "name": "TOTAL COUNT", 
+        "created": "2020-08-06T06:01:55.208202Z"
     }, 
     {
         "pk": 672, 
         "rate": 3500, 
-        "name": "DR SURAJ (ANAESTHETIST)"
+        "name": "DR SURAJ (ANAESTHETIST)", 
+        "created": "2020-08-07T14:55:04.882283Z"
     }, 
     {
         "pk": 673, 
         "rate": 3000, 
-        "name": "CT SHOULDER"
+        "name": "CT SHOULDER", 
+        "created": "2020-08-07T15:08:25.647549Z"
     }, 
     {
         "pk": 674, 
         "rate": 20000, 
-        "name": "DR  ZUBER ( ONOLOGIST)"
+        "name": "DR  ZUBER ( ONOLOGIST)", 
+        "created": "2020-08-07T15:28:11.192310Z"
     }, 
     {
         "pk": 675, 
         "rate": 20000, 
-        "name": "DR ZUBER (ONCOLOGIST)"
+        "name": "DR ZUBER (ONCOLOGIST)", 
+        "created": "2020-08-07T15:29:41.350258Z"
     }, 
     {
         "pk": 676, 
         "rate": 10000, 
-        "name": "PLEURODESIS"
+        "name": "PLEURODESIS", 
+        "created": "2020-08-21T14:31:24.813281Z"
     }, 
     {
         "pk": 677, 
         "rate": 500, 
-        "name": "DR AVINASH(ORTHO)"
+        "name": "DR AVINASH(ORTHO)", 
+        "created": "2020-08-26T13:00:10.056590Z"
     }, 
     {
         "pk": 678, 
         "rate": 38115, 
-        "name": "GIPSA PACKAGE FOR SUPRACONDYLAR # ORIF"
+        "name": "GIPSA PACKAGE FOR SUPRACONDYLAR # ORIF", 
+        "created": "2020-09-10T05:28:59.522356Z"
     }, 
     {
         "pk": 679, 
         "rate": 10000, 
-        "name": "COMORBID CONDITION UNCONTROLLED TYPE 2DM"
+        "name": "COMORBID CONDITION UNCONTROLLED TYPE 2DM", 
+        "created": "2020-09-10T05:30:46.440495Z"
     }, 
     {
         "pk": 680, 
         "rate": 40541, 
-        "name": "TYMPANOPLASTY WITH MASTOIDECTOMY as per Gipsa Package"
+        "name": "TYMPANOPLASTY WITH MASTOIDECTOMY as per Gipsa Package", 
+        "created": "2020-10-03T07:22:03.536108Z"
     }, 
     {
         "pk": 681, 
         "rate": 29150, 
-        "name": "HAEMOROIDECTOMY + FISSURECTOMY AS PER GIPSA"
+        "name": "HAEMOROIDECTOMY + FISSURECTOMY AS PER GIPSA", 
+        "created": "2020-10-06T06:14:21.602156Z"
     }, 
     {
         "pk": 682, 
         "rate": 35138, 
-        "name": "HIGH FISTULECTOMY + FISSURECTOMY AS PER GIPSA PACKAGE"
+        "name": "HIGH FISTULECTOMY + FISSURECTOMY AS PER GIPSA PACKAGE", 
+        "created": "2020-10-09T08:01:44.977788Z"
     }, 
     {
         "pk": 683, 
         "rate": 500, 
-        "name": "XRAY FOREARM AP/LAT"
+        "name": "XRAY FOREARM AP/LAT", 
+        "created": "2020-10-09T08:09:47.182472Z"
     }, 
     {
         "pk": 684, 
         "rate": 6000, 
-        "name": "DR BALAJI (ANAESTHETIOLOGIST)"
+        "name": "DR BALAJI (ANAESTHETIOLOGIST)", 
+        "created": "2020-10-13T14:11:26.117949Z"
     }, 
     {
         "pk": 685, 
         "rate": 7200, 
-        "name": "TRIPLE LUMEN IJV CATHETER"
+        "name": "TRIPLE LUMEN IJV CATHETER", 
+        "created": "2020-10-13T14:17:05.932352Z"
     }, 
     {
         "pk": 686, 
         "rate": 20000, 
-        "name": "AV GRAFT"
+        "name": "AV GRAFT", 
+        "created": "2020-10-13T14:18:43.118861Z"
     }, 
     {
         "pk": 687, 
         "rate": 4500, 
-        "name": "CYSTOSCOPE"
+        "name": "CYSTOSCOPE", 
+        "created": "2020-10-14T12:03:14.113092Z"
     }, 
     {
         "pk": 688, 
         "rate": 1000, 
-        "name": "NEWBORN SCREENING CH CAH TGAL G6PD DEFICIENCY"
+        "name": "NEWBORN SCREENING CH CAH TGAL G6PD DEFICIENCY", 
+        "created": "2020-11-13T08:25:48.311260Z"
     }, 
     {
         "pk": 689, 
         "rate": 9000, 
-        "name": "BLOOD FOR FLOW CYTOMETRY"
+        "name": "BLOOD FOR FLOW CYTOMETRY", 
+        "created": "2020-11-22T06:41:29.921869Z"
     }, 
     {
         "pk": 690, 
         "rate": 1000, 
-        "name": "VBG"
+        "name": "VBG", 
+        "created": "2020-12-08T06:55:25.548820Z"
     }, 
     {
         "pk": 691, 
         "rate": 3500, 
-        "name": "CT CERVICAL SPINE"
+        "name": "CT CERVICAL SPINE", 
+        "created": "2020-12-16T06:27:27.640323Z"
     }, 
     {
         "pk": 692, 
         "rate": 1800, 
-        "name": "FLUARIX TETRA"
+        "name": "FLUARIX TETRA", 
+        "created": "2020-12-16T07:42:56.099893Z"
     }, 
     {
         "pk": 693, 
         "rate": 5000, 
-        "name": "CVP LINE CHARGES"
+        "name": "CVP LINE CHARGES", 
+        "created": "2020-12-22T06:37:19.647517Z"
     }, 
     {
         "pk": 694, 
         "rate": 57750, 
-        "name": "B/L INGUINAL HERNIA AS PER GIPSA PACKAGE"
+        "name": "B/L INGUINAL HERNIA AS PER GIPSA PACKAGE", 
+        "created": "2020-12-28T08:28:46.349270Z"
     }, 
     {
         "pk": 695, 
         "rate": 6500, 
-        "name": "WART EXCISION CHARGES"
+        "name": "WART EXCISION CHARGES", 
+        "created": "2021-01-07T08:36:52.599728Z"
     }, 
     {
         "pk": 696, 
         "rate": 46200, 
-        "name": "LAPAROSCOPIC CHOLECYSTECTOMY AS PER GIPSA PACKAGES"
+        "name": "LAPAROSCOPIC CHOLECYSTECTOMY AS PER GIPSA PACKAGES", 
+        "created": "2021-01-07T09:26:27.306308Z"
     }, 
     {
         "pk": 697, 
         "rate": 0, 
-        "name": "DR SANTHOSH (GEN SURGEON)"
+        "name": "DR SANTHOSH (GEN SURGEON)", 
+        "created": "2021-01-09T06:47:20.878150Z"
     }, 
     {
         "pk": 698, 
         "rate": 0, 
-        "name": "DR NAGENDRA (ANAESTHETIOLOGIST)"
+        "name": "DR NAGENDRA (ANAESTHETIOLOGIST)", 
+        "created": "2021-01-09T06:50:28.677105Z"
     }, 
     {
         "pk": 699, 
         "rate": 250, 
-        "name": "BIRTH CERTIFICATE SERVICE CHARGES"
+        "name": "BIRTH CERTIFICATE SERVICE CHARGES", 
+        "created": "2021-01-09T06:57:30.493930Z"
     }, 
     {
         "pk": 700, 
         "rate": 26450, 
-        "name": "IMPLANT REMOVAL AS PER GIPSA PACKAGE CHARGES"
+        "name": "IMPLANT REMOVAL AS PER GIPSA PACKAGE CHARGES", 
+        "created": "2021-01-11T11:48:34.786131Z"
     }, 
     {
         "pk": 701, 
         "rate": 150, 
-        "name": "GASTRIC ASPIRATION OCCULT BLOOD"
+        "name": "GASTRIC ASPIRATION OCCULT BLOOD", 
+        "created": "2021-01-11T15:01:10.758602Z"
     }, 
     {
         "pk": 702, 
         "rate": 2000, 
-        "name": "PNEUMOSIL VACCINE"
+        "name": "PNEUMOSIL VACCINE", 
+        "created": "2021-01-12T06:27:13.972829Z"
     }, 
     {
         "pk": 703, 
         "rate": 27027, 
-        "name": "LAP OVARIAN CYSTECTOMY AS PER GIPSA PACKAGE"
+        "name": "LAP OVARIAN CYSTECTOMY AS PER GIPSA PACKAGE", 
+        "created": "2021-01-12T10:35:39.183489Z"
     }, 
     {
         "pk": 704, 
         "rate": 0, 
-        "name": "ADHESIOLYSIS CHARGES"
+        "name": "ADHESIOLYSIS CHARGES", 
+        "created": "2021-01-12T10:38:28.671672Z"
     }, 
     {
         "pk": 705, 
         "rate": 0, 
-        "name": "DR SHANKARE GOWDA (OB & GYNAEC)"
+        "name": "DR SHANKARE GOWDA (OB & GYNAEC)", 
+        "created": "2021-01-20T05:00:45.596362Z"
     }, 
     {
         "pk": 706, 
         "rate": 0, 
-        "name": "DR BHASKAR (ANAESTHETIOLOGIST)"
+        "name": "DR BHASKAR (ANAESTHETIOLOGIST)", 
+        "created": "2021-01-20T05:02:12.247602Z"
     }, 
     {
         "pk": 707, 
         "rate": 2000, 
-        "name": "FRACTURE TABLE"
+        "name": "FRACTURE TABLE", 
+        "created": "2021-01-20T07:17:11.453399Z"
     }, 
     {
         "pk": 708, 
         "rate": 250, 
-        "name": "URINE CALCIUM"
+        "name": "URINE CALCIUM", 
+        "created": "2021-01-25T09:00:32.015936Z"
     }, 
     {
         "pk": 709, 
         "rate": 500, 
-        "name": "URINE CHLORIDE"
+        "name": "URINE CHLORIDE", 
+        "created": "2021-01-25T09:03:14.299846Z"
     }, 
     {
         "pk": 710, 
         "rate": 500, 
-        "name": "URINE POTTASIUM"
+        "name": "URINE POTTASIUM", 
+        "created": "2021-01-25T09:03:49.054641Z"
     }, 
     {
         "pk": 711, 
         "rate": 3600, 
-        "name": "SILICON STENT"
+        "name": "SILICON STENT", 
+        "created": "2021-01-29T15:34:19.437459Z"
     }
 ]

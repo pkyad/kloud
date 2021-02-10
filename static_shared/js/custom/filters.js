@@ -324,6 +324,25 @@ app.filter('getName' , function($users){
   }
 })
 
+
+
+
+app.filter('language' , function($users){
+  return function(text , lang){
+    var langData = LANG_DATA_LIST
+    if (langData[text]!=undefined) {
+      var selectedData = langData[text]
+      if (selectedData[lang]!=undefined) {
+        if (selectedData[lang].value == undefined || selectedData[lang].value == null || selectedData[lang].value.length == 0) {
+            return text
+        }
+          return selectedData[lang].value
+      }
+    }
+    return text
+  }
+})
+
 // app.filter('getDivision' , function($http){
 //
 //   return function(divisionPk){

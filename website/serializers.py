@@ -13,7 +13,7 @@ import math
 class PageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Page
-        fields = ('pk' , 'created','title','description','url','ogImage','user')
+        fields = ('pk' , 'created','title','description','url','ogImage','user','enableChat')
         read_only_fields=('user',)
     def create(self , validated_data):
         pageObj = Page(**validated_data)

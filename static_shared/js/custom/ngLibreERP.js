@@ -965,9 +965,14 @@ app.controller('sideMenu', function($scope, $http, $aside, $state, Flash, $users
     $scope.dialer.active = false;
   }
 
-
+  $scope.recentCalls = []
   $scope.call = function(num) {
-    $rootScope.$broadcast("call", {type : 'call' , number : num , source : 'dialPad'  });
+    if (num.length == 10) {
+      $scope.recentCalls.push(num)
+      $rootScope.$broadcast("call", {type : 'call' , number : num , source : 'dialPad'  });
+    }else {
+      Flash.create('warning','Enter the correct mobile number ')
+    }
   }
 
   $scope.call('9702438730')

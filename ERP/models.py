@@ -195,7 +195,7 @@ class Division(models.Model):
     defaultDescription = models.TextField(max_length = 5000 , null = True, blank = True)
     defaultTitle = models.CharField(max_length = 200 , null = True, blank = True)
     defaultOgImage = models.FileField(upload_to = getogImageAttachmentPath , null = True)
-
+    enableChatbot = models.BooleanField(default = False)
 
     windowColor = models.CharField(max_length = 20 , null = True, default='#e42a2a' )
     fontColor = models.CharField(max_length = 20 , null = True, default='#ffffff' )
@@ -363,8 +363,9 @@ class UsageBilling(models.Model):
     app= models.ForeignKey(application , related_name='usagebillings' , null = True)
 
 class LanguageTranslation(models.Model):
-    key = models.CharField(max_length = 500 , null = False)
-    value = models.TextField(max_length = 1000 , null = False )
+    key = models.CharField(max_length = 500 , null = True)
+    value = models.TextField(max_length = 1000 , null = True )
+    lang = models.CharField(max_length = 500 , null = True)
 
 
 

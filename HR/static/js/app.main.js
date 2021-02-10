@@ -34,7 +34,7 @@ app.controller('mainPage', function($scope, $state, $http, $timeout, $uibModal, 
   }
 
 })
-app.controller('main', function($scope, $state, $http, $timeout, $uibModal, $rootScope, $interval, $users) {
+app.controller('main', function($scope, $state,Flash, $http, $timeout, $uibModal, $rootScope, $interval, $users) {
   // document.getElementById('hidemeinallpage').style.display = 'none'
   $scope.me = $users.get('mySelf')
   console.log($scope.me);
@@ -60,6 +60,14 @@ app.controller('main', function($scope, $state, $http, $timeout, $uibModal, $roo
 
     });
   }
+
+
+
+
+
+
+
+
 
 })
 
@@ -170,6 +178,7 @@ app.controller('controller.comment.blog', function($scope, $state, $http, $timeo
 
 
 })
+
 
 
 app.controller('controller.uipath-go-compoments', function($scope, $state, $http, $timeout, $interval, $uibModal, $stateParams) {

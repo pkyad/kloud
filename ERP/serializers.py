@@ -210,6 +210,7 @@ class FeedbackSerializer(serializers.ModelSerializer):
 
 class UserAppSerializer(serializers.ModelSerializer):
     app = applicationSerializer(many=False,read_only=True)
+    user = userSearchSerializer(many=False,read_only=True)
     usersCount = serializers.SerializerMethodField()
     class Meta:
         model = UserApp
@@ -352,3 +353,8 @@ class CalendarSlotsSerializer(serializers.ModelSerializer):
     class Meta:
         model = CalendarSlots
         fields = ('pk' , 'slot', 'day', 'is_available' )
+
+class LanguageTranslationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LanguageTranslation
+        fields = ('pk' , 'key', 'value', 'lang' )

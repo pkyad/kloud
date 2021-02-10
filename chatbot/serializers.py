@@ -449,3 +449,14 @@ class SupportChatSerializer(serializers.ModelSerializer):
 
         # context = getResponse(s.message, context, chatThObj[0].company , fil = fileUrl)
         return s
+
+
+class VariableContextSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VariableContext
+        fields = ( 'pk' ,'typ', 'key', 'value','can_change','nodeBlock')
+
+class ChatContextSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChatContext
+        fields = ( 'pk' ,'typ', 'key', 'value')

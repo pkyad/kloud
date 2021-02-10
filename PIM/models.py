@@ -104,6 +104,7 @@ class ChatThread(models.Model):
     title = models.TextField(max_length = 40 , null=True)
     created = models.DateTimeField(auto_now_add=True)
     participants = models.ManyToManyField(User , related_name='chat_threads' , blank = True)
+    updated = models.DateTimeField(auto_now=True)
     description = models.TextField(max_length = 200 , blank = True , null = True)
     dp = models.FileField(upload_to = getChatThreadDP , null = True)
 

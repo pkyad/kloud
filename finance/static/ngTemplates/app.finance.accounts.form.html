@@ -1,3 +1,17 @@
+<style media="screen">
+  .websiteInput {
+    background:
+    #F2F3F7;
+    color:
+    #555;
+    border-radius: 25px !important;
+    padding: 10px 20px;
+    border: none !important;
+    margin-top: 10px;
+    height: 45px;
+  }
+</style>
+
 <div class="modal-header bg-black text-center">
   <h3 class="modal-title" ng-if="mode == 'edit'">Edit Account Of : <strong>{{form.title}}</strong></h3>
   <h3 class="modal-title" ng-if="mode == 'new'">Create A New Account</h3>
@@ -7,23 +21,29 @@
   <div class="container-fluid">
     <div class="row" >
       <div class="col-md-6">
-        <div class="form-group">
-          <label>Petty Cash Account ?</label> <input type="checkbox" ng-model="form.personal">
-        </div>
+
       </div>
     </div>
-    <div class="" ng-if="!form.personal">
+    <div class="" ng-if="accounts == 'account'">
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
             <label>Friendly Name</label>
-            <input type="text" class="form-control" ng-model="form.title">
+            <input type="text" class="form-control websiteInput" ng-model="form.title">
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <label>Bank Name</label>
-            <input type="text" class="form-control" ng-model="form.bank">
+            <label for="">Bank Name</label>
+            <span ><i class="fa fa-caret-down" style="
+	position: absolute;
+	right: 35px;
+	padding: 50px 0px;
+"></i></span>
+            <select class="form-control websiteInput" name="" placeholder="select the user" ng-model="form.bank" ng-options="k as k for k in bankList">
+
+            </select>
+
           </div>
         </div>
       </div>
@@ -31,52 +51,66 @@
         <div class="col-md-6">
           <div class="form-group">
             <label>Account Number</label>
-            <input type="text" class="form-control" ng-model="form.number">
+            <input type="text" class="form-control websiteInput" ng-model="form.number">
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
             <label>IFSC Code</label>
-            <input type="text " class="form-control" ng-model="form.ifsc">
+            <input type="text " class="form-control websiteInput" ng-model="form.ifsc">
           </div>
         </div>
       </div>
       <div class="row" style="margin:0px">
         <div class="form-group">
           <label>Bank Branch / Address</label>
-          <textarea name="name" ng-model="form.bankAddress" class="form-control" rows="3"></textarea>
+          <textarea name="name" ng-model="form.bankAddress" class="form-control websiteInput" rows="3"></textarea>
         </div>
 
       </div>
-      <div class="row" style="margin:0px">
+      <div class="row" style="margin:0px" >
         <div >
           <div class="form-group">
-            <label>Balance</label>
-            <input type="number" class="form-control" ng-model="form.balance" min="0">
+            <label>Balance </label>
+            <input type="number"  ng-disabled="form.active"class="form-control websiteInput" ng-model="form.balance" min="0">
           </div>
         </div>
       </div>
-    </div>
-    <div class="row" ng-if ='form.personal'>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label>Title</label>
-          <input type="text" class="form-control" ng-model="form.title">
-        </div>
-      </div>
 
+    </div>
+    <div class="row" ng-if ="accounts =='petty'">
       <div class="col-md-6" >
         <div class="form-group">
           <label>Opening Balance</label>
-          <input type="number" class="form-control" ng-model="form.balance" min="0">
+          <input type="number" class="form-control websiteInput" ng-model="form.balance" min="0">
         </div>
       </div>
+      <!-- <div class="col-md-6">
+        <div class="form-group">
+          <label>Petty Cash Account ?</label> <input type="checkbox" ng-model="form.personal">
+        </div>
+      </div> -->
+
+
+    </div>
+    <div class="row" style="margin:0px;" >
+      <div class="form-group">
+        <label for="">Authorized Signaturies</label>
+        <span><i class="fa fa-caret-down" style="	position: absolute;
+	right: 50px;
+	padding: 50px 0px;
+"></i></span>
+        <select class="form-control websiteInput" name="" placeholder="select the user" ng-model="form.authorizedSignaturies" ng-options="k as k.first_name+' '+k.last_name for k in users">
+
+        </select>
+
+      </div>
+
     </div>
 
-    <users-field url="/api/HR/userSearch/" data="form.authorizedSignaturies" col="4" label=" Authorized Signatories " ></users-field>
     <!-- <user-field url="/api/HR/userSearch/" user="form.contactPerson" ng-if="form.personal" label="Owner"></user-field> -->
-    <div class="col-md-12 text-center">
-      <button type="button" class="btn btn-primary" ng-click="saveAccount()">Save</button>
+    <div class="col-md-12 text-right" style="margin-top:30px;">
+      <button type="button" class="btn newBtn" ng-click="saveAccount()">Save</button>
     </div>
   </div>
 </div>

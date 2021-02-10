@@ -107,11 +107,15 @@ def pageeditor(request,id):
     components = Components.objects.filter(parent = page).order_by('index')
     data = ''
     for indx, i in enumerate(components):
-        i.template = i.template.replace('$data' , 'components[%s].data'%(indx))
 
+        i.template = i.template.replace('$data' , 'components[%s].data'%(indx))
         data += i.template
-        print i.template,'i3443'
-    return render(request, 'app.HR.pageeditor.html',{'page':page,'data':data, 'components' : components})
+    print data
+
+    API_KEY = ''
+    if page.enableChat:
+        API_KEY = request.user.designation.division.apiKey
+    return render(request, 'app.HR.pageeditor.html',{'page':page,'data':data, 'components' : components,'API_KEY':API_KEY})
 
 def renderpage(request,url):
     filePath = os.path.join(globalSettings.BASE_DIR , 'media_root' , 'publishedPages' , ('%s_%s.html'% (1, url)))
