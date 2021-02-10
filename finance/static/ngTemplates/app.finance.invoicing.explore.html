@@ -263,7 +263,14 @@
                       <input type="number" class="form-control" ng-model="data.amount" >
                     </div>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-1">
+                      <div class="form-group">
+                        <label>TDS</label>
+                        <h4 ng-if="!data.amount">{{(form.balanceAmount/100)*20}}</h4>
+                        <h4 ng-if="data.amount">{{(data.amount/100)*20}}</h4>
+                      </div>
+                    </div>
+                  <div class="col-md-2">
                     <div class="form-group datepickerInput">
                       <label>Date</label>
                       <div class="input-group">
