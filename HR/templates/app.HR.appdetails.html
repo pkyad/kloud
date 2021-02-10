@@ -74,15 +74,18 @@ margin-bottom:20px;
   function myFunction() {
     if (window.pageYOffset > sticky) {
       header.style.position = 'fixed'
-      header.style.width = '80%'
+      header.style.width = '105%'
       header.style.top = '0'
       header.style.zIndex = "3"
      header.style.paddingTop = '20px'
       header.style.paddingBottom = '20px'
+    header.style.background = '#ffffff'
     }
     else {
       header.style.position = 'relative'
-      header.style.width = '100%'
+      header.style.width = '105%'
+      header.style.background = '#f4f4f4'
+       header.style.paddingTop = '20px'
 
     }
   }

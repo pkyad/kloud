@@ -82,6 +82,7 @@ class SaveImageAPIView(APIView):
         fileDetails = globalSettings.SITE_ADDRESS + '/media/'+ file.name
         data = {'link':fileDetails,'height':height,'width':width}
         return Response(data, status = status.HTTP_200_OK)
+
 from datetime import datetime, date
 class CalendarNotificationsAPIView(APIView):
     permission_classes = (permissions.AllowAny ,)
