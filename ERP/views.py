@@ -357,7 +357,7 @@ def home(request):
 
     messaging = False
     try:
-        if UserApp.objects.filter(app__name = 'app.messenger', user = u).count()>0:
+        if InstalledApp.objects.filter(app__name = 'app.messenger', parent = division).count()>0:
             messaging = True
     except:
         pass
@@ -1910,7 +1910,8 @@ class AddNewUserAPIView(APIView):
         if div == None:
             resData = helperCreateUser(val['first_name'], val['email'])
             designation = user.designation
-            designation.division = Division.objects.get(pk = int(resData['division']))
+            div = Division.objects.get(pk = int(resData['division']))
+            designation.division = div
             designation.unit = Unit.objects.get(pk = int(resData['unit']))
             designation.save()
         profile = user.profile
@@ -1922,9 +1923,11 @@ class AddNewUserAPIView(APIView):
         if 'applist' in val:
             for i in val['applist']:
                 app = application.objects.get(name = i)
+                print div
                 iapp, created = InstalledApp.objects.get_or_create(parent = div , app = app, addedBy= user)
                 if app.inMenu == True:
-                    ua = UserApp(user = user , app = app)
+                    print i
+                    ua, c = UserApp.objects.get_or_create(user = user , app = app)
                     ua.save()
         data = {'url' : globalSettings.SITE_ADDRESS+ '/tlogin/?token=' + profile.linkToken}
         return Response(data, status = status.HTTP_200_OK)

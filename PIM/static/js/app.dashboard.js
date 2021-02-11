@@ -30,10 +30,10 @@ app.controller("controller.home", function($scope, $state, $http, $uibModal, $ti
   //     method: 'POST',
   //     url: '/api/ERP/addNewUser/',
   //     data: {
-  //     username : 'ankitakrar',
+  //     username : 'ankitassakrar',
   //     first_name : 'Ankitra',
   //     last_name : 'Kadam',
-  //     email : 'ankita.rar@aaa.in',
+  //     email : 'ankitassaa.rar@aaa.in',
   //     applist : ['app.messenger', 'app.catalogmaker','app.sales','app.chatbot','app.website']
   //   },
   //   }).
