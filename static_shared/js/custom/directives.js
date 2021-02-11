@@ -1343,6 +1343,53 @@ app.directive('contactusView', function() {
   };
 });
 
+app.directive('formView', function() {
+  return {
+    templateUrl: '/static/ngTemplates/formView.html',
+    // css: '/static/css/contactusview.css',
+    restrict: 'E',
+    scope:{
+      data:'=',
+      // ctrlFn : '&'
+    },
+    transclude: true,
+    replace: true,
+    // link: function(scope, element, attributes) {
+    //   scope.save = function() {
+    //     console.log('outer function calls controller function')
+    //     scope.ctrlFn();
+    //   };
+    // },
+    controller: function($scope, $state, $http, Flash, $rootScope, $filter, $timeout) {
+      console.log($scope.data);
+      $scope.uploadmediafile = function(file, key) {
+        $timeout(function(){
+
+            var fd = new FormData()
+            fd.append('file', file)
+            fd.append('key', key)
+            fd.append('name', file.name)
+            fd.append('mediaType', file.type)
+            $http({
+              method: 'POST',
+              url: '/api/ERP/uploadmediafile/',
+              data: fd,
+              transformRequest: angular.identity,
+              headers: {
+                'Content-Type': undefined
+              }
+            }).
+            then(function(response) {
+              console.log(response);
+              console.log($scope.data[response.data.key]);
+              $scope.data[response.data.key].imageUrl = response.data.imageUrl;
+            })
+
+        }, 1000)
+      }
+    },
+  };
+});
 
 app.directive('careerView', function() {
   return {

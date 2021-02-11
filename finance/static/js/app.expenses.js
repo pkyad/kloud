@@ -38,6 +38,10 @@ function dateToString(date) {
   }
 
 app.controller('businessManagement.finance.financeExpenses', function($scope, $http, $aside, $state, Flash, $users, $filter,  $uibModal) {
+
+  // $scope.data = [{'type' : 'title', 'title' : 'dsfsfdsfdsf' ,'label' : 'title'},{'type' : 'string', 'string' : '' ,'label' : 'Name'}, {'type' : 'switch', 'switch' : 'abc' ,'label' : 'Name'} , {'type' : 'text', 'text' : '','label' : 'Name' }, {'type' : 'label', 'label' : 'abc','label' : 'Name' }, {'type' : 'heading', 'heading' : 'abc','label' : 'Name' }, {'type' : 'subheading', 'subheading' : 'abc','label' : 'Name' },{'type' : 'select', 'select' : 'a', 'list':['a','b','c'],'label' : 'Name' },  {'type' : 'date', 'date' : '','label' : 'Date' },  {'type' : 'image', 'image' : '','label' : 'Date' }]
+
+
   $scope.limit = 20
   $scope.form = {
     dated: 'quater',

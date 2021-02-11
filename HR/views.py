@@ -683,8 +683,8 @@ class GetMyAppsView(APIView):
         #     return Response(json.loads(u.profile.apps), status = status.HTTP_200_OK)
 
 
-        if 'mode' in request.GET and request.GET['mode']== 'recent':
-            apps = u.menuapps.all()[:4]
+        if 'mode' in request.GET and request.GET['mode'] == 'recent':
+            apps = u.menuapps.filter(app__inMenu = True)[:4]
 
         if 'mode' in request.GET and request.GET['mode']== 'others':
             apps = u.menuapps.all()
@@ -892,7 +892,7 @@ class UpdatepayrollDesignationMasterAccountAPI(APIView):
 
         return JsonResponse({
             'designation':userDesignationSerializer(desigObj,many=False).data,
-            'apps':UserAppsLiteSerializer(masterUser.menuapps.all(),many=True).data,
+            'apps':UserAppsLiteSerializer(masterUser.menuapps.filter(app__inMenu = True),many=True).data,
             'payroll':payrollSerializer(payObj,many=False).data,
             'profile':userProfileSerializer(profObj,many=False).data,
             'master':userAdminSerializer(masterUser,context=serializer_context).data,
@@ -1139,9 +1139,9 @@ class AppInstallerView(APIView):
         return Response({} , status = status.HTTP_200_OK)
 
     def get(self ,request ,format = None):
-        installations = request.user.designation.division.installations.filter(~Q(app__name__in =  ['app.dashboard' , 'app.messenger'] ))
+        installations = request.user.designation.division.installations.filter(~Q(app__name__in =  ['app.dashboard' , 'app.messenger'] )).filter(app__inMenu = True)
         if 'search' in request.GET:
-            installations = installations.filter(app__displayName__icontains = request.GET['search'])
+            installations = installations.filter(app__displayName__icontains = request.GET['search'], )
         data = InstalledAppSerializer(installations , many = True).data
         return Response(data , status = status.HTTP_200_OK)
 

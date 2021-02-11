@@ -61,7 +61,7 @@ class application(models.Model):
     appStoreUrl = models.TextField(max_length = 500 , null = True )
     playStoreUrl = models.TextField(max_length = 500 , null = True )
     inMenu = models.BooleanField(default = True)
-    totalRatings = models.FloatField(null=True , default=0) 
+    totalRatings = models.FloatField(null=True , default=0)
     def __unicode__(self):
         return self.name
 
