@@ -33,7 +33,7 @@ class ComponentsSerializer(serializers.ModelSerializer):
     parent =PageSerializer(many=False,read_only=True)
     class Meta:
         model = Components
-        fields = ('pk' , 'created','component_type','data','parent','template' ,'index')
+        fields = ('pk' , 'created','component_type','data','parent','template' ,'index','css')
     def create(self , validated_data):
         compObj = Components(**validated_data)
         data = self.context['request'].data
@@ -44,6 +44,7 @@ class ComponentsSerializer(serializers.ModelSerializer):
             compObj.component_type = uielement.name
             compObj.template = uielement.template
             compObj.data = uielement.defaultData
+            compObj.css = uielement.css
         compObj.save()
         return compObj
     def update(self, instance , validated_data):

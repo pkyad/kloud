@@ -887,8 +887,14 @@ app.directive('appstoreView', function() {
         if (window.pageYOffset > sticky) {
           header.style.position = 'fixed'
           header.style.width = '100%'
-          if ($state.current.name != '') {
-            header.style.width = '90%'
+          if ($state.current.name != '' ) {
+            if (screen.width <1440) {
+              header.style.width = '97%'
+
+            }else {
+              header.style.width = '90%'
+
+            }
           }
           header.style.top = '0'
           header.style.zIndex = "1"
