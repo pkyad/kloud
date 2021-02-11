@@ -887,8 +887,14 @@ app.directive('appstoreView', function() {
         if (window.pageYOffset > sticky) {
           header.style.position = 'fixed'
           header.style.width = '100%'
-          if ($state.current.name != '') {
-            header.style.width = '90%'
+          if ($state.current.name != '' ) {
+            if (screen.width <1440) {
+              header.style.width = '97%'
+
+            }else {
+              header.style.width = '90%'
+
+            }
           }
           header.style.top = '0'
           header.style.zIndex = "1"
@@ -1337,12 +1343,44 @@ app.directive('formView', function() {
     // css: '/static/css/contactusview.css',
     restrict: 'E',
     scope:{
-      data:'='
+      data:'=',
+      // ctrlFn : '&'
     },
     transclude: true,
     replace: true,
-    controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
+    // link: function(scope, element, attributes) {
+    //   scope.save = function() {
+    //     console.log('outer function calls controller function')
+    //     scope.ctrlFn();
+    //   };
+    // },
+    controller: function($scope, $state, $http, Flash, $rootScope, $filter, $timeout) {
+      console.log($scope.data);
+      $scope.uploadmediafile = function(file, key) {
+        $timeout(function(){
 
+            var fd = new FormData()
+            fd.append('file', file)
+            fd.append('key', key)
+            fd.append('name', file.name)
+            fd.append('mediaType', file.type)
+            $http({
+              method: 'POST',
+              url: '/api/ERP/uploadmediafile/',
+              data: fd,
+              transformRequest: angular.identity,
+              headers: {
+                'Content-Type': undefined
+              }
+            }).
+            then(function(response) {
+              console.log(response);
+              console.log($scope.data[response.data.key]);
+              $scope.data[response.data.key].imageUrl = response.data.imageUrl;
+            })
+
+        }, 1000)
+      }
     },
   };
 });

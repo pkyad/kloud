@@ -31,6 +31,7 @@ class Components(models.Model):
     parent = models.ForeignKey(Page , related_name = 'components' , null = False)
     template = models.TextField(max_length=100000,null=False,default='')
     index = models.PositiveIntegerField(null = True)
+    css = models.TextField(max_length=100000,null=True)
 CAT_CHOICES = (
     ('Contact Us' , 'Contact Us'),
     ('Introduction' , 'Introduction'),

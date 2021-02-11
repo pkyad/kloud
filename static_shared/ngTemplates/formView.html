@@ -1,0 +1,142 @@
+<div >
+  <div ng-repeat="(key, value) in data track by $index">
+    <div ng-if="value.type == 'title'" class="text-center">
+      <h1>{{value.title}}</h1>
+    </div>
+    <div ng-if="value.type == 'heading'">
+      <h3>{{value.heading}}</h3>
+    </div>
+    <div ng-if="value.type == 'subheading'">
+      <h4>{{value.subheading}}</h4>
+    </div>
+
+    <div ng-if="value.type == 'label'">
+      <label>{{value.label}}</label>
+    </div>
+
+    <div class="form-group">
+      <div ng-if="value.type == 'string'">
+        <label> {{value.label}} </label>
+        <input type="text" class="form-control" ng-model="value.string" placeholder="{{value.label}}">
+      </div>
+      <div ng-if="value.type == 'number'">
+        <label> {{value.label}} </label>
+        <input type="number" class="form-control" ng-model="value.number" placeholder="{{value.label}}">
+      </div>
+      <div ng-if="value.type == 'password'">
+        <label> {{value.label}} </label>
+        <input type="password" class="form-control" ng-model="value.password" placeholder="{{value.label}}">
+      </div>
+      <div ng-if="value.type == 'text'">
+          <label> {{value.label}} </label>
+          <textarea class="form-control" rows="4" ng-model="value.text"  placeholder="{{value.label}}"></textarea>
+      </div>
+      <div ng-if="value.type == 'select'">
+          <label> {{value.label}} </label>
+          <select class="form-control" name="" ng-model="value.select" ng-options="a for a in value.list"></select>
+      </div>
+      <div ng-if="value.type == 'date'">
+        <label> {{value.label}}</label>
+        <div >
+          <span style="position:absolute;right:15px;padding:15px" ng-click="warrantyTill.opened = true;">
+
+            <i class="glyphicon glyphicon-calendar"></i>
+          </span>
+          <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="value.date" is-open="warrantyTill.opened" ng-init="today" />
+
+        </div>
+      </div>
+      <div ng-if="value.type == 'image'">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+            <div class="col-md-8">
+            <label> {{value.label}} </label>
+            <input type="file" file-model="files[key]"> <br>
+            <!-- <button ng-click="uploadmediafile(files[key] , key)" class="btn btn-default">Upload</button> <br> -->
+            <label class="text-muted">Alt Text</label>
+            <input type="text" class="form-control" ng-model="value.altText"> <br>
+            <label class="text-muted">Image URL</label> <br>
+            <input type="text" class="form-control" ng-model="value.imageUrl">
+            </div>
+            <div class="col-md-4">
+            <button ng-click="uploadmediafile(files[key] , key)" class="btn btn-default btn-block" style="margin-top:15px;border-radius:25px!important;background:#f5f5f5">Upload</button> <br>
+            </div>
+          </div>
+          </div>
+          <div class="col-md-6">
+            <img ng-src="{{value.imageUrl}}" style="width:100%;">
+          </div>
+        </div>
+      </div>
+      <div ng-if="value.type == 'color'">
+          <label> {{value.label}} </label>
+        <input type="color" ng-model="value.color">
+      </div>
+      <div ng-if="value.type == 'switch'">
+          <label> {{value.label}} </label>
+        <input type="checkbox" ng-model="value.switch">
+      </div>
+      <div ng-if="value.type == 'link'">
+        <div class="row">
+          <div class="col-md-4">
+            <label class="text-muted">Label</label>
+            <input type="text" name="" class="form-control" ng-model="value.text">
+          </div>
+          <div class="col-md-4">
+            <label class="text-muted">Link</label>
+            <input type="text" name="" class="form-control" ng-model="value.url">
+          </div>
+          <div class="col-md-4">
+            <label class="text-muted">Open In New Tab</label> <br>
+            <input type="checkbox" ng-model="value.openAsNewTab">
+          </div>
+        </div>
+      </div>
+      <div ng-if="value.type == 'array'">
+        <!-- <div class="row">
+          <div class="col-md-4" ng-repeat="object in value.array track by $index ">
+            <span style="position:absolute;right:25px;padding:10px;" ng-click="value.array.splice($index,1)"><i class="fa fa-times"></i></span>
+            <div ng-repeat="(key1, value1) in object track by $index" ng-if="value1.string.pk">
+              <div class="text-center mediaformobilenext_specificpage" style="left:10%;">
+                <div class="simple_listcss_rare" style="height:160px;">
+                  <div class="" style="height:170px;width:130px;margin:auto;margin-top:10%;background:url({{value1.string.img1}}) center center no-repeat;background-size: contain;">
+                  </div>
+                </div>
+                <div class="col-md-12" style="margin-top:10px;padding:0% 15%;">
+                  <span style="font-weight:500;font-size:16px;color:black;padding-right:10px;" class=" "><i class="fa fa-inr"></i>{{value1.string.rate}}</span>
+                  <strike>
+                    <span style="font-size:12px;" class=" "> <i class="fa fa-inr"></i>{{value1.string.mrp}}</span>
+                  </strike>
+                  <p style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;font-weight:400;color:black;" ng-if="!list.displayName" class=" ">{{value1.string.name}}</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div> -->
+        <div class="row">
+            <form-view data="value.array"></form-view>
+        </div>
+      </div>
+
+
+      <div class=""  ng-repeat="(key1,value1) in value.form">
+        <div class="input-group" ng-if="value1.type=='string'">
+          <input type="text" class="form-control" ng-model="value1.string" uib-typeahead="k as k.name for k in  productSearch($viewValue)">
+          <div class="input-group-btn">
+            <button class="btn btn-primary" type="submit" ng-click="editArrayObj(value, -1, key)""> add
+              <i class=" fa fa-plus"></i>
+            </div>
+          </div>
+      </div>
+    </div>
+
+
+  </div>
+<!-- <div class="row " style="padding:15px;">
+<div class="col-md-offset-10 col-md-2" -->
+    <button type="button" class="btn btn-primary text-center" name="button" style="border-radius:25px!important;background:#001aff;color:#ffffff;height:47px;width:200px" ng-click="save()">Save</button>
+  <!-- </div>
+</div> -->
+</div>

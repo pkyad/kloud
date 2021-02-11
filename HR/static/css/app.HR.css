@@ -2,7 +2,9 @@
   color: var(--themeMain);
   border-right: solid 6px white;
 }
-
+.kloudImg{
+  width:75px;
+}
 .nav-sidebar-inverse>li>a:hover, .nav-sidebar-inverse>li>a:focus, .nav-sidebar-inverse>.active>a {
   background: white;
   border-right: solid 6px var(--headerNavbarHighlight);
@@ -7306,6 +7308,10 @@ figure {
   background: #448dfb !important;
   color: #fff;
 }
+
+
+
+
 
 @media only screen and (max-width: 600px) {
   /* .robt_img1 {

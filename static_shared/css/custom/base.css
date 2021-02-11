@@ -468,7 +468,7 @@ select::-ms-expand {
 body {
   color: #5f6368;
   /* font-weight:lighter; */
-  /* font-family: 'Roboto', sans-serif; */
+  font-family: 'Roboto', sans-serif;
 }
 
 strong {
@@ -2664,8 +2664,13 @@ width: 100%;
   min-height: 100vh;
   padding: 0px 200px;
 }
-
+.kloudImg{
+  width:75px;
+}
 @media screen and (min-width: 1279px) and (max-width: 1365px) and (-webkit-device-pixel-ratio: 1) {
+  .kloudImg{
+    width:60px;
+  }
   .appStoreDiv{
     padding:0px 50px;
   }

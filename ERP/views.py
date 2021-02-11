@@ -287,7 +287,7 @@ def home(request):
     if division:
         divisionPk = division.pk
         telephony = division.telephony
-        messaging = division.messaging
+        # messaging = division.messaging
         simpleMode = division.simpleMode
     else:
         divisionPk = None
@@ -337,6 +337,7 @@ def home(request):
         isOnSupport = u.designation.team.isOnSupport
     except:
         pass
+
     langDataList = {}
     langData = LanguageTranslation.objects.filter(lang = 'en')
     for i in langData:
@@ -354,7 +355,12 @@ def home(request):
             menusData[i.name] = False
     menusData = json.dumps(menusData)
 
-
+    messaging = False
+    try:
+        if UserApp.objects.filter(app__name = 'app.messenger', user = u).count()>0:
+            messaging = True
+    except:
+        pass
 
 
 
@@ -1900,7 +1906,8 @@ class AddNewUserAPIView(APIView):
             # profile = user.profile
             # # profile.mobile = mobile
             # profile.save()
-        if user.designation.division == None:
+        div = user.designation.division
+        if div == None:
             resData = helperCreateUser(val['first_name'], val['email'])
             designation = user.designation
             designation.division = Division.objects.get(pk = int(resData['division']))
@@ -1912,5 +1919,12 @@ class AddNewUserAPIView(APIView):
         profile.save()
         user.is_staff = True
         user.save()
+        if 'applist' in val:
+            for i in val['applist']:
+                app = application.objects.get(name = i)
+                iapp, created = InstalledApp.objects.get_or_create(parent = div , app = app, addedBy= user)
+                if app.inMenu == True:
+                    ua = UserApp(user = user , app = app)
+                    ua.save()
         data = {'url' : globalSettings.SITE_ADDRESS+ '/tlogin/?token=' + profile.linkToken}
         return Response(data, status = status.HTTP_200_OK)
