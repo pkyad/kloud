@@ -169,6 +169,8 @@ class ContactViewSet(viewsets.ModelViewSet):
         if 'search' in self.request.GET:
             val = self.request.GET['search']
             toReturn = toReturn.filter(Q(name__icontains =val)|Q(email__icontains = val)|Q(company__name__icontains = val)|Q(mobile__icontains = val))
+        if 'orderBy' in self.request.GET:
+            toReturn = toReturn.order_by('name')
         return toReturn
 
 

@@ -24,6 +24,8 @@ router.register(r'userapps' , UserAppViewSet , base_name='userapps')
 router.register(r'appversioning' , AppVersioningViewSet , base_name='appversioning')
 
 
+
+
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'registerDevice/$' , registerDeviceApi.as_view()),

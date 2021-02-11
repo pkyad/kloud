@@ -18,10 +18,11 @@ class PatientSerializer(serializers.ModelSerializer):
         p = Patient(**validated_data)
         p.save()
         division = self.context['request'].user.designation.division
-        uniqueId = str(division.hospPatientCounter)
-        division.hospPatientCounter+=1
-        division.save()
-        p.uniqueId = uniqueId
+        # uniqueId = str(division.hospPatientCounter)
+        # division.hospPatientCounter+=1
+        # division.save()
+        p.uniqueId = str(p.pk).zfill(5)
+        # p.uniqueId = uniqueId
         p.division = division
         p.save()
 
@@ -111,12 +112,16 @@ class InvoiceSerializer(serializers.ModelSerializer):
     def create(self , validated_data):
         i = Invoice(**validated_data)
         division = self.context['request'].user.designation.division
+
         i.activePatient = ActivePatient.objects.get(pk=int(self.context['request'].data['activePatient']))
         twoDigitsYear = str(datetime.date.today().year)[2:]
+
+
         if not i.activePatient.outPatient:
             i.billNo = 'CB'+ str(division.hospPatientInBillCounter) + '/' +twoDigitsYear
         else:
             i.billNo = str(division.hospPatientInBillCounter) + '/' +twoDigitsYear
+
         division.hospPatientInBillCounter +=1
         division.save()
         i.save()
@@ -189,3 +194,9 @@ class ActivePatientLiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = ActivePatient
         fields = ('pk' , 'patient','inTime','outTime','status','comments', 'dischargeSummary' , 'invoices', 'opNo' ,'docName' , 'outPatient' , 'dateOfDischarge' , 'msg')
+
+
+class PatientFullDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Patient
+        fields = ('pk' ,'created', 'firstName','lastName','dateOfBirth','gender','uniqueId','email','phoneNo','emergencyContact1','emergencyContact2','street','city','pin','state','country' , 'age', 'division')

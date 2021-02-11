@@ -31,38 +31,5 @@
         "social": 3, 
         "pk": 3, 
         "email": "ch@cioc.co.in"
-    }, 
-    {
-        "username": "cioc", 
-        "profile": {
-            "website": null, 
-            "displayPicture": null, 
-            "docUniversity": null, 
-            "mobile": null, 
-            "pgUniversity": null, 
-            "prefix": "NA", 
-            "almaMater": null, 
-            "pk": 1, 
-            "email": ""
-        }, 
-        "first_name": "", 
-        "last_name": "", 
-        "designation": 1, 
-        "settings": 1, 
-        "payroll": {
-            "off": true, 
-            "alHold": 0, 
-            "ml": null, 
-            "al": null, 
-            "mlHold": 0, 
-            "user": 1, 
-            "adHocLeavesHold": 0, 
-            "pk": 1, 
-            "adHocLeaves": null, 
-            "joiningDate": null
-        }, 
-        "social": 1, 
-        "pk": 1, 
-        "email": "info@cioc.in"
     }
 ]

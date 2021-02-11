@@ -1,16 +1,22 @@
 {% extends 'base.html' %}
+{% load staticfiles  %}
+{% block specific_css %}
+  <style media="screen">
+    {{data.css | safe}}
 
+  </style>
+{% endblock %}
 {% block content %}
-
-<div ng-app="app" ng-controller="main" ng-init='data = {{data.defaultData | safe}}'>
-  {{data.template | safe}}
-</div>
+  <div ng-app="app" ng-controller="main" ng-init='data = {{data.defaultData | safe}}'>
+    {{data.template | safe}}
+  </div>
 
 
 
 {% endblock %}
 
 {% block pageJS %}
+
 <script type="text/javascript">
 
   var app = angular.module('app', [ 'ngSanitize', 'ui.bootstrap']);
@@ -19,6 +25,7 @@
 
 
   });
+
 
 
 

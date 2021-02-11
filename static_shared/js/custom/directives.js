@@ -911,7 +911,7 @@ app.directive('appstoreView', function() {
         searchText:''
       }
       $scope.allApps = function(){
-        var url = '/api/ERP/getapplication/?isMenu=true'
+        var url = '/api/ERP/getapplication/'
         if ($scope.search.searchText.length>0) {
             url+='&displayName__icontains='+$scope.search.searchText
         }

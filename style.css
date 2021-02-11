@@ -1,0 +1,97 @@
+  #page5Div {
+    margin-bottom: 100px;
+  }
+
+  #page5Div #page5text {
+    color: #20287D;
+  }
+
+  #page5Div #page5text h1 {
+    font - size: 40px;
+    font - weight: 700;
+  }
+
+  #page5Div #page5text p {
+    font - size: 30px;
+    font - weight: 400;
+    margin - top: 20px;
+    text - align: left
+  }
+
+  #page5Div #page5text button {
+    border: 1px solid #20287D;
+    font-size: 22px;
+    font-weight: 400;
+    background-color: white;
+    border-radius: 30px;
+    padding: 6px 20px;
+    margin-top: 20px;
+  }
+
+  #page5Div #bgImg1 {
+    background: url('/static/images/page5bgImg.png') no-repeat center;
+    height: 670px;
+    background - position - y: bottom;
+  }
+
+  #secondRow {
+    margin: 0px;
+  }
+
+  #secondRow span {
+    font - size: 32px;
+    line - height: 37.5px;
+    font - weight: 700;
+  }
+
+  #secondRow p {
+    font - size: 22px;
+    line - height: 37.5px;
+    font - weight: 400;
+  }
+
+  #secondRow button {
+    background - color: #0190F9;
+    height: 72px;
+    border-radius: 100px;
+    margin-top: 20px;
+  }
+
+  @media only screen and (min-device-width : 320px) and (max-device-width : 600px) {
+    body {
+      overflow-x: hidden
+    }
+
+    .no_paddingg {
+      padding: 0px;
+    }
+
+    #page5Div #bgImg1 {
+      height: 340px;
+      background - size: cover;
+    }
+
+    #page5Div #page5text {
+      text - align: center !important;
+    }
+
+    #page5Div #page5text p {
+      text - align: center;
+    }
+
+    #page5Div #page5text button {
+      width: 100%;
+    }
+
+    #page5Div2 #Box {
+      height: 350px;
+    }
+
+    #page5Div2 #quoteBox.fa-quote-left {
+      top: -10%;
+    }
+
+    #page5Div2 #quoteBox.fa-quote-right {
+      bottom: -12%;
+    }
+  }

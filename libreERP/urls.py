@@ -70,7 +70,7 @@ urlpatterns = [
     url(r'^appdetails/', appdetails , name ='appdetails'),
     url(r'^productDetails/', ProductDetails , name ='ProductDetails'),
     url(r'^products/(?P<id>\d+)', getProducts , name ='products'),
-    url(r'^preview/(?P<id>\d+)', preview , name ='preview'),
+    url(r'^preview/(?P<id>\d+)', previewView , name ='preview'),
     url(r'^ngTemplates/(?P<filename>[\w|\W]+)', renderedStatic , name ='renderedStatic'),
     url(r'^templateEditor/(?P<pk>[\w|\W]+)/', templateEditorView , name ='templateEditor'),
     url(r'intentDesigner/(?P<id>[\w|\W]+)/' , intentDesignerView , name = "intentDesigner"),
@@ -78,6 +78,7 @@ urlpatterns = [
     url(r'activities' , activityView , name = "activity"),
     url(r'^externalWindow/', ExternalWindow , name ='externalWindow'),
     url(r'^zoomAuthRedirect/', ZoomAuthRedirect , name ='zoomAuthRedirect'),
+    url(r'^version/(?P<app>[\w|\W]+)/', versionDetails , name ='versionDetails'),
     # url(r'^getPaymentLink/', GetPaymentLink , name ='getPaymentLink'),
 
 

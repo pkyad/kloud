@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="col-md-offset-1 col-md-10">
+    <div class="row" style="margin-top:70px;">
+      <div class="col-md-offset-4 col-md-6  ">
+        <input type="text" class="form-control" placeholder="Search with title"  ng-model="search.searchValue" ng-change="getAll()">
+      </div>
+      <div class="col-md-2 ">
+        <button type="button" name="button" class="btn defaultBtn btn-block text-center" ng-click="addVersioning()">ADD</button>
+      </div>
+    </div>
+    <div class="row" style="margin:20px 0px;">
+      <div class="col-md-12">
+        <table class="table table-hover">
+          <thead>
+            <th class="text-center" style="width:50px;">S.NO</th>
+            <th class="text-center">Title</th>
+            <th class="text-center">Min Version</th>
+            <th class="text-center">Latest Version</th>
+            <th class="text-center">Enabled</th>
+            <!-- <th colspan="2"></th> -->
+
+          </thead>
+          <tbody>
+            <tr ng-repeat="k in versions track by $index">
+              <td class="text-center">{{$index+1}}</td>
+              <td class="text-center">{{k.title}}</td>
+              <td class="text-center">{{k.minVersion}}</td>
+              <td class="text-center">{{k.latestVersion}}</td>
+              <td class="text-center"><span class="label {{k.enabled?'label-success':'label-danger'}}">{{k.enabled?'ENABLED':'DISABLED'}}</span></td>
+              <td class="text-center" style="width:90px;">
+                <div class="pull-right">
+                  <i class="fa fa-pencil" style="padding-right:25px;" ng-click="addVersioning($index)"></i>
+                  <i class="fa fa-trash" ng-click="delete($index)"></i>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

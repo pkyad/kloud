@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate , login , logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
+from django.template import Context, Template
 from django.conf import settings as globalSettings
 # Related to the REST Framework
 from rest_framework import viewsets , permissions , serializers
@@ -25,6 +26,7 @@ from zoomapi import *
 from PIM.models import *
 from website.models import *
 from HR.serializers import userSearchSerializer
+from website.serializers import UIelementTemplateSerializer
 from taskBoard.serializers import mediaSerializer
 from finance.models import Sale,SalesQty
 from rest_framework import filters
@@ -463,10 +465,19 @@ def adminView(request):
 
 def bankloanform(request):
     return render(request , 'app.bankloan.form.html' , {})
-def preview(request,id):
+def previewView(request,id):
     form = Bankloan.objects.get(pk = id)
     return render(request , 'app.bankloan.preview.html' , {'form':form})
+import json
 def templateEditorView(request , pk):
+    data = UIelementTemplateSerializer(UIelementTemplate.objects.get(pk=pk),many=False).data
+    # htmlFile = open('template.html','w')
+    # htmlFile.write(data['template'])
+    # dataJson = open('data.json','w')
+    # dataJson.write(data['defaultData'])
+    # cssStyle = open('style.css','w')
+    # cssStyle.write(data['css'])
+
     return render(request , 'app.templateEditor.html' , {'pk':pk})
 
 def renderedStatic(request , filename):
@@ -755,10 +766,6 @@ class GetApplicationDetailsApi(APIView):
     renderer_classes = (JSONRenderer,)
     permission_classes = (permissions.AllowAny ,)
     def get(self , request , format = None):
-
-        division = self.request.user.designation.division
-
-
         if self.request.user.pk:
             division = self.request.user.designation.division
             appObj = application.objects.get(pk = int(self.request.GET['app']))
@@ -789,8 +796,11 @@ class GetApplicationDetailsApi(APIView):
             appMedias = applicationMediaSerializer(mediaObj, many = True).data
             feedObj = Feedback.objects.filter(app = appObj)
             appFeedbacks = FeedbackSerializer(feedObj, many = True).data
+            mobmediaObj = MobileapplicationMedia.objects.filter(app = appObj)
+            mobileMedias = MobileapplicationMediaSerializer(mobmediaObj, many = True).data
             appUser = []
             installedAppObj = []
+
             is_staff = False
             is_user_installed = False
         data = {'appData' : appData , 'appMedias' : appMedias ,'mobileMedia':mobileMedias,'appFeedbacks' : appFeedbacks ,'appUser' : appUser , 'installedApp' : installedAppObj, 'is_staff' : is_staff , 'is_user_installed' : is_user_installed}
@@ -985,6 +995,15 @@ class GetappusersAPI(APIView):
             data = User.objects.filter(designation__apps__in = apps)
             print data,'er'
         return Response({'data':userSearchSerializer(data,many=True).data},status=status.HTTP_200_OK)
+
+@csrf_exempt
+def versionDetails(request,app):
+    data = {}
+    obj = AppVersioning.objects.filter(title = app)
+    if obj.count()>0:
+        selectedObj = obj.first()
+        data = {'minVersion' : selectedObj.minVersion , 'latestVersion' : selectedObj.latestVersion}
+    return JsonResponse(data)
 
 
 @csrf_exempt
@@ -1496,8 +1515,10 @@ class AppVersioningViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     queryset = AppVersioning.objects.all()
     serializer_class = AppVersioningSerializer
-    # filter_backends = [DjangoFilterBackend]
-    # filter_fields = ['month' , 'year']
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['title' ]
+
+
 
 
 class GetAllSchedulesAPI(APIView):
@@ -1597,6 +1618,13 @@ class GetAllLanguageDataAPIView(APIView):
     def get(self , request , format = None):
         languages = ['hi'  , 'kn' , 'mr' , 'te' , 'pa']
         mainObj = LanguageTranslation.objects.filter(lang = 'en')
+        offset = int(request.GET['offset'])
+        limit = int(request.GET['limit'])
+        print offset,limit
+        limit = offset+limit
+        if 'search' in request.GET:
+            mainObj = mainObj.filter(value__icontains = request.GET['search'])
+        mainObj = mainObj[offset:limit]
         data = []
         for m in mainObj:
             val = {'en' : LanguageTranslationSerializer(m, many = False).data}
