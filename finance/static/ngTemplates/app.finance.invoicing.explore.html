@@ -257,17 +257,18 @@
           <div class="row" style="margin-top:30px" ng-if="form.isInvoice&&form.pk">
             <div class="col-md-12">
               <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-group">
                       <label>Amount</label>
-                      <input type="number" class="form-control" ng-model="data.amount" >
+                      <input type="number" class="form-control" ng-model="data.amount" ng-change="updateTds()">
                     </div>
                   </div>
-                  <div class="col-md-1">
+                  <div class="col-md-2">
                       <div class="form-group">
                         <label>TDS</label>
-                        <h4 ng-if="!data.amount">{{(form.balanceAmount/100)*20}}</h4>
-                        <h4 ng-if="data.amount">{{(data.amount/100)*20}}</h4>
+                        <input type="number" class="form-control" ng-model="data.tds" >
+                        <!-- <h4 ng-if="!data.amount">{{(form.balanceAmount/100)*20}}</h4>
+                        <h4 ng-if="data.amount">{{(data.amount/100)*20}}</h4> -->
                       </div>
                     </div>
                   <div class="col-md-2">
@@ -304,12 +305,14 @@
                       <tbody>
                       <tr style="background-color: #eeeeee;height: 50px;">
                         <th>Amount</th>
+                        <th>TDS</th>
                         <th>Date</th>
                         <th>Account</th>
                         <th>Ref ID</th>
                       </tr>
                       <tr ng-repeat="v in allTransactions track by $index">
                         <td>{{v.credit}}</td>
+                        <td>{{v.tds}}</td>
                         <td>{{v.dated}}</td>
                         <td>{{v.toAcc.title}}</td>
                         <td>{{v.externalReferenceID}}</td>

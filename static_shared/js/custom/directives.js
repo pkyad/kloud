@@ -919,7 +919,7 @@ app.directive('appstoreView', function() {
       $scope.allApps = function(){
         var url = '/api/ERP/getapplication/'
         if ($scope.search.searchText.length>0) {
-            url+='&displayName__icontains='+$scope.search.searchText
+            url+='?displayName__icontains='+$scope.search.searchText
         }
         $http({
           method: 'GET',

@@ -152,14 +152,14 @@ class TransactionLiteSerializer(serializers.ModelSerializer):
     toAcc = AccountLiteSerializer(many = False , read_only = True)
     class Meta:
         model = Transaction
-        fields = ('pk', 'created','fromAcc' , 'toAcc' , 'debit' , 'credit' , 'balance')
+        fields = ('pk', 'created','fromAcc' , 'toAcc' , 'debit' , 'credit' , 'balance','tds')
 
 class TransactionSerializer(serializers.ModelSerializer):
     fromAcc = AccountLiteSerializer(many = False , read_only = True)
     toAcc = AccountLiteSerializer(many = False , read_only = True)
     class Meta:
         model = Transaction
-        fields = ('pk', 'created','fromAcc' , 'toAcc' , 'user' , 'debit', 'credit' , 'balance', 'externalReferenceID', 'externalConfirmationID', 'api', 'apiCallParams','account','type','division','narration' , 'groupId' , 'dated')
+        fields = ('pk', 'created','fromAcc' , 'toAcc' , 'user' , 'debit', 'credit' , 'balance', 'externalReferenceID', 'externalConfirmationID', 'api', 'apiCallParams','account','type','division','narration' , 'groupId' , 'dated','tds')
         read_only_fields = ('user',)
     def create(self , validated_data):
         tcs = Transaction(**validated_data)

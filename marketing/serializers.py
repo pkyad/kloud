@@ -67,6 +67,7 @@ class ContactsSerializer(serializers.ModelSerializer):
         fields = ('pk' , 'created' , 'referenceId' , 'name', 'email', 'mobile' , 'source' , 'pinCode' , 'notes' , 'tags' ,'subscribe' , 'addrs', 'companyName', 'directNumber', 'altNumber', 'altNumber2', 'website', 'socialLink', 'city', 'state', 'country', 'about', 'lang' )
         read_only_fields=('subscribe', 'tags')
     def create(self , validated_data):
+        div = self.context['request'].user.designation.division
         if 'tags' in validated_data:
             del validated_data['tags']
         try:
@@ -102,8 +103,8 @@ class ContactsSerializer(serializers.ModelSerializer):
             for tagTxt in self.context['request'].data['tagsTxt'].split(','):
                 t,nt = Tag.objects.get_or_create(name = tagTxt)
                 contatcObj.tags.add(t)
-        accountObj = Account.objects.create(title = self.context['request'].data['name'] , group ="Vendor Account")
-        newContact = Contact.objects.create(mobile = contatcObj.mobile, user=self.context['request'].user)
+        accountObj = Account.objects.create(title = self.context['request'].data['name'] , group ="Vendor Account" , division = div )
+        newContact = Contact.objects.create(mobile = contatcObj.mobile, user=self.context['request'].user , division =  div)
         newContact.name = contatcObj.name
         newContact.email = contatcObj.email
         newContact.street = contatcObj.addrs
