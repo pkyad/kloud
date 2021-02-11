@@ -1331,6 +1331,21 @@ app.directive('contactusView', function() {
   };
 });
 
+app.directive('formView', function() {
+  return {
+    templateUrl: '/static/ngTemplates/formView.html',
+    // css: '/static/css/contactusview.css',
+    restrict: 'E',
+    scope:{
+      data:'='
+    },
+    transclude: true,
+    replace: true,
+    controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
+
+    },
+  };
+});
 
 app.directive('careerView', function() {
   return {
