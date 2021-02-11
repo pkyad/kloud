@@ -47,6 +47,9 @@
   <div class="row" style="margin-bottom:50px;padding-bottom:50px;">
     <div class="row pull-right" style="color:black;padding-right: 50px;font-size: 20px;">
     </div>
+    <style media="screen">
+      {{component.css | safe}}
+    </style>
 
     <div ng-init='data = {{component.data | safe}}' style="position:relative;">
       <div class="" style="position:absolute;width:100%;height:80%;z-index:10;" ng-click="EditComponent({{ forloop.counter0 }})">

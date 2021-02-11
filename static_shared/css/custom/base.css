@@ -472,7 +472,7 @@ body {
 }
 
 strong {
-  font-weight: lighter;
+  font-weight: 400;
 }
 
 tags-input .tags .input {
@@ -2666,10 +2666,19 @@ width: 100%;
 }
 .kloudImg{
   width:75px;
+  margin-right:15px;
 }
 @media screen and (min-width: 1279px) and (max-width: 1365px) and (-webkit-device-pixel-ratio: 1) {
+  .chat-input{
+    bottom:-53px !important
+  }
+  .chatbotTextarea{
+    position:absolute;
+    margin-left:1%;
+    width:95%;
+  }
   .kloudImg{
-    width:60px;
+    width:60px !important;
   }
   .appStoreDiv{
     padding:0px 50px;
@@ -2684,7 +2693,9 @@ width: 100%;
   .commentQuote{
     left:70px
   }
-
+  .font11 {
+    font-size: 9px;
+  }
   .page_css{
     margin-left: 0;
     width: 100%;
@@ -2747,7 +2758,7 @@ width: 100%;
     width:130%
   }
   .Chatbot_image{
-    background-image:url('/static/images/imac-frame.png');height:700px;background-position:center;background-size:contain;background-repeat:no-repeat;width:700px;position:relative;
+    background-image:url('/static/images/imac-frame.png');height:700px;background-position:center;background-size:92% 81%;background-repeat:no-repeat;width:inherit;position:relative;
   }
   .Blogging_Div{
     margin-left:5%;
@@ -2832,7 +2843,7 @@ width: 100%;
     height: 40px;
   }
   .font22{
-    font-size:15px;
+    font-size:15px !important;
   }
   .font23{
     font-size:16px;
@@ -3102,6 +3113,17 @@ width: 100%;
 }
 
 @media screen and (min-width: 1366px) and (max-width:1439px) and (-webkit-device-pixel-ratio: 1) {
+  .chatbotTextarea{
+    position:absolute;
+    margin-left:1%;
+    width:95%;
+  }
+  .kloudImg{
+    width:60px;
+  }
+  .font11 {
+    font-size: 10px;
+  }
   .billingDiv{
     width: 95%;
     margin-left: 1%;
@@ -3161,7 +3183,7 @@ width: 100%;
     width:130%
   }
   .Chatbot_image{
-    background-image:url('/static/images/imac-frame.png');height:700px;background-position:center;background-size:contain;background-repeat:no-repeat;width:700px;position:relative;
+    background-image:url('/static/images/imac-frame.png');height:700px;background-position:center;background-size:93% 80%;background-repeat:no-repeat;width:inherit;position:relative;
   }
   .Blogging_Div{
     margin-left:5%;
@@ -3299,7 +3321,7 @@ width: 100%;
   }
 
   .font22{
-    font-size:16px;
+    font-size:16px !important;
   }
   .font17 {
     font-size: 15px;
@@ -3473,10 +3495,24 @@ width: 100%;
     width: 100%;
     margin-left: 1%
   }
+  .chat-input{
+    bottom:-53px !important
+  }
 
 }
 
 @media screen and (min-width: 1440px) and (max-width:1620px) and (-webkit-device-pixel-ratio: 1) {
+  .chat-input{
+    bottom:47px !important
+  }
+  .chatbotTextarea{
+    position:absolute;
+    margin-left:1%;
+    width:95%;
+  }
+  .kloudImg{
+    width:60px !important;
+  }
   .whatsappWeb{
     bottom:110px;
   }
@@ -3533,7 +3569,7 @@ width: 100%;
     width:130%
   }
   .Chatbot_image{
-    background-image:url('/static/images/imac-frame.png');height:700px;background-position:center;background-size:contain;background-repeat:no-repeat;width:700px;position:relative;
+    background-image:url('/static/images/imac-frame.png');height:700px;background-position:center;background-size:95% 80%;background-repeat:no-repeat;width:inherit;position:relative;
   }
   .Blogging_Div{
     margin-left:5%;
@@ -3591,7 +3627,7 @@ width: 100%;
     letter-spacing: 1px;
   }
   .font22{
-    font-size:18px;
+    font-size:18px !important;
   }
   .font23{
     font-size:19px;
@@ -3606,6 +3642,9 @@ width: 100%;
   }
   .font16 {
     font-size: 14px;
+  }
+  .font11 {
+    font-size: 10px;
   }
 
   .duration {

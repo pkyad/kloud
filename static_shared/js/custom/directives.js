@@ -890,7 +890,6 @@ app.directive('appstoreView', function() {
           if ($state.current.name != '' ) {
             if (screen.width <1440) {
               header.style.width = '97%'
-
             }else {
               header.style.width = '90%'
 
@@ -911,6 +910,13 @@ app.directive('appstoreView', function() {
       $scope.me = $users.get('mySelf');
       if ($state.current.name == '') {
           $scope.showLogo = false
+      }
+
+      $scope.isMedium= false
+      if (screen.width >= 1279 && screen.width <= 1439) {
+        $scope.isMedium= true
+        console.log($scope.filter,'kkk');
+
       }
       console.log($scope.allApplication);
       $scope.search = {

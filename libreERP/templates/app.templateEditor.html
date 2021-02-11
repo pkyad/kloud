@@ -67,22 +67,21 @@ left: 40%;width:30%">
     <div class="row" style="background-color:black;height:100vh;overflow-y:hidden">
       <div class="col-md-2" style="height:100%;border-right:1px solid #ccc;">
         <div class="text-left">
-          <div class="row" ng-click="showFile('template')" style="border-top:1px solid #ccc;border-bottom:1px solid #ccc;padding:20px;">
-            <h4 style="color:white"><img src="/static/images/html.webp" style="height:25px;margin-right:10px;"alt="">template.html</h4>
-            <p>{{msg.text}}</p>
+          <div class="row" ng-click="showFile('template')" style="border-top:1px solid #ccc;border-bottom:1px solid #ccc;padding:10px 20px;{{stage=='template'?'background-color:white;color:black':'background-color:black;color:white'}}">
+            <h4 ><img src="/static/images/html.webp" style="height:25px;margin-right:10px;"alt="">template.html</h4>
           </div>
-          <div class="row" style="border-bottom:1px solid #ccc;padding:20px;" ng-click="showFile('style')">
-            <h4 style="color:white"> <img src="/static/images/css.webp" style="height:25px;margin-right:10px;"alt="">style.css</h4>
+          <div class="row" style="border-bottom:1px solid #ccc;padding:10px 20px;{{stage=='style'?'background-color:white;color:black':'background-color:black;color:white'}}" ng-click="showFile('style')">
+            <h4 > <img src="/static/images/css.webp" style="height:25px;margin-right:10px;"alt="">style.css</h4>
           </div>
-          <div class="row" style="border-bottom:1px solid #ccc;padding:20px;" ng-click="showFile('data')">
-            <h4 style="color:white"> <img src="/static/images/json.png" style="height:25px;margin-right:10px;"alt=""> data.json</a></h4>
+          <div class="row" style="border-bottom:1px solid #ccc;padding:10px 20px;{{stage=='data'?'background-color:white;color:black':'background-color:black;color:white'}}" ng-click="showFile('data')">
+            <h4 > <img src="/static/images/json.png" style="height:25px;margin-right:10px;"alt=""> data.json</a></h4>
           </div>
-          <div class="row" style="border-bottom:1px solid #ccc;padding:20px;">
+          <div class="row" style="border-bottom:1px solid #ccc;padding:10px 20px;">
             <h4 style="color:white"> Images
               <span style="float:right;">
         <img src="/static/images/upload.png" style="width:30px">
         <input type="file" file-model="imageform.file" class="file_upload"  onchange="angular.element(this).scope().fileupload(this.files)" style="opacity: 0;position: absolute;
-z-index: 1;margin-top:-30px;">
+z-index: 1;margin-top:-30px;left:54%;width:50%">
       </span>
 
                <!-- <img src="/static/images/upload.png" style="height:30px;"></h4> -->

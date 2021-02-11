@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
 {% block content %}
 {% for component in components %}
 
 <div ng-app="app" ng-controller="main" ng-init='data = {{component.data | safe}}'>
   <style media="screen">
-    {{component.css}}
+    {{component}}
   </style>
   {{component.template | safe}}
 </div>
