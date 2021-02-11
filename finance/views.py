@@ -243,25 +243,30 @@ class CreateSalesTransactionAPI(APIView):
     permission_classes = (permissions.AllowAny ,)
     def post(self,request , format= None):
         data = request.data
+        div = request.user.designation.division
         outBondObj = Sale.objects.get(pk = int(data['purchase']))
         name = outBondObj.personName
         accountObj = Account.objects.get(pk = int(data['account']))
         fromAccObj = Account.objects.get(pk = int(data['frmaccount']))
+        # totalAmount = float(data['amount']) + float(data['tds'])
+        tds = 0
+        if 'tds' in data:
+            tds = tds = float(data['tds'])
         accountObj.balance = accountObj.balance + float(data['amount'])
         accountObj.save()
         fromAccObj.balance = fromAccObj.balance + float(data['amount'])
         fromAccObj.save()
-        transObj = Transaction.objects.create(toAcc = accountObj , credit = float(data['amount']) , dated = data['dated'] , user = request.user, outBound = outBondObj)
+        transObj = Transaction.objects.create(toAcc = accountObj , credit = float(data['amount']) , dated = data['dated'] , user = request.user, outBound = outBondObj, division = div, tds = tds)
         if 'externalReferenceID' in data:
             transObj.externalReferenceID = data['externalReferenceID']
             transObj.groupId = data['externalReferenceID']
         transObj.balance = accountObj.balance
         transObj.narration = 'Invoice Payment'
         transObj.save()
-        retailAcc = Account.objects.get(title = 'Accounts receivable')
+        retailAcc = Account.objects.get(title = 'Accounts receivable' , division = div)
         retailAcc.balance = retailAcc.balance - float(data['amount'])
         retailAcc.save()
-        transObj1 = Transaction.objects.create(fromAcc = retailAcc , debit = float(data['amount']) , dated = data['dated'] , user = request.user, outBound = outBondObj)
+        transObj1 = Transaction.objects.create(fromAcc = retailAcc , debit = float(data['amount']) , dated = data['dated'] , user = request.user, outBound = outBondObj, division = div, tds = tds)
         if 'externalReferenceID' in data:
             transObj1.externalReferenceID = data['externalReferenceID']
             transObj1.groupId = data['externalReferenceID']
@@ -269,17 +274,17 @@ class CreateSalesTransactionAPI(APIView):
         transObj1.narration = 'Invoice Payment'
         transObj1.save()
         try:
-            venAcc = Account.objects.get(title = name)
+            venAcc = Account.objects.get_or_create(title = name , division = div, group ="Vendor Account")
             venAcc.balance = venAcc.balance - float(data['amount'])
             venAcc.save()
-            transObj2= Transaction.objects.create(fromAcc = venAcc , debit = float(data['amount']) , dated = data['dated'] , user = request.user, outBound = outBondObj)
+            transObj2= Transaction.objects.create(fromAcc = venAcc , debit = float(data['amount']) , dated = data['dated'] , user = request.user, outBound = outBondObj, division = div, tds = tds)
             if 'externalReferenceID' in data:
                 transObj2.externalReferenceID = data['externalReferenceID']
                 transObj2.groupId = data['externalReferenceID']
                 transObj2.balance = accountObj.balance
                 transObj2.narration = 'Invoice Payment'
                 transObj2.save()
-                transObj3 = Transaction.objects.create(toAcc = fromAccObj , credit = float(data['amount']) , dated = data['dated'] , user = request.user, outBound = outBondObj)
+                transObj3 = Transaction.objects.create(toAcc = fromAccObj , credit = float(data['amount']) , dated = data['dated'] , user = request.user, outBound = outBondObj, division = div, tds = tds)
                 if 'externalReferenceID' in data:
                     transObj3.externalReferenceID = data['externalReferenceID']
                     transObj3.groupId = data['externalReferenceID']
@@ -288,11 +293,13 @@ class CreateSalesTransactionAPI(APIView):
                     transObj3.save()
         except:
             pass
-        outBondObj.paidAmount = float(outBondObj.paidAmount) + float(data['amount'])
+        print outBondObj.paidAmount,'ssssssssssss'
+        outBondObj.paidAmount = float(outBondObj.paidAmount) + float(data['amount']) + float(data['tds'])
+        print outBondObj.paidAmount
         outBondObj.balanceAmount = float(outBondObj.total) - float(outBondObj.paidAmount)
         outBondObj.save()
         data = TransactionSerializer(transObj,many=False).data
-        return Response(data)
+        return Response(data, status = status.HTTP_200_OK)
 
 class SaleViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny ,)

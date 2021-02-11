@@ -213,6 +213,7 @@ class Transaction(models.Model):
     apiCallParams = models.CharField(max_length = 1500 , null = True)
     division = models.ForeignKey(Division,related_name='divisionTransaction',null=True)
     outBound = models.ForeignKey(Sale,related_name='outbondTransaction',null=True)
+    tds =  models.FloatField(default=0)
     def __unicode__(self):
         return '<from : %s > , <to : %s > , <amount : %s> , < user : %s>' %(self.fromAcc , self.toAcc , self.amount , self.user.username)
 
