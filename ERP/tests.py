@@ -18,3 +18,16 @@ import json
 # for user in user_list['users']:
 #     user_id = user['id']
 #     print(json.loads(client.meeting.list(user_id=user_id).content))
+
+
+
+import requests
+
+url = 'http://localhost:8000/api/ERP/addNewUser/'
+myobj = {'username' : 'neelu','first_name' : 'Neelu','last_name' : 'Singh','email' : 'neelu.s@aaa.in','applist' : ['app.messenger', 'app.catalogmaker','app.sales','app.chatbot','app.website']}
+
+x = requests.post(url, json = myobj)
+
+#print the response text (the content of the requested file):
+
+print(x.text)

@@ -119,7 +119,7 @@ class NodeBlock(models.Model):
 
     exampleInput = models.CharField(max_length = 500 , null = True)
     retry = models.PositiveIntegerField(default = 0)
-
+    saleConfig = models.TextField(max_length = 1000 , null = True, blank = True)
 
 
 class Connection(models.Model):

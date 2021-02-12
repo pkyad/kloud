@@ -358,9 +358,12 @@ class SaleAllViewSet(viewsets.ModelViewSet):
 class SalesQtyViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny ,)
     serializer_class = SalesQtySerializer
-    queryset = SalesQty.objects.all()
+    # queryset = SalesQty.objects.all()
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['outBound','product']
+    def get_queryset(self):
+        divsn = self.request.user.designation.division
+        return SalesQty.objects.filter(outBound__division = divsn)
 
 class CategoryViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny ,)
@@ -4527,6 +4530,7 @@ class PageNumCanvas(canvas.Canvas):
             imagePath = os.path.join(globalSettings.MEDIA_ROOT , str(self.division.logo))
         else:
             imagePath = os.path.join(globalSettings.BASE_DIR,'static_shared','images','no_tour_image.jpg' )
+        print imagePath,'aaaaaaaaaaaa'
         f = open(imagePath, 'rb')
         ima = Image(f)
         # ima.drawHeight = 0.5*inch

@@ -215,7 +215,7 @@ class Division(models.Model):
     userApiKey = models.CharField(max_length = 500 , null = True )
     firstMessage = models.TextField(max_length = 20000 , null = True ,blank=True , default='Hi, How can I help you')
     welcomeMessage = models.TextField(max_length = 20000 , null = True ,blank=True)
-    chatIconPosition = models.TextField(max_length = 20000 , null = True ,blank=True)
+    chatIconPosition = models.TextField(max_length = 20000 , null = False ,default='right-bottom')
     chatIconType = models.TextField(max_length = 20000 , null = True ,blank=True)
     is_blink = models.BooleanField(default = False)
     support_icon = models.ImageField(upload_to = getdpPath , null = True)

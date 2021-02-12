@@ -52,7 +52,7 @@ class NodeDesignerSerializer(serializers.ModelSerializer):
     connections = ConnectionSerializer(many = True , read_only = True)
     class Meta:
         model = NodeBlock
-        fields = ('id', 'name', 'description', 'color', 'label', 'newy', 'newx', 'type', 'connections', 'blockType' , 'parent', 'icon' , 'company' , 'auto_response' , 'context_key')
+        fields = ('id', 'name', 'description', 'color', 'label', 'newy', 'newx', 'type', 'connections', 'blockType' , 'parent', 'icon' , 'company' , 'auto_response' , 'context_key','saleConfig')
 
 class NodeBlockLiteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -86,7 +86,7 @@ class NodeBlockSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = NodeBlock
-        fields = ('pk', 'name', 'description', 'auto_response', 'rule', 'context_key', 'custom_process_code', 'type', 'failResponse', 'nodeResponse', 'externalProcessType', 'endpoint', 'input_vatiations', 'action_intent_vatiations', 'node_variations_vatiations', 'startover_vatiations','company','parent', 'uipathEnvironment', 'uipathProcess', 'uipathRobot', 'leadMagnet', 'emailMagnet', 'mobileMagnet', 'nameMagnet', 'leadMagnetDefer', 'enabled', 'context_requirement', 'response', 'unique', 'needConfirmation', 'verify', 'pre_validation_code', 'validation_code', 'inheritedFrom', 'connections', 'blockType' , 'parent', 'icon', 'exampleInput', 'retry' , 'newx' , 'newy' , 'color' , 'label', 'key', 'uipathQueue')
+        fields = ('pk', 'name', 'description', 'auto_response', 'rule', 'context_key', 'custom_process_code', 'type', 'failResponse', 'nodeResponse', 'externalProcessType', 'endpoint', 'input_vatiations', 'action_intent_vatiations', 'node_variations_vatiations', 'startover_vatiations','company','parent', 'uipathEnvironment', 'uipathProcess', 'uipathRobot', 'leadMagnet', 'emailMagnet', 'mobileMagnet', 'nameMagnet', 'leadMagnetDefer', 'enabled', 'context_requirement', 'response', 'unique', 'needConfirmation', 'verify', 'pre_validation_code', 'validation_code', 'inheritedFrom', 'connections', 'blockType' , 'parent', 'icon', 'exampleInput', 'retry' , 'newx' , 'newy' , 'color' , 'label', 'key', 'uipathQueue','saleConfig')
         read_only_fields = ('company' , )
 
     def get_key(self , obj):
@@ -118,7 +118,7 @@ class NodeBlockSerializer(serializers.ModelSerializer):
         d = self.context['request'].data
 
 
-        for key in ['name', 'description', 'auto_response', 'rule', 'context_key', 'custom_process_code', 'type', 'failResponse', 'nodeResponse', 'externalProcessType', 'endpoint', 'method', 'authentication','company','parent', 'uipathEnvironment', 'uipathProcess', 'uipathRobot', 'leadMagnet', 'emailMagnet', 'mobileMagnet', 'nameMagnet', 'leadMagnetDefer', 'enabled', 'context_requirement', 'response', 'unique', 'needConfirmation', 'verify', 'pre_validation_code', 'validation_code', 'exampleInput', 'retry' , 'uipathQueue']:
+        for key in ['name', 'description', 'auto_response', 'rule', 'context_key', 'custom_process_code', 'type', 'failResponse', 'nodeResponse', 'externalProcessType', 'endpoint', 'method', 'authentication','company','parent', 'uipathEnvironment', 'uipathProcess', 'uipathRobot', 'leadMagnet', 'emailMagnet', 'mobileMagnet', 'nameMagnet', 'leadMagnetDefer', 'enabled', 'context_requirement', 'response', 'unique', 'needConfirmation', 'verify', 'pre_validation_code', 'validation_code', 'exampleInput', 'retry' , 'uipathQueue','saleConfig']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
