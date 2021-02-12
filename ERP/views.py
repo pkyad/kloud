@@ -286,7 +286,7 @@ def home(request):
 
     if division:
         divisionPk = division.pk
-        telephony = division.telephony
+        # telephony = division.telephony
         # messaging = division.messaging
         simpleMode = division.simpleMode
     else:
@@ -361,9 +361,13 @@ def home(request):
             messaging = True
     except:
         pass
+    telephony = False
 
-
-
+    try:
+        if InstalledApp.objects.filter(app__name = 'app.dialer', parent = division).count()>0:
+            telephony = True
+    except:
+        pass
     response =  render(request , 'ngBase.html' , {'wamp_prefix' : globalSettings.WAMP_PREFIX ,'isOnSupport' : isOnSupport , 'division' : division , 'homeState': homeState , 'dashboardEnabled' : u.profile.isDashboard , 'wampServer' : globalSettings.WAMP_SERVER, 'appsWithJs' : jsFilesList \
     ,'appsWithCss' : apps.filter(haveCss=True) , 'useCDN' : globalSettings.USE_CDN , 'BRAND_LOGO' : brandLogo \
     ,'BRAND_NAME' :  globalSettings.BRAND_NAME,'sourceList':globalSettings.SOURCE_LIST , 'commonApps' : globalSettings.SHOW_COMMON_APPS , 'defaultState' : state, 'limit_expenses_count':globalSettings.LIMIT_EXPENSE_COUNT  , 'MATERIAL_INWARD' : MATERIAL_INWARD, 'DIVISIONPK' : divisionPk , "SIP" : SIP_DETAILS ,"NOTIFICATIONCOUNT":notificationCount,'telephony' : telephony , 'simpleMode' : simpleMode, 'messaging' : messaging,  "wampLongPoll" : globalSettings.WAMP_LONG_POLL,'langDataList' : langDataList,'menusData':menusData})
@@ -1921,7 +1925,11 @@ class AddNewUserAPIView(APIView):
         user.is_staff = True
         user.save()
         if 'applist' in val:
-            for i in val['applist']:
+            try:
+                appList = val['applist'].split(',')
+            except:
+                appList = val['applist']
+            for i in appList:
                 app = application.objects.get(name = i)
                 print div
                 iapp, created = InstalledApp.objects.get_or_create(parent = div , app = app, addedBy= user)
