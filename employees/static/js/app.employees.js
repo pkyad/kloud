@@ -961,10 +961,25 @@ app.controller('admin.manageUsers.form', function($scope, $http, Flash, $uibModa
     $http.get('/api/organization/unit/?icansee=').
     then(function(response) {
       $scope.units =  response.data;
-      // $scope.form.unit = response.data[0]
+      if ($scope.simpleMode&&response.data.length>0) {
+        $scope.form.unit = response.data[0]
+      }
     })
   };
   $scope.unitSearch()
+  // console.log($scope.simpleMode,'aaaaaaaaaaaaaa');
+  // if ($scope.simpleMode) {
+  //   $http.get('/api/organization/unit/').
+  //   then(function(response) {
+  //     if ($scope.form.unit.length>0) {
+  //       $scope.form.unit =  response.data[0];
+  //     }
+  //     else{
+  //       $scope.form.unit =  ''
+  //     }
+  //     // $scope.form.unit = response.data[0]
+  //   })
+  // }
 
   $scope.depSearch = function(query) {
    $http.get('/api/organization/departments/').
@@ -1047,7 +1062,7 @@ app.controller('admin.manageUsers.form', function($scope, $http, Flash, $uibModa
     if ($scope.form.last_name!=null && $scope.form.last_name.length>0) {
       dataToSend.last_name = $scope.form.last_name
     }
-
+    console.log($scope.form.unit,'aaaaaaaaaaaaaaaaaaaaaaaa');
     if (typeof $scope.form.unit == 'object') {
       dataToSend.unit = $scope.form.unit.pk
     }

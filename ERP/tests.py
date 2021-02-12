@@ -21,13 +21,13 @@ import json
 
 
 
-# import requests
-#
-# url = 'http://localhost:8000/api/ERP/addNewUser/'
-# myobj = {'username' : 'ankiddrar','first_name' : 'Ankitra','last_name' : 'Kadam','email' : 'antddaka.rar@aaa.in','applist' : ['app.messenger', 'app.catalogmaker','app.sales','app.chatbot','app.website']}
-#
-# x = requests.post(url, json = myobj)
-#
-# #print the response text (the content of the requested file):
-#
-# print(x.text)
+import requests
+
+url = 'http://localhost:8000/api/ERP/addNewUser/'
+myobj = {'username' : 'neelu','first_name' : 'Neelu','last_name' : 'Singh','email' : 'neelu.s@aaa.in','applist' : ['app.messenger', 'app.catalogmaker','app.sales','app.chatbot','app.website']}
+
+x = requests.post(url, json = myobj)
+
+#print the response text (the content of the requested file):
+
+print(x.text)

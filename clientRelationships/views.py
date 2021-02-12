@@ -503,7 +503,10 @@ class ClientHomeCalAPIView(APIView):
             currencyTyp = ''
         contact_count = Contact.objects.filter(division = divsn, created__range = (FstDate,lstDate)).count()
         contract_count = Contract.objects.filter(division = divsn, created__range = (FstDate,lstDate)).count()
-        quoted = Contract.objects.filter(division = divsn, created__range = (request.GET['frm'], request.GET['to']))
+        date1 = request.GET['frm'] +' 00:00:00.243860'
+        date2 = request.GET['to'] +' 23:59:59.9999'
+        # quoted = Contract.objects.filter(division = divsn, created__range = (request.GET['frm'], request.GET['to']))
+        quoted = Contract.objects.filter(division = divsn,  created__range = (date1, date2))
         if 'typ' in request.GET:
             quoted = quoted.filter(status = request.GET['typ'])
         if 'tandc' in request.GET:

@@ -322,7 +322,8 @@
       background-position: top !important;
     }
     .installed{
-      position: absolute;right: -53px;height: 149px;width: 100px;background: #5c9d68;transform: rotate(-49deg);
+      position: absolute;
+      right: -53px;height: 149px;width: 100px;background: #5c9d68;transform: rotate(-49deg);
     }
     .firstApp{
       position: absolute;
@@ -680,11 +681,11 @@
                       </div>
                     </div>
                     <div class="col-md-8 col-xs-6">
-                      <h4 class="font25" style="padding-bottom:10px;">{{k.displayName}}</h4>
+                      <h4 class="font25" style="padding-bottom:10px;">{{k.displayName}} </h4>
                       <p style="height:20px;">4.3 <i class="fa fa-star"></i></p>
-                      <div class="installed " style="{{k.displayName.length>13?'bottom: 45px;':'bottom: 22px'}};" ng-if="k.is_app_installed">
+                      <div class="installed " style="{{k.displayName.length>15?'bottom: 45px;':'bottom: 22px'}};" ng-if="k.is_app_installed">
                         <!-- <img src="/static/images/icons8-check-mark-144.png" style="width: 47px;transform: rotate(-56deg);margin-top: 54px;" alt=""> -->
-                        <div class="font11" style="width: 40px;transform: rotate(90deg);margin-top: 54px;color: white;"> INSTALLED </div>
+                        <div class="font11" style="width: 40px;transform: rotate(90deg);margin-top: 54px;color: white;"> INSTALLED  </div>
                       </div>
                     </div>
                   </div>
@@ -708,7 +709,7 @@
                     <div class="col-md-8 col-xs-6">
                       <h4 class="font25" style="padding-bottom:10px;">{{k.displayName}}</h4>
                       <p style="height:20px;">4.3 <i class="fa fa-star"></i></p>
-                      <div class="installed" style="{{k.displayName.length>13?'bottom: 45px;':'bottom: 22px'}};" ng-if="k.is_app_installed">
+                      <div class="installed" style="{{k.displayName.length>15?'bottom: 45px;':'bottom: 22px'}};" ng-if="k.is_app_installed">
                         <!-- <img src="/static/images/icons8-check-mark-144.png" style="width: 47px;transform: rotate(-56deg);margin-top: 54px;" alt=""> -->
                         <div class="font11"style="width: 40px;transform: rotate(90deg);margin-top: 54px;color: white;"> INSTALLED </div>
                       </div>

@@ -49,6 +49,7 @@ from zoomapi import *
 from ERP.models import LanguageTranslation
 from paypal.standard.forms import PayPalPaymentsForm
 from django.db.models import BooleanField
+from initializing import *
 
 
 def generateOTPCode(length = 4):
@@ -1009,10 +1010,13 @@ class GetappusersAPI(APIView):
 @csrf_exempt
 def versionDetails(request,app):
     data = {}
-    obj = AppVersioning.objects.filter(title = app)
-    if obj.count()>0:
-        selectedObj = obj.first()
-        data = {'minVersion' : selectedObj.minVersion , 'latestVersion' : selectedObj.latestVersion}
+    # obj = AppVersioning.objects.filter(title = app)
+    # if obj.count()>0:
+    #     selectedObj = obj.first()
+    #     data = {'minVersion' : selectedObj.minVersion , 'latestVersion' : selectedObj.latestVersion}
+    print app,'ssssssssssssss'
+    alldata = {'app.crm':{'playstore' : {'version':'1.1.0', 'url':'','redirect':False},'appstore' : {'version':'1.1.0', 'url':'','redirect':False}},'app.messenger':{'playstore' : {'version':'1.1.0', 'url':'','redirect':False},'appstore' : {'version':'1.1.0', 'url':'','redirect':False}},'app.contacts':{'playstore' : {'version':'1.1.0', 'url':'','redirect':False},'appstore' : {'version':'1.1.0', 'url':'','redirect':False}},'app.klouderp':{'playstore' : {'version':'1.1.0', 'url':'','redirect':False},'appstore' : {'version':'1.1.0', 'url':'','redirect':False}}}
+    data = alldata[app]
     return JsonResponse(data)
 
 
@@ -1340,20 +1344,10 @@ class UserAppViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['app', 'user']
 
-def helperCreateUser(name,email):
-    division = Division.objects.create(name = name,website = 'NA',pan = 'NA',cin = 'NA')
-    unit = Unit.objects.create(name = 'HQ' , address = 'Address Not Available' , city = 'NA' , state = 'NA' , country = 'NA' , pincode= 'NA' , division = division ,  areaCode= division.name + str(division.pk) , email  = email )
-    response = {'division' : division.pk , 'unit' : unit.pk}
-    return response
 
 
-def CreateUnit(val):
-    if 'division_pk' in val:
-        division = Division.objects.get(pk = val['division_pk'] )
-        unitObj = Unit.objects.create(name = 'HQ' , address = 'Address Not Available' , city = 'NA' , state = 'NA' , country = 'NA' , pincode= 'NA' , division = division , areaCode= division.name + str(division.pk) )
-        print unitObj.pk
-        response = {'unit' : unitObj.pk}
-        return response
+
+
 
 
 class getAllSettings(APIView):
@@ -1916,8 +1910,12 @@ class AddNewUserAPIView(APIView):
             designation = user.designation
             div = Division.objects.get(pk = int(resData['division']))
             designation.division = div
-            designation.unit = Unit.objects.get(pk = int(resData['unit']))
+            unit = Unit.objects.get(pk = int(resData['unit']))
+            designation.unit = unit
             designation.save()
+        else:
+            div = user.designation.division
+            unit = user.designation.unit
         profile = user.profile
         token = randomPassword()
         profile.linkToken = token
@@ -1937,5 +1935,9 @@ class AddNewUserAPIView(APIView):
                     print i
                     ua, c = UserApp.objects.get_or_create(user = user , app = app)
                     ua.save()
+        if div.divisionCostCenter.all().count() == 0:
+            CreateCostCenter(div.pk)
+        if div.divisionAccount.all().count() == 0:
+            CreateBankAccount(div.pk)
         data = {'url' : globalSettings.SITE_ADDRESS+ '/tlogin/?token=' + profile.linkToken}
         return Response(data, status = status.HTTP_200_OK)

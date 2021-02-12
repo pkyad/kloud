@@ -358,9 +358,12 @@ class SaleAllViewSet(viewsets.ModelViewSet):
 class SalesQtyViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny ,)
     serializer_class = SalesQtySerializer
-    queryset = SalesQty.objects.all()
+    # queryset = SalesQty.objects.all()
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['outBound','product']
+    def get_queryset(self):
+        divsn = self.request.user.designation.division
+        return SalesQty.objects.filter(outBound__division = divsn)
 
 class CategoryViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny ,)
