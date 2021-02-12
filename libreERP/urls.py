@@ -79,6 +79,7 @@ urlpatterns = [
     url(r'^externalWindow/', ExternalWindow , name ='externalWindow'),
     url(r'^zoomAuthRedirect/', ZoomAuthRedirect , name ='zoomAuthRedirect'),
     url(r'^version/(?P<app>[\w|\W]+)/', versionDetails , name ='versionDetails'),
+    url(r'^pages/(?P<url>[\w|\W]+)', renderpage , name ='page'),
     # url(r'^getPaymentLink/', GetPaymentLink , name ='getPaymentLink'),
 
 
@@ -91,4 +92,4 @@ if globalSettings.DEBUG:
     urlpatterns +=static(globalSettings.STATIC_URL , document_root = globalSettings.STATIC_ROOT)
     urlpatterns +=static(globalSettings.MEDIA_URL , document_root = globalSettings.MEDIA_ROOT)
 
-urlpatterns.append( url(r'^pages/(?P<url>[\w|\W]+)', renderpage , name ='pages/(?P<url>[\w|\W]+)'))
+# urlpatterns.append( url(r'^pages/(?P<url>[\w|\W]+)', renderpage , name ='pages/(?P<url>[\w|\W]+)'))
