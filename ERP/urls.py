@@ -44,7 +44,7 @@ urlpatterns = [
     url(r'getAllSettings/$' , getAllSettings.as_view() ),
     url(r'dowloadExcel/$' , downloadExcelFileAPI.as_view() ),
     url(r'serviceApi/$' , serviceApi.as_view()),
-    url(r'createBilling/$' , CreateBillingAPI.as_view()),
+    url(r'createBilling/$' , BillingCronJob),
     url(r'getBilling/$' , GetBillingAPI.as_view()),
     url(r'getAllSchedule/$' , GetAllSchedulesAPI.as_view()),
     url(r'checkAvailability/$' , CheckAvailabilityAPI.as_view()),

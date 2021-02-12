@@ -1474,25 +1474,23 @@ class UsageBillingViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['month' , 'year']
 
-
-class CreateBillingAPI(APIView):
-    renderer_classes = (JSONRenderer,)
-    def get(self , request , format = None):
-        divs = Division.objects.all()
-        amount = 0
-        mydate = datetime.datetime.now()
-        month = mydate.strftime("%B")
-        year = mydate.strftime("%G")
-        for div in  divs:
-            installapp = InstalledApp.objects.filter(parent = div )
-            for i in installapp:
-                # usercount = 0
-                usercount = UserApp.objects.filter(user__designation__division = div, app = i.app).count()
-                print usercount,'232'
-                ub,created = UsageBilling.objects.get_or_create(app=i.app,date = datetime.datetime.today(), title =i.app.displayName,description=i.app.description,icon= i.app.icon , month = month, year = year , amount = usercount, division=div)
-                ub.save()
-        return Response( status = status.HTTP_200_OK)
-
+def BillingCronJob(request):
+    divs = Division.objects.all()
+    amount = 0
+    mydate = datetime.datetime.now()
+    month = mydate.strftime("%B")
+    year = mydate.strftime("%G")
+    for div in  divs:
+        installapp = InstalledApp.objects.filter(parent = div )
+        for i in installapp:
+            # usercount = 0
+            usercount = UserApp.objects.filter(user__designation__division = div, app = i.app).count()
+            print usercount,'232'
+            if usercount ==0 :
+                continue
+            ub,created = UsageBilling.objects.get_or_create(app=i.app,date = datetime.datetime.today(), title =i.app.displayName,description=i.app.description,icon= i.app.icon , month = month, year = year , amount = usercount, division=div)
+            ub.save()
+    return JsonResponse({}, status = status.HTTP_200_OK)
 
 class GetBillingAPI(APIView):
     renderer_classes = (JSONRenderer,)

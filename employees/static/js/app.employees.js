@@ -1062,7 +1062,6 @@ app.controller('admin.manageUsers.form', function($scope, $http, Flash, $uibModa
     if ($scope.form.last_name!=null && $scope.form.last_name.length>0) {
       dataToSend.last_name = $scope.form.last_name
     }
-    console.log($scope.form.unit,'aaaaaaaaaaaaaaaaaaaaaaaa');
     if (typeof $scope.form.unit == 'object') {
       dataToSend.unit = $scope.form.unit.pk
     }

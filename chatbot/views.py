@@ -169,7 +169,7 @@ class CloneAPIView(APIView):
                 nb.parent = parent
                 nb.save()
 
-            for key in ['auto_response' , 'context_key' , 'custom_process_code', 'failResponse', 'nodeResponse', 'externalProcessType', 'endpoint', 'enabled', 'response', 'unique', 'needConfirmation', 'verify', 'pre_validation_code', 'validation_code', 'exampleInput', 'retry']:
+            for key in ['auto_response' , 'context_key' , 'custom_process_code', 'failResponse', 'nodeResponse', 'externalProcessType', 'endpoint', 'enabled', 'response', 'unique', 'needConfirmation', 'verify', 'pre_validation_code', 'validation_code', 'exampleInput', 'retry','saleConfig']:
                 try:
                     setattr(nb , key , b[key])
                 except:

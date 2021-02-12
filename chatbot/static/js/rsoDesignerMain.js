@@ -470,8 +470,33 @@ app.controller('main', function($scope, $http, $timeout, $aside , $uibModal, Fla
       placement: 'left',
       size: 'md',
       backdrop: true,
-      controller: function($scope , $http , $uibModalInstance , block) {
+      resolve : {
+        variables : function() {
+          variables = [];
 
+          for (var i = 0; i < $scope.blocks.length; i++) {
+            if ($scope.blocks[i].context_key && variables.indexOf($scope.blocks[i].context_key) == -1 ) {
+              variables.push($scope.blocks[i].context_key)
+            }
+          }
+          return variables
+        },
+        block: function () {
+          return $scope.blocks[ind];
+        }
+      },
+      controller: function($scope , $http , $uibModalInstance , block, variables) {
+
+        $scope.variables = variables;
+
+        // $scope.termsandconditionSearch = function(){
+          $scope.termsandconditionSearch = function(query) {
+            return $http.get('/api/finance/termsAndConditions/?typ=INVOICE&heading=' + query).
+            then(function(response) {
+              return response.data;
+            })
+          }
+        // }
 
         $scope.autoFill = function(typ) {
           if (typ == 'orderid') {
@@ -625,6 +650,10 @@ app.controller('main', function($scope, $http, $timeout, $aside , $uibModal, Fla
               $scope.catalogs = response.data;
             });
 
+          }else if ($scope.data.blockType == 'prepareOrder') {
+
+            $scope.data.saleConfig = JSON.parse($scope.data.saleConfig)
+
           } else if ($scope.data.blockType == 'invokeUiPath') {
             $scope.uipathData = {processes : [], environments : [], robots : [] , queues : []}
 
@@ -753,6 +782,10 @@ app.controller('main', function($scope, $http, $timeout, $aside , $uibModal, Fla
             }
           }
 
+          if (typeof b.saleConfig == 'object') {
+              dataToSend.saleConfig = JSON.stringify(b.saleConfig);
+          }
+
           $scope.saving = true;
           $http({method : 'PATCH' , url : '/api/chatbot/intents/' + $scope.block.id   +'/' , data : dataToSend  }).
           then(function(response) {
@@ -836,11 +869,6 @@ app.controller('main', function($scope, $http, $timeout, $aside , $uibModal, Fla
         }
 
 
-      },
-      resolve: {
-       block: function () {
-         return $scope.blocks[ind];
-        }
       }
     })
   }
@@ -1475,6 +1503,24 @@ app.controller('main', function($scope, $http, $timeout, $aside , $uibModal, Fla
         connections : [
           {callbackName : 'success' , connected : false },
           {callbackName : 'failure' , connected : false }
+        ]
+      }
+    }else if (typ == 'prepareOrder') {
+      block = {
+        "name": "Create an Ecommerce order",
+        "description": "",
+        auto_response : 'Please wait while I create your order', // can we save the PK of the catalog here
+        blockType : typ,
+        "label": 'System',
+        "color": color,
+        context_key : 'saleOrder',
+        "icon": icon,
+        "newx": posx,
+        "newy": posy,
+        parent : $scope.parentID,
+        connections : [
+          {callbackName : 'success' , connected : false },
+          {callbackName : 'failure' , connected : false },
         ]
       }
     }else if (typ == 'presentCatalog') {
