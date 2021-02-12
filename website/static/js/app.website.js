@@ -114,10 +114,10 @@ app.controller('settings', function($scope, $http, $aside, $state, Flash, $users
 
 
   $scope.save = function() {
-    if ($scope.form.defaultOgImage == emptyFile || $scope.form.defaultTitle.length == 0 || $scope.form.defaultDescription.length == 0) {
-      Flash.create('warning', 'Fill all the Details')
-      return
-    }
+    // if ($scope.form.defaultOgImage == emptyFile || $scope.form.defaultTitle.length == 0 || $scope.form.defaultDescription.length == 0) {
+    //   Flash.create('warning', 'Fill all the Details')
+    //   return
+    // }
 
     var fd = new FormData()
     fd.append('defaultTitle', $scope.form.defaultTitle)

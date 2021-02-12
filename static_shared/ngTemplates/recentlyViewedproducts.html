@@ -1,14 +1,16 @@
 <div class="container-fluid">
-  <div class="row" style="margin-top:30px;margin-bottom:30px;background-color:#eff6fa;padding:30px 0px">
+
+  <div class="row" style="margin-top:30px;margin-bottom:30px;background-color:#eff6fa;padding:30px 0px" >
     <div class="col-md-10 col-md-offset-1">
       <div class="row" style="border-bottom:2px solid #ccc;">
-        <h3 style="margin:0px;padding:10px 0px;">{{viewedProducts.heading}}</h3>
+        <h3 style="margin:0px;padding:10px 0px;">{{value.heading.string}}</h3>
       </div>
       <ng-owl-carousel class="owl-theme " owl-items="viewedProducts.items" owl-properties="viewedProductsProperties" owl-ready="ready($api)">
         <div class="mediaofcarrecent " ng-repeat="l in viewedProducts.items track by $index" style="margin:20px 0 10px 20px;border-radius: 8px;padding:25px 15px;position:relative;background:#fff;cursor:pointer;">
-          <div class=" text-center" style="width:100%">
+          <p>{{l}}</p>
+          <div class=" text-center" style="width:100%" ng-repeat="(key,value) in l track by $index">
             <div style="padding:15px 10px 0px 15px;justify-content:center;width:100%;">
-              <div style="height:170px;width:170px;margin:auto;background:url({{l.image}}) center center no-repeat;background-size: contain;">
+              <div style="height:170px;width:170px;margin:auto;background:url({{value.string.img1}}) center center no-repeat;background-size: contain;">
               </div>
             </div>
             <div style="padding-top:15px;width: 100%;overflow: hidden;white-space: nowrap;text-overflow:ellipsis; ">

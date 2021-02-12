@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ui.router', 'flash', 'ngSanitize', 'ngDraggable', 'ui.bootstrap','angular-owl-carousel-2']);
+var app = angular.module('app', ['ui.router', 'flash', 'ngSanitize', 'ngDraggable', 'ui.bootstrap','angular-owl-carousel-2','uiSwitch']);
 
 app.filter('to_trusted', ['$sce', function($sce) {
   return function(text) {
@@ -273,17 +273,8 @@ $scope.getComponents()
         $scope.component = data;
         $scope.component.data = JSON.parse($scope.component.data)
         console.log($scope.component.data,'34343');
-        $scope.search = {
 
-          searchVal:''
-        }
-        $scope.productSearch = function(query) {
 
-          return $http.get('/api/finance/inventory/?limit=20&mobile__icontains=' + query).
-          then(function(response) {
-            return response.data.results;
-          })
-        };
 
         // $scope.editArrayObj = function(field, idx, key) {
         //   console.log(field,field.form, idx, key,'43443432');
@@ -303,29 +294,7 @@ $scope.getComponents()
         //
         // }
 
-        $scope.appMediaPro = {
-          lazyLoad: false,
-          loop: true,
-          items: 1,
-          autoplay: true,
-          autoplayTimeout: 10000,
-          dots: true,
-          // nav:true,
-          responsive: {
-            0: {
-              items: 1
-            },
-            479: {
-              items: 2
-            },
-            600: {
-              items: 3
-            },
-            1000: {
-              items: 4,
-            }
-          },
-        };
+      
 
         $scope.add = function(){
           console.log($scope.search.searchVal,'eqwerqwerwerrwer');
@@ -387,7 +356,6 @@ $scope.getComponents()
           })
         }
         $scope.editArrayObj = function(field, idx, key) {
-          console.log(field, idx, key,'43443432');
           if(idx == -1){
             data = angular.copy(field.form)
           }else{
@@ -398,19 +366,11 @@ $scope.getComponents()
           $scope.idx = idx;
           $scope.key = key;
           $scope.form = data;
-          console.log(key,idx,data,'23432342yfdgd');
 
-          $scope.add = function(){
-          }
+
           $scope.component.data[$scope.key].array.push(data)
 
-          // $scope.productSearch = function(query) {
-          //
-          //   return $http.get('/api/finance/inventory/?limit=20&mobile__icontains=' + query).
-          //   then(function(response) {
-          //     return response.data.results;
-          //   })
-          // };
+
 
           // $uibModal.open({
           //   templateUrl: '/static/ngTemplates/app.website.arrayObjEditor.html',

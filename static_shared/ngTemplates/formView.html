@@ -94,7 +94,7 @@
         </div>
       </div>
       <div ng-if="value.type == 'array'">
-        <!-- <div class="row">
+        <div class="row">
           <div class="col-md-4" ng-repeat="object in value.array track by $index ">
             <span style="position:absolute;right:25px;padding:10px;" ng-click="value.array.splice($index,1)"><i class="fa fa-times"></i></span>
             <div ng-repeat="(key1, value1) in object track by $index" ng-if="value1.string.pk">
@@ -114,9 +114,9 @@
             </div>
 
           </div>
-        </div> -->
+        </div>
         <div class="row">
-            <form-view data="value.array"></form-view>
+            <form-view data="value.array"  ></form-view>
         </div>
       </div>
 
@@ -136,7 +136,8 @@
   </div>
 <!-- <div class="row " style="padding:15px;">
 <div class="col-md-offset-10 col-md-2" -->
-    <button type="button" class="btn btn-primary text-center" name="button" style="border-radius:25px!important;background:#001aff;color:#ffffff;height:47px;width:200px" ng-click="save()">Save</button>
+
+    <button  type="button" class="btn btn-primary text-center" name="button" style="border-radius:25px!important;background:#001aff;color:#ffffff;height:47px;width:200px" ng-click="save(data)" >Save</button>
   <!-- </div>
 </div> -->
 </div>

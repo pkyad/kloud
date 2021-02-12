@@ -290,8 +290,12 @@ class Getheaderandfooter(APIView):
 
         if 'defaultOgImage' in request.FILES:
             d.defaultOgImage = request.FILES['defaultOgImage']
-
         d.save()
+        ogImage = os.path.join(globalSettings.MEDIA_ROOT, str(d.defaultOgImage))
+        im = Image.open(ogImage)
+        width, height = im.size
+        d.defaultOgWidth = width
+        d.defaultOgHeight = height
         if 'footerTemplate' in data :
             try:
                 uielementObj =  UIelementTemplate.objects.get(pk=data['footerTemplate'])
@@ -311,12 +315,12 @@ class Getheaderandfooter(APIView):
             except:
                 pass
 
-        if d.defaultOgImage != None:
-            ogImage = os.path.join(globalSettings.MEDIA_ROOT , str(d.defaultOgImage))
-            im = Image.open(ogImage)
-            width, height = im.size
-            d.defaultOgWidth = width
-            d.defaultOgHeight = height
+        # if d.defaultOgImage != None:
+        #     ogImage = os.path.join(globalSettings.MEDIA_ROOT , str(d.defaultOgImage))
+        #     im = Image.open(ogImage)
+        #     width, height = im.size
+        #     d.defaultOgWidth = width
+        #     d.defaultOgHeight = height
         d.save()
         divsionObj = DivisionSerializer(d,many=False).data
         return Response({'data':divsionObj}, status=status.HTTP_200_OK)

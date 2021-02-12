@@ -1,20 +1,19 @@
 <div >
   <div class="no-padding" style="min-height:310px;">
-    <div class="">
+    <div class="" ng-repeat="(key,value) in item  " ng-if="value.string.pk">
       <div class="" style="height:auto">
         <div class="text-center mediaformobilenext_specificpage" style="left:10%;">
           <div class="simple_listcss_rare" style="height:160px;">
-            <div class="" style="height:170px;width:130px;margin:auto;margin-top:10%;background:url({{item.img1}}) center center no-repeat;background-size: contain;">
+            <div class="" style="height:170px;width:130px;margin:auto;margin-top:10%;background:url({{value.string.img1}}) center center no-repeat;background-size: contain;">
 
             </div>
           </div>
-          <!-- <p>{{item}}</p> -->
           <div class="col-md-12" style="margin-top:10px;padding:0% 15%;">
-            <span  style="font-weight:500;font-size:16px;color:black;padding-right:10px;" class=" "><i class="fa fa-inr"></i>{{item.rate}}</span>
+            <span  style="font-weight:500;font-size:16px;color:black;padding-right:10px;" class=" "><i class="fa fa-inr"></i>{{value.string.rate}}</span>
             <strike>
-              <span style="font-size:12px;" class=" "> <i class="fa fa-inr"></i>{{item.mrp}}</span>
+              <span style="font-size:12px;" class=" "> <i class="fa fa-inr"></i>{{value.string.mrp}}</span>
             </strike>
-            <p style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;font-weight:400;color:black;" ng-if="!list.displayName" class=" ">{{item.name}}</p>
+            <p style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;font-weight:400;color:black;" ng-if="!list.displayName" class=" ">{{value.string.name}}</p>
 
           </div>
 
