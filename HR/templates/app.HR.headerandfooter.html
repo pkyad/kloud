@@ -1,8 +1,11 @@
 {% extends 'base.html'%}
-
+{% load staticfiles %}
 
 {% block header %}
   <div class="">
+    <style media="screen">
+        {{headerCss}}
+    </style>
 
     {% if header %}
       {{header}}
@@ -30,6 +33,9 @@
 
 
 {% block footer %}
+  <style media="screen">
+      {{footerCss}}
+  </style>
   <div class="">
     {% if footer %}
       {{footer}}

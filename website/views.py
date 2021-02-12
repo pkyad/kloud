@@ -68,12 +68,12 @@ class UIelementTemplateViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     serializer_class = UIelementTemplateSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['name' , 'template','templateCategory','live']
+    filter_fields = ['name' , 'template','templateCategory','live','defaultData']
     def get_queryset(self):
         toReturn = UIelementTemplate.objects.all()
         divsn = self.request.user.designation.division
         if 'templateCategory' in self.request.GET:
-            toReturn = toReturn.filter(live=True,templateCategory__icontains = self.request.GET['templateCategory'])
+            toReturn = toReturn.filter(live=True,templateCategory__icontains = self.request.GET['templateCategory'],defaultData__isnull=False)
         return toReturn
 
 

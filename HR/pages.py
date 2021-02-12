@@ -119,17 +119,29 @@ def pageeditor(request,id):
         API_KEY = request.user.designation.division.apiKey
     return render(request, 'app.HR.pageeditor.html',{'page':page,'data':data, 'components' : components,'API_KEY':API_KEY})
 
+# def renderpage(request,url):
+#     filePath = os.path.join(globalSettings.BASE_DIR , 'media_root' , 'publishedPages' , ('%s_%s.html'% (1, url)))
+#     print url,filePath,'4343243'
+#     with open(filePath, 'r') as f:
+#            fileContent = f.read()
+#            app.HR.page.html
+#     return HttpResponse(fileContent)
+
+
 def renderpage(request,url):
-    filePath = os.path.join(globalSettings.BASE_DIR , 'media_root' , 'publishedPages' , ('%s_%s.html'% (1, url)))
-    print url,filePath,'4343243'
-    with open(filePath, 'r') as f:
-           fileContent = f.read()
-    return HttpResponse(fileContent)
+    page = Page.objects.get(url = url)
+    components = Components.objects.filter(parent = page)
+    data = ''
+    for indx, i in enumerate(components):
+        i.template = i.template.replace('$data' , 'components[%s].data'%(indx))
+
+        i.dataTemplate = i.template
+    return render(request, 'app.HR.page.html',{'components':components})
 
 
 def uielement(request):
     component = UIelementTemplate.objects.get(pk = request.GET['id'])
-    
+
     return render(request, 'app.HR.pageElement.html',{'data':component})
 
 
@@ -154,6 +166,8 @@ def headerfooter(request):
 
 def renderheaderfooter(request):
     data = request.user.designation.division
+    headerCss = data.headerCss
+    footerCss = data.footerCss
     if data.headerData != None and  len(data.headerData) > 0:
         data.headerData = json.loads(data.headerData)
 
@@ -168,7 +182,7 @@ def renderheaderfooter(request):
     if data.footerTemplate != None:
         f = Template(data.footerTemplate)
         footer = f.render(c)
-    return render(request, 'app.HR.headerandfooter.html',{'header':header,'footer':footer})
+    return render(request, 'app.HR.headerandfooter.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
 
 def appdetails(request):
     # app = application.objects.get(pk = request.GET['id'])

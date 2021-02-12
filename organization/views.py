@@ -297,19 +297,20 @@ class Getheaderandfooter(APIView):
                 uielementObj =  UIelementTemplate.objects.get(pk=data['footerTemplate'])
                 d.footerTemplate =  uielementObj.template
                 d.footerData =  uielementObj.defaultData
+                d.footerCss =  uielementObj.css
                 d.footerTemplate = d.footerTemplate.replace('$data','data.footerData')
             except:
-                d.footerTemplate =  ''
-                d.footerData =  ''
+                pass
         if 'headerTemplate' in data :
             try:
                 uielementObj =  UIelementTemplate.objects.get(pk=data['headerTemplate'])
                 d.headerTemplate =  uielementObj.template
                 d.headerData =  uielementObj.defaultData
+                d.headerCss =  uielementObj.css
                 d.headerTemplate = d.headerTemplate.replace('$data','data.headerData')
             except:
-                d.headerTemplate =  ''
-                d.headerData =  ''
+                pass
+
         if d.defaultOgImage != None:
             ogImage = os.path.join(globalSettings.MEDIA_ROOT , str(d.defaultOgImage))
             im = Image.open(ogImage)
