@@ -559,7 +559,8 @@ app.controller("businessManagement.faq", function($scope, $state, $users, $state
     })
 
   }
-  var customerpk= CUSTOMER_PK
+  // var customerpk= CUSTOMER_PK
+  var customerpk= $scope.me.designation.division
   $http({
     method: 'GET',
     url: '/api/organization/divisions/'+customerpk+'/'

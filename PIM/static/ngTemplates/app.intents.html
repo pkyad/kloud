@@ -1,22 +1,21 @@
+
+
 <div style="padding-top:30px;" class="container-fluid" >
   <div class="row" style="margin:0px;">
     <div class="col-md-4">
-      <h3>Chatbot Intents</h3>
-      <p>These are the tasks your chatbot can do</p>
+      <h3 class="font24">Chatbot Intents</h3>
+      <p class="font14">These are the tasks your chatbot can do</p>
     </div>
-    <div class="col-md-4" style="padding-top: 45px;">
+    <div class="col-md-4" style="padding-top: 20px;">
 
-      <div class="input-group">
-        <input type="text" placeholder="Search for an intent.... " ng-enter="fetchIntents()" class="form-control" ng-model="searchTxt">
-        <div class="input-group-btn">
-          <button ng-click="fetchIntents()" type="button" class="btn btn-primary">
-            Search
-          </button>
-        </div>
+      <div class="form-group">
+        <span ng-click="fetchIntents()"><i class="fa fa-search" style="position: absolute;right: 20px;padding:15px;z-index: 99999;"></i></span>
+        <input type="text" placeholder="Search for an intent.... " ng-enter="fetchIntents()" class="form-control websiteInput" ng-model="searchTxt" style="background-color:white;">
+
       </div>
 
     </div>
-    <div class="col-md-4 pull-right" style="padding-top: 45px;font-size:18px;">
+    <div class="col-md-4 font18" style="padding-top: 40px;font-size:18px;">
       Need Help ? email us :<a href="mailto:support@epsilonai.com?Subject=I am facing issue in chatbot studio" target="_top"> support@epsilonai.com</a>
     </div>
   </div>
@@ -60,13 +59,13 @@
 
 
       <div class="row">
-        <h4 style="margin-left:15px;margin-bottom:20px;color:#7e7e7e;" >Import from gallery ( Prebuilt examples and use cases )</h4>
+        <h4 class="font18" style="margin-left:15px;margin-bottom:20px;color:#7e7e7e;" >Import from gallery ( Prebuilt examples and use cases )</h4>
         <div class="col-md-3" ng-repeat="i in gallery">
           <div style="padding: 16px;margin-bottom:20px;cursor:pointer;color: var(--headerNavbarHighlight);background:white;border-radius:15px;" ng-click="importIntent(i.file)">
             <div class="row text-right row0">
               <img ng-src="{{i.icon}}" style="width:70px;" alt="">
             </div>
-            <div class="row row0" style="font-size:17px;margin-top:10px;">
+            <div class="row font17 row0" style="margin:0px;margin-top:10px;">
               {{i.name}}
             </div>
           </div>

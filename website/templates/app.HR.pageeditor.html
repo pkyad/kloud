@@ -28,7 +28,8 @@
         {{page.title}} <br> <span class="fa fa-pencil " ng-click="createPage()">Edit Page Details</span>
       </div>
       <div class="col-md-4">
-        <button type="button" class="btn btn-primary" name="button" ng-click="publish()" style="border-radius:100px !important;">Publish</button>
+        <!-- <button type="button" class="btn btn-primary" name="button" ng-click="publish()" style="border-radius:100px !important;">Publish</button> -->
+        <a href="/pages/{{page.url}}" target="_blank"type="button" class="btn btn-primary" name="button" style="border-radius:100px !important;">Preview</a>
       </div>
     </div>
   </div>
@@ -47,6 +48,9 @@
   <div class="row" style="margin-bottom:50px;padding-bottom:50px;">
     <div class="row pull-right" style="color:black;padding-right: 50px;font-size: 20px;">
     </div>
+    <style media="screen">
+      {{component.css | safe}}
+    </style>
 
     <div ng-init='data = {{component.data | safe}}' style="position:relative;">
       <div class="" style="position:absolute;width:100%;height:80%;z-index:10;" ng-click="EditComponent({{ forloop.counter0 }})">

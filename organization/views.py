@@ -297,19 +297,20 @@ class Getheaderandfooter(APIView):
                 uielementObj =  UIelementTemplate.objects.get(pk=data['footerTemplate'])
                 d.footerTemplate =  uielementObj.template
                 d.footerData =  uielementObj.defaultData
+                d.footerCss =  uielementObj.css
                 d.footerTemplate = d.footerTemplate.replace('$data','data.footerData')
             except:
-                d.footerTemplate =  ''
-                d.footerData =  ''
+                pass
         if 'headerTemplate' in data :
             try:
                 uielementObj =  UIelementTemplate.objects.get(pk=data['headerTemplate'])
                 d.headerTemplate =  uielementObj.template
                 d.headerData =  uielementObj.defaultData
+                d.headerCss =  uielementObj.css
                 d.headerTemplate = d.headerTemplate.replace('$data','data.headerData')
             except:
-                d.headerTemplate =  ''
-                d.headerData =  ''
+                pass
+
         if d.defaultOgImage != None:
             ogImage = os.path.join(globalSettings.MEDIA_ROOT , str(d.defaultOgImage))
             im = Image.open(ogImage)
@@ -681,12 +682,14 @@ class InstallUserApp(APIView):
                 div.save()
             app, created = InstalledApp.objects.get_or_create(parent = div , app = appDetails, priceAsAdded = params['priceAsAdded'] , addedBy= request.user)
             app.save()
-            ua = UserApp(user = user , app = application.objects.get(pk = params['app'])  )
-            ua.save()
+            data = {}
+            if appDetails.inMenu == True:
+                ua = UserApp(user = user , app = application.objects.get(pk = params['app'])  )
+                ua.save()
             # userObj = userSearchSerializer(user, many = False).data
             # userAppObj = UserAppsSerializerr(user, many = False).data
             # data = {'userObj' : userObj, 'apps' : apps}
-            data = UserAppSerializer(ua,many=False).data
+                data = UserAppSerializer(ua,many=False).data
             return Response({'data':data},status=status.HTTP_200_OK)
         ua = UserApp(user = User.objects.get(pk = int(params['user'])) , app = application.objects.get(pk = int(params['app']))  )
         ua.save()

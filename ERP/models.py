@@ -61,7 +61,7 @@ class application(models.Model):
     appStoreUrl = models.TextField(max_length = 500 , null = True )
     playStoreUrl = models.TextField(max_length = 500 , null = True )
     inMenu = models.BooleanField(default = True)
-    totalRatings = models.FloatField(null=True , default=0) 
+    totalRatings = models.FloatField(null=True , default=0)
     def __unicode__(self):
         return self.name
 
@@ -204,7 +204,8 @@ class Division(models.Model):
     defaultTitle = models.CharField(max_length = 200 , null = True, blank = True)
     defaultOgImage = models.FileField(upload_to = getogImageAttachmentPath , null = True)
     enableChatbot = models.BooleanField(default = False)
-
+    footerCss = models.TextField(max_length = 10000 , null = True, blank = True)
+    headerCss = models.TextField(max_length = 10000 , null = True, blank = True)
     windowColor = models.CharField(max_length = 20 , null = True, default='#e42a2a' )
     fontColor = models.CharField(max_length = 20 , null = True, default='#ffffff' )
     dp = models.ImageField(upload_to = getdpPath , null = True)

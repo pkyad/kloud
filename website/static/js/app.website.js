@@ -78,6 +78,8 @@ app.controller('settings', function($scope, $http, $aside, $state, Flash, $users
     }).
     then(function(response) {
       $scope.form = response.data
+      $scope.form.headerTemplate = response.data.headerTemplate
+      $scope.form.footerTemplate = response.data.footerTemplate
     })
   }
 
@@ -148,7 +150,8 @@ app.controller('settings', function($scope, $http, $aside, $state, Flash, $users
 
     }).
     then(function(response) {
-      $scope.form = response.data
+      $scope.form.footerTemplate = response.data.footerTemplate
+      $scope.form.headerTemplate = response.data.headerTemplate
       Flash.create('success', 'Created....!!!')
       // $scope.reset()
     })

@@ -2,6 +2,9 @@
   .menuCol {
     width: 9.8%;
   }
+  body{
+    overflow-y:hidden;
+  }
 
   .appCol {
     width: 90.2%;
@@ -135,11 +138,11 @@
     </div>
 
 
-    <div class="row" style="background: white;padding-bottom:0px;padding-top:30px;background:#F2F2F2;">
-      <table class="table tableNew" style="overflow:unset !important;background:white;white-space:nowrap">
+    <div class="row" style="background: white;padding-bottom:0px;padding-top:30px;background:#F2F2F2;height: 90vh;overflow-y: scroll;overflow-x: hidden;">
+      <table class="table tableNew" style="overflow:unset !important;background:white;">
         <thead>
           <tr style="background:#f2f2f2;padding:10px;">
-            <th scope="col" ng-click="orderByField='pk'; reverseSort = !reverseSort" style="cursor:pointer">#</th>
+            <!-- <th scope="col" ng-click="orderByField='pk'; reverseSort = !reverseSort" style="cursor:pointer">#</th> -->
             <th scope="col" ng-click="orderByField='date'; reverseSort = !reverseSort" style="cursor:pointer">Date</th>
             <th scope="col" ng-click="orderByField='customer'; reverseSort = !reverseSort" style="cursor:pointer">Customer</th>
             <th scope="col" ng-click="orderByField='date'; reverseSort = !reverseSort" style="cursor:pointer">Lead Owner</th>
@@ -150,10 +153,11 @@
         </thead>
         <tbody>
           <tr ng-repeat="d in clrHomeData.quotedQuote |orderBy:orderByField:reverseSort ">
-            <td class="contentTd" ng-click="openInvoice(d)">{{d.pk}}</td>
+            <!-- <td class="contentTd" ng-click="openInvoice(d)">{{d.pk}}</td> -->
             <td class="contentTd" ng-click="openInvoice(d)">
               <h4 class="font18">{{d.created | timeAgo}} <span class="font13" style="color:rgb(195, 195, 195);margin-left:10px;">Ago</span> </h4>
-              {{d.created | date}}
+              {{d.created | date}}<br>
+              <span><b>ID:#{{d.pk}}</b></span>
             </td>
             <td class="contentTd" ng-click="$state.go('businessManagement.contacts.delatils', { id : d.contact__pk})" style="cursor:pointer">
               <h4 class="font18">{{d.contact__name}} </h4> <span>{{d.contact__company__name}}</span>
@@ -187,6 +191,7 @@
               </div>
             </td>
           </tr>
+
         </tbody>
       </table>
     </div>

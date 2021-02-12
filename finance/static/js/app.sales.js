@@ -347,8 +347,11 @@ $scope.allTransactions = []
     amount : 0,
     account : '',
     dated : new Date(),
-    externalReferenceID:''
+    externalReferenceID:'',
+    tds:0
   }
+
+
   $scope.savePayment = function(){
     if ($scope.data.amount == null || $scope.data.amount == 0 || $scope.data.amount>$scope.documents[$scope.inView].balanceAmount || $scope.data.amount.toString().length == 0 ) {
       Flash.create('warning' , 'Invalid Amount')
@@ -370,7 +373,7 @@ $scope.allTransactions = []
     }).
     then(function(response) {
       $scope.allTransactions.push(response.data)
-      $scope.data = {amount : 0,account : '',dated : new Date(),externalReferenceID:''}
+      $scope.data = {amount : 0,account : '',dated : new Date(),externalReferenceID:'',tds:0}
       $scope.getParticularInv()
       $scope.updateAmount()
     })
