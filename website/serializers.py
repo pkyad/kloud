@@ -24,7 +24,12 @@ class PageSerializer(serializers.ModelSerializer):
         print pageObj,'4334234'
         return pageObj
     def update(self, instance , validated_data):
-
+        for key in ['title','description','url','ogImage','user','enableChat']:
+            try:
+                setattr(instance , key , validated_data[key])
+            except:
+                print "Error while saving " , key
+                pass
         instance.user =  User.objects.get(pk = self.context['request'].user.pk)
 
         instance.save()

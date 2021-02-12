@@ -1350,6 +1350,8 @@ app.directive('formView', function() {
     restrict: 'E',
     scope:{
       data:'=',
+      component:'=',
+
       // ctrlFn : '&'
     },
     transclude: true,
@@ -1361,7 +1363,7 @@ app.directive('formView', function() {
     //   };
     // },
     controller: function($scope, $state, $http, Flash, $rootScope, $filter, $timeout) {
-      console.log($scope.data);
+      $scope.typ = typeof($scope.data)
       $scope.uploadmediafile = function(file, key) {
         $timeout(function(){
 
@@ -1387,6 +1389,69 @@ app.directive('formView', function() {
 
         }, 1000)
       }
+
+      $scope.productSearch = function(query) {
+
+        return $http.get('/api/finance/inventory/?limit=20&mobile__icontains=' + query).
+        then(function(response) {
+          return response.data.results;
+        })
+      };
+      $scope.editArrayObj = function(field, idx, key) {
+        if(idx == -1){
+          data = angular.copy(field.form)
+        }else{
+          data = field.array[idx];
+        }
+
+
+        $scope.idx = idx;
+        $scope.key = key;
+        $scope.form = data;
+
+        console.log($scope.data,data,'e443');
+        $scope.data[$scope.key].array.push(data)
+
+
+      }
+
+      $scope.save = function(data) {
+        console.log(data,"3243049=23-");
+        $http({
+          method: 'PATCH',
+          url: '/api/website/components/' + $scope.component.pk + '/',
+          data: {
+            data: JSON.stringify(data)
+          },
+        }).
+        then(function(response) {
+        })
+      }
+      $scope.appMediaPro = {
+        lazyLoad: false,
+        loop: true,
+        items: 1,
+        autoplay: true,
+        autoplayTimeout: 10000,
+        dots: true,
+        // nav:true,
+        responsive: {
+          0: {
+            items: 1
+          },
+          479: {
+            items: 2
+          },
+          600: {
+            items: 3
+          },
+          1000: {
+            items: 4,
+          }
+        },
+      };
+
+
     },
   };
 });

@@ -114,10 +114,9 @@ def pageeditor(request,id):
         i.template = i.template.replace('$data' , 'components[%s].data'%(indx))
         data += i.template
         print data
-    API_KEY = ''
-    if page.enableChat:
-        API_KEY = request.user.designation.division.apiKey
-    return render(request, 'app.HR.pageeditor.html',{'page':page,'data':data, 'components' : components,'API_KEY':API_KEY})
+
+
+    return render(request, 'app.HR.pageeditor.html',{'page':page,'data':data, 'components' : components})
 
 # def renderpage(request,url):
 #     filePath = os.path.join(globalSettings.BASE_DIR , 'media_root' , 'publishedPages' , ('%s_%s.html'% (1, url)))
@@ -136,7 +135,11 @@ def renderpage(request,url):
         i.template = i.template.replace('$data' , 'components[%s].data'%(indx))
 
         i.dataTemplate = i.template
-    return render(request, 'app.HR.page.html',{'components':components})
+    API_KEY = ''
+    if page.enableChat:
+        
+        API_KEY = request.user.designation.division.apiKey
+    return render(request, 'app.HR.page.html',{'components':components,'page':page,'API_KEY':API_KEY})
 
 
 def uielement(request):

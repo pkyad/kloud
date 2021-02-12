@@ -33,11 +33,11 @@
 
 
 {% block footer %}
-  <style media="screen">
-      {{footerCss}}
-  </style>
   <div class="">
     {% if footer %}
+    <style media="screen">
+      {{footerCss}}
+    </style>
       {{footer}}
     {% else %}
     <div class="text-center">
