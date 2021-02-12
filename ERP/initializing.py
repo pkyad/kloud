@@ -53,3 +53,7 @@ def CreateCostCenter(div):
     division = Division.objects.get(pk = int(div))
     cost = CostCenter.objects.create(name = 'Default Cost Center', division = division)
     return {'pk':cost.pk}
+
+
+def SalesTermsAndCondition(div):
+    return {'status':'created'}
