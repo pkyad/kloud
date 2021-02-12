@@ -4527,6 +4527,7 @@ class PageNumCanvas(canvas.Canvas):
             imagePath = os.path.join(globalSettings.MEDIA_ROOT , str(self.division.logo))
         else:
             imagePath = os.path.join(globalSettings.BASE_DIR,'static_shared','images','no_tour_image.jpg' )
+        print imagePath,'aaaaaaaaaaaa'
         f = open(imagePath, 'rb')
         ima = Image(f)
         # ima.drawHeight = 0.5*inch
