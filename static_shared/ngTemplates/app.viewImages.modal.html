@@ -22,13 +22,16 @@
   color: #fff;
   transform: translateY(-7px);
 }
+.modal-body{
+  padding:0px
+}
 </style>
 <div class="modal-body">
   <div class="row">
     <div class="col-md-12" >
-        <div style="background-image:url({{imageInView.attachment}});background-size:contain;height:500px;margin-bottom:15px;background-repeat:no-repeat;background-position:center">
-          <button class="rounded_btn" style="position:absolute;top:250px" ng-click="prev()"><i class="fa fa-angle-double-left fa-2x" aria-hidden="true"></i></button>
-          <button class="rounded_btn" style="position:absolute;top:250px;right:10px" ng-click="next()"><i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i></button>
+        <div style="background-image:url({{imageInView.attachment}});background-size:contain;height:800px;background-repeat:no-repeat;background-position:center">
+          <button class="rounded_btn" style="position:absolute;top:400px;left:30px" ng-click="prev()"><i class="fa fa-angle-double-left fa-2x" aria-hidden="true"></i></button>
+          <button class="rounded_btn" style="position:absolute;top:400px;right:30px" ng-click="next()"><i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i></button>
          </div>
     </div>
   </div>

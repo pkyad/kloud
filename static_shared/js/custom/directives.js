@@ -1067,7 +1067,7 @@ app.directive('appdetailedView', function() {
       $scope.viewImages = function(indx){
         $uibModal.open({
           templateUrl: '/static/ngTemplates/app.viewImages.modal.html',
-          size: 'md',
+          size: 'xxl',
           backdrop: true,
           resolve: {
             indx: function() {
@@ -1085,18 +1085,15 @@ app.directive('appdetailedView', function() {
             if ($scope.selectedIndx<$scope.data.length-1) {
                 $scope.selectedIndx +=1
                 $scope.imageInView = $scope.data[$scope.selectedIndx]
-
             }
-
           }
           $scope.prev = function(){
             if ($scope.selectedIndx!=0) {
                 $scope.selectedIndx -=1
                 $scope.imageInView = $scope.data[$scope.selectedIndx]
-
             }
-
           }
+
 
           },
         })

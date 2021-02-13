@@ -1015,7 +1015,7 @@ def versionDetails(request,app):
     #     selectedObj = obj.first()
     #     data = {'minVersion' : selectedObj.minVersion , 'latestVersion' : selectedObj.latestVersion}
     print app,'ssssssssssssss'
-    alldata = {'app.crm':{'playstore' : {'version':'1.1.0', 'url':'','redirect':False},'appstore' : {'version':'1.1.0', 'url':'','redirect':False}},'app.messenger':{'playstore' : {'version':'1.1.0', 'url':'','redirect':False},'appstore' : {'version':'1.1.0', 'url':'','redirect':False}},'app.contacts':{'playstore' : {'version':'1.1.0', 'url':'','redirect':False},'appstore' : {'version':'1.1.0', 'url':'','redirect':False}},'app.klouderp':{'playstore' : {'version':'1.1.0', 'url':'','redirect':False},'appstore' : {'version':'1.1.0', 'url':'','redirect':False}}}
+    alldata = {'app.CRM':{'playstore' : {'version':'1.0.0', 'url':'','redirect':False},'appstore' : {'version':'1.0.0', 'url':'','redirect':False}},'app.messenger':{'playstore' : {'version':'1.0.0', 'url':'','redirect':False},'appstore' : {'version':'1.0.0', 'url':'','redirect':False}},'app.contacts':{'playstore' : {'version':'1.0.0', 'url':'','redirect':False},'appstore' : {'version':'1.0.0', 'url':'','redirect':False}},'app.klouderp':{'playstore' : {'version':'1.0.0', 'url':'','redirect':False},'appstore' : {'version':'1.0.0', 'url':'','redirect':False}}}
     data = alldata[app]
     return JsonResponse(data)
 
@@ -1937,5 +1937,11 @@ class AddNewUserAPIView(APIView):
             CreateCostCenter(div.pk)
         if div.divisionAccount.all().count() == 0:
             CreateBankAccount(div.pk)
+        if div.tncs.all().count() == 0:
+            CreateSalesTermsAndCondition(div.pk)
+        if div.divisionCategory.all().count() == 0:
+            CreateProducts(div.pk)
+        if div.divisionContacts.all().count() == 0:
+            CreateContact(div.pk, user.pk)
         data = {'url' : globalSettings.SITE_ADDRESS+ '/tlogin/?token=' + profile.linkToken}
         return Response(data, status = status.HTTP_200_OK)
