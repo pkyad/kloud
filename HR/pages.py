@@ -116,9 +116,10 @@ def pageeditor(request,id):
         i.template = i.template.replace('$data' , 'components[%s].data'%(indx))
         data += i.template
         print data
+    API_KEY = ''
     if page.enableChat:
 
-        API_KEY = page.user.designation.division.apiKey
+        API_KEY = hash_fn.hash(d.pkpage.user.designation.division.pk)
 
     return render(request, 'app.HR.pageeditor.html',{'page':page,'data':data, 'components' : components,'API_KEY':API_KEY})
 
