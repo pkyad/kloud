@@ -32,21 +32,37 @@ class InstalledAppSerializer(serializers.ModelSerializer):
         model = InstalledApp
         fields = ('pk' , 'app' , 'configs', 'addedBy' , 'priceAsAdded' , 'created' , 'updated')
 
+class userSearchViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ( 'pk' , 'first_name' , 'last_name','last_login'  )
+
+import basehash
+hash_fn = basehash.base36()
 
 class DivisionSerializer(serializers.ModelSerializer):
     installations = InstalledAppSerializer(many = True , read_only = True)
     installationsCount = serializers.SerializerMethodField()
+    users = serializers.SerializerMethodField()
     class Meta:
         model = Division
-        fields = ('pk' , 'name','website','logo','pan','cin','l1','l2', 'installations', 'installationsCount', 'simpleMode', 'upi', 'telephony', 'messaging','headerTemplate','headerData','footerData','footerTemplate','defaultOgWidth','defaultOgHeight','defaultDescription','defaultTitle','defaultOgImage' , 'locked' , 'counter','enableChatbot','footerCss','headerCss')
+        fields = ('pk' , 'name','website','logo','pan','cin','l1','l2', 'installations', 'installationsCount', 'simpleMode', 'upi', 'telephony', 'messaging','headerTemplate','headerData','footerData','footerTemplate','defaultOgWidth','defaultOgHeight','defaultDescription','defaultTitle','defaultOgImage' , 'locked' , 'counter','enableChatbot','footerCss','headerCss','users')
         read_only_fields=('contacts',)
     def get_installationsCount(self , obj):
         return obj.installations.all().count()
+    def get_users(self , obj):
+        # users = User.objects.filter(designation__division = obj.pk,is_superuser=False,is_staff=True)
+        users = User.objects.filter(designation__division = obj.pk)
+        count = users.count()
+        lastlogin = userSearchViewSerializer(users.first(),many=False).data
+        print lastlogin
+        return{'users':count,'last_login':lastlogin['last_login']}
     def create(self , validated_data):
         d = Division(**validated_data)
         d.website = 'NA'
         d.pan = 'NA'
         d.cin = 'NA'
+        d.apiKey = hash_fn.hash(d.pk)
         d.save()
 
         data = self.context['request'].data
@@ -156,10 +172,7 @@ class UnitSerializer(serializers.ModelSerializer):
         return Unit.objects.filter(parent__in = [obj.pk]).count()
 
 
-class userSearchViewSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ( 'pk' , 'first_name' , 'last_name'   )
+
 
 
 class applicationSerializer(serializers.ModelSerializer):

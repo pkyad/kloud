@@ -137,7 +137,7 @@ app.controller('main', function($scope, $state, $users, $aside, $http, $timeout,
   $scope.enableTelephony = ENABLE_TELEPHONY;
   $scope.enableMessaing = ENABLE_MESSAGING;
   $scope.headerUrl = '/static/ngTemplates/header.html',
-    $scope.sideMenu = '/static/ngTemplates/sideMenu.html',
+  $scope.sideMenu = '/static/ngTemplates/sideMenu.html',
 
 
     $scope.themeObj = {

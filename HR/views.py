@@ -102,7 +102,7 @@ def usersAccessToModify(root):
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated ,)
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['username','email','is_staff','is_active','designation','profile','first_name','last_name']
+    filter_fields = ['username','email','is_staff','is_superuser','is_active','designation','profile','first_name','last_name']
     search_fields = ('email','designation','profile','first_name','last_name')
     serializer_class = userSerializer
     def get_queryset(self):

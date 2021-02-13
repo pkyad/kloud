@@ -324,7 +324,7 @@ def home(request):
     brandLogo = globalSettings.BRAND_LOGO
 
     try:
-        brandLogo = u.designation.division.logo.url
+        brandLogo = u.designation.division.logo
     except:
         pass
 

@@ -4,7 +4,7 @@
      overflow-x:hidden
    }
    #page1startingdiv{
-     padding:0px
+     padding:10px 0px
    }
 
    #page1startingdiv #navbar{
@@ -90,7 +90,7 @@
               <!-- <ul class="nav navbar-nav navbar-right"> -->
                 <!-- <li><a type="button" class="btn btn-default " name="button" id="signup" style="float:right"> Sign Up</a></li> -->
                 {% if request.user.pk %}
-                  <a type="button" href="/ERP/"  name="button" class="btn btn-default btn-block" style="height:60px;border-radius: 50px !important;padding-top:20px;font-size: 14px;" >Go To Backend</a>
+                  <a type="button" href="/ERP/"  name="button" class="btn btn-default btn-block" style="height:60px;border-radius: 50px !important;padding-top:20px;font-size: 14px;margin-top:10px;" >Go To Backend</a>
                 {% else %}
                   <!-- <li><a href="/login/"style="float:right" >Login  </a></li> -->
                   <a type="button" href="/login/"  name="button" class="btn btn-default btn-block" style="height:60px;border-radius: 50px !important;padding-top:20px;" >Login</a>

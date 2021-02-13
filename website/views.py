@@ -50,7 +50,7 @@ class PageViewSet(viewsets.ModelViewSet):
         # divsn = self.request.user.designation.division
         # toReturn = Page.objects.filter(user__designation__division=divsn)
         divsn = self.request.user.designation.division
-        toReturn = Page.objects.filter(user__designation__division=divsn,user=self.request.user )
+        toReturn = Page.objects.filter(user__designation__division=divsn)
         if 'search' in self.request.GET:
             val = self.request.GET['search']
             toReturn = toReturn.filter(Q(title__icontains = val) | Q(url__icontains = val) | Q(description__icontains =  val))
