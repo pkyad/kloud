@@ -12,12 +12,12 @@
 
 <div class="" ng-controller="sideMenu">
 
-  <div class="row logo" style="">
+  <div class="row logo" style="" ng-if="brandLogo">
     <div >
 
       <div class="col-md-12 text-center" ng-click="goHome()">
         <span>
-          <img ng-src="{{brandLogo}}" style="width: 72px;" alt="">
+          <img ng-src="/media/{{brandLogo}}" style="width: 72px;" alt="">
         </span>
       </div>
     </div>
@@ -26,7 +26,7 @@
 
 
   <div class="row" >
-    <div class="container-fluid">
+    <div class="container-fluid" style="margin-top:{{brandLogo?'0px':'30px'}}">
       <ul class="nav nav-sidebar padded text-center" style="width:100%;height:89vh;overflow:auto;scrollbar-width:none;margin-top:10px;">
         <li ng-class="{active: $state.includes(a.state)}" class="ripple" ng-repeat="a in filter.menuApps" ng-show="{{isMedium?'$index <3':'$index <5'}}" style="width:transition:10s" ng-mouseover="onHover=true" ng-mouseleave="onHover=false" ng-init="">
           <a ng-if="a.state" ui-sref="{{a.state}}"  >
@@ -78,13 +78,10 @@
       </div>
     </div>
   </div>
-
-
-  <div ng-click="dialer.dialPad = !dialer.dialPad;" class="whatsappCall text-center" ng-if="enableTelephony" style="bottom:110px;">
+  <div   ng-if="enableTelephony" ng-click="dialer.dialPad = !dialer.dialPad;" class="whatsappCall text-center" >
     <img src="/static/images/Dialer.png"  class="otherIcons" style="filter: drop-shadow(5px 5px 5px #c8c4c4);">
 
   </div>
-
   <div ng-if="enableMessaing" class="{{enableTelephony?'whatsapp':'whatsappWeb'}} text-center" ng-click="$state.go('home.messenger')" >
     <img  class="otherIcons" src="/static/images/messenger.png"  style="filter: drop-shadow(5px 5px 5px #c8c4c4);">
     <div class="whatsappCount"  >

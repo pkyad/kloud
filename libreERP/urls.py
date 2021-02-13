@@ -51,7 +51,6 @@ urlpatterns = [
     url(r'^page10/', page10 , name ='page10'),
     url(r'^page11/', page11 , name ='page11'),
     url(r'^carouselsection/', carouselsection , name ='carouselsection'),
-    url(r'^aboutus', aboutus , name ='aboutus'),
     url(r'^contactus', contactus , name ='contactus'),
     url(r'^terms', termsofservices , name ='terms'),
     url(r'^blog', blog , name ='blog'),
@@ -79,7 +78,7 @@ urlpatterns = [
     url(r'^externalWindow/', ExternalWindow , name ='externalWindow'),
     url(r'^zoomAuthRedirect/', ZoomAuthRedirect , name ='zoomAuthRedirect'),
     url(r'^version/(?P<app>[\w|\W]+)/', versionDetails , name ='versionDetails'),
-    url(r'^pages/(?P<url>[\w|\W]+)', renderpage , name ='page'),
+    url(r'^pages/(?P<apiKey>[\w|\W]+)/(?P<url>[\w|\W]+)', renderpage , name ='renderpage'),
     # url(r'^getPaymentLink/', GetPaymentLink , name ='getPaymentLink'),
 
 

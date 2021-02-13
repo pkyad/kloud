@@ -152,6 +152,7 @@ class profile(models.Model):
     apps = models.TextField(null = True , max_length=6000)
     zoom_token = models.TextField(null=True)
     postCount = models.PositiveIntegerField(default = 0)
+    lastState = models.CharField(null=True , max_length = 200)
 
 
 

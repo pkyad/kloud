@@ -23,6 +23,8 @@ from django.template import Context, Template
 from django.http import HttpResponse
 import os
 
+import basehash
+hash_fn = basehash.base36()
 def page1(request):
     context={}
 
@@ -114,9 +116,12 @@ def pageeditor(request,id):
         i.template = i.template.replace('$data' , 'components[%s].data'%(indx))
         data += i.template
         print data
+    API_KEY = ''
+    if page.enableChat:
 
+        API_KEY = hash_fn.hash(page.user.designation.division.pk)
 
-    return render(request, 'app.HR.pageeditor.html',{'page':page,'data':data, 'components' : components})
+    return render(request, 'app.HR.pageeditor.html',{'page':page,'data':data, 'components' : components,'API_KEY':API_KEY})
 
 # def renderpage(request,url):
 #     filePath = os.path.join(globalSettings.BASE_DIR , 'media_root' , 'publishedPages' , ('%s_%s.html'% (1, url)))
@@ -127,18 +132,18 @@ def pageeditor(request,id):
 #     return HttpResponse(fileContent)
 
 
-def renderpage(request,url):
-    page = Page.objects.get(url = url)
+def renderpage(request,apiKey,url):
+    print apiKey,"34342"
+    page = Page.objects.get(url = url, user__designation__division__apiKey = apiKey )
     components = Components.objects.filter(parent = page)
     data = ''
     for indx, i in enumerate(components):
         i.template = i.template.replace('$data' , 'components[%s].data'%(indx))
 
         i.dataTemplate = i.template
-    API_KEY = ''
-    if page.enableChat:
-        
-        API_KEY = request.user.designation.division.apiKey
+    # if page.enableChat:
+
+    API_KEY = apiKey
     return render(request, 'app.HR.page.html',{'components':components,'page':page,'API_KEY':API_KEY})
 
 

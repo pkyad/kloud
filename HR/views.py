@@ -102,7 +102,7 @@ def usersAccessToModify(root):
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated ,)
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['username','email','is_staff','is_active','designation','profile','first_name','last_name']
+    filter_fields = ['username','email','is_staff','is_superuser','is_active','designation','profile','first_name','last_name']
     search_fields = ('email','designation','profile','first_name','last_name')
     serializer_class = userSerializer
     def get_queryset(self):
@@ -398,6 +398,22 @@ class OrgChartAPI(APIView):
         }
 
         return Response(toReturn )
+
+class UpdateUrlAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    def post(self, request, format=None):
+        data = request.data
+        prof = profile.objects.get(pk = int(data['profile']))
+        url = data['url']
+        if (url.find(':') == -1):
+            print data['url'],'sssssssssssssssssssssssssssssssssss'
+            prof.lastState = data['state']
+        else:
+            pass
+        prof.save()
+        print prof.lastState ,'ssssssssssssss'
+        return Response({},status = status.HTTP_200_OK)
+
 
 class sendDeboardingEmailAPIView(APIView):
     renderer_classes = (JSONRenderer,)
