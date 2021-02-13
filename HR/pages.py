@@ -119,7 +119,7 @@ def pageeditor(request,id):
     API_KEY = ''
     if page.enableChat:
 
-        API_KEY = hash_fn.hash(d.pkpage.user.designation.division.pk)
+        API_KEY = hash_fn.hash(page.user.designation.division.pk)
 
     return render(request, 'app.HR.pageeditor.html',{'page':page,'data':data, 'components' : components,'API_KEY':API_KEY})
 
