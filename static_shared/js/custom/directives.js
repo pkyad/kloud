@@ -1398,6 +1398,7 @@ app.directive('formView', function() {
         })
       };
       $scope.editArrayObj = function(field, idx, key) {
+        console.log(field, idx, key);
         if(idx == -1){
           data = angular.copy(field.form)
         }else{
@@ -1410,6 +1411,7 @@ app.directive('formView', function() {
         $scope.form = data;
 
         console.log($scope.data,data,'e443');
+
         $scope.data[$scope.key].array.push(data)
 
 
