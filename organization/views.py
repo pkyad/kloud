@@ -35,12 +35,15 @@ class DivisionViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['name']
     def get_queryset(self):
-        if 'division' in self.request.GET:
-            queryset =  Division.objects.filter(name__icontains = str(self.request.GET['division']))
+        queryset = Division.objects.all()
+        if self.request.user.is_superuser:
+            if 'division' in self.request.GET:
+                queryset =  Division.objects.filter(name__icontains = str(self.request.GET['division']))
+                return queryset
             return queryset
-
         else:
-            queryset = Division.objects.all()
+            queryset = Division.objects.filter(pk = self.request.user.designation.division.pk)
+            # queryset = Division.objects.all()
             return queryset
 
 
