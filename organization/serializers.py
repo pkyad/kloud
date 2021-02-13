@@ -62,7 +62,7 @@ class DivisionSerializer(serializers.ModelSerializer):
         d.website = 'NA'
         d.pan = 'NA'
         d.cin = 'NA'
-        d.apiKey = hash_fn.hash(d.pk)
+        
         d.save()
 
         data = self.context['request'].data

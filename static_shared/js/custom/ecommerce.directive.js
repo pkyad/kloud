@@ -689,6 +689,7 @@ app.directive('recentlyViewedproducts', function() {
     },
     controller: function($scope, $state, $http, Flash, $rootScope, $users, $filter, $interval) {
       console.log($scope.data,"43423234234123cxvxczvcv");
+      $scope.data = JSON.parse($scope.data)
       $scope.viewedProductsProperties = {
         lazyLoad: false,
         loop: true,
@@ -715,7 +716,7 @@ app.directive('recentlyViewedproducts', function() {
 
 
       $scope.viewedProducts = {
-        "heading": $scope.data.heading,
+        "heading": $scope.data.heading.string,
         "items": $scope.data.products.array
       }
 
