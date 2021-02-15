@@ -320,15 +320,13 @@ def home(request):
     if state is None:
         state = '/home/viewProfile/profile'
         homeState = 'home.viewProfile.profile'
-    try:
+        
 
-        import ast
-        if u.profile.lastState is not None:
-            # lastState = ast.literal_eval(u.profile.lastState)
-            state = profile.lastState.replace('.','/')
-            homeState = profile.lastState
-    except:
-        pass
+    import ast
+    if u.profile.lastState is not None:
+        # lastState = ast.literal_eval(u.profile.lastState)
+        state = profile.lastState.replace('.','/')
+        homeState = profile.lastState
 
 
     print state

@@ -406,8 +406,7 @@ class UpdateUrlAPIView(APIView):
         prof = profile.objects.get(pk = int(data['profile']))
         url = data['url']
         if (url.find(':') == -1):
-            print data['url'],'sssssssssssssssssssssssssssssssssss'
-            prof.lastState = data['state']
+            prof.lastState = str(data['state'])
         else:
             pass
         prof.save()
