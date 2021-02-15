@@ -254,6 +254,9 @@ def logoutView(request):
 def root(request):
     return redirect(globalSettings.ROOT_APP)
 
+import re
+def hasNumbers(inputString):
+    return bool(re.search(r'\d', inputString))
 
 @login_required(login_url = globalSettings.LOGIN_URL)
 def home(request):
@@ -320,16 +323,22 @@ def home(request):
     if state is None:
         state = '/home/viewProfile/profile'
         homeState = 'home.viewProfile.profile'
-        
-
+    # try:
     import ast
     if u.profile.lastState is not None:
-        # lastState = ast.literal_eval(u.profile.lastState)
-        state = profile.lastState.replace('.','/')
-        homeState = profile.lastState
+        lastState =  ast.literal_eval(u.profile.lastState)
+        print lastState['url'],'ssssssssssssssssssssssssssssss'
+        state =  lastState['url']
+        homeState =  lastState['state']
+        # print state, lastState['url'],'ssssssssssssssssssssssssssssssddddddddddddddddddd'
+        # if hasNumbers(lastState['url']):
+        #     state+=lastState['url']
+        #     state =  state.replace('/quote','')
+        #     state = state.replace('/editInvoice', '', 1)
+    # except:
+    #     pass
 
 
-    print state
 
     brandLogo = globalSettings.BRAND_LOGO
 
