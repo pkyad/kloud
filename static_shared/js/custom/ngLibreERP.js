@@ -1127,13 +1127,12 @@ app.controller('sideMenu', function($scope, $http, $aside, $state, Flash, $users
 
 
   $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams, options) {
-    // alert($scope.user.profile.pk)
     $http({
       method: 'POST',
       url: '/api/HR/updateUrl/',
       data: {
         state : $state.current.name,
-        url : $state.current.url,
+        url : window.location.href,
         params : $state.params,
         profile : $scope.user.profile.pk
       },

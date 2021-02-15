@@ -38,10 +38,11 @@ from io import BytesIO,StringIO
 from performance.models import TimeSheet
 from HR.models import *
 from ERP.send_email import send_email
-from ERP.views import CreateUnit
+# from ERP.views import CreateUnit
 from payroll.serializers import payrollSerializer
 import django
 import requests
+from ERP.initializing import *
 
 class userProfileViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
@@ -404,13 +405,9 @@ class UpdateUrlAPIView(APIView):
     def post(self, request, format=None):
         data = request.data
         prof = profile.objects.get(pk = int(data['profile']))
-        url = data['url']
-        if (url.find(':') == -1):
-            prof.lastState = str(data['state'])
-        else:
-            pass
+        url = data['url'].replace(globalSettings.SITE_ADDRESS+'/ERP/#/','')
+        prof.lastState = {'state' : data['state'] , 'url' : url}
         prof.save()
-        print prof.lastState ,'ssssssssssssss'
         return Response({},status = status.HTTP_200_OK)
 
 
@@ -1197,5 +1194,7 @@ class RegNewUserView(APIView):
                 des.unit = unit
                 print res
                 des.save()
+
+
 
         return Response({} , status = status.HTTP_200_OK)

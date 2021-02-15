@@ -62,12 +62,12 @@ class DivisionSerializer(serializers.ModelSerializer):
         d.website = 'NA'
         d.pan = 'NA'
         d.cin = 'NA'
-        
+
         d.save()
 
         data = self.context['request'].data
         if 'userNumber' in data :
-            from ERP.views import CreateUnit
+            from ERP.initializing import *
             val = {'name': d.name, 'pk': d.pk, 'userNumber' : data['userNumber'] , 'email' :  data['email'], 'division_pk' : d.pk}
             res = CreateUnit(val)
             print res
