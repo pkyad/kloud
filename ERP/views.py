@@ -50,7 +50,7 @@ from ERP.models import LanguageTranslation
 from paypal.standard.forms import PayPalPaymentsForm
 from django.db.models import BooleanField
 from initializing import *
-
+import ast
 
 def generateOTPCode(length = 4):
     chars = string.digits
@@ -323,20 +323,14 @@ def home(request):
     if state is None:
         state = '/home/viewProfile/profile'
         homeState = 'home.viewProfile.profile'
-    # try:
-    import ast
-    if u.profile.lastState is not None:
-        lastState =  ast.literal_eval(u.profile.lastState)
-        print lastState['url'],'ssssssssssssssssssssssssssssss'
-        state =  lastState['url']
-        homeState =  lastState['state']
-        # print state, lastState['url'],'ssssssssssssssssssssssssssssssddddddddddddddddddd'
-        # if hasNumbers(lastState['url']):
-        #     state+=lastState['url']
-        #     state =  state.replace('/quote','')
-        #     state = state.replace('/editInvoice', '', 1)
-    # except:
-    #     pass
+    try:
+
+        if u.profile.lastState is not None:
+            lastState =  ast.literal_eval(u.profile.lastState)
+            state =  lastState['url']
+            homeState =  lastState['state']
+    except:
+        pass
 
 
 
