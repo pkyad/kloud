@@ -49,7 +49,9 @@ app.controller('main', function($scope, $state, $users, $aside, $http, $timeout,
           name : '',
           mobile:''
         }
+        $scope.saving = false
         $scope.save = function(){
+          $scope.saving = true
           $http({
             method: 'POST',
             url: '/api/HR/updateUrl/',
@@ -60,6 +62,7 @@ app.controller('main', function($scope, $state, $users, $aside, $http, $timeout,
           }).
           then(function(response) {
             $scope.enterpriseSubscriptionReq =  true
+            $scope.saving = false
           })
         }
 
