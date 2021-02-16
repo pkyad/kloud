@@ -50,7 +50,7 @@ from ERP.models import LanguageTranslation
 from paypal.standard.forms import PayPalPaymentsForm
 from django.db.models import BooleanField
 from initializing import *
-
+import ast
 
 def generateOTPCode(length = 4):
     chars = string.digits
@@ -254,6 +254,9 @@ def logoutView(request):
 def root(request):
     return redirect(globalSettings.ROOT_APP)
 
+import re
+def hasNumbers(inputString):
+    return bool(re.search(r'\d', inputString))
 
 @login_required(login_url = globalSettings.LOGIN_URL)
 def home(request):
@@ -320,11 +323,21 @@ def home(request):
     if state is None:
         state = '/home/viewProfile/profile'
         homeState = 'home.viewProfile.profile'
+    try:
+
+        if u.profile.lastState is not None:
+            lastState =  ast.literal_eval(u.profile.lastState)
+            state =  lastState['url']
+            homeState =  lastState['state']
+    except:
+        pass
+
+
 
     brandLogo = globalSettings.BRAND_LOGO
 
     try:
-        brandLogo = u.designation.division.logo.url
+        brandLogo = u.designation.division.logo
     except:
         pass
 
@@ -1015,7 +1028,7 @@ def versionDetails(request,app):
     #     selectedObj = obj.first()
     #     data = {'minVersion' : selectedObj.minVersion , 'latestVersion' : selectedObj.latestVersion}
     print app,'ssssssssssssss'
-    alldata = {'app.crm':{'playstore' : {'version':'1.1.0', 'url':'','redirect':False},'appstore' : {'version':'1.1.0', 'url':'','redirect':False}},'app.messenger':{'playstore' : {'version':'1.1.0', 'url':'','redirect':False},'appstore' : {'version':'1.1.0', 'url':'','redirect':False}},'app.contacts':{'playstore' : {'version':'1.1.0', 'url':'','redirect':False},'appstore' : {'version':'1.1.0', 'url':'','redirect':False}},'app.klouderp':{'playstore' : {'version':'1.1.0', 'url':'','redirect':False},'appstore' : {'version':'1.1.0', 'url':'','redirect':False}}}
+    alldata = {'app.CRM':{'playstore' : {'version':'1.0.0', 'url':'','redirect':False},'appstore' : {'version':'1.0.0', 'url':'','redirect':False}},'app.messenger':{'playstore' : {'version':'1.0.0', 'url':'','redirect':False},'appstore' : {'version':'1.0.0', 'url':'','redirect':False}},'app.contacts':{'playstore' : {'version':'1.0.0', 'url':'','redirect':False},'appstore' : {'version':'1.0.0', 'url':'','redirect':False}},'app.klouderp':{'playstore' : {'version':'1.0.0', 'url':'','redirect':False},'appstore' : {'version':'1.0.0', 'url':'','redirect':False}}}
     data = alldata[app]
     return JsonResponse(data)
 
@@ -1937,5 +1950,11 @@ class AddNewUserAPIView(APIView):
             CreateCostCenter(div.pk)
         if div.divisionAccount.all().count() == 0:
             CreateBankAccount(div.pk)
+        if div.tncs.all().count() == 0:
+            CreateSalesTermsAndCondition(div.pk)
+        if div.divisionCategory.all().count() == 0:
+            CreateProducts(div.pk)
+        if div.divisionContacts.all().count() == 0:
+            CreateContact(div.pk, user.pk)
         data = {'url' : globalSettings.SITE_ADDRESS+ '/tlogin/?token=' + profile.linkToken}
         return Response(data, status = status.HTTP_200_OK)

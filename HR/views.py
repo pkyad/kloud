@@ -38,10 +38,11 @@ from io import BytesIO,StringIO
 from performance.models import TimeSheet
 from HR.models import *
 from ERP.send_email import send_email
-from ERP.views import CreateUnit
+# from ERP.views import CreateUnit
 from payroll.serializers import payrollSerializer
 import django
 import requests
+from ERP.initializing import *
 
 class userProfileViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
@@ -102,7 +103,7 @@ def usersAccessToModify(root):
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated ,)
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['username','email','is_staff','is_active','designation','profile','first_name','last_name']
+    filter_fields = ['username','email','is_staff','is_superuser','is_active','designation','profile','first_name','last_name']
     search_fields = ('email','designation','profile','first_name','last_name')
     serializer_class = userSerializer
     def get_queryset(self):
@@ -398,6 +399,17 @@ class OrgChartAPI(APIView):
         }
 
         return Response(toReturn )
+
+class UpdateUrlAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    def post(self, request, format=None):
+        data = request.data
+        prof = profile.objects.get(pk = int(data['profile']))
+        url = data['url'].replace(globalSettings.SITE_ADDRESS+'/ERP/#/','')
+        prof.lastState = {'state' : data['state'] , 'url' : url}
+        prof.save()
+        return Response({},status = status.HTTP_200_OK)
+
 
 class sendDeboardingEmailAPIView(APIView):
     renderer_classes = (JSONRenderer,)
@@ -1182,5 +1194,7 @@ class RegNewUserView(APIView):
                 des.unit = unit
                 print res
                 des.save()
+
+
 
         return Response({} , status = status.HTTP_200_OK)

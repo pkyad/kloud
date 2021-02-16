@@ -273,6 +273,15 @@ app.config(function($stateProvider) {
        $scope.data = response.data;
      })
    }
+   $scope.delCompany = function() {
+     $http({
+       method: 'DELETE',
+       url: '/api/organization/divisions/' + $state.params.id + '/'
+     }).
+     then(function(response) {
+       Flash.create('success','Successfully Deleted......!!!!!')
+     })
+   }
 
    $scope.updateOrg = function() {
      dataToSend = {

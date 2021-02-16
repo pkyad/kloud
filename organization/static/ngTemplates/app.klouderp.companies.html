@@ -215,8 +215,8 @@
               <span style="font-size:15px;" class="fa fa-globe"> <a href="{{data.website}}" target="_blank">{{data.website}}</a> </span><br>
             </div>
           </div>
-          <div class="col-md-1">24</div>
-          <div class="col-md-2">1 min ago</div>
+          <div class="col-md-1">{{data.users.users}}</div>
+          <div class="col-md-2">{{data.users.last_login | timeAgo}}</div>
           <div class="col-md-1">{{data.installationsCount}}</div>
           <div class="col-md-2 text-right">
             Active <br>

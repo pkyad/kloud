@@ -19,7 +19,13 @@
           <label>Locked ?</label>
           <input type="checkbox" ng-change="updateOrg()" ng-model="data.locked">
         </div>
-        
+        <div class="row">
+          <button type="button" class="btn newBtn" name="button" mwl-confirm title="Delete the Company"  message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>"
+            cancel-text="No" on-confirm="delCompany()" confirm-button-type="success" cancel-button-type="default" placement="bottom" style="color:#fff;background-color:#d9534f;border-color:
+#d43f3a;">Delete</button>
+
+
+        </div>
     </div>
     <div style="padding:40px;" class="col-md-8">
 

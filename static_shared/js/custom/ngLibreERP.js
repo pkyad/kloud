@@ -137,7 +137,7 @@ app.controller('main', function($scope, $state, $users, $aside, $http, $timeout,
   $scope.enableTelephony = ENABLE_TELEPHONY;
   $scope.enableMessaing = ENABLE_MESSAGING;
   $scope.headerUrl = '/static/ngTemplates/header.html',
-    $scope.sideMenu = '/static/ngTemplates/sideMenu.html',
+  $scope.sideMenu = '/static/ngTemplates/sideMenu.html',
 
 
     $scope.themeObj = {
@@ -1127,7 +1127,19 @@ app.controller('sideMenu', function($scope, $http, $aside, $state, Flash, $users
 
 
   $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams, options) {
+    $http({
+      method: 'POST',
+      url: '/api/HR/updateUrl/',
+      data: {
+        state : $state.current.name,
+        url : window.location.href,
+        params : $state.params,
+        profile : $scope.user.profile.pk
+      },
+    }).
+    then(function(response) {
 
+    })
   });
 
   $scope.inExcludedApps = function(a) {
