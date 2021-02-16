@@ -53,6 +53,6 @@ urlpatterns = [
     url(r'getAllEntries/$' , GetAllLanguageDataAPIView.as_view()),
     url(r'getPaymentLink/$' , GetPaymentLinkAPIView.as_view()),
     url(r'addNewUser/$' , AddNewUserAPIView.as_view()),
-
+    url(r'getInstalledApps/$' , GetAppInstalledAPIView.as_view()),
 
 ]

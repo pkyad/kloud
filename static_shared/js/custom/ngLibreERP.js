@@ -33,6 +33,53 @@ app.filter('reverse', function() {
 app.controller('main', function($scope, $state, $users, $aside, $http, $timeout, $uibModal,  ngAudio, $rootScope , $interval) {
   console.log('main');
 
+  $scope.openPaymentModal = function(){
+  $scope.modalInstance  = $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.payment.plan.html',
+      size: 'lg',
+      backdrop: false,
+      controller: function($scope , $uibModalInstance){
+        $scope.subscribe = false
+        $scope.enterpriseSubscriptionReq =  false
+        $scope.updateSubscribe = function(){
+          $scope.subscribe = true
+        }
+        $scope.enterpriseSubscriptionReq = IS_ENTERPRISE_SUBSCRIPTION
+        $scope.form = {
+          name : '',
+          mobile:''
+        }
+        $scope.save = function(){
+          $http({
+            method: 'POST',
+            url: '/api/HR/updateUrl/',
+            data : {
+              name : $scope.form.name,
+              mobile : $scope.form.mobile
+            }
+          }).
+          then(function(response) {
+            $scope.enterpriseSubscriptionReq =  true
+          })
+        }
+
+      },
+    }).result.then(function() {
+
+    }, function() {
+
+    });
+  }
+  if (IS_FREE_QUOTA_EXCEED) {
+    $scope.openPaymentModal()
+  }
+
+  $scope.closeModal = function(){
+    angular.element('.modal-dialog').hide();
+  }
+
+
+
   $scope.openSuspensionNotice = function(){
     $uibModal.open({
       templateUrl: '/static/ngTemplates/app.disabledNotice.html',

@@ -76,8 +76,12 @@
     <script src="/static/js/ui-bootstrap-tpls-0.14.3.min.js"></script>
     <script src="/static/js/angular-bootstrap-confirm.min.js"></script>
     <script src="/static/js/custom/app.adminView.js"></script>
-  
+    <script src="{% static 'js/autobahn.min.js' %}"></script>
+    <script src="{% static 'js/custom/wampProcessors.js' %}"></script>
+    <script type="text/javascript">
+      var wamp_prefix = '{{wamp_prefix}}';
 
+    </script>
 
 
   </body>

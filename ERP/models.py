@@ -252,6 +252,8 @@ class Division(models.Model):
     hospPatientInBillCounter = models.PositiveIntegerField(default=1)
     hospPatientOutBillCounter = models.PositiveIntegerField(default=1)
     hospPatientCounter = models.PositiveIntegerField(default=1)
+    freeQuotaExcceded = models.BooleanField(default = False)
+    enterpriseSubscriptionReq =  models.BooleanField(default = False)
 
     # address
     # themeColor

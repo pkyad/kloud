@@ -352,6 +352,18 @@ def home(request):
     except:
         pass
 
+    freeQuotaExcceded = False
+    try:
+        freeQuotaExcceded = u.designation.division.freeQuotaExcceded
+    except:
+        pass
+
+    enterpriseSubscriptionReq = False
+    try:
+        enterpriseSubscriptionReq = u.designation.division.enterpriseSubscriptionReq
+    except:
+        pass
+
     langDataList = {}
     langData = LanguageTranslation.objects.filter(lang = 'en')
     for i in langData:
@@ -384,7 +396,7 @@ def home(request):
         pass
     response =  render(request , 'ngBase.html' , {'wamp_prefix' : globalSettings.WAMP_PREFIX ,'isOnSupport' : isOnSupport , 'division' : division , 'homeState': homeState , 'dashboardEnabled' : u.profile.isDashboard , 'wampServer' : globalSettings.WAMP_SERVER, 'appsWithJs' : jsFilesList \
     ,'appsWithCss' : apps.filter(haveCss=True) , 'useCDN' : globalSettings.USE_CDN , 'BRAND_LOGO' : brandLogo \
-    ,'BRAND_NAME' :  globalSettings.BRAND_NAME,'sourceList':globalSettings.SOURCE_LIST , 'commonApps' : globalSettings.SHOW_COMMON_APPS , 'defaultState' : state, 'limit_expenses_count':globalSettings.LIMIT_EXPENSE_COUNT  , 'MATERIAL_INWARD' : MATERIAL_INWARD, 'DIVISIONPK' : divisionPk , "SIP" : SIP_DETAILS ,"NOTIFICATIONCOUNT":notificationCount,'telephony' : telephony , 'simpleMode' : simpleMode, 'messaging' : messaging,  "wampLongPoll" : globalSettings.WAMP_LONG_POLL,'langDataList' : langDataList,'menusData':menusData})
+    ,'BRAND_NAME' :  globalSettings.BRAND_NAME,'sourceList':globalSettings.SOURCE_LIST , 'commonApps' : globalSettings.SHOW_COMMON_APPS , 'defaultState' : state, 'limit_expenses_count':globalSettings.LIMIT_EXPENSE_COUNT  , 'MATERIAL_INWARD' : MATERIAL_INWARD, 'DIVISIONPK' : divisionPk , "SIP" : SIP_DETAILS ,"NOTIFICATIONCOUNT":notificationCount,'telephony' : telephony , 'simpleMode' : simpleMode, 'messaging' : messaging,  "wampLongPoll" : globalSettings.WAMP_LONG_POLL,'langDataList' : langDataList,'menusData':menusData,'freeQuotaExcceded':freeQuotaExcceded,'enterpriseSubscriptionReq' : enterpriseSubscriptionReq})
     # response.set_cookie('lang', 'en')
     return response
 
@@ -485,7 +497,7 @@ def generateOTPView(request):
     return JsonResponse({'newReg' : False} ,status =200 )
 
 def adminView(request):
-    return render(request , 'app.adminView.html' )
+    return render(request , 'app.adminView.html', {'wamp_prefix' : globalSettings.WAMP_PREFIX} )
 
 def bankloanform(request):
     return render(request , 'app.bankloan.form.html' , {})
@@ -1930,6 +1942,7 @@ class AddNewUserAPIView(APIView):
         profile = user.profile
         token = randomPassword()
         profile.linkToken = token
+        profile.lastState = {'state' : 'businessManagement.chatbot.intents', 'url' : '/businessManagement/chatbot/intents'}
         profile.save()
         user.is_staff = True
         user.save()
@@ -1958,3 +1971,22 @@ class AddNewUserAPIView(APIView):
             CreateContact(div.pk, user.pk)
         data = {'url' : globalSettings.SITE_ADDRESS+ '/tlogin/?token=' + profile.linkToken}
         return Response(data, status = status.HTTP_200_OK)
+
+
+class GetAppInstalledAPIView(APIView):
+    permission_classes = (permissions.AllowAny ,)
+    def get(self, request , format = None):
+        defaultApps = ['app.payroll', 'app.attendance','app.expenseClaims']
+        div = request.user.designation.division
+        data = []
+        for i in defaultApps:
+            instObj = InstalledApp.objects.filter(app__name = i, parent = div)
+            if instObj.count()>0:
+                inst = instObj.first()
+                val = {'icon' : inst.app.icon , 'displayName' : inst.app.displayName, 'appStoreUrl' : '' ,  'playStoreUrl' : '', 'type' : 'page'}
+                data.append(val)
+        otherApps = div.installations.filter(app__inMenu = True)
+        for j in otherApps:
+            val = {'icon' : j.app.icon , 'displayName' : j.app.displayName, 'appStoreUrl' : j.app.appStoreUrl ,  'playStoreUrl' : j.app.playStoreUrl, 'type' : 'store'}
+            data.append(val)
+        return Response(data,status = status.HTTP_200_OK)

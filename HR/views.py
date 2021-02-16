@@ -404,6 +404,21 @@ class UpdateUrlAPIView(APIView):
     renderer_classes = (JSONRenderer,)
     def post(self, request, format=None):
         data = request.data
+        if 'name' in data:
+            div = request.user.designation.division
+            prof = request.user.profile
+            div.name = data['name']
+            div.enterpriseSubscriptionReq = True
+            prof.mobile =  data['mobile']
+            div.save()
+            prof.save()
+            email_body = data['name'] + ' has requested for Enterprise plan subscription. Contact details : '+str(data['mobile'])
+            email_subject = 'Request for subscription'
+            emaiIDs = ['info@cioc.in']
+            msg = EmailMessage(email_subject, email_body,  to=emaiIDs)
+            msg.content_subtype = 'html'
+            msg.send()
+            return Response({},status = status.HTTP_200_OK)
         prof = profile.objects.get(pk = int(data['profile']))
         url = data['url'].replace(globalSettings.SITE_ADDRESS+'/ERP/#/','')
         prof.lastState = {'state' : data['state'] , 'url' : url}

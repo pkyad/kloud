@@ -38,6 +38,19 @@ connection.onopen = function (session) {
     // }
   }
 
+  function processFreeQuotaUpdates(args){
+    var scope = angular.element(document.getElementById('main')).scope();
+    scope.$apply(function() {
+      if (args[0] == true) {
+        scope.openPaymentModal();
+      }
+      else{
+        console.log("sssssssssss");
+        scope.closeModal()
+      }
+    });
+  }
+
   processNotification = function(args){
     console.log('ssssssssssssssssssss');
     var scope = angular.element(document.getElementById('main')).scope();
@@ -71,6 +84,8 @@ connection.onopen = function (session) {
     }
   };
 
+
+
   session.subscribe(wamp_prefix + 'service.chat.'+wampBindName, chatResonse).then(
     function (sub) {
       console.log("subscribed to topic 'chatResonse'");
@@ -89,6 +104,16 @@ connection.onopen = function (session) {
       }
     );
   }
+  session.subscribe(wamp_prefix +'service.division.'+DIVISIONPK, processFreeQuotaUpdates).then(
+    // for the various dashboard updates
+    function (sub) {
+      console.log("subscribed to topic 'quota'", DIVISIONPK);
+    },
+    function (err) {
+      console.log("failed to subscribed: " + err);
+    }
+  );
+
   session.subscribe('service.notification.'+wampBindName, processNotification).then(
     function (sub) {
       console.log("subscribed to topic 'notification'");
