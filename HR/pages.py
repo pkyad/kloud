@@ -29,6 +29,7 @@ def page1(request):
     return render(request, 'app.HR.page1.html',context)
 
 def storeHome(request):
+    return redirect('/login')
     context={}
     firstApp =application.objects.all()[0]
     secondApp =application.objects.all()[1]
