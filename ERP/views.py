@@ -1771,7 +1771,7 @@ def razorpayPaymentInitiate(request):
 
 
     payload = {
-        'amount':int(onlinePay.amount),
+        'amount':int(onlinePay.amount*100),
         'currency':'INR',
         'receipt':str(onlinePay.pk),
         'payment_capture':1,
@@ -1851,6 +1851,12 @@ def razorpayPaymentResponse(request):
     orderObj.paymentGatewayType = str(razorResponse['method'])
     orderObj.is_success = True
     orderObj.save()
+    if orderObj.source == 'subscription':
+        divid = orderObj.payId.split('_')[-1]
+        divObj = Division.objects.get(pk = int(divid))
+        subscriptionExpiryDate = datetime.date.today()
+        divObj.freeQuotaExcceded = False
+        divObj.save()
     if orderObj.source == 'chatbot' and orderObj.chatUid is not None:
         chatThObj =  ChatThread.objects.get(uid = orderObj.chatUid)
         chatMsg = ChatMessage.objects.create(uid = orderObj.chatUid, thread = chatThObj, message = 'Payment is successful', sentByAgent = True)
@@ -1882,6 +1888,8 @@ class GetPaymentLinkAPIView(APIView):
         data = request.data
         if data['id'].startswith('sale_'):
             id = data['id'].split('sale_')[1]
+            if data['source'] == 'subscription':
+                id = id.split('_')[0]
             name = []
             product = ''
             total = 0
@@ -1977,14 +1985,14 @@ class AddNewUserAPIView(APIView):
 class GetAppInstalledAPIView(APIView):
     permission_classes = (permissions.AllowAny ,)
     def get(self, request , format = None):
-        defaultApps = ['app.payroll', 'app.attendance','app.expenseClaims']
+        defaultApps = [{'displayName' : 'Payslips', 'name' : 'app.payroll'},  {'displayName' : 'Leaves', 'name' : 'app.attendance'} ,  {'displayName' : 'Expenses', 'name' : 'app.expenseClaims'}]
         div = request.user.designation.division
         data = []
         for i in defaultApps:
-            instObj = InstalledApp.objects.filter(app__name = i, parent = div)
+            instObj = InstalledApp.objects.filter(app__name = i['name'], parent = div)
             if instObj.count()>0:
                 inst = instObj.first()
-                val = {'icon' : inst.app.icon , 'displayName' : inst.app.displayName, 'appStoreUrl' : '' ,  'playStoreUrl' : '', 'type' : 'page'}
+                val = {'icon' : inst.app.icon , 'displayName' : i['displayName'], 'appStoreUrl' : '' ,  'playStoreUrl' : '', 'type' : 'page'}
                 data.append(val)
         otherApps = div.installations.filter(app__inMenu = True)
         for j in otherApps:
@@ -2003,11 +2011,39 @@ class CreateSubscriptionAPIView(APIView):
         current_div = current_user.designation.division
         units =  current_user.designation.division.units.all()
         unit = None
+        allusers = User.objects.filter(designation__division = div, is_staff = True)
         if units.count()>0:
             unit = units.first()
-        serviceObj, c = service.objects.get_or_create(name = current_div.name )
+        serviceObj, c = service.objects.get_or_create(name = current_div.name, division = div ,user = allusers.first())
         if c and unit is not None:
-            addrsObj = address.objects.create(street = unit.address , city = unit.city, state = unit.state, )
-        # contactObj = Contact.objects.create(company = serviceObj, division = div)
-        # sale = Sale.objects.create(name = current_div.name, contact =  contactObj)
-        return Response(status = status.HTTP_200_OK)
+            addrsObj = address.objects.create(street = unit.address , city = unit.city, state = unit.state, pincode = unit.pincode, country = unit.country )
+            serviceObj.mobile = unit.mobile
+            serviceObj.address = addrsObj
+            serviceObj.save()
+        contactObj, cc = Contact.objects.get_or_create(company = serviceObj, division = div, name = current_div.name)
+        if cc and unit is not None:
+            contactObj.email = unit.email
+            contactObj.mobile =  unit.mobile
+            contactObj.mobile =  unit.mobile
+            if serviceObj.address is not None:
+                contactObj.street = serviceObj.address.street
+                contactObj.city = serviceObj.address.city
+                contactObj.pincode = serviceObj.address.pincode
+                contactObj.state = serviceObj.address.state
+                contactObj.country = serviceObj.address.country
+        contactObj.save()
+        saleObj = Sale.objects.create(name = serviceObj.name, contact =  contactObj, personName =  contactObj.name, phone = contactObj.mobile, email = contactObj.email, address = contactObj.street, pincode = contactObj.pincode, state = contactObj.state , city = contactObj.city , country = contactObj.country, balanceAmount = 6000, sameasbilling = True , billingAddress = contactObj.street, billingPincode = contactObj.pincode, billingState = contactObj.state , billingCity = contactObj.city , billingCountry = contactObj.country, division = div)
+        alltncs = div.tncs.all()
+        if alltncs.count()>0:
+            saleObj.termsandcondition = alltncs.first()
+            saleObj.terms =  alltncs.first().body
+        allCostCenter =  div.divisionCostCenter.all()
+        if allCostCenter.count()>0:
+            saleObj.costcenter = allCostCenter.first()
+        # account to be added
+        allAccounts = div.divisionAccount.filter(personal = False, heading = 'income')
+        if allAccounts.count()>0:
+            saleObj.account = allAccounts.first()
+        saleObj.save()
+        obj = SalesQty.objects.create(outBound = saleObj, product = 'Student subscription of 6 months', price = 1000, qty = 6, total = 6000, division = div)
+        return Response({'sale' : saleObj.pk,'division': current_div.pk},status = status.HTTP_200_OK)

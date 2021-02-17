@@ -66,25 +66,26 @@ app.controller('main', function($scope, $state, $users, $aside, $http, $timeout,
           })
         }
         $scope.studentSubscription = function(){
+          console.log(window.location.href,'ssssssssssssss');
           $http({
             method: 'POST',
             url: '/api/ERP/createSubscription/',
           }).
           then(function(response) {
 
-            // $http({
-              //   method: 'POST',
-              //   url: '/api/ERP/getPaymentLink/',
-              //   data : {
-                //     'id' : 'sale_18' ,
-                //    'successUrl':'http://localhost:8000',
-                //    'failureUrl':'http://localhost:8000',
-                //    'source': 'plan',
-                //   },
-                // }).
-                // then(function(response) {
-                  //   window.location.href = response.data
-                  // })
+            $http({
+                method: 'POST',
+                url: '/api/ERP/getPaymentLink/',
+                data : {
+                    'id' : 'sale_' +response.data.sale+'_'+response.data.division,
+                   'successUrl':window.location.href,
+                   'failureUrl':window.location.href,
+                   'source': 'subscription',
+                  },
+                }).
+                then(function(res) {
+                    window.location.href = res.data
+                  })
           })
 
         }
