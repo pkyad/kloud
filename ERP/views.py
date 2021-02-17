@@ -1942,7 +1942,7 @@ class AddNewUserAPIView(APIView):
         profile = user.profile
         token = randomPassword()
         profile.linkToken = token
-        if ['type'] in val and val['type'] == 'chatbot':
+        if 'type' in val and val['type'] == 'chatbot':
             profile.lastState = {'state' : 'businessManagement.chatbot.intents', 'url' : '/businessManagement/chatbot/intents'}
         profile.save()
         user.is_staff = True
