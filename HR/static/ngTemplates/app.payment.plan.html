@@ -1,3 +1,8 @@
+<style>
+  .modal{
+    background:#ababab!important
+  }
+</style>
 <div class="modal-body" id="paymentmodal">
   <div class="row">
     <div class="col-md-12">
@@ -7,7 +12,7 @@
             <div class="col-md-12 text-center">
               <img src="/static/images/studentSubscription.png" alt="" style="height:60px">
               <h3> Student Plan</h3>
-              <button type="button" name="button" class="btn btn-default" style="border-radius:25px!important;width:150px;background:#032757;color:#ffffff;height:50px">Subscribe</button>
+              <button type="button" name="button" class="btn btn-default" style="border-radius:25px!important;width:150px;background:#032757;color:#ffffff;height:50px" ng-click="studentSubscription()">Subscribe</button>
             </div>
           </div>
         </div>
@@ -40,7 +45,10 @@
           </div>
       </div>
       <div class="row" style="padding-top:15px">
-        <div class="col-md-offset-8 col-md-3 text-right">
+        <div class="col-md-offset-1 col-md-2 text-right">
+            <button type="button" name="button"  class="btn btn-default" style="border-radius:25px!important;width:200px;background:#032757;color:#ffffff;height:50px" ng-click="updateSubscribe()" ng-if="!saving">Back</button>
+        </div>
+        <div class="col-md-offset-5 col-md-3 text-right">
             <button type="button" name="button"  class="btn btn-default" style="border-radius:25px!important;width:200px;background:#032757;color:#ffffff;height:50px" ng-click="save()" ng-if="!saving">Connect to sales team</button>
               <button type="button" name="button"  class="btn btn-default" style="border-radius:25px!important;width:200px;background:#032757;color:#ffffff;height:50px" ng-if="saving">Please wait</button>
         </div>

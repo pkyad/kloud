@@ -37,7 +37,7 @@ ECOMMERCE_APP = {
     # shop UI is like Amazon
     'offtime':[23, 9],
 }
-
+PARENT_DIVSION = 2
 LOGIN_PAGE_IMAGE = '/static/images/loginPage.png'
 
 CRM_SEPERATE_TAX_DETAILS = True

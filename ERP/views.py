@@ -1040,7 +1040,7 @@ def versionDetails(request,app):
     #     selectedObj = obj.first()
     #     data = {'minVersion' : selectedObj.minVersion , 'latestVersion' : selectedObj.latestVersion}
     print app,'ssssssssssssss'
-    alldata = {'app.CRM':{'playstore' : {'version':'1.0.0', 'url':'','redirect':False},'appstore' : {'version':'1.0.0', 'url':'','redirect':False}},'app.messenger':{'playstore' : {'version':'1.0.0', 'url':'','redirect':False},'appstore' : {'version':'1.0.0', 'url':'','redirect':False}},'app.contacts':{'playstore' : {'version':'1.0.0', 'url':'','redirect':False},'appstore' : {'version':'1.0.0', 'url':'','redirect':False}},'app.klouderp':{'playstore' : {'version':'1.0.0', 'url':'','redirect':False},'appstore' : {'version':'1.0.0', 'url':'','redirect':False}}}
+    alldata = {'app.CRM':{'playstore' : {'version':'0.0.1', 'url':'','redirect':False},'appstore' : {'version':'0.0.1', 'url':'','redirect':False}},'app.messenger':{'playstore' : {'version':'0.0.1', 'url':'','redirect':False},'appstore' : {'version':'0.0.1', 'url':'','redirect':False}},'app.contacts':{'playstore' : {'version':'0.0.1', 'url':'','redirect':False},'appstore' : {'version':'0.0.1', 'url':'','redirect':False}},'app.klouderp':{'playstore' : {'version':'0.0.1', 'url':'','redirect':False},'appstore' : {'version':'0.0.1', 'url':'','redirect':False}}}
     data = alldata[app]
     return JsonResponse(data)
 
@@ -1991,3 +1991,23 @@ class GetAppInstalledAPIView(APIView):
             val = {'icon' : j.app.icon , 'displayName' : j.app.displayName, 'appStoreUrl' : j.app.appStoreUrl ,  'playStoreUrl' : j.app.playStoreUrl, 'type' : 'store'}
             data.append(val)
         return Response(data,status = status.HTTP_200_OK)
+
+
+
+
+class CreateSubscriptionAPIView(APIView):
+    permission_classes = (permissions.AllowAny ,)
+    def post(self, request , format = None):
+        div = Division.objects.get(pk = int(globalSettings.PARENT_DIVSION))
+        current_user = request.user
+        current_div = current_user.designation.division
+        units =  current_user.designation.division.units.all()
+        unit = None
+        if units.count()>0:
+            unit = units.first()
+        serviceObj, c = service.objects.get_or_create(name = current_div.name )
+        if c and unit is not None:
+            addrsObj = address.objects.create(street = unit.address , city = unit.city, state = unit.state, )
+        # contactObj = Contact.objects.create(company = serviceObj, division = div)
+        # sale = Sale.objects.create(name = current_div.name, contact =  contactObj)
+        return Response(status = status.HTTP_200_OK)

@@ -42,7 +42,7 @@ app.controller('main', function($scope, $state, $users, $aside, $http, $timeout,
         $scope.subscribe = false
         $scope.enterpriseSubscriptionReq =  false
         $scope.updateSubscribe = function(){
-          $scope.subscribe = true
+          $scope.subscribe =! $scope.subscribe
         }
         $scope.enterpriseSubscriptionReq = IS_ENTERPRISE_SUBSCRIPTION
         $scope.form = {
@@ -64,6 +64,29 @@ app.controller('main', function($scope, $state, $users, $aside, $http, $timeout,
             $scope.enterpriseSubscriptionReq =  true
             $scope.saving = false
           })
+        }
+        $scope.studentSubscription = function(){
+          $http({
+            method: 'POST',
+            url: '/api/ERP/createSubscription/',
+          }).
+          then(function(response) {
+
+            // $http({
+              //   method: 'POST',
+              //   url: '/api/ERP/getPaymentLink/',
+              //   data : {
+                //     'id' : 'sale_18' ,
+                //    'successUrl':'http://localhost:8000',
+                //    'failureUrl':'http://localhost:8000',
+                //    'source': 'plan',
+                //   },
+                // }).
+                // then(function(response) {
+                  //   window.location.href = response.data
+                  // })
+          })
+
         }
 
       },

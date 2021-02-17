@@ -420,7 +420,6 @@ class UpdateUrlAPIView(APIView):
             msg.send()
             return Response({},status = status.HTTP_200_OK)
         prof = profile.objects.get(pk = int(data['profile']))
-        print  data['url'],'ssssssssssssssss'
         url = ''
         try:
             url = data['url'].split('/ERP/#/')[1]

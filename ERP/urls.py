@@ -54,5 +54,5 @@ urlpatterns = [
     url(r'getPaymentLink/$' , GetPaymentLinkAPIView.as_view()),
     url(r'addNewUser/$' , AddNewUserAPIView.as_view()),
     url(r'getInstalledApps/$' , GetAppInstalledAPIView.as_view()),
-
+    url(r'createSubscription/$' , CreateSubscriptionAPIView.as_view()),
 ]
