@@ -134,14 +134,14 @@ def pageeditor(request,id):
 
 def renderpage(request,apiKey,url):
     print apiKey,"34342"
-    page = Page.objects.get(url = url, user__designation__division__apiKey = apiKey )
+    page = Page.objects.get(url = url, user__designation__division = request.user.designation.division )
     components = Components.objects.filter(parent = page)
     data = ''
     for indx, i in enumerate(components):
         i.template = i.template.replace('$data' , 'components[%s].data'%(indx))
 
         i.dataTemplate = i.template
-    # if page.enableChat:
+    
 
     API_KEY = apiKey
     return render(request, 'app.HR.page.html',{'components':components,'page':page,'API_KEY':API_KEY})
