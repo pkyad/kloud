@@ -28,7 +28,7 @@
       </div>
     </div>
     <!-- ng-if="!me.profile.zoom_token" -->
-      <div class="row" style="position:absolute;right:0px;bottom:70px" >
+      <div class="row" style="position:absolute;right:0px;bottom:70px" ng-if="!me.profile.zoom_token" >
       <div class="col-md-12">
         <img src="/static/images/icons8-zoom-30.png" class="pull-right" style="width:60px" ng-click="openAuthenticator('zoom')" >
       </div>
