@@ -16,6 +16,7 @@ import datetime
 from marketing.models import TourPlanStop
 from LMS.models import Course
 # from assets.serializers import ContactProductsSerializer
+from ERP.initializing import *
 
 class userMinLiteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -55,6 +56,10 @@ class ContactSerializer(serializers.ModelSerializer):
         if 'company' in self.context['request'].data:
             c.company_id = int(self.context['request'].data['company'])
         c.save()
+        try:
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Contact')
+        except:
+            pass
         return c
     def update(self ,instance, validated_data):
         for key in ['name', 'email' , 'emailSecondary', 'mobile' , 'mobileSecondary' , 'designation' , 'notes' , 'linkedin', 'facebook', 'dp', 'male', 'city' , 'street' , 'pincode' , 'country' , 'state','isGst','typ','isFav']:
@@ -69,6 +74,10 @@ class ContactSerializer(serializers.ModelSerializer):
             else:
                 instance.company_id = int(compID)
         instance.save()
+        try:
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Contact')
+        except:
+            pass
         return instance
     def get_courseCount(self , obj):
         from LMS.serializers import CourseSerializer
@@ -211,7 +220,11 @@ class ContractSerializer(serializers.ModelSerializer):
         # if 'tour' in self.context['request'].data:
         #     tourObj = TourPlanStop.objects.get(pk = int(self.context['request'].data['tour']))
         #     tourObj.contract = c
-        #     tourObj.save()
+        #     tourObj.save()\
+        try:
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'CRM')
+        except:
+            pass
         return c
     def update(self ,instance, validated_data):
         for key in ['user' , 'created' , 'updated', 'value','deal', 'status', 'details' , 'data', 'dueDate','billedDate','recievedDate','archivedDate','approvedDate','grandTotal','totalTax','read','frm','templateName','files','trackingCode','readDateAndTime','contact','termsAndCondition', 'termsAndConditionTxts' , 'discount', 'heading','uniqueId']:
@@ -233,6 +246,10 @@ class ContractSerializer(serializers.ModelSerializer):
         #     tourObj = TourPlanStop.objects.get(pk = int(self.context['request'].data['tour']))
         #     tourObj.contract = instance
         #     tourObj.save()
+        try:
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'CRM')
+        except:
+            pass
         return instance
 
 class ActivitySerializer(serializers.ModelSerializer):
@@ -345,6 +362,10 @@ class ServiceTicketSerializer(serializers.ModelSerializer):
             contactObj = Contact.objects.create(user = self.context['request'].user, name = t.name, mobile = t.phone, email = t.email, street = t.address , pincode = t.pincode , state = t.state, country = t.country )
             t.referenceContact = contactObj
             t.save()
+        try:
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Servicing')
+        except:
+            pass
         return t
     def update(self ,instance, validated_data):
         for key in ['name' , 'phone' , 'email' , 'productName' , 'productSerial' , 'notes' , 'address' , 'pincode', 'city' , 'state' , 'country' , 'requireOnSiteVisit','preferredDate','preferredTimeSlot' , 'status', 'serviceType','engineer','warrantyStatus' ,'uniqueId']:
@@ -356,10 +377,14 @@ class ServiceTicketSerializer(serializers.ModelSerializer):
         if 'engineer' in  self.context['request'].data:
             instance.engineer = User.objects.get(pk = int(self.context['request'].data['engineer']))
         instance.save()
+        try:
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Servicing')
+        except:
+            pass
         return instance
     def get_allInvoices(self , obj):
         allData = []
-        lastDate =  datetime.datetime.now()
+        lastDate = datetime.now()
         if obj.closedOn is not None:
             lastDate = obj.closedOn
         if obj.referenceContact is not None:

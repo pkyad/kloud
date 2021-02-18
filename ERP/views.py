@@ -1547,7 +1547,15 @@ class AppVersioningViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['title' ]
 
-
+class UsageTrackerViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    # queryset = UsageTracker.objects.all()
+    serializer_class = UsageTrackerSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['division' ]
+    def get_queryset(self):
+        toReturn = UsageTracker.objects.all().order_by('-count')
+        return toReturn
 
 
 class GetAllSchedulesAPI(APIView):
@@ -2032,7 +2040,7 @@ class CreateSubscriptionAPIView(APIView):
                 contactObj.state = serviceObj.address.state
                 contactObj.country = serviceObj.address.country
         contactObj.save()
-        saleObj = Sale.objects.create(name = serviceObj.name, contact =  contactObj, personName =  contactObj.name, phone = contactObj.mobile, email = contactObj.email, address = contactObj.street, pincode = contactObj.pincode, state = contactObj.state , city = contactObj.city , country = contactObj.country, balanceAmount = 6000, sameasbilling = True , billingAddress = contactObj.street, billingPincode = contactObj.pincode, billingState = contactObj.state , billingCity = contactObj.city , billingCountry = contactObj.country, division = div)
+        saleObj = Sale.objects.create(name = serviceObj.name, contact =  contactObj, personName =  contactObj.name, phone = contactObj.mobile, email = contactObj.email, address = contactObj.street, pincode = contactObj.pincode, state = contactObj.state , city = contactObj.city , country = contactObj.country, balanceAmount = 12000, sameasbilling = True , billingAddress = contactObj.street, billingPincode = contactObj.pincode, billingState = contactObj.state , billingCity = contactObj.city , billingCountry = contactObj.country, division = div)
         alltncs = div.tncs.all()
         if alltncs.count()>0:
             saleObj.termsandcondition = alltncs.first()
@@ -2045,5 +2053,5 @@ class CreateSubscriptionAPIView(APIView):
         if allAccounts.count()>0:
             saleObj.account = allAccounts.first()
         saleObj.save()
-        obj = SalesQty.objects.create(outBound = saleObj, product = 'Student subscription of 6 months', price = 1000, qty = 6, total = 6000, division = div)
+        obj = SalesQty.objects.create(outBound = saleObj, product = 'Student subscription of 6 months', price = 2000, qty = 6, total = 12000, division = div)
         return Response({'sale' : saleObj.pk,'division': current_div.pk},status = status.HTTP_200_OK)

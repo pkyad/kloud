@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from organization.models import *
 from organization.serializers import *
 from HR.serializers import userSearchSerializer
+from ERP.initializing import *
 
 class JobsSerializer(serializers.ModelSerializer):
     unit = UnitsLiteSerializer(many = False , read_only = True)
@@ -25,6 +26,10 @@ class JobsSerializer(serializers.ModelSerializer):
         inv.save()
         # for i in self.context['request'].data['contacts']:
         #     inv.contacts.add(User.objects.get(pk = i))
+        try:
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Hiring')
+        except:
+            pass
         return inv
 
     def update(self ,instance, validated_data):
@@ -41,6 +46,10 @@ class JobsSerializer(serializers.ModelSerializer):
         #     for i in self.context['request'].data['contacts']:
         #         instance.contacts.add(User.objects.get(pk = i))
         instance.save()
+        try:
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Hiring')
+        except:
+            pass
         return instance
     def get_total_app(self, obj):
         tot = obj.jobs_applied.count()

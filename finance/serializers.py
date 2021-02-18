@@ -19,7 +19,7 @@ from organization.models import Division , Unit
 from assets.serializers import CheckinLiteSerializer
 from assets.models import *
 from payroll.models import  Advances
-
+from ERP.initializing import *
 
 class TermsAndConditionsLiteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -84,7 +84,10 @@ class AccountSerializer(serializers.ModelSerializer):
         if 'authorizedSignaturies' in self.context['request'].data:
             acc.authorizedSignaturies.add(User.objects.get(pk = self.context['request'].data['authorizedSignaturies']))
             # for u in self.context['request'].data['authorizedSignaturies']:
-
+        try:
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Account')
+        except:
+            pass
         acc.save()
         return acc
 
@@ -107,6 +110,10 @@ class AccountSerializer(serializers.ModelSerializer):
             #         instance.contactPerson = User.objects.get(pk = int(u))
                 instance.authorizedSignaturies.add(User.objects.get(pk = int(self.context['request'].data['authorizedSignaturies'])))
         instance.save()
+        try:
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Account')
+        except:
+            pass
         return instance
     def get_totalExp(self, obj):
         try:
@@ -225,6 +232,7 @@ class ExpenseSerializer(serializers.ModelSerializer):
         if 'transaction' in self.context['request'].data:
             inv.transaction = Transaction.objects.get(pk = self.context['request'].data['transaction'])
         inv.save()
+
         return inv
 
     def update(self, instance, validated_data):
@@ -426,6 +434,10 @@ class SaleSerializer(serializers.ModelSerializer):
             obi.totalGST = totalGST
             obi.balanceAmount = totalAmount
         obi.save()
+        try:
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Sales')
+        except:
+            pass
         return obi
     def update(self ,instance, validated_data):
         for key in ['status','poNumber','name','personName','phone','email','address','pincode','state','city','country','pin_status','deliveryDate','payDueDate','gstIn','recDate','isInvoice','total','totalGST','paidAmount','balanceAmount','cancelled','cancelledDate','isCash','paymentImage','paymentRef','isPerforma','sameasbilling','billingAddress','billingPincode','billingState','billingCity','billingCountry']:
@@ -479,6 +491,10 @@ class SaleSerializer(serializers.ModelSerializer):
                 instance.totalGST = totalGST
                 instance.balanceAmount = totalAmount
         instance.save()
+        try:
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Sales')
+        except:
+            pass
         return instance
 
     def get_tax(self , obj):
@@ -693,6 +709,10 @@ class InvoiceReceivedSerializer(serializers.ModelSerializer):
         except:
             pass
         inv.save()
+        try:
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Expense Claims')
+        except:
+            pass
         return inv
     def update(self , instance , validated_data):
         for key in ['status']:
@@ -735,6 +755,10 @@ class InvoiceReceivedSerializer(serializers.ModelSerializer):
                     a.balance = 0
                     a.settled = True
             a.save()
+        try:
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Expense Claims')
+        except:
+            pass
         return instance
 
 

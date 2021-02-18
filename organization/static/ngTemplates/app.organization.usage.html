@@ -1,0 +1,39 @@
+<div class="container-fluid">
+  <div class="row" style="margin-top:15px">
+    <div class="col-md-12">
+      <div class="row" style="margin-top:15px">
+        <div class="col-md-6 col-md-offset-4">
+          <input type="text" class="form-control" ng-model="searchTxt" placeholder="Search" style="border-radius:10px!important;background:#eeeeee">
+        </div>
+        <div class="col-md-1">
+          <button type="button" name="button" class="btn btn-block" ng-click="prev()"> Prev </button>
+        </div>
+        <div class="col-md-1">
+          <button type="button" name="button" class="btn btn-block" ng-click="next()"> Next </button>
+        </div>
+      </div>
+      <div class="row" style="margin-top:15px">
+        <div class="col-md-12">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>App</th>
+                <th>First Used</th>
+                <th>Recently Used</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="x in allData">
+                <td>{{x.detail}}</td>
+                <td>{{x.created | date:'dd MMM yyyy, hh:mm a'}}</td>
+                <td>{{x.updated | date:'dd MMM yyyy, hh:mm a'}}</td>
+                <td>{{x.count}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

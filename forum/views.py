@@ -34,7 +34,7 @@ from .serializers import *
 import subprocess
 import os
 from django.http import JsonResponse
-
+from ERP.initializing import *
 # Create your views here.
 # class ForumThreadViewSet(viewsets.ModelViewSet):
 #     permission_classes = (permissions.IsAuthenticated, isAdmin, )
@@ -156,6 +156,10 @@ class ForumAPI(APIView):
                 forumobj.url = text
             slugme(request.data['title'])
         forumobj.save()
+        try:
+            CreateUsageTracker(self.request.user.designation.division.pk, 'Forum')
+        except:
+            pass
         return JsonResponse(data , status =  status.HTTP_200_OK,safe=False)
     def get(self , request , format = None):
         data = {}

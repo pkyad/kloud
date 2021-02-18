@@ -13,6 +13,7 @@ from rest_framework.response import Response
 from fabric.api import *
 import os
 from django.conf import settings as globalSettings
+from initializing import *
 
 
 class ApplicationLiteSerializer(serializers.ModelSerializer):
@@ -82,10 +83,18 @@ class serviceSerializer(serializers.ModelSerializer):
         s.user = user
         s.division = user.designation.division
         self.assignValues(s, validated_data)
+        try:
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Contact')
+        except:
+            pass
         return s
     def update(self , instance , validated_data):
         self.assignValues(instance , validated_data)
         instance.save()
+        try:
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Contact')
+        except:
+            pass
         return instance
     def get_contact_count(self , obj):
         return obj.contacts.all().count()
@@ -395,3 +404,9 @@ class CheckAppVersioningSerializer(serializers.ModelSerializer):
     class Meta:
         model = AppVersioning
         fields = ('minVersion', 'latestVersion')
+
+
+class UsageTrackerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UsageTracker
+        fields = ('created', 'updated' , 'division' , 'detail' , 'count')

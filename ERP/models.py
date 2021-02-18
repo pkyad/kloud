@@ -417,3 +417,11 @@ class AppVersioning(models.Model):
     enabled = models.BooleanField(default=False)
     app = models.ForeignKey(application , related_name='versions' , null = False)
     title = models.CharField(max_length = 50, null = True , blank = True)
+
+
+class UsageTracker(models.Model):
+    created = models.DateTimeField(auto_now_add = True)
+    updated = models.DateTimeField(auto_now=True)
+    division = models.ForeignKey(Division , related_name="divisionUsage" , null = True )
+    detail =  models.CharField(max_length = 50, null = True , blank = True)
+    count = models.PositiveIntegerField(default = 0)

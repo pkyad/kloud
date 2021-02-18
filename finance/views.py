@@ -4170,6 +4170,10 @@ class OuttbondInvoiceAPIView(APIView):
                 so.balanceAmount = so.total - billed
                 so.paidAmount  = billed
                 so.save()
+        try:
+            CreateUsageTracker(request.user.designation.division.pk, 'Sales')
+        except:
+            pass
         return Response(data,status = status.HTTP_200_OK)
     def get(self,request , format= None):
         if 'id' in request.GET:
