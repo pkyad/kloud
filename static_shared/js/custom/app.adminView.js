@@ -288,7 +288,8 @@ app.config(function($stateProvider) {
        simpleMode: $scope.data.simpleMode,
        telephony: $scope.data.telephony,
        messaging: $scope.data.messaging,
-       locked: $scope.data.locked
+       locked: $scope.data.locked,
+       freeQuotaExcceded : $scope.data.freeQuotaExcceded
      }
      $http({
        method: 'PATCH',
@@ -297,6 +298,14 @@ app.config(function($stateProvider) {
      }).
      then(function(response) {
        Flash.create('success', 'Saved');
+       // if (response.data.freeQuotaExcceded) {
+         connection.session.publish(wamp_prefix+'service.division.' + $state.params.id, [response.data.freeQuotaExcceded], {}, {
+           acknowledge: true
+         }).
+         then(function(publication) {
+         },function(){
+         });
+       // }
      });
    }
 

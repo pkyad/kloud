@@ -1,0 +1,67 @@
+<style>
+  .modal{
+    background:#ababab!important
+  }
+</style>
+<div class="modal-body" id="paymentmodal">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row" style="min-height:25vh;margin-top:60px" ng-if="!subscribe&&!enterpriseSubscriptionReq">
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <img src="/static/images/studentSubscription.png" alt="" style="height:60px">
+              <h3> Student Plan</h3>
+              <button type="button" name="button" class="btn btn-default" style="border-radius:25px!important;width:150px;background:#032757;color:#ffffff;height:50px" ng-click="studentSubscription()">Subscribe</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-12  text-center">
+              <img src="/static/images/enterpriseSubscription.png" alt="" style="height:60px">
+              <h3> Enterprise Plan</h3>
+                <button type="button" name="button" ng-click="updateSubscribe()" class="btn btn-default" style="border-radius:25px!important;width:150px;background:#032757;color:#ffffff;height:50px" >Subscribe</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="min-height:25vh;margin-top:60px" ng-if="subscribe&&!enterpriseSubscriptionReq">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-3 text-right">
+              <label> Organization Name <label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" class="form-control" ng-model="form.name" style="border-radius:25px" placeholder=" Organization Name">
+            </div>
+        </div>
+        <div class="row" style="padding-top:15px">
+          <div class="col-md-3 text-right">
+            <label> Mobile <label>
+          </div>
+          <div class="col-md-8">
+              <input type="text" class="form-control" ng-model="form.mobile" style="border-radius:25px" placeholder="Mobile">
+          </div>
+      </div>
+      <div class="row" style="padding-top:15px">
+        <div class="col-md-offset-1 col-md-2 text-right">
+            <button type="button" name="button"  class="btn btn-default" style="border-radius:25px!important;width:200px;background:#032757;color:#ffffff;height:50px" ng-click="updateSubscribe()" ng-if="!saving">Back</button>
+        </div>
+        <div class="col-md-offset-5 col-md-3 text-right">
+            <button type="button" name="button"  class="btn btn-default" style="border-radius:25px!important;width:200px;background:#032757;color:#ffffff;height:50px" ng-click="save()" ng-if="!saving">Connect to sales team</button>
+              <button type="button" name="button"  class="btn btn-default" style="border-radius:25px!important;width:200px;background:#032757;color:#ffffff;height:50px" ng-if="saving">Please wait</button>
+        </div>
+    </div>
+      </div>
+    </div>
+    <div class="row text-center" style="min-height:25vh;margin-top:60px" ng-if="enterpriseSubscriptionReq">
+      <div class="col-md-12">
+        <h4> Request has been sent for Enterprise plan subscription, one of our team member will contact you soon </h4>
+        <h4> You can still try for student subscription plan</h4>
+          <button type="button" name="button" class="btn btn-default" style="border-radius:25px!important;width:150px;background:#032757;color:#ffffff;height:50px" ng-click="studentSubscription()">Subscribe</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

@@ -50,7 +50,7 @@ from ERP.models import LanguageTranslation
 from paypal.standard.forms import PayPalPaymentsForm
 from django.db.models import BooleanField
 from initializing import *
-
+import ast
 
 def generateOTPCode(length = 4):
     chars = string.digits
@@ -254,6 +254,9 @@ def logoutView(request):
 def root(request):
     return redirect(globalSettings.ROOT_APP)
 
+import re
+def hasNumbers(inputString):
+    return bool(re.search(r'\d', inputString))
 
 @login_required(login_url = globalSettings.LOGIN_URL)
 def home(request):
@@ -322,16 +325,14 @@ def home(request):
         homeState = 'home.viewProfile.profile'
     try:
 
-        import ast
         if u.profile.lastState is not None:
-            # lastState = ast.literal_eval(u.profile.lastState)
-            state = profile.lastState.replace('.','/')
-            homeState = profile.lastState
+            lastState =  ast.literal_eval(u.profile.lastState)
+            state =  lastState['url']
+            homeState =  lastState['state']
     except:
         pass
 
 
-    print state
 
     brandLogo = globalSettings.BRAND_LOGO
 
@@ -348,6 +349,18 @@ def home(request):
     isOnSupport = False
     try:
         isOnSupport = u.designation.team.isOnSupport
+    except:
+        pass
+
+    freeQuotaExcceded = False
+    try:
+        freeQuotaExcceded = u.designation.division.freeQuotaExcceded
+    except:
+        pass
+
+    enterpriseSubscriptionReq = False
+    try:
+        enterpriseSubscriptionReq = u.designation.division.enterpriseSubscriptionReq
     except:
         pass
 
@@ -383,7 +396,7 @@ def home(request):
         pass
     response =  render(request , 'ngBase.html' , {'wamp_prefix' : globalSettings.WAMP_PREFIX ,'isOnSupport' : isOnSupport , 'division' : division , 'homeState': homeState , 'dashboardEnabled' : u.profile.isDashboard , 'wampServer' : globalSettings.WAMP_SERVER, 'appsWithJs' : jsFilesList \
     ,'appsWithCss' : apps.filter(haveCss=True) , 'useCDN' : globalSettings.USE_CDN , 'BRAND_LOGO' : brandLogo \
-    ,'BRAND_NAME' :  globalSettings.BRAND_NAME,'sourceList':globalSettings.SOURCE_LIST , 'commonApps' : globalSettings.SHOW_COMMON_APPS , 'defaultState' : state, 'limit_expenses_count':globalSettings.LIMIT_EXPENSE_COUNT  , 'MATERIAL_INWARD' : MATERIAL_INWARD, 'DIVISIONPK' : divisionPk , "SIP" : SIP_DETAILS ,"NOTIFICATIONCOUNT":notificationCount,'telephony' : telephony , 'simpleMode' : simpleMode, 'messaging' : messaging,  "wampLongPoll" : globalSettings.WAMP_LONG_POLL,'langDataList' : langDataList,'menusData':menusData})
+    ,'BRAND_NAME' :  globalSettings.BRAND_NAME,'sourceList':globalSettings.SOURCE_LIST , 'commonApps' : globalSettings.SHOW_COMMON_APPS , 'defaultState' : state, 'limit_expenses_count':globalSettings.LIMIT_EXPENSE_COUNT  , 'MATERIAL_INWARD' : MATERIAL_INWARD, 'DIVISIONPK' : divisionPk , "SIP" : SIP_DETAILS ,"NOTIFICATIONCOUNT":notificationCount,'telephony' : telephony , 'simpleMode' : simpleMode, 'messaging' : messaging,  "wampLongPoll" : globalSettings.WAMP_LONG_POLL,'langDataList' : langDataList,'menusData':menusData,'freeQuotaExcceded':freeQuotaExcceded,'enterpriseSubscriptionReq' : enterpriseSubscriptionReq})
     # response.set_cookie('lang', 'en')
     return response
 
@@ -484,7 +497,7 @@ def generateOTPView(request):
     return JsonResponse({'newReg' : False} ,status =200 )
 
 def adminView(request):
-    return render(request , 'app.adminView.html' )
+    return render(request , 'app.adminView.html', {'wamp_prefix' : globalSettings.WAMP_PREFIX} )
 
 def bankloanform(request):
     return render(request , 'app.bankloan.form.html' , {})
@@ -1027,7 +1040,7 @@ def versionDetails(request,app):
     #     selectedObj = obj.first()
     #     data = {'minVersion' : selectedObj.minVersion , 'latestVersion' : selectedObj.latestVersion}
     print app,'ssssssssssssss'
-    alldata = {'app.CRM':{'playstore' : {'version':'1.0.0', 'url':'','redirect':False},'appstore' : {'version':'1.0.0', 'url':'','redirect':False}},'app.messenger':{'playstore' : {'version':'1.0.0', 'url':'','redirect':False},'appstore' : {'version':'1.0.0', 'url':'','redirect':False}},'app.contacts':{'playstore' : {'version':'1.0.0', 'url':'','redirect':False},'appstore' : {'version':'1.0.0', 'url':'','redirect':False}},'app.klouderp':{'playstore' : {'version':'1.0.0', 'url':'','redirect':False},'appstore' : {'version':'1.0.0', 'url':'','redirect':False}}}
+    alldata = {'app.CRM':{'playstore' : {'version':'0.0.1', 'url':'','redirect':False},'appstore' : {'version':'0.0.1', 'url':'','redirect':False}},'app.messenger':{'playstore' : {'version':'0.0.1', 'url':'','redirect':False},'appstore' : {'version':'0.0.1', 'url':'','redirect':False}},'app.contacts':{'playstore' : {'version':'0.0.1', 'url':'','redirect':False},'appstore' : {'version':'0.0.1', 'url':'','redirect':False}},'app.klouderp':{'playstore' : {'version':'0.0.1', 'url':'','redirect':False},'appstore' : {'version':'0.0.1', 'url':'','redirect':False}}}
     data = alldata[app]
     return JsonResponse(data)
 
@@ -1758,7 +1771,7 @@ def razorpayPaymentInitiate(request):
 
 
     payload = {
-        'amount':int(onlinePay.amount),
+        'amount':int(onlinePay.amount*100),
         'currency':'INR',
         'receipt':str(onlinePay.pk),
         'payment_capture':1,
@@ -1838,6 +1851,12 @@ def razorpayPaymentResponse(request):
     orderObj.paymentGatewayType = str(razorResponse['method'])
     orderObj.is_success = True
     orderObj.save()
+    if orderObj.source == 'subscription':
+        divid = orderObj.payId.split('_')[-1]
+        divObj = Division.objects.get(pk = int(divid))
+        subscriptionExpiryDate = datetime.date.today()
+        divObj.freeQuotaExcceded = False
+        divObj.save()
     if orderObj.source == 'chatbot' and orderObj.chatUid is not None:
         chatThObj =  ChatThread.objects.get(uid = orderObj.chatUid)
         chatMsg = ChatMessage.objects.create(uid = orderObj.chatUid, thread = chatThObj, message = 'Payment is successful', sentByAgent = True)
@@ -1869,6 +1888,8 @@ class GetPaymentLinkAPIView(APIView):
         data = request.data
         if data['id'].startswith('sale_'):
             id = data['id'].split('sale_')[1]
+            if data['source'] == 'subscription':
+                id = id.split('_')[0]
             name = []
             product = ''
             total = 0
@@ -1929,6 +1950,8 @@ class AddNewUserAPIView(APIView):
         profile = user.profile
         token = randomPassword()
         profile.linkToken = token
+        if 'type' in val and val['type'] == 'chatbot':
+            profile.lastState = {'state' : 'businessManagement.chatbot.intents', 'url' : '/businessManagement/chatbot/intents'}
         profile.save()
         user.is_staff = True
         user.save()
@@ -1957,3 +1980,70 @@ class AddNewUserAPIView(APIView):
             CreateContact(div.pk, user.pk)
         data = {'url' : globalSettings.SITE_ADDRESS+ '/tlogin/?token=' + profile.linkToken}
         return Response(data, status = status.HTTP_200_OK)
+
+
+class GetAppInstalledAPIView(APIView):
+    permission_classes = (permissions.AllowAny ,)
+    def get(self, request , format = None):
+        defaultApps = [{'displayName' : 'Payslips', 'name' : 'app.payroll'},  {'displayName' : 'Leaves', 'name' : 'app.attendance'} ,  {'displayName' : 'Expenses', 'name' : 'app.expenseClaims'}]
+        div = request.user.designation.division
+        data = []
+        for i in defaultApps:
+            instObj = InstalledApp.objects.filter(app__name = i['name'], parent = div)
+            if instObj.count()>0:
+                inst = instObj.first()
+                val = {'icon' : inst.app.icon , 'displayName' : i['displayName'], 'appStoreUrl' : '' ,  'playStoreUrl' : '', 'type' : 'page'}
+                data.append(val)
+        otherApps = div.installations.filter(app__inMenu = True)
+        for j in otherApps:
+            val = {'icon' : j.app.icon , 'displayName' : j.app.displayName, 'appStoreUrl' : j.app.appStoreUrl ,  'playStoreUrl' : j.app.playStoreUrl, 'type' : 'store'}
+            data.append(val)
+        return Response(data,status = status.HTTP_200_OK)
+
+
+
+
+class CreateSubscriptionAPIView(APIView):
+    permission_classes = (permissions.AllowAny ,)
+    def post(self, request , format = None):
+        div = Division.objects.get(pk = int(globalSettings.PARENT_DIVSION))
+        current_user = request.user
+        current_div = current_user.designation.division
+        units =  current_user.designation.division.units.all()
+        unit = None
+        allusers = User.objects.filter(designation__division = div, is_staff = True)
+        if units.count()>0:
+            unit = units.first()
+        serviceObj, c = service.objects.get_or_create(name = current_div.name, division = div ,user = allusers.first())
+        if c and unit is not None:
+            addrsObj = address.objects.create(street = unit.address , city = unit.city, state = unit.state, pincode = unit.pincode, country = unit.country )
+            serviceObj.mobile = unit.mobile
+            serviceObj.address = addrsObj
+            serviceObj.save()
+        contactObj, cc = Contact.objects.get_or_create(company = serviceObj, division = div, name = current_div.name)
+        if cc and unit is not None:
+            contactObj.email = unit.email
+            contactObj.mobile =  unit.mobile
+            contactObj.mobile =  unit.mobile
+            if serviceObj.address is not None:
+                contactObj.street = serviceObj.address.street
+                contactObj.city = serviceObj.address.city
+                contactObj.pincode = serviceObj.address.pincode
+                contactObj.state = serviceObj.address.state
+                contactObj.country = serviceObj.address.country
+        contactObj.save()
+        saleObj = Sale.objects.create(name = serviceObj.name, contact =  contactObj, personName =  contactObj.name, phone = contactObj.mobile, email = contactObj.email, address = contactObj.street, pincode = contactObj.pincode, state = contactObj.state , city = contactObj.city , country = contactObj.country, balanceAmount = 6000, sameasbilling = True , billingAddress = contactObj.street, billingPincode = contactObj.pincode, billingState = contactObj.state , billingCity = contactObj.city , billingCountry = contactObj.country, division = div)
+        alltncs = div.tncs.all()
+        if alltncs.count()>0:
+            saleObj.termsandcondition = alltncs.first()
+            saleObj.terms =  alltncs.first().body
+        allCostCenter =  div.divisionCostCenter.all()
+        if allCostCenter.count()>0:
+            saleObj.costcenter = allCostCenter.first()
+        # account to be added
+        allAccounts = div.divisionAccount.filter(personal = False, heading = 'income')
+        if allAccounts.count()>0:
+            saleObj.account = allAccounts.first()
+        saleObj.save()
+        obj = SalesQty.objects.create(outBound = saleObj, product = 'Student subscription of 6 months', price = 1000, qty = 6, total = 6000, division = div)
+        return Response({'sale' : saleObj.pk,'division': current_div.pk},status = status.HTTP_200_OK)

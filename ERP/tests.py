@@ -24,7 +24,7 @@ import json
 import requests
 
 url = 'http://localhost:8000/api/ERP/addNewUser/'
-myobj = {'username' : 'neelu','first_name' : 'Neelu','last_name' : 'Singh','email' : 'neelu.s@aaa.in','applist' : ['app.messenger', 'app.catalogmaker','app.sales','app.chatbot','app.website']}
+myobj = {'username' : 'neeluaa','first_name' : 'Neelu','last_name' : 'Singh','email' : 'neeluaa.s@aaa.in','applist' : ['app.messenger', 'app.catalogmaker','app.sales','app.chatbot','app.website'],'type':'chatbot'}
 
 x = requests.post(url, json = myobj)
 

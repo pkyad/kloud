@@ -38,10 +38,11 @@ from io import BytesIO,StringIO
 from performance.models import TimeSheet
 from HR.models import *
 from ERP.send_email import send_email
-from ERP.views import CreateUnit
+# from ERP.views import CreateUnit
 from payroll.serializers import payrollSerializer
 import django
 import requests
+from ERP.initializing import *
 
 class userProfileViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
@@ -403,15 +404,33 @@ class UpdateUrlAPIView(APIView):
     renderer_classes = (JSONRenderer,)
     def post(self, request, format=None):
         data = request.data
+        if 'name' in data:
+            div = request.user.designation.division
+            prof = request.user.profile
+            div.name = data['name']
+            div.enterpriseSubscriptionReq = True
+            prof.mobile =  data['mobile']
+            div.save()
+            prof.save()
+            email_body = data['name'] + ' has requested for Enterprise plan subscription. Contact details : '+str(data['mobile'])
+            email_subject = 'Request for subscription'
+            emaiIDs = ['info@cioc.in']
+            msg = EmailMessage(email_subject, email_body,  to=emaiIDs)
+            msg.content_subtype = 'html'
+            msg.send()
+            return Response({},status = status.HTTP_200_OK)
         prof = profile.objects.get(pk = int(data['profile']))
-        url = data['url']
-        if (url.find(':') == -1):
-            print data['url'],'sssssssssssssssssssssssssssssssssss'
-            prof.lastState = data['state']
-        else:
+        url = ''
+        try:
+            url = data['url'].split('/ERP/#/')[1]
+        except:
             pass
+        try:
+            url = data['url'].split('/ERP#/')[1]
+        except:
+            pass
+        prof.lastState = {'state' : data['state'] , 'url' : url}
         prof.save()
-        print prof.lastState ,'ssssssssssssss'
         return Response({},status = status.HTTP_200_OK)
 
 
@@ -1198,5 +1217,7 @@ class RegNewUserView(APIView):
                 des.unit = unit
                 print res
                 des.save()
+
+
 
         return Response({} , status = status.HTTP_200_OK)

@@ -46,7 +46,7 @@ class DivisionSerializer(serializers.ModelSerializer):
     users = serializers.SerializerMethodField()
     class Meta:
         model = Division
-        fields = ('pk' , 'name','website','logo','pan','cin','l1','l2', 'installations', 'installationsCount', 'simpleMode', 'upi', 'telephony', 'messaging','headerTemplate','headerData','footerData','footerTemplate','defaultOgWidth','defaultOgHeight','defaultDescription','defaultTitle','defaultOgImage' , 'locked' , 'counter','enableChatbot','footerCss','headerCss','users')
+        fields = ('pk' , 'name','website','logo','pan','cin','l1','l2', 'installations', 'installationsCount', 'simpleMode', 'upi', 'telephony', 'messaging','headerTemplate','headerData','footerData','footerTemplate','defaultOgWidth','defaultOgHeight','defaultDescription','defaultTitle','defaultOgImage' , 'locked' , 'counter','enableChatbot','footerCss','headerCss','users','freeQuotaExcceded')
         read_only_fields=('contacts',)
     def get_installationsCount(self , obj):
         return obj.installations.all().count()
@@ -62,12 +62,12 @@ class DivisionSerializer(serializers.ModelSerializer):
         d.website = 'NA'
         d.pan = 'NA'
         d.cin = 'NA'
-        
+
         d.save()
 
         data = self.context['request'].data
         if 'userNumber' in data :
-            from ERP.views import CreateUnit
+            from ERP.initializing import *
             val = {'name': d.name, 'pk': d.pk, 'userNumber' : data['userNumber'] , 'email' :  data['email'], 'division_pk' : d.pk}
             res = CreateUnit(val)
             print res
@@ -92,7 +92,7 @@ class DivisionSerializer(serializers.ModelSerializer):
     def update(self ,instance, validated_data):
         d = self.context['request'].data
 
-        for key in ['name','website','logo','pan','cin','l1','l2', 'simpleMode', 'upi', 'telephony', 'messaging', 'locked']:
+        for key in ['name','website','logo','pan','cin','l1','l2', 'simpleMode', 'upi', 'telephony', 'messaging', 'locked','freeQuotaExcceded']:
             try:
                 setattr(instance , key , validated_data[key])
             except:

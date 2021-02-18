@@ -252,6 +252,9 @@ class Division(models.Model):
     hospPatientInBillCounter = models.PositiveIntegerField(default=1)
     hospPatientOutBillCounter = models.PositiveIntegerField(default=1)
     hospPatientCounter = models.PositiveIntegerField(default=1)
+    freeQuotaExcceded = models.BooleanField(default = False)
+    enterpriseSubscriptionReq =  models.BooleanField(default = False)
+    subscriptionExpiryDate =  models.DateField(null = True)
 
     # address
     # themeColor
@@ -396,8 +399,8 @@ class OnlinePaymentDetails(models.Model):
     is_success = models.BooleanField(default=False)
     source = models.CharField(max_length = 50, null = True , blank = True)
     chatUid = models.CharField(max_length = 50, null = True , blank = True)
-    successUrl =  models.CharField(max_length = 50, null = True , blank = True)
-    failureUrl =  models.CharField(max_length = 50, null = True , blank = True)
+    successUrl =  models.CharField(max_length = 200, null = True , blank = True)
+    failureUrl =  models.CharField(max_length = 200, null = True , blank = True)
     email = models.CharField(max_length = 50, null = True , blank = True)
     cust_name = models.CharField(max_length = 50, null = True , blank = True)
     brand = models.CharField(max_length = 50, null = True , blank = True)

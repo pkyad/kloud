@@ -33,6 +33,80 @@ app.filter('reverse', function() {
 app.controller('main', function($scope, $state, $users, $aside, $http, $timeout, $uibModal,  ngAudio, $rootScope , $interval) {
   console.log('main');
 
+  $scope.openPaymentModal = function(){
+  $scope.modalInstance  = $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.payment.plan.html',
+      size: 'lg',
+      backdrop: false,
+      controller: function($scope , $uibModalInstance){
+        $scope.subscribe = false
+        $scope.enterpriseSubscriptionReq =  false
+        $scope.updateSubscribe = function(){
+          $scope.subscribe =! $scope.subscribe
+        }
+        $scope.enterpriseSubscriptionReq = IS_ENTERPRISE_SUBSCRIPTION
+        $scope.form = {
+          name : '',
+          mobile:''
+        }
+        $scope.saving = false
+        $scope.save = function(){
+          $scope.saving = true
+          $http({
+            method: 'POST',
+            url: '/api/HR/updateUrl/',
+            data : {
+              name : $scope.form.name,
+              mobile : $scope.form.mobile
+            }
+          }).
+          then(function(response) {
+            $scope.enterpriseSubscriptionReq =  true
+            $scope.saving = false
+          })
+        }
+        $scope.studentSubscription = function(){
+          console.log(window.location.href,'ssssssssssssss');
+          $http({
+            method: 'POST',
+            url: '/api/ERP/createSubscription/',
+          }).
+          then(function(response) {
+
+            $http({
+                method: 'POST',
+                url: '/api/ERP/getPaymentLink/',
+                data : {
+                    'id' : 'sale_' +response.data.sale+'_'+response.data.division,
+                   'successUrl':window.location.href,
+                   'failureUrl':window.location.href,
+                   'source': 'subscription',
+                  },
+                }).
+                then(function(res) {
+                    window.location.href = res.data
+                  })
+          })
+
+        }
+
+      },
+    }).result.then(function() {
+
+    }, function() {
+
+    });
+  }
+  if (IS_FREE_QUOTA_EXCEED) {
+    $scope.openPaymentModal()
+  }
+
+  $scope.closeModal = function(){
+    angular.element('.modal-dialog').hide();
+  }
+
+
+
   $scope.openSuspensionNotice = function(){
     $uibModal.open({
       templateUrl: '/static/ngTemplates/app.disabledNotice.html',
@@ -1127,13 +1201,12 @@ app.controller('sideMenu', function($scope, $http, $aside, $state, Flash, $users
 
 
   $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams, options) {
-    // alert($scope.user.profile.pk)
     $http({
       method: 'POST',
       url: '/api/HR/updateUrl/',
       data: {
         state : $state.current.name,
-        url : $state.current.url,
+        url : window.location.href,
         params : $state.params,
         profile : $scope.user.profile.pk
       },
