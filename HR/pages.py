@@ -84,7 +84,18 @@ def page9(request):
     return render(request, 'app.HR.page9.html',context)
 def page11(request):
     context={}
-    return render(request, 'app.HR.page11.html',context)
+    components = Components.objects.filter(parent__isnull = True ).order_by('index')
+    data = ''
+    for indx, i in enumerate(components):
+
+        i.template = i.template.replace('$data' , 'components[%s].data'%(indx))
+        data += i.template
+        print data
+    # API_KEY = ''
+    # if page.enableChat:
+    #
+    #     API_KEY = hash_fn.hash(page.user.designation.division.pk)
+    return render(request, 'app.HR.ecommerce.html',{'data':data, 'components' : components})
 def page10(request):
     context={}
     return render(request, 'app.HR.videotutorials.html',context)
@@ -142,7 +153,7 @@ def renderpage(request,apiKey,url):
         i.template = i.template.replace('$data' , 'components[%s].data'%(indx))
 
         i.dataTemplate = i.template
-    
+
 
     API_KEY = apiKey
     return render(request, 'app.HR.page.html',{'components':components,'page':page,'API_KEY':API_KEY})

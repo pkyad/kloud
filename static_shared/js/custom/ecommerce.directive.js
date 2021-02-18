@@ -4,16 +4,20 @@ app.directive('ecommerceHeader', function() {
     restrict: 'E',
     replace: false,
     transclude: true,
-    controller: function($scope, $state, $stateParams, $users) {
+    controller: function($scope, $state, $stateParams, $users,$http) {
       $scope.me = $users.get('mySelf')
-      $scope.categories = {
-        "personal": "Personalized Gifts",
-        "wooden": "Wooden Key Chains",
-        "electronic": "Electronic Gifts",
-        "occassional": "Occasional Gifts"
 
+      $scope.getCategories = function(){
+        $http({
+          method: 'GET',
+          url: '/api/finance/category/'
 
+        }).
+        then(function(response) {
+        $scope.categories = response.data
+        })
       }
+      $scope.getCategories()
 
       document.getElementById("searchinnav").style.display = "none";
       document.getElementById("wishicons").style.display = "none";
@@ -25,11 +29,36 @@ app.directive('ecommerceHeader', function() {
           document.getElementById("logoinnav").style.height = 0;
         } else {
           document.getElementById("searchinnav").style.display = "block";
-          document.getElementById("wishicons").style.display = "inline";
+          document.getElementById("wishicons").style.display = "flex";
           document.getElementById("logoinnav").style.height = "50px";
         }
 
       });
+    },
+  };
+});
+app.directive('ecommerce', function() {
+  return {
+    templateUrl: '/static/ngTemplates/ecommerce.html',
+    restrict: 'E',
+    replace: false,
+    transclude: true,
+    controller: function($scope, $state, $stateParams, $users,$http) {
+      $scope.me = $users.get('mySelf')
+
+      $scope.getComponents = function(){
+        $http({
+          method: 'GET',
+          url: '/api/website/components/?parent=ecommerce' + page,
+        }).
+        then(function(response) {
+          $scope.components = response.data
+
+        })
+      }
+      $scope.getComponents()
+
+
     },
   };
 });
@@ -458,6 +487,8 @@ app.directive('ecommerceBestdeals', function() {
           }
         },
       };
+
+
       $scope.deals = [{
           "heading": "Best Deals to starts with",
           "items": [{

@@ -193,7 +193,7 @@ app.controller('settings', function($scope, $http, $aside, $state, Flash, $users
         }
         $scope.footerTemplateSearch = function() {
 
-          $http.get('/api/website/uielementemplate/?templateCategory=Footer').then(function(response) {
+          $http.get('/api/website/uielementemplate/?templateCategory__icontains=Footer').then(function(response) {
             $scope.footers = response.data
           })
 
@@ -201,7 +201,7 @@ app.controller('settings', function($scope, $http, $aside, $state, Flash, $users
 
         $scope.footerTemplateSearch()
         $scope.headerTemplateSearch = function() {
-          $http.get('/api/website/uielementemplate/?templateCategory=Header').then(function(response) {
+          $http.get('/api/website/uielementemplate/?templateCategory__icontains=Header').then(function(response) {
             $scope.headers = response.data
 
           })
@@ -244,7 +244,7 @@ app.controller('settings', function($scope, $http, $aside, $state, Flash, $users
         }
         $scope.footerTemplateSearch = function() {
 
-          $http.get('/api/website/uielementemplate/?templateCategory=Footer').then(function(response) {
+          $http.get('/api/website/uielementemplate/?templateCategory__icontains=Footer').then(function(response) {
             $scope.footers = response.data
           })
 
