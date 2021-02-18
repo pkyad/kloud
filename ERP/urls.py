@@ -22,7 +22,7 @@ router.register(r'usageBilling' , UsageBillingViewSet , base_name='usageBilling'
 router.register(r'calendarSlot' , CalendarSlotViewSet , base_name='calendarSlot')
 router.register(r'userapps' , UserAppViewSet , base_name='userapps')
 router.register(r'appversioning' , AppVersioningViewSet , base_name='appversioning')
-
+router.register(r'usageTracker' , UsageTrackerViewSet , base_name='usageTracker')
 
 
 

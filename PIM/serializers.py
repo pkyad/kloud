@@ -13,6 +13,7 @@ from notes.models import *
 import datetime
 import pytz
 import math
+from ERP.initializing import *
 
 class serviceLiteCompanySerializer(serializers.ModelSerializer):
     class Meta:
@@ -470,17 +471,25 @@ class NotebookFullSerializer(serializers.ModelSerializer):
         notesObj.user = user
         notesObj.division = user.designation.division
         notesObj.save()
+        try:
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Notes')
+        except:
+            pass
         return notesObj
 
     def update(self , instance, validated_data):
-            if 'shares' in self.context['request'].data:
-                instance.shares.clear()
-                for sharedWith in self.context['request'].data['shares']:
-                    instance.shares.add(User.objects.get(pk = sharedWith['pk']))
-            if 'source' in self.context['request'].data:
-                instance.source =  self.context['request'].data['source']
-                instance.save()
-            return instance
+        if 'shares' in self.context['request'].data:
+            instance.shares.clear()
+            for sharedWith in self.context['request'].data['shares']:
+                instance.shares.add(User.objects.get(pk = sharedWith['pk']))
+        if 'source' in self.context['request'].data:
+            instance.source =  self.context['request'].data['source']
+            instance.save()
+        try:
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Notes')
+        except:
+            pass
+        return instance
 
 
 

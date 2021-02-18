@@ -8,6 +8,7 @@ from finance.serializers import AccountSerializer
 from finance.models import Disbursal
 import datetime
 from django.db.models import Q, Sum
+from ERP.initializing import *
 
 class payrollSerializer(serializers.ModelSerializer):
     class Meta:
@@ -87,6 +88,10 @@ class payrollReportSerializer(serializers.ModelSerializer):
         pr = PayrollReport(**validated_data)
         pr.user = self.context['request'].user
         pr.save()
+        try:
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Payroll')
+        except:
+            pass
         return pr
 
 
@@ -108,6 +113,10 @@ class advancesSerializer(serializers.ModelSerializer):
             transObj = Disbursal.objects.create(sourcePk = adv.pk , amount = adv.amount , date = today , source = 'ADVANCED', division = self.context['request'].user.designation.division)
             transObj.narration = 'Advance ' + str(round(float(adv.amount))) +' Rs , ' + str(transObj.date.strftime("%B")) + '-' + str(transObj.date.year)
             transObj.save()
+        except:
+            pass
+        try:
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Advances')
         except:
             pass
         return adv

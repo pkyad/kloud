@@ -37,7 +37,7 @@ from clientRelationships.models import Contact
 from marketing.models import TourPlan , TourPlanStop, Contacts
 from django.db.models import F
 # Create your views here.
-
+from ERP.initializing import *
 
 class CheckinViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, )
@@ -70,7 +70,10 @@ class CheckinCreationAPI(APIView):
 
         for i in data['serialNo']:
             checkinObj = Checkin.objects.create(name = data['name'], serialNo = i,  warrantyTill = data['warrantyTill'], manufacturedOn = data['manufacturedOn'], poNumber = data['poNumber'], price = data['price'], user = request.user, unit = unitObj, division = division)
-
+        try:
+            CreateUsageTracker(request.user.designation.division.pk, 'Assets')
+        except:
+            pass
         return Response(status = status.HTTP_200_OK)
 
 

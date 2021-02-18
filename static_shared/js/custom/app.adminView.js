@@ -82,11 +82,42 @@ app.config(function($stateProvider) {
       controller: 'businessManagement.appsDetails',
    })
 
-
+   .state('usage', {
+      url: "/companies/:company",
+      templateUrl: '/static/ngTemplates/app.organization.usage.html',
+      controller: 'businessManagement.usage',
+   })
 
 
  });
 
+
+
+ app.controller('businessManagement.usage', function($scope, $state, $stateParams, $http, Flash, $uibModal) {
+   $scope.page = 0;
+   $scope.next = function() {
+     $scope.page += 1;
+     $scope.getAppDetails();
+   }
+   $scope.prev = function() {
+     if ($scope.page == 0) {
+       return;
+     }
+     $scope.page -= 1;
+     $scope.getAppDetails();
+   }
+   $scope.getAppDetails = function(){
+     $http({
+       method: 'GET',
+       url: '/api/ERP/usageTracker/?division=' + $state.params.company+'&limit=10&offset=' + 10 * $scope.page
+     }).
+     then(function(response) {
+       $scope.allData = response.data.results;
+     })
+   }
+
+   $scope.getAppDetails()
+ })
 
  app.controller('businessManagement.kloudERP', function($scope, $state, $stateParams, $http, Flash, $uibModal) {
 

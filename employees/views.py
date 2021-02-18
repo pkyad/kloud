@@ -49,6 +49,7 @@ from pdfrw.toreportlab import makerl
 height, width = A4
 from performance.serializers import TimeSheetSerializer
 import calendar
+from ERP.initializing import *
 
 @csrf_exempt
 def SystemLogView(request):
@@ -629,4 +630,8 @@ class FetchAttendanceAPIView(APIView):
                     date = dated.replace(day=i)
                     dates.append(date)
                 finalData = {'data' :data,'dates':dates, 'currentMonth' : currentMonth,'lastweek':lastweek , 'firstweek':firstweek}
+        try:
+            CreateUsageTracker(div.pk, 'Attendance')
+        except:
+            pass
         return Response(finalData,status=status.HTTP_200_OK)

@@ -99,3 +99,10 @@ def CreateContact(div, user):
     print quote1.contact.pk,'ssssssssss'
 
     return {'status':'created'}
+
+
+def CreateUsageTracker(divisiom, appDetails):
+    usageTrackObj, c = UsageTracker.objects.get_or_create(division = Division.objects.get(pk = int(divisiom)), detail = appDetails)
+    usageTrackObj.count+=1
+    usageTrackObj.save()
+    return usageTrackObj.count
