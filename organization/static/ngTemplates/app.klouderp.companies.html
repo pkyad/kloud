@@ -173,7 +173,7 @@
             </div>
           </div> -->
           <div class="input-group" >
-            <input type="text" class="form-control websiteInput" ng-model="searchForm.searchValue" placeholder="Search" ng-enter="getallCompanies()" style="border-top-right-radius:0px !important;border-bottom-right-radius:0px !important;margin-top:0px;height:54px;" >
+            <input type="text" class="form-control websiteInput" ng-model="searchForm.searchValue" placeholder="Search" ng-enter="getallCompanies()" style="border-top-right-radius:0px !important;border-bottom-right-radius:0px !important;margin-top:0px;height:54px;"  ng-change="getallCompanies()">
             <div class="input-group-btn">
               <button class="btn btn-default" type="submit" ng-click="getallCompanies()"  style="padding:6px 20px;height:54px;border:0px;border-top-right-radius: 25px !important;    border-bottom-right-radius: 25px !important;outline:none;background-color:#F2F3F7;">
                 <i class="glyphicon glyphicon-search"></i>
@@ -220,7 +220,7 @@
           <div class="col-md-1">{{data.installationsCount}}</div>
           <div class="col-md-2 text-right">
             Active <br>
-            <span class="text-success">Expires on 24th Dec 2020</span>
+            <span class="text-success" ng-if="data.subscriptionExpiryDate">Expires on {{data.subscriptionExpiryDate | date}}</span>
             <br>
             <button type="button" name="button" class="btn btn-block" ng-click="$state.go('usage',{'company': data.pk});$event.stopPropagation()">Usage</button>
           </div>

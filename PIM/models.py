@@ -243,17 +243,20 @@ import subprocess
 @receiver(post_save, sender=calendar, dispatch_uid="server_post_save")
 def createMeeting(sender, instance, **kwargs):
     if instance.zoomcode == None:
-        authKey =  base64.b64encode('NSibt8TRCC1jSvaXk1bfw:P6RQ5hC2JgYXNhjkFBjoqkaKBzxyTn3C')
-        zoomapiKey = globalSettings.ZOOM_API_TOKEN
-        # zoomapiKey =  'https://zoom.us/oauth/token?grant_type=refresh_token&refresh_token='+authKey
-        # res = requests.post(zoomapiKey,params=data,headers = {"Authorization" : 'Basic '+ authKey})
-        # print res,'aaaaaaaaaaaaa'
-        data = {'grant_type':'authorization_code','code':instance.user.profile.zoom_token,'redirect_uri':'https://6be19224e4bb.ngrok.io/zoomAuthRedirect/'}
-        res1 = requests.post(zoomapiKey,params=data,headers = {"Authorization" : 'Basic '+ authKey})
-        print res1.text
-        accesToken  = json.loads(res1.text)
-        instance.zoomcode = accesToken['access_token']
-        CreateMeeting(instance)
+        try:
+            authKey =  base64.b64encode('NSibt8TRCC1jSvaXk1bfw:P6RQ5hC2JgYXNhjkFBjoqkaKBzxyTn3C')
+            zoomapiKey = globalSettings.ZOOM_API_TOKEN
+            # zoomapiKey =  'https://zoom.us/oauth/token?grant_type=refresh_token&refresh_token='+authKey
+            # res = requests.post(zoomapiKey,params=data,headers = {"Authorization" : 'Basic '+ authKey})
+            # print res,'aaaaaaaaaaaaa'
+            data = {'grant_type':'authorization_code','code':instance.user.profile.zoom_token,'redirect_uri':'https://6be19224e4bb.ngrok.io/zoomAuthRedirect/'}
+            res1 = requests.post(zoomapiKey,params=data,headers = {"Authorization" : 'Basic '+ authKey})
+            print res1.text
+            accesToken  = json.loads(res1.text)
+            instance.zoomcode = accesToken['access_token']
+            CreateMeeting(instance)
+        except:
+            pass
 
 class ChatContext(models.Model):
     uid = models.CharField(max_length = 50, null = True)

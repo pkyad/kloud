@@ -46,7 +46,7 @@ class DivisionSerializer(serializers.ModelSerializer):
     users = serializers.SerializerMethodField()
     class Meta:
         model = Division
-        fields = ('pk' , 'name','website','logo','pan','cin','l1','l2', 'installations', 'installationsCount', 'simpleMode', 'upi', 'telephony', 'messaging','headerTemplate','headerData','footerData','footerTemplate','defaultOgWidth','defaultOgHeight','defaultDescription','defaultTitle','defaultOgImage' , 'locked' , 'counter','enableChatbot','footerCss','headerCss','users','freeQuotaExcceded')
+        fields = ('pk' , 'name','website','logo','pan','cin','l1','l2', 'installations', 'installationsCount', 'simpleMode', 'upi', 'telephony', 'messaging','headerTemplate','headerData','footerData','footerTemplate','defaultOgWidth','defaultOgHeight','defaultDescription','defaultTitle','defaultOgImage' , 'locked' , 'counter','enableChatbot','footerCss','headerCss','users','freeQuotaExcceded','subscriptionExpiryDate')
         read_only_fields=('contacts',)
     def get_installationsCount(self , obj):
         return obj.installations.all().count()
