@@ -41,6 +41,7 @@ PARENT_DIVSION = 2
 LOGIN_PAGE_IMAGE = '/static/images/loginPage.png'
 APIMANAGER_URL_PREFIX = 'https://api.epsilonai.com'
 APIMANAGER_URL_KEY = '123456'
+SUBSCRIPTION_AMOUNT = 1
 
 
 CRM_SEPERATE_TAX_DETAILS = True
@@ -118,7 +119,7 @@ DEFAULT_WHATSAPP_NUMBER = '15128510366'
 
 PAYMENT_MODE = 'razorpay' # options are EBS , paypal , paytm , PAYU , ccavenue,razorpay
 WEBRTC_ADDRESS = 'https://socket.syrow.com'
-WAMP_PREFIX = 'dasadsadsda.'
+WAMP_PREFIX = 'aasssssss.'
 RAZORPAY_KEY = 'rzp_live_UVCQtyXr9DpVJK'
 RAZORPAY_SECRET = 'aOaFKukng2tSEld41cEebBBM'
 

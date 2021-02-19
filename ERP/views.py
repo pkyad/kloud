@@ -51,6 +51,7 @@ from paypal.standard.forms import PayPalPaymentsForm
 from django.db.models import BooleanField
 from initializing import *
 import ast
+from simplecrypt import encrypt, decrypt
 
 def generateOTPCode(length = 4):
     chars = string.digits
@@ -2053,14 +2054,20 @@ class CreateSubscriptionAPIView(APIView):
         if allAccounts.count()>0:
             saleObj.account = allAccounts.first()
         saleObj.save()
-        obj = SalesQty.objects.create(outBound = saleObj, product = 'Student subscription of 6 months', price = 2000, qty = 6, total = 12000, division = div)
+        amount = int(globalSettings.SUBSCRIPTION_AMOUNT)
+        total = amount*6
+        obj = SalesQty.objects.create(outBound = saleObj, product = 'Student subscription of 6 months', price = amount, qty = 6, total = total, division = div)
         return Response({'sale' : saleObj.pk,'division': current_div.pk},status = status.HTTP_200_OK)
 
 
 class GetAppUsageCountAPIView(APIView):
     permission_classes = (permissions.AllowAny ,)
     def post(self, request , format = None):
-        if 'division' in request.data:
+        if 'divId' in request.data:
+            secretKey = base64.b64decode(request.data['divId'])
+            plaintext = decrypt('itsasecret', secretKey)
+            division = int(plaintext)
+        elif 'division' in request.data:
             division = request.data['division']
         else:
             division = request.user.designation.division.pk
@@ -2075,6 +2082,12 @@ class GetAppUsageCountAPIView(APIView):
         except:
             pass
         return Response({'count' : count, 'freeQuotaExcceded' : freeQuotaExcceded},status = status.HTTP_200_OK)
+    # def get(self, request , format = None):
+    #     secretKey = base64.b64decode('c2MAAikFoS/TBkiLWFj/B+yQQNdkQja3wxjdzY4mlOkL2WjTICkHQb1NOJ9lHEj9Cz/Si7LyaNrUgfniDpaRsR/eJMdy')
+    #     plaintext = decrypt('itsasecret', secretKey)
+    #     print plaintext,'dddddddddddddddddddddd'
+    #     pass
+
 
 def downloadLicense(request):
     filename = "License.key"
@@ -2092,7 +2105,9 @@ def downloadLicense(request):
     print res.text
     try:
         # content = res.json()['token']
-        content = json.dumps({'id' : res.json()['token'], 'divId' :  request.user.designation.division.pk})
+        secretId = encrypt('itsasecret', str(request.user.designation.division.pk))
+        encoded_cipher = base64.b64encode(secretId)
+        content = json.dumps({'id' : res.json()['token'], 'divId' :  encoded_cipher})
     except:
         filename = "error.html"
         content = res.text
