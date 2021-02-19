@@ -2,6 +2,7 @@ from ERP.models import *
 from finance.models import *
 from clientRelationships.models import *
 from ERP.models import *
+from website.models import *
 import os
 from django.conf import settings as globalSettings
 from time import time
@@ -106,3 +107,9 @@ def CreateUsageTracker(divisiom, appDetails):
     usageTrackObj.count+=1
     usageTrackObj.save()
     return usageTrackObj.count
+
+
+def CreatePage(user):
+    page = Page.objects.create(user = user)
+    page.save()
+    return page

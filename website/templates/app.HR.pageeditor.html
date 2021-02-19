@@ -14,11 +14,26 @@
   <link rel="stylesheet" href="{% static 'css/app.HR.css' %}" charset="utf-8">
   <link rel="stylesheet" href="{% static 'css/app.HR.ecommerce.css' %}" charset="utf-8">
 </head>
+
+{% block specific_css %}
 <style media="screen">
-  body {
-    overflow-x: hidden
-  }
+body {
+  overflow-x: hidden
+}
+{{footerCss}}
+ {{headerCss | safe}}
 </style>
+
+
+{% endblock %}
+
+{% block header %}
+
+  <div class="" >
+    {{ header | safe}}
+  </div>
+
+{% endblock %}
 
 <body ng-app="app" ng-controller="pages">
   <div class="row" style="padding:10px;background:red;color:white;position:fixed;bottom:20px;left:20px;z-index:10;border-radius:200px;box-shadow: 0px 0px 10px 0px #ccc;">
@@ -28,13 +43,14 @@
       </div>
       <div class="col-md-4">
         <!-- <button type="button" class="btn btn-primary" name="button" ng-click="publish()" style="border-radius:100px !important;">Publish</button> -->
+      
         <a href="/pages/{{API_KEY}}/{{page.url}}" target="_blank"type="button" class="btn btn-primary" name="button" style="border-radius:100px !important;">Preview</a>
       </div>
     </div>
   </div>
   {% verbatim %}
-  <div class="row" ng-if="components.length == 0">
-    <div class="col-md-2 col-md-offset-5 text-center" style="	background-color: #7640e3;	padding: 20px 15px;	color: white;	border-radius: 50px;
+  <div class="row" ng-if="components.length == 0" style="">
+    <div class="col-md-2 col-md-offset-5 text-center" style="	background-color: #7640e3;	padding: 20px 15px;	color: white;	border-radius: 50px;margin-top:50px;margin-bottom:20px;
     ">
       <span><i class="fa fa-plus" ng-click="addComponent(-1)"></i></span>
     </div>
@@ -147,6 +163,15 @@
 
   {% endblock %}
 
+
+  {% block footer %}
+
+    <div class="" style="height:600px;position:relative;bottom:0px;width:100%;background-color:#13191C">
+
+      {{ footer | safe}}
+    </div>
+
+  {% endblock %}
 
 </body>
 

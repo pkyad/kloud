@@ -1,0 +1,158 @@
+<div class="container-fluid" style="padding:0px;">
+<div class="row">
+<div class="col-md-2 hidden-xs " style="padding:20px;background:#fafafa;min-height: 160vh;">
+  <div class="row">
+    <div class="col-md-6">
+      <h4>Filters</h4>
+    </div>
+    <div class="col-md-6" style="padding-top:10px;">
+      <button type="button" name="button" ng-if="filters.showClear || filters.price > filters.minPrice || priceFil" ng-click="resetFiltes()"
+        style="cursor:pointer;padding:5px;background:#f92128;color:white;border-radius:20px;border:none;width:100%;"><i class="fa fa-times"></i> Clear</button>
+      <span </span>
+    </div>
+  </div>
+  <label>Minimum Price </label>
+  <input ng-change="refresh()" style="margin-top:15px;margin-bottom:15px;" class="slider" ng-model="filters.price" min="{{filters.minPrice}}" type="range" max="{{filters.maxPrice}}">
+  <span style="font-size:20px;"> <i class="fa fa-inr fa-2x"></i> {{filters.price | number }}</span>
+  <div class="row" ng-repeat="(f , values) in filters.filters" style="margin:0px;margin-top:40px;">
+    <label>{{f}}</label> <br>
+    <div class="container-fluid">
+      <span ng-repeat="v in values"> <input type="radio" ng-click="refresh()" name="{{f}}" ng-model="filters.varients[f]" value="{{v.id}}"> {{v.value}} <br> </span>
+    </div>
+  </div>
+  <div class="row" style="margin:0px;margin-top:40px;" ng-if="filters.priceFilters.length>0 && store_typ != 'MULTI-OUTLET'">
+    <label> Buy Options {{store_typ}}</label> <br>
+    <div class="container-fluid">
+      <span>
+        <input type="radio" ng-click="refresh('pricefilter')" name="bulkOption" ng-model="filters.bulkOption" value="retail"> Retail <br>
+        <input type="radio" ng-click="refresh('pricefilter')" name="bulkOption" ng-model="filters.bulkOption" value="bulk"> Bulk <br>
+        <input type="radio" ng-click="refresh('pricefilter')" name="bulkOption" ng-model="filters.bulkOption" value="retailandBulk">Retail & Bulk <br>
+      </span>
+    </div>
+  </div>
+  <div class="row" style="margin:0px;margin-top:40px;" ng-if="filters.priceFilters.length>0">
+    <label> Price </label> <br>
+    <div class="container-fluid">
+      <span ng-repeat="v in filters.priceFilters"> <input type="radio" ng-click="refresh('pricefilter')" name="{{v}}" ng-model="filters.pricefilters" value="{{v.priceFilter}}"> {{v.priceFilter}} <br> </span>
+    </div>
+  </div>
+</div>
+<div class="col-md-8" style="padding-top:20px;">
+  <div class="row hidden-xs">
+    <ol class="breadcrumb" style="background:white;margin-bottom:20px;">
+      <li><a href="#">Home</a></li>
+      <li class="active">{{category.name}}</li>
+    </ol>
+  </div>
+  <div class="row visible-xs" style="margin-top:50px">
+    <div>
+      <nav aria-label="breadcrumb" style="overflow-x:scroll">
+        <ol class="breadcrumb" style="background:#ffffff!important">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item">{{category.name}}</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+  <div class="row visible-xs" style="margin:0px;border:1px solid #ccc;">
+    <div class="col-xs-6" style="padding:5px;border-right:1px solid #ccc;height:35px;">
+      <!-- <select class="" name="" style="background-color:transparent;box-shadow:none !important;font-size:14px;width:100%;">
+        <option value="" style="font-size:14px;">Sort By Price</option>
+        <option value="" style="font-size:14px;cursor:pointer;padding-right: 25px;border-bottom:solid {{filters.sort == 'low2high'? '4px red' : '2px #eee' }};padding-bottom:10px;" ng-click="filters.sort = 'low2high'; refresh();">Price-Low to High
+        </option>
+        <option value="" style="font-size:14px;cursor:pointer;padding-right: 25px;padding-bottom:10px;border-bottom:solid {{filters.sort == 'high2low'? '4px red' : '2px #eee' }}" ng-click="filters.sort = 'high2low'; refresh();">Price-High to Low
+        </option>
+        <option value="" style="font-size:14px;cursor:pointer;padding-right: 25px;padding-bottom:10px;border-bottom:solid  {{filters.sort == 'new'? '4px red' : '2px #eee' }};" ng-click="filters.sort = 'new'; refresh();">Newest</option>
+      </select> -->
+      <span  >
+      <div class=""  ng-click="openFilterModal()" style="position:relative;height:50px;cursor:pointer">
+        <span style="display:block;margin:auto;margin-top:0px;">{{selectedSort.length==0?'Sort By Price':selectedSort}}</span>
+        <i class="fa fa-caret-down fa-lg" aria-hidden="true" style="float:right;margin-top:-20px;margin-right:5px;"></i>
+      </div>
+      </span>
+    </div>
+    <div class="col-xs-6 text-center" ng-click="filters.view = 'filter';filterCat()" style="padding:5px;text-align:left;font-size:14px;">
+      <span class="" style="cursor:pointer;" style="font-size:14px;width:100%;display:inline-block;">Filter <i class="fa fa-filter pull-right" style="padding-left:5px;padding-top:5px;"></i></span>
+    </div>
+  </div>
+  <div class="hidden-xs" style="margin:0px;margin-bottom:40px;">
+    <span class="text-center" style="padding-right: 25px;font-size:20px;font-weight:400px;"> Sort By</span>
+    <span class="text-center" style="cursor:pointer;padding-right: 25px;border-bottom:solid {{filters.sort == 'low2high'? '4px red' : '2px #eee' }};padding-bottom:10px;" ng-click="filters.sort = 'low2high'; refresh();"> Price - Low to High</span>
+    <span class="text-center" class="text-center" style="cursor:pointer;padding-right: 25px;padding-bottom:10px;border-bottom:solid {{filters.sort == 'high2low'? '4px red' : '2px #eee' }}" ng-click="filters.sort = 'high2low'; refresh();"> Price -
+      High to Low</span>
+    <span class="text-center" style="cursor:pointer;padding-right: 25px;padding-bottom:10px;border-bottom:solid  {{filters.sort == 'new'? '4px red' : '2px #eee' }};" ng-click="filters.sort = 'new'; refresh();"> Newest First</span>
+    <span class="pull-right" style="cursor:pointer;padding-bottom:10px;border-bottom:solid {{filters.view == 'list'? '4px green' : '2px #eee' }};" ng-click="filters.view = 'list'">List <i class="fa fa-list"></i></span>
+    <span class="pull-right" style="cursor:pointer;padding-right: 35px;border-bottom:solid {{filters.view == 'grid'? '4px green' : '2px #eee' }};padding-bottom:10px;" ng-click="filters.view = 'grid'">Grid <i class="fa fa-th"></i></span>
+  </div>
+  <div class="">
+    <div class="" ng-if="filters.view == 'filter' && newValue">
+      <div class="row" style="margin:0px;background:#fafafa;margin-top:20px;border: 1px solid #ccc;">
+        <div class="" style="padding:20px;">
+          <div class="row">
+            <div class="col-md-6 col-xs-6">
+              <h5>Filters</h5>
+            </div>
+            <div class="col-md-6 col-xs-6" style="padding-top:10px;">
+              <button type="button" name="button" ng-if="filters.showClear || filters.price > filters.minPrice || priceFil" ng-click="resetFiltes()"
+                style="cursor:pointer;padding:5px;background:#f92128;color:white;border-radius:20px;border:none;width:100%"><i class="fa fa-times"></i> Clear</button>
+              <span></span>
+            </div>
+          </div>
+          <label>Minimum Price</label>
+          <input ng-change="refresh()" style="margin-top:15px;margin-bottom:15px;" class="slider" ng-model="filters.price" min="{{filters.minPrice}}" type="range" max="{{filters.maxPrice}}">
+          <span ng-if=" filters.view =='filter'" style="font-size:20px;"> <i class="fa fa-inr fa-2x" style="font-size:15px;"></i> {{filters.price | number }}</span>
+          <div class="row" ng-repeat="(f , values) in filters.filters" style="margin:0px;margin-top:40px;">
+            <label>{{f}}</label> <br>
+            <div class="container-fluid">
+              <span ng-repeat="v in values"> <input type="radio" ng-click="refresh()" name="{{f}}" ng-model="filters.varients[f]" value="{{v.id}}"> {{v.value}} <br> </span>
+            </div>
+          </div>
+          <br>
+        </div>
+        <button type="button" ng-click="filterCat()" class=" btn-lg " name="button"
+          style="text-tansform:none !important;width:100%;background-color:var(--themeColor);color:white;font-size:16px;border:2px solid var(--themeColor);border-radius:0px;padding:12px">Close Filter options</button>
+      </div>
+    </div>
+    <div class="row" ng-show="filters.view == 'list' || filters.view == 'filter'" style="{{!$last ? 'border-bottom:2px solid lightgrey;': ''}};margin-top:20px;padding-top: 10px;padding-bottom: 10px;" ng-repeat="i in products">
+      <div class="col-md-3 col-xs-6 hidden-xs text-center">
+        <img ng-src="{{i.img1}}" width="70%">
+      </div>
+      <div class="visible-xs col-xs-5 text-left">
+        <img ng-src="{{i.img1}}" width="90%">
+      </div>
+      <div class="col-md-9 col-xs-12 product_price">
+        <div class="col-md-8 col-xs-12" style="padding:0px">
+          <a href="/details/{{i.pk}}/{{i.url}}">
+            <h5 style="cursor:pointer" >{{i.name}}</h5>
+
+          </a>
+
+
+          <div class=" hidden-xs" style="margin-top:20px;">
+            <p> {{i.richtxtDesc}} </p>
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-12  text-right " style="padding:0px;">
+          <span style=" font-size:24px;">₹{{i.rate}}</span><br>
+          <span style="text-decoration:line-through; Color:lightgrey; top:58px;">₹{{i.mrp}} </span>
+          <span style="color:green ;top:57px; left:92px;"> {{ (i.mrp-i.rate)/(i.mrp)*100 | number:0}}% off </span><br>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" ng-if="filters.view == 'grid'">
+    <div class="col-md-3 col-xs-6 no-padding mobilecss" ng-repeat="i in products track by $index" >
+      <product-cards list="i" add-cart="addToCart"></product-cards>
+    </div>
+  </div>
+</div>
+</div>
+<div class="text-center">
+<div class="cat_pagination">
+  <a ng-click="move_page('dec')" ng-if="current_page != 1">&laquo;</a>
+  <a onclick='window.scrollTo({top: 0, behavior: "smooth"});' class="{{current_page == $index+1?'active':''}}" ng-repeat="x in [].constructor(page_count) track by $index" ng-click="changepagination($index)"
+    style="cursor:pointer;">{{$index+1}}</a>
+  <a ng-click="move_page('inc')" ng-if="current_page != page_count">&raquo;</a>
+</div>
+</div>
+</div>

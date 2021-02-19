@@ -5,6 +5,7 @@ from rest_framework.exceptions import *
 from .models import *
 from django.conf import settings as globalSettings
 from rest_framework.response import Response
+from ERP.initializing import CreatePage
 import re
 from PIL import Image
 import os
@@ -87,7 +88,7 @@ class DivisionSerializer(serializers.ModelSerializer):
                 profile.mobile = data['userNumber']
             profile.save()
 
-
+            CreatePage(u)
         return d
     def update(self ,instance, validated_data):
         d = self.context['request'].data

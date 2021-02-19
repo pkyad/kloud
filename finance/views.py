@@ -379,7 +379,11 @@ class RateListViewSet(viewsets.ModelViewSet):
     filter_fields = ['sellable','category','name']
     def get_queryset(self):
         divsn = self.request.user.designation.division
-        return Inventory.objects.filter(division = divsn)
+        toReturn = Inventory.objects.filter(division = divsn)
+        if 'category' in self.request.GET:
+            toReturn = toReturn.filter(category__pk = self.request.GET['category'])
+            return toReturn
+        return toReturn
 
 class InventoryLogViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
