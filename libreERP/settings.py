@@ -116,8 +116,8 @@ DEFAULT_WHATSAPP_NUMBER = '15128510366'
 PAYMENT_MODE = 'razorpay' # options are EBS , paypal , paytm , PAYU , ccavenue,razorpay
 WEBRTC_ADDRESS = 'https://socket.syrow.com'
 WAMP_PREFIX = 'dasadsadsda.'
-RAZORPAY_KEY = 'rzp_test_MLSD38wNodNSi3'
-RAZORPAY_SECRET = 'FhlJRSAE48oGcoIxwbXG9kpb'
+RAZORPAY_KEY = 'rzp_live_UVCQtyXr9DpVJK'
+RAZORPAY_SECRET = 'aOaFKukng2tSEld41cEebBBM'
 
 MAP_API_KEY = 'AIzaSyBJO5IcouQ-yY2icc7TYaTNMcWc3B_-38Q'
 SNERT_PATH_1 = '/home/cioc-d3/stanford-ner-2018-10-16/classifiers/english.all.3class.distsim.crf.ser.gz'
@@ -313,8 +313,8 @@ PAYU_MODE = "TEST"
 
 EXTERNAL_SITE = 'http://ionasterisk.cioc.in:8000'
 
-RAZORPAY_KEY = 'rzp_test_3Ct6rWweINJ79F'
-RAZORPAY_SECRET = '1lRQEdS4EDjPKTYEdHoVqd6i'
+RAZORPAY_KEY = 'rzp_live_UVCQtyXr9DpVJK'
+RAZORPAY_SECRET = 'aOaFKukng2tSEld41cEebBBM'
 
 
 CORS_ALLOW_HEADERS = (

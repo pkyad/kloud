@@ -1862,7 +1862,7 @@ def razorpayPaymentResponse(request):
     if orderObj.source == 'subscription':
         divid = orderObj.payId.split('_')[-1]
         divObj = Division.objects.get(pk = int(divid))
-        subscriptionExpiryDate = datetime.date.today()
+        divObj.subscriptionExpiryDate = datetime.date.today()+relativedelta(months=+6)
         divObj.freeQuotaExcceded = False
         divObj.save()
     if orderObj.source == 'chatbot' and orderObj.chatUid is not None:

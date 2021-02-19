@@ -102,7 +102,8 @@ app.controller('main', function($scope, $state, $users, $aside, $http, $timeout,
   }
 
   $scope.closeModal = function(){
-    angular.element('.modal-dialog').hide();
+    console.log("ssssssssssssssssssssss");
+    angular.element('.modal').hide();
   }
 
 
