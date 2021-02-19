@@ -1,0 +1,207 @@
+{% load staticfiles %}
+
+{% block specific_css %}
+<meta charset="utf-8">
+<title></title>
+<link rel="stylesheet" href="/static/css/bootstrap.min.css" charset="utf-8">
+<link rel="stylesheet" href="/static/css/font-awesome.min.css" charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/owl.carousel.css" charset="utf-8">
+<link rel="stylesheet" href="/static/css/owl.theme.default.css" charset="utf-8">
+<link rel="stylesheet" href="{% static 'css/angular-ui-switch.min.css' %}" charset="utf-8">
+<link rel="stylesheet" href="{% static 'css/app.HR.css' %}" charset="utf-8">
+<link rel="stylesheet" href="{% static 'css/app.HR.ecommerce.css' %}" charset="utf-8">
+<style media="screen">
+  body {
+    background-color: #fafafa
+  }
+
+  .owl-theme .owl-nav.disabled+.owl-dots {
+    margin-top: -35px;
+    z-index: 9999999999999999999999999999999999999999999;
+    position: absolute;
+    left: 50%;
+  }
+
+  .owl-theme .owl-dots .owl-dot span {
+    width: 15px;
+    height: 15px;
+  }
+
+  .owl-theme .owl-dots .owl-dot.active span,
+  .owl-theme .owl-dots .owl-dot:hover span {
+    background-color: #0e8ce4;
+    width: 15px;
+    height: 15px;
+  }
+
+  .owl-theme .owl-nav {
+    position: absolute;
+    left: -50%;
+    top: 65px;
+  }
+
+  .owl-theme .owl-nav .owl-prev,
+  .owl-theme .owl-nav .owl-next {
+    color: #d9d9d9 !important;
+    width: 36px;
+    height: 36px;
+    background-color: #ffffff !important;
+    padding-right: 7px;
+    border-radius: 50%;
+    display: inline-block;
+    font-size: 24px !important;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, .1);
+    border: 0;
+    cursor: pointer;
+    text-align: center;
+    transition: all 200ms ease;
+    margin-right: 15px;
+  }
+</style>
+{% endblock %}
+{% block header %}
+{% verbatim %}
+<ecommerce-header> </ecommerce-header>
+
+{% endverbatim %}
+{% endblock %}
+
+
+{% block content %}
+
+
+<div >
+  <body ng-app="app" ng-controller="pages">
+    <!-- <div class="row" style="padding:10px;background:red;color:white;position:fixed;bottom:20px;left:20px;z-index:10;border-radius:200px;box-shadow: 0px 0px 10px 0px #ccc;">
+      <div class="container-fluid">
+        <div class="col-md-8">
+          {{page.title}} <br> <span class="fa fa-pencil " ng-click="createPage()">Edit Page Details</span>
+        </div>
+        <div class="col-md-4">
+          <button type="button" class="btn btn-primary" name="button" ng-click="publish()" style="border-radius:100px !important;">Publish</button>
+          <a href="/pages/{{API_KEY}}/{{page.url}}" target="_blank"type="button" class="btn btn-primary" name="button" style="border-radius:100px !important;">Preview</a>
+        </div>
+      </div>
+    </div> -->
+    {% verbatim %}
+    <div class="row" >
+      <div class="col-md-2 col-md-offset-5 text-center" style="	background-color: #7640e3;	padding: 20px 15px;	color: white;	border-radius: 50px;
+      ">
+        <span><i class="fa fa-plus" ng-click="addComponent(-1)"></i></span>
+      </div>
+    </div>
+    {% endverbatim %}
+
+
+
+    {% for component in components %}
+
+    <div class="row" style="margin-bottom:50px;padding-bottom:50px;">
+      <div class="row pull-right" style="color:black;padding-right: 50px;font-size: 20px;">
+      </div>
+      <style media="screen">
+        {{component.css | safe}}
+      </style>
+
+      <div ng-init='data = {{component.data | safe}}' style="position:relative;">
+        <div class="" style="position:absolute;width:100%;height:80%;z-index:10;" ng-click="EditComponent({{ forloop.counter0 }})">
+
+        </div>
+        {{component.template | safe}}
+      </div>
+
+      <div class="row text-center" style="color:black;font-size: 20px;margin-bottom:50px;margin-top:50px;">
+        <div class="col-md-2 col-md-offset-5" style="	background-color: #7640e3;	padding: 20px 15px;	color: white;	border-radius: 50px;">
+          {% if not forloop.first %}
+
+            <span style="padding-right:20px;"><i class="fa fa-arrow-up" aria-hidden="true" ng-click="moveUp({{ forloop.counter0 }})"></i></span>
+
+          {% endif %}
+          {% if not forloop.last %}
+              <span style="padding-right:20px;"><i class="fa fa-arrow-down" aria-hidden="true" ng-click="moveDown({{ forloop.counter }})"></i></span>
+          {% endif %}
+          <span style="padding-right:20px;"><i class="fa fa-trash" ng-click="deleteComponent({{ forloop.counter0 }})"></i></span>
+          <span><i class="fa fa-plus" ng-click="addComponent({{forloop.counter0}})"></i></span>
+
+        </div>
+      </div>
+
+    </div>
+    {% endfor %}
+
+
+
+
+
+
+    <script src="/static/js/jquery-2.1.4.min.js"></script>
+    <script src="/static/js/jquery.cookie-1.4.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/angular.min.js"></script>
+    <script src="/static/js/angular-flash.js"></script>
+    <script src="/static/js/angular-ui-router.min.js"></script>
+    <script src="/static/js/ui-bootstrap-tpls-0.14.3.min.js"></script>
+    <script src="/static/js/angular-sanitize.min.js"></script>
+    <script src="/static/js/ngDraggable.js"></script>
+
+    <script type="text/javascript">
+      var page = '{{page.pk}}'
+    </script>
+    <script src="/static/js/app.pageEditor.js"></script>
+
+
+
+    {% block specific_js %}
+    <script type="text/javascript" src="/static/js/owl.carousel.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+
+        $("#owl-demo").owlCarousel({
+
+          autoPlay: 3000, //Set AutoPlay to 3 seconds
+          loop: true,
+          // items: 4,
+
+          dots: false,
+          mousedrag: true,
+          slideTransition: 'linear',
+          responsiveClass: true,
+          nav: true,
+          responsive: {
+            0: {
+              items: 1,
+            },
+            479: {
+              items: 3,
+            },
+            600: {
+              items: 2,
+            },
+            1000: {
+              items: 4,
+            }
+          }
+
+        });
+
+      });
+    </script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/angular-owl-carousel-2.js' %}"></script>
+    <script src="{% static 'js/custom/directives.js' %}"></script>
+    <script src="{% static 'js/custom/directives.native.js' %}"></script>
+    <script src="{% static 'js/custom/nativeJS.js' %}"></script>
+    <script src="{% static 'js/custom/services.js' %}"></script>
+    <script src="{% static 'js/custom/ecommerce.directive.js' %}"></script>
+    <script src="{% static 'js/angular-ui-switch.min.js' %}"></script>
+
+
+    {% endblock %}
+
+
+  </body>
+</div>
+
+
+{% endblock %}

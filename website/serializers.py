@@ -42,8 +42,10 @@ class ComponentsSerializer(serializers.ModelSerializer):
     def create(self , validated_data):
         compObj = Components(**validated_data)
         data = self.context['request'].data
+        print data,"432434"
         if 'parent' in data:
-            compObj.parent = Page.objects.get(pk = data['parent'])
+            if data['parent'] != '':
+                compObj.parent = Page.objects.get(pk = data['parent'])
         if 'uielement' in data:
             uielement =  UIelementTemplate.objects.get(pk = data['uielement'])
             compObj.component_type = uielement.name

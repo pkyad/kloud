@@ -117,15 +117,15 @@
         </div>
 
         <div class="row">
-          <form-view data="value.array" component="component"  ></form-view>
+          <form-view data="value.array"  ></form-view>
         </div>
 
       <div class=""  ng-repeat="(key1,value1) in value.form track by $index">
 
-        <div class="input-group" ng-if="value1.type =='array'" >
+        <div class="input-group" ng-if="value1.type =='string'" >
           <input type="text" class="form-control" ng-model="value1.string" uib-typeahead="k as k.name for k in  productSearch($viewValue)">
           <div class="input-group-btn">
-            <button class="btn btn-primary" type="submit" ng-click="editArrayObj(value, -1, key)""> add
+            <button class="btn btn-primary" type="submit" ng-click="editArrayObj(value, -1, key)"> add
               <i class=" fa fa-plus"></i>
             </div>
           </div>

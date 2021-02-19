@@ -12,19 +12,19 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='division',
-            name='subscriptionExpiryDate',
-            field=models.DateField(null=True),
-        ),
-        migrations.AlterField(
-            model_name='onlinepaymentdetails',
-            name='failureUrl',
-            field=models.CharField(blank=True, max_length=200, null=True),
-        ),
-        migrations.AlterField(
-            model_name='onlinepaymentdetails',
-            name='successUrl',
-            field=models.CharField(blank=True, max_length=200, null=True),
-        ),
+        # migrations.AddField(
+        #     model_name='division',
+        #     name='subscriptionExpiryDate',
+        #     field=models.DateField(null=True),
+        # ),
+        # migrations.AlterField(
+        #     model_name='onlinepaymentdetails',
+        #     name='failureUrl',
+        #     field=models.CharField(blank=True, max_length=200, null=True),
+        # ),
+        # migrations.AlterField(
+        #     model_name='onlinepaymentdetails',
+        #     name='successUrl',
+        #     field=models.CharField(blank=True, max_length=200, null=True),
+        # ),
     ]

@@ -50,14 +50,21 @@ $scope.addCategory = function(indx){
   });
 }
 
-$scope.getCategory = function(){
+$scope.limit =24
+$scope.offset = 0
 
+$scope.getCategory = function(){
+  // var url="/api/finance/category/"
   $http({
     method: 'GET',
-    url: '/api/finance/category/',
+    // url: 'https://bnistore.in/api/ecommerce/genericProduct/?limit='+$scope.limit+'&offset='+$scope.offset
+    url: '/api/finance/category/'
+
   }).
   then(function(response) {
+    // $scope.allCategories = response.data.results
     $scope.allCategories = response.data
+    console.log($scope.allCategories,"342112312");
   })
 }
 

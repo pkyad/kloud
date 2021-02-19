@@ -62,23 +62,29 @@
             <div id="logoinnav" class="col-md-2" style="padding-right: 0px; background-image: url('/static/images/xicon.png'); background-position: right center; background-size: contain; background-repeat: no-repeat; height: 0px;">
 
             </div>
-            <div class="col-md-2 dropdown1" style="padding:15px 25px;background:var(--themeColor);cursor:pointer;" ng-mouseenter="onEnter = true" ng-mouseleave="onEnter = false">
+            <div class="col-md-2 dropdown1" style="padding:15px 25px;background:var(--themeColor);cursor:pointer;"
+            ng-click="onEnter=true" ng-mouseleave="onEnter=false"   >
               <div class="row">
                 <div class="col-md-12">
                   <div style="color:#fff;padding-left:10px;">
-                    <div class="dropbtn" style="font-size:16px ;"><i class="fa fa-bars" style="font-size:20px;margin-right:15px;"></i><span style="margin-left:10px;">CATEGORIES </span> </div>
+                    <div class="dropdown dropbtn" style="font-size:16px ;"><i class="fa fa-bars" style="font-size:20px;margin-right:15px;"></i><span style="margin-left:10px;">CATEGORIES </span> </div>
                   </div>
                 </div>
               </div>
 
 
-
-
+              <!-- <div class="dropdown">
+                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+                    <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                      <li ng-repeat="k in categories" ng-click="onEnter=false"><a href="#">{{k.name}}</a></li>
+                    </ul>
+                  </div> -->
             </div>
             <div class="dropdown-content" ng-if="onEnter">
               <div class="col-md-2" style="background-color:#ffffff;top: 100%;padding: 5px 20px;left: 16.65%;position: absolute;z-index: 9999;">
                 <ul class="list-unstyled" style="height:560px;overflow-y:auto">
-                  <li ng-repeat="(key,value) in categories"><a href="#">{{value}}</a></li>
+                  <li ng-repeat="k in categories" ng-click="onEnter=false"><a href="#">{{k.name}}</a></li>
                 </ul>
               </div>
             </div>
