@@ -592,10 +592,10 @@ class SaleLiteSerializer(serializers.ModelSerializer):
         return tot
 
 class CategorySerializer(serializers.ModelSerializer):
-    products = serializers.SerializerMethodField()
+    # products = serializers.SerializerMethodField()
     class Meta:
         model = Category
-        fields=('pk','created','name','theme_color','products')
+        fields=('pk','created','name','theme_color')
     def create(self , validated_data):
         cat = Category(**validated_data)
         try:
@@ -608,13 +608,14 @@ class CategorySerializer(serializers.ModelSerializer):
         except:
             pass
         return cat
-    def get_products(self,obj):
-        return RateListSerializer(obj.categoryInventory.all(),many=True).data
+    # def get_products(self,obj):
+    #     return RateListSerializer(obj.categoryInventory.all(),many=True).data
 
 class RateListSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(many=False,read_only=True)
     class Meta:
         model = Inventory
-        fields=('pk','created','name','value','rate','qtyAdded','refurnished','refurnishedAdded','sellable','description','richtxtDesc','taxCode','img1','img2','img3','category','buyingPrice','sku','taxRate','mrp')
+        fields=('pk','created','name','value','rate','qtyAdded','refurnished','refurnishedAdded','sellable','description','richtxtDesc','taxCode','img1','img2','img3','category','buyingPrice','sku','taxRate','mrp','division')
     def create(self , validated_data):
         inven = Inventory(**validated_data)
         try:

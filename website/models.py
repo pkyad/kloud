@@ -18,7 +18,7 @@ def getSampleImagePath(instance , filename):
 
 class Page(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-    url = models.CharField(max_length=250,null=False)
+    url = models.CharField(max_length=250,null=True)
     title = models.CharField(max_length=250,null=True , default = 'No Title')
     description = models.TextField(max_length=1000,null=True)
     ogImage = models.FileField(upload_to = getSampleImagePath ,  null = True)

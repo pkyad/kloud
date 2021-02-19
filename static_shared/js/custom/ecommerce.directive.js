@@ -15,6 +15,30 @@ app.directive('ecommerceHeader', function() {
         }).
         then(function(response) {
         $scope.categories = response.data
+        for (var i = 0; i < $scope.categories.length; i++) {
+          var space = /[ ]/;
+          var special = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+          var nonascii = /[^\x20-\x7E]/;
+          var url = $scope.categories[i].name;
+          if (space.test(url)) {
+            url = url.replace(/\s+/g, '-').toLowerCase();
+            if (special.test(url)) {
+              url = url.replace(/[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?]+/g, '');
+              if (nonascii.test(url)) {
+                url = url.replace(/[^\x20-\x7E]/g, '');
+              }
+            }
+          } else {
+            url = url.replace(/[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?]+/g, '-').toLowerCase();;
+          }
+          url = url.replace(/-/g, ' ');
+          url = url.trim();
+          console.log(url.replace(/-/g, ' '));
+          console.log(url.replace(/-/g, ' ').trim());
+          console.log(url.replace(/-/g, ' ').trim().replace(' ', '-'));
+          $scope.categories[i].url = url.replace(/-/g, ' ').trim().replace(/\s/g, '-');
+
+        }
         })
       }
       $scope.getCategories()
@@ -37,26 +61,64 @@ app.directive('ecommerceHeader', function() {
     },
   };
 });
-app.directive('ecommerce', function() {
+app.directive('categories', function() {
   return {
-    templateUrl: '/static/ngTemplates/ecommerce.html',
+    templateUrl: '/static/ngTemplates/categories.html',
     restrict: 'E',
     replace: false,
     transclude: true,
     controller: function($scope, $state, $stateParams, $users,$http) {
+      console.log(ID,'2334324');
       $scope.me = $users.get('mySelf')
 
-      $scope.getComponents = function(){
+      $scope.is_quickadd = false;
+  $scope.filters = {
+    varients: {},
+    price: 0,
+    sort: 'low2high',
+    page: 0,
+    filters: [],
+    view: 'list',
+    showClear: false,
+    pricefilters: '',
+    bulkOption: '',
+    minPrice: 0,
+    maxPrice: 0
+  }
+
+      $scope.getProducts = function(){
         $http({
           method: 'GET',
-          url: '/api/website/components/?parent=ecommerce' + page,
+          url: '/api/finance/inventory/?category='+ID,
         }).
         then(function(response) {
-          $scope.components = response.data
+          $scope.products = response.data
+          for (var i = 0; i < $scope.products.length; i++) {
+            var space = /[ ]/;
+            var special = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+            var nonascii = /[^\x20-\x7E]/;
+            var url = $scope.products[i].name;
+            if (space.test(url)) {
+              url = url.replace(/\s+/g, '-').toLowerCase();
+              if (special.test(url)) {
+                url = url.replace(/[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?]+/g, '');
+                if (nonascii.test(url)) {
+                  url = url.replace(/[^\x20-\x7E]/g, '');
+                }
+              }
+            } else {
+              url = url.replace(/[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?]+/g, '-').toLowerCase();;
+            }
+            url = url.replace(/-/g, ' ');
+            url = url.trim();
+
+            $scope.products[i].url = url.replace(/-/g, ' ').trim().replace(/\s/g, '-');
+
+          }
 
         })
       }
-      $scope.getComponents()
+      $scope.getProducts()
 
 
     },
@@ -377,8 +439,41 @@ app.directive('productCards', function() {
 
 
       $scope.getDetails = function() {
-        // $state.go('productdetails',{ 'id': $scope.item.pk} )
-        window.open('/productDetails/' + $scope.item.pk, '_blank')
+
+        var space = /[ ]/;
+        var special = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+        var nonascii = /[^\x20-\x7E]/;
+        if ($scope.item.pk != undefined) {
+            var url = $scope.item.name;
+
+        }else {
+          var url = $scope.item.description.string.name;
+
+        }
+        if (space.test(url)) {
+          url = url.replace(/\s+/g, '-').toLowerCase();
+          if (special.test(url)) {
+            url = url.replace(/[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?]+/g, '');
+            if (nonascii.test(url)) {
+              url = url.replace(/[^\x20-\x7E]/g, '');
+            }
+          }
+        } else {
+          url = url.replace(/[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?]+/g, '-').toLowerCase();;
+        }
+        url = url.replace(/-/g, ' ');
+        url = url.trim();
+
+        if ($scope.item.pk != undefined) {
+          $scope.item.url = url.replace(/-/g, ' ').trim().replace(/\s/g, '-');
+          window.open('/details/' + $scope.item.pk+'/'+$scope.item.url, '_self')
+
+        }else {
+          $scope.item.description.string.url = url.replace(/-/g, ' ').trim().replace(/\s/g, '-');
+          window.open('/details/' + $scope.item.description.string.pk+'/'+$scope.item.description.string.url, '_self')
+
+        }
+
       }
 
 
@@ -942,28 +1037,54 @@ app.directive('productDetails', function() {
     transclude: true,
     replace: true,
     controller: function($scope, $state, $http, Flash, $rootScope, $users, $filter, $interval) {
-      $scope.products = {
-        "images": [{
-            "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      $scope.list = $scope.data
+      console.log(PRODUCT,'#$38ijsdksdhf');
+      $http({
+        method: 'GET',
+        url: '/api/finance/inventory/'+PRODUCT+'/'
 
-          },
-          {
+      }).
+      then(function(response) {
+      $scope.products = response.data
+      $scope.getsimilarProducts($scope.products.category.pk)
+        $scope.showImage($scope.products.img1)
+      })
 
-            "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-          },
-          {
-            "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      $scope.getsimilarProducts = function(pk){
+        $http({
+          method: 'GET',
+          url: '/api/finance/inventory/?category='+pk
 
-          }
-
-        ],
-        "category": "Desk Organizer",
-        "name": "SIT01 Bamboo Speaker",
-        "mrp": 450,
-        "sellingPrice": 200,
-        "endDateTime": new Date()
-
+        }).
+        then(function(response) {
+        $scope.similarproducts = response.data
+        })
       }
+
+
+
+      // $scope.products = {
+      //   "images": [{
+      //       "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //
+      //     },
+      //     {
+      //
+      //       "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //     },
+      //     {
+      //       "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //
+      //     }
+      //
+      //   ],
+      //   "category": "Desk Organizer",
+      //   "name": "SIT01 Bamboo Speaker",
+      //   "mrp": 450,
+      //   "sellingPrice": 200,
+      //   "endDateTime": new Date()
+      //
+      // }
       $scope.similarproducts = [
 
         {
@@ -1006,11 +1127,11 @@ app.directive('productDetails', function() {
     ]
 
       $scope.showImage = function(indx){
-        $scope.index = indx
-        $scope.image = $scope.products.images[indx]
+
+        $scope.image = indx
 
       }
-      $scope.showImage(0)
+
 
 
 

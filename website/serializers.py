@@ -18,10 +18,13 @@ class PageSerializer(serializers.ModelSerializer):
     def create(self , validated_data):
         pageObj = Page(**validated_data)
         user = User.objects.get(pk = self.context['request'].user.pk)
-        print user.pk,'9032094309'
+        for k in ['blogs','categories','forum','details','accounts','enableChat','academy']:
+            if pageObj.url == k:
+                raise ValidationError(detail={'status' : 'Page url already existed'})
+
         pageObj.user = user
         pageObj.save()
-        print pageObj,'4334234'
+
         return pageObj
     def update(self, instance , validated_data):
         for key in ['title','description','url','ogImage','user','enableChat']:
@@ -31,6 +34,9 @@ class PageSerializer(serializers.ModelSerializer):
                 print "Error while saving " , key
                 pass
         instance.user =  User.objects.get(pk = self.context['request'].user.pk)
+        for k in ['blogs','categories','forum','details','accounts','enableChat','academy']:
+            if instance.url == k:
+                raise ValidationError(detail={'status' : 'Page url already existed'})
 
         instance.save()
         return instance

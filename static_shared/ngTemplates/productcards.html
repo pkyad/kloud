@@ -33,4 +33,37 @@
         </div>
       </div>
     </div>
+    <div class=""  ng-if="item.pk">
+      <div class="" style="height:auto">
+        <div class="text-center mediaformobilenext_specificpage" style="left:10%;">
+          <div class="simple_listcss_rare" style="height:160px;">
+            <div class="" style="height:170px;width:130px;margin:auto;margin-top:10%;background:url({{item.img1}}) center center no-repeat;background-size: contain;">
+
+            </div>
+          </div>
+          <div class="col-md-12" style="margin-top:10px;padding:0% 15%;">
+            <span  style="font-weight:500;font-size:16px;color:black;padding-right:10px;" class=" "><i class="fa fa-inr"></i>{{item.rate}}</span>
+            <strike>
+              <span style="font-size:12px;" class=" "> <i class="fa fa-inr"></i>{{item.mrp}}</span>
+            </strike>
+            <p style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;font-weight:400;color:black;" ng-if="!list.displayName" class=" ">{{item.name}}</p>
+
+          </div>
+
+        </div>
+        <div class="overon text-center " ng-class="{'quickheight_Web': is_quickadd , 'height_Web': !is_quickadd} ">
+          <div class="specificcssmainmobile " ng-class="{'quickmargin_Web': is_quickadd , 'margin_Web': !is_quickadd} ">
+            <div class="col-md-12">
+              <div class="col-md-6 col-xs-6" style="padding-left:10px;">
+                <span class="text-center pricetag  " style="width: 37px;height: 37px;background: var(--themeColor);border-radius: 50%;display: inline-block;padding-top:9px;font-size:10px;font-weight:600;">-40%</span>
+
+              </div>
+
+            </div>
+          </div>
+          <button class="btn " type="button" name="button" style="bottom: 0px; background-color:var(--themeColor);border: none;color:white;width: 100%;height:50px;border-radius:0px 0px 5px 5px!important;" ng-click="getDetails()"> Add to cart</button>
+
+        </div>
+      </div>
+    </div>
   </div>

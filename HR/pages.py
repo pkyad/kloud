@@ -13,6 +13,7 @@ from ERP.models import *
 from LMS.models import *
 from website.models import *
 from recruitment.models import *
+from finance.models import *
 from blogging.models import *
 from django.db.models import Q
 from django.contrib.auth import authenticate , login , logout
@@ -120,7 +121,18 @@ def refundpolicy(request):
     return render(request, 'app.HR.refundpolicy.html',context)
 
 def pageeditor(request,id):
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
     page = Page.objects.get(pk = id)
+    if request.user.designation.division.headerTemplate:
+        header  = request.user.designation.division.headerTemplate
+        headerCss  = request.user.designation.division.headerCss
+    if request.user.designation.division.headerTemplate:
+        footer  = request.user.designation.division.footerTemplate
+        footerCss  = request.user.designation.division.footerCss
+
     components = Components.objects.filter(parent = page).order_by('index')
     data = ''
     for indx, i in enumerate(components):
@@ -128,12 +140,10 @@ def pageeditor(request,id):
         i.template = i.template.replace('$data' , 'components[%s].data'%(indx))
         data += i.template
         print data
-    API_KEY = ''
-    if page.enableChat:
 
-        API_KEY = hash_fn.hash(page.user.designation.division.pk)
+    API_KEY = hash_fn.hash(page.user.designation.division.pk)
 
-    return render(request, 'app.HR.pageeditor.html',{'page':page,'data':data, 'components' : components,'API_KEY':API_KEY})
+    return render(request, 'app.HR.pageeditor.html',{'page':page,'data':data, 'components' : components,'API_KEY':API_KEY,'header':header,'headerCss':headerCss,'footer':footer,'footerCss':footerCss})
 
 # def renderpage(request,url):
 #     filePath = os.path.join(globalSettings.BASE_DIR , 'media_root' , 'publishedPages' , ('%s_%s.html'% (1, url)))
@@ -145,8 +155,24 @@ def pageeditor(request,id):
 
 
 def renderpage(request,apiKey,url):
-    print apiKey,"34342"
-    page = Page.objects.get(url = url, user__designation__division = request.user.designation.division )
+    print url,apiKey,"34342"
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    if request.user.designation.division.headerTemplate:
+        header  = request.user.designation.division.headerTemplate
+        headerCss  = request.user.designation.division.headerCss
+    if request.user.designation.division.headerTemplate:
+        footer  = request.user.designation.division.footerTemplate
+        footerCss  = request.user.designation.division.footerCss
+
+
+
+    if url == None:
+        page = Page.objects.get(url__isnull=True , user__designation__division = request.user.designation.division )
+    else:
+        page = Page.objects.get(url = url, user__designation__division = request.user.designation.division )
     components = Components.objects.filter(parent = page)
     data = ''
     for indx, i in enumerate(components):
@@ -155,8 +181,11 @@ def renderpage(request,apiKey,url):
         i.dataTemplate = i.template
 
 
-    API_KEY = apiKey
-    return render(request, 'app.HR.page.html',{'components':components,'page':page,'API_KEY':API_KEY})
+    # if page.enableChat:
+
+    API_KEY = hash_fn.hash(page.user.designation.division.pk)
+
+    return render(request,'app.HR.page.html',{'components':components,'page':page,'API_KEY':API_KEY,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
 
 
 def uielement(request):
@@ -210,9 +239,14 @@ def appdetails(request):
     return render(request, 'app.HR.appdetails.html')
 
 
-def ProductDetails(request):
+def ProductDetails(request,id):
+    product = Inventory.objects.get(pk = id)
     context={}
-    return render(request, 'app.finance.inventory.productDetails.html',context)
+    return render(request, 'app.finance.inventory.productDetails.html',{'product':product})
+
+def Categories(request,id):
+
+    return render(request, 'app.ecommerce.categories.html',{'id':id})
 
 
 import json
