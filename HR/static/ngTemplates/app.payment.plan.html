@@ -3,17 +3,17 @@
     background:#ababab!important
   }
 </style>
-<div class="modal-body" id="paymentmodal">
+<div class="modal-body" id="paymentmodal" style="background:#000000;color:#ffffff">
   <div class="row">
     <div class="col-md-12">
       <div class="row" style="min-height:25vh;margin-top:60px" ng-if="!subscribe&&!enterpriseSubscriptionReq">
         <div class="col-md-6">
           <div class="row">
             <div class="col-md-12 text-center">
-              <img src="/static/images/studentSubscription.png" alt="" style="height:60px">
+              <img src="/static/images/icons8-student-center-64.png" alt="" style="height:60px">
               <h3> Student Plan</h3>
               <button type="button" name="button" class="btn btn-default" style="border-radius:25px!important;width:150px;background:#032757;color:#ffffff;height:50px" ng-click="studentSubscription()">Subscribe</button>
-              <!-- <p style="margin-top:15px"> Subscribe for 6 months with 2000 per month </p> -->
+              <p style="margin-top:15px"> Subscribe for 6 months by just paying  <i class="fa fa-inr"></i>12000 only</p>
             </div>
           </div>
         </div>
@@ -23,7 +23,7 @@
               <img src="/static/images/enterpriseSubscription.png" alt="" style="height:60px">
               <h3> Enterprise Plan</h3>
                 <button type="button" name="button" ng-click="updateSubscribe()" class="btn btn-default" style="border-radius:25px!important;width:150px;background:#032757;color:#ffffff;height:50px" >Subscribe</button>
-                  <!-- <p style="margin-top:15px"> Fill out the details and some one from our team will get back to you </p> -->
+                  <p style="margin-top:15px"> Subscribe and some one from our team will get back to you with futher detils. </p>
             </div>
           </div>
         </div>

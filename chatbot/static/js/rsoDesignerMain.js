@@ -1764,7 +1764,9 @@ app.controller('main', function($scope, $http, $timeout, $aside , $uibModal, Fla
 
     })
 
-
+    $http({method : 'POST' , url : '/api/ERP/getAppUsageCount/', data :{'type':'Test Your Bot'}}).
+    then(function(response) {
+    })
 
   }
 

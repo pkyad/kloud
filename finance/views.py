@@ -4175,7 +4175,7 @@ class OuttbondInvoiceAPIView(APIView):
                 so.paidAmount  = billed
                 so.save()
         try:
-            CreateUsageTracker(request.user.designation.division.pk, 'Sales')
+            CreateUsageTracker(request.user.designation.division.pk, 'Created new sale')
         except:
             pass
         return Response(data,status = status.HTTP_200_OK)

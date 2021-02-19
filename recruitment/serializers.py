@@ -27,7 +27,7 @@ class JobsSerializer(serializers.ModelSerializer):
         # for i in self.context['request'].data['contacts']:
         #     inv.contacts.add(User.objects.get(pk = i))
         try:
-            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Hiring')
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Created new job')
         except:
             pass
         return inv
@@ -46,10 +46,6 @@ class JobsSerializer(serializers.ModelSerializer):
         #     for i in self.context['request'].data['contacts']:
         #         instance.contacts.add(User.objects.get(pk = i))
         instance.save()
-        try:
-            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Hiring')
-        except:
-            pass
         return instance
     def get_total_app(self, obj):
         tot = obj.jobs_applied.count()

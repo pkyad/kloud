@@ -1040,7 +1040,7 @@ def versionDetails(request,app):
     #     selectedObj = obj.first()
     #     data = {'minVersion' : selectedObj.minVersion , 'latestVersion' : selectedObj.latestVersion}
     print app,'ssssssssssssss'
-    alldata = {'app.CRM':{'playstore' : {'version':'0.0.1', 'url':'','redirect':False},'appstore' : {'version':'0.0.1', 'url':'','redirect':False}},'app.messenger':{'playstore' : {'version':'0.0.1', 'url':'','redirect':False},'appstore' : {'version':'0.0.1', 'url':'','redirect':False}},'app.contacts':{'playstore' : {'version':'0.0.1', 'url':'','redirect':False},'appstore' : {'version':'0.0.1', 'url':'','redirect':False}},'app.klouderp':{'playstore' : {'version':'0.0.1', 'url':'','redirect':False},'appstore' : {'version':'0.0.1', 'url':'','redirect':False}}}
+    alldata = {'app.CRM':{'playstore' : {'version':'0.0.1', 'url':'','redirect':False},'appstore' : {'version':'0.0.1', 'url':'','redirect':False}},'app.messenger':{'playstore' : {'version':'0.0.1', 'url':'','redirect':False},'appstore' : {'version':'0.0.1', 'url':'','redirect':False}},'app.contacts':{'playstore' : {'version':'0.0.1', 'url':'','redirect':False},'appstore' : {'version':'0.0.1', 'url':'','redirect':False}},'app.klouderp':{'playstore' : {'version':'1.0.1', 'url':'','redirect':False},'appstore' : {'version':'0.0.1', 'url':'','redirect':False}}}
     data = alldata[app]
     return JsonResponse(data)
 
@@ -1552,7 +1552,7 @@ class UsageTrackerViewSet(viewsets.ModelViewSet):
     # queryset = UsageTracker.objects.all()
     serializer_class = UsageTrackerSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['division' ]
+    filter_fields = ['division' , 'detail']
     def get_queryset(self):
         toReturn = UsageTracker.objects.all().order_by('-count')
         return toReturn
@@ -1862,7 +1862,7 @@ def razorpayPaymentResponse(request):
     if orderObj.source == 'subscription':
         divid = orderObj.payId.split('_')[-1]
         divObj = Division.objects.get(pk = int(divid))
-        subscriptionExpiryDate = datetime.date.today()
+        divObj.subscriptionExpiryDate = datetime.date.today()+relativedelta(months=+6)
         divObj.freeQuotaExcceded = False
         divObj.save()
     if orderObj.source == 'chatbot' and orderObj.chatUid is not None:
@@ -2055,3 +2055,47 @@ class CreateSubscriptionAPIView(APIView):
         saleObj.save()
         obj = SalesQty.objects.create(outBound = saleObj, product = 'Student subscription of 6 months', price = 2000, qty = 6, total = 12000, division = div)
         return Response({'sale' : saleObj.pk,'division': current_div.pk},status = status.HTTP_200_OK)
+
+
+class GetAppUsageCountAPIView(APIView):
+    permission_classes = (permissions.AllowAny ,)
+    def post(self, request , format = None):
+        if 'division' in request.data:
+            division = request.data['division']
+        else:
+            division = request.user.designation.division.pk
+        count = 0
+        freeQuotaExcceded = True
+        try:
+            count = CreateUsageTracker(division, request.data['type'])
+        except:
+            pass
+        try:
+            freeQuotaExcceded = division.freeQuotaExcceded
+        except:
+            pass
+        return Response({'count' : count, 'freeQuotaExcceded' : freeQuotaExcceded},status = status.HTTP_200_OK)
+
+def downloadLicense(request):
+    filename = "License.key"
+
+    usr = request.user
+
+    data = {
+        'email' : usr.email,
+        'token' : globalSettings.APIMANAGER_URL_KEY,
+        'first_name' : usr.first_name,
+        'last_name' : usr.last_name,
+        'mobile' : usr.profile.mobile,
+    }
+    res = requests.post(globalSettings.APIMANAGER_URL_PREFIX + '/getToken/', data = data)
+    print res.text
+    try:
+        # content = res.json()['token']
+        content = json.dumps({'id' : res.json()['token'], 'divId' :  request.user.designation.division.pk})
+    except:
+        filename = "error.html"
+        content = res.text
+    response = HttpResponse(content, content_type='text/plain')
+    response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
+    return response

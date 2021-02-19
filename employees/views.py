@@ -631,7 +631,7 @@ class FetchAttendanceAPIView(APIView):
                     dates.append(date)
                 finalData = {'data' :data,'dates':dates, 'currentMonth' : currentMonth,'lastweek':lastweek , 'firstweek':firstweek}
         try:
-            CreateUsageTracker(div.pk, 'Attendance')
+            CreateUsageTracker(div.pk, 'Migrated through attendance')
         except:
             pass
         return Response(finalData,status=status.HTTP_200_OK)

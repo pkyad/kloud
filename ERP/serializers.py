@@ -84,17 +84,13 @@ class serviceSerializer(serializers.ModelSerializer):
         s.division = user.designation.division
         self.assignValues(s, validated_data)
         try:
-            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Contact')
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Created new service company')
         except:
             pass
         return s
     def update(self , instance , validated_data):
         self.assignValues(instance , validated_data)
         instance.save()
-        try:
-            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Contact')
-        except:
-            pass
         return instance
     def get_contact_count(self , obj):
         return obj.contacts.all().count()
@@ -407,6 +403,12 @@ class CheckAppVersioningSerializer(serializers.ModelSerializer):
 
 
 class UsageTrackerSerializer(serializers.ModelSerializer):
+    durationDiff = serializers.SerializerMethodField()
     class Meta:
         model = UsageTracker
-        fields = ('created', 'updated' , 'division' , 'detail' , 'count')
+        fields = ('created', 'updated' , 'division' , 'detail' , 'count','durationDiff')
+    def get_durationDiff(self , obj):
+        from datetime import datetime
+        now = datetime.now(timezone.utc)
+        duration = now - obj.updated
+        return str(duration)

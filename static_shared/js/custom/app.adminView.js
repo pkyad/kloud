@@ -115,7 +115,6 @@ app.config(function($stateProvider) {
        $scope.allData = response.data.results;
      })
    }
-
    $scope.getAppDetails()
  })
 

@@ -10,10 +10,11 @@ from marketing.models import  Contacts
 from clientRelationships.models import Contact
 from HR.serializers import *
 from notes.models import *
-import datetime
+from datetime import datetime, timedelta
 import pytz
 import math
 from ERP.initializing import *
+
 
 class serviceLiteCompanySerializer(serializers.ModelSerializer):
     class Meta:
@@ -76,7 +77,7 @@ class calendarSerializer(serializers.ModelSerializer):
         return  str(date.time()).split('.')[0][:-3]
     def get_remainingHours(self,obj):
         tz_IN = pytz.timezone('Asia/Kolkata')
-        now = datetime.datetime.now(tz_IN)
+        now = datetime.now(tz_IN)
         date = obj.when
         diff = date - now
         remainingHours = int(math.floor(diff.seconds/(60*60)))
@@ -99,7 +100,7 @@ class calendarSerializer(serializers.ModelSerializer):
             min = tempmin.split(' ')[0]
             cal.when = cal.when.replace(hour=int(hour), minute=int(min))
             if 'duration' in self.context['request'].data:
-                cal.end =  cal.when + datetime.timedelta(seconds=int(self.context['request'].data['duration']))
+                cal.end =  cal.when + timedelta(seconds=int(self.context['request'].data['duration']))
         if 'followers' in  self.context['request'].data:
             tagged = self.context['request'].data['followers']
             if not isinstance(tagged , list):
@@ -108,7 +109,7 @@ class calendarSerializer(serializers.ModelSerializer):
             else:
                 for tag in tagged:
                     cal.followers.add( User.objects.get(pk = tag))
-
+        print cal.followers,'sssssssssssssss'
         if 'clients' in  self.context['request'].data:
             clients = self.context['request'].data['clients']
             for c in clients:
@@ -472,7 +473,7 @@ class NotebookFullSerializer(serializers.ModelSerializer):
         notesObj.division = user.designation.division
         notesObj.save()
         try:
-            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Notes')
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Created new note')
         except:
             pass
         return notesObj
@@ -485,10 +486,6 @@ class NotebookFullSerializer(serializers.ModelSerializer):
         if 'source' in self.context['request'].data:
             instance.source =  self.context['request'].data['source']
             instance.save()
-        try:
-            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Notes')
-        except:
-            pass
         return instance
 
 
