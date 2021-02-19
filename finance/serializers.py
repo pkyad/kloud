@@ -85,7 +85,7 @@ class AccountSerializer(serializers.ModelSerializer):
             acc.authorizedSignaturies.add(User.objects.get(pk = self.context['request'].data['authorizedSignaturies']))
             # for u in self.context['request'].data['authorizedSignaturies']:
         try:
-            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Account')
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Created new account')
         except:
             pass
         acc.save()
@@ -110,10 +110,6 @@ class AccountSerializer(serializers.ModelSerializer):
             #         instance.contactPerson = User.objects.get(pk = int(u))
                 instance.authorizedSignaturies.add(User.objects.get(pk = int(self.context['request'].data['authorizedSignaturies'])))
         instance.save()
-        try:
-            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Account')
-        except:
-            pass
         return instance
     def get_totalExp(self, obj):
         try:
@@ -435,7 +431,7 @@ class SaleSerializer(serializers.ModelSerializer):
             obi.balanceAmount = totalAmount
         obi.save()
         try:
-            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Sales')
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Created new sale')
         except:
             pass
         return obi
@@ -491,10 +487,6 @@ class SaleSerializer(serializers.ModelSerializer):
                 instance.totalGST = totalGST
                 instance.balanceAmount = totalAmount
         instance.save()
-        try:
-            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Sales')
-        except:
-            pass
         return instance
 
     def get_tax(self , obj):
@@ -611,6 +603,10 @@ class CategorySerializer(serializers.ModelSerializer):
         except:
             pass
         cat.save()
+        try:
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Created new product category')
+        except:
+            pass
         return cat
     def get_products(self,obj):
         return RateListSerializer(obj.categoryInventory.all(),many=True).data
@@ -710,7 +706,7 @@ class InvoiceReceivedSerializer(serializers.ModelSerializer):
             pass
         inv.save()
         try:
-            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Expense Claims')
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Created new expense claims')
         except:
             pass
         return inv
@@ -755,10 +751,6 @@ class InvoiceReceivedSerializer(serializers.ModelSerializer):
                     a.balance = 0
                     a.settled = True
             a.save()
-        try:
-            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Expense Claims')
-        except:
-            pass
         return instance
 
 

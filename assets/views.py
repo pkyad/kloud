@@ -71,7 +71,7 @@ class CheckinCreationAPI(APIView):
         for i in data['serialNo']:
             checkinObj = Checkin.objects.create(name = data['name'], serialNo = i,  warrantyTill = data['warrantyTill'], manufacturedOn = data['manufacturedOn'], poNumber = data['poNumber'], price = data['price'], user = request.user, unit = unitObj, division = division)
         try:
-            CreateUsageTracker(request.user.designation.division.pk, 'Assets')
+            CreateUsageTracker(request.user.designation.division.pk, 'created new Asset')
         except:
             pass
         return Response(status = status.HTTP_200_OK)

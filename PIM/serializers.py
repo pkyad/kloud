@@ -109,7 +109,7 @@ class calendarSerializer(serializers.ModelSerializer):
             else:
                 for tag in tagged:
                     cal.followers.add( User.objects.get(pk = tag))
-
+        print cal.followers,'sssssssssssssss'
         if 'clients' in  self.context['request'].data:
             clients = self.context['request'].data['clients']
             for c in clients:
@@ -473,7 +473,7 @@ class NotebookFullSerializer(serializers.ModelSerializer):
         notesObj.division = user.designation.division
         notesObj.save()
         try:
-            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Notes')
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Created new note')
         except:
             pass
         return notesObj
@@ -486,10 +486,6 @@ class NotebookFullSerializer(serializers.ModelSerializer):
         if 'source' in self.context['request'].data:
             instance.source =  self.context['request'].data['source']
             instance.save()
-        try:
-            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Notes')
-        except:
-            pass
         return instance
 
 

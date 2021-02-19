@@ -57,7 +57,7 @@ class ContactSerializer(serializers.ModelSerializer):
             c.company_id = int(self.context['request'].data['company'])
         c.save()
         try:
-            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Contact')
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'created new Contact')
         except:
             pass
         return c
@@ -74,10 +74,6 @@ class ContactSerializer(serializers.ModelSerializer):
             else:
                 instance.company_id = int(compID)
         instance.save()
-        try:
-            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Contact')
-        except:
-            pass
         return instance
     def get_courseCount(self , obj):
         from LMS.serializers import CourseSerializer
@@ -222,7 +218,7 @@ class ContractSerializer(serializers.ModelSerializer):
         #     tourObj.contract = c
         #     tourObj.save()\
         try:
-            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'CRM')
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'created new CRM quotation')
         except:
             pass
         return c
@@ -246,10 +242,6 @@ class ContractSerializer(serializers.ModelSerializer):
         #     tourObj = TourPlanStop.objects.get(pk = int(self.context['request'].data['tour']))
         #     tourObj.contract = instance
         #     tourObj.save()
-        try:
-            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'CRM')
-        except:
-            pass
         return instance
 
 class ActivitySerializer(serializers.ModelSerializer):
@@ -363,7 +355,7 @@ class ServiceTicketSerializer(serializers.ModelSerializer):
             t.referenceContact = contactObj
             t.save()
         try:
-            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Servicing')
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'created new service ticket')
         except:
             pass
         return t
@@ -377,10 +369,6 @@ class ServiceTicketSerializer(serializers.ModelSerializer):
         if 'engineer' in  self.context['request'].data:
             instance.engineer = User.objects.get(pk = int(self.context['request'].data['engineer']))
         instance.save()
-        try:
-            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Servicing')
-        except:
-            pass
         return instance
     def get_allInvoices(self , obj):
         allData = []

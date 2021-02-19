@@ -129,6 +129,10 @@ class ForumAPI(APIView):
             forumobj.save()
         else:
             forumobj=Forum.objects.create(title=forumdata['title'],description=forumdata['description'],tags=forumdata['tags'], division = request.user.designation.division)
+            try:
+                CreateUsageTracker(self.request.user.designation.division.pk, 'Created new forum')
+            except:
+                pass
             print self.request.user
             if self.request.user:
                 forumobj.user = self.request.user
@@ -156,10 +160,6 @@ class ForumAPI(APIView):
                 forumobj.url = text
             slugme(request.data['title'])
         forumobj.save()
-        try:
-            CreateUsageTracker(self.request.user.designation.division.pk, 'Forum')
-        except:
-            pass
         return JsonResponse(data , status =  status.HTTP_200_OK,safe=False)
     def get(self , request , format = None):
         data = {}

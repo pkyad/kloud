@@ -89,7 +89,7 @@ class payrollReportSerializer(serializers.ModelSerializer):
         pr.user = self.context['request'].user
         pr.save()
         try:
-            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Payroll')
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Created new payroll report')
         except:
             pass
         return pr
@@ -116,7 +116,7 @@ class advancesSerializer(serializers.ModelSerializer):
         except:
             pass
         try:
-            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Advances')
+            CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Created new advance')
         except:
             pass
         return adv

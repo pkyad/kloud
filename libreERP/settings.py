@@ -39,6 +39,9 @@ ECOMMERCE_APP = {
 }
 PARENT_DIVSION = 2
 LOGIN_PAGE_IMAGE = '/static/images/loginPage.png'
+APIMANAGER_URL_PREFIX = 'https://api.epsilonai.com'
+APIMANAGER_URL_KEY = '123456'
+
 
 CRM_SEPERATE_TAX_DETAILS = True
 LOGIN_URL = 'login' # this can be 'login' or 'account_login'
