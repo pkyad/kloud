@@ -79,6 +79,12 @@ def loginView(request):
     statusCode = 200
     logo = None
     newuser  = None
+
+
+    if request.user.is_authenticated:
+        return redirect(reverse('ERP'))
+
+
     try:
         d = Division.objects.get(subDomain = request.META['HTTP_HOST'].split('.')[0] )
         if d.logo:
@@ -314,12 +320,12 @@ def home(request):
         homeState = 'home'
 
     aps = getApps(u)
-    if state is None and len(aps) > 0:
-        aps.exclude(name = 'app.expenseClaims')
-        print 'apps' , aps , aps.count()
-        app = aps[0]
-        state = '/' + app.name.replace('app.' , app.module + ".").replace('.', '/')
-        homeState = app.name.replace('app.' , app.module + ".")
+    # if state is None and len(aps) > 0:
+    #     aps.exclude(name = 'app.expenseClaims')
+    #     print 'apps' , aps , aps.count()
+        # app = aps[1]
+        # state = '/' + app.name.replace('app.' , app.module + ".").replace('.', '/')
+        # homeState = app.name.replace('app.' , app.module + ".")
 
     if state is None:
         state = '/home/viewProfile/profile'
