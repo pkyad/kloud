@@ -504,6 +504,8 @@ def generateOTPView(request):
     return JsonResponse({'newReg' : False} ,status =200 )
 
 def adminView(request):
+    if not request.user.is_superuser:
+        return redirect(reverse('ERP'))
     return render(request , 'app.adminView.html', {'wamp_prefix' : globalSettings.WAMP_PREFIX} )
 
 def bankloanform(request):

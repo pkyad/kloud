@@ -76,7 +76,7 @@ def CreateProducts(div):
     catObj = Category.objects.create(name = 'Sample Category', division = division)
     prouducts = ['Product1' , 'Product2' , 'Product3']
     for i  in prouducts:
-        prod = Inventory.objects.create(name = i, division = division , category = catObj)
+        prod = Inventory.objects.create(name = i, division = division , category = catObj, sku = i)
         from_path = os.path.join(globalSettings.BASE_DIR, 'static_shared' ,'images', 'newproduct.png')
         to_path = os.path.join(globalSettings.BASE_DIR,'media_root','finance','inventory')
         shutil.copy(from_path, to_path)

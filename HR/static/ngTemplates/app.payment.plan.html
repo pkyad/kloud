@@ -1,29 +1,60 @@
 <style>
   .modal{
-    background:#ababab!important
+    background:#abababa8!important
+  }
+  .modal-content{
+    box-shadow: none;
+    border: none;
   }
 </style>
-<div class="modal-body" id="paymentmodal" style="background:#000000;color:#ffffff">
+<div class="modal-body" id="paymentmodal">
   <div class="row">
     <div class="col-md-12">
-      <div class="row" style="min-height:25vh;margin-top:60px" ng-if="!subscribe&&!enterpriseSubscriptionReq">
+      
+      <div class="row text-center" style="padding:40px;">
+        <h4>Hi Sir/Madam. You have exceeded the trial period usage limit. Before you can continue to use the platform you need to choose one the below plans. <a ng-click="close()" style="cursor:pointer;color:orange;">dismiss this window</a> </h4>
+      </div>
+      
+      <div class="row" style="min-height:25vh;margin-top:10px" ng-if="!subscribe&&!enterpriseSubscriptionReq">
         <div class="col-md-6">
           <div class="row">
             <div class="col-md-12 text-center">
-              <img src="/static/images/icons8-student-center-64.png" alt="" style="height:60px">
-              <h3> Student Plan</h3>
-              <button type="button" name="button" class="btn btn-default" style="border-radius:25px!important;width:150px;background:#032757;color:#ffffff;height:50px" ng-click="studentSubscription()">Subscribe</button>
-              <p style="margin-top:15px"> Subscribe for 6 months by just paying  <i class="fa fa-inr"></i>12000 only</p>
+              <img src="https://icon-library.com/images/freelancer-icon/freelancer-icon-12.jpg" alt="" style="height:160px">
+              <h4 style="color:#c1c1c1;">for</h4>
+              <h3> Freshers / Student / Freelancer</h3>
+              <ul style="list-style: none;margin-top:40px;margin-bottom:40px;">
+                <li>Over 30 + SAAS apps and mobile apps *</li>
+                <li>No usage limit</li>
+                <li>Unlimited customers</li>
+                <li>Collect payments online upto 2.5 crores / month ** </li>
+                <li>No limit on cash / NEFT sales </li>
+                <li>Email and Zoom meeting support</li>
+                <li>GST Input credit on all payments</li>
+              </ul>
+              <h3>2000 <i class="fa fa-inr"></i> / Month</h3>
+              <button type="button" name="button" class="btn btn-default" style="border-radius:25px!important;width:200px;background:#3f9f1c;color:#ffffff;height:50px;border: none;" ng-click="studentSubscription()">Select and pay for 6 months</button>
+              <p style="margin-top:15px"> <a href="/refundpolicy" target="_blank">Refund Policy</a> </p>
+              <p>* Access to telephony / payment gateway requires free KYC ( PAN , GST number, etc... ) </p>
+              <p>** payment gateway charges applicable. Please refer to the payment gateway provider website which you will be using</p>
             </div>
           </div>
         </div>
         <div class="col-md-6">
           <div class="row">
             <div class="col-md-12  text-center">
-              <img src="/static/images/enterpriseSubscription.png" alt="" style="height:60px">
-              <h3> Enterprise Plan</h3>
-                <button type="button" name="button" ng-click="updateSubscribe()" class="btn btn-default" style="border-radius:25px!important;width:150px;background:#032757;color:#ffffff;height:50px" >Subscribe</button>
-                  <p style="margin-top:15px"> Subscribe and some one from our team will get back to you with futher detils. </p>
+              <img src="https://cdn3.iconfinder.com/data/icons/technologies-disruption-1/64/Digitalenterprise-technologydisruption-it-technology-development-smartcity-512.png" alt="" style="height:160px">
+              <h4 style="color:#c1c1c1;">for</h4>
+              <h3> Enterprise / Non-Indian customers*** </h3>
+              <ul style="list-style: none;margin-top:40px;margin-bottom:40px;">
+                <li>Everything in basic plan</li>
+                <li>Service Level Agreement </li>
+                <li><strong>LTS Version only</strong> </li>
+                <li>In person, on premise, Phone call, whatsapp , email and zoom meeting support</li>
+                <li>Access to CTO , CEO personal phone numbers</li>
+              </ul>
+                <button type="button" name="button" ng-click="updateSubscribe()" class="btn btn-default" style="border-radius:25px!important;width:150px;height:50px" >Contact Sales</button>
+                  <p style="margin-top:15px"> Contact us and we will get back to you with further details. </p>
+                  <p>*** our online payment gateway only supports INR payments. Please connect with us if you want to use the platform outside India </p>
             </div>
           </div>
         </div>

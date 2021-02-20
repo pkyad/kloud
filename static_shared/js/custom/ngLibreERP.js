@@ -39,6 +39,11 @@ app.controller('main', function($scope, $state, $users, $aside, $http, $timeout,
       size: 'lg',
       backdrop: false,
       controller: function($scope , $uibModalInstance){
+
+        $scope.close = function(){
+          $uibModalInstance.dismiss();
+        }
+
         $scope.subscribe = false
         $scope.enterpriseSubscriptionReq =  false
         $scope.updateSubscribe = function(){
