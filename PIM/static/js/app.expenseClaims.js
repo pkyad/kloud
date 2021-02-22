@@ -384,7 +384,7 @@ $scope.fileDropzone = function(){
 app.controller('home.expense.claims.item', function($scope, $http) {
 
 });
-app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state, Flash) {
+app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state, Flash,$uibModal) {
   $scope.resetForm = function() {
     $scope.mode = 'new';
     $scope.form = {
@@ -558,11 +558,96 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
       $uibModalInstance.close();
   }
 
+  // $scope.editInvoice = function(ind, pk) {
+  //   if($scope.mode=='edit'&&($scope.form.status=='created' || $scope.form.status=='rejected') && !$scope.is_approver){
+  //     $scope.showEdit = true
+  //     $scope.invoiceForm = $scope.form.invoices[ind];
+  //     $scope.form.invoices.splice(ind, 1);
+  //   }
+
+
   $scope.editInvoice = function(ind, pk) {
-    if($scope.mode=='edit'&&($scope.form.status=='created' || $scope.form.status=='rejected') && !$scope.is_approver){
-      $scope.showEdit = true
-      $scope.invoiceForm = $scope.form.invoices[ind];
-      $scope.form.invoices.splice(ind, 1);
+    if($scope.mode=='edit'&&($scope.form.status=='created' || $scope.form.status=='rejected')){
+      $uibModal.open({
+        templateUrl: '/static/ngTemplates/app.edit.expenseClaims.html',
+        size: 'lg',
+        backdrop: false,
+        resolve: {
+          form: function() {
+            return $scope.form.invoices[ind]
+          },
+          invoice: function() {
+            return $scope.form.pk
+          },
+        },
+        controller: function($scope,$http, Flash, $users, $uibModalInstance,form, invoice){
+          if (form == undefined) {
+            $scope.invoiceForm = {
+              'title': '',
+              'total': 0,
+              'attachment': emptyFile,
+              'description': '',
+            }
+          }
+          else{
+            $scope.invoiceForm = form
+
+          }
+          $scope.close = function(){
+            $uibModalInstance.dismiss()
+          }
+          $scope.save = function() {
+            var f = $scope.invoiceForm;
+            if (f.product.length == 0) {
+              Flash.create('danger', 'Expense Particular Is Required');
+              return
+            }
+            if (f.total.length == 0 || f.total == 0) {
+              Flash.create('danger', 'Amount Is Required');
+              return
+            }
+            // if (f.description.length == 0) {
+            //   Flash.create('danger', 'Description Is Required');
+            //   return
+            // }
+            var url = '/api/finance/invoiceQty/';
+            var method = 'POST';
+            if ($scope.invoiceForm.pk) {
+              method = 'PATCH';
+              url += $scope.invoiceForm.pk + '/';
+            }
+            var fd = new FormData();
+            if (f.attachment != null && f.attachment != emptyFile && typeof f.attachment != 'string' ) {
+              fd.append('attachment', f.attachment)
+            }
+
+            // if (f.code != null && f.code.pk != undefined) {
+            //   fd.append('code', f.code.title);
+            // } else {
+            // }
+
+            fd.append('product', f.product);
+            fd.append('total', f.total);
+            fd.append('invoice', invoice);
+            fd.append('description', f.description);
+            $http({
+              method: method,
+              url: url,
+              data: fd,
+              transformRequest: angular.identity,
+              headers: {
+                'Content-Type': undefined
+              }
+            }).
+            then(function(response) {
+              Flash.create('success', 'Saved');
+              $uibModalInstance.dismiss()
+            })
+          }
+        },
+      }).result.then(function() {}, function(res) {
+        $scope.getData()
+      });
     }
   }
 

@@ -372,7 +372,10 @@ class ServiceTicketSerializer(serializers.ModelSerializer):
         return instance
     def get_allInvoices(self , obj):
         allData = []
-        lastDate = datetime.now()
+        try:
+            lastDate = datetime.datetime.now()
+        except:
+            lastDate = datetime.now()
         if obj.closedOn is not None:
             lastDate = obj.closedOn
         if obj.referenceContact is not None:

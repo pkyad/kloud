@@ -775,7 +775,7 @@ class InvoiceQtySerializer(serializers.ModelSerializer):
             invoice.save()
         return inv
     def update(self , instance , validated_data):
-        for key in ['invoice']:
+        for key in ['invoice','product','price','taxCode','taxPer','tax','total','receivedQty','description','attachment','invoice']:
             try:
                 setattr(instance , key , validated_data[key])
             except:

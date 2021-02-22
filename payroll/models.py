@@ -113,9 +113,9 @@ class PayrollReport(models.Model):
     pfReserved = models.FloatField(default = 0)
     payable = models.FloatField(default = 0)
     pfContribution = models.FloatField(default = 0)
-
+    division = models.ForeignKey(Division , related_name = 'payrolldivision' , null = True)
     class Meta:
-        unique_together = ('year', 'month',)
+        unique_together = ('year', 'month', 'division')
 
 class Payslip(models.Model):
     user = models.ForeignKey(User , related_name = "payslipsUsers" , null=False)
@@ -136,8 +136,9 @@ class Payslip(models.Model):
     tds = models.FloatField(default = 0)
     advanceIds = models.CharField(max_length = 100 , null = True)
     advanceDeduction =  models.FloatField(default = 0)
+    division = models.ForeignKey(Division , related_name = 'payslipdivision' , null = True)
     class Meta:
-        unique_together = ('year', 'month', 'user')
+        unique_together = ('year', 'month', 'user','division')
 
 
 
@@ -233,3 +234,4 @@ class Form16(models.Model):
     year = models.CharField(max_length = 100 , null = True)
     period = models.CharField(max_length = 100 , null = True)
     file = models.FileField(upload_to = getDocsPath ,  null = True , blank = True)
+    division = models.ForeignKey(Division , related_name = 'form16division' , null = True)

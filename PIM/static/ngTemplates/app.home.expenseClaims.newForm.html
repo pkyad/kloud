@@ -81,18 +81,9 @@
             <td></td>
             <td></td>
             <td></td>
-            <td class="text-center"> <i class="fa fa-plus fa-2x" ng-click="show()" style="cursor:pointer"></i></td>
+            <td class="text-center"> <i class="fa fa-plus fa-2x" ng-click="editInvoice()" style="cursor:pointer"></i></td>
           </tr>
-          <tr ng-if="showEdit">
-            <!-- <td scope="row">
-              <div class="input-group">
-                <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="invoiceForm.dated" is-open="statusDue.opened" ng-init="today" disabled />
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-default" ng-click="statusDue.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
-                </span>
-              </div>
-            </td> -->
-            <!-- <td></td> -->
+          <!-- <tr ng-if="showEdit">
             <td>
               <input type="text" class="form-control" ng-model="invoiceForm.product" uib-typeahead="p as p.title for p in codeSearch($viewValue)" placeholder="Particular">
             </td>
@@ -109,7 +100,7 @@
               <i class="fa fa-floppy-o fa-2x" style="color:var(--themeMain)" ng-click="saveInvoice()"></i>
               <i ng-if="!invoiceForm.pk" class="fa fa-close fa-2x" ng-click="cancel()"></i>
             </td>
-          </tr>
+          </tr> -->
 
         </tbody>
       </table>

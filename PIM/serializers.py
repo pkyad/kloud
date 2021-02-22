@@ -41,7 +41,7 @@ class settingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = settings
         fields = ('pk' , 'user', 'theme', 'presence')
-        
+
 class userProfileLiteSerializer(serializers.ModelSerializer):
     # to be used in the typehead tag search input, only a small set of fields is responded to reduce the bandwidth requirements
     class Meta:
@@ -162,8 +162,8 @@ class calendarSerializer(serializers.ModelSerializer):
             else:
                 for tag in tagged:
                     instance.followers.add( User.objects.get(pk = tag))
-        instance.clients.clear()
         if 'clients' in  self.context['request'].data:
+            instance.clients.clear()
             clients = self.context['request'].data['clients']
             for c in clients:
                 instance.clients.add(Contact.objects.get(pk = c))

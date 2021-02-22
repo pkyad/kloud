@@ -92,10 +92,13 @@ class payslipViewSet(viewsets.ModelViewSet):
 
 class payrollReportViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
-    queryset = PayrollReport.objects.all()
+    # queryset = PayrollReport.objects.all()
     serializer_class = payrollReportSerializer
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['month','year','status','user']
+    def get_queryset(self):
+        toRet =  PayrollReport.objects.filter(division = self.request.user.designation.division)
+        return toRet
 
 class advancesViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
@@ -601,7 +604,7 @@ class GetReimbursement(APIView):
 # ---------------------------------------------------------------
 class GetAllMonths(APIView):
     def get(self , request , format = None):
-        reportData = PayrollReport.objects.filter(year=int(request.GET['year']))
+        reportData = PayrollReport.objects.filter(year=int(request.GET['year']), division = request.user.designation.division)
         print reportData
         toReturn = []
         month_lst = [1,2,3,4,5,6,7,8,9,10,11,12]
@@ -810,7 +813,7 @@ class AllPaySlipsAPIView(APIView):
         data = []
         if 'year' in request.GET:
             obj = Payslip.objects.filter(year = request.GET['year'], report__status="paid", user = request.user)
-            data = payslipLiteSerializer(obj, many=True).data 
+            data = payslipLiteSerializer(obj, many=True).data
         return Response(data,status = status.HTTP_200_OK)
 
 class ITDeclarationViewSet(viewsets.ModelViewSet):
@@ -1581,7 +1584,7 @@ class Form16ViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['user' , 'year' , 'period']
     def get_queryset(self):
-        toRet = Form16.objects.all()
+        toRet = Form16.objects.filter(division = self.request.user.designation.division)
         if 'currentUser' in self.request.GET:
             toRet = toRet.filter(user = self.request.user)
         return toRet
