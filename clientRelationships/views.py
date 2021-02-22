@@ -1623,22 +1623,8 @@ class CreateContactView(APIView):
     def post(self, request, format=None):
         data = request.data
         div = request.user.designation.division
-        try:
-            contactObj, created  = Contact.objects.get_or_create(mobile = data['mobile'], division = div)
-            if created:
-                contactObj.user = request.user
-        except:
-                contactObj  = Contact.objects.filter(mobile = data['mobile'], division = div).first()
-        contactObj.name = data['name']
-        if 'isGst' in data:
-            contactObj.isGst = data['isGst']
-        if 'designation' in data:
-            contactObj.designation = data['designation']
-        if 'email' in data:
-            contactObj.email = data['email']
         if 'companypk' in data and 'company' in data:
             companyObj = service.objects.get(pk = int(data['companypk']))
-            contactObj.company = companyObj
             if companyObj.address == None:
                 if 'street' in data:
                     addressObj = address.objects.create(street = data['street'])
@@ -1651,11 +1637,29 @@ class CreateContactView(APIView):
                     addressObj.save()
         elif 'company' in data:
             companyObj = service.objects.create(name = data['company'], user = request.user , division = request.user.designation.division)
-            contactObj.company = companyObj
+            # contactObj.company = companyObj
             if 'street' in data:
                 addressObj = address.objects.create(street = data['street'])
                 companyObj.address = addressObj
                 companyObj.save()
+        try:
+            contactObj, created  = Contact.objects.get_or_create(mobile = data['mobile'], division = div)
+            if created:
+                contactObj.user = request.user
+        except:
+                contactObj  = Contact.objects.filter(mobile = data['mobile'], division = div).first()
+        contactObj.name = data['name']
+        try:
+            if companyObj:
+                contactObj.company = companyObj
+        except:
+            pass
+        if 'isGst' in data:
+            contactObj.isGst = data['isGst']
+        if 'designation' in data:
+            contactObj.designation = data['designation']
+        if 'email' in data:
+            contactObj.email = data['email']
         if 'company' in data:
             if 'gstin' in data:
                 companyObj.tin = data['gstin']
@@ -1668,10 +1672,10 @@ class CreateContactView(APIView):
             if 'pincode' in data:
                 addressObj.pincode = data['pincode']
             addressObj.save()
-            companyObj.save()
+            # companyObj.save()
 
-        if 'company' not in data:
-            contactObj.company = None
+        # if 'company' not in data:
+        #     contactObj.company = None
 
         if 'street' in data:
             contactObj.street = data['street']

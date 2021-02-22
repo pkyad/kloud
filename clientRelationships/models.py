@@ -63,7 +63,7 @@ class Contact(models.Model):
     facebook = models.CharField(max_length = 100 , null = True, blank = True)
     dp = models.FileField(null = True , upload_to = getClientRelationshipContactDP)
     male = models.BooleanField(default = True)
-    street = models.CharField(max_length = 100 , null = True , blank = True)
+    street = models.TextField(max_length = 500 , null = True , blank = True)
     city = models.CharField(max_length = 100 , null = True , blank = True)
     pincode = models.CharField(max_length = 100 , null = True, blank = True)
     state = models.CharField(max_length = 100 , null = True, blank = True)

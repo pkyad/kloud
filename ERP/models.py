@@ -262,7 +262,7 @@ class Division(models.Model):
 
 class service(models.Model): # contains other companies datails
     created = models.DateTimeField(auto_now_add = True)
-    name = models.CharField(max_length = 100 , null = False)
+    name = models.TextField(max_length = 700 , null = False)
     user = models.ForeignKey(User , related_name = 'servicesCreated' , null = False) # the responsible person for this service
     address = models.ForeignKey(address , null = True ,blank=True)
     mobile = models.CharField(max_length = 20 , null = True,blank=True)

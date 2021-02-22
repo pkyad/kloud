@@ -41,6 +41,25 @@ class settingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = settings
         fields = ('pk' , 'user', 'theme', 'presence')
+        
+class userProfileLiteSerializer(serializers.ModelSerializer):
+    # to be used in the typehead tag search input, only a small set of fields is responded to reduce the bandwidth requirements
+    class Meta:
+        model = profile
+        fields = ('displayPicture' , 'prefix' ,'pk','mobile','lat','lon','isDashboard','isManager','zoom_token')
+
+class userSearchSerializer(serializers.ModelSerializer):
+    profile = userProfileLiteSerializer(many=False , read_only=True)
+    logo = serializers.SerializerMethodField()
+    division = serializers.SerializerMethodField()
+    class Meta:
+        model = User
+        fields = ( 'pk', 'username' , 'first_name' , 'last_name' , 'profile' , 'designation', 'email' ,'logo','is_staff','last_login','division')
+    def get_logo(self, obj):
+        return globalSettings.BRAND_LOGO
+    def get_division(self, obj):
+        return obj.designation.division.pk
+
 
 class notificationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -67,6 +86,7 @@ class calendarSerializer(serializers.ModelSerializer):
     clients = ContactLiteSerializer(many = True , read_only = True)
     time = serializers.SerializerMethodField()
     remainingHours = serializers.SerializerMethodField()
+    followers = userSearchSerializer(read_only=True,many=True)
     class Meta:
         model = calendar
         fields = ('pk' , 'eventType' , 'followers' ,'originator', 'duration' , 'created', 'updated', 'user' , 'text'  ,'when'  , 'deleted' , 'completed' , 'canceled' , 'level' , 'venue' , 'attachment' , 'myNotes', 'clients', 'data','time','remainingHours')
@@ -160,24 +180,9 @@ class calendarSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-class userProfileLiteSerializer(serializers.ModelSerializer):
-    # to be used in the typehead tag search input, only a small set of fields is responded to reduce the bandwidth requirements
-    class Meta:
-        model = profile
-        fields = ('displayPicture' , 'prefix' ,'pk','mobile','lat','lon','isDashboard','isManager','zoom_token')
 
 
-class userSearchSerializer(serializers.ModelSerializer):
-    profile = userProfileLiteSerializer(many=False , read_only=True)
-    logo = serializers.SerializerMethodField()
-    division = serializers.SerializerMethodField()
-    class Meta:
-        model = User
-        fields = ( 'pk', 'username' , 'first_name' , 'last_name' , 'profile' , 'designation', 'email' ,'logo','is_staff','last_login','division')
-    def get_logo(self, obj):
-        return globalSettings.BRAND_LOGO
-    def get_division(self, obj):
-        return obj.designation.division.pk
+
 
 
 class chatMessageLiteSerializer(serializers.ModelSerializer):

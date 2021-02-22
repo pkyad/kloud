@@ -2073,9 +2073,12 @@ class GetAppUsageCountAPIView(APIView):
     def post(self, request , format = None):
         print request.body, request.data
         if 'divId' in request.data:
-            secretKey = base64.b64decode(request.data['divId'])
-            plaintext = decrypt('itsasecret', secretKey)
-            division = int(plaintext)
+            try:
+                secretKey = base64.b64decode(request.data['divId'])
+                plaintext = decrypt('itsasecret', secretKey)
+                division = int(plaintext)
+            except:
+                return Response({'errMsg' : 'Invalid License Key'},status = status.HTTP_200_OK)
         elif 'division' in request.data:
             division = request.data['division']
         else:

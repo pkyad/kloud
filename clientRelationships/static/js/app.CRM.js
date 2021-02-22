@@ -131,11 +131,43 @@ app.controller('businessManagement.clientRelationships.contacts.edit', function(
     }
   }
 
+  $scope.refreshError = function(){
+  $scope.errMsg = {
+    name:'',
+    mobile:'',
+    email:'',
+    address:'',
+    pincode:''
+  }
+}
+$scope.refreshError()
+
   $scope.goToContact = function(ID){
     $state.go('businessManagement.contacts.delatils', {id :ID});
   }
 
   $scope.save = function() {
+    $scope.refreshError()
+    if ($scope.form.name == null || $scope.form.name.length == 0 ) {
+      $scope.errMsg.name = "Name is required"
+      return
+    }
+    if ($scope.form.mobile == null || $scope.form.mobile.length == 0) {
+      $scope.errMsg.mobile = "Mobile is required"
+      return
+    }
+    if ($scope.form.email == null || $scope.form.email.length == 0) {
+      $scope.errMsg.email = "Email is required"
+      return
+    }
+    if ($scope.form.street == null || $scope.form.street.length == 0) {
+      $scope.errMsg.address = "Address is required"
+      return
+    }
+    if ($scope.form.pincode == null || $scope.form.pincode.length == 0 || $scope.form.city == null || $scope.form.city.length == 0 || $scope.form.state == null || $scope.form.state.length == 0 || $scope.form.country == null || $scope.form.country.length == 0   ) {
+      $scope.errMsg.pincode = "Add valid pincode"
+      return
+    }
     if ($scope.form.name == null || $scope.form.name.length == 0 || $scope.form.email == null || $scope.form.email.length == 0 || $scope.form.mobile == null || $scope.form.mobile.length == 0) {
       Flash.create('warning', 'Name ,  Email and Mobile are required')
       return
@@ -197,6 +229,7 @@ app.controller('businessManagement.clientRelationships.contacts.edit', function(
   }
 
   $scope.$watch('form.company', function(newValue, oldValue) {
+    console.log(newValue,'sssssssssssssssssssss');
     if (typeof newValue == 'object') {
       $scope.form.gstin = $scope.form.company.tin
       if (newValue.address != null) {
