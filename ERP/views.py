@@ -82,7 +82,10 @@ def loginView(request):
 
 
     if request.user.is_authenticated:
-        return redirect(reverse('ERP'))
+        if 'mode' in request.GET and request.GET['mode'] == 'api':
+            pass
+        else:
+            return redirect(reverse('ERP'))
 
 
     try:
