@@ -2071,6 +2071,7 @@ class CreateSubscriptionAPIView(APIView):
 class GetAppUsageCountAPIView(APIView):
     permission_classes = (permissions.AllowAny ,)
     def post(self, request , format = None):
+        print request.body, request.data
         if 'divId' in request.data:
             secretKey = base64.b64decode(request.data['divId'])
             plaintext = decrypt('itsasecret', secretKey)
@@ -2083,10 +2084,14 @@ class GetAppUsageCountAPIView(APIView):
         freeQuotaExcceded = True
         try:
             count = CreateUsageTracker(division, request.data['type'])
+            div = Division.objects.get(pk = int(division))
+            if count > 5 and div.subscriptionExpiryDate == None:
+                div.freeQuotaExcceded = True
+                div.save()
         except:
             pass
         try:
-            freeQuotaExcceded = division.freeQuotaExcceded
+            freeQuotaExcceded = div.freeQuotaExcceded
         except:
             pass
         return Response({'count' : count, 'freeQuotaExcceded' : freeQuotaExcceded},status = status.HTTP_200_OK)

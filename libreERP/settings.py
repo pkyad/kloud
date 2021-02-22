@@ -119,7 +119,7 @@ DEFAULT_WHATSAPP_NUMBER = '15128510366'
 
 PAYMENT_MODE = 'razorpay' # options are EBS , paypal , paytm , PAYU , ccavenue,razorpay
 WEBRTC_ADDRESS = 'https://socket.syrow.com'
-WAMP_PREFIX = 'aasssssss.'
+WAMP_PREFIX = 'aassssddddddddddddddsss.'
 RAZORPAY_KEY = 'rzp_live_UVCQtyXr9DpVJK'
 RAZORPAY_SECRET = 'aOaFKukng2tSEld41cEebBBM'
 

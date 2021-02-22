@@ -1535,6 +1535,88 @@ class InvoiceSettingsView(APIView):
 
         return Response( toReturn , status=status.HTTP_200_OK)
 
+# class CreateContactView(APIView):
+#     renderer_classes = (JSONRenderer,)
+#     permission_classes = (permissions.AllowAny,)
+#     def post(self, request, format=None):
+#         data = request.data
+#         div = request.user.designation.division
+#
+#         try:
+#             contactObj, created  = Contact.objects.get_or_create(mobile = data['mobile'], division = div)
+#             if created:
+#                 contactObj.user = request.user
+#
+#         except:
+#                 contactObj  = Contact.objects.filter(mobile = data['mobile'], division = div).first()
+#         contactObj.name = data['name']
+#         # if 'pk' in data:
+#         #     contactObj = Contact.objects.get(pk = int(data['pk']))
+#         #     if 'name' in data:
+#         #         contactObj.name = data['name']
+#         #     if 'mobile' in data:
+#         #         contactObj.mobile = data['mobile']
+#         # else:
+#         #     contactObj = Contact.objects.create(name = data['name'] , mobile = data['mobile'] , user = request.user)
+#         if 'isGst' in data:
+#             contactObj.isGst = data['isGst']
+#         if 'designation' in data:
+#             contactObj.designation = data['designation']
+#         if 'email' in data:
+#             contactObj.email = data['email']
+#         if 'companypk' in data and 'company' in data:
+#             companyObj = service.objects.get(pk = int(data['companypk']))
+#             contactObj.company = companyObj
+#             if companyObj.address == None:
+#                 if 'street' in data:
+#                     addressObj = address.objects.create(street = data['street'])
+#                     companyObj.address = addressObj
+#                     companyObj.save()
+#             else:
+#                 addressObj = companyObj.address
+#                 if 'street' in data:
+#                     addressObj.street = data['street']
+#                     addressObj.save()
+#         elif 'company' in data:
+#             companyObj = service.objects.create(name = data['company'], user = request.user , division = request.user.designation.division)
+#             contactObj.company = companyObj
+#             if 'street' in data:
+#                 addressObj = address.objects.create(street = data['street'])
+#                 companyObj.address = addressObj
+#                 companyObj.save()
+#         if 'company' in data:
+#             if 'gstin' in data:
+#                 companyObj.tin = data['gstin']
+#             if 'city' in data:
+#                 addressObj.city = data['city']
+#             if 'state' in data:
+#                 addressObj.state = data['state']
+#             if 'country' in data:
+#                 addressObj.country = data['country']
+#             if 'pincode' in data:
+#                 addressObj.pincode = data['pincode']
+#             addressObj.save()
+#             companyObj.save()
+#
+#         if 'company' not in data:
+#             contactObj.company = None
+#
+#         if 'street' in data:
+#             contactObj.street = data['street']
+#         if 'city' in data:
+#             contactObj.city = data['city']
+#         if 'state' in data:
+#             contactObj.state = data['state']
+#         if 'country' in data:
+#             contactObj.country = data['country']
+#         if 'pincode' in data:
+#             contactObj.pincode = data['pincode']
+#
+#         contactObj.save()
+#         data = ContactSerializer(contactObj , many = False).data
+#         return Response( data , status=status.HTTP_200_OK)
+
+
 class CreateContactView(APIView):
     renderer_classes = (JSONRenderer,)
     permission_classes = (permissions.AllowAny,)
@@ -1548,14 +1630,6 @@ class CreateContactView(APIView):
         except:
                 contactObj  = Contact.objects.filter(mobile = data['mobile'], division = div).first()
         contactObj.name = data['name']
-        # if 'pk' in data:
-        #     contactObj = Contact.objects.get(pk = int(data['pk']))
-        #     if 'name' in data:
-        #         contactObj.name = data['name']
-        #     if 'mobile' in data:
-        #         contactObj.mobile = data['mobile']
-        # else:
-        #     contactObj = Contact.objects.create(name = data['name'] , mobile = data['mobile'] , user = request.user)
         if 'isGst' in data:
             contactObj.isGst = data['isGst']
         if 'designation' in data:
@@ -1613,6 +1687,7 @@ class CreateContactView(APIView):
         contactObj.save()
         data = ContactSerializer(contactObj , many = False).data
         return Response( data , status=status.HTTP_200_OK)
+
 
 class GetBoardOptionsView(APIView):
     renderer_classes = (JSONRenderer,)

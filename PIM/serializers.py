@@ -77,7 +77,7 @@ class calendarSerializer(serializers.ModelSerializer):
         return  str(date.time()).split('.')[0][:-3]
     def get_remainingHours(self,obj):
         tz_IN = pytz.timezone('Asia/Kolkata')
-        now = datetime.now(tz_IN)
+        now = datetime.datetime.now(tz_IN)
         date = obj.when
         diff = date - now
         remainingHours = int(math.floor(diff.seconds/(60*60)))
