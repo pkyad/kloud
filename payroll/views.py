@@ -102,10 +102,13 @@ class payrollReportViewSet(viewsets.ModelViewSet):
 
 class advancesViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
-    queryset = Advances.objects.all()
+    # queryset = Advances.objects.all()
     serializer_class = advancesSerializer
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['user','settled']
+    def get_queryset(self):
+        toRet =  Advances.objects.filter(division = self.request.user.designation.division)
+        return toRet
 
 
 

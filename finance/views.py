@@ -1683,7 +1683,7 @@ class GetExpensesAPIView(APIView):
             fromDate = fromDate - datetime.timedelta(days=1)
             toDate = date.replace(day = calendar.monthrange(int(year), int(month))[1], month = int(month), year = int(year))
             toDate = toDate + datetime.timedelta(days=1)
-            expenseObj = ExpenseSheet.objects.filter(stage=request.GET['stage'])
+            expenseObj = ExpenseSheet.objects.filter(stage=request.GET['stage'], division = request.user.designation.division)
             expenseObj = list(expenseObj.filter(created__range=(fromDate,toDate)).values('pk','created','user','notes','project','stage'))
             for i in expenseObj:
                 invoice = Expense.objects.filter(sheet = int(i['pk'])).aggregate(totAmount=Sum('amount'),gstAmount=Sum('gstVal'))
@@ -1705,7 +1705,7 @@ class GetExpensesAPIView(APIView):
                     pass
 
         else:
-            expenseObj = InvoiceReceived.objects.filter(status='submitted', invType = 'EXPENSES')
+            expenseObj = InvoiceReceived.objects.filter(status='submitted', invType = 'EXPENSES', division = request.user.designation.division)
             user = request.user
             expenseObj = expenseObj.filter(user__designation__reportingTo = user).values('pk','created','user','title','status')
             for i in expenseObj:
@@ -1730,7 +1730,7 @@ class DownloadExpensesAPIView(APIView):
     def get(self, request, format=None):
         frm = request.GET['frm']
         to = request.GET['to']
-        expenseObj = ExpenseSheet.objects.all()
+        expenseObj = ExpenseSheet.objects.filter(division = request.user.designation.division)
         if 'stage' in request.GET:
             expenseObj = expenseObj.filter(stage=request.GET['stage'])
         if 'user' in request.GET:
