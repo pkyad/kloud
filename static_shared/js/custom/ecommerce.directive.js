@@ -492,9 +492,9 @@ app.directive('ecommerceBestdeals', function() {
     restrict: 'E',
     transclude: true,
     replace: true,
-    // scope: {
-    //
-    // },
+    scope: {
+      data:"="
+    },
     controller: function($scope, $state, $http, Flash, $rootScope, $users, $filter, $interval) {
 
       var curday;
@@ -582,192 +582,194 @@ app.directive('ecommerceBestdeals', function() {
           }
         },
       };
+      $scope.deals = JSON.parse($scope.data)
+      
+      // console.log(JSON.parse($scope.deals),'ssssssssssssssssssssssssssssssssssssssssssssss');
 
+      // $scope.deals = [{
+      //     "heading": "Best Deals to starts with",
+      //     "items": [{
+      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "category": "Desk Organizer",
+      //         "name": "SIT01 Bamboo Speaker",
+      //         "mrp": 450,
+      //         "sellingPrice": 700,
+      //         "endDateTime": new Date(),
+      //         "pk": 1
+      //       },
+      //       {
+      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "category": "Desk Organizer",
+      //         "name": "SIT01 Bamboo Speaker",
+      //         "mrp": 450,
+      //         "sellingPrice": 700,
+      //         "pk": 2,
+      //         "endDateTime": new Date()
+      //       },
+      //       {
+      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "category": "Desk Organizer",
+      //         "name": "SIT01 Bamboo Speaker",
+      //         "mrp": 450,
+      //         "sellingPrice": 700,
+      //         "pk": 3,
+      //         "endDateTime": new Date()
+      //       }
+      //     ]
+      //   },
+      //   {
+      //     "heading": "Trending-covid 19 supplies",
+      //     "items": [{
+      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "category": "Desk Organizer",
+      //         "name": "SIT01 Bamboo Speaker",
+      //         "mrp": 1450,
+      //         "sellingPrice": 700,
+      //         "pk": 4,
+      //         "endDateTime": new Date()
+      //       },
+      //       {
+      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "category": "Desk Organizer",
+      //         "name": "SIT01 Bamboo Speaker",
+      //         "mrp": 1450,
+      //         "sellingPrice": 900,
+      //         "pk": 5,
+      //         "endDateTime": new Date()
+      //       },
+      //       {
+      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "category": "Desk Organizer",
+      //         "name": "SIT01 Bamboo Speaker",
+      //         "mrp": 1550,
+      //         "sellingPrice": 1000,
+      //         "pk": 6,
+      //         "endDateTime": new Date()
+      //       }
+      //     ]
+      //   },
+      //   {
+      //     "heading": "Trending Gifts-Corporate",
+      //     "items": [{
+      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "category": "Desk Organizer",
+      //         "name": "SIT01 Bamboo Speakeddddr",
+      //         "mrp": 1550,
+      //         "sellingPrice": 1000,
+      //         "pk": 1,
+      //         "endDateTime": new Date()
+      //       },
+      //       {
+      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "category": "Desk Organizer",
+      //         "name": "SIT01 Bamboo Speaker",
+      //         "mrp": 150,
+      //         "sellingPrice": 70,
+      //         "pk": 2,
+      //         "endDateTime": new Date()
+      //       },
+      //       {
+      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "category": "Desk Organizer",
+      //         "name": "SIT01 Bamboo Speaker",
+      //         "mrp": 100,
+      //         "sellingPrice": 70,
+      //         "pk": 3,
+      //         "endDateTime": new Date()
+      //       },
+      //       {
+      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "category": "Desk Organizer",
+      //         "name": "SIT01 Bamboo Speaker",
+      //         "mrp": 100,
+      //         "sellingPrice": 70,
+      //         "pk": 4,
+      //         "endDateTime": new Date()
+      //       },
+      //       {
+      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "category": "Desk Organizer",
+      //         "name": "SIT01 Bamboo Speaker",
+      //         "mrp": 100,
+      //         "sellingPrice": 70,
+      //         "pk": 5,
+      //         "endDateTime": new Date()
+      //       },
+      //       {
+      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "category": "Desk Organizer",
+      //         "name": "SIT01 Bamboo Speaker",
+      //         "mrp": 100,
+      //         "sellingPrice": 700,
+      //         "pk": 6,
+      //         "endDateTime": new Date()
+      //       },
+      //       {
+      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "category": "Desk Organizer",
+      //         "name": "SIT01 Bamboo Speaker",
+      //         "mrp": 100,
+      //         "sellingPrice": 700,
+      //         "pk": 7,
+      //         "endDateTime": new Date()
+      //       },
+      //       {
+      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "category": "Desk Organizer",
+      //         "name": "SIT01 Bamboo Speaker",
+      //         "mrp": 100,
+      //         "sellingPrice": 700,
+      //         "pk": 8,
+      //         "endDateTime": new Date()
+      //       },
+      //       {
+      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "category": "Desk Organizer",
+      //         "name": "SIT01 Bamboo Speaker",
+      //         "mrp": 100,
+      //         "sellingPrice": 700,
+      //         "pk": 9,
+      //         "endDateTime": new Date()
+      //       },
+      //     ]
+      //   },
+      //   {
+      //     "heading": "Kitchen Jar",
+      //     "items": [{
+      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "category": "Desk Organizer",
+      //         "name": "SIT01 Bamboo Speaker",
+      //         "mrp": 650,
+      //         "sellingPrice": 700,
+      //         "endDateTime": new Date()
+      //       },
+      //       {
+      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "category": "Desk Organizer",
+      //         "name": "SIT01 Bamboo Speaker",
+      //         "mrp": 450,
+      //         "sellingPrice": 700,
+      //         "endDateTime": new Date()
+      //       },
+      //       {
+      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "category": "Desk Organizer",
+      //         "name": "SIT01 Bamboo Speaker",
+      //         "mrp": 450,
+      //         "sellingPrice": 700,
+      //         "endDateTime": new Date()
+      //       }
+      //     ]
+      //   }
+      // ]
 
-      $scope.deals = [{
-          "heading": "Best Deals to starts with",
-          "items": [{
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 450,
-              "sellingPrice": 700,
-              "endDateTime": new Date(),
-              "pk": 1
-            },
-            {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 450,
-              "sellingPrice": 700,
-              "pk": 2,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 450,
-              "sellingPrice": 700,
-              "pk": 3,
-              "endDateTime": new Date()
-            }
-          ]
-        },
-        {
-          "heading": "Trending-covid 19 supplies",
-          "items": [{
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 1450,
-              "sellingPrice": 700,
-              "pk": 4,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 1450,
-              "sellingPrice": 900,
-              "pk": 5,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 1550,
-              "sellingPrice": 1000,
-              "pk": 6,
-              "endDateTime": new Date()
-            }
-          ]
-        },
-        {
-          "heading": "Trending Gifts-Corporate",
-          "items": [{
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speakeddddr",
-              "mrp": 1550,
-              "sellingPrice": 1000,
-              "pk": 1,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 150,
-              "sellingPrice": 70,
-              "pk": 2,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 100,
-              "sellingPrice": 70,
-              "pk": 3,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 100,
-              "sellingPrice": 70,
-              "pk": 4,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 100,
-              "sellingPrice": 70,
-              "pk": 5,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 100,
-              "sellingPrice": 700,
-              "pk": 6,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 100,
-              "sellingPrice": 700,
-              "pk": 7,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 100,
-              "sellingPrice": 700,
-              "pk": 8,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 100,
-              "sellingPrice": 700,
-              "pk": 9,
-              "endDateTime": new Date()
-            },
-          ]
-        },
-        {
-          "heading": "Kitchen Jar",
-          "items": [{
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 650,
-              "sellingPrice": 700,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 450,
-              "sellingPrice": 700,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 450,
-              "sellingPrice": 700,
-              "endDateTime": new Date()
-            }
-          ]
-        }
-      ]
-
-      $scope.getIndex = function(indx) {
-        console.log(indx);
-        $scope.index = indx
-        $scope.items = $scope.deals[indx].items
-        console.log($scope.items, "werer");
-      }
-      $scope.getIndex(1)
+      // $scope.getIndex = function(indx) {
+      //   console.log(indx);
+      //   $scope.index = indx
+      //   $scope.items = $scope.deals[indx].items
+      //   console.log($scope.items, "werer");
+      // }
+      // $scope.getIndex(1)
 
 
 
@@ -787,11 +789,13 @@ app.directive('ecommerceHotproducts', function() {
     },
     controller: function($scope, $state, $http, Flash, $rootScope, $users, $filter, $interval) {
       $scope.items = $scope.data
+      if ($scope.data!=undefined) {
       $scope.data = JSON.parse($scope.data)
       $scope.hotproducts = {
         "heading": $scope.data.heading.string,
         "items": $scope.data.products.array
       }
+    }
 
     },
 
@@ -815,7 +819,10 @@ app.directive('recentlyViewedproducts', function() {
     },
     controller: function($scope, $state, $http, Flash, $rootScope, $users, $filter, $interval) {
       console.log($scope.data,"43423234234123cxvxczvcv");
-      $scope.data = JSON.parse($scope.data)
+      if ($scope.data!=undefined) {
+        $scope.data = JSON.parse($scope.data)
+
+      }
       $scope.viewedProductsProperties = {
         lazyLoad: false,
         loop: true,
@@ -840,11 +847,12 @@ app.directive('recentlyViewedproducts', function() {
         },
       };
 
-
-      $scope.viewedProducts = {
-        "heading": $scope.data.heading.string,
-        "items": $scope.data.products.array
-      }
+      if ($scope.data!=undefined) {
+        $scope.viewedProducts = {
+          "heading": $scope.data.heading.string,
+          "items": $scope.data.products.array
+        }
+    }
 
     },
 

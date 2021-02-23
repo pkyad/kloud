@@ -59,7 +59,7 @@ class PageViewSet(viewsets.ModelViewSet):
 
 class ComponentsViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
-    queryset = Components.objects.all().order_by('parent__pk','index')
+    queryset = Components.objects.all().order_by('index')
     serializer_class = ComponentsSerializer
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['parent' , 'component_type']

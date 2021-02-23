@@ -600,12 +600,10 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
 
           }).
           then(function(response) {
-            console.log(reponse.data,'432423243');
+            console.log(response.data,'432423243');
             if (response.data.pk) {
                 Flash.create('success', 'Created....!!!')
-
             } else {
-
               Flash.create('danger', `${response.data.status}`)
             }
             $uibModalInstance.dismiss()

@@ -87,10 +87,20 @@ app.config(function($stateProvider) {
       templateUrl: '/static/ngTemplates/app.organization.usage.html',
       controller: 'businessManagement.usage',
    })
+   .state('analytics', {
+      url: "/analytics",
+      templateUrl: '/static/ngTemplates/app.organization.analytics.html',
+      controller: 'businessManagement.analytics',
+   })
 
 
  });
 
+
+
+app.controller('businessManagement.analytics', function($scope, $state, $stateParams, $http, Flash, $uibModal) {
+
+})
 
 
  app.controller('businessManagement.usage', function($scope, $state, $stateParams, $http, Flash, $uibModal) {

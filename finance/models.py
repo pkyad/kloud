@@ -415,3 +415,11 @@ class InvoiceQty(models.Model):
     receivedQty = models.PositiveIntegerField(default=0)
     user = models.ForeignKey(User , related_name='invoiceQtyUsers' , null = True)
     attachment = models.FileField(upload_to = getInvoicesPath ,  null = True) #REQUIRED IF EXPENSES
+
+class Cart(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    contact = models.ForeignKey(Contact , related_name = 'carts' , null = True)
+    product = models.ForeignKey(Inventory , related_name = 'carts' , null = True)
+    qty = models.PositiveIntegerField(default=0)
+    price = models.FloatField(default=1)
+    total = models.FloatField(default=1)

@@ -294,7 +294,7 @@ $scope.getComponents()
         //
         // }
 
-      
+
 
         $scope.add = function(){
           console.log($scope.search.searchVal,'eqwerqwerwerrwer');
@@ -343,6 +343,7 @@ $scope.getComponents()
 
 
         $scope.save = function(data) {
+          console.log(data);
 
           $http({
             method: 'PATCH',
