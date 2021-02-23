@@ -44,12 +44,13 @@
 <div class="container-fluid checkout_container" style="font-family: var(--fontStyle)!important;{{topLevelMenu?'margin-top:5vh':''}};">
   <div class=" bg-white" style="display:block;position:relative;min-height:500px;padding-left:0px;">
 
-    <div ng-if="(data.stage == 'review' || data.stage == 'shippingDetails' || data.stage == 'payment') && cartData.length>0" ng-include="'/static/ngTemplates/checkout.steps.html'"></div>
+    <!-- <div ng-if="(data.stage == 'review' || data.stage == 'shippingDetails' || data.stage == 'payment') && cartData.length>0" ng-include="'/static/ngTemplates/checkout.steps.html'"></div> -->
 
 
     <div class=" {{cartData.length==0?'col-md-12':'col-md-9'}}">
       <div style="margin-top:30px;font-family: var(--fontStyle)!important">
-        <div ng-if="data.stage == 'review'">
+        <!-- ng-if="data.stage == 'review'" -->
+        <div >
           <div>
             <div class="container-fluid pageheight" style="margin-top:20px;height:100vh;padding:0px;font-family: var(--fontStyle)!important;{{topLevelMenu?'margin-top:5vh':''}}" ng-if="cartData.length==0">
               <div class="row text-center" style="padding-top:35px">
@@ -90,10 +91,12 @@
                       <!-- <img style="width: 100%;" class="img" ng-src="{{c.productVariant.images[0].attachment}}"> -->
                     </div>
                     <div ng-click="openDetails(c.product.pk,c.product.name.split(' ').join('-'))" class="col-md-3 col-xs-8 proData_padding" style="padding-top:20px;cursor:pointer">
-                      <p>{{c.productVariant.displayName}}</p>
+                      <!-- <p>{{c.productVariant.displayName}}</p> -->
+                      <p>{{c.product.name}}</p>
                     </div>
                     <div class="col-md-2 col-xs-6 proData_padding" style="padding-top:20px">
-                      <span> <span style="font-size:14px;"><i class="fa {{currency}}"></i> {{c.productVariant.sellingPrice + (c.product.gstType =='gst_extra'?c.productVariant.sellingPrice*(c.product.taxRate / 100):0)|number:2}}</span> <strike style="margin-right:15px"> <i class="fa {{currency}}"></i> {{c.productVariant.price.toFixed(2)}} </strike> </span> <br>
+                      <span> <span style="font-size:14px;"><i class="fa fa-inr"></i> {{c.price}} </span>
+                      <!-- <span> <span style="font-size:14px;"><i class="fa {{currency}}"></i> {{c.productVariant.sellingPrice + (c.product.gstType =='gst_extra'?c.productVariant.sellingPrice*(c.product.taxRate / 100):0)|number:2}}</span> <strike style="margin-right:15px"> <i class="fa {{currency}}"></i> {{c.productVariant.price.toFixed(2)}} </strike> </span> <br>
                       <span style="font-size:15px;" ng-if="!c.discountedPrice">
                         <span ng-if="c.product.gstType != 'gst_included'">(<i class="fa {{currency}}"></i>{{c.productVariant.sellingPrice.toFixed(2)}}</span>
                         <span ng-if="c.product.gstType == 'gst_included'">(<i class="fa {{currency}}"></i>{{c.productVariant.sellingPrice-(c.productVariant.sellingPrice*(c.product.taxRate/(100+c.product.taxRate)))|number:2}}+{{c.product.taxRate}}% GST)</span>
@@ -107,14 +110,13 @@
                         <span ng-if="c.product.gstType == 'gst_extra'">+{{c.product.taxRate}}% GST) </span>
                         <span ng-if="c.product.gstType == 'gst_not_applicable'">+0.00% GST) </span>
                         <span ng-if="!c.product.gstType">)</span>
-                      </span>
+                      </span> -->
                     </div>
                     <div class="col-md-2 col-xs-5 hidden-xs" style="padding-top:20px">
                       <div class="input-group" style="width:70%;border:1px solid #d7d7d7" ng-if="c.productVariant.stock== null || (c.productVariant.stock>0 && c.productVariant.stock >= c.productVariant.minQtyOrder)">
                         <span class="input-group-btn">
                           <button type="button" class="btn btn-default" ng-click="changeQty(c.pk, $index,'decrement')" style="box-shadow:none!important"><i class="fa fa-minus"></i></button>
                         </span>
-                        <!-- <input type="text" class="form-control text-center" ng-click="updateQty(c.pk, c.productVariant.displayName , c.qty)" ng-model="c.qty" name="" value="" min="1" disabled> -->
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="updateQty(c.pk, c.productVariant.displayName , c.qty)" style="box-shadow:none!important"> {{c.qty}}</button>
                         </span>
@@ -144,14 +146,14 @@
                       </div>
                     </div>
                     <div class="col-md-2 col-xs-12 proData_padding hidden-xs" style="padding-top:20px;color:var(--themeColor)">
-                      <h6 style="color:var(--themeColor);font-size:15px;"> <i class="fa {{currency}}"></i> {{c.price|number:2}} </h6>
+                      <h6 style="color:var(--themeColor);font-size:15px;"> <i class="fa {{currency}}"></i> {{c.total|number:2}} </h6>
                       <div class=""  ng-if="c.bulkDiscount>0">
                       <p style="margin:0px;">Saved</p>
                       <h5 style="color:green;margin:0px;font-size:13px;"> <i class="fa {{currency}}"></i>{{c.bulkDiscount  | number:2}} </h5>
                     </div>
                     </div>
                     <div class="col-md-2 col-xs-12 proData_padding text-right visible-xs" style="padding-top:20px;color:var(--themeColor)">
-                      <h6 style="color:var(--themeColor);font-size:15px;"> <i class="fa {{currency}}"></i> {{(c.price).toFixed(2) }} </h6>
+                      <h6 style="color:var(--themeColor);font-size:15px;"> <i class="fa {{currency}}"></i> {{(c.total).toFixed(2) }} </h6>
                     </div>
                     <div class="col-md-2 hidden-xs" style="padding-top:20px;color:red">
                       <!-- <i class="fa fa-close fa-lg" ng-click="deleteFromCart($index,c.pk)"></i> -->

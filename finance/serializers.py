@@ -611,6 +611,12 @@ class CategorySerializer(serializers.ModelSerializer):
     # def get_products(self,obj):
     #     return RateListSerializer(obj.categoryInventory.all(),many=True).data
 
+class InventoryLiteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Inventory
+        fields=('pk','created','name','img1')
+
+
 class RateListSerializer(serializers.ModelSerializer):
     category = CategorySerializer(many=False,read_only=True)
     cart = serializers.SerializerMethodField()
@@ -819,12 +825,15 @@ class InvoiceReceivedAllSerializer(serializers.ModelSerializer):
 
 
 class CartSerializer(serializers.ModelSerializer):
+    product = InventoryLiteSerializer(many = False , read_only = True)
     class Meta:
         model = Cart
         fields=('pk','created','contact','product','qty','price','total','division')
     def create(self , validated_data):
         cart = Cart(**validated_data)
         division = self.context['request'].user.designation.division
+        if 'product' in self.context['request'].data:
+            cart.product = Inventory.objects.get(pk = int(self.context['request'].data['product']))
         cart.division = division
         cart.price = cart.product.rate
         cart.total = cart.product.rate * cart.qty
