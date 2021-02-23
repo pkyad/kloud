@@ -237,6 +237,7 @@ class calendar(models.Model):
     followers = models.ManyToManyField(User , related_name = 'calendarItemsFollowing' , blank = True)
     data = models.TextField(max_length = 200 , null = True)
     zoomcode = models.TextField(max_length = 5000 , null = True)
+    division = models.ForeignKey(Division , related_name = 'calendardivision' , null = True)
 
 import time
 import subprocess

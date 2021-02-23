@@ -30,13 +30,14 @@ class calendarViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['text' , 'originator' , 'data' , 'user', 'eventType']
     def get_queryset(self):
-        toReturn = calendar.objects.all()
+        user = self.request.user
+        toReturn = calendar.objects.filter(user = user)
         if 'date' in self.request.GET:
             dated = self.request.GET['date']
             frmdate = datetime.strptime(str(dated), '%Y-%m-%d').strftime('%Y-%m-%d %H:%M:%S')
             frmdate = datetime.strptime(str(frmdate), '%Y-%m-%d %H:%M:%S')
             toDate = frmdate.replace(hour=23, minute=59, second=59, microsecond=999999)
-            qs1 = calendar.objects.filter(when__range = (frmdate , toDate)).order_by('when')
+            qs1 = calendar.objects.filter(when__range = (frmdate , toDate), user = user).order_by('when')
             qs2 = self.request.user.calendarItemsFollowing.filter(when__range = (frmdate , toDate)).order_by('when')
 
             toReturn = qs1 | qs2
