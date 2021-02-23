@@ -4763,6 +4763,15 @@ class InvoiceQtyViewSet(viewsets.ModelViewSet):
     serializer_class = InvoiceQtySerializer
     queryset = InvoiceQty.objects.all()
 
+class CartViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated, )
+    serializer_class = CartSerializer
+    # filter_backends = [DjangoFilterBackend]
+    # filter_fields = ['title','group','heading','personal']
+    def get_queryset(self):
+        divsn = self.request.user.designation.division
+        return Cart.objects.filter(division = divsn)
+
 
 class SaveInvoiceReceived(APIView):
     renderer_classes = (JSONRenderer,)

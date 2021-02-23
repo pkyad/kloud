@@ -4,9 +4,21 @@ app.directive('ecommerceHeader', function() {
     restrict: 'E',
     replace: false,
     transclude: true,
-    controller: function($scope, $state, $stateParams, $users,$http) {
+    controller: function($scope, $state, $stateParams, $users,$http, $rootScope) {
       $scope.me = $users.get('mySelf')
-
+      $scope.getCartItems = function(){
+        $http({
+          method: 'GET',
+          url: '/api/finance/cart/'
+        }).
+        then(function(response) {
+          $scope.allCartItems = response.data
+        })
+      }
+      $scope.getCartItems()
+      $rootScope.$on('getCart', function(event, message) {
+        $scope.getCartItems()
+      });
       $scope.getCategories = function(){
         $http({
           method: 'GET',
@@ -596,7 +608,7 @@ app.directive('ecommerceBestdeals', function() {
         },
       };
       $scope.deals = JSON.parse($scope.data)
-      
+
       // console.log(JSON.parse($scope.deals),'ssssssssssssssssssssssssssssssssssssssssssssss');
 
       // $scope.deals = [{
@@ -1058,7 +1070,7 @@ app.directive('productDetails', function() {
     transclude: true,
     replace: true,
     controller: function($scope, $state, $http, Flash, $rootScope, $users, $filter, $interval) {
-      $scope.list = $scope.data
+    $scope.list = $scope.data
       console.log(PRODUCT,'#$38ijsdksdhf');
       $http({
         method: 'GET',
@@ -1081,6 +1093,55 @@ app.directive('productDetails', function() {
         $scope.similarproducts = response.data
         })
       }
+
+      $scope.addToCart = function(){
+        var dataToSend = {
+          product :  $scope.products.pk,
+          qty : 1,
+        }
+        $http({
+          method: 'POST',
+          url: '/api/finance/cart/',
+          data:dataToSend
+        }).
+        then(function(response) {
+          $scope.products.cart = 1
+          $scope.products.cartId = response.data.pk
+          $rootScope.$broadcast("getCart", {});
+        })
+      }
+
+      $scope.changeQty = function(val){
+        if (val == 'increment') {
+          $scope.products.cart+=1
+        }
+        else{
+          $scope.products.cart-=1
+        }
+        if ($scope.products.cart>0) {
+          var dataToSend = {
+            qty:$scope.products.cart,
+          }
+          $http({
+            method: 'PATCH',
+            url: '/api/finance/cart/'+$scope.products.cartId+'/',
+            data:dataToSend
+          }).
+          then(function(response) {
+          })
+        }
+        else{
+          $http({
+            method: 'DELETE',
+            url: '/api/finance/cart/'+$scope.products.cartId+'/',
+          }).
+          then(function(response) {
+              $rootScope.$broadcast("getCart", {});
+          })
+        }
+      }
+
+
 
 
 
