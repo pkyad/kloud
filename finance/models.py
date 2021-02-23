@@ -423,3 +423,4 @@ class Cart(models.Model):
     qty = models.PositiveIntegerField(default=0)
     price = models.FloatField(default=1)
     total = models.FloatField(default=1)
+    division = models.ForeignKey(Division,related_name='carts',null=True)

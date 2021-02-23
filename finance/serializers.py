@@ -613,9 +613,11 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class RateListSerializer(serializers.ModelSerializer):
     category = CategorySerializer(many=False,read_only=True)
+    cart = serializers.SerializerMethodField()
+    cartId = serializers.SerializerMethodField()
     class Meta:
         model = Inventory
-        fields=('pk','created','name','value','rate','qtyAdded','refurnished','refurnishedAdded','sellable','description','richtxtDesc','taxCode','img1','img2','img3','category','buyingPrice','sku','taxRate','mrp','division')
+        fields=('pk','created','name','value','rate','qtyAdded','refurnished','refurnishedAdded','sellable','description','richtxtDesc','taxCode','img1','img2','img3','category','buyingPrice','sku','taxRate','mrp','division','cart','cartId')
     def create(self , validated_data):
         inven = Inventory(**validated_data)
         try:
@@ -636,6 +638,18 @@ class RateListSerializer(serializers.ModelSerializer):
             instance.qtyAdded = self.context['request'].data['value']
         instance.save()
         return instance
+    def get_cart(self, obj):
+        cart = 0
+        data = obj.carts.filter(division = self.context['request'].user.designation.division)
+        if data.count()>0:
+            cart = data.first().qty
+        return cart
+    def get_cartId(self, obj):
+        cart = None
+        data = obj.carts.filter(division = self.context['request'].user.designation.division)
+        if data.count()>0:
+            cart = data.first().id
+        return cart
 
 class InventoryLogSerializer(serializers.ModelSerializer):
     inventory = RateListSerializer(many = False , read_only = True)
@@ -655,6 +669,7 @@ class InventoryLogSerializer(serializers.ModelSerializer):
             inv.inventory = Inventory.objects.get(pk=int(self.context['request'].data['inventory']))
         inv.save()
         return inv
+
 
 class ExpenseHeadingLiteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -801,3 +816,22 @@ class InvoiceReceivedAllSerializer(serializers.ModelSerializer):
         fields=('pk','created','user','companyName','personName','phone','email','address' ,'state' , 'city' ,'country','pincode' , 'deliveryDate' , 'paymentDueDate' , 'costcenter' , 'accNo' , 'ifsc' , 'bankName' , 'account'  , 'totalAmount' , 'balanceAmount' , 'paidAmount' , 'companyReference' , 'note','products','invNo','gstIn','invType','title','status')
     def get_products(self, obj):
         return InvoiceQtySerializer(obj.parentInvoice, many = True).data
+
+
+class CartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cart
+        fields=('pk','created','contact','product','qty','price','total','division')
+    def create(self , validated_data):
+        cart = Cart(**validated_data)
+        division = self.context['request'].user.designation.division
+        cart.division = division
+        cart.price = cart.product.rate
+        cart.total = cart.product.rate * cart.qty
+        cart.save()
+        return cart
+    def update(self , instance , validated_data):
+        instance.qty =  self.context['request'].data['qty']
+        instance.total = instance.product.rate * instance.qty
+        instance.save()
+        return instance

@@ -29,6 +29,7 @@ router.register(r'disbursallite' , DisbursalliteViewSet , base_name ='disbursall
 router.register(r'invoiceReceived' , InvoiceReceivedViewSet , base_name ='invoiceReceived')
 router.register(r'invoiceReceivedAll' , InvoiceReceivedAllViewSet , base_name ='invoiceReceivedAll')
 router.register(r'invoiceQty' , InvoiceQtyViewSet , base_name ='invoiceQty')
+router.register(r'cart' , CartViewSet , base_name ='cart')
 # router.register(r'outBoundInvoice' , OutBoundInvoiceViewSet , base_name ='outBoundInvoice')
 # router.register(r'outBoundInvoiceAll' , OutBoundInvoiceAllViewSet , base_name ='outBoundInvoice')
 # router.register(r'outBoundInvoiceQty' , OutBoundInvoiceQtyViewSet , base_name ='outBoundInvoiceQty')
