@@ -124,6 +124,328 @@ app.directive('categories', function() {
     },
   };
 });
+app.directive('checkoutView', function() {
+  return {
+    templateUrl: '/static/ngTemplates/checkout.html',
+    restrict: 'E',
+    replace: false,
+    transclude: true,
+    controller: function($scope, $state, $stateParams, $users,$http,$timeout,$rootScope) {
+      $scope.me = $users.get('mySelf')
+
+      $scope.is_wishlist = false
+  $scope.deletecustomatcart = function(indx) {
+    var dataToSend = {
+      customDetails: null,
+      customFile: null,
+    }
+    $http({
+      method: 'PATCH',
+      url: '/api/finance/cart/' + $rootScope.cartData[indx].pk + '/',
+      data: dataToSend
+    }).
+    then(function(response) {
+      Flash.create("success", 'Customization Removed')
+    })
+  }
+  $scope.uploadcustomatcart = function(indx) {
+    var fd = new FormData()
+    fd.append('customDetails', $rootScope.cartData[indx].customDetails);
+    fd.append('customFile', $rootScope.cartData[indx].customFile);
+    $http({
+      method: 'PATCH',
+      url: '/api/finance/cart/' + $rootScope.cartData[indx].pk + '/',
+      transformRequest: angular.identity,
+      headers: {
+        'Content-Type': undefined
+      },
+      data: fd,
+    }).
+    then(function(response) {
+      Flash.create("success", 'Customization Added')
+    })
+
+  }
+  $scope.currency = "fa-inr"
+  $scope.me = $users.get('mySelf');
+
+  var url = new URL(window.location.href)
+  var action = url.searchParams.get("action")
+
+
+  $scope.removeComment = function(indx) {
+    $rootScope.cartData[indx].comment = null
+    $http({
+      method: 'PATCH',
+      url: '/api/finance/cart/' + $rootScope.cartData[indx].pk + '/',
+      data: {
+        comment: $rootScope.cartData[indx].comment
+      }
+    }).
+    then(function(res) {})
+  }
+
+  $scope.removeCommentFav = function(indx) {
+    $rootScope.favData[indx].comment = null
+    $http({
+      method: 'PATCH',
+      url: '/api/finance/cart/' + $rootScope.favData[indx].pk + '/',
+      data: {
+        comment: $rootScope.favData[indx].comment
+      }
+    }).
+    then(function(res) {})
+  }
+
+
+
+
+
+  $scope.getcustomization = function(indx) {
+    var cart = $rootScope.cartData[indx]
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.ecommerce.getcustomization.html',
+      size: 'lg',
+      backdrop: false,
+      resolve: {
+        cartPk: function() {
+          return cart.pk;
+        },
+        selectedProdVarpk: function() {
+          return cart.productVariant.pk;
+        },
+        productpk: function() {
+          return cart.product.pk;
+        },
+        typ: function() {
+          return 'edit';
+        },
+      },
+      controller: 'ecommerce.customisation'
+    }).result.then(function(data) {}, function(data) {
+      console.log(data);
+      if (data != undefined) {
+        $rootScope.cartData[indx] = data
+      }
+    });
+  }
+
+
+  $scope.removecustomization = function(indx) {
+    var patchdata = {
+      customFile: null,
+      customDetails: null,
+      addon: null
+    }
+    $http({
+      method: 'PATCH',
+      url: '/api/finance/cart/' + $rootScope.cartData[indx].pk + '/',
+      data: patchdata,
+    }).
+    then(function(response) {
+      $rootScope.cartData[indx] = response.data
+    })
+  }
+
+
+  $scope.data = {}
+  $scope.data.stage = 'review'
+  $scope.deleteFromCart = function(indx, value) {
+    $http({
+      method: 'DELETE',
+      url: '/api/finance/cart/' + value + '/',
+    }).
+    then(function(response) {
+      $rootScope.cartData.splice(indx, 1)
+      $rootScope.cartLength -= 1
+
+    })
+  }
+
+  $scope.deleteFromFav = function(indx, value) {
+    console.log('herrrrrrrrrrrr');
+    $http({
+      method: 'DELETE',
+      url: '/api/finance/cart/' + value + '/',
+    }).
+    then(function(response) {
+      $rootScope.favData.splice(indx, 1)
+      $rootScope.favLength -= 1
+    })
+  }
+
+  $scope.moveToCart = function(indx, value) {
+    var dataToSend = {
+      is_fav: false
+    }
+    $http({
+      method: 'PATCH',
+      url: '/api/finance/cart/' + value + '/',
+      data: dataToSend
+    }).
+    then(function(response) {
+      $rootScope.favData.splice(indx, 1)
+      $rootScope.favLength -= 1
+      $rootScope.cartData.push(response.data)
+      $rootScope.cartLength += 1
+
+    })
+  }
+
+  $scope.moveToWishlist = function(indx, value) {
+    var dataToSend = {
+      is_fav: true
+    }
+    $http({
+      method: 'PATCH',
+      url: '/api/finance/cart/' + value + '/',
+      data: dataToSend
+    }).
+    then(function(response) {
+      $rootScope.cartData.splice(indx, 1)
+      $rootScope.cartLength -= 1
+      $rootScope.favData.push(response.data)
+      $rootScope.favLength += 1
+
+    })
+  }
+
+
+  $scope.updateQty = function(cartPk, name, qty) {
+    console.log("herrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.ecommerce.updateCart.modal.html',
+      size: 'sm',
+      backdrop: false,
+      resolve: {
+        cartPk: function() {
+          return cartPk;
+        },
+        name: function() {
+          return name;
+        },
+        qty: function() {
+          return qty;
+        },
+      },
+      controller: function($scope, $http, $uibModalInstance, cartPk, name, qty) {
+
+        $scope.closeModal = function() {
+          $uibModalInstance.dismiss()
+        }
+        $scope.form = {
+          pk: cartPk,
+          name: name,
+          qty: qty
+        }
+        $scope.updateCart = function() {
+          $http({
+            method: 'PATCH',
+            url: '/api/finance/cart/' + $scope.form.pk + '/',
+            data: {
+              qty: $scope.form.qty
+            }
+          }).
+          then(function(res) {
+            $scope.closeModal()
+          })
+        }
+      },
+    }).result.then(function(data) {}, function(data) {
+
+    });
+  }
+
+
+
+  $timeout(function() {
+
+  }, 700);
+
+
+
+  $scope.changeQty = function(pk, indx, val) {
+    var cartData = $rootScope.cartData[indx]
+    if (val == 'increment') {
+      if (cartData.productVariant.minQtyOrder != null) {
+        if (cartData.productVariant.maxQtyOrder <= cartData.qty || cartData.productVariant.stock <= cartData.qty) {
+          return
+        }
+      }
+      $rootScope.cartData[indx].qty += 1
+    }
+    if (val == 'decrement') {
+      if (cartData.productVariant.minQtyOrder != null) {
+        if (cartData.qty == cartData.productVariant.minQtyOrder) {
+          return
+        }
+        $rootScope.cartData[indx].qty -= 1
+      } else {
+        $rootScope.cartData[indx].qty -= 1
+        if ($rootScope.cartData[indx].qty <= 1) {
+          $rootScope.cartData[indx].qty = 1
+        }
+      }
+    }
+    $http({
+      method: 'PATCH',
+      url: '/api/finance/cart/' + $rootScope.cartData[indx].pk + '/',
+      data: {
+        qty: $rootScope.cartData[indx].qty
+      }
+    }).
+    then(function(res) {
+      $rootScope.cartData[indx] = res.data
+
+    })
+
+  }
+
+  $scope.changeQtyFav = function(pk, indx, val) {
+    var favData = $rootScope.favData[indx]
+    if (val == 'increment') {
+      if (favData.productVariant.minQtyOrder != null) {
+        if (favData.productVariant.maxQtyOrder <= favData.qty || favData.productVariant.stock <= favData.qty) {
+          return
+        }
+      }
+      $rootScope.favData[indx].qty += 1
+    }
+    if (val == 'decrement') {
+      if (favData.productVariant.minQtyOrder != null) {
+        if (favData.qty == favData.productVariant.minQtyOrder) {
+          return
+        }
+        $rootScope.favData[indx].qty -= 1
+      } else {
+        $rootScope.favData[indx].qty -= 1
+        if ($rootScope.favData[indx].qty <= 1) {
+          $rootScope.favData[indx].qty = 1
+        }
+      }
+    }
+    $http({
+      method: 'PATCH',
+      url: '/api/finance/cart/' + $rootScope.favData[indx].pk + '/',
+      data: {
+        qty: $rootScope.favData[indx].qty
+      }
+    }).
+    then(function(res) {})
+  }
+
+  $scope.next = function() {
+
+    window.scrollTo(0, 0);
+    $state.go('address')
+
+  }
+  $scope.data.stage = 'review'
+
+
+    },
+  };
+});
 
 app.directive('ecommerceBanners', function() {
   return {
@@ -164,16 +486,16 @@ app.directive('ecommerceBanners', function() {
         {
           "title": " Upto 50% off ... ",
           "description": " More offer click below!",
-          "webImage": "https://systunix.com/media/POS/productV2/1592129907_41_banner_without_offer.png",
-          "potraitImage": "https://systunix.com/media/POS/productV2/1593619450_56_Banner_for_offer_wo_boder_and_popup_80.png"
+          "webImage": "https://systunix.com/media/finance/productV2/1592129907_41_banner_without_offer.png",
+          "potraitImage": "https://systunix.com/media/finance/productV2/1593619450_56_Banner_for_offer_wo_boder_and_popup_80.png"
 
 
         },
         {
           "title": "  Covid 19 Prevention Items  ",
           "description": "  All Kind of Prevention Items available..",
-          "webImage": "https://systunix.com/media/POS/productV2/1592132263_84_New1.jpg",
-          "potraitImage": "https://systunix.com/media/POS/productV2/1592132263_84_Prevention.png"
+          "webImage": "https://systunix.com/media/finance/productV2/1592132263_84_New1.jpg",
+          "potraitImage": "https://systunix.com/media/finance/productV2/1592132263_84_Prevention.png"
 
 
         }
@@ -296,7 +618,7 @@ app.directive('ecommerceNewproducts', function() {
       $scope.recentProducts = [{
           "heading": "Newly Added Products",
           "items": [{
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
               "category": "Desk Organizer",
               "name": "SIT01 Bamboo Speaker",
               "mrp": 450,
@@ -304,7 +626,7 @@ app.directive('ecommerceNewproducts', function() {
               "endDateTime": new Date()
             },
             {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
               "category": "Desk Organizer",
               "name": "SIT01 Bamboo Speaker",
               "mrp": 450,
@@ -312,7 +634,7 @@ app.directive('ecommerceNewproducts', function() {
               "endDateTime": new Date()
             },
             {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
               "category": "Desk Organizer",
               "name": "SIT01 Bamboo Speaker",
               "mrp": 450,
@@ -320,7 +642,7 @@ app.directive('ecommerceNewproducts', function() {
               "endDateTime": new Date()
             },
             {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
               "category": "Desk Organizer",
               "name": "SIT01 Bamboo Speaker",
               "mrp": 450,
@@ -328,7 +650,7 @@ app.directive('ecommerceNewproducts', function() {
               "endDateTime": new Date()
             },
             {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
               "category": "Desk Organizer",
               "name": "SIT01 Bamboo Speaker",
               "mrp": 450,
@@ -336,7 +658,7 @@ app.directive('ecommerceNewproducts', function() {
               "endDateTime": new Date()
             },
             {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
               "category": "Desk Organizer",
               "name": "SIT01 Bamboo Speaker",
               "mrp": 450,
@@ -344,7 +666,7 @@ app.directive('ecommerceNewproducts', function() {
               "endDateTime": new Date()
             },
             {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
               "category": "Desk Organizer",
               "name": "SIT01 Bamboo Speaker",
               "mrp": 450,
@@ -356,7 +678,7 @@ app.directive('ecommerceNewproducts', function() {
         {
           "heading": "Top Deals",
           "items": [{
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
               "category": "Desk Organizer",
               "name": "SIT01 Bamboo Speaker",
               "mrp": 450,
@@ -364,7 +686,7 @@ app.directive('ecommerceNewproducts', function() {
               "endDateTime": new Date()
             },
             {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
               "category": "Desk Organizer",
               "name": "SIT01 Bamboo Speaker",
               "mrp": 450,
@@ -372,7 +694,7 @@ app.directive('ecommerceNewproducts', function() {
               "endDateTime": new Date()
             },
             {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
               "category": "Desk Organizer",
               "name": "SIT01 Bamboo Speaker",
               "mrp": 450,
@@ -380,7 +702,7 @@ app.directive('ecommerceNewproducts', function() {
               "endDateTime": new Date()
             },
             {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
               "category": "Desk Organizer",
               "name": "SIT01 Bamboo Speaker",
               "mrp": 450,
@@ -388,7 +710,7 @@ app.directive('ecommerceNewproducts', function() {
               "endDateTime": new Date()
             },
             {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
               "category": "Desk Organizer",
               "name": "SIT01 Bamboo Speaker",
               "mrp": 450,
@@ -396,7 +718,7 @@ app.directive('ecommerceNewproducts', function() {
               "endDateTime": new Date()
             },
             {
-              "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
               "category": "Desk Organizer",
               "name": "SIT01 Bamboo Speaker",
               "mrp": 450,
@@ -596,13 +918,13 @@ app.directive('ecommerceBestdeals', function() {
         },
       };
       $scope.deals = JSON.parse($scope.data)
-      
+
       // console.log(JSON.parse($scope.deals),'ssssssssssssssssssssssssssssssssssssssssssssss');
 
       // $scope.deals = [{
       //     "heading": "Best Deals to starts with",
       //     "items": [{
-      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
       //         "category": "Desk Organizer",
       //         "name": "SIT01 Bamboo Speaker",
       //         "mrp": 450,
@@ -611,7 +933,7 @@ app.directive('ecommerceBestdeals', function() {
       //         "pk": 1
       //       },
       //       {
-      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
       //         "category": "Desk Organizer",
       //         "name": "SIT01 Bamboo Speaker",
       //         "mrp": 450,
@@ -620,7 +942,7 @@ app.directive('ecommerceBestdeals', function() {
       //         "endDateTime": new Date()
       //       },
       //       {
-      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
       //         "category": "Desk Organizer",
       //         "name": "SIT01 Bamboo Speaker",
       //         "mrp": 450,
@@ -633,7 +955,7 @@ app.directive('ecommerceBestdeals', function() {
       //   {
       //     "heading": "Trending-covid 19 supplies",
       //     "items": [{
-      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
       //         "category": "Desk Organizer",
       //         "name": "SIT01 Bamboo Speaker",
       //         "mrp": 1450,
@@ -642,7 +964,7 @@ app.directive('ecommerceBestdeals', function() {
       //         "endDateTime": new Date()
       //       },
       //       {
-      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
       //         "category": "Desk Organizer",
       //         "name": "SIT01 Bamboo Speaker",
       //         "mrp": 1450,
@@ -651,7 +973,7 @@ app.directive('ecommerceBestdeals', function() {
       //         "endDateTime": new Date()
       //       },
       //       {
-      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
       //         "category": "Desk Organizer",
       //         "name": "SIT01 Bamboo Speaker",
       //         "mrp": 1550,
@@ -664,7 +986,7 @@ app.directive('ecommerceBestdeals', function() {
       //   {
       //     "heading": "Trending Gifts-Corporate",
       //     "items": [{
-      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
       //         "category": "Desk Organizer",
       //         "name": "SIT01 Bamboo Speakeddddr",
       //         "mrp": 1550,
@@ -673,7 +995,7 @@ app.directive('ecommerceBestdeals', function() {
       //         "endDateTime": new Date()
       //       },
       //       {
-      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
       //         "category": "Desk Organizer",
       //         "name": "SIT01 Bamboo Speaker",
       //         "mrp": 150,
@@ -682,7 +1004,7 @@ app.directive('ecommerceBestdeals', function() {
       //         "endDateTime": new Date()
       //       },
       //       {
-      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
       //         "category": "Desk Organizer",
       //         "name": "SIT01 Bamboo Speaker",
       //         "mrp": 100,
@@ -691,7 +1013,7 @@ app.directive('ecommerceBestdeals', function() {
       //         "endDateTime": new Date()
       //       },
       //       {
-      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
       //         "category": "Desk Organizer",
       //         "name": "SIT01 Bamboo Speaker",
       //         "mrp": 100,
@@ -700,7 +1022,7 @@ app.directive('ecommerceBestdeals', function() {
       //         "endDateTime": new Date()
       //       },
       //       {
-      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
       //         "category": "Desk Organizer",
       //         "name": "SIT01 Bamboo Speaker",
       //         "mrp": 100,
@@ -709,7 +1031,7 @@ app.directive('ecommerceBestdeals', function() {
       //         "endDateTime": new Date()
       //       },
       //       {
-      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
       //         "category": "Desk Organizer",
       //         "name": "SIT01 Bamboo Speaker",
       //         "mrp": 100,
@@ -718,7 +1040,7 @@ app.directive('ecommerceBestdeals', function() {
       //         "endDateTime": new Date()
       //       },
       //       {
-      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
       //         "category": "Desk Organizer",
       //         "name": "SIT01 Bamboo Speaker",
       //         "mrp": 100,
@@ -727,7 +1049,7 @@ app.directive('ecommerceBestdeals', function() {
       //         "endDateTime": new Date()
       //       },
       //       {
-      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
       //         "category": "Desk Organizer",
       //         "name": "SIT01 Bamboo Speaker",
       //         "mrp": 100,
@@ -736,7 +1058,7 @@ app.directive('ecommerceBestdeals', function() {
       //         "endDateTime": new Date()
       //       },
       //       {
-      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
       //         "category": "Desk Organizer",
       //         "name": "SIT01 Bamboo Speaker",
       //         "mrp": 100,
@@ -749,7 +1071,7 @@ app.directive('ecommerceBestdeals', function() {
       //   {
       //     "heading": "Kitchen Jar",
       //     "items": [{
-      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
       //         "category": "Desk Organizer",
       //         "name": "SIT01 Bamboo Speaker",
       //         "mrp": 650,
@@ -757,7 +1079,7 @@ app.directive('ecommerceBestdeals', function() {
       //         "endDateTime": new Date()
       //       },
       //       {
-      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
       //         "category": "Desk Organizer",
       //         "name": "SIT01 Bamboo Speaker",
       //         "mrp": 450,
@@ -765,7 +1087,7 @@ app.directive('ecommerceBestdeals', function() {
       //         "endDateTime": new Date()
       //       },
       //       {
-      //         "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //         "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
       //         "category": "Desk Organizer",
       //         "name": "SIT01 Bamboo Speaker",
       //         "mrp": 450,
@@ -917,33 +1239,33 @@ app.directive('ecommercePartners', function() {
       $scope.partners = {
         "heading": "Partners",
         "items": [{
-            "image": "https://systunix.com/media/POS/productV2/1585742331_59_1583151070_71_Aditya_Birla_Group.png",
+            "image": "https://systunix.com/media/finance/productV2/1585742331_59_1583151070_71_Aditya_Birla_Group.png",
             "type": "image",
             "altText": "Aditya Birla Group"
           },
           {
-            "image": "https://systunix.com/media/POS/productV2/1585742338_48_1583141496_78_IIMbangalore.JPG",
+            "image": "https://systunix.com/media/finance/productV2/1585742338_48_1583141496_78_IIMbangalore.JPG",
             "type": "image",
             "altText": "IIM Banglore"
           },
           {
-            // "image": "https://systunix.com/media/POS/productV2/1585742331_59_1583151070_71_Aditya_Birla_Group.png",
-            "image": "https://systunix.com/media/POS/productV2/1585742365_53_1583141563_17_Stylumiz.JPG",
+            // "image": "https://systunix.com/media/finance/productV2/1585742331_59_1583151070_71_Aditya_Birla_Group.png",
+            "image": "https://systunix.com/media/finance/productV2/1585742365_53_1583141563_17_Stylumiz.JPG",
             "type": "image",
             "altText": "Stylumia"
           },
           {
-            "image": "https://systunix.com/media/POS/productV2/1585742411_24_1583141479_28_CII.JPG",
+            "image": "https://systunix.com/media/finance/productV2/1585742411_24_1583141479_28_CII.JPG",
             "type": "image",
             "altText": "Confederation of Indian Industry"
           },
           {
-            "image": "https://systunix.com/media/POS/productV2/1585742425_76_1583141523_91_IMEDCEZ.JPG",
+            "image": "https://systunix.com/media/finance/productV2/1585742425_76_1583141523_91_IMEDCEZ.JPG",
             "type": "image",
             "altText": "IMEDCEZ"
           },
           {
-            "image": "https://systunix.com/media/POS/productV2/1585742442_69_1583141482_17_Nimhans.JPG",
+            "image": "https://systunix.com/media/finance/productV2/1585742442_69_1583141482_17_Nimhans.JPG",
             "type": "image",
             "altText": "Nimhans"
           },
@@ -1004,7 +1326,7 @@ app.directive('ecommerceTestimonials', function() {
       $scope.testimonials = {
         "heading": "Testimonials",
         "items": [{
-            "image": "https://systunix.com/media/POS/productV2/1585742338_48_1583141496_78_IIMbangalore.JPG",
+            "image": "https://systunix.com/media/finance/productV2/1585742338_48_1583141496_78_IIMbangalore.JPG",
             "company": "IIMBangalore",
             "fullname": "Mr.Ranjit",
             "comment": "Our employee likes the bottles provided by Systunix.",
@@ -1012,21 +1334,21 @@ app.directive('ecommerceTestimonials', function() {
           },
 
           {
-            "image": "https://systunix.com/media/POS/productV2/1585742425_76_1583141523_91_IMEDCEZ.JPG",
+            "image": "https://systunix.com/media/finance/productV2/1585742425_76_1583141523_91_IMEDCEZ.JPG",
             "company": "IMEDCEZ",
             "fullname": "Mr.Aman",
             "comment": "We have given the order and received on time. Best service with best quality. Thanks",
             "rating": 5
           },
           {
-            "image": "https://systunix.com/media/POS/productV2/1585742425_76_1583141523_91_IMEDCEZ.JPG",
+            "image": "https://systunix.com/media/finance/productV2/1585742425_76_1583141523_91_IMEDCEZ.JPG",
             "company": "IMEDCEZ",
             "fullname": "Mr.Raj",
             "comment": "We have given the order and received on time. Best service with best quality. Thanks",
             "rating": 4
           },
           {
-            "image": "https://systunix.com/media/POS/productV2/1585742425_76_1583141523_91_IMEDCEZ.JPG",
+            "image": "https://systunix.com/media/finance/productV2/1585742425_76_1583141523_91_IMEDCEZ.JPG",
             "company": "IMEDCEZ",
             "fullname": "Mr.Rajnandini",
             "comment": "We have given the order and received on time. Best service with best quality. Thanks",
@@ -1086,15 +1408,15 @@ app.directive('productDetails', function() {
 
       // $scope.products = {
       //   "images": [{
-      //       "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //       "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
       //
       //     },
       //     {
       //
-      //       "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //       "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
       //     },
       //     {
-      //       "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+      //       "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
       //
       //     }
       //
@@ -1110,7 +1432,7 @@ app.directive('productDetails', function() {
 
         {
         "images": [{
-            "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+            "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
 
           }],
         "category": "Desk Organizer",
@@ -1122,7 +1444,7 @@ app.directive('productDetails', function() {
       },
         {
         "images": [{
-            "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+            "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
 
           }],
         "category": "Desk Organizer",
@@ -1134,7 +1456,7 @@ app.directive('productDetails', function() {
       },
         {
         "images": [{
-            "image": "https://systunix.com/media/POS/productV2/1602671180_24_DSC_2578-removebg-preview.png",
+            "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
 
           }],
         "category": "Desk Organizer",
