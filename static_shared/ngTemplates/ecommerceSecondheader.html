@@ -1,0 +1,47 @@
+<div class="container-fluid">
+
+
+
+
+  <nav class="navbar navbar-default navbar-fixed-top">
+     <div class="container-fluid">
+       <div class="row" style="height:60px;background-color:white;">
+         <div class="col-md-1 text-center">
+           <div class="navbar-header">
+             <a class="navbar-brand" href="#"><i class="fa fa-home" style="font-size:17px;"></i></a>
+           </div>
+
+         </div>
+         <div class="col-md-2">
+           <div class="dropdown">
+             <a class="btn btn-block btn-default dropdown-toggle" type="button" data-toggle="dropdown" style="height: 60px;
+border: none;background-color:#f1f1f1;border-radius: 0px !important;line-height: 3.5;">Shop by Category               <span class="caret"></span></a>
+
+               <ul class="dropdown-menu">
+                  <li ng-repeat="k in categories track by $index"><a href="/categories/{{k.pk}}/{{k.url}}">{{k.name}}</a></li>
+                  <li><a href="#">CSS</a></li>
+                  <li><a href="#">JavaScript</a></li>
+                </ul>
+              </div>
+         </div>
+
+         <div class="col-md-5">
+           <div >
+             <div class="form-group">
+               <input type="text" class="form-control" placeholder="Search" style="height:60px;border:none;box-shadow:none;">
+
+             </div>
+           </div>
+
+         </div>
+         <div class="col-md-4">
+           <ul class="nav navbar-nav navbar-right">
+             <li style="font-size:17px;"><a href="/login">Login<span class="glyphicon glyphicon-log-in" style="padding-left:15px;"></span> </a></li>
+             <li style="font-size:17px;"><a href="#">Sign Up<span class="glyphicon glyphicon-user" style="padding-left:15px;"></span> </a></li>
+             <li style="font-size:17px;"><a href="#">Cart<span><i class="fa fa-shopping-cart" aria-hidden="true" style="padding-left:15px;"></i></span> </a></li>
+           </ul>
+         </div>
+       </div>
+     </div>
+</nav>
+</div>

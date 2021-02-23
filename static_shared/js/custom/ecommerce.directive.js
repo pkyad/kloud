@@ -183,64 +183,77 @@ app.directive('ecommerceBanners', function() {
     },
   };
 });
-app.directive('secondlevelBanners', function() {
+
+app.directive('ecommerceFooter', function() {
   return {
-    templateUrl: '/static/ngTemplates/secondlevelBanners.html',
+    templateUrl: '/static/ngTemplates/ecommerce.footer.html',
     restrict: 'E',
     replace: false,
     transclude: true,
     controller: function($scope, $state, $stateParams, $users) {
       $scope.me = $users.get('mySelf')
-      $scope.secondlevelbanners = {
-        lazyLoad: false,
-        items: 1,
-        autoplay: true,
-        autoplayTimeout: 10000,
-        dots: true,
-        loop: true,
-        responsive: {
-          0: {
-            items: 1
-          },
-          479: {
-            items: 2
-          },
-          600: {
-            items: 3
-          },
-          1000: {
-            items: 1,
-          }
-        },
-      };
-      $scope.seconlevelbanners = [{
-
-          "title": "Durable, Cost Effective & Stylish Bottles ",
-          "description": "  Good Quality Stainless Steel Bottles Custmize with Logo or Name",
-          "webImage": "https://systunix.com/media/POS/productV2/1587100019_25_165-1656919_background-image-for-ecommerce.jpg",
-          "potraitImage": "https://systunix.com/media/POS/productV2/1587100019_25_1585741640_91_1583150837_78_bottles_alumin_banner_systunix.png"
-        },
-        {
-
-          "title": "Durable, Cost Effective & Stylish Bottles ",
-          "description": "  Good Quality Stainless Steel Bottles Custmize with Logo or Name",
-          "webImage": "https://systunix.com/media/POS/productV2/1587100019_25_165-1656919_background-image-for-ecommerce.jpg",
-          "potraitImage": "https://systunix.com/media/POS/productV2/1587100019_25_1585741640_91_1583150837_78_bottles_alumin_banner_systunix.png"
-
-
-
-
-        }
-      ]
 
 
 
 
 
 
-    },
+
+    }
   };
 });
+app.directive('ecommerceSecondheader', function() {
+  return {
+    templateUrl: '/static/ngTemplates/ecommerceSecondheader.html',
+    restrict: 'E',
+    replace: false,
+    transclude: true,
+    controller: function($scope, $state, $stateParams, $users,$http) {
+      $scope.me = $users.get('mySelf')
+
+      $scope.getCategories = function(){
+        $http({
+          method: 'GET',
+          url: '/api/finance/category/'
+
+        }).
+        then(function(response) {
+        $scope.categories = response.data
+        for (var i = 0; i < $scope.categories.length; i++) {
+          var space = /[ ]/;
+          var special = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+          var nonascii = /[^\x20-\x7E]/;
+          var url = $scope.categories[i].name;
+          if (space.test(url)) {
+            url = url.replace(/\s+/g, '-').toLowerCase();
+            if (special.test(url)) {
+              url = url.replace(/[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?]+/g, '');
+              if (nonascii.test(url)) {
+                url = url.replace(/[^\x20-\x7E]/g, '');
+              }
+            }
+          } else {
+            url = url.replace(/[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?]+/g, '-').toLowerCase();;
+          }
+          url = url.replace(/-/g, ' ');
+          url = url.trim();
+          console.log(url.replace(/-/g, ' '));
+          console.log(url.replace(/-/g, ' ').trim());
+          console.log(url.replace(/-/g, ' ').trim().replace(' ', '-'));
+          $scope.categories[i].url = url.replace(/-/g, ' ').trim().replace(/\s/g, '-');
+
+        }
+        })
+      }
+      $scope.getCategories()
+
+
+
+    }
+  };
+});
+
+
 app.directive('ecommerceNewproducts', function() {
   return {
     templateUrl: '/static/ngTemplates/ecommerceNewproducts.html',
