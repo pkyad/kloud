@@ -56,12 +56,16 @@ z-index: 1;position: relative;background-color:white;"><i class="fa fa-arrow-dow
           </div>
           <div class="row" style="margin:0px;">
             <div class="col-md-5" ng-if="products.cart<=0">
-              <button type="button" name="button" class="btn btn-block" style="background-color:var(--themeColor);color:white;font-weight:700;" ng-click="addToCart()">Add To Cart</button>
+              <button type="button" name="button" class="btn btn-block" style="background-color:var(--themeColor);color:white;font-weight:700;outline:none;" ng-click="addToCart()">Add To Cart</button>
             </div>
-            <div class="col-md-5 btn-group" ng-if="products.cart>0">
-              <button type="button" name="button" class="btn btn-block" style="background-color:var(--themeColor);color:white;font-weight:700;" ng-click="changeQty('decrement')"><i class="fa fa-minus"></i></button>
-              <button type="button" name="button" class="btn btn-block" style="background-color:var(--themeColor);color:white;font-weight:700;" >{{products.cart}}</button>
-              <button type="button" name="button" class="btn btn-block" style="background-color:var(--themeColor);color:white;font-weight:700;" ng-click="changeQty('increment')"><i class="fa fa-plus"></i></button>
+            <div class="col-md-5" ng-if="products.cart>0">
+              <div class="btn-group btn-group-justified">
+                <a href="#" class="btn btn-primary" style="background-color:var(--themeColor);color:white;font-weight:700;border:none !important;outline:none;" ng-click="changeQty('decrement')"><i class="fa fa-minus"></i></a>
+                <a href="#" class="btn btn-primary"style="background-color:var(--themeColor);color:white;font-weight:700;border:none !important;outline:none;" >{{products.cart}}</a>
+                <a href="#" class="btn btn-primary"style="background-color:var(--themeColor);color:white;font-weight:700;border:none !important;outline:none;" ng-click="changeQty('increment')"><i class="fa fa-plus"></i></a>
+              </div>
+
+
             </div>
             <!-- <div class="col-md-3">
               <button type="button" name="button" class="btn btn-block btn-success">BUY NOW</button>
