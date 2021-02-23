@@ -184,8 +184,8 @@ def renderpage(request,apiKey,url):
     # if page.enableChat:
 
     API_KEY = hash_fn.hash(page.user.designation.division.pk)
-
-    return render(request,'app.HR.page.html',{'components':components,'page':page,'API_KEY':API_KEY,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
+    division = page.user.designation.division
+    return render(request,'app.HR.page.html',{'components':components,'page':page,'API_KEY':API_KEY,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':division})
 
 
 def uielement(request):
