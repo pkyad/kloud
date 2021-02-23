@@ -387,43 +387,47 @@ app.directive('checkoutView', function() {
   //
   //
   //
-  // $scope.changeQty = function(pk, indx, val) {
-  //   var cartData = $rootScope.cartData[indx]
-  //   if (val == 'increment') {
-  //     if (cartData.productVariant.minQtyOrder != null) {
-  //       if (cartData.productVariant.maxQtyOrder <= cartData.qty || cartData.productVariant.stock <= cartData.qty) {
-  //         return
-  //       }
-  //     }
-  //     $rootScope.cartData[indx].qty += 1
-  //   }
-  //   if (val == 'decrement') {
-  //     if (cartData.productVariant.minQtyOrder != null) {
-  //       if (cartData.qty == cartData.productVariant.minQtyOrder) {
-  //         return
-  //       }
-  //       $rootScope.cartData[indx].qty -= 1
-  //     } else {
-  //       $rootScope.cartData[indx].qty -= 1
-  //       if ($rootScope.cartData[indx].qty <= 1) {
-  //         $rootScope.cartData[indx].qty = 1
-  //       }
-  //     }
-  //   }
-  //   $http({
-  //     method: 'PATCH',
-  //     url: '/api/finance/cart/' + $rootScope.cartData[indx].pk + '/',
-  //     data: {
-  //       qty: $rootScope.cartData[indx].qty
-  //     }
-  //   }).
-  //   then(function(res) {
-  //     $rootScope.cartData[indx] = res.data
-  //
-  //   })
-  //
-  // }
-  //
+  $scope.changeQty = function(pk, indx, val) {
+    var cartData = $scope.cartData[indx]
+    if (val == 'increment') {
+      // if (cartData.productVariant.minQtyOrder != null) {
+      //   if (cartData.productVariant.maxQtyOrder <= cartData.qty || cartData.productVariant.stock <= cartData.qty) {
+      //     return
+      //   }
+      // }
+      $scope.cartData[indx].qty += 1
+    }
+    if (val == 'decrement') {
+      if ($scope.cartData[indx].qty == 1) {
+        return
+      }
+      $scope.cartData[indx].qty -= 1
+      // if (cartData.productVariant.minQtyOrder != null) {
+      //   if (cartData.qty == cartData.productVariant.minQtyOrder) {
+      //     return
+      //   }
+      //   $scope.cartData[indx].qty -= 1
+      // } else {
+      //   $scope.cartData[indx].qty -= 1
+      //   if ($scope.cartData[indx].qty <= 1) {
+      //     $scope.cartData[indx].qty = 1
+      //   }
+      // }
+    }
+    $http({
+      method: 'PATCH',
+      url: '/api/finance/cart/' + $scope.cartData[indx].pk + '/',
+      data: {
+        qty: $scope.cartData[indx].qty
+      }
+    }).
+    then(function(res) {
+      $scope.cartData[indx] = res.data
+
+    })
+
+  }
+
   // $scope.changeQtyFav = function(pk, indx, val) {
   //   var favData = $rootScope.favData[indx]
   //   if (val == 'increment') {
