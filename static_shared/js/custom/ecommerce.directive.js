@@ -136,6 +136,175 @@ app.directive('categories', function() {
     },
   };
 });
+
+app.directive('checkoutSideview', function() {
+  return {
+    templateUrl: '/static/ngTemplates/checkoutSide.html',
+    restrict: 'E',
+    replace: false,
+    transclude: true,
+    controller: function($scope, $state, $stateParams, $users,$http,$timeout,$rootScope) {
+      $scope.me = $users.get('mySelf')
+      $scope.currency = "fa-inr"
+      $scope.data = {
+        stage : 'review',
+        modeOfPayment:'COD'
+      }
+
+      if (window.location.pathname == '/checkout') {
+        $scope.data.stage = 'review'
+      }
+      else if (window.location.pathname == '/address') {
+        $scope.data.stage = 'address'
+      }
+      else if (window.location.pathname == '/payment') {
+        $scope.data.stage = 'payment'
+      }
+      $scope.getCartTotal = function(){
+        $http({
+          method: 'GET',
+          url: '/api/finance/cartTotal/'
+        }).
+        then(function(response) {
+          $scope.totalDetails = response.data
+        })
+      }
+      $scope.getCartTotal()
+      $rootScope.$on('getCartTotal', function(event, message) {
+        $scope.getCartTotal()
+      });
+
+
+      $scope.order = function(){
+        $http({
+          method: 'POST',
+          url: '/api/finance/order/'
+        }).
+        then(function(response) {
+        })
+      }
+
+
+
+
+
+    },
+  };
+});
+
+app.directive('addressView', function() {
+  return {
+    templateUrl: '/static/ngTemplates/address.html',
+    restrict: 'E',
+    replace: false,
+    transclude: true,
+    controller: function($scope, $state, $stateParams, $users,$http,$timeout,$rootScope) {
+      $scope.me = $users.get('mySelf')
+      $scope.currency = "fa-inr"
+      $scope.getContactDetails = function(){
+        $http({
+          method: 'GET',
+          url: '/api/clientRelationships/contact/6435/'
+        }).
+        then(function(response) {
+          $scope.contact = response.data
+        })
+      }
+      $scope.getContactDetails()
+      $scope.errMsg = {
+        street:'',
+        pincode:'',
+        city:'',
+        state:'',
+        country:''
+      }
+    $scope.saveAddress = function(){
+      if ($scope.contact.street == null || $scope.contact.street.length == 0) {
+        $scope.errMsg.street = "Address is required"
+        return
+      }
+      if ($scope.contact.pincode == null || $scope.contact.pincode.length == 0) {
+        $scope.errMsg.pincode = "Pincode is required"
+        return
+      }
+      if ($scope.contact.city == null || $scope.contact.city.length == 0) {
+        $scope.errMsg.city = "City is required"
+        return
+      }
+      if ($scope.contact.state == null || $scope.contact.state.length == 0) {
+        $scope.errMsg.state = "Pincode is required"
+        return
+      }
+      if ($scope.contact.country == null || $scope.contact.country.length == 0) {
+        $scope.errMsg.country = "Pincode is required"
+        return
+      }
+      var dataToSend = {
+        street : $scope.contact.street,
+        pincode : $scope.contact.pincode,
+        city : $scope.contact.city,
+        state : $scope.contact.state,
+        country : $scope.contact.country
+      }
+      $http({
+        method: 'PATCH',
+        url: '/api/clientRelationships/contact/6435/',
+        data : dataToSend,
+      }).
+      then(function(response) {
+        $scope.contact = response.data
+      })
+    }
+
+    $scope.pinSearch = function() {
+      if ($scope.contact.pincode.length>5) {
+        $http.get('/api/ERP/genericPincode/?limit=10&pincode__contains=' + $scope.contact.pincode).
+        then(function(response) {
+          var result =  response.data.results[0];
+          $scope.contact.city = result.city
+          $scope.contact.state = result.state
+          $scope.contact.country = result.country
+        })
+      }
+    };
+    },
+  };
+});
+
+app.directive('checkoutpaymentView', function() {
+  return {
+    templateUrl: '/static/ngTemplates/payment.html',
+    restrict: 'E',
+    replace: false,
+    transclude: true,
+    controller: function($scope, $state, $stateParams, $users,$http,$timeout,$rootScope) {
+      $scope.me = $users.get('mySelf')
+      $scope.currency = "fa-inr"
+      $scope.getContactDetails = function(){
+        $http({
+          method: 'GET',
+          url: '/api/clientRelationships/contact/6435/'
+        }).
+        then(function(response) {
+          $scope.contact = response.data
+        })
+      }
+      $scope.getContactDetails()
+
+      $scope.getCartItems = function(){
+        $http({
+          method: 'GET',
+          url: '/api/finance/cart/'
+        }).
+        then(function(response) {
+          $scope.cartData = response.data
+        })
+      }
+      $scope.getCartItems()
+
+    },
+  };
+});
 app.directive('checkoutView', function() {
   return {
     templateUrl: '/static/ngTemplates/checkout.html',
@@ -281,6 +450,7 @@ app.directive('checkoutView', function() {
     then(function(response) {
       $scope.cartData.splice(indx, 1)
       $scope.cartLength -= 1
+      $rootScope.$broadcast("getCartTotal", {});
 
     })
   }
@@ -423,6 +593,7 @@ app.directive('checkoutView', function() {
     }).
     then(function(res) {
       $scope.cartData[indx] = res.data
+      $rootScope.$broadcast("getCartTotal", {});
 
     })
 

@@ -1,0 +1,109 @@
+<style media="screen">
+  .imageemptcart{
+  height:70vh;
+}
+.imagezoom:hover{
+  transform: scale(1.5);
+}
+  @media only screen and (max-width: 480px) {
+    .imageemptcart{
+      width: 100%;
+    }
+}
+.couponInput{
+  background:white;
+  outline: none !important;
+  box-shadow: none !important;
+  padding-left:10px !important;
+}
+.couponInput:focus{
+  outline: none !important;
+  box-shadow: none !important;
+}
+</style>
+
+
+<div class="container-fluid checkout_container" style="font-family: var(--fontStyle)!important;{{topLevelMenu?'margin-top:5vh':''}};" >
+  <div class=" bg-white" style="display:block;position:relative;min-height:500px;padding-left:0px;">
+    <div class="col-md-11 proData_padding">
+      <div  style="margin-top:30px;font-family: var(--fontStyle)!important">
+        <div>
+          <div class="row" style="margin:0px;">
+            <div class="col-md-10 col-sm-10 col-xs-12" >
+                <div class="row flex-container" style="margin-bottom:15px;padding-top:20px;">
+                  <div class="" style="margin-right:10px;">
+                    <h5> <span style="color:#5DC177;">Delivery to :</span></h5>
+                  </div>
+                  <div class="">
+                    <div class="form-group" style="text-align:left;">
+                      <h5>{{contact.name}}</h5>
+                      <div class="input-group" style="border:1px solid #c1bdbd">
+                         <input type="text" ng-model="contact.mobile" ng-change="uploadmobile()" name="" value="" class="form-control couponInput" placeholder="Phone Number"> </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row" style="background-color:var(--themeColor);font-family: var(--fontStyle)!important;background:linear-gradient(135deg, #E3E3E3 0%,#FFF 100%);">
+                  <div class="col-md-12">
+                    <h5 style="padding-left:10px;color:var(--themeColor)"> ADDRESS </h5>
+                  </div>
+                </div>
+                <div class="row" style="margin-bottom:15px" ng-show="!editAddress">
+                  <div class="col-md-12">
+                    <div class="row" style="margin-top:15px">
+                      <div class="col-md-11 col-xs-10 col-sm-11">
+                        <div class="row">
+                          <strong>{{adr.title}}</strong><br />{{contact.name}}, {{contact.street}}, {{contact.city}}, {{contact.state}}, {{contact.country}} - {{contact.pincode}}
+                        </div>
+                      </div>
+                      <div class="col-md-1 col-sm-1  col-xs-2 col-sm-1"  ng-click="editAddress=true" style="cursor:pointer">
+                      <strong><i class="fa fa-pencil fa-2x" style='color:var(--themeColor'></i></strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row" style="margin-bottom:15px;padding-bottom:0px;margin-top:15px" ng-if="editAddress">
+                  <div class="col-md-12"  >
+                    <div class="form-group">
+                      <textarea ng-model="contact.street" class="form-control" id="street" placeholder="Enter street.."></textarea>
+                      <span style="color:red"> {{errMsg.street}} </span>
+                    </div>
+                    <div >
+                      <div class="row">
+                        <div class="col-md-6 col-xs-12 col-sm-6">
+                          <div class="form-group">
+                            <input ng-model="contact.pincode" type="text" class="form-control" id="pincode" placeholder="Enter Pincode.." ng-change="pinSearch()">
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12 col-sm-6">
+                          <div class="form-group">
+                            <input ng-model="contact.city" type="text" class="form-control" id="city" placeholder="Enter City.." disabled>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6 col-xs-12 col-sm-6">
+                          <div class="form-group">
+                            <input ng-model="contact.state" type="text" class="form-control" id="state" placeholder="Enter State.." disabled>
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12 col-sm-6">
+                          <div class="form-group">
+                            <input ng-model="contact.country" type="text" class="form-control" id="country" placeholder="Enter Country.." disabled>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-offset-10 col-md-2">
+                          <button type="button" name="button" class="btn btn-block" ng-click="saveAddress()">Save</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
