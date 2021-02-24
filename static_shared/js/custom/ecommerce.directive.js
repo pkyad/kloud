@@ -958,7 +958,7 @@ app.directive('ecommerceBestdeals', function() {
         }
         // console.log($scope.items, "werer");
       }
-      $scope.getIndex(1)
+      // $scope.getIndex(1)
 
 
 
