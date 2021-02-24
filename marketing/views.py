@@ -2626,6 +2626,9 @@ def convert(seconds):
     hour, min = divmod(min, 60)
     return "%d:%02d" % (hour, min)
 
+
+from chatbot.models import Activity
+from chatbot.serializers import ActivitySerializer
 class GetVisitDetailsAPIView(APIView):
     renderer_classes = (JSONRenderer,)
     permission_classes = (permissions.AllowAny ,)
@@ -2642,8 +2645,8 @@ class GetVisitDetailsAPIView(APIView):
                 total_distance = round(timesheetObj.distanceTravelled/1000, 2)
             except:
                 total_distance = 0
-            tourTrackerObj = UserTourTracker.objects.filter(user = userObj , created__contains = dated)
-            tourTrackerList = UserTourTrackerSerializer(tourTrackerObj , many = True).data
+            tourTrackerObj = Activity.objects.filter(user = userObj , created__contains = dated)
+            tourTrackerList = ActivitySerializer(tourTrackerObj , many = True).data
             min = 0
             max = tourTrackerObj.count()
             options = []

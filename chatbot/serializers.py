@@ -349,7 +349,7 @@ class ChatThreadSerializer(serializers.ModelSerializer):
 class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Activity
-        fields = ( 'pk' ,'uid', 'page', 'timeDuration','reference')
+        fields = ( 'pk' ,'uid', 'page', 'timeDuration','reference','lat','lng')
     def update(self ,instance, validated_data):
         for key in ['uid', 'page', 'timeDuration','reference']:
             try:

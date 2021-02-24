@@ -73,6 +73,7 @@ urlpatterns = [
     url(r'^checkout', CheckoutView , name ='Checkout'),
     url(r'^address', CheckoutAddressView , name ='address'),
     url(r'^payment', CheckoutPaymentView , name ='payment'),
+    url(r'^orderSuccessful', OrderSuccessfulView , name ='payment'),
     url(r'^preview/(?P<id>\d+)', previewView , name ='preview'),
     url(r'^ngTemplates/(?P<filename>[\w|\W]+)', renderedStatic , name ='renderedStatic'),
     url(r'^templateEditor/(?P<pk>[\w|\W]+)/', templateEditorView , name ='templateEditor'),

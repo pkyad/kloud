@@ -136,20 +136,20 @@
   <div  style="position: absolute;top: 20px;height: 150px;z-index: 1;right:23px;width:20%">
     <div class="row" style="padding-top:10px">
 
-      <div class="col-md-5">
-        <button class="btn btn-primary btn-block gradientBtnBlue" ng-click="showDate =! showDate"> {{showDate?'Hide':'Show'}} Date  </button>
+      <div class="col-md-12">
+        <button class="btn btn-primary btn-block gradientBtnBlue" ng-click="showDate =! showDate" style="color:#f08621!important"> {{showDate?'Hide':'Show'}} Date  </button>
       </div>
-      <div class="col-md-7">
+      <!-- <div class="col-md-7">
           <button class="btn btn-primary btn-block gradientBtnBlue" ng-click="showUsers =! showUsers">  {{showUsers?'Hide':'Show'}} Technicians  </button>
-      </div>
+      </div> -->
     </div>
 
-    <div class="row"  ng-if="showUsers">
+    <div class="row"  >
       <div class="col-md-12 "  style="margin-top:15px;margin-bottom:15px">
-        <button class="btn btn-primary btn-block gradientBtnBlue" ng-click="reset()"> Reset </button>
+        <button class="btn btn-primary btn-block gradientBtnBlue" ng-click="reset()" style="color:#f08621!important"> Reset </button>
       </div>
     </div>
-    <div class="row" style="height:100vh; scroll-behavior: smooth;overflow: auto;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;background:#FAFAFA!important" ng-if="showUsers">
+    <div class="row" style="height:100vh; scroll-behavior: smooth;overflow: auto;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;background:#FAFAFA!important" >
       <div class="col-md-12 " ng-repeat="u in users" style="padding:10px" ng-click="changeMap($index)">
         <div class="card highlight_card" style="border:none;padding:10px;{{u.selected?'border-left:3px solid var(--themeMain);':''}};border-radius:10px;" ng-click="u.selected = true">
           <div class="row">

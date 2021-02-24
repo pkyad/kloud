@@ -178,9 +178,14 @@ app.directive('checkoutSideview', function() {
       $scope.order = function(){
         $http({
           method: 'POST',
-          url: '/api/finance/order/'
+          url: '/api/clientRelationships/order/',
+          data:{
+            'id':6435,
+            'division':1
+          }
         }).
         then(function(response) {
+            window.location.href = '/orderSuccessful'
         })
       }
 
@@ -253,6 +258,8 @@ app.directive('addressView', function() {
       }).
       then(function(response) {
         $scope.contact = response.data
+        $scope.editAddress = false
+
       })
     }
 
@@ -1115,6 +1122,7 @@ app.directive('ecommerceBestdeals', function() {
           }
         },
       };
+      console.log($scope.data);
       $scope.deals = JSON.parse($scope.data)
 
       // console.log(JSON.parse($scope.deals),'ssssssssssssssssssssssssssssssssssssssssssssss');
@@ -1296,13 +1304,13 @@ app.directive('ecommerceBestdeals', function() {
       //   }
       // ]
 
-      // $scope.getIndex = function(indx) {
-      //   console.log(indx);
-      //   $scope.index = indx
-      //   $scope.items = $scope.deals[indx].items
-      //   console.log($scope.items, "werer");
-      // }
-      // $scope.getIndex(1)
+      $scope.getIndex = function(indx) {
+        console.log(indx);
+        $scope.index = indx
+        $scope.items = $scope.deals.tabs.array[indx].products.array
+        console.log($scope.items, "werer");
+      }
+      $scope.getIndex(1)
 
 
 
@@ -1606,6 +1614,7 @@ app.directive('productDetails', function() {
         var dataToSend = {
           product :  $scope.products.pk,
           qty : 1,
+          contact:6435
         }
         $http({
           method: 'POST',
