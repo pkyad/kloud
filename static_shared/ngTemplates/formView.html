@@ -116,33 +116,40 @@
           </div>
         </div>
 
-        <!-- <div class="row">
-          <form-view data="value.array"  ></form-view>
-        </div> -->
 
-      <div class=""  ng-repeat="(key1,value1) in value.form track by $index">
         <div class="row">
-          <div class="col-md-4" ng-repeat="k in value1.array track by $index " >
-
-            <span style="position:absolute;right:25px;padding:10px;" ng-click="value1.array.splice($index,1)"><i class="fa fa-times"></i></span>
-            <div >
-              <div class="text-center mediaformobilenext_specificpage" style="left:10%;">
-                <div class="simple_listcss_rare" style="height:160px;">
-                  <div class="" style="height:170px;width:130px;margin:auto;margin-top:10%;background:url({{k.img1}}) center center no-repeat;background-size: contain;">
+          
+          <div class="row" style="display:flex;margin:0px;border-bottom: 1px solid #ccc;overflow-x: scroll;
+white-space: nowrap;scroll-behavior: smooth;scrollbar-width: none;">
+            <div class="" ng-repeat="k in value.array track by $index" style="padding-right:20px;{{index==$index+1?'border-bottom:3px solid var(--themeColor);':''}};height:40px" ng-click="getIndex($index+1,'tabs')">
+              <h4 style="margin:0px;">{{k.heading.string}}</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3" ng-repeat="k in items.slice(0,8) track by $index">
+              <span style="position:absolute;right:25px;padding:10px;" ng-click="items.splice($index,1)"><i class="fa fa-times"></i></span>
+              <div >
+                <div class="text-center mediaformobilenext_specificpage" style="left:10%;">
+                  <div class="simple_listcss_rare" style="height:160px;">
+                    <div class="" style="height:170px;width:130px;margin:auto;margin-top:10%;background:url({{k.img1}}) center center no-repeat;background-size: contain;">
+                    </div>
+                  </div>
+                  <div class="col-md-12" style="margin-top:10px;padding:0% 15%;">
+                    <span style="font-weight:500;font-size:16px;color:black;padding-right:10px;" class=" "><i class="fa fa-inr"></i>{{k.rate}}</span>
+                    <strike>
+                      <span style="font-size:12px;" class=" "> <i class="fa fa-inr"></i>{{k.mrp}}</span>
+                    </strike>
+                    <p style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;font-weight:400;color:black;" ng-if="!list.displayName" class=" ">{{k.name}}</p>
                   </div>
                 </div>
-                <div class="col-md-12" style="margin-top:10px;padding:0% 15%;">
-                  <span style="font-weight:500;font-size:16px;color:black;padding-right:10px;" class=" "><i class="fa fa-inr"></i>{{k.rate}}</span>
-                  <strike>
-                    <span style="font-size:12px;" class=" "> <i class="fa fa-inr"></i>{{k.mrp}}</span>
-                  </strike>
-                  <p style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;font-weight:400;color:black;" ng-if="!list.displayName" class=" ">{{k.name}}</p>
-                </div>
               </div>
-            </div>
 
+            </div>
           </div>
+
         </div>
+      <div class=""  ng-repeat="(key1,value1) in value.form track by $index">
+
 
         <div ng-if="value1.type == 'string' && key =='tabs'">
           <label> {{value1.label}} </label>
@@ -154,7 +161,9 @@
           <div class="input-group-btn">
             <button class="btn btn-primary" type="submit" ng-click="editArrayObj(value, -1, key)" ng-if="key !='tabs'"> add
               <i class=" fa fa-plus"></i></button>
-            <button class="btn btn-primary" type="submit" ng-click="tabArray(value1, -1, key1,key)" ng-if="key =='tabs'"> add
+            <button class="btn btn-primary" type="submit" ng-click="tabArray(value1, -1, key1,key)" ng-if="key =='tabs' && value.array.length == 0" > add
+              <i class=" fa fa-plus"></i></button>
+            <button class="btn btn-primary" type="submit" ng-click="tabArray(value1, index, key1,key)" ng-if="key =='tabs' && value.array.length > 0" > add
               <i class=" fa fa-plus"></i></button>
             </div>
           </div>

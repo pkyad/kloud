@@ -95,13 +95,14 @@
 
     </div>
     <div class="col-md-8">
-      <div class="row" style="display:flex;margin:0px;border-bottom: 1px solid #ccc;">
+      <div class="row" style="display:flex;margin:0px;border-bottom: 1px solid #ccc;overflow-x: scroll;
+white-space: nowrap;scroll-behavior: smooth;scrollbar-width: none;">
         <div class="" ng-repeat="k in deals.tabs.array.slice(1) track by $index" style="padding-right:20px;{{index==$index+1?'border-bottom:3px solid var(--themeColor);':''}};height:40px" ng-click="getIndex($index+1)">
           <h4 style="margin:0px;">{{k.heading.string}}</h4>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-3" ng-repeat="l in items.slice(0,8)">
+        <div class="col-md-3" ng-repeat="l in items.slice(0,8) ">
           <product-cards list="l"> </product-cards>
 
         </div>
