@@ -1413,24 +1413,48 @@ app.directive('formView', function() {
 
 
       }
-      $scope.tabData  = function(key1){
 
-        $scope.data[key1].array.push($scope.data[key1].form)
+      $scope.tabData  = function(key1,idx){
+
+        $scope.data[key1].array[idx] = $scope.data[key1].form
+
       }
       $scope.tabArray = function(field, idx, key,key1) {
-        console.log($scope.data[key1].form,'qerjqkwerlfkjdfxznf');
-        $scope.form = $scope.data[key1].form;
-        $scope.form[key].array.push($scope.form[key].string)
-        $scope.tabData(key1)
-        // $scope.data[key1].form.heading.string =''
-        // $scope.data[key1].form.products.array =[]
+        console.log(field, idx, key,key1,'qerjqkwerlfkjdfxznf');
+        if(idx == -1){
+          data = angular.copy($scope.data[key1].form)
+        }else{
+          data = $scope.data[key1].array[idx-1];
+        }
+
+        console.log(data,"32j423k4");
+        $scope.form = data;
+        $scope.form[key].array.push(($scope.form[key].string))
+        if (idx > 0) {
+          $scope.tabData(key1,idx-1)
+
+        }else {
+          $scope.tabData(key1,0)
+
+        }
+
 
 
       }
 
 
+      $scope.getIndex = function(indx) {
 
+        $scope.index = indx
+        console.log(indx,':');
+        if ($scope.data.tabs.array.length > 0 && indx >0 ) {
+          $scope.items = $scope.data.tabs.array[indx-1].products.array
+          $scope.data.tabs.form = $scope.data.tabs.array[indx-1]
+          $scope.data.tabs.array[indx-1].products.string =''
 
+        }
+      }
+      $scope.getIndex(1)
       $scope.save = function(data) {
 
         console.log(data,"3243049=23-");
