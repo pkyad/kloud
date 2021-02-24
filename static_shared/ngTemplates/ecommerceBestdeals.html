@@ -1,14 +1,11 @@
 
 <div class="container-fluid">
   <div class="col-md-10 col-md-offset-1" style="margin-top:30px;">
-
     <div class="col-md-4" style="padding:0 20px 0 20px;margin: 0 0 30px 0;box-shadow: 0 10px 25px rgba(0,0,0,.1);border-radius: 5px;height:650px">
-
-
         <div class="row">
           <div class="col-md-8 col-xs-9 dealtabhead">
 
-            <span class="row  " style="font-size: 1.3em;font-weight: 600;color: #212529;text-align: center;">Best deals to start with</span>
+            <span class="row  " style="font-size: 1.3em;font-weight: 600;color: #212529;text-align: center;">{{deals.tabs.array[0].heading.string}}</span>
 
           </div>
           <div class="col-md-4 col-xs-3 dealtabhead owl-controls">
@@ -19,24 +16,23 @@
 
         </div>
         <div class="row">
-          <ng-owl-carousel class="owl-theme " owl-items="deals[0].items" owl-properties="value1" owl-ready="ready($api)">
+          <ng-owl-carousel class="owl-theme " owl-items="deals.tabs.array[0].products.array" owl-properties="value1" owl-ready="ready($api)">
 
 
 
 
-            <div ng-repeat="a in deals[0].items" class="paddingcssextra ">
-
+            <div ng-repeat="a in deals.tabs.array[0].products.array" class="paddingcssextra ">
               <div class="mediatemp5" style="padding:20px;padding-top:0px;">
-                <div class="text-center" style="height:35vh;background-image:url({{a.image}});background-size:contain;background-position: center;background-repeat: no-repeat;">
+                <div class="text-center" style="height:35vh;background-image:url({{a.img1}});background-size:contain;background-position: center;background-repeat: no-repeat;">
 
                 </div>
                 <div style="padding-top:15px;">
                   <div class="col-md-9 col-xs-9 no-padding">
-                    <p class="mobilesizetitle " style="font-size:14px;margin-bottom:0px;">{{a.category}}</p>
+                    <p class="mobilesizetitle " style="font-size:14px;margin-bottom:0px;">{{a.category.name}}</p>
                     <p class="mobilesizesubtitle" style="font-size:24px;color:#000;"> <strong class=""> {{a.name}} </strong></p>
                   </div>
                   <div class="col-md-3 col-xs-3 no-padding text-right">
-                    <p class="mobilesizetitle " style="font-size:14px;margin-bottom:0px;font-weight:400;"><i class="fa fa-inr"></i>{{a.sellingPrice}}</p>
+                    <p class="mobilesizetitle " style="font-size:14px;margin-bottom:0px;font-weight:400;"><i class="fa fa-inr"></i>{{a.rate}}</p>
                     <p class="mobilesizesubtitle" style="font-size:24px;color:red;font-weight:500;"> <strong class=""><i class="fa fa-inr"></i>{{a.mrp}}</strong></p>
                   </div>
                   <div>
@@ -100,9 +96,8 @@
     </div>
     <div class="col-md-8">
       <div class="row" style="display:flex;margin:0px;border-bottom: 1px solid #ccc;">
-        <div class="" ng-repeat="k in deals.slice(1) track by $index" style="padding-right:20px;{{index==$index+1?'border-bottom:3px solid var(--themeColor);':''}};height:40px" ng-click="getIndex($index+1)">
-          <h4 style="margin:0px;">{{k.heading}}</h4>
-
+        <div class="" ng-repeat="k in deals.tabs.array.slice(1) track by $index" style="padding-right:20px;{{index==$index+1?'border-bottom:3px solid var(--themeColor);':''}};height:40px" ng-click="getIndex($index+1)">
+          <h4 style="margin:0px;">{{k.heading.string}}</h4>
         </div>
       </div>
       <div class="row">
@@ -110,6 +105,8 @@
           <product-cards list="l"> </product-cards>
 
         </div>
+      </div>
+      <div class="row">
       </div>
     </div>
   </div>

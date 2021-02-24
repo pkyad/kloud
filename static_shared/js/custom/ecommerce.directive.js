@@ -944,6 +944,7 @@ app.directive('ecommerceBestdeals', function() {
           }
         },
       };
+      console.log($scope.data);
       $scope.deals = JSON.parse($scope.data)
 
       // console.log(JSON.parse($scope.deals),'ssssssssssssssssssssssssssssssssssssssssssssss');
@@ -1125,13 +1126,13 @@ app.directive('ecommerceBestdeals', function() {
       //   }
       // ]
 
-      // $scope.getIndex = function(indx) {
-      //   console.log(indx);
-      //   $scope.index = indx
-      //   $scope.items = $scope.deals[indx].items
-      //   console.log($scope.items, "werer");
-      // }
-      // $scope.getIndex(1)
+      $scope.getIndex = function(indx) {
+        console.log(indx);
+        $scope.index = indx
+        $scope.items = $scope.deals.tabs.array[indx].products.array
+        console.log($scope.items, "werer");
+      }
+      $scope.getIndex(1)
 
 
 

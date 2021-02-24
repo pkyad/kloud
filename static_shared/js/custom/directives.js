@@ -1360,7 +1360,6 @@ app.directive('formView', function() {
     //   };
     // },
     controller: function($scope, $state, $http, Flash, $rootScope, $filter, $timeout) {
-      $scope.typ = typeof($scope.data)
       $scope.uploadmediafile = function(file, key) {
         $timeout(function(){
 
@@ -1394,8 +1393,9 @@ app.directive('formView', function() {
           return response.data.results;
         })
       };
+
       $scope.editArrayObj = function(field, idx, key) {
-        console.log(field, idx, key);
+
         if(idx == -1){
           data = angular.copy(field.form)
         }else{
@@ -1413,8 +1413,26 @@ app.directive('formView', function() {
 
 
       }
+      $scope.tabData  = function(key1){
+
+        $scope.data[key1].array.push($scope.data[key1].form)
+      }
+      $scope.tabArray = function(field, idx, key,key1) {
+        console.log($scope.data[key1].form,'qerjqkwerlfkjdfxznf');
+        $scope.form = $scope.data[key1].form;
+        $scope.form[key].array.push($scope.form[key].string)
+        $scope.tabData(key1)
+        // $scope.data[key1].form.heading.string =''
+        // $scope.data[key1].form.products.array =[]
+
+
+      }
+
+
+
 
       $scope.save = function(data) {
+
         console.log(data,"3243049=23-");
         $http({
           method: 'PATCH',

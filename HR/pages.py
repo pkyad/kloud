@@ -153,7 +153,7 @@ def pageeditor(request,id):
 #            app.HR.page.html
 #     return HttpResponse(fileContent)
 
-
+import json
 def renderpage(request,apiKey,url):
     print url,apiKey,"34342"
     header =None
@@ -179,7 +179,8 @@ def renderpage(request,apiKey,url):
         i.template = i.template.replace('$data' , 'components[%s].data'%(indx))
 
         i.dataTemplate = i.template
-
+        # i.data = json.loads(json.dumps(i.data))
+        print i.data,"4k324kl3k4las;dflkasidfo"
 
     # if page.enableChat:
 
