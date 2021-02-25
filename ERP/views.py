@@ -1791,7 +1791,7 @@ def razorpayPaymentInitiate(request):
 
 
     payload = {
-        'amount':int(onlinePay.amount*100),
+        'amount':int(1*100),
         'currency':'INR',
         'receipt':str(onlinePay.pk),
         'payment_capture':1,
@@ -1812,7 +1812,7 @@ def razorpayPaymentInitiate(request):
     formData =  {
         "action" :  "https://checkout.razorpay.com/v1/checkout.js",
         "key": razorpay_key,
-        "amount": int(onlinePay.amount*100),
+        "amount": int(1*100),
         "logo": imageUrl,
         "razorpay_order_id": razorpayOrderID,
         "cust_name":onlinePay.cust_name,
@@ -1914,11 +1914,11 @@ class GetPaymentLinkAPIView(APIView):
             product = ''
             total = 0
             orderObj = Sale.objects.get(pk=int(id))
-            outBound = SalesQty.objects.filter(outBound = int(id))
+            outBound = SalesQty.objects.filter(outBound__id = int(id))
             count = 0
             for i in outBound:
                 count += 1
-                total  +=  i.total
+                total  +=  float(i.total)
                 item = i.product  +  ' + '
                 if count==len(outBound):
                     name.append(i.product)

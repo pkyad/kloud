@@ -5,7 +5,7 @@
         <div class="row">
           <div class="col-md-8 col-xs-9 dealtabhead">
 
-            <span class="row  " style="font-size: 1.3em;font-weight: 600;color: #212529;text-align: center;">{{deals.tabs.array[0].heading.string}}</span>
+            <span class="row  " style="font-size: 1.3em;font-weight: 600;color: #212529;text-align: center;">{{deals.productsMap.tabs[0].heading.string}}</span>
 
           </div>
           <div class="col-md-4 col-xs-3 dealtabhead owl-controls">
@@ -16,12 +16,12 @@
 
         </div>
         <div class="row">
-          <ng-owl-carousel class="owl-theme " owl-items="deals.tabs.array[0].products.array" owl-properties="value1" owl-ready="ready($api)">
+          <ng-owl-carousel class="owl-theme " owl-items="deals.productsMap.tabs[0].products.productList" owl-properties="value1" owl-ready="ready($api)">
 
 
 
 
-            <div ng-repeat="a in deals.tabs.array[0].products.array" class="paddingcssextra ">
+            <div ng-repeat="a in deals.productsMap.tabs[0].products.productList" class="paddingcssextra ">
               <div class="mediatemp5" style="padding:20px;padding-top:0px;">
                 <div class="text-center" style="height:35vh;background-image:url({{a.img1}});background-size:contain;background-position: center;background-repeat: no-repeat;">
 
@@ -97,7 +97,7 @@
     <div class="col-md-8">
       <div class="row" style="display:flex;margin:0px;border-bottom: 1px solid #ccc;overflow-x: scroll;
 white-space: nowrap;scroll-behavior: smooth;scrollbar-width: none;">
-        <div class="" ng-repeat="k in deals.tabs.array.slice(1) track by $index" style="padding-right:20px;{{index==$index+1?'border-bottom:3px solid var(--themeColor);':''}};height:40px" ng-click="getIndex($index+1)">
+        <div class="" ng-repeat="k in deals.productsMap.tabs.slice(1) track by $index" style="padding-right:20px;{{index==$index+1?'border-bottom:3px solid var(--themeColor);':''}};height:40px" ng-click="getIndex($index+1)">
           <h4 style="margin:0px;">{{k.heading.string}}</h4>
         </div>
       </div>

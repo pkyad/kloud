@@ -1407,57 +1407,67 @@ app.directive('formView', function() {
         $scope.key = key;
         $scope.form = data;
 
-        console.log($scope.data,data,'e443');
 
         $scope.data[$scope.key].array.push(data)
 
 
       }
+      $scope.deleteTab = function(indx){
+        $scope.data.productsMap.tabs.splice(indx,1)
+      }
+      console.log($scope.data,'342pofdgdggfgop32');
+      $scope.createTab = function(){
+        // $scope.tabForm =
+      }
 
       $scope.tabData  = function(key1,idx){
 
-        $scope.data[key1].array[idx] = $scope.data[key1].form
+
+        // $scope.data[key1].tabs.push($scope.data[key1].form)
+        // $scope.data[key1].form.products.string = ''
 
       }
+
       $scope.tabArray = function(field, idx, key,key1) {
-        console.log(field, idx, key,key1,'qerjqkwerlfkjdfxznf');
+        console.log($scope.data[key1].form,idx,'3u4i34u');
         if(idx == -1){
-          data = angular.copy($scope.data[key1].form)
+
+          tabdata = angular.copy($scope.data[key1].form)
         }else{
-          data = $scope.data[key1].array[idx-1];
+          tabdata = $scope.data[key1].tabs[idx-1];
         }
-
-        console.log(data,"32j423k4");
-        $scope.form = data;
-        $scope.form[key].array.push(($scope.form[key].string))
-        if (idx > 0) {
-          $scope.tabData(key1,idx-1)
-
-        }else {
-          $scope.tabData(key1,0)
+        console.log(tabdata,"434");
+        $scope.form = tabdata;
+        $scope.form[key].productList.push(($scope.form[key].string))
+        if (idx == -1) {
+          $scope.data[key1].tabs.push($scope.data[key1].form)
 
         }
+        $scope.data[key1].tabs[idx-1] = $scope.data[key1].form
+
 
 
 
       }
 
 
-      $scope.getIndex = function(indx) {
+
+      $scope.showForm = false
+      $scope.getIndex = function(indx,key) {
 
         $scope.index = indx
-        console.log(indx,':');
-        if ($scope.data.tabs.array.length > 0 && indx >0 ) {
-          $scope.items = $scope.data.tabs.array[indx-1].products.array
-          $scope.data.tabs.form = $scope.data.tabs.array[indx-1]
-          $scope.data.tabs.array[indx-1].products.string =''
+        console.log(indx,'jhyuyhjhj');
+        if (indx >0 ) {
+          $scope.items = $scope.data[key].tabs[indx-1].products.productList
+          $scope.showForm=true
+          $scope.form = $scope.data[key].tabs[indx-1]
+          // $scope.data[key].tabs[indx-1].form = $scope.data[key].tabs[indx-1]
+
 
         }
       }
-      $scope.getIndex(1)
       $scope.save = function(data) {
 
-        console.log(data,"3243049=23-");
         $http({
           method: 'PATCH',
           url: '/api/website/components/' + $scope.component.pk + '/',

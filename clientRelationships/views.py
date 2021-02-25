@@ -2019,6 +2019,7 @@ class OrderAPIView(APIView):
     def post(self, request, format=None):
         data = request.data
         toRet = {}
+        amount = 0
         contactObj =  Contact.objects.get(pk = int(data['id']))
         divisionId = hash_fn.unhash(data['division'])
         division = Division.objects.get(pk = int(divisionId))
@@ -2032,8 +2033,12 @@ class OrderAPIView(APIView):
         for i in cartObj:
             saleQtyObj = {'outBound' : saleObj , 'product' : i.product.name , 'qty' : i.qty , 'price' : i.price , 'tax' : 0 , 'total' : i.total , 'division' : division}
             saleqtyObj = SalesQty(**saleQtyObj)
+            saleqtyObj.save()
             amount+=i.total
             i.delete()
+        saleObj.total = amount
+        saleObj.balanceAmount = amount
+        saleObj.save()
             # val = {"currency":"INR","desc":i.product.name,"quantity":i.qty,"rate":i.price,"saleType":"Product","total":i.total,"type":"onetime","extraFieldOne":"","extraFieldTwo":"","subtotal":i.total,"totalTax":0,"tax":0,"taxCode":0}
         toRet = {'id' : saleObj.pk }
         return Response(toRet, status=status.HTTP_200_OK)
