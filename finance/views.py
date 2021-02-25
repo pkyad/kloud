@@ -60,7 +60,8 @@ from marketing.models import TourPlanStop
 from svglib.svglib import svg2rlg
 import cv2
 import numpy as np
-
+import basehash
+hash_fn = basehash.base36()
 
 class TermsAndConditionsViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,  )
@@ -4769,8 +4770,10 @@ class CartViewSet(viewsets.ModelViewSet):
     # filter_backends = [DjangoFilterBackend]
     # filter_fields = ['title','group','heading','personal']
     def get_queryset(self):
-        divsn = self.request.user.designation.division
-        return Cart.objects.filter(division = divsn)
+        # divsn = self.request.user.designation.division
+        if 'divId' in self.request.GET:
+            id = hash_fn.unhash(self.request.GET['divId'])
+            return Cart.objects.filter(division__id = int(id))
 
 
 class SaveInvoiceReceived(APIView):

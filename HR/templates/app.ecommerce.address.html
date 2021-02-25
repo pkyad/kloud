@@ -50,6 +50,11 @@
         {{footer | safe}}
       </div>
     </div>
-{% endblock %}
+  {% endblock %}
+  {% block pageJS %}
+  <script type="text/javascript">
+    var DIVISION_APIKEY = '{{API_KEY}}'
+  </script>
+  {% endblock %}
   </body>
 </html>
