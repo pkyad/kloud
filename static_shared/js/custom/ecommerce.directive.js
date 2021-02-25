@@ -6,10 +6,11 @@ app.directive('ecommerceHeader', function() {
     transclude: true,
     controller: function($scope, $state, $stateParams, $users,$http, $rootScope) {
       $scope.me = $users.get('mySelf')
+      $scope.division = DIVISION_APIKEY
       $scope.getCartItems = function(){
         $http({
           method: 'GET',
-          url: '/api/finance/cart/'
+          url: '/api/finance/cart/?divId='+$scope.division
         }).
         then(function(response) {
           $scope.allCartItems = response.data
@@ -145,25 +146,26 @@ app.directive('checkoutSideview', function() {
     transclude: true,
     controller: function($scope, $state, $stateParams, $users,$http,$timeout,$rootScope) {
       $scope.me = $users.get('mySelf')
+      $scope.division = DIVISION_APIKEY
       $scope.currency = "fa-inr"
       $scope.data = {
         stage : 'review',
         modeOfPayment:'COD'
       }
-
-      if (window.location.pathname == '/checkout') {
+      console.log(window.location.pathname);
+      if (window.location.pathname.includes("checkout")) {
         $scope.data.stage = 'review'
       }
-      else if (window.location.pathname == '/address') {
+      else if (window.location.pathname.includes("address")) {
         $scope.data.stage = 'address'
       }
-      else if (window.location.pathname == '/payment') {
+      else if (window.location.pathname.includes("payment")) {
         $scope.data.stage = 'payment'
       }
       $scope.getCartTotal = function(){
         $http({
           method: 'GET',
-          url: '/api/finance/cartTotal/'
+          url: '/api/finance/cartTotal/?divId='+$scope.division
         }).
         then(function(response) {
           $scope.totalDetails = response.data
@@ -287,6 +289,7 @@ app.directive('checkoutpaymentView', function() {
     controller: function($scope, $state, $stateParams, $users,$http,$timeout,$rootScope) {
       $scope.me = $users.get('mySelf')
       $scope.currency = "fa-inr"
+      $scope.division = DIVISION_APIKEY
       $scope.getContactDetails = function(){
         $http({
           method: 'GET',
@@ -301,7 +304,7 @@ app.directive('checkoutpaymentView', function() {
       $scope.getCartItems = function(){
         $http({
           method: 'GET',
-          url: '/api/finance/cart/'
+          url: '/api/finance/cart/?divId='+$scope.division
         }).
         then(function(response) {
           $scope.cartData = response.data
@@ -320,277 +323,40 @@ app.directive('checkoutView', function() {
     transclude: true,
     controller: function($scope, $state, $stateParams, $users,$http,$timeout,$rootScope) {
       $scope.me = $users.get('mySelf')
-
+      $scope.division = DIVISION_APIKEY
       $scope.getCartItems = function(){
         $http({
           method: 'GET',
-          url: '/api/finance/cart/'
+          url: '/api/finance/cart/?divId='+$scope.division
         }).
         then(function(response) {
           $scope.cartData = response.data
         })
       }
       $scope.getCartItems()
+      $scope.deleteFromCart = function(indx, value) {
+        $http({
+          method: 'DELETE',
+          url: '/api/finance/cart/' + value + '/',
+        }).
+        then(function(response) {
+          $scope.cartData.splice(indx, 1)
+          $scope.cartLength -= 1
+          $rootScope.$broadcast("getCartTotal", {});
 
-  //     $scope.is_wishlist = false
-  //   $scope.deletecustomatcart = function(indx) {
-  //     var dataToSend = {
-  //       customDetails: null,
-  //       customFile: null,
-  //     }
-  //   $http({
-  //     method: 'PATCH',
-  //     url: '/api/finance/cart/' + $rootScope.cartData[indx].pk + '/',
-  //     data: dataToSend
-  //   }).
-  //   then(function(response) {
-  //     Flash.create("success", 'Customization Removed')
-  //   })
-  // }
-  // $scope.uploadcustomatcart = function(indx) {
-  //   var fd = new FormData()
-  //   fd.append('customDetails', $rootScope.cartData[indx].customDetails);
-  //   fd.append('customFile', $rootScope.cartData[indx].customFile);
-  //   $http({
-  //     method: 'PATCH',
-  //     url: '/api/finance/cart/' + $rootScope.cartData[indx].pk + '/',
-  //     transformRequest: angular.identity,
-  //     headers: {
-  //       'Content-Type': undefined
-  //     },
-  //     data: fd,
-  //   }).
-  //   then(function(response) {
-  //     Flash.create("success", 'Customization Added')
-  //   })
-  //
-  // }
-  // $scope.currency = "fa-inr"
-  // $scope.me = $users.get('mySelf');
-  //
-  // var url = new URL(window.location.href)
-  // var action = url.searchParams.get("action")
-  //
-  //
-  // $scope.removeComment = function(indx) {
-  //   $rootScope.cartData[indx].comment = null
-  //   $http({
-  //     method: 'PATCH',
-  //     url: '/api/finance/cart/' + $rootScope.cartData[indx].pk + '/',
-  //     data: {
-  //       comment: $rootScope.cartData[indx].comment
-  //     }
-  //   }).
-  //   then(function(res) {})
-  // }
-  //
-  // $scope.removeCommentFav = function(indx) {
-  //   $rootScope.favData[indx].comment = null
-  //   $http({
-  //     method: 'PATCH',
-  //     url: '/api/finance/cart/' + $rootScope.favData[indx].pk + '/',
-  //     data: {
-  //       comment: $rootScope.favData[indx].comment
-  //     }
-  //   }).
-  //   then(function(res) {})
-  // }
-  //
-  //
-  //
-  //
-  //
-  // $scope.getcustomization = function(indx) {
-  //   var cart = $rootScope.cartData[indx]
-  //   $uibModal.open({
-  //     templateUrl: '/static/ngTemplates/app.ecommerce.getcustomization.html',
-  //     size: 'lg',
-  //     backdrop: false,
-  //     resolve: {
-  //       cartPk: function() {
-  //         return cart.pk;
-  //       },
-  //       selectedProdVarpk: function() {
-  //         return cart.productVariant.pk;
-  //       },
-  //       productpk: function() {
-  //         return cart.product.pk;
-  //       },
-  //       typ: function() {
-  //         return 'edit';
-  //       },
-  //     },
-  //     controller: 'ecommerce.customisation'
-  //   }).result.then(function(data) {}, function(data) {
-  //     console.log(data);
-  //     if (data != undefined) {
-  //       $rootScope.cartData[indx] = data
-  //     }
-  //   });
-  // }
-  //
-  //
-  // $scope.removecustomization = function(indx) {
-  //   var patchdata = {
-  //     customFile: null,
-  //     customDetails: null,
-  //     addon: null
-  //   }
-  //   $http({
-  //     method: 'PATCH',
-  //     url: '/api/finance/cart/' + $rootScope.cartData[indx].pk + '/',
-  //     data: patchdata,
-  //   }).
-  //   then(function(response) {
-  //     $rootScope.cartData[indx] = response.data
-  //   })
-  // }
-  //
-  //
-  // $scope.data = {}
-  // $scope.data.stage = 'review'
-  $scope.deleteFromCart = function(indx, value) {
-    $http({
-      method: 'DELETE',
-      url: '/api/finance/cart/' + value + '/',
-    }).
-    then(function(response) {
-      $scope.cartData.splice(indx, 1)
-      $scope.cartLength -= 1
-      $rootScope.$broadcast("getCartTotal", {});
-
-    })
-  }
-  //
-  // $scope.deleteFromFav = function(indx, value) {
-  //   console.log('herrrrrrrrrrrr');
-  //   $http({
-  //     method: 'DELETE',
-  //     url: '/api/finance/cart/' + value + '/',
-  //   }).
-  //   then(function(response) {
-  //     $rootScope.favData.splice(indx, 1)
-  //     $rootScope.favLength -= 1
-  //   })
-  // }
-  //
-  // $scope.moveToCart = function(indx, value) {
-  //   var dataToSend = {
-  //     is_fav: false
-  //   }
-  //   $http({
-  //     method: 'PATCH',
-  //     url: '/api/finance/cart/' + value + '/',
-  //     data: dataToSend
-  //   }).
-  //   then(function(response) {
-  //     $rootScope.favData.splice(indx, 1)
-  //     $rootScope.favLength -= 1
-  //     $rootScope.cartData.push(response.data)
-  //     $rootScope.cartLength += 1
-  //
-  //   })
-  // }
-  //
-  // $scope.moveToWishlist = function(indx, value) {
-  //   var dataToSend = {
-  //     is_fav: true
-  //   }
-  //   $http({
-  //     method: 'PATCH',
-  //     url: '/api/finance/cart/' + value + '/',
-  //     data: dataToSend
-  //   }).
-  //   then(function(response) {
-  //     $rootScope.cartData.splice(indx, 1)
-  //     $rootScope.cartLength -= 1
-  //     $rootScope.favData.push(response.data)
-  //     $rootScope.favLength += 1
-  //
-  //   })
-  // }
-  //
-  //
-  // $scope.updateQty = function(cartPk, name, qty) {
-  //   console.log("herrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
-  //   $uibModal.open({
-  //     templateUrl: '/static/ngTemplates/app.ecommerce.updateCart.modal.html',
-  //     size: 'sm',
-  //     backdrop: false,
-  //     resolve: {
-  //       cartPk: function() {
-  //         return cartPk;
-  //       },
-  //       name: function() {
-  //         return name;
-  //       },
-  //       qty: function() {
-  //         return qty;
-  //       },
-  //     },
-  //     controller: function($scope, $http, $uibModalInstance, cartPk, name, qty) {
-  //
-  //       $scope.closeModal = function() {
-  //         $uibModalInstance.dismiss()
-  //       }
-  //       $scope.form = {
-  //         pk: cartPk,
-  //         name: name,
-  //         qty: qty
-  //       }
-  //       $scope.updateCart = function() {
-  //         $http({
-  //           method: 'PATCH',
-  //           url: '/api/finance/cart/' + $scope.form.pk + '/',
-  //           data: {
-  //             qty: $scope.form.qty
-  //           }
-  //         }).
-  //         then(function(res) {
-  //           $scope.closeModal()
-  //         })
-  //       }
-  //     },
-  //   }).result.then(function(data) {}, function(data) {
-  //
-  //   });
-  // }
-  //
-  //
-  //
-  // $timeout(function() {
-  //
-  // }, 700);
-  //
-  //
-  //
-  $scope.changeQty = function(pk, indx, val) {
-    var cartData = $scope.cartData[indx]
-    if (val == 'increment') {
-      // if (cartData.productVariant.minQtyOrder != null) {
-      //   if (cartData.productVariant.maxQtyOrder <= cartData.qty || cartData.productVariant.stock <= cartData.qty) {
-      //     return
-      //   }
-      // }
-      $scope.cartData[indx].qty += 1
-    }
-    if (val == 'decrement') {
-      if ($scope.cartData[indx].qty == 1) {
-        return
+        })
       }
-      $scope.cartData[indx].qty -= 1
-      // if (cartData.productVariant.minQtyOrder != null) {
-      //   if (cartData.qty == cartData.productVariant.minQtyOrder) {
-      //     return
-      //   }
-      //   $scope.cartData[indx].qty -= 1
-      // } else {
-      //   $scope.cartData[indx].qty -= 1
-      //   if ($scope.cartData[indx].qty <= 1) {
-      //     $scope.cartData[indx].qty = 1
-      //   }
-      // }
-    }
+    $scope.changeQty = function(pk, indx, val) {
+      var cartData = $scope.cartData[indx]
+      if (val == 'increment') {
+        $scope.cartData[indx].qty += 1
+      }
+      if (val == 'decrement') {
+        if ($scope.cartData[indx].qty == 1) {
+          return
+        }
+        $scope.cartData[indx].qty -= 1
+      }
     $http({
       method: 'PATCH',
       url: '/api/finance/cart/' + $scope.cartData[indx].pk + '/',
@@ -605,49 +371,6 @@ app.directive('checkoutView', function() {
     })
 
   }
-
-  // $scope.changeQtyFav = function(pk, indx, val) {
-  //   var favData = $rootScope.favData[indx]
-  //   if (val == 'increment') {
-  //     if (favData.productVariant.minQtyOrder != null) {
-  //       if (favData.productVariant.maxQtyOrder <= favData.qty || favData.productVariant.stock <= favData.qty) {
-  //         return
-  //       }
-  //     }
-  //     $rootScope.favData[indx].qty += 1
-  //   }
-  //   if (val == 'decrement') {
-  //     if (favData.productVariant.minQtyOrder != null) {
-  //       if (favData.qty == favData.productVariant.minQtyOrder) {
-  //         return
-  //       }
-  //       $rootScope.favData[indx].qty -= 1
-  //     } else {
-  //       $rootScope.favData[indx].qty -= 1
-  //       if ($rootScope.favData[indx].qty <= 1) {
-  //         $rootScope.favData[indx].qty = 1
-  //       }
-  //     }
-  //   }
-  //   $http({
-  //     method: 'PATCH',
-  //     url: '/api/finance/cart/' + $rootScope.favData[indx].pk + '/',
-  //     data: {
-  //       qty: $rootScope.favData[indx].qty
-  //     }
-  //   }).
-  //   then(function(res) {})
-  // }
-  //
-  // $scope.next = function() {
-  //
-  //   window.scrollTo(0, 0);
-  //   $state.go('address')
-  //
-  // }
-  // $scope.data.stage = 'review'
-  //
-
     },
   };
 });
@@ -1003,14 +726,13 @@ app.directive('productCards', function() {
         }
         url = url.replace(/-/g, ' ');
         url = url.trim();
-
         if ($scope.item.pk != undefined) {
           $scope.item.url = url.replace(/-/g, ' ').trim().replace(/\s/g, '-');
-          window.open('/details/' + $scope.item.pk+'/'+$scope.item.url, '_self')
+          window.open('/details/'+DIVISION_APIKEY+'/' + $scope.item.pk+'/'+$scope.item.url, '_self')
 
         }else {
           $scope.item.description.string.url = url.replace(/-/g, ' ').trim().replace(/\s/g, '-');
-          window.open('/details/' + $scope.item.description.string.pk+'/'+$scope.item.description.string.url, '_self')
+          window.open('/details/'+DIVISION_APIKEY+ '/' + $scope.item.description.string.pk+'/'+$scope.item.description.string.url, '_self')
 
         }
 

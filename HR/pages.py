@@ -239,16 +239,16 @@ def appdetails(request):
     return render(request, 'app.HR.appdetails.html')
 
 
-def ProductDetails(request,id):
+def ProductDetails(request,div,id):
     product = Inventory.objects.get(pk = id)
     context={}
-    return render(request, 'app.finance.inventory.productDetails.html',{'product':product})
+    return render(request, 'app.finance.inventory.productDetails.html',{'product':product,'API_KEY':div})
 
 def Categories(request,id):
 
     return render(request, 'app.ecommerce.categories.html',{'id':id})
 
-def CheckoutView(request):
+def CheckoutView(request, div):
     header =None
     footer = None
     headerCss = None
@@ -259,10 +259,10 @@ def CheckoutView(request):
     if request.user.designation.division.headerTemplate:
         footer  = request.user.designation.division.footerTemplate
         footerCss  = request.user.designation.division.footerCss
-    return render(request, 'app.ecommerce.checkout.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
+    return render(request, 'app.ecommerce.checkout.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'API_KEY':div})
 
 
-def CheckoutAddressView(request):
+def CheckoutAddressView(request, div):
     header =None
     footer = None
     headerCss = None
@@ -273,9 +273,9 @@ def CheckoutAddressView(request):
     if request.user.designation.division.headerTemplate:
         footer  = request.user.designation.division.footerTemplate
         footerCss  = request.user.designation.division.footerCss
-    return render(request, 'app.ecommerce.address.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
+    return render(request, 'app.ecommerce.address.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'API_KEY':div})
 
-def CheckoutPaymentView(request):
+def CheckoutPaymentView(request, div):
     header =None
     footer = None
     headerCss = None
@@ -286,7 +286,7 @@ def CheckoutPaymentView(request):
     if request.user.designation.division.headerTemplate:
         footer  = request.user.designation.division.footerTemplate
         footerCss  = request.user.designation.division.footerCss
-    return render(request, 'app.ecommerce.payment.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
+    return render(request, 'app.ecommerce.payment.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'API_KEY':div})
 
 def OrderSuccessfulView(request):
     header =None

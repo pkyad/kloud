@@ -90,15 +90,15 @@
 <script src="{% static 'js/angular-owl-carousel-2.js' %}"></script>
 <script src="{% static 'js/custom/ecommerce.directive.js' %}"></script>
 
-{% endblock %}
 {% block pageJS %}
-  <script type="text/javascript">
-    var DIVISION_APIKEY = '{{API_KEY}}'
-    var page = '{{page.pk}}'
-  </script>
-  {% if page.enableChat %}
-    <script src="/script/chatter-{{API_KEY}}.js?debugger=1"></script>
-  {% endif %}
+<script type="text/javascript">
+  var DIVISION_APIKEY = '{{API_KEY}}'
+  var page = '{{page.pk}}'
+</script>
+{% if page.enableChat %}
+<script src="/script/chatter-{{API_KEY}}.js?debugger=1"></script>
+{% endif %}
+{% endblock %}
 
 
 
