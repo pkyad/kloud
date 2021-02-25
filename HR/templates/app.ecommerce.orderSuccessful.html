@@ -17,39 +17,17 @@
     <link rel="stylesheet" href="{% static 'css/app.HR.ecommerce.css' %}" charset="utf-8">
   </head>
   <body>
-{% block header %}
-<div class="">
-  <style media="screen">
-    {{headerCss}}
-  </style>
-  <div class="">
-    {{header | safe}}
-  </div>
-</div>
 
-{% endblock %}
 {% block content %}
     {% verbatim %}
       <div class="row" >
-        <div class="col-md-9">
-        <checkout-view>  </checkout-view>
-        </div>
-        <div class="col-md-3">
-        <checkout-sideview>  </checkout-sideview>  
+        <div class="col-md-12 text-center">
+          <h1> Order placed Successfully </h1>
         </div>
       </div>
     {% endverbatim %}
     {% endblock %}
 
-    {% block footer %}
-    <div class="">
-      <style media="screen">
-        {{footerCss}}
-      </style>
-      <div class="">
-        {{footer | safe}}
-      </div>
-    </div>
-{% endblock %}
+
   </body>
 </html>

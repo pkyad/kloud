@@ -70,6 +70,8 @@ import googlemaps
 from PIM.models import notification
 from expenses import *
 from ERP.send_push_message import send_push_message
+from clientRelationships.models import ServiceTicket
+from clientRelationships.serializers import ServiceTicketSerializer
 
 class GetCampaignStatsAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated , isAdmin)
@@ -1009,13 +1011,13 @@ class getVisitsAPI(APIView):
         from datetime import date
         today = date.today()
         if 'id' in request.GET:
-            newObj = TourPlanStop.objects.get(pk = int(request.GET['id']))
-            data = TourPlanStopLiteSerializer(newObj, many = False).data
+            newObj = ServiceTicket.objects.get(pk = int(request.GET['id']))
+            data = ServiceTicketSerializer(newObj, many = False).data
             return Response({'data' : data }, status = status.HTTP_200_OK)
         if 'typ' in request.GET:
-            newObj = TourPlanStop.objects.filter(status = 'assigned' , tourplan__user = user).exclude(is_postponded = True)
-            ongoingObj = TourPlanStop.objects.filter(status = 'ongoing' , tourplan__user = user).exclude(is_postponded = True)
-            completedObj = TourPlanStop.objects.filter(status = 'completed' , tourplan__user = user).exclude(is_postponded = True)
+            newObj = ServiceTicket.objects.filter(status = 'assigned' , engineer = user)
+            ongoingObj = ServiceTicket.objects.filter(status = 'ongoing' , engineer = user)
+            completedObj = ServiceTicket.objects.filter(status = 'completed' , engineer = user)
             if request.GET['typ'] == 'CustomPeriod':
                 if 'date1' in request.GET:
                     date1 = request.GET['date1']
@@ -1027,56 +1029,57 @@ class getVisitsAPI(APIView):
                 else:
                     fromDate = date1
                     toDate = date2
-                newObj = newObj.filter(tourplan__date__range = (fromDate , toDate))
-                ongoingObj = ongoingObj.filter(tourplan__date__range = (fromDate , toDate))
-                completedObj = completedObj.filter(tourplan__date__range = (fromDate , toDate))
+                newObj = newObj.filter(preferredDate__range = (fromDate , toDate))
+                ongoingObj = ongoingObj.filter(preferredDate__range = (fromDate , toDate))
+                completedObj = completedObj.filter(preferredDate__range = (fromDate , toDate))
             elif request.GET['typ'] == 'Today':
-                newObj = newObj.filter(tourplan__date = today)
-                ongoingObj = ongoingObj.filter(tourplan__date = today)
-                completedObj = completedObj.filter(tourplan__date = today)
+                newObj = newObj.filter(preferredDate = today)
+                ongoingObj = ongoingObj.filter(preferredDate = today)
+                completedObj = completedObj.filter(preferredDate = today)
                 print newObj , ongoingObj
             elif request.GET['typ'] == 'Yesterday':
                 yesterday = today - timedelta(days = 1)
-                newObj = newObj.filter(tourplan__date = yesterday)
-                ongoingObj = ongoingObj.filter(tourplan__date = yesterday)
-                completedObj = completedObj.filter(tourplan__date = yesterday)
+                newObj = newObj.filter(preferredDate = yesterday)
+                ongoingObj = ongoingObj.filter(preferredDate = yesterday)
+                completedObj = completedObj.filter(preferredDate = yesterday)
             elif request.GET['typ'] == 'ThisWeek':
                 noDays =  int(today.strftime('%w'))
                 fromDate = today - timedelta(days=int(noDays))
                 toDate = fromDate + timedelta(days=6)
-                newObj = newObj.filter(tourplan__date__range = (fromDate , toDate))
-                ongoingObj = ongoingObj.filter(tourplan__date__range = (fromDate , toDate))
-                completedObj = completedObj.filter(tourplan__date__range = (fromDate , toDate))
+                newObj = newObj.filter(preferredDate__range = (fromDate , toDate))
+                ongoingObj = ongoingObj.filter(preferredDate__range = (fromDate , toDate))
+                completedObj = completedObj.filter(preferredDate__range = (fromDate , toDate))
             elif request.GET['typ'] == 'LastWeek':
                 noDays =  int(today.strftime('%w'))
                 sundayDate = today - timedelta(days=int(noDays))
                 fromDate = sundayDate - timedelta(days=7)
                 toDate = sundayDate - timedelta(days=1)
-                newObj = newObj.filter(tourplan__date__range = (fromDate , toDate))
-                ongoingObj = ongoingObj.filter(tourplan__date__range = (fromDate , toDate))
-                completedObj = completedObj.filter(tourplan__date__range = (fromDate , toDate))
+                newObj = newObj.filter(preferredDate__range = (fromDate , toDate))
+                ongoingObj = ongoingObj.filter(preferredDate__range = (fromDate , toDate))
+                completedObj = completedObj.filter(preferredDate__range = (fromDate , toDate))
             elif request.GET['typ'] == 'ThisMonth':
                 fromDate = today.replace(day=1)
                 toDate = today + relativedelta(day=31)
-                newObj = newObj.filter(tourplan__date__range = (fromDate , toDate))
-                ongoingObj = ongoingObj.filter(tourplan__date__range = (fromDate , toDate))
-                completedObj = completedObj.filter(tourplan__date__range = (fromDate , toDate))
+                newObj = newObj.filter(preferredDate__range = (fromDate , toDate))
+                ongoingObj = ongoingObj.filter(preferredDate__range = (fromDate , toDate))
+                completedObj = completedObj.filter(preferredDate__range = (fromDate , toDate))
             elif request.GET['typ'] == 'LastMonth':
                 toDate = today.replace(day=1) - datetime.timedelta(days=1)
                 fromDate = toDate.replace(day=1)
-                newObj = newObj.filter(tourplan__date__range = (fromDate , toDate))
-                ongoingObj = ongoingObj.filter(tourplan__date__range = (fromDate , toDate))
-                completedObj = completedObj.filter(tourplan__date__range = (fromDate , toDate))
-            completed = TourPlanStopLiteSerializer(completedObj, many = True).data
-            newData = TourPlanStopLiteSerializer(newObj, many = True).data
-            ongoingData = TourPlanStopLiteSerializer(ongoingObj, many = True).data
-        pending = TourPlanStopLiteSerializer(TourPlanStop.objects.filter(status = 'assigned' , tourplan__user = user,tourplan__date__lt = today).exclude(is_postponded = True), many = True).data
+                newObj = newObj.filter(preferredDate__range = (fromDate , toDate))
+                ongoingObj = ongoingObj.filter(preferredDate__range = (fromDate , toDate))
+                completedObj = completedObj.filter(preferredDate__range = (fromDate , toDate))
+            completed = ServiceTicketSerializer(completedObj, many = True).data
+            newData = ServiceTicketSerializer(newObj, many = True).data
+            ongoingData = ServiceTicketSerializer(ongoingObj, many = True).data
+        # pending = ServiceTicketSerializer(TourPlanStop.objects.filter(status = 'assigned' , engineer = user,preferredDate__lt = today).exclude(is_postponded = True), many = True).data
 
-        followUpObj1 = TourPlanStop.objects.filter(tourplan__user = user,tourplan__date__gt = today,status = 'assigned')
-        followUpObj2 =  TourPlanStop.objects.filter(tourplan__user = user, postponded_date__gt = today , is_postponded = True)
-        followUpObj = followUpObj1 | followUpObj2
-        followUpData = TourPlanStopLiteSerializer(followUpObj, many = True).data
-        data = {'new' : newData , 'ongoing' : ongoingData , 'followup' : followUpData , 'pending':pending , 'completed' :completed}
+        # followUpObj1 = ServiceTicket.objects.filter(engineer = user,tourplan__date__gt = today,status = 'assigned')
+        # followUpObj2 =  ServiceTicket.objects.filter(engineer = user, postponded_date__gt = today , is_postponded = True)
+        # followUpObj = followUpObj1 | followUpObj2
+        followUpObj = ServiceTicket.objects.filter(engineer = user, status = 'postponed')
+        followUpData = ServiceTicketSerializer(followUpObj, many = True).data
+        data = {'new' : newData , 'ongoing' : ongoingData , 'followup' : followUpData , 'completed' :completed}
         return Response({'data' : data }, status = status.HTTP_200_OK)
 
 
@@ -1235,14 +1238,14 @@ class DashBoardAPI(APIView):
         desg = designation.objects.filter(user = user).first()
         unitObj = UnitLiteSerializer(Unit.objects.get(pk = desg.unit.pk), many = False).data
         userObj = userSearchSerializer(user, many = False).data
-        visitObj = TourPlanStop.objects.filter(tourplan__user = user , tourplan__date__gt = first,  tourplan__date__lt = last)
+        visitObj = ServiceTicket.objects.filter(engineer = user , preferredDate__gt = first,  preferredDate__lt = last)
         visitCount = visitObj.count()
         allotedCount = visitObj.filter(status = 'assigned').count()
         completedCount = visitObj.filter(status = 'completed').count()
-        invoiceTotal = OutBoundInvoiceQty.objects.filter(outBound__user=user , created__gt = first,  created__lt = last).aggregate(sum=Sum('total'))['sum']
+        invoiceTotal = SalesQty.objects.filter(outBound__user=user , created__gt = first,  created__lt = last).aggregate(sum=Sum('total'))['sum']
         if invoiceTotal == None:
             invoiceTotal = 0
-        invoiceCount = OutBoundInvoice.objects.filter(user=user , created__gt = first,  created__lt = last ).count()
+        invoiceCount = Sale.objects.filter(user=user , created__gt = first,  created__lt = last ).count()
         try:
             visitefficiency = (completedCount / visitCount) * 100
         except:
@@ -1806,10 +1809,10 @@ class homePageAPIView(APIView):
                 f.append(filename)
         user = request.user
         today = date.today()
-        toPlans = TourPlanStop.objects.filter(tourplan__user = user , tourplan__date = today)
-        backlogPlans = TourPlanStop.objects.filter(tourplan__user = user , tourplan__date__lt = today , status = 'assigned').count()
+        toPlans = ServiceTicket.objects.filter(engineer = user , preferredDate = today)
+        backlogPlans = ServiceTicket.objects.filter(engineer = user , preferredDate__lt = today , status = 'assigned').count()
         totalTarget = toPlans.count()
-        pendingTarget = toPlans.filter(tourplan__user = user,status = 'assigned',tourplan__date = today).exclude(is_postponded = True).count()
+        pendingTarget = toPlans.filter(engineer = user,status = 'assigned',preferredDate = today).count()
         try:
             pendingTargetPer =  ((pendingTarget * 100)/ totalTarget)
         except:
@@ -2626,6 +2629,9 @@ def convert(seconds):
     hour, min = divmod(min, 60)
     return "%d:%02d" % (hour, min)
 
+
+from chatbot.models import Activity
+from chatbot.serializers import ActivitySerializer
 class GetVisitDetailsAPIView(APIView):
     renderer_classes = (JSONRenderer,)
     permission_classes = (permissions.AllowAny ,)
@@ -2642,8 +2648,8 @@ class GetVisitDetailsAPIView(APIView):
                 total_distance = round(timesheetObj.distanceTravelled/1000, 2)
             except:
                 total_distance = 0
-            tourTrackerObj = UserTourTracker.objects.filter(user = userObj , created__contains = dated)
-            tourTrackerList = UserTourTrackerSerializer(tourTrackerObj , many = True).data
+            tourTrackerObj = Activity.objects.filter(user = userObj , created__contains = dated)
+            tourTrackerList = ActivitySerializer(tourTrackerObj , many = True).data
             min = 0
             max = tourTrackerObj.count()
             options = []

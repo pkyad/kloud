@@ -40,7 +40,7 @@ app.controller("businessManagement.assets.form.info", function($scope, $rootScop
   $scope.getWarehouse()
 
   $scope.getallCheckins = function() {
-    var url = '/api/assets/checkin/?unit='+$scope.filters.warehouse.pk+'&limit='+$scope.limit+'&offset='+$scope.offset
+    var url = '/api/assets/checkin/?unit='+$scope.filters.warehouse+'&limit='+$scope.limit+'&offset='+$scope.offset
 
     if ($scope.filters.search.length > 0) {
       url = url + '&search=' + $scope.filters.search
@@ -57,7 +57,7 @@ app.controller("businessManagement.assets.form.info", function($scope, $rootScop
 
     $http({
       method: 'GET',
-      url: '/api/assets/getAssets/?unit='+$scope.filters.warehouse.name
+      url: '/api/assets/getAssets/?unit='+$scope.filters.warehouse
     }).then(function(response) {
       $scope.grandTotal = response.data.total_price.price__sum
     })

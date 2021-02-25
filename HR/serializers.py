@@ -13,6 +13,8 @@ from django.conf import settings as globalSettings
 from marketing.models import TourPlanStop
 from ERP.send_push_message import send_push_message
 from payroll.models import payroll
+from chatbot.serializers import ActivitySerializer
+
 
 
 class userProfileLiteSerializer(serializers.ModelSerializer):
@@ -207,7 +209,7 @@ class userProfileViewSerializer(serializers.ModelSerializer):
         model = profile
         fields = ('pk','mobile','user','lat','lon','last_updated','location_track','job_type','displayPicture','battery_level','alllocations','total_distance','totalTour')
     def get_alllocations(self, obj):
-        return UserTourTrackerSerializer(UserTourTracker.objects.filter(user = obj.user, created__contains = datetime.date.today()),many=True).data
+        return ActivitySerializer(Activity.objects.filter(user = obj.user, created__contains = datetime.date.today()),many=True).data
     def get_total_distance(self, obj):
         total_distance = 0
         try:

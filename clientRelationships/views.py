@@ -2010,3 +2010,26 @@ class MaterialIssuedNoteAPIView(APIView):
         response['Content-Disposition'] = 'attachment;filename="Quotationdownload.pdf"'
         genMaterialIssueNote(response , ticket,request)
         return response
+
+
+class OrderAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny,)
+    def post(self, request, format=None):
+        data = request.data
+        toRet = {}
+        contactObj =  Contact.objects.get(pk = int(data['id']))
+        division = Division.objects.get(pk = int(data['division']) )
+        cartObj = Cart.objects.filter(contact = contactObj, division = division )
+        costcenterObj  = division.divisionCostCenter.all().first()
+        accountObj = division.divisionAccount.filter(personal = False, heading = 'income').first()
+        data = []
+        saleData = {'division' : division , 'contact' : contactObj, 'personName' : contactObj.name , 'phone' : contactObj.mobile , 'address' :  contactObj.street , 'pincode' : contactObj.pincode, 'state' : contactObj.state, 'city' : contactObj.city , 'country' : contactObj.country, 'costcenter' : costcenterObj, 'account' : accountObj , 'sameasbilling' : True , 'billingAddress' : contactObj.street , 'billingPincode' : contactObj.pincode , 'billingState' : contactObj.state , 'billingCity' : contactObj.city , 'billingCountry' : contactObj.country}
+        saleObj = Sale(**saleData)
+        for i in cartObj:
+            saleQtyObj = {'outBound' : saleObj , 'product' : i.product.name , 'qty' : i.qty , 'price' : i.price , 'tax' : 0 , 'total' : i.total , 'division' : division}
+            saleqtyObj = SalesQty(**saleQtyObj)
+            i.delete()
+            # val = {"currency":"INR","desc":i.product.name,"quantity":i.qty,"rate":i.price,"saleType":"Product","total":i.total,"type":"onetime","extraFieldOne":"","extraFieldTwo":"","subtotal":i.total,"totalTax":0,"tax":0,"taxCode":0}
+
+        return Response(toRet, status=status.HTTP_200_OK)
