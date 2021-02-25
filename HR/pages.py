@@ -176,8 +176,7 @@ def renderpage(request,apiKey,url):
     components = Components.objects.filter(parent = page)
     data = ''
     for indx, i in enumerate(components):
-        i.template = i.template.replace('$data' , 'components[%s].data'%(indx))
-
+        i.template = i.template.replace('"$data"' , "'"+components[indx].data+"'")
         i.dataTemplate = i.template
         # i.data = json.loads(json.dumps(i.data))
         print i.data,"4k324kl3k4las;dflkasidfo"

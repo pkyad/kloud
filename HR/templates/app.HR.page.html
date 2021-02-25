@@ -25,26 +25,23 @@
 
 {% endblock %}
 {% block content %}
-<div ng-app="app" ng-controller="main" ng-init="division = '{{divisionJson}}'" style="margin-top:30px;margin-bottom:30px;">
+<div ng-app="app" ng-controller="main"  ng-init="division = '{{divisionJson}}'" style="margin-top:30px;margin-bottom:30px;">
 
 {% for component in components %}
-
-  <div class="" ng-init="data = '{{component.data}}'">
-
+  <div class="" ng-init="data = '{{component.data | safe}}'">
     <style media="screen" >
       {{component.css | safe}}
     </style>
-
-      {{component.template | safe}}
+      {{component.template|safe}}
   </div>
 {% endfor %}
 
 </div>
 
-{% verbatim %}
+<!-- {% verbatim %}
 <p>{{components}}</p>
 
-{% endverbatim %}
+{% endverbatim %} -->
 
 
 
@@ -73,7 +70,27 @@
 
 
 </script>
+{% block specific_js %}
 
+
+<script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+<script src="{% static 'js/jquery.cookie-1.4.1.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/angular.min.js' %}"></script>
+<script src="{% static 'js/ui-bootstrap-tpls-0.14.3.min.js' %}"></script>
+<script src="{% static 'js/angular-bootstrap-confirm.min.js' %}"></script>
+<script src="{% static 'js/angular-ui-router.min.js' %}"></script>
+<script src="{% static 'js/angular-sanitize.min.js' %}"></script>
+<script src="{% static 'js/angular-flash.js' %}"></script>
+<script src="{% static 'js/app.main.js' %}"></script>
+<script src="{% static 'js/custom/directives.js' %}"></script>
+<script src="{% static 'js/custom/directives.native.js' %}"></script>
+<script src="{% static 'js/custom/nativeJS.js' %}"></script>
+<script src="{% static 'js/custom/services.js' %}"></script>
+<script src="{% static 'js/angular-owl-carousel-2.js' %}"></script>
+<script src="{% static 'js/custom/ecommerce.directive.js' %}"></script>
+
+{% endblock %}
 {% block pageJS %}
   <script type="text/javascript">
     var DIVISION_APIKEY = '{{API_KEY}}'

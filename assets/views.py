@@ -87,3 +87,17 @@ class AssetsInsightAPI(APIView):
         data = {'total_price': total_price}
 
         return Response(data, status=status.HTTP_200_OK)
+
+
+class AssignedListAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    def get(self, request, format=None):
+        today = datetime.datetime.today()
+        yesterday = today - timedelta(days = 1)
+        tommorow = today + timedelta(days = 1)
+        data = []
+        # for i in Asset.objects.filter(pk__in = Checkin.objects.filter(assignedBy = request.user, assignedOn__gt = yesterday,  assignedOn__lt = tommorow).values_list('asset', flat=True).distinct()):
+        #     data.append({"name" :  i.name , "price":i.price, "prefix":i.prefix,  "count" : i.checkins.filter(assignedBy = request.user, assignedOn__gt = yesterday,  assignedOn__lt = tommorow ).count() })
+        checkinObj = Checkin.objects.filter(assignedBy = request.user,  assignedOn__gt = yesterday,  assignedOn__lt = tommorow)
+        data = CheckinLiteSerializer(checkinObj, many = True).data
+        return Response(data, status=status.HTTP_200_OK)

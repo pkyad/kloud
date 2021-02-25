@@ -71,6 +71,7 @@ from PIM.models import notification
 from expenses import *
 from ERP.send_push_message import send_push_message
 from clientRelationships.models import ServiceTicket
+from clientRelationships.serializers import ServiceTicketSerializer
 
 class GetCampaignStatsAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated , isAdmin)
@@ -1015,7 +1016,7 @@ class getVisitsAPI(APIView):
             return Response({'data' : data }, status = status.HTTP_200_OK)
         if 'typ' in request.GET:
             newObj = ServiceTicket.objects.filter(status = 'assigned' , engineer = user)
-            ongoingObj = ServiceTicket.objects.filter(status = 'ongoing' , tengineer = user)
+            ongoingObj = ServiceTicket.objects.filter(status = 'ongoing' , engineer = user)
             completedObj = ServiceTicket.objects.filter(status = 'completed' , engineer = user)
             if request.GET['typ'] == 'CustomPeriod':
                 if 'date1' in request.GET:
@@ -1237,14 +1238,14 @@ class DashBoardAPI(APIView):
         desg = designation.objects.filter(user = user).first()
         unitObj = UnitLiteSerializer(Unit.objects.get(pk = desg.unit.pk), many = False).data
         userObj = userSearchSerializer(user, many = False).data
-        visitObj = TourPlanStop.objects.filter(tourplan__user = user , tourplan__date__gt = first,  tourplan__date__lt = last)
+        visitObj = ServiceTicket.objects.filter(engineer = user , preferredDate__gt = first,  preferredDate__lt = last)
         visitCount = visitObj.count()
         allotedCount = visitObj.filter(status = 'assigned').count()
         completedCount = visitObj.filter(status = 'completed').count()
-        invoiceTotal = OutBoundInvoiceQty.objects.filter(outBound__user=user , created__gt = first,  created__lt = last).aggregate(sum=Sum('total'))['sum']
+        invoiceTotal = SalesQty.objects.filter(outBound__user=user , created__gt = first,  created__lt = last).aggregate(sum=Sum('total'))['sum']
         if invoiceTotal == None:
             invoiceTotal = 0
-        invoiceCount = OutBoundInvoice.objects.filter(user=user , created__gt = first,  created__lt = last ).count()
+        invoiceCount = Sale.objects.filter(user=user , created__gt = first,  created__lt = last ).count()
         try:
             visitefficiency = (completedCount / visitCount) * 100
         except:
@@ -1808,10 +1809,10 @@ class homePageAPIView(APIView):
                 f.append(filename)
         user = request.user
         today = date.today()
-        toPlans = TourPlanStop.objects.filter(tourplan__user = user , tourplan__date = today)
-        backlogPlans = TourPlanStop.objects.filter(tourplan__user = user , tourplan__date__lt = today , status = 'assigned').count()
+        toPlans = ServiceTicket.objects.filter(engineer = user , preferredDate = today)
+        backlogPlans = ServiceTicket.objects.filter(engineer = user , preferredDate__lt = today , status = 'assigned').count()
         totalTarget = toPlans.count()
-        pendingTarget = toPlans.filter(tourplan__user = user,status = 'assigned',tourplan__date = today).exclude(is_postponded = True).count()
+        pendingTarget = toPlans.filter(engineer = user,status = 'assigned',preferredDate = today).count()
         try:
             pendingTargetPer =  ((pendingTarget * 100)/ totalTarget)
         except:

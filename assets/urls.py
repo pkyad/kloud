@@ -12,4 +12,6 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'createCheckin/$' , CheckinCreationAPI.as_view()),
     url(r'getAssets/$' , AssetsInsightAPI.as_view()),
+    url(r'assignedList/$' , AssignedListAPIView.as_view()),
+
  ]
