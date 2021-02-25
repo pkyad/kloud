@@ -950,15 +950,14 @@ app.directive('ecommerceBestdeals', function() {
 
 
       $scope.getIndex = function(indx) {
-        console.log($scope.deals.tabs.array,'234324');
-        if ($scope.deals.tabs.array.length > 0 ) {
+        if ($scope.deals.productsMap.tabs.length > 0 ) {
           $scope.index = indx
-          $scope.items = $scope.deals.tabs.array[indx].products.array
+          $scope.items = $scope.deals.productsMap.tabs[indx-1].products.productList
 
         }
-        // console.log($scope.items, "werer");
+        console.log($scope.items, "werer");
       }
-      // $scope.getIndex(1)
+      $scope.getIndex(1)
 
 
 
