@@ -1791,7 +1791,7 @@ def razorpayPaymentInitiate(request):
 
 
     payload = {
-        'amount':int(1*100),
+        'amount':int(onlinePay.amount*100),
         'currency':'INR',
         'receipt':str(onlinePay.pk),
         'payment_capture':1,
@@ -1812,7 +1812,7 @@ def razorpayPaymentInitiate(request):
     formData =  {
         "action" :  "https://checkout.razorpay.com/v1/checkout.js",
         "key": razorpay_key,
-        "amount": int(1*100),
+        "amount": int(onlinePay.amount*100),
         "logo": imageUrl,
         "razorpay_order_id": razorpayOrderID,
         "cust_name":onlinePay.cust_name,
