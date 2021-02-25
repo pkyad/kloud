@@ -850,7 +850,7 @@ app.directive('ecommerceBestdeals', function() {
 
 
       $scope.getIndex = function(indx) {
-        if ($scope.deals.productsMap.tabs.length > 0 ) {
+        if ($scope.deals.productsMap.tabs.length > 0) {
           $scope.index = indx
           $scope.items = $scope.deals.productsMap.tabs[indx-1].products.productList
 

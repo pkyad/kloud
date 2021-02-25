@@ -94,6 +94,24 @@
         </div>
       </div>
       <div ng-if="value.type == 'array'">
+
+        <div class=""  ng-repeat="(key1,value1) in value.form track by $index">
+
+
+          <br>
+          <div class="input-group"   ng-if="value1.type =='array' || value1.type =='string'">
+            <input type="text" class="form-control" ng-model="value1.string" uib-typeahead="k as k.name for k in  productSearch($viewValue)">
+            <div class="input-group-btn">
+              <button class="btn btn-primary" type="submit" ng-click="editArrayObj(value, -1, key)" ng-if="key !='tabs'"> add
+                <i class=" fa fa-plus"></i></button>
+              <button class="btn btn-primary" type="submit" ng-click="tabArray(value.form, -1, key1,key)" ng-if="key =='tabs' && value.array.length == 0" > add
+                <i class=" fa fa-plus"></i></button>
+              <button class="btn btn-primary" type="submit" ng-click="tabArray(value.form, index, key1,key)" ng-if="key =='tabs' && value.array.length > 0" > add
+                <i class=" fa fa-plus"></i></button>
+              </div>
+            </div>
+        </div>
+
         <div class="row">
           <div class="col-md-4" ng-repeat="object in value.array track by $index " ng-if="key != 'tabs'">
             <span style="position:absolute;right:25px;padding:10px;" ng-click="value.array.splice($index,1)"><i class="fa fa-times"></i></span>
@@ -117,13 +135,11 @@
         </div>
 
 
-        <div class="row">
+        <!-- <div class="row">
 
           <div class="row" style="display:flex;margin:0px;border-bottom: 1px solid #ccc;overflow-x: scroll;
 white-space: nowrap;scroll-behavior: smooth;scrollbar-width: none;">
-            <div class="col-md-1 text-center">
-              <i class="fa fa-plus" ></i>
-            </div>
+
             <div class="" ng-repeat="k in value.array track by $index" style="padding-right:20px;{{index==$index+1?'border-bottom:3px solid var(--themeColor);':''}};height:40px" ng-click="getIndex($index+1)">
               <h4 style="margin:0px;">{{k.heading.string}}</h4>
             </div>
@@ -150,26 +166,8 @@ white-space: nowrap;scroll-behavior: smooth;scrollbar-width: none;">
             </div>
           </div>
 
-        </div>
-      <div class=""  ng-repeat="(key1,value1) in value.form track by $index">
+        </div> -->
 
-        <div ng-if="value1.type == 'string'">
-          <label> {{value1.label}} </label>
-          <input type="text" class="form-control" ng-model="value1.string" placeholder="{{value.label}}">
-        </div>
-        <br>
-        <div class="input-group"   ng-if="value1.type =='array' || value1.type =='string' && key !='tabs'">
-          <input type="text" class="form-control" ng-model="value1.string" uib-typeahead="k as k.name for k in  productSearch($viewValue)">
-          <div class="input-group-btn">
-            <button class="btn btn-primary" type="submit" ng-click="editArrayObj(value, -1, key)" ng-if="key !='tabs'"> add
-              <i class=" fa fa-plus"></i></button>
-            <button class="btn btn-primary" type="submit" ng-click="tabArray(value.form, -1, key1,key)" ng-if="key =='tabs' && value.array.length == 0" > add
-              <i class=" fa fa-plus"></i></button>
-            <button class="btn btn-primary" type="submit" ng-click="tabArray(value.form, index, key1,key)" ng-if="key =='tabs' && value.array.length > 0" > add
-              <i class=" fa fa-plus"></i></button>
-            </div>
-          </div>
-      </div>
       </div>
       <div ng-if="value.type == 'tabs'">
 
@@ -185,7 +183,7 @@ white-space: nowrap;scroll-behavior: smooth;scrollbar-width: none;height:45px;">
             <div class="col-md-1 text-center" style="border-right:1px solid #ccc;padding:10px 15px;">
               <i class="fa fa-plus" ng-click="showForm=! showForm; tabArray(value.form, -1, 'products',key)" ng-init="showForm=false"></i>
             </div>
-            <div class="" ng-repeat="k in value.tabs track by $index" ng-init="index=$index" style="{{index==$index+1?'border-bottom:3px solid var(--themeColor);':''}};height:43px;border-right:1px solid #ccc;padding:10px;"
+            <div class="" ng-repeat="k in value.tabs track by $index" style="{{index==$index+1?'border-bottom:3px solid var(--themeColor);':''}};height:43px;border-right:1px solid #ccc;padding:10px;"
             ng-click="getIndex($index+1,key);">
               <h4 style="margin:0px;">{{k.heading.string}} <i class="fa fa-times" ng-click="deleteTab($index)"></i> </h4>
             </div>
@@ -194,7 +192,7 @@ white-space: nowrap;scroll-behavior: smooth;scrollbar-width: none;height:45px;">
 
         </div>
         <br>
-      <div class=""  ng-repeat="(key1,value1) in value.form track by $index" ng-show="showForm">
+      <div class=""  ng-repeat="(key1,value1) in value.form track by $index" ng-if="showForm">
 
         <div ng-if="value1.type == 'string'">
           <label> {{value1.label}} </label>
@@ -214,7 +212,7 @@ white-space: nowrap;scroll-behavior: smooth;scrollbar-width: none;height:45px;">
           </div>
       </div>
 
-      <div class="row">
+      <div class="row" style="margin:0px;">
         <div class=""  ng-repeat="(key1,value1) in form track by $index" ng-if="!showForm">
 
           <div ng-if="value1.type == 'string'">
@@ -228,7 +226,7 @@ white-space: nowrap;scroll-behavior: smooth;scrollbar-width: none;height:45px;">
             <div class="input-group-btn">
               <button class="btn btn-primary" type="submit" ng-click="tabArray(value.form, -1, key1,key)" ng-if="value.tabs.length == 0" style="margin-top:25px;"> add
                 <i class=" fa fa-plus"></i></button>
-              <button class="btn btn-primary" type="submit" ng-click="tabArray(value.form, value.tabs.length, key1,key)"
+              <button class="btn btn-primary" type="submit" ng-click="tabArray(value.form, index, key1,key)"
               ng-if="value.tabs.length > 0" style="margin-top:25px;" > add
                 <i class=" fa fa-plus"></i></button>
               </div>

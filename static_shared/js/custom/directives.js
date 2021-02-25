@@ -1448,7 +1448,6 @@ app.directive('formView', function() {
 
 
 
-
       }
 
 
@@ -1457,6 +1456,7 @@ app.directive('formView', function() {
       $scope.getIndex = function(indx,key) {
 
         $scope.index = indx
+        console.log(indx,'jhyuyhjhj');
         if (indx >0 ) {
           $scope.items = $scope.data[key].tabs[indx-1].products.productList
           $scope.showForm=true
