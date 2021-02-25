@@ -1813,12 +1813,14 @@ class homePageAPIView(APIView):
         backlogPlans = ServiceTicket.objects.filter(engineer = user , preferredDate__lt = today , status = 'assigned').count()
         totalTarget = toPlans.count()
         pendingTarget = toPlans.filter(engineer = user,status = 'assigned',preferredDate = today).count()
+        completed = toPlans.filter(engineer = user,status = 'completed',preferredDate = today).count()
         try:
             pendingTargetPer =  ((pendingTarget * 100)/ totalTarget)
         except:
             pendingTargetPer =  0
         completedTargetPer = 100 - pendingTargetPer
-        data = {'totalTarget' : totalTarget , 'pendingTarget' : pendingTarget , 'pendingTargetPer' : pendingTargetPer , 'completedTargetPer' : completedTargetPer , 'iamges' : f,'backlogPlans':backlogPlans}
+
+        data = {'totalTarget' : totalTarget , 'pendingTarget' : pendingTarget , 'pendingTargetPer' : pendingTargetPer , 'completedTargetPer' : completedTargetPer , 'iamges' : f,'backlogPlans':backlogPlans,'completed':completed}
         return Response(data, status = status.HTTP_200_OK)
 
 themeColor = colors.HexColor('#227daa')

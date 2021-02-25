@@ -23,7 +23,7 @@ app.directive('ecommerceHeader', function() {
       $scope.getCategories = function(){
         $http({
           method: 'GET',
-          url: '/api/finance/category/'
+          url: '/api/finance/category/?divId='+$scope.division
 
         }).
         then(function(response) {
@@ -83,7 +83,7 @@ app.directive('categories', function() {
     controller: function($scope, $state, $stateParams, $users,$http) {
       console.log(ID,'2334324');
       $scope.me = $users.get('mySelf')
-
+      $scope.division = DIVISION_APIKEY
       $scope.is_quickadd = false;
   $scope.filters = {
     varients: {},
@@ -183,11 +183,24 @@ app.directive('checkoutSideview', function() {
           url: '/api/clientRelationships/order/',
           data:{
             'id':6435,
-            'division':1
+            'division':$scope.division
           }
         }).
-        then(function(response) {
-            window.location.href = '/orderSuccessful'
+        then(function(res) {
+            // window.location.href = '/orderSuccessful'
+              $http({
+                method: 'POST',
+                url: '/api/ERP/getPaymentLink/',
+                data : {
+                  'id' : 'sale_'+res.data.id,
+                 'successUrl':'/orderSuccessful',
+                 'failureUrl':'/orderFailure',
+                 'source': 'ecommerce',
+                },
+              }).
+              then(function(response) {
+                window.location.href = response.data
+              })
         })
       }
 
@@ -460,11 +473,11 @@ app.directive('ecommerceSecondheader', function() {
     transclude: true,
     controller: function($scope, $state, $stateParams, $users,$http) {
       $scope.me = $users.get('mySelf')
-
+      $scope.division = DIVISION_APIKEY
       $scope.getCategories = function(){
         $http({
           method: 'GET',
-          url: '/api/finance/category/'
+          url: '/api/finance/category/?divId='+$scope.division
 
         }).
         then(function(response) {

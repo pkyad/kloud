@@ -18,7 +18,7 @@
 border: none;background-color:#f1f1f1;border-radius: 0px !important;line-height: 3.5;color:var(--themeColor)" >Shop by Category               <span class="caret"></span></a>
 
                <ul class="dropdown-menu">
-                  <li ng-repeat="k in categories track by $index"><a href="/categories/{{k.pk}}/{{k.url}}">{{k.name}}</a></li>
+                  <li ng-repeat="k in categories track by $index"><a href="/categories/{{division}}/{{k.pk}}/{{k.url}}">{{k.name}}</a></li>
 
                 </ul>
               </div>

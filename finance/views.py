@@ -370,7 +370,11 @@ class CategoryViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny ,)
     serializer_class = CategorySerializer
     def get_queryset(self):
-        divsn = self.request.user.designation.division
+        if 'divId' in self.request.data:
+            id = hash_fn.unhash(self.request.GET['divId'])
+            divsn = Division.objects.get(pk = int(id))
+        else:
+            divsn = self.request.user.designation.division
         return Category.objects.filter(division = divsn)
 
 class RateListViewSet(viewsets.ModelViewSet):

@@ -244,9 +244,9 @@ def ProductDetails(request,div,id):
     context={}
     return render(request, 'app.finance.inventory.productDetails.html',{'product':product,'API_KEY':div})
 
-def Categories(request,id):
+def Categories(request,div,id):
 
-    return render(request, 'app.ecommerce.categories.html',{'id':id})
+    return render(request, 'app.ecommerce.categories.html',{'id':id,'API_KEY':div})
 
 def CheckoutView(request, div):
     header =None
@@ -300,6 +300,19 @@ def OrderSuccessfulView(request):
         footer  = request.user.designation.division.footerTemplate
         footerCss  = request.user.designation.division.footerCss
     return render(request, 'app.ecommerce.orderSuccessful.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
+
+def OrderFailureView(request):
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    if request.user.designation.division.headerTemplate:
+        header  = request.user.designation.division.headerTemplate
+        headerCss  = request.user.designation.division.headerCss
+    if request.user.designation.division.headerTemplate:
+        footer  = request.user.designation.division.footerTemplate
+        footerCss  = request.user.designation.division.footerCss
+    return render(request, 'app.ecommerce.orderFailure.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
 
 
 import json
