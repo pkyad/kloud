@@ -115,8 +115,8 @@
 
                     </div>
                     <div class="" style="margin-right:15px;">
-                      <span ng-click="loginPage()" ng-if="!user.pk" style="cursor:pointer;float:right"> <img src="/static/images/LoginIcon.png" style="height:30px;font-size:0.98vw"> Login</span>
-                      <span ng-click="show=!show" ng-init="show=false" ng-if="user.pk" style="cursor:pointer;float:right"> <img src="/static/images/LoginIcon.png" style="height:30px;font-size:0.98vw"> {{user.name}}
+                      <span ng-click="loginPage()" ng-if="!userDetails.pk" style="cursor:pointer;float:right"> <img src="/static/images/LoginIcon.png" style="height:30px;font-size:0.98vw"> Login</span>
+                      <span ng-click="show=!show" ng-init="show=false" ng-if="userDetails.pk" style="cursor:pointer;float:right"> <img src="/static/images/LoginIcon.png" style="height:30px;font-size:0.98vw"> {{userDetails.name}}
 
                         <!-- <div class="dropdown-content " style="background-color:#ffffff;width:67%;top: 140%;
                       padding: 0px 30px;left: 35%;position: absolute;z-index:9999" ng-if="show">

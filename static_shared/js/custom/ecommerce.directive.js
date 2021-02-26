@@ -24,17 +24,17 @@ app.directive('ecommerceHeader', function() {
     controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
       $scope.me = $users.get('mySelf')
       $scope.division = DIVISION_APIKEY
-      $scope.getCartItems = function(){
+      $scope.getAllCartItems = function(){
         $http({
           method: 'GET',
-          url: '/api/finance/cart/?divId='+$scope.division+'&contact='+$scope.user.pk
+          url: '/api/finance/cart/?divId='+$scope.division+'&contact='+$scope.userDetails.pk
         }).
         then(function(response) {
           $scope.allCartItems = response.data
         })
       }
       $rootScope.$on('getCart', function(event, message) {
-        $scope.getCartItems()
+        $scope.getAllCartItems()
       });
 
       var customer = getCookie("customer");
@@ -44,8 +44,8 @@ app.directive('ecommerceHeader', function() {
           url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY,
         }).
         then(function(response) {
-          $scope.user = response.data
-          $scope.getCartItems()
+          $scope.userDetails = response.data
+          $scope.getAllCartItems()
         })
       }
 
@@ -158,7 +158,7 @@ app.directive('ecommerceHeader', function() {
 
         }, function(data) {
           if (data!=undefined) {
-            $scope.user = data
+            $scope.userDetails = data
           }
 
         });
@@ -266,6 +266,7 @@ app.directive('checkoutSideview', function() {
       else if (window.location.pathname.includes("payment")) {
         $scope.data.stage = 'payment'
       }
+      console.log($scope.data.stage,'ssssssssssssssssss');
       $scope.getCartTotal = function(){
         $http({
           method: 'GET',
@@ -436,7 +437,7 @@ app.directive('checkoutpaymentView', function() {
         then(function(response) {
           $scope.userId = response.data.id
           $scope.getContactDetails()
-          $scope.getCartItems()
+          $scope.getCartPayItems()
         })
       }
       $scope.getContactDetails = function(){
@@ -449,7 +450,7 @@ app.directive('checkoutpaymentView', function() {
         })
       }
 
-      $scope.getCartItems = function(){
+      $scope.getCartPayItems = function(){
         $http({
           method: 'GET',
           url: '/api/finance/cart/?divId='+$scope.division+'&contact='+$scope.userId
