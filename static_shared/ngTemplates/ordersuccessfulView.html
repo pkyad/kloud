@@ -1,5 +1,5 @@
-<div class="row" style="background-color:#f8f8f8;height:80vh">
-  <div class="col-md-8 col-md-offset-2 " style="background-color:white;">
+<div class="row" style="background-color:#f8f8f8;">
+  <div class="col-md-8 col-md-offset-2 " style="background-color:white;margin-bottom:50px;margin-top:50px;">
     <div class="row" style="padding:30px;">
       <div class="col-md-5 text-center">
         <h3 style="margin:0px;color:red">Thank You !</h3>
@@ -40,18 +40,23 @@
           <h5>Order Summary</h5>
           <table class="table">
               <thead>
-                <tr>
-                  <th>SN</th>
-                  <th>Product</th>
-                  <th>Qty</th>
-                  <th>Price</th>
-                  <th>GST</th>
-                  <th>Total Price</th>
+                <tr style="border:2px solid #000">
+                  <th style="border-bottom:none">SN</th>
+                  <th style="border-bottom:none">Product</th>
+                  <th style="border-bottom:none">Qty</th>
+                  <th style="border-bottom:none">Price</th>
+                  <th style="border-bottom:none">GST</th>
+                  <th style="border-bottom:none">Total Price</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td></td>
+                <tr ng-repeat="k in salesQty track by $index">
+                  <td>{{$index+1}}</td>
+                  <td>{{k.product}}</td>
+                  <td>{{k.qty}}</td>
+                  <td>{{k.price}}</td>
+                  <td>{{k.tax}}</td>
+                  <td>{{k.total}}</td>
                 </tr>
               </tbody>
           </table>

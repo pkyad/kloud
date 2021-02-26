@@ -60,7 +60,7 @@ app.directive('ecommerceHeader', function() {
       document.getElementById("wishicons").style.display = "none";
       document.getElementById("logoinnav").style.height = 0;
       window.addEventListener("scroll", function(event) {
-        if (this.scrollY < 100) {
+        if (this.scrollY < 80) {
           document.getElementById("searchinnav").style.display = "none";
           document.getElementById("wishicons").style.display = "none";
           document.getElementById("logoinnav").style.height = 0;
@@ -83,7 +83,7 @@ app.directive('ecommerceHeader', function() {
           // },
           controller: function($scope, $uibModalInstance) {
             $scope.login = function(){
-              
+
             }
 
             $scope.close = function(){
@@ -169,14 +169,17 @@ app.directive('ordersuccessfulView', function() {
     restrict: 'E',
     replace: false,
     transclude: true,
-    controller: function($scope, $state, $stateParams, $users,$http) {
+    controller: function($scope,$rootScope, $state, $stateParams, $users,$http) {
       $scope.orderid = ORDERID
-      
+      // $rootScope.$on('getCart', function(event, message) {
+      //   $scope.getCartItems()
+      // });
 
       $http({
-        method:'GET',url:'/api/finance/sale/'+$scope.orderid+'/'
+        method:'GET',url:'/api/finance/sales/?orderid='+$scope.orderid
       }).then(function(response){
-        $scope.orderData = response.data
+        $scope.orderData = response.data.sale
+        $scope.salesQty = response.data.salesQty
       })
     },
   };
@@ -234,7 +237,7 @@ app.directive('checkoutSideview', function() {
         then(function(res) {
           console.log(res.data,'kllklkl');
           if ($scope.data.modeOfPayment=='COD') {
-            window.location.href = '/orderSuccessful/?orderid='+res.data.id
+            window.location.href = '/pages/'+$scope.division+'/orderSuccessful/?orderid='+res.data.id
             return
           }
           else{
@@ -793,11 +796,11 @@ app.directive('productCards', function() {
         url = url.trim();
         if ($scope.item.pk != undefined) {
           $scope.item.url = url.replace(/-/g, ' ').trim().replace(/\s/g, '-');
-          window.open('/details/'+DIVISION_APIKEY+'/' + $scope.item.pk+'/'+$scope.item.url, '_self')
+          window.open('details/'+DIVISION_APIKEY+'/' + $scope.item.pk+'/'+$scope.item.url, '_self')
 
         }else {
           $scope.item.description.string.url = url.replace(/-/g, ' ').trim().replace(/\s/g, '-');
-          window.open('/details/'+DIVISION_APIKEY+ '/' + $scope.item.description.string.pk+'/'+$scope.item.description.string.url, '_self')
+          window.open('details/'+DIVISION_APIKEY+ '/' + $scope.item.description.string.pk+'/'+$scope.item.description.string.url, '_self')
 
         }
 
@@ -1224,6 +1227,29 @@ app.directive('productDetails', function() {
         }).
         then(function(response) {
         $scope.similarproducts = response.data
+
+        for (var i = 0; i <   $scope.similarproducts.length; i++) {
+          var space = /[ ]/;
+          var special = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+          var nonascii = /[^\x20-\x7E]/;
+          var url =   $scope.similarproducts[i].name;
+          if (space.test(url)) {
+            url = url.replace(/\s+/g, '-').toLowerCase();
+            if (special.test(url)) {
+              url = url.replace(/[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?]+/g, '');
+              if (nonascii.test(url)) {
+                url = url.replace(/[^\x20-\x7E]/g, '');
+              }
+            }
+          } else {
+            url = url.replace(/[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?]+/g, '-').toLowerCase();;
+          }
+          url = url.replace(/-/g, ' ');
+          url = url.trim();
+
+          $scope.similarproducts[i].url = url.replace(/-/g, ' ').trim().replace(/\s/g, '-');
+
+        }
         })
       }
 

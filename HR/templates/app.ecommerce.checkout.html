@@ -29,16 +29,18 @@
 
 {% endblock %}
 {% block content %}
-    {% verbatim %}
       <div class="row" >
         <div class="col-md-9">
+          {% verbatim %}
         <checkout-view>  </checkout-view>
+        {% endverbatim %}
         </div>
         <div class="col-md-3">
-        <checkout-sideview>  </checkout-sideview>
+          {% if cartItems > 0 %}
+            <checkout-sideview>  </checkout-sideview>
+          {% endif %}
         </div>
       </div>
-    {% endverbatim %}
     {% endblock %}
 
     {% block footer %}

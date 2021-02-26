@@ -46,10 +46,10 @@
 </style>
 {% endblock %}
 {% block header %}
-{% verbatim %}
-<ecommerce-header> </ecommerce-header>
-
-{% endverbatim %}
+<style media="screen">
+  {{headerCss | safe}}
+</style>
+{{header | safe}}
 {% endblock %}
 
 
@@ -64,6 +64,9 @@
 
 
 {% endblock %}
+
+
+
 
 {% block specific_js %}
 
@@ -89,3 +92,10 @@
   var DIVISION_APIKEY = '{{API_KEY}}'
 </script>
 {% endblock%}
+
+{% block footer %}
+  <style media="screen">
+    {{footerCss | safe}}
+  </style>
+  {{footer | safe}}
+{% endblock %}

@@ -36,14 +36,14 @@
       <hr style="border-top: 1px solid #c1bdbd;" />
     </div> -->
     <h4 style="color:var(--themeColor)"> Total : <span style="color:#ff754a" class="pull-right"> <i class="fa {{currency}}"></i> {{totalDetails.grandTotal | number : 2}} </span> </h4>
-    <a class="btn btn-default" style="border:1px solid var(--themeColor);color:var(--themeColor);width:100%;margin-top:15px" href="/address/{{division}}"  ng-if="data.stage == 'review'">
+    <a class="btn btn-default" style="border:1px solid var(--themeColor);color:var(--themeColor);width:100%;margin-top:15px" href="/pages/{{division}}/address/{{division}}"  ng-if="data.stage == 'review'">
       <span ng-if="data.stage == 'review'"> PROCEED FOR CHECKOUT </span>
     </a>
     <div ng-if="data.stage == 'address'">
-    <a class="btn btn-default" style="border:1px solid var(--themeColor);color:var(--themeColor);width:100%;margin-top:15px" href="/payment/{{division}}" >
+    <a class="btn btn-default" style="border:1px solid var(--themeColor);color:var(--themeColor);width:100%;margin-top:15px" href="/pages/{{division}}/payment/{{division}}" >
       <span > PROCEED FOR PAYMENT </span>
     </a>
-    <a class="btn btn-default" style="border: 1px solid red;color:red;width:100%;margin-top:15px;" href="/checkout">
+    <a class="btn btn-default" style="border: 1px solid red;color:red;width:100%;margin-top:15px;" href="/pages/{{division}}/checkout/{{division}}">
       <span> GO BACK </span>
     </a>
     </div>
@@ -51,7 +51,7 @@
     <button class="btn btn-default" style="border:1px solid var(--themeColor);color:var(--themeColor);width:100%;margin-top:15px"  ng-click="order()">
       <span> {{data.modeOfPayment=='COD'?'ORDER' : 'PAY'}}  </span>
     </button>
-    <a class="btn btn-default" style="border: solid 2px red;width:100%;margin-top:15px" href="/address">
+    <a class="btn btn-default" style="border: solid 2px red;width:100%;margin-top:15px" href="/pages/{{division}}/address/{{division}}">
       <span style="color:red;"> GO BACK </span>
     </a>
     </div>
