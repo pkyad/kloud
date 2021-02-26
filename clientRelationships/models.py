@@ -75,6 +75,16 @@ class Contact(models.Model):
     typ = models.CharField(choices = CONTACTS_CHOICES , max_length = 50 , default = 'b2b')
     isFav =  models.BooleanField(default = False)
 
+class ContactAuth(models.Model):
+    created = models.DateTimeField(auto_now_add = True) # quoted date
+    updated = models.DateTimeField(auto_now=True)
+    contact = models.ForeignKey(Contact , related_name='contactAuths' , null = True)
+    division = models.ForeignKey(Division , related_name='contactAuths' , null = True)
+    otp = models.CharField(max_length = 100 , null = True, blank = True)
+    token = models.CharField(max_length = 100 , null = True, blank = True)
+    expiryDate =  models.DateTimeField(null = True)
+
+
 class CustomerSession(models.Model):
     created = models.DateTimeField(auto_now_add = True)
     email = models.CharField(max_length = 50)

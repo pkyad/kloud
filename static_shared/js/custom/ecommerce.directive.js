@@ -4,7 +4,7 @@ app.directive('ecommerceHeader', function() {
     restrict: 'E',
     replace: false,
     transclude: true,
-    controller: function($scope, $state, $stateParams, $users,$http, $rootScope) {
+    controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
       $scope.me = $users.get('mySelf')
       $scope.division = DIVISION_APIKEY
       $scope.getCartItems = function(){
@@ -71,6 +71,32 @@ app.directive('ecommerceHeader', function() {
         }
 
       });
+      $scope.loginPage = function(){
+        $uibModal.open({
+          templateUrl: '/static/ngTemplates/app.ecommerce.customer.login.html',
+          size: 'lg',
+          backdrop: false,
+          // resolve: {
+          //   job: function() {
+          //     return $scope.jobDetails.pk;
+          //   },
+          // },
+          controller: function($scope, $uibModalInstance) {
+            $scope.login = function(){
+              
+            }
+
+            $scope.close = function(){
+              $uibModalInstance.dismiss();
+            }
+          },
+        }).result.then(function() {
+
+        }, function(data) {
+
+        });
+      }
+
     },
   };
 });
