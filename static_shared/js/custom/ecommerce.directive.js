@@ -1031,7 +1031,7 @@ app.directive('ecommerceBestdeals', function() {
         },
       };
       console.log($scope.data);
-      $scope.deals = JSON.parse($scope.data)
+      $scope.deals = JSON.parse(JSON.stringify($scope.data))
 
 
 
