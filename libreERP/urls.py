@@ -87,7 +87,8 @@ urlpatterns = [
     url(r'^pages/(?P<apiKey>[\w|\W]+)/(?P<url>[\w|\W]+)', renderpage , name ='renderpage'),
     # url(r'^getPaymentLink/', GetPaymentLink , name ='getPaymentLink'),
     url(r'downloadLicense/$' , downloadLicense , name = "downloadLicense" ),
-
+    url(r'getCustomerOtp/$' , GetCustomerOTP , name = "getCustomerOtp" ),
+    url(r'getDetailsCustomer/$' , GetCustomerDetails , name = "getDetailsCustomer" ),
 
     # url(r'extractorTester/$' , ExtractorTesterView.as_view() , name = "extractorTester"),
 

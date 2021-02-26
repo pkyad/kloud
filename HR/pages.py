@@ -315,6 +315,8 @@ def OrderFailureView(request):
     return render(request, 'app.ecommerce.orderFailure.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
 
 
+
+
 import json
 def careers(request):
     context={}

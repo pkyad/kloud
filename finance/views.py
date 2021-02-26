@@ -4880,8 +4880,11 @@ class CartTotalAPIView(APIView):
     renderer_classes = (JSONRenderer,)
     permission_classes = (permissions.AllowAny ,)
     def get(self,request , format= None):
-        div = request.user.designation.division
-        cartObj = Cart.objects.filter(division = div)
+        # div = request.user.designation.division
+        data = request.GET
+        id = hash_fn.unhash(self.request.GET['divId'])
+        divsn = Division.objects.get(pk = int(id))
+        cartObj = Cart.objects.filter(division = divsn, contact__id = int(data['contact']))
         total = 0
         gst = 0
         shipping = 0
