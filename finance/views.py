@@ -4778,6 +4778,8 @@ class CartViewSet(viewsets.ModelViewSet):
         if 'divId' in self.request.GET:
             id = hash_fn.unhash(self.request.GET['divId'])
             return Cart.objects.filter(division__id = int(id))
+        else:
+            return Cart.objects.all()
 
 
 class SaveInvoiceReceived(APIView):

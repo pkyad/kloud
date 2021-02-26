@@ -1,0 +1,64 @@
+<style media="screen">
+  .modal-body{
+    padding:0px
+  }
+  .loginPageInput{
+    border:none !important;
+    border-radius:10px !important;
+    margin-bottom:20px !important;
+    padding:15px !important;
+    background:#f2f2f2
+  }
+  .loginPageInput:focus{
+    box-shadow:none !important;
+  }
+  .loginBtn{
+    margin-bottom:20px;margin-top:5px;display:block;border-radius:10px;border:none;box-shadow: 0px 26px 62px rgba(0, 0, 0, 0.21);
+    padding:15px;
+  }
+  @media screen and (min-width : 360px) and (max-width : 740px) {
+    #imageErp{
+      display:none !important;
+    }
+    #scancode{
+      width:250px !important;
+    }
+  }
+
+</style>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-8 " style="height:100%;padding-top:100px;background:#F5F5F5;">
+      <div class="col-md-12 text-center">
+        <h1 style="font-size: 49px;color:#dfdfdf">Welcome</h1>
+        <img src="/static/images/loginPage.png" style="height:500px;" alt="">
+      </div>
+    </div>
+    <div class="col-md-4 col-xs-12 " style="margin-top:200px">
+      <!-- <div class="row text-center " style="padding-top:40px;" >
+        <img id="scancode" src="/api/ERP/qrcode/?text={{token}}" alt="" width="250px">
+      </div> -->
+        <!-- <input id="id" name="mobile" type="text" class="form-control loginPageInput" placeholder="Mobile Number" required autofocus>
+        <label for="password" class="sr-only">Password</label>
+        <input id="password" name="password" type="password" class="form-control loginPageInput" placeholder="Password" style="display:none" required>
+        <button id="login" style="display:none;" class="loginBtn btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button id="requestOTP"  style="" class="loginBtn btn btn-lg btn-primary btn-block "  >Get OTP</button> -->
+
+        <div class="row" >
+          <div class="col-md-12">
+              <input type="text" class="form-control loginPageInput" placeholder="Mobile Number" required autofocus ng-model="form.mobile">
+          </div>
+        </div>
+        <div class="row" ng-if="successOtp">
+          <div class="col-md-12">
+              <input type="text" class="form-control loginPageInput" placeholder="OTP" required autofocus ng-model="form.otp">
+          </div>
+        </div>
+        <div class="row" >
+          <div class="col-md-12">
+                <button   style="" class="loginBtn btn btn-lg btn-primary btn-block "  ng-click="login()">{{successOtp? 'Login' : 'Get OTP'}}</button>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
