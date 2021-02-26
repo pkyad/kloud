@@ -38,7 +38,7 @@ app.directive('ecommerceHeader', function() {
       });
 
       var customer = getCookie("customer");
-      if (customer!=undefined && customer!=null && customer.length>0) {
+      if (customer!=undefined && customer!=null) {
         $http({
           method: 'GET',
           url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY,
@@ -163,9 +163,6 @@ app.directive('ecommerceHeader', function() {
 
         });
       }
-      $rootScope.$on('getloginPage', function(event, message) {
-        $scope.loginPage()
-      });
 
     },
   };
@@ -271,7 +268,7 @@ app.directive('checkoutSideview', function() {
         // modeOfPayment:'COD'
       }
       var customer = getCookie("customer");
-      if (customer!=undefined && customer!=null && customer.length>0) {
+      if (customer!=undefined && customer!=null) {
         $http({
           method: 'GET',
           url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY+'&getId',
@@ -359,7 +356,7 @@ app.directive('addressView', function() {
       $scope.me = $users.get('mySelf')
       $scope.currency = "fa-inr"
       var customer = getCookie("customer");
-      if (customer!=undefined && customer!=null && customer.length>0) {
+      if (customer!=undefined && customer!=null) {
         $http({
           method: 'GET',
           url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY+'&getId',
@@ -455,7 +452,7 @@ app.directive('checkoutpaymentView', function() {
       }
 
       var customer = getCookie("customer");
-      if (customer!=undefined && customer!=null && customer.length>0) {
+      if (customer!=undefined && customer!=null) {
         $http({
           method: 'GET',
           url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY+'&getId=',
@@ -499,7 +496,7 @@ app.directive('checkoutView', function() {
       $scope.me = $users.get('mySelf')
       $scope.division = DIVISION_APIKEY
       var customer = getCookie("customer");
-      if (customer!=undefined && customer!=null && customer.length>0) {
+      if (customer!=undefined && customer!=null) {
         $http({
           method: 'GET',
           url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY+'&getId',
@@ -913,11 +910,11 @@ app.directive('productCards', function() {
         url = url.trim();
         if ($scope.item.pk != undefined) {
           $scope.item.url = url.replace(/-/g, ' ').trim().replace(/\s/g, '-');
-          window.open('details/'+DIVISION_APIKEY+'/' + $scope.item.pk+'/'+$scope.item.url, '_self')
+          window.open('/pages/'+DIVISION_APIKEY+'/details/'+DIVISION_APIKEY+'/' + $scope.item.pk+'/'+$scope.item.url, '_self')
 
         }else {
           $scope.item.description.string.url = url.replace(/-/g, ' ').trim().replace(/\s/g, '-');
-          window.open('details/'+DIVISION_APIKEY+ '/' + $scope.item.description.string.pk+'/'+$scope.item.description.string.url, '_self')
+          window.open('/pages/'+DIVISION_APIKEY+'/details/'+DIVISION_APIKEY+ '/' + $scope.item.description.string.pk+'/'+$scope.item.description.string.url, '_self')
 
         }
 
@@ -1325,7 +1322,7 @@ app.directive('productDetails', function() {
     controller: function($scope, $state, $http, Flash, $rootScope, $users, $filter, $interval) {
     $scope.list = $scope.data
     var customer = getCookie("customer");
-    if (customer!=undefined && customer!=null && customer.length>0) {
+    if (customer!=undefined && customer!=null) {
       $http({
         method: 'GET',
         url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY+'&getId',
@@ -1381,9 +1378,6 @@ app.directive('productDetails', function() {
       }
 
       $scope.addToCart = function(){
-        if ($scope.userId==undefined || $scope.userId==null || $scope.userId.length == 0) {
-          $rootScope.$broadcast("getloginPage", {});
-        }
         var dataToSend = {
           product :  $scope.products.pk,
           qty : 1,
