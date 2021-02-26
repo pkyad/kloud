@@ -159,6 +159,7 @@ app.directive('ecommerceHeader', function() {
         }, function(data) {
           if (data!=undefined) {
             $scope.userDetails = data
+            location.reload(); 
           }
 
         });
@@ -1337,6 +1338,7 @@ app.directive('productDetails', function() {
       $scope.addToCart = function(){
         if ($scope.userId==undefined || $scope.userId==null || $scope.userId.length == 0) {
           $rootScope.$broadcast("getloginPage", {});
+          return
         }
         var dataToSend = {
           product :  $scope.products.pk,
