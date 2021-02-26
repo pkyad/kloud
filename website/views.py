@@ -78,6 +78,22 @@ class UIelementTemplateViewSet(viewsets.ModelViewSet):
 
 
 
+class InitializewebsitebuilderAPIView(APIView):
+
+    def post(self , request , format = None):
+        data = request.data
+        division = Division.objects.get(pk = request.user.designation.division.pk)
+        if 'title' in request.data :
+            division.defaultTitle = data['title']
+        if 'description' in request.data :
+            division.defaultDescription = data['description']
+        division.save()
+        request.user.designation.division = division
+        page = Page.objects.create(title= data['title'],description=data['description'],url=data['url'],user=request.user)
+        page.save()
+        return Response({'page':PageSerializer(page,many=False).data})
+
+
 class PublishAPIView(APIView):
     def get(self , request , format = None):
         page = Page.objects.get(pk = request.GET['page'])

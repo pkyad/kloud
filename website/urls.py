@@ -13,4 +13,5 @@ router.register(r'uielementemplate' , UIelementTemplateViewSet, base_name = 'uie
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'publish/$' , PublishAPIView.as_view() ),
+    url(r'initializewebsitebuilder/$' , InitializewebsitebuilderAPIView.as_view() ),
 ]

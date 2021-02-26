@@ -24,12 +24,15 @@
         </div>
         <div class=" col-md-2 col-xs-4 col-sm-3 add_cart1" style="margin-top:0.5%;">
           <div class="row" style="cursor:pointer;margin:1% 0%;">
-            <div class="col-md-4 col-sm-4 col-xs-4"  style="padding:10px;">
-              <span><img src="/static/images/CartIconUnfill.png" style="width:60px"><span class="cart_count ng-binding" style="background: var(--themeColor);">{{allCartItems.length}}</span></span>
-            </div>
-            <div class="col-md-7 col-sm-8 col-xs-8 no-padding"  style="margin:10% 0%;">
-              <span> <strong class="hidden-xs" style="color:#000;"> Cart <br> </strong> </span>
-            </div>
+            <a href="/pages/{{division}}/checkout/">
+              <div class="col-md-4 col-sm-4 col-xs-4"  style="padding:10px;">
+                <span><img src="/static/images/CartIconUnfill.png" style="width:60px"><span class="cart_count ng-binding" style="background: var(--themeColor);">{{allCartItems.length}}</span></span>
+              </div>
+              <div class="col-md-7 col-sm-8 col-xs-8 no-padding"  style="margin:10% 0%;">
+                <span> <strong class="hidden-xs" style="color:#000;"> Cart <br> </strong> </span>
+              </div>
+
+            </a>
           </div>
         </div>
       </div>
@@ -58,7 +61,6 @@
       <div class="row">
         <div class="col-md-12">
           <div class="row">
-
             <div id="logoinnav" class="col-md-2" style="padding-right: 0px; background-image: url('/static/images/xicon.png'); background-position: right center; background-size: contain; background-repeat: no-repeat; height: 0px;">
 
             </div>
@@ -86,7 +88,7 @@
             <div class="dropdown-content" ng-if="onEnter">
               <div class="col-md-2" style="background-color:#ffffff;top: 100%;padding: 5px 20px;left: 16.65%;position: absolute;z-index: 9999;">
                 <ul class="list-unstyled" style="height:560px;overflow-y:auto" ng-click="onEnter=false">
-                  <li ng-repeat="k in categories" ><a href="/pages/{{division}}/categories/{{division}}/{{k.pk}}/{{k.url}}">{{k.name}}</a></li>
+                  <li ng-repeat="k in categories" ><a href="/pages/{{division}}/categories/{{k.pk}}/{{k.url}}">{{k.name}}</a></li>
                 </ul>
               </div>
             </div>
@@ -152,10 +154,15 @@
                         <img class="pull-left" src="/static/images/WishListIcon.png" style="width:30px"><span class="ng-binding">0</span>
                       </div>
                 <div class="col-md-6 no-padding ng-binding" style="cursor:pointer">
-                  <a href="/pages/{{division}}/checkout/{{division}}">
+
+                  <a href="/pages/{{division}}/checkout/" ng-show="allCartItems.length>0">
                     <img class="pull-left" src="/static/images/CartIconUnfill.png" style="width:30px;margin-left:10px;"><span>{{allCartItems.length}}</span>
 
+
+                  <!-- <a href="/checkout/{{division}}" ng-show="allCartItems.length>0">
+                    <img class="pull-left" src="/static/images/CartIconUnfill.png" style="width:30px;margin-left:10px;"><span>{{allCartItems.length}}</span> -->
                   </a>
+                    <!-- <img class="pull-left" ng-if="!allCartItems||allCartItems.length==0" src="/static/images/CartIconUnfill.png" style="width:30px;margin-left:10px;"> -->
                 </div>
               </div>
             </div>

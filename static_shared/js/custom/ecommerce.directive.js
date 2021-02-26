@@ -159,6 +159,7 @@ app.directive('ecommerceHeader', function() {
         }, function(data) {
           if (data!=undefined) {
             $scope.userDetails = data
+            location.reload();
           }
 
         });
@@ -622,10 +623,13 @@ app.directive('ecommerceFooter', function() {
     restrict: 'E',
     replace: false,
     transclude: true,
+    scope:{
+      data:'='
+    },
     controller: function($scope, $state, $stateParams, $users) {
       $scope.me = $users.get('mySelf')
 
-
+      console.log($scope.data,'i8i4i123489');
 
 
 
@@ -910,11 +914,11 @@ app.directive('productCards', function() {
         url = url.trim();
         if ($scope.item.pk != undefined) {
           $scope.item.url = url.replace(/-/g, ' ').trim().replace(/\s/g, '-');
-          window.open('/pages/'+DIVISION_APIKEY+'/details/'+DIVISION_APIKEY+'/' + $scope.item.pk+'/'+$scope.item.url, '_self')
+          window.open('/pages/'+DIVISION_APIKEY+'/details/'+ $scope.item.pk+'/'+$scope.item.url, '_self')
 
         }else {
           $scope.item.description.string.url = url.replace(/-/g, ' ').trim().replace(/\s/g, '-');
-          window.open('/pages/'+DIVISION_APIKEY+'/details/'+DIVISION_APIKEY+ '/' + $scope.item.description.string.pk+'/'+$scope.item.description.string.url, '_self')
+          window.open('/pages/'+DIVISION_APIKEY+'/details/' + $scope.item.description.string.pk+'/'+$scope.item.description.string.url, '_self')
 
         }
 
@@ -1378,6 +1382,10 @@ app.directive('productDetails', function() {
       }
 
       $scope.addToCart = function(){
+        if ($scope.userId==undefined || $scope.userId==null || $scope.userId.length == 0) {
+          $rootScope.$broadcast("getloginPage", {});
+          return
+        }
         var dataToSend = {
           product :  $scope.products.pk,
           qty : 1,
