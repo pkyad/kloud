@@ -299,7 +299,8 @@ def OrderSuccessfulView(request):
     if request.user.designation.division.headerTemplate:
         footer  = request.user.designation.division.footerTemplate
         footerCss  = request.user.designation.division.footerCss
-    return render(request, 'app.ecommerce.orderSuccessful.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
+    orderid = request.GET['orderid']
+    return render(request, 'app.ecommerce.orderSuccessful.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'orderid':orderid})
 
 def OrderFailureView(request):
     header =None

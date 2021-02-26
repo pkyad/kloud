@@ -4889,3 +4889,20 @@ class CartTotalAPIView(APIView):
         grandTotal = total + gst + shipping
         data = {'subTotal' : total, 'totalGST' : gst , 'shipping' : shipping , 'grandTotal' : grandTotal}
         return Response(data ,status = status.HTTP_200_OK)
+
+
+class SalesAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def get(self,request , format= None):
+        div = request.user.designation.division
+        cartObj = Cart.objects.filter(division = div)
+        total = 0
+        gst = 0
+        shipping = 0
+        tot = cartObj.aggregate(sum = Sum('total'))
+        if tot['sum'] is not None:
+            total = tot['sum']
+        grandTotal = total + gst + shipping
+        data = {'subTotal' : total, 'totalGST' : gst , 'shipping' : shipping , 'grandTotal' : grandTotal}
+        return Response(data ,status = status.HTTP_200_OK)

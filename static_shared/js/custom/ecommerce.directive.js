@@ -137,6 +137,24 @@ app.directive('categories', function() {
     },
   };
 });
+app.directive('ordersuccessfulView', function() {
+  return {
+    templateUrl: '/static/ngTemplates/ordersuccessfulView.html',
+    restrict: 'E',
+    replace: false,
+    transclude: true,
+    controller: function($scope, $state, $stateParams, $users,$http) {
+      $scope.orderid = ORDERID
+      
+
+      $http({
+        method:'GET',url:'/api/finance/sale/'+$scope.orderid+'/'
+      }).then(function(response){
+        $scope.orderData = response.data
+      })
+    },
+  };
+});
 
 app.directive('checkoutSideview', function() {
   return {
@@ -146,6 +164,7 @@ app.directive('checkoutSideview', function() {
     transclude: true,
     controller: function($scope, $state, $stateParams, $users,$http,$timeout,$rootScope) {
       $scope.me = $users.get('mySelf')
+
       $scope.division = DIVISION_APIKEY
       $scope.currency = "fa-inr"
       $scope.data = {
@@ -187,8 +206,9 @@ app.directive('checkoutSideview', function() {
           }
         }).
         then(function(res) {
+          console.log(res.data,'kllklkl');
           if ($scope.data.modeOfPayment=='COD') {
-            window.location.href = '/orderSuccessful'
+            window.location.href = '/orderSuccessful/?orderid='+res.data.id
             return
           }
           else{
@@ -197,7 +217,7 @@ app.directive('checkoutSideview', function() {
               url: '/api/ERP/getPaymentLink/',
               data : {
                 'id' : 'sale_'+res.data.id,
-                'successUrl':'/orderSuccessful',
+                'successUrl':'/orderSuccessful/?orderid='+res.data.id,
                 'failureUrl':'/orderFailure',
                 'source': 'ecommerce',
                 'division':$scope.division

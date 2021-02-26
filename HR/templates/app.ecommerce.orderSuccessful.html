@@ -17,17 +17,40 @@
     <link rel="stylesheet" href="{% static 'css/app.HR.ecommerce.css' %}" charset="utf-8">
   </head>
   <body>
+{% block specific_css %}
+<style media="screen">
+  #hidemeinallpage {
+    display:none !important;
+  }
+</style>
+{% endblock  %}
+{% block header %}
+  <style media="screen">
+    {{headerCss | safe}}
+  </style>
+  {{header | safe}}
+{% endblock %}
 
 {% block content %}
     {% verbatim %}
-      <div class="row" >
-        <div class="col-md-12 text-center">
-          <h1> Order placed Successfully </h1>
-        </div>
-      </div>
+    <ordersuccessful-view>  </ordersuccessful-view>
+
     {% endverbatim %}
     {% endblock %}
 
 
+{% block footer %}
+
+<style media="screen">
+  {{footerCss | safe}}
+</style>
+  {{footer | safe}}
+{% endblock %}
+{% block pageJS%}
+<script type="text/javascript">
+  var ORDERID ='{{orderid}}'
+</script>
+
+{% endblock %}
   </body>
 </html>
