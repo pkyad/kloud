@@ -96,7 +96,8 @@ urlpatterns = [
     url(r'^pages/(?P<apiKey>[\w|\W]+)/categories/(?P<div>[\w|\W]+)/(?P<id>\d+)', Categories , name ='Categories'),
     url(r'^pages/(?P<apiKey>[\w|\W]+)/(?P<url>[\w|\W]+)', renderpage , name ='renderpage'),
     # url(r'^getPaymentLink/', GetPaymentLink , name ='getPaymentLink'),
-
+    url(r'getCustomerOtp/$' , GetCustomerOTP , name = "getCustomerOtp" ),
+    url(r'getDetailsCustomer/$' , GetCustomerDetails , name = "getDetailsCustomer" ),
 
     # url(r'extractorTester/$' , ExtractorTesterView.as_view() , name = "extractorTester"),
 

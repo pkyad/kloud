@@ -1,3 +1,20 @@
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+      }
+  }
+  return "";
+}
+
 app.directive('ecommerceHeader', function() {
   return {
     templateUrl: '/static/ngTemplates/ecommerceheader.html',
@@ -7,19 +24,31 @@ app.directive('ecommerceHeader', function() {
     controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
       $scope.me = $users.get('mySelf')
       $scope.division = DIVISION_APIKEY
-      $scope.getCartItems = function(){
+      $scope.getAllCartItems = function(){
         $http({
           method: 'GET',
-          url: '/api/finance/cart/?divId='+$scope.division
+          url: '/api/finance/cart/?divId='+$scope.division+'&contact='+$scope.userDetails.pk
         }).
         then(function(response) {
           $scope.allCartItems = response.data
         })
       }
-      $scope.getCartItems()
       $rootScope.$on('getCart', function(event, message) {
-        $scope.getCartItems()
+        $scope.getAllCartItems()
       });
+
+      var customer = getCookie("customer");
+      if (customer!=undefined && customer!=null) {
+        $http({
+          method: 'GET',
+          url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY,
+        }).
+        then(function(response) {
+          $scope.userDetails = response.data
+          $scope.getAllCartItems()
+        })
+      }
+
       $scope.getCategories = function(){
         $http({
           method: 'GET',
@@ -82,9 +111,44 @@ app.directive('ecommerceHeader', function() {
           //   },
           // },
           controller: function($scope, $uibModalInstance) {
-            $scope.login = function(){
-
+            $scope.form = {
+              mobile:'',
+              otp:'',
+              errMsg:'',
+              successMsg:''
             }
+            $scope.login = function(){
+              var dataToSend = {
+                  mobile : $scope.form.mobile,
+                  divId : DIVISION_APIKEY
+                }
+              if ($scope.form.otp != null && $scope.form.otp.length>0) {
+                dataToSend.otp = $scope.form.otp
+              }
+              $http({
+                method: 'POST',
+                url: '/getCustomerOtp/',
+                data:dataToSend
+              }).
+              then(function(response) {
+                if (response.data.errMsg!=undefined) {
+                  $scope.form.errMsg = response.data.errMsg
+                }
+                if (response.data.successMsg!=undefined) {
+                  $scope.form.successMsg = response.data.successMsg
+                }
+                if (response.data.success!=undefined) {
+                  $scope.form.success = response.data.success
+                }
+                if (response.data.contact!=undefined) {
+                  $scope.form.contact = response.data.contact
+                  $uibModalInstance.dismiss($scope.form.contact)
+                }
+
+              })
+            }
+
+
 
             $scope.close = function(){
               $uibModalInstance.dismiss();
@@ -93,6 +157,9 @@ app.directive('ecommerceHeader', function() {
         }).result.then(function() {
 
         }, function(data) {
+          if (data!=undefined) {
+            $scope.userDetails = data
+          }
 
         });
       }
@@ -200,6 +267,17 @@ app.directive('checkoutSideview', function() {
         stage : 'review',
         // modeOfPayment:'COD'
       }
+      var customer = getCookie("customer");
+      if (customer!=undefined && customer!=null) {
+        $http({
+          method: 'GET',
+          url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY+'&getId',
+        }).
+        then(function(response) {
+          $scope.userId = response.data.id
+          $scope.getCartTotal()
+        })
+      }
       console.log(window.location.pathname);
       if (window.location.pathname.includes("checkout")) {
         $scope.data.stage = 'review'
@@ -210,16 +288,17 @@ app.directive('checkoutSideview', function() {
       else if (window.location.pathname.includes("payment")) {
         $scope.data.stage = 'payment'
       }
+      console.log($scope.data.stage,'ssssssssssssssssss');
       $scope.getCartTotal = function(){
         $http({
           method: 'GET',
-          url: '/api/finance/cartTotal/?divId='+$scope.division
+          url: '/api/finance/cartTotal/?divId='+$scope.division+'&contact='+$scope.userId
         }).
         then(function(response) {
           $scope.totalDetails = response.data
         })
       }
-      $scope.getCartTotal()
+
       $rootScope.$on('getCartTotal', function(event, message) {
         $scope.getCartTotal()
       });
@@ -230,7 +309,7 @@ app.directive('checkoutSideview', function() {
           method: 'POST',
           url: '/api/clientRelationships/order/',
           data:{
-            'id':6435,
+            'id':$scope.userId,
             'division':$scope.division
           }
         }).
@@ -276,16 +355,26 @@ app.directive('addressView', function() {
     controller: function($scope, $state, $stateParams, $users,$http,$timeout,$rootScope) {
       $scope.me = $users.get('mySelf')
       $scope.currency = "fa-inr"
+      var customer = getCookie("customer");
+      if (customer!=undefined && customer!=null) {
+        $http({
+          method: 'GET',
+          url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY+'&getId',
+        }).
+        then(function(response) {
+          $scope.userId = response.data.id
+          $scope.getContactDetails()
+        })
+      }
       $scope.getContactDetails = function(){
         $http({
           method: 'GET',
-          url: '/api/clientRelationships/contact/6435/'
+          url: '/api/clientRelationships/contact/'+$scope.userId+'/'
         }).
         then(function(response) {
           $scope.contact = response.data
         })
       }
-      $scope.getContactDetails()
       $scope.errMsg = {
         street:'',
         pincode:'',
@@ -323,7 +412,7 @@ app.directive('addressView', function() {
       }
       $http({
         method: 'PATCH',
-        url: '/api/clientRelationships/contact/6435/',
+        url: '/api/clientRelationships/contact/'+$scope.userId+'/',
         data : dataToSend,
       }).
       then(function(response) {
@@ -358,27 +447,41 @@ app.directive('checkoutpaymentView', function() {
       $scope.me = $users.get('mySelf')
       $scope.currency = "fa-inr"
       $scope.division = DIVISION_APIKEY
+      $scope.data = {
+        modeOfPayment :'COD'
+      }
+
+      var customer = getCookie("customer");
+      if (customer!=undefined && customer!=null) {
+        $http({
+          method: 'GET',
+          url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY+'&getId=',
+        }).
+        then(function(response) {
+          $scope.userId = response.data.id
+          $scope.getContactDetails()
+          $scope.getCartPayItems()
+        })
+      }
       $scope.getContactDetails = function(){
         $http({
           method: 'GET',
-          url: '/api/clientRelationships/contact/6435/'
+          url: '/api/clientRelationships/contact/'+$scope.userId+'/'
         }).
         then(function(response) {
           $scope.contact = response.data
         })
       }
-      $scope.getContactDetails()
 
-      $scope.getCartItems = function(){
+      $scope.getCartPayItems = function(){
         $http({
           method: 'GET',
-          url: '/api/finance/cart/?divId='+$scope.division
+          url: '/api/finance/cart/?divId='+$scope.division+'&contact='+$scope.userId
         }).
         then(function(response) {
           $scope.cartData = response.data
         })
       }
-      $scope.getCartItems()
 
     },
   };
@@ -392,16 +495,27 @@ app.directive('checkoutView', function() {
     controller: function($scope, $state, $stateParams, $users,$http,$timeout,$rootScope) {
       $scope.me = $users.get('mySelf')
       $scope.division = DIVISION_APIKEY
+      var customer = getCookie("customer");
+      if (customer!=undefined && customer!=null) {
+        $http({
+          method: 'GET',
+          url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY+'&getId',
+        }).
+        then(function(response) {
+          $scope.userId = response.data.id
+          $scope.getCartItems()
+        })
+      }
       $scope.getCartItems = function(){
         $http({
           method: 'GET',
-          url: '/api/finance/cart/?divId='+$scope.division
+          url: '/api/finance/cart/?divId='+$scope.division+'&contact='+$scope.userId
         }).
         then(function(response) {
           $scope.cartData = response.data
         })
       }
-      $scope.getCartItems()
+
       $scope.deleteFromCart = function(indx, value) {
         $http({
           method: 'DELETE',
@@ -1207,6 +1321,16 @@ app.directive('productDetails', function() {
     replace: true,
     controller: function($scope, $state, $http, Flash, $rootScope, $users, $filter, $interval) {
     $scope.list = $scope.data
+    var customer = getCookie("customer");
+    if (customer!=undefined && customer!=null) {
+      $http({
+        method: 'GET',
+        url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY+'&getId',
+      }).
+      then(function(response) {
+        $scope.userId = response.data.id
+      })
+    }
       console.log(PRODUCT,'#$38ijsdksdhf');
       $http({
         method: 'GET',
@@ -1257,7 +1381,7 @@ app.directive('productDetails', function() {
         var dataToSend = {
           product :  $scope.products.pk,
           qty : 1,
-          contact:6435
+          contact:$scope.userId
         }
         $http({
           method: 'POST',

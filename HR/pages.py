@@ -325,7 +325,7 @@ def OrderSuccessfulView(request,apiKey):
         footer  = request.user.designation.division.footerTemplate
         footerCss  = request.user.designation.division.footerCss
     orderid = request.GET['orderid']
-    division = hash_fn(request.user.designation.division.pk)
+    division = hash_fn.hash(request.user.designation.division.pk)
     return render(request, 'app.ecommerce.orderSuccessful.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'orderid':orderid,'division':division})
 
 def OrderFailureView(request,apiKey):
@@ -340,6 +340,8 @@ def OrderFailureView(request,apiKey):
         footer  = request.user.designation.division.footerTemplate
         footerCss  = request.user.designation.division.footerCss
     return render(request, 'app.ecommerce.orderFailure.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
+
+
 
 
 import json

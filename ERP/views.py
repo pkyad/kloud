@@ -52,12 +52,16 @@ from django.db.models import BooleanField
 from initializing import *
 import ast
 from simplecrypt import encrypt, decrypt
+from clientRelationships.models import ContactAuth
+from clientRelationships.serializers import ContactLiteSerializer
 
 def generateOTPCode(length = 4):
     chars = string.digits
     rnd = random.SystemRandom()
     return ''.join(rnd.choice(chars) for i in range(length))
 
+import basehash
+hash_fn = basehash.base36()
 
 from django.template import Template
 import django
@@ -209,6 +213,93 @@ def loginView(request):
     token = '24869635496137143362'
     return render(request , globalSettings.LOGIN_TEMPLATE , { 'wampServer' : globalSettings.WAMP_SERVER , 'token': token , 'authStatus' : authStatus ,'useCDN' : globalSettings.USE_CDN , 'backgroundImage': globalSettings.LOGIN_PAGE_IMAGE , "brandLogo" : logo , "brandLogoInverted": globalSettings.BRAND_LOGO_INVERT}, status=statusCode)
 
+
+
+
+@csrf_exempt
+def GetCustomerOTP(request):
+    from datetime import  timedelta
+    mobileNo = None
+    errMsg = ''
+    successMsg = ''
+    success = False
+    # errMag = 'Not a valid user'
+    # successMsg = 'OTP sent successfully'
+    data = json.loads(str(request.body))
+    if request.method == 'POST':
+        if 'otp' in data and 'mobile' in data:
+            mobile = data['mobile']
+            divId = data['divId']
+            otp = data['otp']
+            id = hash_fn.unhash(divId)
+            div = Division.objects.get(pk = int(id))
+            contactAutObj = ContactAuth.objects.filter(contact__mobile = mobile, division = div, otp = otp)
+            print contactAutObj
+            if contactAutObj.count()>0:
+                authData = contactAutObj.last()
+                authData.token = randomPassword()
+                authData.save()
+                contact = ContactLiteSerializer(authData.contact, many = False).data
+                response = JsonResponse({'contact' : contact} ,status =200)
+                response.set_cookie('customer', authData.token)
+                return response
+            else:
+                return JsonResponse({'errMsg' : 'Incorrect OTP'} ,status =200)
+        elif 'mobile' in data:
+            mobile = data['mobile']
+            divId = data['divId']
+            id = hash_fn.unhash(divId)
+            div = Division.objects.get(pk = int(id))
+            contactObj = Contact.objects.filter(division = div , mobile = mobile)
+            if contactObj.count()>0:
+                cont = contactObj.first()
+                otp = generateOTPCode()
+                authData = {'contact' : cont, 'otp' : otp, 'division' : div }
+                print otp
+                contactAutObj = ContactAuth(**authData)
+                contactAutObj.save()
+                msg = "Hi, your OTP is {0}".format(otp)
+                try:
+                    globalSettings.SEND_WHATSAPP_MSG( mobile, msg)
+                except:
+                    pass
+                try:
+                    globalSettings.SEND_SMS( mobile, msg)
+                except:
+                    pass
+                successMsg = 'OTP sent successfully'
+                success = True
+                # randomPassword()
+            else:
+                print 'err'
+                errMsg = 'Not a valid user'
+                success = False
+
+    return JsonResponse({'errMsg' : errMsg , 'successMsg' : successMsg , 'success' : success} ,status =200 )
+
+
+@csrf_exempt
+def GetCustomerDetails(request):
+    from datetime import  timedelta
+    mobileNo = None
+    errMsg = ''
+    successMsg = ''
+    success = False
+    # data = json.loads(str(request.body))
+    data = request.GET
+    if 'divId' in data and 'token' in data:
+        divId = data['divId']
+        id = hash_fn.unhash(divId)
+        div = Division.objects.get(pk = int(id))
+        try:
+            authData = ContactAuth.objects.get(token = data['token'] , division = div)
+            if 'getId' in data:
+                return JsonResponse({'id' : authData.contact.pk} ,status =200 )
+            contact = ContactLiteSerializer(authData.contact, many = False).data
+            return JsonResponse(contact ,status =200 )
+        except:
+            pass
+    return JsonResponse({ 'success' : success} ,status =200 )
 
 def QrLoginView(request):
     print "running qr login view"

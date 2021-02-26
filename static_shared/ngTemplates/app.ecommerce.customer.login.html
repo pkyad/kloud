@@ -28,13 +28,12 @@
 </style>
 <div class="modal-body">
   <div class="row">
-    <div class="col-md-8 " style="height:100%;padding-top:100px;background:#F5F5F5;">
+    <!-- <div class="col-md-8 " style="height:100%;padding-top:100px;background:#F5F5F5;">
       <div class="col-md-12 text-center">
-        <h1 style="font-size: 49px;color:#dfdfdf">Welcome</h1>
-        <img src="/static/images/loginPage.png" style="height:500px;" alt="">
       </div>
-    </div>
-    <div class="col-md-4 col-xs-12 " style="margin-top:200px">
+    </div> -->
+    <div class="col-md-12 col-xs-12 text-center" style="background:#F5F5F5;">
+      <h1 style="font-size: 49px;color:#000000">Welcome</h1>
       <!-- <div class="row text-center " style="padding-top:40px;" >
         <img id="scancode" src="/api/ERP/qrcode/?text={{token}}" alt="" width="250px">
       </div> -->
@@ -44,19 +43,21 @@
         <button id="login" style="display:none;" class="loginBtn btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         <button id="requestOTP"  style="" class="loginBtn btn btn-lg btn-primary btn-block "  >Get OTP</button> -->
 
-        <div class="row" >
-          <div class="col-md-12">
-              <input type="text" class="form-control loginPageInput" placeholder="Mobile Number" required autofocus ng-model="form.mobile">
+        <div class="row" style="margin-top:15px">
+          <div class="col-md-offset-4 col-md-4">
+              <span  style="color:green;margin-bottom:15px"> {{form.successMsg}} </span>
+              <span style="color:red;margin-bottom:15px"> {{form.errMsg}} </span>
+              <input type="text" class="form-control loginPageInput" placeholder="Mobile Number" required autofocus ng-model="form.mobile" style="background:#ffffff!important">
           </div>
         </div>
-        <div class="row" ng-if="successOtp">
-          <div class="col-md-12">
-              <input type="text" class="form-control loginPageInput" placeholder="OTP" required autofocus ng-model="form.otp">
+        <div class="row" ng-if="form.success">
+          <div class="col-md-offset-4 col-md-4">
+              <input type="text" class="form-control loginPageInput" placeholder="OTP" required autofocus ng-model="form.otp" style="background:#ffffff!important">
           </div>
         </div>
         <div class="row" >
-          <div class="col-md-12">
-                <button   style="" class="loginBtn btn btn-lg btn-primary btn-block "  ng-click="login()">{{successOtp? 'Login' : 'Get OTP'}}</button>
+          <div class="col-md-offset-4 col-md-4">
+                <button   style="" class="loginBtn btn btn-lg btn-primary btn-block "  ng-click="login()">{{form.success? 'Login' : 'Get OTP'}}</button>
           </div>
         </div>
     </div>
