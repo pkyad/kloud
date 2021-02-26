@@ -150,7 +150,7 @@ app.directive('checkoutSideview', function() {
       $scope.currency = "fa-inr"
       $scope.data = {
         stage : 'review',
-        modeOfPayment:'COD'
+        // modeOfPayment:'COD'
       }
       console.log(window.location.pathname);
       if (window.location.pathname.includes("checkout")) {
