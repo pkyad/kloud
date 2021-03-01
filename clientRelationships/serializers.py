@@ -379,5 +379,5 @@ class ServiceTicketSerializer(serializers.ModelSerializer):
         if obj.closedOn is not None:
             lastDate = obj.closedOn
         if obj.referenceContact is not None:
-            allData = Contract.objects.filter(created__range = [obj.created , lastDate], contact = obj.referenceContact).values('pk' , 'heading')
+            allData = Contract.objects.filter(created__range = [obj.created , lastDate], contact = obj.referenceContact).values('pk' , 'heading','grandTotal','created')
         return allData

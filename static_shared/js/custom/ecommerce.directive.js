@@ -15,6 +15,19 @@ function getCookie(cname) {
   return "";
 }
 
+function setCookie(cname, cvalue, exdays) {
+  // console.log('set cookie');
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  var expires = "expires=" + d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function deleteCookie(name) {
+  document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+}
+
+
 app.directive('ecommerceHeader', function() {
   return {
     templateUrl: '/static/ngTemplates/ecommerceheader.html',
@@ -31,14 +44,30 @@ app.directive('ecommerceHeader', function() {
         }).
         then(function(response) {
           $scope.allCartItems = response.data
+          if (customer!=undefined && customer!=null && customer.length>0) {
+            $scope.createCartData()
+          }
         })
       }
       $rootScope.$on('getCart', function(event, message) {
         $scope.getAllCartItems()
       });
 
+      $scope.cartCookieData = []
+      $scope.getCookieCart = function(){
+        detail = getCookie("addToCart");
+        if (detail != "") {
+          $scope.cartCookieData = JSON.parse(detail)
+
+        }
+      }
+
+      $rootScope.$on('getCookieCart', function(event, message) {
+        $scope.getCookieCart()
+      });
+
       var customer = getCookie("customer");
-      if (customer!=undefined && customer!=null) {
+      if (customer!=undefined && customer!=null && customer.length>0) {
         $http({
           method: 'GET',
           url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY,
@@ -48,6 +77,44 @@ app.directive('ecommerceHeader', function() {
           $scope.getAllCartItems()
         })
       }
+      else{
+        $scope.getCookieCart()
+        }
+
+      $scope.createCartData = function(){
+        detail = getCookie("addToCart");
+        if (detail != "") {
+          $scope.cartCookieData = JSON.parse(detail)
+          document.cookie = encodeURIComponent("addToCart") + "=deleted; expires=" + new Date(0).toUTCString()
+          if ($scope.cartCookieData.length>0) {
+            for (var i = 0; i < $scope.cartCookieData.length; i++) {
+              var dataToSend = {
+                product :  $scope.cartCookieData[i].product,
+                qty : $scope.cartCookieData[i].qty,
+                contact:$scope.userDetails.pk,
+                divId:DIVISION_APIKEY
+
+              }
+              $http({
+                method: 'POST',
+                url: '/api/finance/cart/',
+                data:dataToSend
+              }).
+              then((function(i) {
+                return function(response) {
+                  $scope.allCartItems.push(response.data)
+                  if (i == $scope.cartCookieData.length - 1) {
+                    deleteCookie('addToCart')
+                    $scope.cartCookieData()
+
+                  }
+                }
+              })(i))
+            }
+          }
+        }
+      }
+
 
       $scope.getCategories = function(){
         $http({
@@ -131,6 +198,8 @@ app.directive('ecommerceHeader', function() {
                 data:dataToSend
               }).
               then(function(response) {
+                $scope.form.errMsg = ''
+                $scope.form.successMsg = ''
                 if (response.data.errMsg!=undefined) {
                   $scope.form.errMsg = response.data.errMsg
                 }
@@ -160,9 +229,15 @@ app.directive('ecommerceHeader', function() {
           if (data!=undefined) {
             $scope.userDetails = data
             location.reload();
+
           }
 
         });
+      }
+
+      $scope.logoutCustomer = function(){
+        deleteCookie("customer");
+        location.reload();
       }
 
     },
@@ -268,8 +343,16 @@ app.directive('checkoutSideview', function() {
         stage : 'review',
         // modeOfPayment:'COD'
       }
+      $scope.totalDetails = {
+        showDetails : false,
+        subTotal : 0,
+        totalGST : 0,
+        shipping : 0,
+        grandTotal : 0
+
+      }
       var customer = getCookie("customer");
-      if (customer!=undefined && customer!=null) {
+      if (customer!=undefined && customer!=null && customer.length>0) {
         $http({
           method: 'GET',
           url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY+'&getId',
@@ -279,6 +362,7 @@ app.directive('checkoutSideview', function() {
           $scope.getCartTotal()
         })
       }
+
       console.log(window.location.pathname);
       if (window.location.pathname.includes("checkout")) {
         $scope.data.stage = 'review'
@@ -289,7 +373,6 @@ app.directive('checkoutSideview', function() {
       else if (window.location.pathname.includes("payment")) {
         $scope.data.stage = 'payment'
       }
-      console.log($scope.data.stage,'ssssssssssssssssss');
       $scope.getCartTotal = function(){
         $http({
           method: 'GET',
@@ -315,7 +398,6 @@ app.directive('checkoutSideview', function() {
           }
         }).
         then(function(res) {
-          console.log(res.data,'kllklkl');
           if ($scope.data.modeOfPayment=='COD') {
             window.location.href = '/pages/'+$scope.division+'/orderSuccessful/?orderid='+res.data.id
             return
@@ -497,7 +579,7 @@ app.directive('checkoutView', function() {
       $scope.me = $users.get('mySelf')
       $scope.division = DIVISION_APIKEY
       var customer = getCookie("customer");
-      if (customer!=undefined && customer!=null) {
+      if (customer!=undefined && customer!=null && customer.length>0 ) {
         $http({
           method: 'GET',
           url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY+'&getId',
@@ -505,8 +587,10 @@ app.directive('checkoutView', function() {
         then(function(response) {
           $scope.userId = response.data.id
           $scope.getCartItems()
+
         })
       }
+      $scope.cartData = []
       $scope.getCartItems = function(){
         $http({
           method: 'GET',
@@ -514,6 +598,9 @@ app.directive('checkoutView', function() {
         }).
         then(function(response) {
           $scope.cartData = response.data
+          if (customer!=undefined && customer!=null && customer.length>0) {
+            // $scope.createCartData()
+          }
         })
       }
 
@@ -529,31 +616,31 @@ app.directive('checkoutView', function() {
 
         })
       }
-    $scope.changeQty = function(pk, indx, val) {
-      var cartData = $scope.cartData[indx]
-      if (val == 'increment') {
-        $scope.cartData[indx].qty += 1
-      }
-      if (val == 'decrement') {
-        if ($scope.cartData[indx].qty == 1) {
-          return
+      $scope.changeQty = function(pk, indx, val) {
+        var cartData = $scope.cartData[indx]
+        if (val == 'increment') {
+          $scope.cartData[indx].qty += 1
         }
-        $scope.cartData[indx].qty -= 1
-      }
-    $http({
-      method: 'PATCH',
-      url: '/api/finance/cart/' + $scope.cartData[indx].pk + '/',
-      data: {
-        qty: $scope.cartData[indx].qty
-      }
-    }).
-    then(function(res) {
-      $scope.cartData[indx] = res.data
-      $rootScope.$broadcast("getCartTotal", {});
+        if (val == 'decrement') {
+          if ($scope.cartData[indx].qty == 1) {
+            return
+          }
+          $scope.cartData[indx].qty -= 1
+        }
+      $http({
+        method: 'PATCH',
+        url: '/api/finance/cart/' + $scope.cartData[indx].pk + '/',
+        data: {
+          qty: $scope.cartData[indx].qty
+        }
+      }).
+      then(function(res) {
+        $scope.cartData[indx] = res.data
+        $rootScope.$broadcast("getCartTotal", {});
 
-    })
+      })
 
-  }
+    }
     },
   };
 });
@@ -1333,19 +1420,30 @@ app.directive('productDetails', function() {
       }).
       then(function(response) {
         $scope.userId = response.data.id
+        $scope.getProd()
       })
     }
-      console.log(PRODUCT,'#$38ijsdksdhf');
-      $http({
-        method: 'GET',
-        url: '/api/finance/inventory/'+PRODUCT+'/'
 
-      }).
-      then(function(response) {
-      $scope.products = response.data
-      $scope.getsimilarProducts($scope.products.category.pk)
-        $scope.showImage($scope.products.img1)
-      })
+      $scope.getProd = function(){
+        console.log(PRODUCT,'#$38ijsdksdhf');
+        var url = '/api/finance/inventory/?id='+PRODUCT
+        if ($scope.userId!=undefined) {
+          url+='&contact='+$scope.userId+'&divId='+DIVISION_APIKEY
+        }
+        $http({
+          method: 'GET',
+          url: url
+        }).
+        then(function(response) {
+          $scope.products = response.data[0]
+          $scope.getsimilarProducts($scope.products.category.pk)
+          $scope.showImage($scope.products.img1)
+          if (customer==undefined || customer==null || customer.length == 0) {
+            $scope.checkOtherCart()
+          }
+        })
+      }
+
 
       $scope.getsimilarProducts = function(pk){
         $http({
@@ -1380,16 +1478,37 @@ app.directive('productDetails', function() {
         }
         })
       }
+      $scope.cartData = []
+      $scope.checkOtherCart = function(){
+          detail = getCookie("addToCart");
+          if (detail != "") {
+            $scope.cartData = JSON.parse(detail)
+            document.cookie = encodeURIComponent("addToCart") + "=deleted; expires=" + new Date(0).toUTCString()
+            for (var i = 0; i < $scope.cartData.length; i++) {
+              if ($scope.cartData[i].product == $scope.products.pk) {
+                $scope.products.cart = $scope.cartData[i].qty
+              }
+            }
+          }
+      }
 
       $scope.addToCart = function(){
         if ($scope.userId==undefined || $scope.userId==null || $scope.userId.length == 0) {
-          $rootScope.$broadcast("getloginPage", {});
+          $scope.products.cart = 1
+          $scope.item = {
+            product :  $scope.products.pk,
+            qty : 1,
+          }
+          $scope.cartData.push($scope.item)
+          setCookie("addToCart", JSON.stringify($scope.cartData), 365);
+            $rootScope.$broadcast("getCookieCart", {});
           return
         }
         var dataToSend = {
           product :  $scope.products.pk,
           qty : 1,
-          contact:$scope.userId
+          contact:$scope.userId,
+          divId : DIVISION_APIKEY
         }
         $http({
           method: 'POST',
@@ -1403,6 +1522,19 @@ app.directive('productDetails', function() {
         })
       }
 
+      // $scope.changeQytyCookie = function() {
+      //   if ($scope.list.added_cart < $scope.selectedObj.orderThreshold) {
+      //     $scope.list.added_cart++
+      //   }
+      //   $scope.qtyToAddInit.qty = $scope.list.added_cart
+      //   for (var i = 0; i < $rootScope.addToCart.length; i++) {
+      //     if ($rootScope.addToCart[i].prodSku == $scope.selectedObj.sku) {
+      //       $rootScope.addToCart[i].qty = $rootScope.addToCart[i].qty + 1
+      //       setCookie("addToCart", JSON.stringify($rootScope.addToCart), 365);
+      //     }
+      //   }
+      // }
+
       $scope.changeQty = function(val){
         if (val == 'increment') {
           $scope.products.cart+=1
@@ -1411,6 +1543,16 @@ app.directive('productDetails', function() {
           $scope.products.cart-=1
         }
         if ($scope.products.cart>0) {
+         if ($scope.userId==undefined || $scope.userId==null || $scope.userId.length == 0) {
+           for (var i = 0; i < $scope.cartData.length; i++) {
+             console.log($scope.cartData[i].product, $scope.products.pk);
+             if ($scope.cartData[i].product == $scope.products.pk) {
+                 $scope.cartData[i].qty = $scope.products.cart
+                setCookie("addToCart", JSON.stringify($scope.cartData), 365);
+             }
+           }
+           return
+          }
           var dataToSend = {
             qty:$scope.products.cart,
           }
@@ -1423,6 +1565,16 @@ app.directive('productDetails', function() {
           })
         }
         else{
+          if ($scope.userId==undefined || $scope.userId==null || $scope.userId.length == 0) {
+            for (var i = 0; i < $scope.cartData.length; i++) {
+              console.log($scope.cartData[i].product, $scope.products.pk);
+              if ($scope.cartData[i].product == $scope.products.pk) {
+                  $scope.cartData.splice(i,1)
+                 setCookie("addToCart", JSON.stringify($scope.cartData), 365);
+              }
+            }
+            return
+           }
           $http({
             method: 'DELETE',
             url: '/api/finance/cart/'+$scope.products.cartId+'/',

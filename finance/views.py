@@ -385,6 +385,9 @@ class RateListViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         divsn = self.request.user.designation.division
         toReturn = Inventory.objects.filter(division = divsn)
+        if 'id' in  self.request.GET:
+            toReturn = toReturn.filter(pk = self.request.GET['id'])
+            return toReturn
         if 'category' in self.request.GET:
             toReturn = toReturn.filter(category__pk = self.request.GET['category'])
             return toReturn
@@ -4888,11 +4891,14 @@ class CartTotalAPIView(APIView):
         total = 0
         gst = 0
         shipping = 0
+        showDetails = False
+        if cartObj.count()>0:
+            showDetails = True
         tot = cartObj.aggregate(sum = Sum('total'))
         if tot['sum'] is not None:
             total = tot['sum']
         grandTotal = total + gst + shipping
-        data = {'subTotal' : total, 'totalGST' : gst , 'shipping' : shipping , 'grandTotal' : grandTotal}
+        data = {'subTotal' : total, 'totalGST' : gst , 'shipping' : shipping , 'grandTotal' : grandTotal , 'showDetails' : showDetails}
         return Response(data ,status = status.HTTP_200_OK)
 
 

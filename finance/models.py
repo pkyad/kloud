@@ -424,3 +424,5 @@ class Cart(models.Model):
     price = models.FloatField(default=1)
     total = models.FloatField(default=1)
     division = models.ForeignKey(Division,related_name='carts',null=True)
+    class Meta:
+        unique_together = ('contact', 'product')

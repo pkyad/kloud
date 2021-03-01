@@ -9,8 +9,8 @@
             </td>
             <td></td>
             <td>
-            <button type="button" class="btn btn-success" ng-click="closeForm(p.pk)" name="button" ng-if="me.is_staff&&p.closedBy==null">Close</button>
-                <button type="button" ng-if="p.pk&&p.status=='Open'&&me.is_staff&&p.closedBy!=null"" class="btn btn-success" mwl-confirm title="Send for approval" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No"
+            <button type="button" class="btn btn-success" ng-click="closeForm(p.pk)" name="button" ng-if="p.closedBy==null">Close</button>
+                <button type="button" ng-if="p.pk&&p.status=='Open'&&p.closedBy!=null"" class="btn btn-success" mwl-confirm title="Send for approval" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No"
                   on-confirm="sentForApproval(p.pk)" confirm-button-type="success" cancel-button-type="default" placement="bottom">Send for approval</button>
                 <button type="button" ng-if="p.status=='Sent for closing approval'&&me.is_staff" class="btn btn-success" mwl-confirm title="Approve Complaint"  message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>"
                   cancel-text="No" on-confirm="complaintApproval(p.pk)" confirm-button-type="success" cancel-button-type="default" placement="bottom">Approve</button>

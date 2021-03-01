@@ -3333,9 +3333,21 @@ class PageNumCanvas(canvas.Canvas):
         """
         text1 = "<font size='8'>Page %s of %s</font>" % (
             self._pageNumber, page_count)
-        p = Paragraph(text1, styles['Normal'])
-        p.wrapOn(self, 50 * mm, 10 * mm)
-        p.drawOn(self, 120 * mm, 8 * mm)
+        headerDetails = Paragraph("""
+        <para align="center">
+        <font size ='8'>
+        <strong>CIN NO.: U31900KA2001PTC099049</strong><br/>
+        No.17P, Sadaramangala Industrial Area,Whitefield Road,
+        Kadugodi,Bangalore 560 048, KARNATAKA
+        Phone : 080-28411049
+        </font>
+        </para>
+        """ %(),styles['Normal'])
+        para = Paragraph(text1, styles['Normal'])
+        tdheader=[[headerDetails,para ]]
+        tab=Table(tdheader,colWidths=(230*mm, 100*mm))
+        tab.wrapOn(self, 10 * mm, 10 * mm)
+        tab.drawOn(self, 10 * mm, 8 * mm)
         l= Paragraph(logo , styles['Normal'])
         p = Paragraph(text , styles['Normal'])
         p.wrapOn(self , 100*mm , 50*mm)
@@ -3386,9 +3398,24 @@ class PageNumCanvas1(canvas.Canvas):
         """
         text1 = "<font size='8'>Page %s of %s</font>" % (
             self._pageNumber, page_count)
-        p = Paragraph(text1, styles['Normal'])
-        p.wrapOn(self, 50 * mm, 10 * mm)
-        p.drawOn(self, 120 * mm, 8 * mm)
+        # p = Paragraph(text1, styles['Normal'])
+        # p.wrapOn(self, 50 * mm, 10 * mm)
+        # p.drawOn(self, 120 * mm, 8 * mm)
+        headerDetails = Paragraph("""
+        <para align="center">
+        <font size ='8'>
+        <strong>CIN NO.: U31900KA2001PTC099049</strong><br/>
+        No.17P, Sadaramangala Industrial Area,Whitefield Road,
+        Kadugodi,Bangalore 560 048, KARNATAKA
+        Phone : 080-28411049
+        </font>
+        </para>
+        """ %(),styles['Normal'])
+        para = Paragraph(text1, styles['Normal'])
+        tdheader=[[headerDetails,para ]]
+        tab=Table(tdheader,colWidths=(170*mm, 100*mm))
+        tab.wrapOn(self, 10 * mm, 10 * mm)
+        tab.drawOn(self, 10 * mm, 8 * mm)
         l= Paragraph(logo , styles['Normal'])
         p = Paragraph(text , styles['Normal'])
         p.wrapOn(self , 100*mm , 50*mm)
@@ -3410,16 +3437,16 @@ def invoice(response, pkVal  , request,flag):
         invdetails = InvoiceQty.objects.filter(invoice__id=pkVal)
         print invdetails,'aaaaaaaaaa'
         #
-        headerDetails = Paragraph("""
-        <para align="center">
-        <font size ='8'>
-        <b> BRUDERER PRESSES INDIA PVT. LTD.</b><br/>
-        No.17P, Sadaramangala Industrial Area,Whitefield Road,<br/>
-        Kadugodi,Bangalore 560 048, KARNATAKA<br/>
-        Phone : 080-28411049<br/>
-        GSTIN NO : 29AABCB6326Q1Z6</font>
-        </para>
-        """ %(),styles['Normal'])
+        # headerDetails = Paragraph("""
+        # <para align="center">
+        # <font size ='8'>
+        # <b> BRUDERER PRESSES INDIA PVT. LTD.</b><br/>
+        # No.17P, Sadaramangala Industrial Area,Whitefield Road,<br/>
+        # Kadugodi,Bangalore 560 048, KARNATAKA<br/>
+        # Phone : 080-28411049<br/>
+        # GSTIN NO : 29AABCB6326Q1Z6</font>
+        # </para>
+        # """ %(),styles['Normal'])
         headerTitle = Paragraph("""
         <para align='center'>
         <font size ='12'>

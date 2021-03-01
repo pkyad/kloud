@@ -646,15 +646,19 @@ class RateListSerializer(serializers.ModelSerializer):
         return instance
     def get_cart(self, obj):
         cart = 0
-        data = obj.carts.filter(division = self.context['request'].user.designation.division)
-        if data.count()>0:
-            cart = data.first().qty
+        if 'contact' in self.context['request'].GET and 'divId' in self.context['request'].GET :
+            id = hash_fn.unhash(self.context['request'].GET['divId'])
+            data = obj.carts.filter(division__id = id, contact__id = self.context['request'].GET['contact'])
+            if data.count()>0:
+                cart = data.first().qty
         return cart
     def get_cartId(self, obj):
         cart = None
-        data = obj.carts.filter(division = self.context['request'].user.designation.division)
-        if data.count()>0:
-            cart = data.first().id
+        if 'contact' in self.context['request'].GET and 'divId' in self.context['request'].GET :
+            id = hash_fn.unhash(self.context['request'].GET['divId'])
+            data = obj.carts.filter(division__id = id, contact__id = self.context['request'].GET['contact'])
+            if data.count()>0:
+                cart = data.first().id
         return cart
 
 class InventoryLogSerializer(serializers.ModelSerializer):
@@ -831,10 +835,13 @@ class CartSerializer(serializers.ModelSerializer):
         fields=('pk','created','contact','product','qty','price','total','division')
     def create(self , validated_data):
         cart = Cart(**validated_data)
-        division = self.context['request'].user.designation.division
+        # division = self.context['request'].user.designation.division
         if 'product' in self.context['request'].data:
             cart.product = Inventory.objects.get(pk = int(self.context['request'].data['product']))
-        cart.division = division
+        if 'divId' in self.context['request'].data:
+            id = hash_fn.unhash(self.context['request'].data['divId'])
+            cart.division = Division.objects.get(pk = int(id))
+        # cart.division = division
         cart.price = cart.product.rate
         cart.total = cart.product.rate * cart.qty
         cart.save()

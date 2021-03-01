@@ -1008,79 +1008,88 @@ class getVisitsAPI(APIView):
         ongoingData = []
         followUpData = []
         pending = []
+        completed = []
         from datetime import date
         today = date.today()
         if 'id' in request.GET:
             newObj = ServiceTicket.objects.get(pk = int(request.GET['id']))
             data = ServiceTicketSerializer(newObj, many = False).data
-            return Response({'data' : data }, status = status.HTTP_200_OK)
         if 'typ' in request.GET:
-            newObj = ServiceTicket.objects.filter(status = 'assigned' , engineer = user)
-            ongoingObj = ServiceTicket.objects.filter(status = 'ongoing' , engineer = user)
-            completedObj = ServiceTicket.objects.filter(status = 'completed' , engineer = user)
-            if request.GET['typ'] == 'CustomPeriod':
-                if 'date1' in request.GET:
-                    date1 = request.GET['date1']
-                if 'date2' in request.GET:
-                    date2 = request.GET['date2']
-                if date2<date1:
-                    fromDate = date2
-                    toDate = date1
-                else:
-                    fromDate = date1
-                    toDate = date2
-                newObj = newObj.filter(preferredDate__range = (fromDate , toDate))
-                ongoingObj = ongoingObj.filter(preferredDate__range = (fromDate , toDate))
-                completedObj = completedObj.filter(preferredDate__range = (fromDate , toDate))
-            elif request.GET['typ'] == 'Today':
-                newObj = newObj.filter(preferredDate = today)
-                ongoingObj = ongoingObj.filter(preferredDate = today)
-                completedObj = completedObj.filter(preferredDate = today)
-                print newObj , ongoingObj
-            elif request.GET['typ'] == 'Yesterday':
-                yesterday = today - timedelta(days = 1)
-                newObj = newObj.filter(preferredDate = yesterday)
-                ongoingObj = ongoingObj.filter(preferredDate = yesterday)
-                completedObj = completedObj.filter(preferredDate = yesterday)
-            elif request.GET['typ'] == 'ThisWeek':
-                noDays =  int(today.strftime('%w'))
-                fromDate = today - timedelta(days=int(noDays))
-                toDate = fromDate + timedelta(days=6)
-                newObj = newObj.filter(preferredDate__range = (fromDate , toDate))
-                ongoingObj = ongoingObj.filter(preferredDate__range = (fromDate , toDate))
-                completedObj = completedObj.filter(preferredDate__range = (fromDate , toDate))
-            elif request.GET['typ'] == 'LastWeek':
-                noDays =  int(today.strftime('%w'))
-                sundayDate = today - timedelta(days=int(noDays))
-                fromDate = sundayDate - timedelta(days=7)
-                toDate = sundayDate - timedelta(days=1)
-                newObj = newObj.filter(preferredDate__range = (fromDate , toDate))
-                ongoingObj = ongoingObj.filter(preferredDate__range = (fromDate , toDate))
-                completedObj = completedObj.filter(preferredDate__range = (fromDate , toDate))
-            elif request.GET['typ'] == 'ThisMonth':
-                fromDate = today.replace(day=1)
-                toDate = today + relativedelta(day=31)
-                newObj = newObj.filter(preferredDate__range = (fromDate , toDate))
-                ongoingObj = ongoingObj.filter(preferredDate__range = (fromDate , toDate))
-                completedObj = completedObj.filter(preferredDate__range = (fromDate , toDate))
-            elif request.GET['typ'] == 'LastMonth':
-                toDate = today.replace(day=1) - datetime.timedelta(days=1)
-                fromDate = toDate.replace(day=1)
-                newObj = newObj.filter(preferredDate__range = (fromDate , toDate))
-                ongoingObj = ongoingObj.filter(preferredDate__range = (fromDate , toDate))
-                completedObj = completedObj.filter(preferredDate__range = (fromDate , toDate))
-            completed = ServiceTicketSerializer(completedObj, many = True).data
-            newData = ServiceTicketSerializer(newObj, many = True).data
-            ongoingData = ServiceTicketSerializer(ongoingObj, many = True).data
+            offset = request.GET['offset']
+            limit = request.GET['limit']
+            newObj = ServiceTicket.objects.filter(status = request.GET['typ'] , engineer = user).order_by('-created')
+            allData = newObj[offset:limit]
+            data = ServiceTicketSerializer(allData, many = True).data
+        else:
+            followUpObj = ServiceTicket.objects.filter(engineer = user , preferredDate__lt = today , status = 'assigned')
+            followUpData = ServiceTicketSerializer(followUpObj, many = True).data
+            data = { 'followup' : followUpData }
+        return Response({'data' : data }, status = status.HTTP_200_OK)
+        # ongoingObj = ServiceTicket.objects.filter(status = 'ongoing' , engineer = user)
+        # completedObj = ServiceTicket.objects.filter(status = 'completed' , engineer = user)
+            # if request.GET['typ'] == 'CustomPeriod':
+            #     if 'date1' in request.GET:
+            #         date1 = request.GET['date1']
+            #     if 'date2' in request.GET:
+            #         date2 = request.GET['date2']
+            #     if date2<date1:
+            #         fromDate = date2
+            #         toDate = date1
+            #     else:
+            #         fromDate = date1
+            #         toDate = date2
+            #     newObj = newObj.filter(preferredDate__range = (fromDate , toDate))
+            #     ongoingObj = ongoingObj.filter(preferredDate__range = (fromDate , toDate))
+            #     completedObj = completedObj.filter(preferredDate__range = (fromDate , toDate))
+            # elif request.GET['typ'] == 'Today':
+            #     newObj = newObj.filter(preferredDate = today)
+            #     ongoingObj = ongoingObj.filter(preferredDate = today)
+            #     completedObj = completedObj.filter(preferredDate = today)
+            #     print newObj , ongoingObj
+            # elif request.GET['typ'] == 'Yesterday':
+            #     yesterday = today - timedelta(days = 1)
+            #     newObj = newObj.filter(preferredDate = yesterday)
+            #     ongoingObj = ongoingObj.filter(preferredDate = yesterday)
+            #     completedObj = completedObj.filter(preferredDate = yesterday)
+            # elif request.GET['typ'] == 'ThisWeek':
+            #     noDays =  int(today.strftime('%w'))
+            #     fromDate = today - timedelta(days=int(noDays))
+            #     toDate = fromDate + timedelta(days=6)
+            #     newObj = newObj.filter(preferredDate__range = (fromDate , toDate))
+            #     ongoingObj = ongoingObj.filter(preferredDate__range = (fromDate , toDate))
+            #     completedObj = completedObj.filter(preferredDate__range = (fromDate , toDate))
+            # elif request.GET['typ'] == 'LastWeek':
+            #     noDays =  int(today.strftime('%w'))
+            #     sundayDate = today - timedelta(days=int(noDays))
+            #     fromDate = sundayDate - timedelta(days=7)
+            #     toDate = sundayDate - timedelta(days=1)
+            #     newObj = newObj.filter(preferredDate__range = (fromDate , toDate))
+            #     ongoingObj = ongoingObj.filter(preferredDate__range = (fromDate , toDate))
+            #     completedObj = completedObj.filter(preferredDate__range = (fromDate , toDate))
+            # elif request.GET['typ'] == 'ThisMonth':
+            #     fromDate = today.replace(day=1)
+            #     toDate = today + relativedelta(day=31)
+            #     newObj = newObj.filter(preferredDate__range = (fromDate , toDate))
+            #     ongoingObj = ongoingObj.filter(preferredDate__range = (fromDate , toDate))
+            #     completedObj = completedObj.filter(preferredDate__range = (fromDate , toDate))
+            # elif request.GET['typ'] == 'LastMonth':
+            #     toDate = today.replace(day=1) - datetime.timedelta(days=1)
+            #     fromDate = toDate.replace(day=1)
+            #     newObj = newObj.filter(preferredDate__range = (fromDate , toDate))
+            #     ongoingObj = ongoingObj.filter(preferredDate__range = (fromDate , toDate))
+            #     completedObj = completedObj.filter(preferredDate__range = (fromDate , toDate))
+            # completed = ServiceTicketSerializer(completedObj, many = True).data
+            # newData = ServiceTicketSerializer(newObj, many = True).data
+            # ongoingData = ServiceTicketSerializer(ongoingObj, many = True).data
         # pending = ServiceTicketSerializer(TourPlanStop.objects.filter(status = 'assigned' , engineer = user,preferredDate__lt = today).exclude(is_postponded = True), many = True).data
 
         # followUpObj1 = ServiceTicket.objects.filter(engineer = user,tourplan__date__gt = today,status = 'assigned')
         # followUpObj2 =  ServiceTicket.objects.filter(engineer = user, postponded_date__gt = today , is_postponded = True)
         # followUpObj = followUpObj1 | followUpObj2
-        followUpObj = ServiceTicket.objects.filter(engineer = user, status = 'postponed')
-        followUpData = ServiceTicketSerializer(followUpObj, many = True).data
-        data = {'new' : newData , 'ongoing' : ongoingData , 'followup' : followUpData , 'completed' :completed}
-        return Response({'data' : data }, status = status.HTTP_200_OK)
+        # followUpObj = ServiceTicket.objects.filter(engineer = user , preferredDate__lt = today , status = 'assigned')
+        # followUpData = ServiceTicketSerializer(followUpObj, many = True).data
+        # data = {'new' : newData , 'ongoing' : ongoingData , 'followup' : followUpData , 'completed' :completed}
+        # return Response({'data' : data }, status = status.HTTP_200_OK)
 
 
 from pydub import AudioSegment
