@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'publish/$' , PublishAPIView.as_view() ),
     url(r'initializewebsitebuilder/$' , InitializewebsitebuilderAPIView.as_view() ),
+    url(r'getFooterDetails/$' , GetFooterDetailsView.as_view() ),
 ]

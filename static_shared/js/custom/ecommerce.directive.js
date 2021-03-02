@@ -719,11 +719,11 @@ app.directive('ecommerceFooter', function() {
       console.log($scope.data,'i8i4i123489');
       $http({
         method: 'GET',
-        url: '/api/website/getfooterDetails/?divId='+$scope.division
+        url: '/api/website/getFooterDetails/?divId='+$scope.division
 
       }).
       then(function(response) {
-        $scope.divisionDetails = response.data[0]
+        $scope.divisionDetails = response.data
       })
 
 

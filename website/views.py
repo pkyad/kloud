@@ -40,7 +40,8 @@ from ERP.send_email import send_email
 import os
 from organization.serializers import DivisionSerializer
 # Create your views here.
-
+import basehash
+hash_fn = basehash.base36()
 
 class PageViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
@@ -114,5 +115,8 @@ class PublishAPIView(APIView):
 
 class GetFooterDetailsView(APIView):
     def get(self , request , format = None):
-        id = hash_fn.unhash(self.request.GET['divId'])
-        return Response({})
+        if 'divId' in self.request.GET:
+            id = hash_fn.unhash(self.request.GET['divId'])
+            divObj = Division.objects.get(pk = int(id))
+            obj = DivisionSerializer(divObj, many = False).data
+        return Response(obj)
