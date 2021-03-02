@@ -715,8 +715,17 @@ app.directive('ecommerceFooter', function() {
     },
     controller: function($scope, $state, $stateParams, $users) {
       $scope.me = $users.get('mySelf')
-
+      $scope.division = DIVISION_APIKEY
       console.log($scope.data,'i8i4i123489');
+      $http({
+        method: 'GET',
+        url: '/api/website/getfooterDetails/?divId='+$scope.division
+
+      }).
+      then(function(response) {
+        $scope.divisionDetails = response.data[0]
+      })
+
 
 
 

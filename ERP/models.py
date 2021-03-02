@@ -255,7 +255,7 @@ class Division(models.Model):
     freeQuotaExcceded = models.BooleanField(default = False)
     enterpriseSubscriptionReq =  models.BooleanField(default = False)
     subscriptionExpiryDate =  models.DateField(null = True)
-
+    whatsapp_test_number = models.CharField(max_length = 100 , null = True ,blank=True)
     # address
     # themeColor
     # invoiceVersion

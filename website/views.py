@@ -15,7 +15,7 @@ from url_filter.integrations.drf import DjangoFilterBackend
 from .serializers import *
 from API.permissions import *
 from ERP.models import *
-from organization.models import CompanyHolidays
+from organization.models import CompanyHolidays, Division
 from clientRelationships.models import Contact, CustomerSession
 from ERP.views import getApps
 from django.db.models import Q
@@ -38,6 +38,7 @@ from io import BytesIO,StringIO
 from performance.models import TimeSheet
 from ERP.send_email import send_email
 import os
+from organization.serializers import DivisionSerializer
 # Create your views here.
 
 
@@ -109,4 +110,9 @@ class PublishAPIView(APIView):
         f = open(filePath, 'w')
         f.write(pageContent)
         f.close()
+        return Response({})
+
+class GetFooterDetailsView(APIView):
+    def get(self , request , format = None):
+        id = hash_fn.unhash(self.request.GET['divId'])
         return Response({})

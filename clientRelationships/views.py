@@ -97,10 +97,14 @@ class DownloadInvoice(APIView):
         if 'contract' not in request.GET:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         response = HttpResponse(content_type='application/pdf')
-        o = Contract.objects.get(id=request.GET['contract'] , division = request.user.designation.division)
+        if 'user' in request.GET:
+            user = User.objects.get(pk = int(request.GET['user']))
+        else:
+            user =  request.user
+        o = Contract.objects.get(id=request.GET['contract'] , division = user.designation.division)
         response.contract = o
-        response.division = request.user.designation.division
-        response.unit = request.user.designation.unit
+        response.division = user.designation.division
+        response.unit = user.designation.unit
         if o.termsAndCondition is not None:
             if o.termsAndCondition.version == 'V2':
                 from Invoice2 import *
@@ -110,7 +114,7 @@ class DownloadInvoice(APIView):
                 from Invoice1 import *
         else:
             # try:
-            crmObj = CRMTermsAndConditions.objects.filter(division = request.user.designation.division).first()
+            crmObj = CRMTermsAndConditions.objects.filter(division = user.designation.division).first()
             if crmObj.version == 'V2':
                 from Invoice2 import *
             elif crmObj.version == 'V3':
