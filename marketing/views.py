@@ -1019,6 +1019,7 @@ class getVisitsAPI(APIView):
             limit = request.GET['limit']
             newObj = ServiceTicket.objects.filter(status = request.GET['typ'] , engineer = user).order_by('-created')
             allData = newObj[offset:limit]
+            print allData,'kkkkkkkkkkk'
             data = ServiceTicketSerializer(allData, many = True).data
         else:
             followUpObj = ServiceTicket.objects.filter(engineer = user , preferredDate__lt = today , status = 'assigned')
