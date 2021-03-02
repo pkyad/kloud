@@ -27,8 +27,9 @@ import datetime
 from marketing.models import Contacts
 import getpass
 # if getpass.getuser() == 'cioc-d2':
-# from talk import *
+from talk import *
 from PIM.models import *
+# from chatbot.essgi import *
 
 # Create your views here.
 
@@ -839,7 +840,7 @@ def publicAPI(request , objectType):
                 fileUrl = None
 
             context = getResponse(s.message, context, chatThObj.company , fil = fileUrl)
-            print context
+            # print context
             print "BOT LOGIC ---------------------------------ENDS"
             return JsonResponse(SupportChatSerializer(s , many = False).data , safe=False , status = 201)
         if request.method == 'GET':

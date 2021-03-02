@@ -255,6 +255,7 @@ $scope.getComponents()
 
 
   $scope.EditComponent = function(idx) {
+
     data = $scope.components[idx];
     $uibModal.open({
       templateUrl: '/static/ngTemplates/app.website.uitemplateEditable.html',
@@ -271,7 +272,13 @@ $scope.getComponents()
       controller: function($scope, $http,$uibModal, $uibModalInstance, data, idx, $timeout) {
 
         $scope.component = data;
-        $scope.component.data = JSON.parse($scope.component.data)
+        try {
+          $scope.component.data = JSON.parse($scope.component.data)
+
+        }
+        catch(err) {
+
+        }
         console.log($scope.component.data,'34343');
 
 

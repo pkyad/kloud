@@ -1,6 +1,6 @@
 import json
 from helper import *
-from nlpEngine import word
+# from nlpEngine import word
 
 configFile = open('config.json', 'r')
 configs = json.loads(configFile.read())

@@ -138,7 +138,7 @@ class UnitFullSerializer(serializers.ModelSerializer):
     children = UnitSuperLiteSerializer(many = True , read_only = True)
     class Meta:
         model = Unit
-        fields = ( 'pk' , 'name' , 'pincode' , 'l1' , 'l2' , 'mobile','telephone','email', 'children', 'division','city','state','country','master' )
+        fields = ( 'pk' , 'name' , 'pincode' , 'l1' , 'l2' , 'mobile','telephone','email', 'children', 'division','city','state','country','master','address' )
 
 class UnitSerializer(serializers.ModelSerializer):
     division = DivisionLiteSerializer(many = False , read_only = True)

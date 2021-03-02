@@ -38,7 +38,7 @@ from io import BytesIO,StringIO
 from performance.models import TimeSheet
 from ERP.send_email import send_email
 import os
-from organization.serializers import DivisionSerializer
+from organization.serializers import DivisionSerializer, UnitFullSerializer
 # Create your views here.
 import basehash
 hash_fn = basehash.base36()
@@ -115,8 +115,13 @@ class PublishAPIView(APIView):
 
 class GetFooterDetailsView(APIView):
     def get(self , request , format = None):
-        if 'divId' in self.request.GET:
+        if 'divId' in self.request.GET and self.request.GET['divId'] !='undefined':
             id = hash_fn.unhash(self.request.GET['divId'])
             divObj = Division.objects.get(pk = int(id))
-            obj = DivisionSerializer(divObj, many = False).data
+        else:
+            divObj = request.user.designation.division
+        obj = DivisionSerializer(divObj, many = False).data
+        unitObj = divObj.units.all()
+        if unitObj.count()>0:
+            obj['unit'] = UnitFullSerializer(unitObj.first(), many = False).data
         return Response(obj)

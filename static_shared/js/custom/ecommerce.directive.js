@@ -713,18 +713,24 @@ app.directive('ecommerceFooter', function() {
     scope:{
       data:'='
     },
-    controller: function($scope, $state, $stateParams, $users) {
+    controller: function($scope, $state, $stateParams, $users, $http) {
       $scope.me = $users.get('mySelf')
-      $scope.division = DIVISION_APIKEY
       console.log($scope.data,'i8i4i123489');
+      try {
+        $scope.division = DIVISION_APIKEY
+        url = '/api/website/getFooterDetails/'
+      }
+      catch(err) {
+        url = '/api/website/getFooterDetails/?divId='+$scope.division
+      }
       $http({
         method: 'GET',
-        url: '/api/website/getFooterDetails/?divId='+$scope.division
-
+        url: url
       }).
       then(function(response) {
         $scope.divisionDetails = response.data
       })
+
 
 
 
