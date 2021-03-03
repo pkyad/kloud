@@ -630,6 +630,8 @@ class RateListSerializer(serializers.ModelSerializer):
             inven.division = self.context['request'].user.designation.division
         except:
             pass
+        if 'category' in self.context['request'].data:
+            inven.category =  Category.objects.get(pk = int(self.context['request'].data['category']))
         inven.save()
         return inven
     def update(self ,instance, validated_data):

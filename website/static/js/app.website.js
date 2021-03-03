@@ -419,8 +419,21 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
         //
         // })
 
-        $scope.selectTab = function(tab){
-          $scope.form.stage = tab
+        $scope.selectTab = function(indx){
+          $scope.selectedIndx = indx
+          $scope.form.stage = $scope.selectTyp[indx]
+        }
+
+        $scope.isValid = true
+
+        $scope.checkUrl = function(){
+          $http({
+            method: 'GET',
+            url: '/api/website/checkUrl/?url=' + $scope.form.url
+          }).
+          then(function(response) {
+            $scope.isValid = response.data.isValid
+          })
         }
 
         $scope.save = function() {
@@ -433,11 +446,12 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
           fd.append('url', $scope.form.url)
           fd.append('description', $scope.form.description)
           fd.append('stage', $scope.form.stage)
-
           var dataTosend = {
-            title:$scope.form.title,url:$scope.form.url,description:$scope.form.description,stage:$scope.form.stage
+            title:$scope.form.title,
+            url:$scope.form.url,
+            description:$scope.form.description,
+            stage:$scope.form.stage
           }
-
           var method = 'POST'
           var url = '/api/website/initializewebsitebuilder/'
           // if ($scope.form.pk != undefined) {
@@ -448,21 +462,17 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
             method: method,
             url: url,
             data: dataTosend
-
-
           }).
           then(function(response) {
-
-              Flash.create('success', 'Created....!!!')
-            $uibModalInstance.dismiss(response.data)
-
+            Flash.create('success', 'Created....!!!')
+            $uibModalInstance.dismiss()
           })
         }
 
 
       }
 
-    }).result.then(function(data) {}, function(data) {
+    }).result.then(function(data) {}, function() {
 
       $scope.getPages()
     });

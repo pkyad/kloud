@@ -89,9 +89,11 @@ class InitializewebsitebuilderAPIView(APIView):
             division.defaultTitle = data['title']
         if 'description' in request.data :
             division.defaultDescription = data['description']
+        if 'url' in request.data :
+            division.subDomain = data['description']
         division.save()
         request.user.designation.division = division
-        page = Page.objects.create(title= data['title'],description=data['description'],url=data['url'],user=request.user)
+        page = Page.objects.create(title= data['title'],description=data['description'],user=request.user)
         page.save()
         return Response({'page':PageSerializer(page,many=False).data})
 
@@ -125,3 +127,13 @@ class GetFooterDetailsView(APIView):
         if unitObj.count()>0:
             obj['unit'] = UnitFullSerializer(unitObj.first(), many = False).data
         return Response(obj)
+
+
+class CheckDivisionUrlUsedView(APIView):
+    def get(self , request , format = None):
+        isValid = True
+        if 'url' in request.GET:
+            divObj = Division.objects.filter(subDomain = request.GET['url'])
+            if divObj.count()>0:
+                isValid = False
+        return Response({'isValid' : isValid})
