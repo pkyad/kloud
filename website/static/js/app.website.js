@@ -13,7 +13,7 @@ app.config(function($stateProvider) {
         },
         "@businessManagement.website": {
           templateUrl: '/static/ngTemplates/app.website.pages.html',
-          controller: 'pages'
+          // controller: 'pages'
         }
 
 
@@ -491,6 +491,8 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
     search:''
   }
   $scope.getPages = function() {
+    // alert('sssssssss')
+    console.log($state,'ssssssssssssss');
     var url = '/api/website/page/?limit=' + $scope.limit + '&offset=' + $scope.offset
     if ($scope.searchForm.search.length > 0) {
       url += '&search='+$scope.searchForm.search
@@ -501,8 +503,9 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
     }).
     then(function(response) {
       $scope.pages = response.data.results
-      console.log($scope.pages,"askdfasfdasdfa");
-      if ($scope.pages.length  == 0) {
+      console.log($scope.pages.length,"askdfasfdasdfa");
+      if ($scope.pages.length  == 0 && $state.is('businessManagement.website')) {
+        console.log('ddddddddddddddddddddddddddddddddddddd');
           $scope.initialPage()
       }else {
         for (var i = 0; i < $scope.pages.length; i++) {
@@ -512,7 +515,7 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
         $scope.total = response.data.count
         $scope.prev = response.data.previous
         $scope.next = response.data.next
-
+        return
       }
     })
   }

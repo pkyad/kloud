@@ -679,25 +679,40 @@ app.directive('ecommerceBanners', function() {
           }
         },
       };
-      $scope.banners = [
-
-        {
-          "title": " Upto 50% off ... ",
-          "description": " More offer click below!",
-          "webImage": "https://systunix.com/media/finance/productV2/1592129907_41_banner_without_offer.png",
-          "potraitImage": "https://systunix.com/media/finance/productV2/1593619450_56_Banner_for_offer_wo_boder_and_popup_80.png"
-
-
-        },
-        {
-          "title": "  Covid 19 Prevention Items  ",
-          "description": "  All Kind of Prevention Items available..",
-          "webImage": "https://systunix.com/media/finance/productV2/1592132263_84_New1.jpg",
-          "potraitImage": "https://systunix.com/media/finance/productV2/1592132263_84_Prevention.png"
+      $scope.banners = []
+      if ($scope.data!=undefined) {
+      try {
+        $scope.data = JSON.parse($scope.data)
+      }
+      catch(err) {
+      $scope.data = $scope.data
+      }
+      $scope.banners = [$scope.data.backgroundimage, $scope.data.secondbackgroundimage]
+    }
 
 
-        }
-      ]
+
+
+    // }
+      // $scope.banners = [
+      //
+      //   {
+      //     "title": " Upto 50% off ... ",
+      //     "description": " More offer click below!",
+      //     "webImage": "https://systunix.com/media/finance/productV2/1592129907_41_banner_without_offer.png",
+      //     "potraitImage": "https://systunix.com/media/finance/productV2/1593619450_56_Banner_for_offer_wo_boder_and_popup_80.png"
+      //
+      //
+      //   },
+      //   {
+      //     "title": "  Covid 19 Prevention Items  ",
+      //     "description": "  All Kind of Prevention Items available..",
+      //     "webImage": "https://systunix.com/media/finance/productV2/1592132263_84_New1.jpg",
+      //     "potraitImage": "https://systunix.com/media/finance/productV2/1592132263_84_Prevention.png"
+      //
+      //
+      //   }
+      // ]
 
 
     },

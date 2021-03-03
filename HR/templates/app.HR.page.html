@@ -1,5 +1,6 @@
-{% extends 'base.html'%}
 {% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
 
 <head>
   <meta charset="utf-8">
@@ -13,101 +14,160 @@
   <link rel="stylesheet" href="{% static 'css/app.HR.css' %}" charset="utf-8">
   <link rel="stylesheet" href="{% static 'css/app.HR.ecommerce.css' %}" charset="utf-8">
 </head>
+
+{% block specific_css %}
 <style media="screen">
   {{footerCss | safe}}
   {{headerCss | safe}}
 </style>
-{% block header %}
 
-  <div class="" >
-    {{ header | safe}}
-  </div>
 
 {% endblock %}
-{% block content %}
-<div ng-app="app" ng-controller="main"  ng-init="division = '{{divisionJson}}'" style="margin-top:30px;margin-bottom:30px;">
 
-{% for component in components %}
-  <div class="" ng-init="data = '{{component.data | safe}}'">
-    <style media="screen" >
-      {{component.css | safe}}
-    </style>
-      {{component.template|safe}}
-  </div>
-{% endfor %}
+{% block header %}
 
+<div class="" >
+  {{ header | safe}}
 </div>
 
 
-
-
 {% endblock %}
+{% block content %}
+<body ng-app="app" ng-controller="main"  ng-init="division = '{{divisionJson}}'">
+  <div  style="margin-top:30px;margin-bottom:30px;">
 
-<script type="text/javascript">
+  {% for component in components %}
+    <div class="" ng-init="data = '{{component.data | safe }}'">
+      <style media="screen" >
+        {{component.css | safe}}
+      </style>
+        {{component.template|safe}}
+    </div>
+  {% endfor %}
 
-  var app = angular.module('app', [ 'ngSanitize', 'ui.bootstrap']);
-
-  app.controller('main', function($scope, $http, $sce, $uibModal) {
-
-    $scope.getComponents = function() {
-
-      $http({
-        method: 'GET',
-        url: '/api/website/components/?parent=' + page,
-      }).
-      then(function(response) {
-        $scope.components = response.data
-
-      })
-    }
-    $scope.getComponents()
-  });
-
-
-
-</script>
-{% block specific_js %}
-
-
-<script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
-<script src="{% static 'js/jquery.cookie-1.4.1.min.js' %}"></script>
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
-<script src="{% static 'js/angular.min.js' %}"></script>
-<script src="{% static 'js/ui-bootstrap-tpls-0.14.3.min.js' %}"></script>
-<script src="{% static 'js/angular-bootstrap-confirm.min.js' %}"></script>
-<script src="{% static 'js/angular-ui-router.min.js' %}"></script>
-<script src="{% static 'js/angular-sanitize.min.js' %}"></script>
-<script src="{% static 'js/angular-flash.js' %}"></script>
-<script src="{% static 'js/app.main.js' %}"></script>
-<script src="{% static 'js/custom/directives.js' %}"></script>
-<script src="{% static 'js/custom/directives.native.js' %}"></script>
-<script src="{% static 'js/custom/nativeJS.js' %}"></script>
-<script src="{% static 'js/custom/services.js' %}"></script>
-<script src="{% static 'js/angular-owl-carousel-2.js' %}"></script>
-<script src="{% static 'js/custom/ecommerce.directive.js' %}"></script>
-
-{% block pageJS %}
-<script type="text/javascript">
-  var DIVISION_APIKEY = '{{API_KEY}}'
-  var page = '{{page.pk}}'
-</script>
-{% if page.enableChat %}
-<script src="/script/chatter-{{API_KEY}}.js?debugger=1"></script>
-{% endif %}
-{% endblock %}
-
-
-
-{% endblock %}
-
-{% block footer %}
-
-  <div class="" >
-    <style media="screen">
-      {{footerCss | safe}}
-    </style>
-    {{ footer | safe}}
-    {{ footer.footerData | safe}}
   </div>
 
-{% endblock %}
+
+  {% endblock %}
+
+
+
+  <script src="/static/js/jquery-2.1.4.min.js"></script>
+  <script src="/static/js/jquery.cookie-1.4.1.min.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
+  <script src="/static/js/angular.min.js"></script>
+  <script src="/static/js/angular-flash.js"></script>
+  <script src="/static/js/angular-ui-router.min.js"></script>
+  <script src="/static/js/ui-bootstrap-tpls-0.14.3.min.js"></script>
+  <script src="/static/js/angular-sanitize.min.js"></script>
+  <script src="/static/js/ngDraggable.js"></script>
+
+  <script type="text/javascript">
+    var page = '{{page.pk}}'
+    var API_KEY = '{{API_KEY}}'
+  </script>
+  <!-- <script src="/static/js/app.pageEditor.js"></script> -->
+  <script type="text/javascript">
+
+    var app = angular.module('app',  ['ui.router', 'flash', 'ngSanitize', 'ngDraggable', 'ui.bootstrap','angular-owl-carousel-2','uiSwitch']);
+    app.config(function($httpProvider, $stateProvider, $urlRouterProvider, $provide) {
+
+      $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+      $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+      $httpProvider.defaults.withCredentials = true;
+
+
+    });
+
+    app.controller('main', function($scope, $http, $sce, $uibModal) {
+
+      $scope.getComponents = function() {
+
+        $http({
+          method: 'GET',
+          url: '/api/website/components/?parent=' + page,
+        }).
+        then(function(response) {
+          $scope.components = response.data
+
+        })
+      }
+      $scope.getComponents()
+    });
+
+
+
+  </script>
+
+
+  {% block specific_js %}
+  <script type="text/javascript" src="/static/js/owl.carousel.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+
+      $("#owl-demo").owlCarousel({
+
+        autoPlay: 3000, //Set AutoPlay to 3 seconds
+        loop: true,
+        // items: 4,
+
+        dots: false,
+        mousedrag: true,
+        slideTransition: 'linear',
+        responsiveClass: true,
+        nav: true,
+        responsive: {
+          0: {
+            items: 1,
+          },
+          479: {
+            items: 3,
+          },
+          600: {
+            items: 2,
+          },
+          1000: {
+            items: 4,
+          }
+        }
+
+      });
+
+    });
+  </script>
+  <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'js/angular-owl-carousel-2.js' %}"></script>
+  <script src="{% static 'js/custom/directives.js' %}"></script>
+  <script src="{% static 'js/custom/directives.native.js' %}"></script>
+  <script src="{% static 'js/custom/nativeJS.js' %}"></script>
+  <script src="{% static 'js/custom/services.js' %}"></script>
+  <script src="{% static 'js/custom/ecommerce.directive.js' %}"></script>
+  <script src="{% static 'js/angular-ui-switch.min.js' %}"></script>
+
+  {% block pageJS %}
+  <script type="text/javascript">
+    var DIVISION_APIKEY = '{{API_KEY}}'
+    var page = '{{page.pk}}'
+  </script>
+  {% if page.enableChat %}
+  <script src="/script/chatter-{{API_KEY}}.js?debugger=1"></script>
+  {% endif %}
+  {% endblock %}
+  {% endblock %}
+
+  {% block footer %}
+
+
+    <div class="" >
+      <style media="screen">
+        {{footerCss | safe}}
+      </style>
+      {{ footer | safe}}
+      {{ footer.footerData | safe}}
+    </div>
+
+  {% endblock %}
+
+</body>
+
+</html>
