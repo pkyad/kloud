@@ -165,5 +165,6 @@ class UpdateContactView(APIView):
                 cont.pincode = data['pincode']
             if 'state' in data:
                 cont.state = data['state']
+            cont.save()
             toRet = ContactLiteSerializer(cont, many = False).data
         return Response(toRet, status =  status.HTTP_200_OK)
