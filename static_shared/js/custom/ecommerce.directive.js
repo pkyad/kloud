@@ -36,7 +36,20 @@ app.directive('ecommerceHeader', function() {
     transclude: true,
     controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
       $scope.me = $users.get('mySelf')
-      $scope.division = DIVISION_APIKEY
+      try {
+        $scope.division = DIVISION_APIKEY
+        url = '/api/website/getFooterDetails/?divId='+$scope.division
+      }
+      catch(err) {
+        url = '/api/website/getFooterDetails/'
+      }
+      $http({
+        method: 'GET',
+        url: url
+      }).
+      then(function(response) {
+        $scope.divisionDetails = response.data
+      })
       $scope.getAllCartItems = function(){
         $http({
           method: 'GET',
@@ -763,7 +776,21 @@ app.directive('ecommerceSecondheader', function() {
     transclude: true,
     controller: function($scope, $state, $stateParams, $users,$http) {
       $scope.me = $users.get('mySelf')
-      $scope.division = DIVISION_APIKEY
+      // $scope.division = DIVISION_APIKEY
+      try {
+        $scope.division = DIVISION_APIKEY
+        url = '/api/website/getFooterDetails/'
+      }
+      catch(err) {
+        url = '/api/website/getFooterDetails/?divId='+$scope.division
+      }
+      $http({
+        method: 'GET',
+        url: url
+      }).
+      then(function(response) {
+        $scope.divisionDetails = response.data
+      })
       $scope.getCategories = function(){
         $http({
           method: 'GET',
