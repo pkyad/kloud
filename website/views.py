@@ -39,6 +39,7 @@ from performance.models import TimeSheet
 from ERP.send_email import send_email
 import os
 from organization.serializers import DivisionSerializer, UnitFullSerializer
+from clientRelationships.serializers import ContactLiteSerializer
 # Create your views here.
 import basehash
 hash_fn = basehash.base36()
@@ -140,25 +141,29 @@ class CheckDivisionUrlUsedView(APIView):
 
 class UpdateContactView(APIView):
     def post(self , request , format = None):
-        data = request.POST
+        data = request.data
+        print request.data,'sssssssssssssss'
+        toRet = {}
         if 'pk' in data:
-            cont = Contact.objects.get(pk = int(data['id']))
+            print 'ssssssssssssssss'
+            cont = Contact.objects.get(pk = int(data['pk']))
             if 'name' in data:
-                cont.name = name
+                cont.name = data['name']
             if 'email' in data:
-                cont.email = email
+                cont.email = data['email']
             if 'mobile' in data:
-                cont.mobile = mobile
+                cont.mobile =  data['mobile']
             if 'street' in data:
-                cont.street = street
+                cont.street =  data['street']
             if 'pincode' in data:
-                cont.pincode = pincode
+                cont.pincode =  data['pincode']
             if 'city' in data:
-                cont.city = city
+                cont.city =  data['city']
             if 'country' in data:
-                cont.country = country
+                cont.country = data['country']
             if 'pincode' in data:
-                cont.pincode = pincode
+                cont.pincode = data['pincode']
             if 'state' in data:
-                cont.state = state
-        return Response()
+                cont.state = data['state']
+            toRet = ContactLiteSerializer(cont, many = False).data
+        return Response(toRet, status =  status.HTTP_200_OK)

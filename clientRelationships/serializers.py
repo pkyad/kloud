@@ -27,7 +27,7 @@ class ContactLiteSerializer(serializers.ModelSerializer):
     company = serviceSerializer(many = False , read_only = True)
     class Meta:
         model = Contact
-        fields = ('pk' , 'user' ,'name', 'company', 'email', 'mobile' , 'designation', 'dp', 'male','isGst')
+        fields = ('pk' , 'user' ,'name', 'company', 'email', 'mobile' , 'designation', 'dp', 'male','isGst', 'city' , 'street' , 'pincode' , 'country' , 'state')
         read_only_fields = ( 'user' ,'name', 'company', 'email', 'mobile' , 'designation', 'dp', 'male', 'city' , 'street' , 'pincode' , 'country' , 'state','typ')
 
 
