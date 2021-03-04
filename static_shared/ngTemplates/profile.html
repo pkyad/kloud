@@ -40,7 +40,7 @@
           <div class="row" style="margin-top:15px">
             <div class="col-md-6">
                 <label> Pincode </label>
-                <input type="text" class="form-control" id="" placeholder="Pincode" ng-model="contact.pincode">
+                <input type="text" class="form-control" id="" placeholder="Pincode" ng-model="contact.pincode" ng-change="pinSearch()">
                 <span style="color:red">{{errMsg.pincode}}</span>
             </div>
             <div class="col-md-6">

@@ -17,4 +17,5 @@ urlpatterns = [
     url(r'getFooterDetails/$' , GetFooterDetailsView.as_view() ),
     url(r'checkUrl/$' , CheckDivisionUrlUsedView.as_view() ),
     url(r'updateContact/$' ,UpdateContactView.as_view() ),
+    # url(r'checkNumber/$' ,CheckNumberView.as_view() ),
 ]

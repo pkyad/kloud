@@ -142,10 +142,8 @@ class CheckDivisionUrlUsedView(APIView):
 class UpdateContactView(APIView):
     def post(self , request , format = None):
         data = request.data
-        print request.data,'sssssssssssssss'
         toRet = {}
         if 'pk' in data:
-            print 'ssssssssssssssss'
             cont = Contact.objects.get(pk = int(data['pk']))
             if 'name' in data:
                 cont.name = data['name']

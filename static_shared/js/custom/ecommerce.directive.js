@@ -508,11 +508,12 @@ app.directive('addressView', function() {
         pincode : $scope.contact.pincode,
         city : $scope.contact.city,
         state : $scope.contact.state,
-        country : $scope.contact.country
+        country : $scope.contact.country,
+        pk:$scope.userId
       }
       $http({
-        method: 'PATCH',
-        url: '/api/clientRelationships/contact/'+$scope.userId+'/',
+        method: 'POST',
+        url: '/api/website/updateContact/',
         data : dataToSend,
       }).
       then(function(response) {
