@@ -1,0 +1,68 @@
+<div class = "container-fluid">
+  <div class="row" style="margin-top:60px">
+    <div class="col-md-offset-3 col-md-6">
+      <div class="row">
+        <div class="col-md-12">
+          <h4> Basic Details : </h4>
+        </div>
+      </div>
+      <div class="row" style="margin-top:15px">
+        <div class="col-md-12">
+            <label> Name </label>
+            <input type="text" class="form-control" id="" placeholder="Name" ng-model="contact.name">
+            <span style="color:red">{{errMsg.name}}</span>
+        </div>
+        </div>
+        <div class="row" style="margin-top:15px">
+          <div class="col-md-6">
+              <label> Email </label>
+              <input type="text" class="form-control" id="" placeholder="Email" ng-model="contact.email">
+              <span style="color:red">{{errMsg.email}}</span>
+          </div>
+          <div class="col-md-6">
+              <label> Mobile </label>
+              <input type="text" class="form-control" id="" placeholder="Mobile" ng-model="contact.mobile" ng-change="checkPhone()">
+              <span style="color:red">{{errMsg.mobile}}</span>
+          </div>
+      </div>
+      <div class="row" style="margin-top:60px">
+        <div class="col-md-12">
+          <h4> Address : </h4>
+        </div>
+          </div>
+        <div class="row" style="margin-top:15px">
+          <div class="col-md-12">
+              <label> Street </label>
+              <input type="text" class="form-control" id="" placeholder="Street" ng-model="contact.street">
+              <span style="color:red">{{errMsg.street}}</span>
+          </div>
+          </div>
+          <div class="row" style="margin-top:15px">
+            <div class="col-md-6">
+                <label> Pincode </label>
+                <input type="text" class="form-control" id="" placeholder="Pincode" ng-model="contact.pincode">
+                <span style="color:red">{{errMsg.pincode}}</span>
+            </div>
+            <div class="col-md-6">
+                <label> City </label>
+                <input type="text" class="form-control" id="" placeholder="City" ng-model="contact.city">
+            </div>
+        </div>
+        <div class="row" style="margin-top:15px">
+          <div class="col-md-6">
+              <label> State </label>
+              <input type="text" class="form-control" id="" placeholder="State" ng-model="contact.state">
+          </div>
+          <div class="col-md-6">
+              <label> Country </label>
+              <input type="text" class="form-control" id="" placeholder="Country" ng-model="contact.country">
+          </div>
+      </div>
+      <div class="row" style="margin-top:15px">
+        <div class="col-md-offset-8 col-md-4">
+            <button type="button" name="button" class="btn btn-block btn-default" style="background:#eeeeee" ng-click="save()"> <h4> Save </h4> </button>
+        </div>
+    </div>
+      </div>
+      </div>
+    </div>

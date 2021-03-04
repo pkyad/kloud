@@ -252,10 +252,14 @@ app.directive('ecommerceHeader', function() {
         deleteCookie("customer");
         location.reload();
       }
-
+      $scope.goToProfile = function(){
+        window.location.href = '/pages/'+$scope.division+'/profile'
+        return
+      }
     },
   };
 });
+
 app.directive('categories', function() {
   return {
     templateUrl: '/static/ngTemplates/categories.html',
@@ -509,6 +513,111 @@ app.directive('addressView', function() {
       $http({
         method: 'PATCH',
         url: '/api/clientRelationships/contact/'+$scope.userId+'/',
+        data : dataToSend,
+      }).
+      then(function(response) {
+        $scope.contact = response.data
+        $scope.editAddress = false
+
+      })
+    }
+
+    $scope.pinSearch = function() {
+      if ($scope.contact.pincode.length>5) {
+        $http.get('/api/ERP/genericPincode/?limit=10&pincode__contains=' + $scope.contact.pincode).
+        then(function(response) {
+          var result =  response.data.results[0];
+          $scope.contact.city = result.city
+          $scope.contact.state = result.state
+          $scope.contact.country = result.country
+        })
+      }
+    };
+    },
+  };
+});
+
+app.directive('profileView', function() {
+  return {
+    templateUrl: '/static/ngTemplates/profile.html',
+    restrict: 'E',
+    replace: false,
+    transclude: true,
+    controller: function($scope, $state, $stateParams, $users,$http,$timeout,$rootScope) {
+      $scope.me = $users.get('mySelf')
+      $scope.currency = "fa-inr"
+      var customer = getCookie("customer");
+      if (customer!=undefined && customer!=null) {
+        $http({
+          method: 'GET',
+          url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY+'&getId',
+        }).
+        then(function(response) {
+          $scope.userId = response.data.id
+          $scope.getContactDetails()
+        })
+      }
+      $scope.getContactDetails = function(){
+        $http({
+          method: 'GET',
+          url: '/api/clientRelationships/contact/'+$scope.userId+'/'
+        }).
+        then(function(response) {
+          $scope.contact = response.data
+        })
+      }
+      $scope.errMsg = {
+        street:'',
+        pincode:'',
+        city:'',
+        state:'',
+        country:'',
+        name:'',
+        email:'',
+        mobile:'',
+      }
+    $scope.save = function(){
+      if ($scope.contact.name == null || $scope.contact.name.length == 0) {
+        $scope.errMsg.name = "Name is required"
+        return
+      }
+      if ($scope.contact.mobile == null || $scope.contact.mobile.length == 0) {
+        $scope.errMsg.mobile = "Mobile number is required"
+        return
+      }
+      if ($scope.contact.street == null || $scope.contact.street.length == 0) {
+        $scope.errMsg.street = "Address is required"
+        return
+      }
+      if ($scope.contact.pincode == null || $scope.contact.pincode.length == 0) {
+        $scope.errMsg.pincode = "Pincode is required"
+        return
+      }
+      if ($scope.contact.city == null || $scope.contact.city.length == 0) {
+        $scope.errMsg.city = "City is required"
+        return
+      }
+      if ($scope.contact.state == null || $scope.contact.state.length == 0) {
+        $scope.errMsg.state = "Pincode is required"
+        return
+      }
+      if ($scope.contact.country == null || $scope.contact.country.length == 0) {
+        $scope.errMsg.country = "Pincode is required"
+        return
+      }
+      var dataToSend = {
+        street : $scope.contact.street,
+        pincode : $scope.contact.pincode,
+        city : $scope.contact.city,
+        state : $scope.contact.state,
+        country : $scope.contact.country,
+        pk : $scope.contact.pk,
+        name : $scope.contact.name,
+        email : $scope.contact.email,
+      }
+      $http({
+        method: 'POST',
+        url: '/api/website/updateContact/',
         data : dataToSend,
       }).
       then(function(response) {

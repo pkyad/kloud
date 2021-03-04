@@ -234,7 +234,6 @@ def GetCustomerOTP(request):
             id = hash_fn.unhash(divId)
             div = Division.objects.get(pk = int(id))
             contactAutObj = ContactAuth.objects.filter(contact__mobile = mobile, division = div, otp = otp)
-            print contactAutObj
             if contactAutObj.count()>0:
                 authData = contactAutObj.last()
                 authData.token = randomPassword()
@@ -271,9 +270,26 @@ def GetCustomerOTP(request):
                 success = True
                 # randomPassword()
             else:
-                print 'err'
-                errMsg = 'Not a valid user'
-                success = False
+                # print 'err'
+                # errMsg = 'Not a valid user'
+                # success = False
+                cont = Contact.objects.create(name = mobile, division = div, mobile = mobile )
+                otp = generateOTPCode()
+                print otp
+                authData = {'contact' : cont, 'otp' : otp, 'division' : div }
+                contactAutObj = ContactAuth(**authData)
+                contactAutObj.save()
+                msg = "Hi, your OTP is {0}".format(otp)
+                try:
+                    globalSettings.SEND_WHATSAPP_MSG( mobile, msg)
+                except:
+                    pass
+                try:
+                    globalSettings.SEND_SMS( mobile, msg)
+                except:
+                    pass
+                successMsg = 'OTP sent successfully'
+                success = True
 
     return JsonResponse({'errMsg' : errMsg , 'successMsg' : successMsg , 'success' : success} ,status =200 )
 

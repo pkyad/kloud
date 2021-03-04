@@ -345,7 +345,18 @@ def OrderFailureView(request,apiKey):
         footerCss  = request.user.designation.division.footerCss
     return render(request, 'app.ecommerce.orderFailure.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
 
-
+def ProfileView(request,apiKey):
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    if request.user.designation.division.headerTemplate:
+        header  = request.user.designation.division.headerTemplate
+        headerCss  = request.user.designation.division.headerCss
+    if request.user.designation.division.headerTemplate:
+        footer  = request.user.designation.division.footerTemplate
+        footerCss  = request.user.designation.division.footerCss
+    return render(request, 'app.ecommerce.profile.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'API_KEY':apiKey})
 
 
 import json

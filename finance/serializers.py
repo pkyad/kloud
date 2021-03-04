@@ -592,10 +592,10 @@ class SaleLiteSerializer(serializers.ModelSerializer):
         return tot
 
 class CategorySerializer(serializers.ModelSerializer):
-    # products = serializers.SerializerMethodField()
+    products_count = serializers.SerializerMethodField()
     class Meta:
         model = Category
-        fields=('pk','created','name','theme_color')
+        fields=('pk','created','name','theme_color','products_count')
     def create(self , validated_data):
         cat = Category(**validated_data)
         try:
@@ -608,8 +608,8 @@ class CategorySerializer(serializers.ModelSerializer):
         except:
             pass
         return cat
-    # def get_products(self,obj):
-    #     return RateListSerializer(obj.categoryInventory.all(),many=True).data
+    def get_products_count(self,obj):
+        return obj.categoryInventory.all().count()
 
 class InventoryLiteSerializer(serializers.ModelSerializer):
     class Meta:

@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'initializewebsitebuilder/$' , InitializewebsitebuilderAPIView.as_view() ),
     url(r'getFooterDetails/$' , GetFooterDetailsView.as_view() ),
     url(r'checkUrl/$' , CheckDivisionUrlUsedView.as_view() ),
+    url(r'updateContact/$' ,UpdateContactView.as_view() ),
 ]

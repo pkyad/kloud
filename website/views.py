@@ -137,3 +137,28 @@ class CheckDivisionUrlUsedView(APIView):
             if divObj.count()>0:
                 isValid = False
         return Response({'isValid' : isValid})
+
+class UpdateContactView(APIView):
+    def post(self , request , format = None):
+        data = request.POST
+        if 'pk' in data:
+            cont = Contact.objects.get(pk = int(data['id']))
+            if 'name' in data:
+                cont.name = name
+            if 'email' in data:
+                cont.email = email
+            if 'mobile' in data:
+                cont.mobile = mobile
+            if 'street' in data:
+                cont.street = street
+            if 'pincode' in data:
+                cont.pincode = pincode
+            if 'city' in data:
+                cont.city = city
+            if 'country' in data:
+                cont.country = country
+            if 'pincode' in data:
+                cont.pincode = pincode
+            if 'state' in data:
+                cont.state = state
+        return Response()
