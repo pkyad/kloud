@@ -175,10 +175,10 @@ def renderpage(request,apiKey,url):
         footerCss  = div.footerCss
 
 
-
-    if url == None:
+    print url,'aaaaaaaaaaaaaaaaa'
+    if url == 'None':
         page = Page.objects.get(url__isnull=True , user__designation__division = div )
-        return redirect('/login')
+        # return redirect('/login')
     else:
         page = Page.objects.get(url = url, user__designation__division = div )
     components = Components.objects.filter(parent = page)
