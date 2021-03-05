@@ -4772,7 +4772,7 @@ class InvoiceQtyViewSet(viewsets.ModelViewSet):
     queryset = InvoiceQty.objects.all()
 
 class CartViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticated, )
+    permission_classes = (permissions.AllowAny, )
     serializer_class = CartSerializer
     # filter_backends = [DjangoFilterBackend]
     # filter_fields = ['title','group','heading','personal']

@@ -132,7 +132,7 @@ app.directive('ecommerceHeader', function() {
       $scope.getCategories = function(){
         $http({
           method: 'GET',
-          url: '/api/finance/category/?divId='+$scope.division
+          url: '/api/website/getCategory/?divId='+$scope.division
 
         }).
         then(function(response) {
@@ -288,7 +288,7 @@ app.directive('categories', function() {
       $scope.getProducts = function(){
         $http({
           method: 'GET',
-          url: '/api/finance/inventory/?category='+ID,
+          url: '/api/website/getProducts/?category='+ID,
         }).
         then(function(response) {
           $scope.products = response.data
@@ -469,7 +469,7 @@ app.directive('addressView', function() {
       $scope.getContactDetails = function(){
         $http({
           method: 'GET',
-          url: '/api/clientRelationships/contact/'+$scope.userId+'/'
+          url: '/api/website/updateContact/?id='+$scope.userId
         }).
         then(function(response) {
           $scope.contact = response.data
@@ -561,7 +561,7 @@ app.directive('profileView', function() {
       $scope.getContactDetails = function(){
         $http({
           method: 'GET',
-          url: '/api/clientRelationships/contact/'+$scope.userId+'/'
+          url: '/api/website/updateContact/?id='+$scope.userId
         }).
         then(function(response) {
           $scope.contact = response.data
@@ -672,7 +672,7 @@ app.directive('checkoutpaymentView', function() {
       $scope.getContactDetails = function(){
         $http({
           method: 'GET',
-          url: '/api/clientRelationships/contact/'+$scope.userId+'/'
+          url: '/api/website/updateContact/?id='+$scope.userId
         }).
         then(function(response) {
           $scope.contact = response.data
@@ -856,10 +856,10 @@ app.directive('ecommerceFooter', function() {
       console.log($scope.data,'i8i4i123489');
       try {
         $scope.division = DIVISION_APIKEY
-        url = '/api/website/getFooterDetails/'
+        url = '/api/website/getFooterDetails/?divId='+$scope.division
       }
       catch(err) {
-        url = '/api/website/getFooterDetails/?divId='+$scope.division
+        url = '/api/website/getFooterDetails/'
       }
       $http({
         method: 'GET',
@@ -889,10 +889,10 @@ app.directive('ecommerceSecondheader', function() {
       // $scope.division = DIVISION_APIKEY
       try {
         $scope.division = DIVISION_APIKEY
-        url = '/api/website/getFooterDetails/'
+        url = '/api/website/getFooterDetails/?divId='+$scope.division
       }
       catch(err) {
-        url = '/api/website/getFooterDetails/?divId='+$scope.division
+        url = '/api/website/getFooterDetails/'
       }
       $http({
         method: 'GET',
@@ -904,7 +904,7 @@ app.directive('ecommerceSecondheader', function() {
       $scope.getCategories = function(){
         $http({
           method: 'GET',
-          url: '/api/finance/category/?divId='+$scope.division
+          url: '/api/website/getCategory/?divId='+$scope.division
 
         }).
         then(function(response) {
@@ -1593,7 +1593,7 @@ app.directive('productDetails', function() {
 
       $scope.getProd = function(){
         console.log(PRODUCT,'#$38ijsdksdhf');
-        var url = '/api/finance/inventory/?id='+PRODUCT
+        var url = '/api/website/getProducts/?id='+PRODUCT
         if ($scope.userId!=undefined) {
           url+='&contact='+$scope.userId+'&divId='+DIVISION_APIKEY
         }
@@ -1602,7 +1602,7 @@ app.directive('productDetails', function() {
           url: url
         }).
         then(function(response) {
-          $scope.products = response.data[0]
+          $scope.products = response.data
           $scope.getsimilarProducts($scope.products.category.pk)
           $scope.showImage($scope.products.img1)
           if (customer==undefined || customer==null || customer.length == 0) {
@@ -1615,7 +1615,7 @@ app.directive('productDetails', function() {
       $scope.getsimilarProducts = function(pk){
         $http({
           method: 'GET',
-          url: '/api/finance/inventory/?category='+pk
+          url: '/api/website/getProducts/?category='+pk
 
         }).
         then(function(response) {

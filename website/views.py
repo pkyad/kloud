@@ -30,7 +30,8 @@ from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 import json
 from django.core.mail import send_mail , EmailMessage
-from finance.models import Sale
+from finance.models import Sale, Inventory, Category
+from finance.serializers import RateListSerializer, CategorySerializer
 from payroll.models import Payslip
 from django.template.loader import render_to_string, get_template
 from openpyxl import load_workbook
@@ -40,6 +41,8 @@ from ERP.send_email import send_email
 import os
 from organization.serializers import DivisionSerializer, UnitFullSerializer
 from clientRelationships.serializers import ContactLiteSerializer
+
+
 # Create your views here.
 import basehash
 hash_fn = basehash.base36()
@@ -117,6 +120,8 @@ class PublishAPIView(APIView):
         return Response({})
 
 class GetFooterDetailsView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny,)
     def get(self , request , format = None):
         if 'divId' in self.request.GET and self.request.GET['divId'] !='undefined':
             id = hash_fn.unhash(self.request.GET['divId'])
@@ -140,6 +145,8 @@ class CheckDivisionUrlUsedView(APIView):
         return Response({'isValid' : isValid})
 
 class UpdateContactView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny,)
     def post(self , request , format = None):
         data = request.data
         toRet = {}
@@ -165,4 +172,42 @@ class UpdateContactView(APIView):
                 cont.state = data['state']
             cont.save()
             toRet = ContactLiteSerializer(cont, many = False).data
+        return Response(toRet, status =  status.HTTP_200_OK)
+    def get(self , request , format = None):
+        toRet = {}
+        if 'id' in request.GET:
+            cont = Contact.objects.get(pk = int(request.GET['id']))
+            toRet = ContactLiteSerializer(cont, many = False).data
+        return Response(toRet, status =  status.HTTP_200_OK)
+
+class GetProductsView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny,)
+    def get(self , request , format = None):
+        data = request.GET
+        toRet = {}
+        if 'id' in data:
+            invData = Inventory.objects.get(pk = int(data['id']))
+            toRet = RateListSerializer(invData, many = False, context = {"request": request}).data
+            # toRet.context['request'] = request
+        if 'category' in data:
+            invData = Inventory.objects.filter(category__pk = int(data['category']))
+            toRet = RateListSerializer(invData, many = True,  context = {"request": request}).data
+            # toRet.context['request'] = request
+        return Response(toRet, status =  status.HTTP_200_OK)
+
+
+class GetCategoryView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny,)
+    def get(self , request , format = None):
+        data = request.GET
+        toRet = {}
+        try:
+            id = hash_fn.unhash(self.request.GET['divId'])
+            divObj = Division.objects.get(pk = int(id))
+        except:
+            divObj = request.user.designation.division
+        objs = Category.objects.filter(division = divObj)
+        toRet = CategorySerializer(objs, many = True).data
         return Response(toRet, status =  status.HTTP_200_OK)

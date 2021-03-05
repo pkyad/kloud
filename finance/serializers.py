@@ -609,7 +609,10 @@ class CategorySerializer(serializers.ModelSerializer):
             pass
         return cat
     def get_products_count(self,obj):
-        return obj.categoryInventory.all().count()
+        try:
+            return obj.categoryInventory.all().count()
+        except:
+            return 0
 
 class InventoryLiteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -648,9 +651,15 @@ class RateListSerializer(serializers.ModelSerializer):
         return instance
     def get_cart(self, obj):
         cart = 0
-        if 'contact' in self.context['request'].GET and 'divId' in self.context['request'].GET :
+        print self.context
+        try:
+            val = self.context['data']
+        except:
+            val =  self.context['request'].GET
+        print val,'ssssssssssssssssssssssssaaaaaaaaaaaaaaaaaa'
+        if 'contact' in val and 'divId' in val :
             id = hash_fn.unhash(self.context['request'].GET['divId'])
-            data = obj.carts.filter(division__id = id, contact__id = self.context['request'].GET['contact'])
+            data = obj.carts.filter(division__id = id, contact__id = val['contact'])
             if data.count()>0:
                 cart = data.first().qty
         return cart
