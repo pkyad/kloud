@@ -43,8 +43,11 @@ body {
       </div>
       <div class="col-md-4">
         <!-- <button type="button" class="btn btn-primary" name="button" ng-click="publish()" style="border-radius:100px !important;">Publish</button> -->
-
+      {% if page.url %}
         <a href="/pages/{{API_KEY}}/{{page.url}}" target="_blank"type="button" class="btn btn-primary" name="button" style="border-radius:100px !important;">Preview</a>
+      {% else %}
+              <a href="/pages/{{API_KEY}}/" target="_blank"type="button" class="btn btn-primary" name="button" style="border-radius:100px !important;">Preview</a>
+      {% endif %}
       </div>
     </div>
   </div>

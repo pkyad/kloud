@@ -96,6 +96,7 @@ urlpatterns = [
     url(r'^pages/(?P<apiKey>[\w|\W]+)/profile', ProfileView , name ='profile'),
     url(r'^pages/(?P<apiKey>[\w|\W]+)/categories/(?P<id>\d+)', Categories , name ='Categories'),
     url(r'^pages/(?P<apiKey>[\w|\W]+)/(?P<url>[\w|\W]+)', renderpage , name ='renderpage'),
+    url(r'^pages/(?P<apiKey>[\w|\W]+)/', renderpageMain , name ='renderpage'),
     # url(r'^getPaymentLink/', GetPaymentLink , name ='getPaymentLink'),
     url(r'getCustomerOtp/$' , GetCustomerOTP , name = "getCustomerOtp" ),
     url(r'getDetailsCustomer/$' , GetCustomerDetails , name = "getDetailsCustomer" ),

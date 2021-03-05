@@ -175,10 +175,10 @@ def renderpage(request,apiKey,url):
         footerCss  = div.footerCss
 
 
-    print url,'aaaaaaaaaaaaaaaaa'
-    if url == 'None':
+
+    if url == None:
         page = Page.objects.get(url__isnull=True , user__designation__division = div )
-        # return redirect('/login')
+        return redirect('/login')
     else:
         page = Page.objects.get(url = url, user__designation__division = div )
     components = Components.objects.filter(parent = page)
@@ -195,6 +195,42 @@ def renderpage(request,apiKey,url):
     # division = page.user.designation.division
     return render(request,'app.HR.page.html',{'components':components,'page':page,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':div})
 
+def renderpageMain(request,apiKey):
+
+    # print url,apiKey,"34342"
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    try:
+        div = request.user.designation.division
+    except:
+        id = hash_fn.unhash(apiKey)
+        div = Division.objects.get(pk = int(id))
+    if div.headerTemplate:
+        header  = div.headerTemplate
+        headerCss  = div.headerCss
+    if div.headerTemplate:
+        footer  = div.footerTemplate
+        footerCss  = div.footerCss
+
+
+
+    page = Page.objects.get(url__isnull=True , user__designation__division = div )
+
+    components = Components.objects.filter(parent = page)
+    data = ''
+    for indx, i in enumerate(components):
+        i.template = i.template.replace('"$data"' , "'"+components[indx].data+"'")
+        i.dataTemplate = i.template
+        # i.data = json.loads(json.dumps(i.data))
+        print i.data,"4k324kl3k4las;dflkasidfo"
+
+    # if page.enableChat:
+
+    # API_KEY = hash_fn.hash(page.user.designation.division.pk)
+    # division = page.user.designation.division
+    return render(request,'app.HR.page.html',{'components':components,'page':page,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':div})
 
 def uielement(request):
     component = UIelementTemplate.objects.get(pk = request.GET['id'])
