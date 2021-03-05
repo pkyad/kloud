@@ -562,9 +562,10 @@ def genInvoice(response, contract, request):
                          ('LINEABOVE', (0, -1), (-1, -1), 0.25, colors.gray),
                          ])
     t.setStyle(ts)
+
     if isGst == False:
         if stateCode == '29' or stateValue =='KA':
-            t._argW[0] = 6.4 * cm
+            t._argW[0] = 6.0 * cm
             t._argW[1] = 2.4 * cm
             t._argW[2] = 2 * cm
             t._argW[3] = 1.2 * cm
@@ -573,14 +574,15 @@ def genInvoice(response, contract, request):
             t._argW[6] = 2.0 * cm
             t._argW[7] = 2.1 * cm
         else:
-            t._argW[0] = 6.5 * cm
-            t._argW[1] = 2.4 * cm
+            t._argW[0] = 7 * cm
+            t._argW[1] = 3 * cm
             t._argW[2] = 2 * cm
             t._argW[3] = 1.2 * cm
             t._argW[4] = 2 * cm
             t._argW[5] = 1.5 * cm
             t._argW[6] = 2.3 * cm
     else:
+            print 'ccccccccccccccc'
             t._argW[0] = 7 * cm
             t._argW[1] = 2.4 * cm
             t._argW[2] = 2 * cm
