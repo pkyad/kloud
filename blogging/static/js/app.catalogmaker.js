@@ -206,9 +206,44 @@ app.controller('businessManagement.catalog', function($scope,$users, $http, $asi
               img3:emptyFile,
               richtxtDesc:'',
               taxCode : '',
+              addonsData:[],
+              customizationData:[]
             }
+            $scope.addons = {'description' : '' , 'price' : 0}
+            $scope.customization = {'text' : 'Sample Text' , 'sampleimage' : emptyFile , 'color' : '','sampleimageHeight':'','sampleimageWidth':'', 'backgroundColor' : ''}
           }
           $scope.refresh()
+
+          $scope.addCustomisation = function(){
+            $scope.form.customizationData.push($scope.customization)
+            $scope.customization = {'text' : 'Sample Text' , 'sampleimage' : emptyFile , 'color' : '','sampleimageHeight':'','sampleimageWidth':'', 'backgroundColor' : ''}
+          }
+
+          $scope.uploadSampleImage = function(){
+            var fd = new FormData();
+            fd.append('file', $scope.customization.sampleimage);
+            $http({
+              method: 'POST',
+              url: '/api/PIM/saveImage/',
+              data: fd,
+              transformRequest: angular.identity,
+              headers: {
+                'Content-Type': undefined
+              }
+            }).
+            then(function(response) {
+              console.log(response.data);
+              $scope.customization.sampleimage = response.data.link
+              $scope.customization.sampleimageHeight = response.data.height
+              $scope.customization.sampleimageWidth = response.data.width
+              // $uibModalInstance.dismiss({
+              //   file: response.data.link,
+              //   alt: $scope.form.alt,
+              //   height: response.data.height,
+              //   width: response.data.width
+              // })
+            })
+          }
 
           $scope.selectedMeta = function(){
               if (typeof $scope.form.taxCode == 'object') {
@@ -261,6 +296,12 @@ app.controller('businessManagement.catalog', function($scope,$users, $http, $asi
           })
 
 
+          $scope.addAddons = function(){
+            $scope.form.addonsData.push($scope.addons)
+            $scope.addons = {'description' : '' , 'price' : 0}
+          }
+
+
           $scope.saveInventory = function() {
             if ($scope.form.name == undefined || $scope.form.name == '') {
               Flash.create("warning", 'Add name')
@@ -307,6 +348,12 @@ app.controller('businessManagement.catalog', function($scope,$users, $http, $asi
             }
             if ($scope.form.img3!=null&&$scope.form.img3!=emptyFile&&typeof $scope.form.img3=='object') {
               fd.append('img3',$scope.form.img3);
+            }
+            if ($scope.form.addonsData!=undefined&&$scope.form.addonsData!=null&&$scope.form.addonsData.length>0) {
+              fd.append('addonsData',JSON.stringify($scope.form.addonsData));
+            }
+            if ($scope.form.customizationData!=undefined&&$scope.form.customizationData!=null&&$scope.form.customizationData.length>0) {
+              fd.append('customizationData',JSON.stringify($scope.form.customizationData));
             }
 
             $http({
@@ -361,13 +408,66 @@ app.controller('businessManagement.catalog', function($scope,$users, $http, $asi
             return $scope.inventoryData[idx];
           }
         },
-
-
         controller: function($scope, $uibModalInstance, $rootScope, data) {
           $scope.close = function() {
             $uibModalInstance.close();
           }
+          $scope.addons = {'description' : '' , 'price' : 0}
+          $scope.customization = {'text' : 'Sample Text' , 'sampleimage' : emptyFile , 'color' : '','sampleimageHeight':'','sampleimageWidth':'', 'backgroundColor' : ''}
+          $scope.addIndex = null
           $scope.form = data;
+          if ($scope.form.addonsData!=undefined && $scope.form.addonsData!=null && $scope.form.addonsData.length>0) {
+            $scope.form.addonsData = JSON.parse($scope.form.addonsData)
+          }
+          else{
+            $scope.form.addonsData = []
+          }
+          if ($scope.form.customizationData!=undefined && $scope.form.customizationData!=null && $scope.form.customizationData.length>0) {
+            $scope.form.customizationData = JSON.parse($scope.form.customizationData)
+          }
+          else{
+            $scope.form.customizationData = []
+          }
+
+
+          $scope.addCustomisation = function(){
+            $scope.form.customizationData.push($scope.customization)
+            $scope.customization = {'text' : 'Sample Text' , 'sampleimage' : emptyFile , 'color' : '','sampleimageHeight':'','sampleimageWidth':'', 'backgroundColor' : ''}
+          }
+
+          $scope.editAddons = function(indx){
+            $scope.addIndex = indx
+            $scope.addons = $scope.form.addonsData[indx]
+          }
+
+          $scope.uploadSampleImage = function(){
+            var fd = new FormData();
+            fd.append('file', $scope.customization.sampleimage);
+            $http({
+              method: 'POST',
+              url: '/api/PIM/saveImage/',
+              data: fd,
+              transformRequest: angular.identity,
+              headers: {
+                'Content-Type': undefined
+              }
+            }).
+            then(function(response) {
+              console.log(response.data);
+              $scope.customization.sampleimage = response.data.link
+              $scope.customization.sampleimageHeight = response.data.height
+              $scope.customization.sampleimageWidth = response.data.width
+              // $uibModalInstance.dismiss({
+              //   file: response.data.link,
+              //   alt: $scope.form.alt,
+              //   height: response.data.height,
+              //   width: response.data.width
+              // })
+            })
+          }
+          // if ($scope.form.length>0) {
+          //
+          // }
           // $scope.form=$scope.data
           // $scope.form = {
           //   description: $scope.data.description,
@@ -452,6 +552,13 @@ app.controller('businessManagement.catalog', function($scope,$users, $http, $asi
 
           })
 
+          $scope.addAddons = function(){
+            $scope.form.addonsData.push($scope.addons)
+            $scope.addons = {'description' : '' , 'price' : 0}
+            $scope.addIndex = null
+          }
+
+
           $scope.saveInventory = function() {
             var fd = new FormData();
             var fd = new FormData();
@@ -488,7 +595,12 @@ app.controller('businessManagement.catalog', function($scope,$users, $http, $asi
                 fd.append('img3',$scope.form.img3);
             }
 
-
+            if ($scope.form.addonsData!=undefined&&$scope.form.addonsData!=null&&$scope.form.addonsData.length>0) {
+              fd.append('addonsData',JSON.stringify($scope.form.addonsData));
+            }
+            if ($scope.form.customizationData!=undefined&&$scope.form.customizationData!=null&&$scope.form.customizationData.length>0) {
+              fd.append('customizationData',JSON.stringify($scope.form.customizationData));
+            }
             $http({
               method: 'PATCH',
               url: '/api/finance/inventory/' + $scope.form.pk + '/',

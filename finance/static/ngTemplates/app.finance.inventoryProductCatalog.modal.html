@@ -1,3 +1,9 @@
+<style>
+  .flex-container {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+</style>
 <div class="modal-header">
   <div class="col-md-11">
     <h3>Add master product</h3>
@@ -85,11 +91,107 @@
         <img src="{{form.img3}}" style="width:100px;height:100px;margin-top:10px;" id="image3" alt="image3">
       </div>
     </div>
-
-
-
-    <div class="col-md-12" style="padding-top:25px">
-      <button type="button" class="btn newBtn" ng-click="saveInventory()">Save</button>
-    </div>
   </div>
+  <hr/>
+  <div class="row">
+      <div class="col-md-12">
+        <h4>Addons</h4>
+      </div>
+      <div class="col-md-12">
+        <div class="row" >
+          <div class="col-md-10">
+          <table class="table table-hover pad10">
+            <thead>
+              <tr style="">
+                <th> Description </th>
+                <th >Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="a in form.addonsData track by $index" ng-click="editAddons($index)">
+                <td>{{a.description}}</td>
+                <td>{{a.price}} </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- <div class="col-md-6" style="padding:15px;font-size:15px;border:1px solid black">
+            {{a.description}}
+          </div>
+          <div class="col-md-2" style="padding:15px;font-size:15px;border:1px solid black">
+            {{a.price}}
+          </div> -->
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+              <input type="text" class="form-control websiteInput" ng-model="addons.description" placeholder="Description">
+          </div>
+          <div class="col-md-2">
+              <input type="text" class="form-control websiteInput" ng-model="addons.price" placeholder="Price">
+          </div>
+          <div class="col-md-2" style="margin-top:15px">
+            <button type="button" name="button" class="btn btn-block" ng-click="addAddons()">Add</button>
+          </div>
+        </div>
+  </div>
+</div>
+  <hr/>
+<div class="row">
+  <div class="col-md-12">
+    <h4>Customization</h4>
+  </div>
+  <div class="col-md-12">
+
+    <div class="row" >
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-6">
+              <label>Upload Sample Image</label>
+              <!-- <input type="file"  file-model="customization.sampleimage"> -->
+              <input type="file" file-model="customization.sampleimage">
+            </div>
+            <div class="col-md-6">
+              <button type="button" name="button" class="btn btn-primary" ng-click="uploadSampleImage()">Upload</button>
+            </div>
+            <div class="col-md-12" style="margin-top:15px">
+            <label >Select Color</label><br/>
+            <input type="color"  ng-model="customization.color" >
+          </div>
+          <div class="col-md-12" style="margin-top:15px">
+          <label >Select Background Color</label><br/>
+          <input type="color"  ng-model="customization.backgroundColor" >
+        </div>
+          <div class="col-md-12" style="margin-top:15px">
+          <button type="button" name="button" class="btn btn-primary" ng-click="addCustomisation()"> Add</button>
+        </div>
+        </div>
+      </div>
+        <div class="col-md-6">
+          <div style="background-image: url('{{customization.sampleimage}}');background-size:contain;height:{{customization.sampleimageHeight}}px;width:{{customization.sampleimageWidth}}px;background-repeat: no-repeat;" class="text-center">
+              <textarea type="text" ng-if="customization.sampleimage" rows="2"   ng-model="customization.text" style="margin-top:{{customization.sampleimageHeight/3}}px;width:{{customization.sampleimageWidth/3}}px"> </textarea>
+          </div>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="col-md-3" ng-repeat="c in form.customizationData track by $index" style="margin-top:60px">
+          <div style="background-image: url('{{c.sampleimage}}');background-size:contain;height:200px;background-repeat: no-repeat;" class="text-center">
+          </div>
+          <p> {{c.text}} </p>
+          <div  class="flex-container">
+          <div> Color :  </div>
+          <div style="height:20px;width:20px;border-radius:50%;background:{{c.color}}"> </div>
+        </div>
+        <div  class="flex-container">
+          <div> Background Color :  </div>
+          <div style="height:20px;width:20px;border-radius:50%;background:{{c.backgroundColor}}"> </div>
+          </div>
+    </div>
+</div>
+</div>
+</div>
+<div class="row">
+  <div class="col-md-12" style="padding-top:25px">
+    <button type="button" class="btn newBtn" ng-click="saveInventory()">Save</button>
+  </div>
+</div>
 </div>

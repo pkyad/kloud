@@ -1221,6 +1221,7 @@ class uploadmediafileAPI(APIView):
         f.write(request.FILES['file'].read())
         f.close()
         return Response({"imageUrl" : '/media/UploadedFiles/%s_%s'%( str(user.pk),str(data['name'])) , "key" : request.data['key'] },status=status.HTTP_200_OK)
+
 import os
 import shutil
 class downloadBundleFileAPI(APIView):

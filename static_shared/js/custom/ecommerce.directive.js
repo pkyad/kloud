@@ -868,13 +868,6 @@ app.directive('ecommerceFooter', function() {
       then(function(response) {
         $scope.divisionDetails = response.data
       })
-
-
-
-
-
-
-
     }
   };
 });
@@ -1317,6 +1310,7 @@ app.directive('ecommerceHotproducts', function() {
     },
     controller: function($scope, $state, $http, Flash, $rootScope, $users, $filter, $interval) {
       $scope.items = $scope.data
+
       if ($scope.data!=undefined) {
       try {
         $scope.data = JSON.parse($scope.data)
@@ -1592,7 +1586,6 @@ app.directive('productDetails', function() {
     }
 
       $scope.getProd = function(){
-        console.log(PRODUCT,'#$38ijsdksdhf');
         var url = '/api/website/getProducts/?id='+PRODUCT
         if ($scope.userId!=undefined) {
           url+='&contact='+$scope.userId+'&divId='+DIVISION_APIKEY
@@ -1603,6 +1596,18 @@ app.directive('productDetails', function() {
         }).
         then(function(response) {
           $scope.products = response.data
+          if ($scope.products.addonsData!=undefined && $scope.products.addonsData!=null && $scope.products.addonsData.length>0) {
+            $scope.products.addonsData = JSON.parse($scope.products.addonsData)
+          }
+          else{
+            $scope.products.addonsData = []
+          }
+          if ($scope.products.customizationData!=undefined && $scope.products.customizationData!=null && $scope.products.customizationData.length>0) {
+            $scope.products.customizationData = JSON.parse($scope.products.customizationData)
+          }
+          else{
+            $scope.products.customizationData = []
+          }
           $scope.getsimilarProducts($scope.products.category.pk)
           $scope.showImage($scope.products.img1)
           if (customer==undefined || customer==null || customer.length == 0) {
@@ -1665,6 +1670,10 @@ app.directive('productDetails', function() {
           $scope.item = {
             product :  $scope.products.pk,
             qty : 1,
+            divId : DIVISION_APIKEY
+          }
+          if ($scope.products.addons!=undefined&&$scope.products.addons!=null) {
+            $scope.item.addons = $scope.products.addons
           }
           $scope.cartData.push($scope.item)
           setCookie("addToCart", JSON.stringify($scope.cartData), 365);
@@ -1676,6 +1685,9 @@ app.directive('productDetails', function() {
           qty : 1,
           contact:$scope.userId,
           divId : DIVISION_APIKEY
+        }
+        if ($scope.products.addons!=undefined&&$scope.products.addons!=null) {
+          dataToSend.addons = $scope.products.addons
         }
         $http({
           method: 'POST',
@@ -1751,73 +1763,6 @@ app.directive('productDetails', function() {
           })
         }
       }
-
-
-
-
-
-      // $scope.products = {
-      //   "images": [{
-      //       "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-      //
-      //     },
-      //     {
-      //
-      //       "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-      //     },
-      //     {
-      //       "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-      //
-      //     }
-      //
-      //   ],
-      //   "category": "Desk Organizer",
-      //   "name": "SIT01 Bamboo Speaker",
-      //   "mrp": 450,
-      //   "sellingPrice": 200,
-      //   "endDateTime": new Date()
-      //
-      // }
-      $scope.similarproducts = [
-
-        {
-        "images": [{
-            "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-
-          }],
-        "category": "Desk Organizer",
-        "name": "SIT01 Bamboo Speaker",
-        "mrp": 450,
-        "sellingPrice": 200,
-        "endDateTime": new Date()
-
-      },
-        {
-        "images": [{
-            "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-
-          }],
-        "category": "Desk Organizer",
-        "name": "SIT01 Bamboo Speaker",
-        "mrp": 450,
-        "sellingPrice": 200,
-        "endDateTime": new Date()
-
-      },
-        {
-        "images": [{
-            "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-
-          }],
-        "category": "Desk Organizer",
-        "name": "SIT01 Bamboo Speaker",
-        "mrp": 450,
-        "sellingPrice": 200,
-        "endDateTime": new Date()
-
-      }
-
-    ]
 
       $scope.showImage = function(indx){
 

@@ -626,7 +626,7 @@ class RateListSerializer(serializers.ModelSerializer):
     cartId = serializers.SerializerMethodField()
     class Meta:
         model = Inventory
-        fields=('pk','created','name','value','rate','qtyAdded','refurnished','refurnishedAdded','sellable','description','richtxtDesc','taxCode','img1','img2','img3','category','buyingPrice','sku','taxRate','mrp','division','cart','cartId')
+        fields=('pk','created','name','value','rate','qtyAdded','refurnished','refurnishedAdded','sellable','description','richtxtDesc','taxCode','img1','img2','img3','category','buyingPrice','sku','taxRate','mrp','division','cart','cartId','addonsData','customizationData')
     def create(self , validated_data):
         inven = Inventory(**validated_data)
         try:
@@ -638,7 +638,7 @@ class RateListSerializer(serializers.ModelSerializer):
         inven.save()
         return inven
     def update(self ,instance, validated_data):
-        for key in ['img1', 'img2' , 'img3' ,'description','richtxtDesc','sellable','category' , 'name' , 'rate','buyingPrice','sku','taxRate','taxCode','mrp']:
+        for key in ['img1', 'img2' , 'img3' ,'description','richtxtDesc','sellable','category' , 'name' , 'rate','buyingPrice','sku','taxRate','taxCode','mrp','addonsData','customizationData']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
@@ -725,9 +725,10 @@ class DisbursalSerializer(serializers.ModelSerializer):
 
 
 class InvoiceReceivedSerializer(serializers.ModelSerializer):
+    userName = serializers.SerializerMethodField()
     class Meta:
         model = InvoiceReceived
-        fields=('pk','created','user','companyName','personName','totalAmount','invType','title','status')
+        fields=('pk','created','user','companyName','personName','totalAmount','invType','title','status','userName')
     def create(self , validated_data):
         u = self.context['request'].user
         print u.first_name,'aaaaaaaaaaaaaaaaaaaaaaaaa'
@@ -789,7 +790,13 @@ class InvoiceReceivedSerializer(serializers.ModelSerializer):
                     a.settled = True
             a.save()
         return instance
-
+    def get_userName(self, obj):
+        name = None
+        try:
+            name = obj.user.first_name + ' ' + obj.user.last_name
+        except:
+            pass
+        return name
 
 class InvoiceQtySerializer(serializers.ModelSerializer):
     class Meta:
@@ -843,7 +850,7 @@ class CartSerializer(serializers.ModelSerializer):
     product = InventoryLiteSerializer(many = False , read_only = True)
     class Meta:
         model = Cart
-        fields=('pk','created','contact','product','qty','price','total','division')
+        fields=('pk','created','contact','product','qty','price','total','division','addon')
     def create(self , validated_data):
         cart = Cart(**validated_data)
         # division = self.context['request'].user.designation.division

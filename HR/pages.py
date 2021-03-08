@@ -224,8 +224,10 @@ def renderpageMain(request,apiKey):
         i.template = i.template.replace('"$data"' , "'"+components[indx].data+"'")
         i.dataTemplate = i.template
         # i.data = json.loads(json.dumps(i.data))
-        print i.data,"4k324kl3k4las;dflkasidfo"
-
+        try:
+            print type(i.data.products),"4k324kl3k4lasssssssssssssssssssssssssssssssssss;dflkasidfo"
+        except:
+            pass
     # if page.enableChat:
 
     # API_KEY = hash_fn.hash(page.user.designation.division.pk)
