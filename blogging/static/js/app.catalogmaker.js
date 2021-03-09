@@ -211,12 +211,42 @@ app.controller('businessManagement.catalog', function($scope,$users, $http, $asi
             }
             $scope.addons = {'description' : '' , 'price' : 0}
             $scope.customization = {'text' : 'Sample Text' , 'sampleimage' : emptyFile , 'color' : '','sampleimageHeight':'','sampleimageWidth':'', 'backgroundColor' : ''}
+            $scope.addIndex = null
+            $scope.custIndex = null
           }
           $scope.refresh()
 
+          // $scope.addCustomisation = function(){
+          //   $scope.form.customizationData.push($scope.customization)
+          //   $scope.customization = {'text' : 'Sample Text' , 'sampleimage' : emptyFile , 'color' : '','sampleimageHeight':'','sampleimageWidth':'', 'backgroundColor' : ''}
+          // }
+
           $scope.addCustomisation = function(){
-            $scope.form.customizationData.push($scope.customization)
+            if ($scope.custIndex != null) {
+              $scope.form.customizationData[$scope.custIndex] = $scope.customization
+            }
+            else{
+              $scope.form.customizationData.push($scope.customization)
+            }
             $scope.customization = {'text' : 'Sample Text' , 'sampleimage' : emptyFile , 'color' : '','sampleimageHeight':'','sampleimageWidth':'', 'backgroundColor' : ''}
+            $scope.custIndex = null
+          }
+
+          $scope.editAddons = function(indx){
+            $scope.addIndex = indx
+            $scope.addons = $scope.form.addonsData[indx]
+          }
+          $scope.editCustomisation = function(indx){
+            $scope.custIndex = indx
+            $scope.customization = $scope.form.customizationData[indx]
+          }
+
+          $scope.deleteAddons = function(indx){
+              $scope.form.addonsData.splice(indx,1)
+          }
+
+          $scope.deleteCust = function(indx){
+            $scope.form.customizationData.splice(indx,1)
           }
 
           $scope.uploadSampleImage = function(){
@@ -297,8 +327,14 @@ app.controller('businessManagement.catalog', function($scope,$users, $http, $asi
 
 
           $scope.addAddons = function(){
-            $scope.form.addonsData.push($scope.addons)
+            if ($scope.addIndex!=null) {
+              $scope.form.addonsData[$scope.addIndex] = $scope.addons
+            }
+            else{
+              $scope.form.addonsData.push($scope.addons)
+            }
             $scope.addons = {'description' : '' , 'price' : 0}
+            $scope.addIndex = null
           }
 
 
@@ -415,6 +451,7 @@ app.controller('businessManagement.catalog', function($scope,$users, $http, $asi
           $scope.addons = {'description' : '' , 'price' : 0}
           $scope.customization = {'text' : 'Sample Text' , 'sampleimage' : emptyFile , 'color' : '','sampleimageHeight':'','sampleimageWidth':'', 'backgroundColor' : ''}
           $scope.addIndex = null
+          $scope.custIndex = null
           $scope.form = data;
           if ($scope.form.addonsData!=undefined && $scope.form.addonsData!=null && $scope.form.addonsData.length>0) {
             $scope.form.addonsData = JSON.parse($scope.form.addonsData)
@@ -431,13 +468,43 @@ app.controller('businessManagement.catalog', function($scope,$users, $http, $asi
 
 
           $scope.addCustomisation = function(){
-            $scope.form.customizationData.push($scope.customization)
+            if ($scope.custIndex != null) {
+              $scope.form.customizationData[$scope.custIndex] = $scope.customization
+            }
+            else{
+              $scope.form.customizationData.push($scope.customization)
+            }
             $scope.customization = {'text' : 'Sample Text' , 'sampleimage' : emptyFile , 'color' : '','sampleimageHeight':'','sampleimageWidth':'', 'backgroundColor' : ''}
+            $scope.custIndex = null
           }
 
           $scope.editAddons = function(indx){
             $scope.addIndex = indx
             $scope.addons = $scope.form.addonsData[indx]
+          }
+          $scope.editCustomisation = function(indx){
+            $scope.custIndex = indx
+            $scope.customization = $scope.form.customizationData[indx]
+          }
+
+          $scope.deleteAddons = function(indx){
+              $scope.form.addonsData.splice(indx,1)
+          }
+
+          $scope.deleteCust = function(indx){
+            $scope.form.customizationData.splice(indx,1)
+          }
+
+
+          $scope.addAddons = function(){
+            if ($scope.addIndex!=null) {
+              $scope.form.addonsData[$scope.addIndex] = $scope.addons
+            }
+            else{
+              $scope.form.addonsData.push($scope.addons)
+            }
+            $scope.addons = {'description' : '' , 'price' : 0}
+            $scope.addIndex = null
           }
 
           $scope.uploadSampleImage = function(){
@@ -552,11 +619,7 @@ app.controller('businessManagement.catalog', function($scope,$users, $http, $asi
 
           })
 
-          $scope.addAddons = function(){
-            $scope.form.addonsData.push($scope.addons)
-            $scope.addons = {'description' : '' , 'price' : 0}
-            $scope.addIndex = null
-          }
+
 
 
           $scope.saveInventory = function() {

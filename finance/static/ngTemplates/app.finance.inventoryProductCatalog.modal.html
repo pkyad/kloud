@@ -99,18 +99,20 @@
       </div>
       <div class="col-md-12">
         <div class="row" >
-          <div class="col-md-10">
+          <div class="col-md-12">
           <table class="table table-hover pad10">
             <thead>
               <tr style="">
                 <th> Description </th>
                 <th >Price</th>
+                <th ></th>
               </tr>
             </thead>
             <tbody>
               <tr ng-repeat="a in form.addonsData track by $index" ng-click="editAddons($index)">
                 <td>{{a.description}}</td>
                 <td>{{a.price}} </td>
+                <td><i class="fa fa-trash" ng-click="deleteAddons($index)"></i></td>
               </tr>
             </tbody>
           </table>
@@ -173,7 +175,8 @@
         </div>
     </div>
     <div class="row" >
-        <div class="col-md-3" ng-repeat="c in form.customizationData track by $index" style="margin-top:60px">
+        <div class="col-md-3" ng-repeat="c in form.customizationData track by $index" style="margin-top:60px" ng-click="editCustomisation($index)">
+          <span style="position:absolute;right:0px;top:-10px;" ng-click="deleteCust($index)"><i class="fa fa-times fa-2x" ></i></span>
           <div style="background-image: url('{{c.sampleimage}}');background-size:contain;height:200px;background-repeat: no-repeat;" class="text-center">
           </div>
           <p> {{c.text}} </p>
