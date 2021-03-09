@@ -57,7 +57,7 @@ z-index: 1;position: relative;background-color:white;"><i class="fa fa-arrow-dow
           <div class="row" style="margin:0px;margin-bottom:30px">
             <div class="col-md-5" ng-if="products.addonsData.length>0">
               Addons
-              <select class="form-control bookInput" name="" ng-model="products.addon" ng-options = "k.description +' - '+k.price for k in products.addonsData" placeholder="Select the paper" style="background:#ededed;">
+              <select class="form-control bookInput" name="" ng-model="products.addon" ng-options = "k.description +' - '+k.price for k in products.addonsData" placeholder="Select the paper" style="background:#ededed;" ng-change="updateCart()">
               </select>
             </div>
             <div class="col-md-5" ng-if="products.customizationData.length>0">

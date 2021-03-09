@@ -4891,14 +4891,19 @@ class CartTotalAPIView(APIView):
         total = 0
         gst = 0
         shipping = 0
+        addontotal = 0
         showDetails = False
         if cartObj.count()>0:
             showDetails = True
         tot = cartObj.aggregate(sum = Sum('total'))
         if tot['sum'] is not None:
             total = tot['sum']
-        grandTotal = total + gst + shipping
-        data = {'subTotal' : total, 'totalGST' : gst , 'shipping' : shipping , 'grandTotal' : grandTotal , 'showDetails' : showDetails}
+        for c in cartObj:
+            if c.addon is not None:
+                c.addon = json.loads(c.addon)
+                addontotal = float(c.qty) * float(c.addon['price'])
+        grandTotal = total + gst + shipping + addontotal
+        data = {'subTotal' : total, 'totalGST' : gst , 'shipping' : shipping , 'grandTotal' : grandTotal , 'showDetails' : showDetails , 'addonTotal' : addontotal}
         return Response(data ,status = status.HTTP_200_OK)
 
 

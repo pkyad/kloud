@@ -624,9 +624,10 @@ class RateListSerializer(serializers.ModelSerializer):
     category = CategorySerializer(many=False,read_only=True)
     cart = serializers.SerializerMethodField()
     cartId = serializers.SerializerMethodField()
+    addon = serializers.SerializerMethodField()
     class Meta:
         model = Inventory
-        fields=('pk','created','name','value','rate','qtyAdded','refurnished','refurnishedAdded','sellable','description','richtxtDesc','taxCode','img1','img2','img3','category','buyingPrice','sku','taxRate','mrp','division','cart','cartId','addonsData','customizationData')
+        fields=('pk','created','name','value','rate','qtyAdded','refurnished','refurnishedAdded','sellable','description','richtxtDesc','taxCode','img1','img2','img3','category','buyingPrice','sku','taxRate','mrp','division','cart','cartId','addonsData','customizationData','addon')
     def create(self , validated_data):
         inven = Inventory(**validated_data)
         try:
@@ -656,7 +657,6 @@ class RateListSerializer(serializers.ModelSerializer):
             val = self.context['data']
         except:
             val =  self.context['request'].GET
-        print val,'ssssssssssssssssssssssssaaaaaaaaaaaaaaaaaa'
         if 'contact' in val and 'divId' in val :
             id = hash_fn.unhash(self.context['request'].GET['divId'])
             data = obj.carts.filter(division__id = id, contact__id = val['contact'])
@@ -671,6 +671,14 @@ class RateListSerializer(serializers.ModelSerializer):
             if data.count()>0:
                 cart = data.first().id
         return cart
+    def get_addon(self, obj):
+        addon = None
+        if 'contact' in self.context['request'].GET and 'divId' in self.context['request'].GET :
+            id = hash_fn.unhash(self.context['request'].GET['divId'])
+            data = obj.carts.filter(division__id = id, contact__id = self.context['request'].GET['contact'])
+            if data.count()>0:
+                addon = data.first().addon
+        return addon
 
 class InventoryLogSerializer(serializers.ModelSerializer):
     inventory = RateListSerializer(many = False , read_only = True)
@@ -848,9 +856,10 @@ class InvoiceReceivedAllSerializer(serializers.ModelSerializer):
 
 class CartSerializer(serializers.ModelSerializer):
     product = InventoryLiteSerializer(many = False , read_only = True)
+    addonPrice = serializers.SerializerMethodField()
     class Meta:
         model = Cart
-        fields=('pk','created','contact','product','qty','price','total','division','addon')
+        fields=('pk','created','contact','product','qty','price','total','division','addon','addonPrice')
     def create(self , validated_data):
         cart = Cart(**validated_data)
         # division = self.context['request'].user.designation.division
@@ -869,3 +878,9 @@ class CartSerializer(serializers.ModelSerializer):
         instance.total = instance.product.rate * instance.qty
         instance.save()
         return instance
+    def get_addonPrice(self, obj):
+        addonPrice = 0
+        if obj.addon is not None:
+            obj.addon  = json.loads(obj.addon)
+            addonPrice = float(obj.qty) * float(obj.addon['price'])
+        return addonPrice

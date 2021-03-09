@@ -146,14 +146,15 @@
                       </div>
                     </div>
                     <div class="col-md-2 col-xs-12 proData_padding hidden-xs" style="padding-top:20px;color:var(--themeColor)">
-                      <h6 style="color:var(--themeColor);font-size:15px;"> <i class="fa {{currency}}"></i> {{c.total|number:2}} </h6>
-                      <div class=""  ng-if="c.bulkDiscount>0">
+                      <h6 style="color:var(--themeColor);font-size:15px;"> <i class="fa {{currency}}"></i> {{c.total|number:2}}
+                         <span ng-if="c.addonPrice>0">  <br/> <br/>   (+ <i class="fa {{currency}}"></i> {{c.addonPrice|number:2}} ) </span> </h6>
+                      <!-- <div class=""  ng-if="c.bulkDiscount>0">
                       <p style="margin:0px;">Saved</p>
                       <h5 style="color:green;margin:0px;font-size:13px;"> <i class="fa {{currency}}"></i>{{c.bulkDiscount  | number:2}} </h5>
-                    </div>
+                    </div> -->
                     </div>
                     <div class="col-md-2 col-xs-12 proData_padding text-right visible-xs" style="padding-top:20px;color:var(--themeColor)">
-                      <h6 style="color:var(--themeColor);font-size:15px;"> <i class="fa {{currency}}"></i> {{(c.total).toFixed(2) }} </h6>
+                      <h6 style="color:var(--themeColor);font-size:15px;"> <i class="fa {{currency}}"></i> {{(c.total).toFixed(2) }} <br/> <span> {{c.addonPrice}}.toFixed(2) </span> </h6>
                     </div>
                     <div class="col-md-2 hidden-xs" style="padding-top:20px;color:red">
                       <!-- <i class="fa fa-close fa-lg" ng-click="deleteFromCart($index,c.pk)"></i> -->

@@ -114,7 +114,9 @@
                     </div>
                     <div class="col-xs-2" >
                       <div>
-                        <i class="fa {{currency}}"></i> {{(c.total).toFixed(2)}}
+                        <i class="fa {{currency}}"></i> {{(c.total).toFixed(2)}}<br/>
+                          <span ng-if="c.addonPrice>0">(+ <i class="fa {{currency}}"></i> {{(c.addonPrice).toFixed(2)}})</span>
+
                       </div>
                     </div>
                   </div>

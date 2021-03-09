@@ -1598,6 +1598,9 @@ app.directive('productDetails', function() {
           $scope.products = response.data
           if ($scope.products.addonsData!=undefined && $scope.products.addonsData!=null && $scope.products.addonsData.length>0) {
             $scope.products.addonsData = JSON.parse($scope.products.addonsData)
+            if ($scope.products.addon!=null) {
+              $scope.products.addon =   JSON.parse($scope.products.addon)
+            }
           }
           else{
             $scope.products.addonsData = []
@@ -1672,8 +1675,8 @@ app.directive('productDetails', function() {
             qty : 1,
             divId : DIVISION_APIKEY
           }
-          if ($scope.products.addons!=undefined&&$scope.products.addons!=null) {
-            $scope.item.addons = $scope.products.addons
+          if ($scope.products.addon!=undefined&&$scope.products.addon!=null) {
+            $scope.item.addon = $scope.products.addon
           }
           $scope.cartData.push($scope.item)
           setCookie("addToCart", JSON.stringify($scope.cartData), 365);
@@ -1686,8 +1689,8 @@ app.directive('productDetails', function() {
           contact:$scope.userId,
           divId : DIVISION_APIKEY
         }
-        if ($scope.products.addons!=undefined&&$scope.products.addons!=null) {
-          dataToSend.addons = $scope.products.addons
+        if ($scope.products.addon!=undefined&&$scope.products.addon!=null) {
+          dataToSend.addon = JSON.stringify($scope.products.addon)
         }
         $http({
           method: 'POST',

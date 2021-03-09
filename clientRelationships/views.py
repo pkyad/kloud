@@ -2037,10 +2037,17 @@ class OrderAPIView(APIView):
         saleObj = Sale(**saleData)
         saleObj.save()
         for i in cartObj:
-            saleQtyObj = {'outBound' : saleObj , 'product' : i.product.name , 'qty' : i.qty , 'price' : i.price , 'tax' : 0 , 'total' : i.total , 'division' : division}
+            if i.addon is not None:
+                i.addon = json.loads(i.addon)
+                price = float(i.price) + float(i.addon['price'])
+                total = price * i.qty
+            else:
+                price = float(i.price)
+                total = i.total
+            saleQtyObj = {'outBound' : saleObj , 'product' : i.product.name , 'qty' : i.qty , 'price' : price , 'tax' : 0 , 'total' : total , 'division' : division}
             saleqtyObj = SalesQty(**saleQtyObj)
             saleqtyObj.save()
-            amount+=i.total
+            amount+=total
             i.delete()
         saleObj.total = amount
         saleObj.balanceAmount = amount
