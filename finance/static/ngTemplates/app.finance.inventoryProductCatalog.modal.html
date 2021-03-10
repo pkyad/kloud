@@ -210,7 +210,7 @@
           <div style="background:{{customization.backgroundColor}};height:{{customization.height}}px;width:{{customization.width}}px;background-image: url('{{customization.backgroundImage}}');background-size:contain;background-repeat: no-repeat;">
             <div ng-repeat="a in customization.data">
               <textarea type="text" ng-if="a.type=='textarea'" rows="{{a.rows}}" ng-model="a.data" my-draggable start-x="a.startX" start-y="a.startY" x="a.x" y="a.y" style="background:transparent;color:#ffffff"
-                ng-enter="increaseRow($index)"> </textarea>
+                ng-enter="increaseRow($index)" > </textarea>
               <div ng-if="a.type=='image'"> <label type="button" name="button" class="btn btn-default" my-draggable start-x="a.startX" start-y="a.startY" x="a.x" y="a.y"> <i class="fa fa-plus"></i> </label> </div>
             </div>
           </div>

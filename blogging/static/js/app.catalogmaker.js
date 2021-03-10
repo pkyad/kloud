@@ -212,7 +212,7 @@ app.controller('businessManagement.catalog', function($scope,$users, $http, $asi
               customizationData:[]
             }
             $scope.addons = {'description' : '' , 'price' : 0}
-            $scope.customization = {'text' : 'Sample Text' , 'sampleimage' : emptyFile , 'color' : '','sampleimageHeight':'','sampleimageWidth':'', 'backgroundColor' : ''}
+            $scope.customization =  {'backgroundColor' : '' , 'color':'', data:[], 'height':100, 'width':100, 'backgroundImage' : '','title':'' }
             $scope.addIndex = null
             $scope.custIndex = null
           }
@@ -222,6 +222,19 @@ app.controller('businessManagement.catalog', function($scope,$users, $http, $asi
           //   $scope.form.customizationData.push($scope.customization)
           //   $scope.customization = {'text' : 'Sample Text' , 'sampleimage' : emptyFile , 'color' : '','sampleimageHeight':'','sampleimageWidth':'', 'backgroundColor' : ''}
           // }
+          $scope.addText = function(){
+            var data = {'type' : 'textarea', 'startX' : 0,  'startY' : 0, 'x': 0, 'y' : 0, 'data':'Sample Text', 'rows':1}
+            $scope.customization.data.push(data)
+          }
+          $scope.addImage = function(){
+            var data = {'type' : 'image', 'startX' : 0,  'startY' : 0, 'x': 0, 'y' : 0, 'data':'', 'rows':1}
+            $scope.customization.data.push(data)
+          }
+
+          $scope.increaseRow = function(indx){
+            $scope.customization.data[indx].rows+=1
+          }
+
 
           $scope.addCustomisation = function(){
             if ($scope.custIndex != null) {
@@ -230,7 +243,7 @@ app.controller('businessManagement.catalog', function($scope,$users, $http, $asi
             else{
               $scope.form.customizationData.push($scope.customization)
             }
-            $scope.customization = {'text' : 'Sample Text' , 'sampleimage' : emptyFile , 'color' : '','sampleimageHeight':'','sampleimageWidth':'', 'backgroundColor' : ''}
+            $scope.customization = {'backgroundColor' : '' , 'color':'', data:[], 'height':100, 'width':100, 'backgroundImage' : '','title':'' }
             $scope.custIndex = null
           }
 
@@ -253,7 +266,7 @@ app.controller('businessManagement.catalog', function($scope,$users, $http, $asi
 
           $scope.uploadSampleImage = function(){
             var fd = new FormData();
-            fd.append('file', $scope.customization.sampleimage);
+            fd.append('file', $scope.customization.backgroundImage);
             $http({
               method: 'POST',
               url: '/api/PIM/saveImage/',
@@ -265,9 +278,9 @@ app.controller('businessManagement.catalog', function($scope,$users, $http, $asi
             }).
             then(function(response) {
               console.log(response.data);
-              $scope.customization.sampleimage = response.data.link
-              $scope.customization.sampleimageHeight = response.data.height
-              $scope.customization.sampleimageWidth = response.data.width
+              $scope.customization.backgroundImage = response.data.link
+              // $scope.customization.sampleimageHeight = response.data.height
+              // $scope.customization.sampleimageWidth = response.data.width
               // $uibModalInstance.dismiss({
               //   file: response.data.link,
               //   alt: $scope.form.alt,
@@ -501,7 +514,7 @@ app.controller('businessManagement.catalog', function($scope,$users, $http, $asi
             else{
               $scope.form.customizationData.push($scope.customization)
             }
-            $scope.customization = {'text' : 'Sample Text' , 'sampleimage' : emptyFile , 'color' : '','sampleimageHeight':'','sampleimageWidth':'', 'backgroundColor' : ''}
+            $scope.customization = {'backgroundColor' : '' , 'color':'', data:[], 'height':100, 'width':100, 'backgroundImage' : '','title':'' }
             $scope.custIndex = null
           }
 
