@@ -378,7 +378,7 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
       },
       controller: function($scope, $http, $uibModalInstance) {
 
-        $scope.selectTyp = ['Ecommerce','Freelancer professional profile','Agency','Services','Blank']
+        $scope.selectTyp = ['Ecommerce','Freelancer professional profile','Agency','Services','Blank','LMS']
         $scope.selectTypForm = {
           cardTyp:''
         }
@@ -505,7 +505,6 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
       $scope.pages = response.data.results
       console.log($scope.pages.length,"askdfasfdasdfa");
       if ($scope.pages.length  == 0 && $state.is('businessManagement.website')) {
-        console.log('ddddddddddddddddddddddddddddddddddddd');
           $scope.initialPage()
       }else {
         for (var i = 0; i < $scope.pages.length; i++) {

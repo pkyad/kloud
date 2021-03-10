@@ -60,11 +60,11 @@ z-index: 1;position: relative;background-color:white;"><i class="fa fa-arrow-dow
               <select class="form-control bookInput" name="" ng-model="products.addon" ng-options = "k.description +' - '+k.price for k in products.addonsData" placeholder="Select the paper" style="background:#ededed;" ng-change="updateCart()">
               </select>
             </div>
-            <div class="col-md-5" ng-if="products.customizationData.length>0">
+            <!-- <div class="col-md-5" ng-if="products.customizationData.length>0">
               Customization
               <select class="form-control bookInput" name="" ng-model="products.customization" ng-options = "k.text for k in products.customizationData" placeholder="Select the paper" style="background:#ededed;">
               </select>
-            </div>
+            </div> -->
           </div>
           <div class="row" style="margin:0px;">
             <div class="col-md-5" ng-if="products.cart<=0">

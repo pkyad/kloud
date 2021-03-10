@@ -35,7 +35,13 @@
 {% block content %}
 <body ng-app="app" ng-controller="main"  ng-init="division = '{{divisionJson}}'">
   <div  style="margin-top:30px;margin-bottom:30px;">
-
+  {% if showLms%}
+    <div class="" ng-init="componentsData = '{{componentsData}}'">
+      <!-- {% verbatim %} -->
+        <academy-courses data="componentsData"> </academy-courses>
+      <!-- {% endverbatim %} -->
+    </div>
+  {% else %}
   {% for component in components %}
     <div class="" ng-init="data = '{{component.data | safe }}'">
       <style media="screen" >
@@ -44,7 +50,7 @@
         {{component.template|safe}}
     </div>
   {% endfor %}
-
+  {% endif %}
   </div>
 
 

@@ -1764,14 +1764,18 @@ app.directive('academyCourses', function() {
     restrict: 'E',
     transclude: true,
     replace: true,
+    scope: {
+      data: '=',
+    },
     controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
-      $http({
-        method: 'GET',
-        url: '/api/LMS/course/?activeCourse=True',
-      }).
-      then(function(response) {
-        $scope.courses = response.data
-      })
+    $scope.courses = JSON.parse($scope.data)
+      // $http({
+      //   method: 'GET',
+      //   url: '/api/LMS/course/?activeCourse=True',
+      // }).
+      // then(function(response) {
+      //   $scope.courses = response.data
+      // })
     }
   }
 })

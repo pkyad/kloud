@@ -180,7 +180,11 @@ class GetForumAPI(APIView):
     permission_classes = (permissions.AllowAny ,)
     def get(self, request ,format=None):
         data = {}
-        posts1 = list(Forum.objects.all().values('pk','title','description'))
+        totalposts = 0
+        try:
+            posts1 = list(Forum.objects.filter(division = request.user.designation.division).values('pk','title','description'))
+        except:
+            posts1 = []
         for value in posts1:
             postDataCount = 0
             postData = ForumComment.objects.filter(parent = value['pk'])
@@ -194,7 +198,10 @@ class GetForumAPI(APIView):
             except:
                 pass
         postData = sorted(posts1, key = lambda i: i['commentCount'],reverse=True)[:5]
-        posts2 = list(Forum.objects.all().order_by('created').values('pk','title','description'))
+        try:
+            posts2 = list(Forum.objects.all().order_by('created').values('pk','title','description'))
+        except:
+            posts1 = []
         # to delete repeating post1 in post2
         deleteofpost2 = []
         for i in range(len(postData)):

@@ -94,7 +94,9 @@ class InitializewebsitebuilderAPIView(APIView):
         if 'description' in request.data :
             division.defaultDescription = data['description']
         if 'url' in request.data :
-            division.subDomain = data['description']
+            division.subDomain = data['url']
+        if 'stage' in request.data :
+            division.pageType = data['stage']
         division.save()
         request.user.designation.division = division
         page = Page.objects.create(title= data['title'],description=data['description'],user=request.user)

@@ -24,6 +24,7 @@ from django.template import Context, Template
 # Related to the REST Framework
 from django.http import HttpResponse
 import os
+from LMS.serializers import CourseSerializer
 
 import basehash
 hash_fn = basehash.base36()
@@ -162,6 +163,7 @@ def renderpage(request,apiKey,url):
     footer = None
     headerCss = None
     footerCss = None
+    showLms = False
     try:
         div = request.user.designation.division
     except:
@@ -193,7 +195,7 @@ def renderpage(request,apiKey,url):
 
     # API_KEY = hash_fn.hash(page.user.designation.division.pk)
     # division = page.user.designation.division
-    return render(request,'app.HR.page.html',{'components':components,'page':page,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':div})
+    return render(request,'app.HR.page.html',{'components':components,'page':page,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':div,'showLms' : showLms})
 
 def renderpageMain(request,apiKey):
 
@@ -202,6 +204,7 @@ def renderpageMain(request,apiKey):
     footer = None
     headerCss = None
     footerCss = None
+    showLms = False
     try:
         div = request.user.designation.division
     except:
@@ -217,6 +220,11 @@ def renderpageMain(request,apiKey):
 
 
     page = Page.objects.get(url__isnull=True , user__designation__division = div )
+    if div.pageType == 'LMS':
+        showLms = True
+        components = json.dumps(CourseSerializer(Course.objects.all(), many = True).data)
+        return render(request,'app.HR.page.html',{'componentsData':components,'page':page,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':div,'showLms' : showLms})
+
 
     components = Components.objects.filter(parent = page)
     data = ''
@@ -232,7 +240,7 @@ def renderpageMain(request,apiKey):
 
     # API_KEY = hash_fn.hash(page.user.designation.division.pk)
     # division = page.user.designation.division
-    return render(request,'app.HR.page.html',{'components':components,'page':page,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':div})
+    return render(request,'app.HR.page.html',{'components':components,'page':page,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':div,'showLms' : showLms})
 
 def uielement(request):
     component = UIelementTemplate.objects.get(pk = request.GET['id'])
