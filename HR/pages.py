@@ -186,6 +186,7 @@ def renderpage(request,apiKey,url):
     components = Components.objects.filter(parent = page)
     data = ''
     for indx, i in enumerate(components):
+        print i.template,'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
         i.template = i.template.replace('"$data"' , "'"+components[indx].data+"'")
         i.dataTemplate = i.template
         # i.data = json.loads(json.dumps(i.data))
@@ -226,21 +227,12 @@ def renderpageMain(request,apiKey):
         return render(request,'app.HR.page.html',{'componentsData':components,'page':page,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':div,'showLms' : showLms})
 
 
-    components = Components.objects.filter(parent = page)
+    components = ComponentsSerializer(Components.objects.filter(parent = page), many=True).data
     data = ''
     for indx, i in enumerate(components):
-        i.template = i.template.replace('"$data"' , "'"+components[indx].data+"'")
-        i.dataTemplate = i.template
-        # i.data = json.loads(json.dumps(i.data))
-        try:
-            print type(i.data.products),"4k324kl3k4lasssssssssssssssssssssssssssssssssss;dflkasidfo"
-        except:
-            pass
-    # if page.enableChat:
-
-    # API_KEY = hash_fn.hash(page.user.designation.division.pk)
-    # division = page.user.designation.division
-    return render(request,'app.HR.page.html',{'components':components,'page':page,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':div,'showLms' : showLms})
+        i['template'] = i['template'].replace('"$data"' , "'"+components[indx].data+"'")
+        i['template'] = i['template']
+    return render(request,'app.HR.page.html',{'components':json.dumps(components),'page':page,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':div,'showLms' : showLms})
 
 def uielement(request):
     component = UIelementTemplate.objects.get(pk = request.GET['id'])

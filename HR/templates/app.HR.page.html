@@ -43,11 +43,11 @@
     </div>
   {% else %}
   {% for component in components %}
-    <div class="" ng-init="data = '{{component.data | safe }}'">
+    <div class="" ng-init="data = '{{component.data}}'">
       <style media="screen" >
         {{component.css | safe}}
       </style>
-        {{component.template|safe}}
+        {{component.template | safe}}
     </div>
   {% endfor %}
   {% endif %}

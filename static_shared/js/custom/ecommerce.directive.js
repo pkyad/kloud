@@ -948,6 +948,16 @@ app.directive('ecommerceNewproducts', function() {
     },
     controller: function($scope, $state, $stateParams, $users) {
       $scope.me = $users.get('mySelf')
+      console.log($scope.data,'aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+      if ($scope.data!=undefined) {
+      try {
+        $scope.data = JSON.parse($scope.data)
+      }
+      catch(err) {
+      $scope.data = $scope.data
+      }
+    }
+      console.log($scope.data,'sssssssssssssssssss');
       $scope.items = $scope.data
       console.log($scope.items,'243423');
       $scope.recentProductsProperties = {
@@ -975,6 +985,7 @@ app.directive('ecommerceNewproducts', function() {
           }
         },
       };
+
 
       $scope.recentProducts = [{
           "heading": "Newly Added Products",
@@ -1278,9 +1289,16 @@ app.directive('ecommerceBestdeals', function() {
         },
       };
       console.log($scope.data);
-      $scope.deals = JSON.parse(JSON.stringify($scope.data))
+      // $scope.deals = JSON.parse(JSON.stringify($scope.data))
+        if ($scope.data!=undefined) {
+        try {
+          $scope.data = JSON.parse($scope.data)
+        }
+        catch(err) {
 
-
+        }
+      }
+        $scope.deals = $scope.data
 
       $scope.getIndex = function(indx) {
         if ($scope.deals.productsMap.tabs.length > 0) {
@@ -1347,9 +1365,13 @@ app.directive('recentlyViewedproducts', function() {
     controller: function($scope, $state, $http, Flash, $rootScope, $users, $filter, $interval) {
       console.log($scope.data,"43423234234123cxvxczvcv");
       if ($scope.data!=undefined) {
+      try {
         $scope.data = JSON.parse($scope.data)
+      }
+      catch(err) {
 
       }
+    }
       $scope.viewedProductsProperties = {
         lazyLoad: false,
         loop: true,
