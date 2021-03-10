@@ -1363,7 +1363,6 @@ app.directive('recentlyViewedproducts', function() {
       data:'='
     },
     controller: function($scope, $state, $http, Flash, $rootScope, $users, $filter, $interval) {
-      console.log($scope.data,"43423234234123cxvxczvcv");
       if ($scope.data!=undefined) {
       try {
         $scope.data = JSON.parse($scope.data)

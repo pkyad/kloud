@@ -186,7 +186,6 @@ def renderpage(request,apiKey,url):
     components = Components.objects.filter(parent = page)
     data = ''
     for indx, i in enumerate(components):
-        print i.template,'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
         i.template = i.template.replace('"$data"' , "'"+components[indx].data+"'")
         i.dataTemplate = i.template
         # i.data = json.loads(json.dumps(i.data))
@@ -226,13 +225,19 @@ def renderpageMain(request,apiKey):
         components = json.dumps(CourseSerializer(Course.objects.filter(division = div, activeCourse = True), many = True).data)
         return render(request,'app.HR.page.html',{'componentsData':components,'page':page,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':div,'showLms' : showLms})
 
-
-    components = ComponentsSerializer(Components.objects.filter(parent = page), many=True).data
+    components = Components.objects.filter(parent = page)
     data = ''
     for indx, i in enumerate(components):
-        i['template'] = i['template'].replace('"$data"' , "'"+components[indx].data+"'")
-        i['template'] = i['template']
-    return render(request,'app.HR.page.html',{'components':json.dumps(components),'page':page,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':div,'showLms' : showLms})
+        i.template = i.template.replace('"$data"' , "'"+components[indx].data+"'")
+        i.dataTemplate = i.template
+        # i.data = json.loads(json.dumps(i.data))
+        print i.data,"4k324kl3k4las;dflkasidfo"
+    # components = ComponentsSerializer(Components.objects.filter(parent = page), many=True).data
+    # data = ''
+    # for indx, i in enumerate(components):
+    #     i['template'] = i['template'].replace('"$data"' , "'"+components[indx].data+"'")
+    #     i['template'] = i['template']
+    return render(request,'app.HR.page.html',{'components':components,'page':page,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':div,'showLms' : showLms})
 
 def uielement(request):
     component = UIelementTemplate.objects.get(pk = request.GET['id'])
