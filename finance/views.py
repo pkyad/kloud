@@ -2072,6 +2072,12 @@ class CreateOrderAPI(APIView):
             invObj.address = invoiceData['address']
         if 'payment_date' in invoiceData:
             invObj.payDueDate = invoiceData['payment_date']
+        try:
+            terms = TermsAndConditions.objects.filter(division = request.user.designation.division).first()
+            invObj.termsandcondition = terms
+            invObj.terms = terms.body
+        except:
+            pass
         invObj.save()
         try:
             SalesQty.objects.filter(outBound = invObj).delete()
