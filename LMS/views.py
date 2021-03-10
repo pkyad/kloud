@@ -227,15 +227,16 @@ class CourseViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['activeCourse']
     def get_queryset(self):
+        div = self.request.user.designation.division
         if 'search' in self.request.GET:
             val = self.request.GET['search']
-            return Course.objects.filter(Q(title__icontains = val)|Q(enrollmentStatus = val))
+            return Course.objects.filter(division = div).filter(Q(title__icontains = val)|Q(enrollmentStatus = val))
         if 'state' in self.request.GET :
             val = self.request.GET['state']
             if val == 'old':
-                return Course.objects.filter(activeCourse = False)
+                return Course.objects.filter(activeCourse = False, division = div)
             if val == 'current':
-                return Course.objects.filter(activeCourse = True)
+                return Course.objects.filter(activeCourse = True, division = div)
         return Course.objects.all()
 
 class EnrollmentViewSet(viewsets.ModelViewSet):

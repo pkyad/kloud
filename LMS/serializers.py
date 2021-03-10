@@ -236,6 +236,7 @@ class CourseSerializer(serializers.ModelSerializer):
         c = Course(**validated_data)
         c.user = self.context['request'].user
         c.instructor = User.objects.get(pk = self.context['request'].data['instructor'])
+        c.division = self.context['request'].user.designation.division
         c.save()
         c.save()
         return c

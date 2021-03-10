@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from time import time
 from clientRelationships.models import Contact
+from ERP.models import Division
 # Create your models here.
 def getQAttachmentPath(instance , filename ):
     return 'lms/questions/%s_%s' % (str(time()).replace('.', '_'), filename)
@@ -157,6 +158,7 @@ class Course(models.Model):
     contacts = models.ManyToManyField(Contact , related_name='students' )
     activeCourse = models.BooleanField(default = True)
     topic = models.CharField(max_length = 250 , null = True)
+    division =  models.ForeignKey(Division,related_name='coursesdivision',null=True)
 
 class Enrollment(models.Model):
     created = models.DateTimeField(auto_now_add = True)

@@ -222,7 +222,7 @@ def renderpageMain(request,apiKey):
     page = Page.objects.get(url__isnull=True , user__designation__division = div )
     if div.pageType == 'LMS':
         showLms = True
-        components = json.dumps(CourseSerializer(Course.objects.all(), many = True).data)
+        components = json.dumps(CourseSerializer(Course.objects.filter(division = div, activeCourse = True), many = True).data)
         return render(request,'app.HR.page.html',{'componentsData':components,'page':page,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':div,'showLms' : showLms})
 
 
