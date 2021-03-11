@@ -76,6 +76,11 @@ app.config(function($stateProvider) {
       templateUrl: '/static/ngTemplates/app.settings.version.html',
       controller: 'admin.settings.configure.version.form'
    })
+   .state('analytics', {
+      url: "/analytics",
+      templateUrl: '/static/ngTemplates/app.settings.analytics.html',
+      controller: 'admin.settings.configure.analytics',
+   })
    .state('appDetails', {
       url: "/:id",
       templateUrl: '/static/ngTemplates/app.organization.appDetails.html',
@@ -87,19 +92,42 @@ app.config(function($stateProvider) {
       templateUrl: '/static/ngTemplates/app.organization.usage.html',
       controller: 'businessManagement.usage',
    })
-   .state('analytics', {
-      url: "/analytics",
-      templateUrl: '/static/ngTemplates/app.organization.analytics.html',
-      controller: 'businessManagement.analytics',
-   })
+
 
 
  });
 
 
 
-app.controller('businessManagement.analytics', function($scope, $state, $stateParams, $http, Flash, $uibModal) {
-
+app.controller('admin.settings.configure.analytics', function($scope, $state, $stateParams, $http, Flash, $uibModal) {
+  $scope.options = {
+    scaleFontColor: "#8A96A4",
+    legend: {
+      display: true
+    },
+    scales: {
+      yAxes: [{
+          id: 'y-axis-1',
+          type: 'linear',
+          display: true,
+          position: 'left'
+        },
+        {
+          id: 'y-axis-2',
+          type: 'linear',
+          display: true,
+          position: 'right'
+        }
+      ]
+    }
+  };
+  $http({
+    method: 'GET',
+    url: '/api/ERP/getAppUsageGraph/'
+  }).
+  then(function(response) {
+    $scope.allCompanydata = response.data;
+  })
 })
 
 

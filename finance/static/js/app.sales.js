@@ -187,7 +187,7 @@ $scope.getFilters()
           url = url+'&isInvoice=false&cancelled=true'
       }
       else{
-        url = url+'&isInvoice=false&cancelled=false&status='+$scope.filters
+        url = url+'&isInvoice=true&cancelled=false&status='+$scope.filters
       }
       // else{
       //   url = url+'&haveparent=&filters='+$scope.filters

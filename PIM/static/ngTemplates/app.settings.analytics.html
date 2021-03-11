@@ -1,0 +1,9 @@
+<div class="container-fluid">
+  <div class="row" ng-repeat="s in allCompanydata">
+    {{s.data.data}} {{s.data.labels}} {{s.data.series}}
+    <div class="col-md-12">
+      <canvas id="line" class="chart chart-line" chart-data="s.data.data" chart-labels="s.data.labels" chart-series="s.data.series" chart-options="options">
+      </canvas>
+    </div>
+  </div>
+</div>

@@ -39,6 +39,7 @@ class Book(models.Model):
     topic = models.CharField(max_length = 200 , null = True)
     subject = models.CharField(max_length = 200 , null = True)
     shortUrl = models.CharField(max_length = 100 , null = True , unique = True)
+    division = models.ForeignKey(Division,related_name='bookDivision',null=True)
 
 class Section(models.Model):
     created = models.DateTimeField(auto_now_add = True)
@@ -86,6 +87,8 @@ class Paper(models.Model):
     description = models.TextField(null = True)
     timelimit = models.PositiveIntegerField(default= 0)
     contacts = models.ManyToManyField(Contact , related_name='papers' )
+    division = models.ForeignKey(Division,related_name='paperDivision',null=True)
+
 class Question(models.Model):
     created = models.DateTimeField(auto_now_add = True)
     updated = models.DateField(auto_now=True)

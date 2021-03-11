@@ -34,6 +34,7 @@ class BookSerializer(serializers.ModelSerializer):
 
     def create(self , validated_data):
         b = Book(**validated_data)
+        b.division = self.context['request'].user.designation.division
         b.save()
         return b
 
@@ -152,6 +153,7 @@ class PaperSerializer(serializers.ModelSerializer):
     def create(self , validated_data):
         m = Paper(**validated_data)
         m.user = self.context['request'].user
+        m.division = self.context['request'].user.designation.division
         if 'name' in self.context['request'].data:
             m.name = self.context['request'].data['name']
         if 'timelimit' in self.context['request'].data:

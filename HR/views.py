@@ -650,6 +650,7 @@ class GetUsersAPIView(APIView):
         # div = Division.objects.get(pk = int(3))
         # if permission.objects.filter(app__name = 'app.geoLocation', user = user).count()>0 or user.is_superuser == True:
         profObj = profile.objects.filter(user__is_staff = False, user__designation__division = div)
+        print profObj
         data  = userProfileViewSerializer(profObj,many=True).data
         return Response({'data' : data}, status = status.HTTP_200_OK)
         # else:

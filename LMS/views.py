@@ -60,8 +60,8 @@ class BookViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if 'search' in self.request.GET:
             val = self.request.GET['search']
-            return Book.objects.filter(Q(title__icontains = val) | Q(author__icontains = val) )
-        return Book.objects.all()
+            return Book.objects.filter(division = self.request.user.designation.division).filter(Q(title__icontains = val) | Q(author__icontains = val) )
+        return Book.objects.filter(division = self.request.user.designation.division)
 
 class CourseActivityViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, isAdmin, )
@@ -207,18 +207,18 @@ class PaperViewSet(viewsets.ModelViewSet):
     serializer_class = PaperSerializer
     def get_queryset(self):
         if 'groupId' in self.request.GET:
-            return Paper.objects.filter(group = int(self.request.GET['groupId']))
+            return Paper.objects.filter(group = int(self.request.GET['groupId']), division = self.request.user.designation.division)
         if 'name' in self.request.GET:
-            return Paper.objects.filter(name__icontains = str(self.request.GET['name']),active=True)
+            return Paper.objects.filter(name__icontains = str(self.request.GET['name']),active=True, division = self.request.user.designation.division)
 
         if 'state' in self.request.GET :
             val = self.request.GET['state']
             if val == 'old':
-                return Paper.objects.filter(active = False)
+                return Paper.objects.filter(active = False, division = self.request.user.designation.division)
             if val == 'current':
-                return Paper.objects.filter(active = True)
+                return Paper.objects.filter(active = True, division = self.request.user.designation.division)
         else:
-            return Paper.objects.all()
+            return Paper.objects.filter(division = self.request.user.designation.division)
 
 
 class CourseViewSet(viewsets.ModelViewSet):

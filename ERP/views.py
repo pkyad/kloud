@@ -2241,3 +2241,32 @@ def downloadLicense(request):
     response = HttpResponse(content, content_type='text/plain')
     response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
     return response
+
+
+
+
+class GetAppUsageGraphAPIView(APIView):
+    permission_classes = (permissions.AllowAny ,)
+    def get(self, request , format = None):
+        data = []
+        for i in Division.objects.all():
+            labelsArr = []
+            dataArr = []
+            seriesArr = []
+            usage = i.divisionUsage.all()
+            # for j in range(7):
+            #     i = 6-j
+            #     dt =  today- datetime.timedelta(days=i)
+            #     labelsArr.append(dt.strftime("%b %d"))
+            for j in usage:
+                labelsArr.append(j.detail)
+                dataArr.append(j.count)
+                # count = usage.filter()
+
+            toReturn = {
+                "data" : dataArr,
+                "labels" : labelsArr,
+                "series" : [i.name]
+            }
+            data.append({'name' : i.name, 'pk': i.pk, 'data' : toReturn})
+        return Response(data,status = status.HTTP_200_OK)

@@ -294,10 +294,10 @@ class CreateSalesTransactionAPI(APIView):
                     transObj3.save()
         except:
             pass
-        print outBondObj.paidAmount,'ssssssssssss'
         outBondObj.paidAmount = float(outBondObj.paidAmount) + float(data['amount']) + float(data['tds'])
-        print outBondObj.paidAmount
         outBondObj.balanceAmount = float(outBondObj.total) - float(outBondObj.paidAmount)
+        if outBondObj.balanceAmount <= 0:
+            outBondObj.status = 'Received'
         outBondObj.save()
         data = TransactionSerializer(transObj,many=False).data
         return Response(data, status = status.HTTP_200_OK)
