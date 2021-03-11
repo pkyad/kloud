@@ -257,6 +257,8 @@ $scope.getComponents()
   $scope.EditComponent = function(idx) {
 
     data = $scope.components[idx];
+    console.log(data,'SSSSSSSSSSSSSSSDDDDDDDDDDDDDDDDDDDDDD');
+
     $uibModal.open({
       templateUrl: '/static/ngTemplates/app.website.uitemplateEditable.html',
       size: 'lg',

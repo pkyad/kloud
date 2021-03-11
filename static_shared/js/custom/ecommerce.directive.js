@@ -768,6 +768,56 @@ app.directive('checkoutView', function() {
   };
 });
 
+app.directive('secondlevelBanners', function() {
+  return {
+    templateUrl: '/static/ngTemplates/secondlevelBanners.html',
+    restrict: 'E',
+    replace: false,
+    transclude: true,
+    scope:{
+      data:'='
+    },
+    controller: function($scope, $state, $stateParams, $users) {
+      $scope.me = $users.get('mySelf')
+      $scope.curoselAsset = {
+        lazyLoad: false,
+        loop: true,
+        items: 1,
+        autoplay: true,
+        autoplayTimeout: 10000,
+        dots: true,
+        // nav:true,
+        responsive: {
+          0: {
+            items: 1
+          },
+          479: {
+            items: 2
+          },
+          600: {
+            items: 3
+          },
+          1000: {
+            items: 1,
+          }
+        },
+      };
+      $scope.banners = []
+      if ($scope.data!=undefined) {
+      try {
+        $scope.data = JSON.parse($scope.data)
+      }
+      catch(err) {
+      $scope.data = $scope.data
+      }
+      $scope.banners = [$scope.data.backgroundimage, $scope.data.secondbackgroundimage]
+    }
+
+
+    },
+  };
+});
+
 app.directive('ecommerceBanners', function() {
   return {
     templateUrl: '/static/ngTemplates/ecommercebanners.html',

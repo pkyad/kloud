@@ -19,7 +19,7 @@
     <hr style="border-top: 1px solid #c1bdbd;" />
     <h6> GST : <span class="pull-right" > + <i class="fa {{currency}}"></i> {{totalDetails.totalGST | number:2}} </span> </h6>
     <hr style="border-top: 1px solid #c1bdbd;" />
-    <h6 > Addon Total : <span class="pull-right" ng-if="totalDetails.addonTotal>0" > + <i class="fa {{currency}}"></i> {{totalDetails.addonTotal | number : 2}} </span> </h6>
+    <h6 ng-if="totalDetails.addonTotal>0" > Addon Total : <span class="pull-right" ng-if="totalDetails.addonTotal>0" > + <i class="fa {{currency}}"></i> {{totalDetails.addonTotal | number : 2}} </span> </h6>
     <hr  style="border-top: 1px solid #c1bdbd;" ng-if="totalDetails.addonTotal>0" />
     <h6 > Shipping Cost : <span class="pull-right" > + <i class="fa {{currency}}"></i> {{totalDetails.shipping | number : 2}} </span> </h6>
     <hr  style="border-top: 1px solid #c1bdbd;" />

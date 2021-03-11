@@ -47,7 +47,7 @@ import xlsxwriter
 from clientRelationships.serializers import ContractSerializer,ContactSerializer,DealLiteSerializer
 from projects.models import project,Issues, ProjectObjective
 from projects.serializers import IssueSerializer
-from finance.models import Sale,SalesQty
+from finance.models import Sale,SalesQty, TermsAndConditions
 from finance.serializers import SaleSerializer,SalesQtySerializer
 from mail.models import mailAttachment
 from ERP.models import GenericPincode
@@ -2034,8 +2034,22 @@ class OrderAPIView(APIView):
         accountObj = division.divisionAccount.filter(personal = False, heading = 'income').first()
         data = []
         saleData = {'division' : division , 'contact' : contactObj, 'personName' : contactObj.name , 'phone' : contactObj.mobile , 'address' :  contactObj.street , 'pincode' : contactObj.pincode, 'state' : contactObj.state, 'city' : contactObj.city , 'country' : contactObj.country, 'costcenter' : costcenterObj, 'account' : accountObj , 'sameasbilling' : True , 'billingAddress' : contactObj.street , 'billingPincode' : contactObj.pincode , 'billingState' : contactObj.state , 'billingCity' : contactObj.city , 'billingCountry' : contactObj.country}
+
         saleObj = Sale(**saleData)
         saleObj.save()
+        try:
+            terms = TermsAndConditions.objects.all().first()
+            saleObj.termsandcondition = terms
+            saleObj.terms = terms.body
+            saleObj.save()
+        except:
+            pass
+        try:
+            userObj = User.objects.filter(designation__division = division, is_staff = True)
+            saleObj.user = userObj.first()
+            saleObj.save()
+        except:
+            pass
         for i in cartObj:
             if i.addon is not None:
                 i.addon = json.loads(i.addon)
