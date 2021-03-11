@@ -331,6 +331,9 @@ app.directive('ordersuccessfulView', function() {
     transclude: true,
     controller: function($scope,$rootScope, $state, $stateParams, $users,$http) {
       $scope.orderid = ORDERID
+      $scope.apikey = APIKEY
+
+
       // $rootScope.$on('getCart', function(event, message) {
       //   $scope.getCartItems()
       // });

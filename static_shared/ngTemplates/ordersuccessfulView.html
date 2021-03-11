@@ -12,7 +12,7 @@
 
           </div>
           <div class="col-md-3 pull-right">
-            <button type="button" class="btn btn-primary" name="button" style="border-radius:30px;">DOWNLOAD INVOICE</button>
+            <a type="button" class="btn btn-primary" name="button" style="border-radius:30px;" href="/api/finance/invoiceDownload/?value={{orderid}}&typ=outbond">DOWNLOAD INVOICE</a>
           </div>
         </div>
         <br>
@@ -136,7 +136,7 @@
               </div>
             </div><br>
             <div class="row pull-right">
-              <a href="/" type="button" class="btn btn-success" name="button">CONTINUE SHOPPING</a>
+              <a href="/pages/{{apikey}}/" type="button" class="btn btn-success" name="button">CONTINUE SHOPPING</a>
             </div>
           </div>
         </div>
