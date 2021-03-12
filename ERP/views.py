@@ -2243,8 +2243,6 @@ def downloadLicense(request):
     return response
 
 
-def DateRange(fromDate, toDate):
-    pass
 
 class GetAppUsageGraphAPIView(APIView):
     permission_classes = (permissions.AllowAny ,)
@@ -2271,7 +2269,6 @@ class GetAppUsageGraphAPIView(APIView):
         totalDays = str(totalDays).split(' ')[0]
         divisons = Division.objects.all()
         divChart = {"data" : [] , "labels" : []}
-        # divChart = {labelsArr : [str(fromDate)] , dataArr:[divison.filter(created__date = fromDate).count()] }
         try:
             for i in range(1,int(totalDays)+1):
                 currDate =  fromDate + datetime.timedelta(days=i)

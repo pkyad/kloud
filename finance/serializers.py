@@ -446,7 +446,7 @@ class SaleSerializer(serializers.ModelSerializer):
             if instance.recDate == None and validated_data['status'] == 'Received':
                 instance.recDate = datetime.now().date()
         if 'cancelled' in validated_data:
-            instance.cancelledDate = datetime.now().date()
+            instance.cancelledDate = datetime.datetime.now().date()
 
         instance.save()
         if 'invoiceQty' in self.context['request'].data:
@@ -554,7 +554,7 @@ class SaleAllSerializer(serializers.ModelSerializer):
     receivedAmount = serializers.SerializerMethodField()
     class Meta:
         model = Sale
-        fields=('pk','created','user','status','isInvoice','poNumber','name','personName','phone','email','address','pincode','state','city','country','pin_status','deliveryDate','payDueDate','gstIn','total','tax','recDate','invoiceqty','parent','costcenter','balanceAmount' , 'paidAmount','account','contact','terms','termsandcondition','serviceFor','receivedAmount','isPerforma','sameasbilling','billingAddress','billingPincode','billingState','billingCity','billingCountry')
+        fields=('pk','created','user','status','isInvoice','poNumber','name','personName','phone','email','address','pincode','state','city','country','pin_status','deliveryDate','payDueDate','gstIn','total','tax','recDate','invoiceqty','parent','costcenter','balanceAmount' , 'paidAmount','account','contact','terms','termsandcondition','serviceFor','receivedAmount','isPerforma','sameasbilling','billingAddress','billingPincode','billingState','billingCity','billingCountry','cancelled')
     def get_total(self , obj):
         objData = SalesQty.objects.filter(outBound=obj.pk).aggregate(tot=Sum('total'))
         tot = objData['tot'] if objData['tot'] else 0

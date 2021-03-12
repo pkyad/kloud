@@ -3993,7 +3993,6 @@ class OuttbondInvoiceAPIView(APIView):
     renderer_classes = (JSONRenderer,)
     permission_classes = (permissions.AllowAny ,)
     def post(self,request , format= None):
-        print request.data,'sssssssssssssssss'
         if 'invoicePk' in request.data:
             data  = request.data
             data_to_post = {}
@@ -4166,6 +4165,7 @@ class OuttbondInvoiceAPIView(APIView):
                     else:
                         qtyObj = SalesQty(**prodData)
                         qtyObj.outBound= outBondObj
+                        qtyObj.division= request.user.designation.division
                         if 'id' in i:
                             tourObj = TourPlanStop.objects.get(pk = int(i['id']))
                             tourObj.billed = True
