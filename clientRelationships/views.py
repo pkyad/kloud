@@ -1627,7 +1627,7 @@ class CreateContactView(APIView):
     permission_classes = (permissions.AllowAny,)
     def post(self, request, format=None):
         data = request.data
-        print data['gstin'],'aaaaaaaaaaaaaaaa'
+        # print data['gstin'],'aaaaaaaaaaaaaaaa'
         div = request.user.designation.division
         if 'companypk' in data and 'company' in data:
             companyObj = service.objects.get(pk = int(data['companypk']))

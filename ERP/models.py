@@ -182,6 +182,7 @@ def getogImageAttachmentPath(instance , filename ):
 
 # Create your models here.
 class Division(models.Model):
+    created = models.DateTimeField(auto_now_add = True)
     name = models.CharField(max_length = 200 , null = True)
     website = models.CharField(max_length = 200 , null = True)
     logo = models.FileField(upload_to = getDivisionLogoAttachmentPath , null = True)

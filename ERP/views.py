@@ -2243,30 +2243,41 @@ def downloadLicense(request):
     return response
 
 
-
+def DateRange(fromDate, toDate):
+    pass
 
 class GetAppUsageGraphAPIView(APIView):
     permission_classes = (permissions.AllowAny ,)
     def get(self, request , format = None):
         data = []
-        for i in Division.objects.all():
-            labelsArr = []
-            dataArr = []
-            seriesArr = []
-            usage = i.divisionUsage.all()
-            # for j in range(7):
-            #     i = 6-j
-            #     dt =  today- datetime.timedelta(days=i)
-            #     labelsArr.append(dt.strftime("%b %d"))
-            for j in usage:
-                labelsArr.append(j.detail)
-                dataArr.append(j.count)
-                # count = usage.filter()
-
-            toReturn = {
-                "data" : dataArr,
-                "labels" : labelsArr,
-                "series" : [i.name]
-            }
-            data.append({'name' : i.name, 'pk': i.pk, 'data' : toReturn})
-        return Response(data,status = status.HTTP_200_OK)
+        divObj = Division.objects.get(pk = int(request.GET['div']))
+        labelsArr = []
+        dataArr = []
+        seriesArr = []
+        usage = divObj.divisionUsage.all()
+        for j in usage:
+            labelsArr.append(j.detail)
+            dataArr.append(j.count)
+        toReturn = {
+            "data" : dataArr,
+            "labels" : labelsArr,
+        }
+        data = {'name' : divObj.name, 'pk': divObj.pk, 'data' : toReturn}
+        fromDate = request.GET['fromDate']
+        toDate = request.GET['toDate']
+        fromDate = datetime.datetime.strptime(fromDate,'%Y-%m-%d')
+        toDate = datetime.datetime.strptime(toDate,'%Y-%m-%d')
+        totalDays = toDate - fromDate
+        totalDays = str(totalDays).split(' ')[0]
+        divisons = Division.objects.all()
+        divChart = {"data" : [] , "labels" : []}
+        # divChart = {labelsArr : [str(fromDate)] , dataArr:[divison.filter(created__date = fromDate).count()] }
+        try:
+            for i in range(1,int(totalDays)+1):
+                currDate =  fromDate + datetime.timedelta(days=i)
+                currDate = currDate.date()
+                divChart['labels'].append(currDate)
+                divChart['data'].append(divisons.filter(created__contains = currDate).count())
+        except:
+            pass
+        return Response({'usage' : data, 'division' : divChart},status = status.HTTP_200_OK)

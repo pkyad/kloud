@@ -6,7 +6,7 @@
     <title>admin</title>
     <link rel="stylesheet" href="/static/css/bootstrap.min.css" charset="utf-8">
     <link rel="stylesheet" href="/static/css/font-awesome.min.css" charset="utf-8">
-    <link rel="stylesheet" href="{% static 'css/angular-chart.min.css' %}" charset="utf-8">
+    <link rel="stylesheet" href="/static/css/angular-chart.min.css" charset="utf-8">
     <style>
       .menuItems {
         padding: 20px;
@@ -87,6 +87,8 @@
     <script src="/static/js/custom/app.adminView.js"></script>
     <script src="{% static 'js/autobahn.min.js' %}"></script>
     <script src="{% static 'js/custom/wampProcessors.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.js"></script>
+
     <!-- <script src="scripts/Chart_Module/tc-angular-chartjs.min.js"></script> -->
     <script type="text/javascript">
       var wamp_prefix = '{{wamp_prefix}}';
