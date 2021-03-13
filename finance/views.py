@@ -1322,6 +1322,14 @@ class InvoiceAPIView(APIView):
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment;filename="Invoicedownload.pdf"'
         invoice(response , inv , invDetails , typ, request)
+        if 'download' in request.GET:
+            filePath = os.path.join(globalSettings.BASE_DIR, 'media_root/Invoicedownload%s.pdf' %
+                                  ( inv.pk))
+            f = open(filePath, 'wrb')
+            f.write(response.content)
+            f.close()
+            file_name = 'media/' + filePath.split('/')[-1]
+            return Response({'fileUrl' : file_name }, status = status.HTTP_200_OK)
         return response
 
 class SendInvoiceAPIView(APIView):
@@ -2174,7 +2182,7 @@ class InvoicingSpreadsheetAPI(APIView):
         hdFont = Font(size=12,bold=True)
         alphaChars = list(string.ascii_uppercase)
         Sheet1.title = 'Outbound Invoices'
-        outBondObj = Sale.objects.all()
+        outBondObj = Sale.objects.filter(division = request.user.designation.division)
         if 'search__in' in self.request.GET:
             search = self.request.GET['search__in']
             outBondObj = outBondObj.filter(Q(poNumber__icontains=search) | Q(name__icontains=search) | Q(personName__icontains=search)
@@ -2214,6 +2222,14 @@ class InvoicingSpreadsheetAPI(APIView):
                 Sheet1.column_dimensions[character].width = 20
         response = HttpResponse(content=save_virtual_workbook(workbook),content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = 'attachment; filename=Sales.xlsx'
+        if 'download' in request.GET:
+            filePath = os.path.join(globalSettings.BASE_DIR, 'media_root/Sales%s.xlsx' %
+                                  ( request.user.designation.division.pk))
+            f = open(filePath, 'wrb')
+            f.write(response.content)
+            f.close()
+            file_name = 'media/' + filePath.split('/')[-1]
+            return Response({'fileUrl' : file_name }, status = status.HTTP_200_OK)
         return response
 
 class PageNumCanvas(canvas.Canvas):
