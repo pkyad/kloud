@@ -430,7 +430,7 @@ def QuoteDouwnload(data):
     wb = Workbook()
     ws1 = wb.active
     ws1.title = "UID Wise"
-    heading = ['#','Date','Customer', 'Company' , 'Value' , 'Sender']
+    heading = ['#','Date','Customer', 'Customer Mobile', 'Customer Email', 'Company' , 'Value' , 'Sender']
     heading_font = Font(bold=True, size=14)
     ws1.append(heading)
     for idx,cell in enumerate(ws1["1:1"]):
@@ -440,8 +440,13 @@ def QuoteDouwnload(data):
         data =[str(row['pk']),str(row['created'].strftime("%b %d, %Y")),]
         if row['contact__pk']:
             data.append(str(row['contact__name']))
+            data.append(str(row['contact__mobile']))
+            data.append(str(row['contact__email']))
         else:
             data.append(' ')
+            data.append(' ')
+            data.append(' ')
+
         if row['contact__company__name']:
             data.append(str(row['contact__company__name']))
         else:
@@ -525,9 +530,9 @@ class ClientHomeCalAPIView(APIView):
             quotedQuote = quoted.filter(division = divsn).order_by('-created')
         else:
             quotedQuote = quoted.filter(user = request.user).order_by('-created')
-        quotedQuote = quotedQuote.values('pk', 'data', 'value','created','updated','status','deal__name','deal__pk','deal__company__name','deal__company__pk','contact__name','contact__pk','contact__company__name','contact__company__pk','contact__dp','user__pk','user__first_name','user__last_name','dueDate','termsAndCondition__heading','termsAndCondition__canSupplyOrder' , 'termsAndCondition__canInvoice')
-        billedQuote = Contract.objects.filter(status = 'billed',user = request.user).order_by('-value').values('pk', 'data', 'value','created','updated','status','deal__name','deal__pk','contact__name','contact__pk','deal__company__name','deal__company__pk','contact__name','contact__pk','contact__company__name','contact__dp','user__pk','user__first_name','user__last_name','dueDate','termsAndCondition__canSupplyOrder' , 'termsAndCondition__canInvoice')
-        dueElapsedQuote = Contract.objects.filter(status = 'dueElapsed',user = request.user).values('pk', 'data', 'value','created','updated','status','deal__name','deal__pk','contact__name','contact__pk','deal__company__name','deal__company__pk','contact__name','contact__pk','contact__company__name','contact__dp','user__pk','user__first_name','user__last_name','dueDate','termsAndCondition__canSupplyOrder' , 'termsAndCondition__canInvoice')
+        quotedQuote = quotedQuote.values('pk', 'data', 'value','created','updated','status','deal__name','deal__pk','deal__company__name','deal__company__pk','contact__name','contact__pk','contact__company__name','contact__company__pk','contact__dp','user__pk','user__first_name','user__last_name','dueDate','termsAndCondition__heading','termsAndCondition__canSupplyOrder' , 'termsAndCondition__canInvoice','contact__mobile','contact__email')
+        billedQuote = Contract.objects.filter(status = 'billed',user = request.user).order_by('-value').values('pk', 'data', 'value','created','updated','status','deal__name','deal__pk','contact__name','contact__pk','deal__company__name','deal__company__pk','contact__name','contact__pk','contact__company__name','contact__dp','user__pk','user__first_name','user__last_name','dueDate','termsAndCondition__canSupplyOrder' , 'termsAndCondition__canInvoice','contact__mobile','contact__email')
+        dueElapsedQuote = Contract.objects.filter(status = 'dueElapsed',user = request.user).values('pk', 'data', 'value','created','updated','status','deal__name','deal__pk','contact__name','contact__pk','deal__company__name','deal__company__pk','contact__name','contact__pk','contact__company__name','contact__dp','user__pk','user__first_name','user__last_name','dueDate','termsAndCondition__canSupplyOrder' , 'termsAndCondition__canInvoice','contact__mobile','contact__email')
 
         if 'download' in request.GET:
             response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
