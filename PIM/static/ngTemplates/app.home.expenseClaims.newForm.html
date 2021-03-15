@@ -54,57 +54,37 @@
         <thead >
           <tr style="background: #f2f2f2;padding: 10px;">
             <!-- <th scope="col">Date</th> -->
+            <th scope="col" ng-if="(form.status=='created' || form.status=='rejected') && !is_approver" class="text-center" ng-if="mode=='edit'">Options</th>
             <th scope="col">Particular</th>
             <th scope="col">Description</th>
             <th scope="col">Amount</th>
             <th scope="col">Attachment</th>
-            <th scope="col" ng-if="(form.status=='created' || form.status=='rejected') && !is_approver" class="text-center" ng-if="mode=='edit'">Options</th>
+            <th scope="col" ng-repeat = "a in headerTitles  track by $index">{{a}}</th>
           </tr>
         </thead>
         <tbody>
           <tr ng-repeat="d in form.invoices" ng-click="editInvoice($index,d.pk)">
             <!-- <td scope="row">{{d.dated}}</td> -->
+            <td ng-if="mode=='edit'&&(form.status=='created' || form.status=='rejected') && !is_approver" class="text-center">
+              <i class="fa fa-trash  fa-lg" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="deleteInvoice($index,d.pk)" confirm-button-type="danger"
+              cancel-button-type="default" style="color:red;cursor:pointer" ng-click="$event.stopPropagation()"></i>
+              <button ng-if="d.added" class="btn btn-default" style="background:#c2c2c2;color:#000000;border-radius:25px!important" ng-click="undo($index);$event.stopPropagation()"> UNDO </button>
+            </td>
             <td>{{d.product}}</td>
             <td>{{d.description}}</td>
             <td>{{d.total}}</td>
             <td><a ng-if="d.attachment" href="{{d.attachment}}" target="_blank" class="btn btn-primary " ><i class="fa fa-download" ></i></a></td>
-            <td ng-if="mode=='edit'&&(form.status=='created' || form.status=='rejected') && !is_approver" class="text-center">
-              <i class="fa fa-trash  fa-lg" mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="deleteInvoice($index,d.pk)" confirm-button-type="danger"
-                cancel-button-type="default" style="color:red;cursor:pointer" ng-click="$event.stopPropagation()"></i>
-                <button ng-if="d.added" class="btn btn-default" style="background:#c2c2c2;color:#000000;border-radius:25px!important" ng-click="undo($index);$event.stopPropagation()"> UNDO </button>
-              </td>
+            <td ng-repeat="a in d.data track by $index">{{a.value}}</td>
           </tr>
-          <tr ng-if="!showEdit&&mode=='edit'&&(form.status=='created' || form.status=='rejected') && !is_approver">
-            <th scope=" row">
-            </th>
-            <!-- <td></td> -->
-            <td></td>
-            <td></td>
-            <td></td>
-            <td class="text-center"> <i class="fa fa-plus fa-2x" ng-click="editInvoice()" style="cursor:pointer"></i></td>
-          </tr>
-          <!-- <tr ng-if="showEdit">
-            <td>
-              <input type="text" class="form-control" ng-model="invoiceForm.product" uib-typeahead="p as p.title for p in codeSearch($viewValue)" placeholder="Particular">
-            </td>
-            <td>
-              <input type="text" class="form-control" ng-model="invoiceForm.description" placeholder="Description">
-            </td>
-            <td>
-              <input type="tel" class="form-control" ng-model="invoiceForm.total" placeholder="Amount">
-            </td>
-            <td>
-              <input type="file" file-model="invoiceForm.attachment">
-            </td>
-            <td class="text-center">
-              <i class="fa fa-floppy-o fa-2x" style="color:var(--themeMain)" ng-click="saveInvoice()"></i>
-              <i ng-if="!invoiceForm.pk" class="fa fa-close fa-2x" ng-click="cancel()"></i>
-            </td>
-          </tr> -->
-
         </tbody>
       </table>
     </div>
+  </div>
+
+  <div class="row" ng-if="!showEdit&&mode=='edit'&&(form.status=='created' || form.status=='rejected') && !is_approver">
+    <div class="col-md-offset-10 col-md-2" >
+      <button type="button" name="button" class="btn btn-block btn-primary" ng-click="editInvoice()">Add New Expenses</button>
+      </div>
   </div>
   <div class="row" style="margin:20px" ng-if="form.status=='created' || form.status=='rejected'">
     <div class="col-md-12" style="margin-bottom:20px" ng-if="form.pk && !is_approver && form.unapproved.length>0">
@@ -118,6 +98,7 @@
             <th scope="col">Description</th>
             <th scope="col">Amount</th>
             <th scope="col">Attachment</th>
+            <th scope="col" ng-repeat = "a in headerTitles track by $index">{{a}}</th>
 
           </tr>
         </thead>
@@ -128,6 +109,7 @@
             <td>{{d.description}}</td>
             <td>{{d.total}}</td>
             <td><a ng-if="d.attachment" href="{{d.attachment}}" target="_blank" class="btn btn-primary " ><i class="fa fa-download" ></i></a></td>
+            <td ng-repeat="a in d.data track by $index">{{a.value}}</td>
           </tr>
         </tbody>
       </table>

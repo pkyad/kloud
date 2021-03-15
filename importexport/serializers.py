@@ -354,7 +354,7 @@ class InvoiceQtySerializer(serializers.ModelSerializer):
     invoice = InvoiceSerializer(many = False , read_only = True)
     class Meta:
         model = InvoiceQty
-        fields = ('pk','created','product','invoice','customs_no','part_no','description_1','price','qty','taxableprice','cgst','cgstVal','sgst','sgstVal','igst','igstVal','total')
+        fields = ('pk','created','product','invoice','customs_no','part_no','description_1','price','qty','taxableprice','cgst','cgstVal','sgst','sgstVal','igst','igstVal','total','data')
     def create(self, validated_data):
         i = InvoiceQty(**validated_data)
         if 'product' in self.context['request'].data:
@@ -364,7 +364,7 @@ class InvoiceQtySerializer(serializers.ModelSerializer):
         i.save()
         return i
     def update (self, instance, validated_data):
-        for key in ['pk','created','product','invoice','customs_no','part_no','description_1','price','qty','taxableprice','cgst','cgstVal','sgst','sgstVal','igst','igstVal','total']:
+        for key in ['pk','created','product','invoice','customs_no','part_no','description_1','price','qty','taxableprice','cgst','cgstVal','sgst','sgstVal','igst','igstVal','total','data']:
             try:
                 setattr(instance , key , validated_data[key])
             except:

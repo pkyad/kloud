@@ -809,7 +809,7 @@ class InvoiceReceivedSerializer(serializers.ModelSerializer):
 class InvoiceQtySerializer(serializers.ModelSerializer):
     class Meta:
         model = InvoiceQty
-        fields=('pk','product','created','price','taxCode','taxPer','tax','total','receivedQty','description','attachment','invoice')
+        fields=('pk','product','created','price','taxCode','taxPer','tax','total','receivedQty','description','attachment','invoice','data')
     def create(self , validated_data):
         u = self.context['request'].user
         inv = InvoiceQty(**validated_data)
@@ -826,7 +826,7 @@ class InvoiceQtySerializer(serializers.ModelSerializer):
             invoice.save()
         return inv
     def update(self , instance , validated_data):
-        for key in ['invoice','product','price','taxCode','taxPer','tax','total','receivedQty','description','attachment','invoice']:
+        for key in ['invoice','product','price','taxCode','taxPer','tax','total','receivedQty','description','attachment','invoice','data']:
             try:
                 setattr(instance , key , validated_data[key])
             except:

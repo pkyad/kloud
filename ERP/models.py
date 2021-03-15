@@ -258,6 +258,7 @@ class Division(models.Model):
     subscriptionExpiryDate =  models.DateField(null = True)
     whatsapp_test_number = models.CharField(max_length = 100 , null = True ,blank=True)
     pageType =  models.CharField(max_length = 100 , null = True ,blank=True)
+    expenseData =  models.TextField(max_length = 1000 , null = True)
     # address
     # themeColor
     # invoiceVersion

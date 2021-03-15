@@ -417,6 +417,7 @@ class InvoiceQty(models.Model):
     receivedQty = models.PositiveIntegerField(default=0)
     user = models.ForeignKey(User , related_name='invoiceQtyUsers' , null = True)
     attachment = models.FileField(upload_to = getInvoicesPath ,  null = True) #REQUIRED IF EXPENSES
+    data =  models.TextField(max_length = 2000 , null = True) 
 
 class Cart(models.Model):
     created = models.DateTimeField(auto_now_add=True)

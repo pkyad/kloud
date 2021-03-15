@@ -406,10 +406,22 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
   $scope.refreshInvoice();
   $scope.is_approver = false
   $scope.getData = function(){
+    $scope.headerTitles = []
     $http.get('/api/finance/getAllExpenses/?id=' + $state.params.id).
     then(function(response) {
       $scope.form = response.data;
       $scope.form.invoices =   $scope.form.products
+      for (var i = 0; i < $scope.form.invoices.length; i++) {
+        $scope.form.invoices[i].data = JSON.parse($scope.form.invoices[i].data)
+        if (i == $scope.form.invoices.length-1&&$scope.form.invoices[i].data!=null) {
+          for (var j = 0; j < $scope.form.invoices[i].data.length; j++) {
+            $scope.headerTitles.push($scope.form.invoices[i].data[j].title)
+          }
+        }
+      }
+      for (var i = 0; i < $scope.form.unapproved.length; i++) {
+        $scope.form.unapproved[i].data = JSON.parse($scope.form.unapproved[i].data)
+      }
     })
   }
   if ($state.is('home.editExpenseClaims') || $state.is('home.approveExpenseClaims')) {
@@ -515,11 +527,13 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
         }).
         then(function(response) {
           response.data.added = true
+          if (response.data.data!=null && response.data.data!=null) {
+            response.data.data = JSON.parse(response.data.data)
+          }
           $scope.form.invoices.push(response.data);
           $scope.form.unapproved.splice(indx, 1);
         })
     }
-
   }
 
   $scope.undo = function(indx){
@@ -536,6 +550,9 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
         }).
         then(function(response) {
           $scope.form.invoices.splice(indx, 1);
+          if (response.data.data!=null && response.data.data!=null) {
+            response.data.data = JSON.parse(response.data.data)
+          }
           $scope.form.unapproved.push(response.data);
           $scope.calc()
         })
@@ -581,17 +598,30 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
           },
         },
         controller: function($scope,$http, Flash, $users, $uibModalInstance,form, invoice){
+            $scope.me = $users.get('mySelf');
           if (form == undefined) {
             $scope.invoiceForm = {
               'title': '',
               'total': 0,
               'attachment': emptyFile,
               'description': '',
+              'data':[]
+              // 'data' : [{ 'typ' : 'input' , 'title':'GST Amount','value':''}, { 'typ' : 'input' , 'title':'TAX Percentage','value':''}, { 'typ' : 'checkbox' , 'title':'IS GST?','value':false},{ 'typ' : 'textarea' , 'title':'GST Description','value':''}]
             }
+            $http({
+              method: 'GET',
+              url:  '/api/organization/divisionLite/'+$scope.me.designation.division+'/',
+            }).
+            then(function(response) {
+                $scope.invoiceForm.data = JSON.parse(response.data.expenseData)
+            }, function(error) {
+            })
+
           }
           else{
             $scope.invoiceForm = form
-
+            // console.log($scope.invoiceForm.data,'aaaaaaaaaaaaaaasssssssssss');
+            // $scope.invoiceForm.data = JSON.parse($scope.invoiceForm.data)
           }
           $scope.close = function(){
             $uibModalInstance.dismiss()
@@ -630,6 +660,9 @@ app.controller('app.home.expenseClaims.newForm', function($scope, $http, $state,
             fd.append('total', f.total);
             fd.append('invoice', invoice);
             fd.append('description', f.description);
+            if (f.data!=null&&f.data!=undefined) {
+              fd.append('data', JSON.stringify(f.data));
+            }
             $http({
               method: method,
               url: url,
