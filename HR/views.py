@@ -231,7 +231,7 @@ class ExitManagementViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['is_exited' ]
     def get_queryset(self):
-        toRet = ExitManagement.objects.all()
+        toRet = ExitManagement.objects.filter(user__designation__division = self.request.user.designation.division)
         if 'search' in self.request.GET:
             toRet = toRet.filter(Q(user__first_name__icontains = self.request.GET['search']) | Q(user__last_name__icontains = self.request.GET['search'])| Q(user__email__icontains = self.request.GET['search'])| Q(user__profile__mobile__icontains = self.request.GET['search']))
         return toRet
