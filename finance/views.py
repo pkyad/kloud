@@ -1800,12 +1800,15 @@ class DownloadSheetAPIView(APIView):
     def get(self, request, format=None):
         expenseSheet = InvoiceReceived.objects.get(pk=request.GET['pkVal'])
         expenseObj =  expenseSheet.parentInvoice.all()
+        lastexpenseObj = json.loads(expenseObj.last().data)
         workbook = Workbook()
         Sheet1 = workbook.active
         hdFont = Font(size=12,bold=True)
         alphaChars = list(string.ascii_uppercase)
         Sheet1.title = 'Reimbursement'
         hd = ["Dated", 'Particulars','Description','Amount']
+        for h in lastexpenseObj:
+            hd.append(h['title'])
         Sheet1.append(hd)
         for idx,i in enumerate(hd):
             cl = str(alphaChars[idx])+'1'
@@ -1818,6 +1821,10 @@ class DownloadSheetAPIView(APIView):
             if i.description is not None:
                 description = i.description
             expense = [i.created,i.product,description,i.total]
+            print i.data
+            if i.data:
+                for d in json.loads(i.data):
+                    expense.append(d['value'])
             Sheet1.append(expense)
             for idx,i in enumerate(expense):
                 cl = str(alphaChars[idx])+str(count)
