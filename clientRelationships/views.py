@@ -447,10 +447,7 @@ def QuoteDouwnload(data):
             data.append(' ')
             data.append(' ')
 
-        if row['contact__company__name']:
-            data.append(str(row['contact__company__name']))
-        else:
-            data.append(' ')
+
         address = ''
         if row['contact__street']:
             address+=row['contact__street']+' '
@@ -463,6 +460,10 @@ def QuoteDouwnload(data):
         if row['contact__pincode']:
             address+=row['contact__pincode']+' '
         data.append(address)
+        if row['contact__company__name']:
+            data.append(str(row['contact__company__name']))
+        else:
+            data.append(' ')
         data.append(str(row['value']))
         data.append(str(row['user__first_name'])+ ' ' +str(row['user__last_name']) )
         ws1.append(data)
