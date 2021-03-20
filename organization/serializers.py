@@ -56,7 +56,7 @@ class DivisionSerializer(serializers.ModelSerializer):
         users = User.objects.filter(designation__division = obj.pk)
         count = users.count()
         lastlogin = userSearchViewSerializer(users.first(),many=False).data
-        print lastlogin
+        print lastlogin, 'test'
         return{'users':count,'last_login':lastlogin['last_login']}
     def create(self , validated_data):
         d = Division(**validated_data)

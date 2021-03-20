@@ -578,9 +578,26 @@ def footer(canvas, doc):
 Round = lambda x, n: eval('"%.' + str(int(n)) + 'f" % ' + repr(x))
 def purchaseOrder(response , project , purchaselist, multNumber,currencyTyp, request):
     styles = getSampleStyleSheet()
-    doc = SimpleDocTemplate(response,pagesize=letter, topMargin=70,leftMargin=1.2*cm,rightMargin=1.2*cm)
+    doc = SimpleDocTemplate(response,pagesize=letter, topMargin=15,leftMargin=1.2*cm,rightMargin=1.2*cm)
     doc.request = request
     elements = []
+
+    text = "<font size='10'><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BRUDERER PRESSES INDIA PVT. LTD.</b><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#17P, Sadaramangala Industrial Area<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Whitefield Road,Kadugodi<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bangalore - 560 048, KARNATAKA, India<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Phone : +91 80-2841 1049<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Email id : info.in@bruderer.com<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Website : www.bruderer.com</font>"
+    logo ="""
+
+    <font size ='12'>
+    <img height="90" width="220" src="static_shared/images/image6.png"/> </font>
+
+    """
+
+
+    # para = Paragraph(text1, styles['Normal'])
+    l= Paragraph(logo , styles['Normal'])
+    p = Paragraph(text , styles['Normal'])
+    tdheader=[[p,l ]]
+    tab=Table(tdheader,colWidths=(5*inch , 3*inch))
+    # tab.setStyle(TableStyle([('TEXTFONT', (0, 0), (-1, -1), 'Times-Bold'),('TEXTCOLOR',(0,0),(-1,-1),black),('ALIGN',(0,0),(-1,-1),'LEFT'),('VALIGN',(0,0),(-1,-1),'TOP'),('BOX',(0,0),(-1,-1),0.25,colors.black),('INNERGRID', (0,0), (-1,-1), 0.25, colors.black)]))
+    elements.append(tab)
     style_right = ParagraphStyle(name='right', parent=styles['Normal'], alignment=TA_RIGHT)
     summryHeader = Paragraph("""
     <para >
