@@ -1213,7 +1213,7 @@ def WhatsappHookView(request):
         # ctharr.delete()
         if ctharr.count() == 0:
             cth = ChatThread(fid = recipient_id, company = compProfile , firstMessage = compProfile.firstMessage , channel = "whatsapp", uid= uid )
-            cnts = Contacts(name = requests.POST['ProfileName'] , mobile =  frm , source = "whatsapp" )
+            cnts = Contacts(name = request.POST['ProfileName'] , mobile =  frm , source = "whatsapp" )
             cnts.save()
             cth.visitor = cnts
             cth.save()
