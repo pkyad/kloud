@@ -1182,7 +1182,7 @@ def WhatsappHookView(request):
 
 
     recipient_id = request.POST['From'].split('whatsapp:+')[1]
-
+    frm = request.POST['From'].split('whatsapp:+')[1]
     message = request.POST['Body']
 
     try:
@@ -1194,7 +1194,7 @@ def WhatsappHookView(request):
             auth_token = globalSettings.TWILLIO_AUTH_TOKEN
         whatsapp_from = compProfile.whatsappNumber
     except:
-        frm = request.POST['From'].split('whatsapp:+')[1]
+        
         print frm
         compProfile = Division.objects.get(whatsapp_test_number = frm )
         account_sid = globalSettings.TWILLIO_SID
@@ -1213,7 +1213,14 @@ def WhatsappHookView(request):
         # ctharr.delete()
         if ctharr.count() == 0:
             cth = ChatThread(fid = recipient_id, company = compProfile , firstMessage = compProfile.firstMessage , channel = "whatsapp", uid= uid )
+            cnts = Contacts(name = requests.POST['ProfileName'] , mobile =  frm , source = "whatsapp" )
+            cnts.save()
+            cth.visitor = cnts
             cth.save()
+            
+
+            
+
             wmessage = client.messages.create(body= html2text.html2text(compProfile.firstMessage),
                                           from_='whatsapp:+%s'%(whatsapp_from),
                                           to='whatsapp:+%s'%(recipient_id))
