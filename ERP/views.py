@@ -55,7 +55,7 @@ from simplecrypt import encrypt, decrypt
 from clientRelationships.models import ContactAuth
 from clientRelationships.serializers import ContactLiteSerializer
 from chatbot.talk import *
-
+from twilio.rest import Client
 
 def generateOTPCode(length = 4):
     chars = string.digits
