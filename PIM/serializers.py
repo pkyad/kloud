@@ -212,8 +212,8 @@ class chatMessageSerializer(serializers.ModelSerializer):
             im.attachment = self.context['request'].FILES['attachment']
         except:
             pass
+
         try:
-            im.attachment = self.context['request'].FILES['attachment']
             if im.attachment.name.endswith('.pdf'):
                 im.fileType = 'pdf'
             elif im.attachment.name.endswith('.png') or  im.attachment.name.endswith('.jpg') or  im.attachment.name.endswith('.jpeg'):
@@ -236,20 +236,19 @@ class chatMessageSerializer(serializers.ModelSerializer):
         # else:
         
         
-        if im.message is not None:
+        if im.message is not None and chatThread.firstMessage is None:
             chatThread.firstMessage = im.message
         else:
             chatThread.firstMessage = im.fileName
         chatThread.save()
         if chatThread.uid is not None:
             im.uid = chatThread.uid
-        im.save()
         if im.attachment !=None and im.attachmentType == None:
             if im.fileType == 'image':
                 im.attachmentType = 'image'
             else:
                 im.attachmentType = 'application'
-            im.save()
+        im.save()
         return im
 
 

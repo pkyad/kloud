@@ -1255,7 +1255,7 @@ def WhatsappHookView(request):
             print "Save message"
             sc = ChatMessage(uid = ctharr[0].uid, sentByAgent = False)
             sc.attachment.save(fileName, File(open(filePath)), save = False)
-
+            sc.fileName = fileName
             ext = str(fileName).split('.')[-1]
             print "ext : " , ext
 
@@ -1267,6 +1267,8 @@ def WhatsappHookView(request):
                 typ = 'video'
             print "typ: " , typ
             sc.attachmentType = typ
+            sc.fileType = typ
+            sc.fileSize = sc.attachment.size
             sc.save()
 
 
