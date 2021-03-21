@@ -115,7 +115,7 @@ SHOW_COMMON_APPS = True
 DEFAULT_STATE = '/businessManagement/clientRelationships'
 
 TWILLIO_SID = 'ACeef54d4946f61de33d1dacc2388fb702'
-TWILLIO_AUTH_TOKEN = '4ba9d3bddacb4e9d1ea84c17c6a7e4bc'
+TWILLIO_AUTH_TOKEN = '5f71b0577135173f0910f48403958af2'
 DEFAULT_WHATSAPP_NUMBER = '15128510366'
 
 PAYMENT_MODE = 'razorpay' # options are EBS , paypal , paytm , PAYU , ccavenue,razorpay

@@ -1996,8 +1996,8 @@ def payuMoneyInitiate(request, data):
 
     hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10";
 
-    hash_string = '';
-    hashVarsSeq = hashSequence.split('|');
+    hash_string = ''
+    hashVarsSeq = hashSequence.split('|')
     hash_object = hashlib.sha256(b'randint(0,20)')
     trxnID = hash_object.hexdigest()[0:20]
     print '8088024500'
@@ -2013,7 +2013,7 @@ def payuMoneyInitiate(request, data):
 
     for hvs in hashVarsSeq:
         try:
-            hash_string += posted[hvs];
+            hash_string += posted[hvs]
         except:
             hash_string += ''
 

@@ -199,9 +199,15 @@ class chatMessageSerializer(serializers.ModelSerializer):
         model = ChatMessage
         fields = ('pk' , 'thread' ,'uid', 'attachment' , 'created' , 'read' , 'user','message','attachmentType','sentByAgent','responseTime','logs','delivered','read','is_hidden','fileType','fileSize','fileName','replyTo')
     def create(self , validated_data):
-        im = ChatMessage.objects.create(**validated_data)
+        im = ChatMessage(**validated_data)
         im.user = self.context['request'].user
-        im.save()
+        im.sentByAgent = True
+        chatThread = im.thread
+        if 'thread' in self.context['request'].data:
+            im.thread = chatThread
+            im.uid = chatThread.uid
+        if 'replyTo' in self.context['request'].data:
+            im.replyTo = ChatMessage.objects.get(pk=self.context['request'].data['replyTo'])
         try:
             im.attachment = self.context['request'].FILES['attachment']
         except:
@@ -228,11 +234,8 @@ class chatMessageSerializer(serializers.ModelSerializer):
         #     im.delete()
         #     raise ParseError(detail=None)
         # else:
-        if 'thread' in self.context['request'].data:
-            im.thread = ChatThread.objects.get(pk=self.context['request'].data['thread'])
-        if 'replyTo' in self.context['request'].data:
-            im.replyTo = ChatMessage.objects.get(pk=self.context['request'].data['replyTo'])
-        chatThread = im.thread
+        
+        
         if im.message is not None:
             chatThread.firstMessage = im.message
         else:

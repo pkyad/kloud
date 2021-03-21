@@ -537,7 +537,7 @@ def transferSession(ctx):
     cth.save()
 
     if cth.channel == 'FB' or cth.channel == 'whatsapp':
-        sc = SupportChat(message = "Bot transferred session", uid = cth.uid, sentByAgent = False , is_hidden = True)
+        sc = ChatMessage(message = "Bot transferred session", uid = cth.uid, sentByAgent = False , is_hidden = True)
         sc.save()
         return
 
