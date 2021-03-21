@@ -15,7 +15,7 @@ from url_filter.integrations.drf import DjangoFilterBackend
 from .serializers import *
 from API.permissions import *
 from ERP.models import *
-from organization.models import CompanyHolidays
+from organization.models import CompanyHolidays, Division
 from clientRelationships.models import Contact, CustomerSession
 from ERP.views import getApps
 from django.db.models import Q
@@ -30,7 +30,8 @@ from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 import json
 from django.core.mail import send_mail , EmailMessage
-from finance.models import Sale
+from finance.models import Sale, Inventory, Category
+from finance.serializers import RateListSerializer, CategorySerializer
 from payroll.models import Payslip
 from django.template.loader import render_to_string, get_template
 from openpyxl import load_workbook
@@ -38,8 +39,13 @@ from io import BytesIO,StringIO
 from performance.models import TimeSheet
 from ERP.send_email import send_email
 import os
-# Create your views here.
+from organization.serializers import DivisionSerializer, UnitFullSerializer
+from clientRelationships.serializers import ContactLiteSerializer
 
+
+# Create your views here.
+import basehash
+hash_fn = basehash.base36()
 
 class PageViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
@@ -59,7 +65,7 @@ class PageViewSet(viewsets.ModelViewSet):
 
 class ComponentsViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
-    queryset = Components.objects.all().order_by('parent__pk','index')
+    queryset = Components.objects.all().order_by('index')
     serializer_class = ComponentsSerializer
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['parent' , 'component_type']
@@ -78,6 +84,26 @@ class UIelementTemplateViewSet(viewsets.ModelViewSet):
 
 
 
+class InitializewebsitebuilderAPIView(APIView):
+
+    def post(self , request , format = None):
+        data = request.data
+        division = Division.objects.get(pk = request.user.designation.division.pk)
+        if 'title' in request.data :
+            division.defaultTitle = data['title']
+        if 'description' in request.data :
+            division.defaultDescription = data['description']
+        if 'url' in request.data :
+            division.subDomain = data['url']
+        if 'stage' in request.data :
+            division.pageType = data['stage']
+        division.save()
+        request.user.designation.division = division
+        page = Page.objects.create(title= data['title'],description=data['description'],user=request.user)
+        page.save()
+        return Response({'page':PageSerializer(page,many=False).data})
+
+
 class PublishAPIView(APIView):
     def get(self , request , format = None):
         page = Page.objects.get(pk = request.GET['page'])
@@ -94,3 +120,96 @@ class PublishAPIView(APIView):
         f.write(pageContent)
         f.close()
         return Response({})
+
+class GetFooterDetailsView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny,)
+    def get(self , request , format = None):
+        if 'divId' in self.request.GET and self.request.GET['divId'] !='undefined':
+            id = hash_fn.unhash(self.request.GET['divId'])
+            divObj = Division.objects.get(pk = int(id))
+        else:
+            divObj = request.user.designation.division
+        obj = DivisionSerializer(divObj, many = False).data
+        unitObj = divObj.units.all()
+        if unitObj.count()>0:
+            obj['unit'] = UnitFullSerializer(unitObj.first(), many = False).data
+        return Response(obj)
+
+
+class CheckDivisionUrlUsedView(APIView):
+    def get(self , request , format = None):
+        isValid = True
+        if 'url' in request.GET:
+            divObj = Division.objects.filter(subDomain = request.GET['url'])
+            if divObj.count()>0:
+                isValid = False
+        return Response({'isValid' : isValid})
+
+class UpdateContactView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny,)
+    def post(self , request , format = None):
+        data = request.data
+        toRet = {}
+        if 'pk' in data:
+            cont = Contact.objects.get(pk = int(data['pk']))
+            if 'name' in data:
+                cont.name = data['name']
+            if 'email' in data:
+                cont.email = data['email']
+            if 'mobile' in data:
+                cont.mobile =  data['mobile']
+            if 'street' in data:
+                cont.street =  data['street']
+            if 'pincode' in data:
+                cont.pincode =  data['pincode']
+            if 'city' in data:
+                cont.city =  data['city']
+            if 'country' in data:
+                cont.country = data['country']
+            if 'pincode' in data:
+                cont.pincode = data['pincode']
+            if 'state' in data:
+                cont.state = data['state']
+            cont.save()
+            toRet = ContactLiteSerializer(cont, many = False).data
+        return Response(toRet, status =  status.HTTP_200_OK)
+    def get(self , request , format = None):
+        toRet = {}
+        if 'id' in request.GET:
+            cont = Contact.objects.get(pk = int(request.GET['id']))
+            toRet = ContactLiteSerializer(cont, many = False).data
+        return Response(toRet, status =  status.HTTP_200_OK)
+
+class GetProductsView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny,)
+    def get(self , request , format = None):
+        data = request.GET
+        toRet = {}
+        if 'id' in data:
+            invData = Inventory.objects.get(pk = int(data['id']))
+            toRet = RateListSerializer(invData, many = False, context = {"request": request}).data
+            # toRet.context['request'] = request
+        if 'category' in data:
+            invData = Inventory.objects.filter(category__pk = int(data['category']))
+            toRet = RateListSerializer(invData, many = True,  context = {"request": request}).data
+            # toRet.context['request'] = request
+        return Response(toRet, status =  status.HTTP_200_OK)
+
+
+class GetCategoryView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny,)
+    def get(self , request , format = None):
+        data = request.GET
+        toRet = {}
+        try:
+            id = hash_fn.unhash(self.request.GET['divId'])
+            divObj = Division.objects.get(pk = int(id))
+        except:
+            divObj = request.user.designation.division
+        objs = Category.objects.filter(division = divObj)
+        toRet = CategorySerializer(objs, many = True).data
+        return Response(toRet, status =  status.HTTP_200_OK)

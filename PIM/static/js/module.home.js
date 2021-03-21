@@ -1250,9 +1250,21 @@ app.controller('controller.home.expense.claims', function($scope, $http, $aside,
           }
         })
 
-        console.log(fileUrl);
+        $scope.me = $users.get('mySelf');
 
-        $scope.form = {product:'',description:'',total:0,attachment:emptyFile  , selection : 'file'}
+        // divData = [{ 'typ' : 'input' , 'title':'GST Amount','value':''}, { 'typ' : 'input' , 'title':'TAX Percentage','value':''}, { 'typ' : 'checkbox' , 'title':'IS GST?','value':false},{ 'typ' : 'textarea' , 'title':'GST Description','value':''}]
+
+
+        $scope.form = {product:'',description:'',total:0,attachment:emptyFile  , selection : 'file',data:[]}
+
+        $http({
+          method: 'GET',
+          url:  '/api/organization/divisionLite/'+$scope.me.designation.division+'/',
+        }).
+        then(function(response) {
+            $scope.form.data = JSON.parse(response.data.expenseData)
+        }, function(error) {
+        })
 
         if (fileUrl != undefined && fileUrl != null) {
           $scope.form.fileUrl = fileUrl;
@@ -1287,6 +1299,9 @@ app.controller('controller.home.expense.claims', function($scope, $http, $aside,
             fd.append('product', f.product);
             fd.append('total', f.total);
             fd.append('description', f.description);
+            if (f.data!=undefined &&f.data!=null && f.data.length>0) {
+              fd.append('data', JSON.stringify(f.data));
+            }
           $http({
             method: 'POST',
             url: '/api/finance/invoiceQty/',

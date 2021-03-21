@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.views.decorators.cache import never_cache
 from ERP.models import *
 from LMS.models import *
+from finance.models import Cart
 from website.models import *
 from recruitment.models import *
 from finance.models import *
@@ -23,6 +24,7 @@ from django.template import Context, Template
 # Related to the REST Framework
 from django.http import HttpResponse
 import os
+from LMS.serializers import CourseSerializer
 
 import basehash
 hash_fn = basehash.base36()
@@ -153,40 +155,89 @@ def pageeditor(request,id):
 #            app.HR.page.html
 #     return HttpResponse(fileContent)
 
-
+import json
 def renderpage(request,apiKey,url):
+
     print url,apiKey,"34342"
     header =None
     footer = None
     headerCss = None
     footerCss = None
-    if request.user.designation.division.headerTemplate:
-        header  = request.user.designation.division.headerTemplate
-        headerCss  = request.user.designation.division.headerCss
-    if request.user.designation.division.headerTemplate:
-        footer  = request.user.designation.division.footerTemplate
-        footerCss  = request.user.designation.division.footerCss
+    showLms = False
+    try:
+        div = request.user.designation.division
+    except:
+        id = hash_fn.unhash(apiKey)
+        div = Division.objects.get(pk = int(id))
+    if div.headerTemplate:
+        header  = div.headerTemplate
+        headerCss  = div.headerCss
+    if div.headerTemplate:
+        footer  = div.footerTemplate
+        footerCss  = div.footerCss
 
 
 
     if url == None:
-        page = Page.objects.get(url__isnull=True , user__designation__division = request.user.designation.division )
+        page = Page.objects.get(url__isnull=True , user__designation__division = div )
+        return redirect('/login')
     else:
-        page = Page.objects.get(url = url, user__designation__division = request.user.designation.division )
+        page = Page.objects.get(url = url, user__designation__division = div )
     components = Components.objects.filter(parent = page)
     data = ''
     for indx, i in enumerate(components):
-        i.template = i.template.replace('$data' , 'components[%s].data'%(indx))
-
+        i.template = i.template.replace('"$data"' , "'"+components[indx].data+"'")
         i.dataTemplate = i.template
-
+        # i.data = json.loads(json.dumps(i.data))
+        print i.data,"4k324kl3k4las;dflkasidfo"
 
     # if page.enableChat:
 
-    API_KEY = hash_fn.hash(page.user.designation.division.pk)
+    # API_KEY = hash_fn.hash(page.user.designation.division.pk)
+    # division = page.user.designation.division
+    return render(request,'app.HR.page.html',{'components':components,'page':page,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':div,'showLms' : showLms})
 
-    return render(request,'app.HR.page.html',{'components':components,'page':page,'API_KEY':API_KEY,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
+def renderpageMain(request,apiKey):
 
+    # print url,apiKey,"34342"
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    showLms = False
+    try:
+        div = request.user.designation.division
+    except:
+        id = hash_fn.unhash(apiKey)
+        div = Division.objects.get(pk = int(id))
+    if div.headerTemplate:
+        header  = div.headerTemplate
+        headerCss  = div.headerCss
+    if div.headerTemplate:
+        footer  = div.footerTemplate
+        footerCss  = div.footerCss
+
+
+
+    page = Page.objects.get(url__isnull=True , user__designation__division = div )
+    if div.pageType == 'LMS':
+        showLms = True
+        components = json.dumps(CourseSerializer(Course.objects.filter(division = div, activeCourse = True), many = True).data)
+        return render(request,'app.HR.page.html',{'componentsData':components,'page':page,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':div,'showLms' : showLms})
+
+    components = Components.objects.filter(parent = page)
+    data = ''
+    for indx, i in enumerate(components):
+        i.template = i.template.replace('"$data"' , "'"+components[indx].data+"'")
+        i.dataTemplate = i.template
+        # i.data = json.loads(json.dumps(i.data))
+        print i.data,"4k324kl3k4las;dflkasidfo"
+    # components = ComponentsSerializer(Components.objects.filter(parent = page), many=True).data
+    # data = ''
+    # for indx, i in enumerate(components):
+    #     i['template'] = i['template'].replace('"$data"' , "'"+components[indx].data+"'")
+    #     i['template'] = i['template']
+    return render(request,'app.HR.page.html',{'components':components,'page':page,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':div,'showLms' : showLms})
 
 def uielement(request):
     component = UIelementTemplate.objects.get(pk = request.GET['id'])
@@ -239,14 +290,161 @@ def appdetails(request):
     return render(request, 'app.HR.appdetails.html')
 
 
-def ProductDetails(request,id):
+
+
+def ProductDetails(request,apiKey,id):
     product = Inventory.objects.get(pk = id)
-    context={}
-    return render(request, 'app.finance.inventory.productDetails.html',{'product':product})
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    try:
+        div = request.user.designation.division
+    except:
+        id = hash_fn.unhash(apiKey)
+        div = Division.objects.get(pk = int(id))
+    if div.headerTemplate:
+        header  = div.headerTemplate
+        headerCss  = div.headerCss
+    if div.headerTemplate:
+        footer  = div.footerTemplate
+        footerCss  = div.footerCss
+    # div = hash_fn.hash(request.user.designation.division.pk)
+    return render(request, 'app.finance.inventory.productDetails.html',{'product':product,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
 
-def Categories(request,id):
+def Categories(request,apiKey,id):
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    try:
+        div = request.user.designation.division
+    except:
+        divId = hash_fn.unhash(apiKey)
+        div = Division.objects.get(pk = int(divId))
+    if div.headerTemplate:
+        header  = div.headerTemplate
+        headerCss  = div.headerCss
+    if div.headerTemplate:
+        footer  = div.footerTemplate
+        footerCss  = div.footerCss
+    # div = hash_fn.hash(request.user.designation.division.pk)
+    print id,'sssssssssssssssssssssssssssss'
+    return render(request, 'app.ecommerce.categories.html',{'id':id,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
 
-    return render(request, 'app.ecommerce.categories.html',{'id':id})
+def CheckoutView(request,apiKey):
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    try:
+        div = request.user.designation.division
+    except:
+        divId = hash_fn.unhash(apiKey)
+        div = Division.objects.get(pk = int(divId))
+    if div.headerTemplate:
+        header  = div.headerTemplate
+        headerCss  = div.headerCss
+    if div.headerTemplate:
+        footer  = div.footerTemplate
+        footerCss  = div.footerCss
+    cartItems = len(Cart.objects.all())
+    # div = hash_fn.hash(request.user.designation.division.pk)
+    return render(request, 'app.ecommerce.checkout.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'API_KEY':apiKey,'cartItems':cartItems})
+
+
+def CheckoutAddressView(request,apiKey):
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    try:
+        div = request.user.designation.division
+    except:
+        divId = hash_fn.unhash(apiKey)
+        div = Division.objects.get(pk = int(divId))
+    if div.headerTemplate:
+        header  = div.headerTemplate
+        headerCss  = div.headerCss
+    if div.headerTemplate:
+        footer  = div.footerTemplate
+        footerCss  = div.footerCss
+    # div = hash_fn.hash(request.user.designation.division.pk)
+    return render(request, 'app.ecommerce.address.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'API_KEY':apiKey})
+
+def CheckoutPaymentView(request,apiKey):
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    try:
+        div = request.user.designation.division
+    except:
+        divId = hash_fn.unhash(apiKey)
+        div = Division.objects.get(pk = int(divId))
+    if div.headerTemplate:
+        header  = div.headerTemplate
+        headerCss  = div.headerCss
+    if div.headerTemplate:
+        footer  = div.footerTemplate
+        footerCss  = div.footerCss
+    return render(request, 'app.ecommerce.payment.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'API_KEY':apiKey})
+
+def OrderSuccessfulView(request,apiKey):
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    try:
+        div = request.user.designation.division
+    except:
+        divId = hash_fn.unhash(apiKey)
+        div = Division.objects.get(pk = int(divId))
+    if div.headerTemplate:
+        header  = div.headerTemplate
+        headerCss  = div.headerCss
+    if div.headerTemplate:
+        footer  = div.footerTemplate
+        footerCss  = div.footerCss
+    orderid = request.GET['orderid']
+    # division = hash_fn.hash(request.user.designation.division.pk)
+    return render(request, 'app.ecommerce.orderSuccessful.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'orderid':orderid,'division':apiKey})
+
+def OrderFailureView(request,apiKey):
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    try:
+        div = request.user.designation.division
+    except:
+        divId = hash_fn.unhash(apiKey)
+        div = Division.objects.get(pk = int(divId))
+    if div.headerTemplate:
+        header  = div.headerTemplate
+        headerCss  = div.headerCss
+    if div.headerTemplate:
+        footer  = div.footerTemplate
+        footerCss  = div.footerCss
+    return render(request, 'app.ecommerce.orderFailure.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
+
+def ProfileView(request,apiKey):
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    try:
+        div = request.user.designation.division
+    except:
+        divId = hash_fn.unhash(apiKey)
+        div = Division.objects.get(pk = int(divId))
+    if div.headerTemplate:
+        header  = div.headerTemplate
+        headerCss  = div.headerCss
+    if div.headerTemplate:
+        footer  = div.footerTemplate
+        footerCss  = div.footerCss
+    return render(request, 'app.ecommerce.profile.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'API_KEY':apiKey})
 
 
 import json

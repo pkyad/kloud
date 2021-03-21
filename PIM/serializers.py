@@ -42,6 +42,25 @@ class settingsSerializer(serializers.ModelSerializer):
         model = settings
         fields = ('pk' , 'user', 'theme', 'presence')
 
+class userProfileLiteSerializer(serializers.ModelSerializer):
+    # to be used in the typehead tag search input, only a small set of fields is responded to reduce the bandwidth requirements
+    class Meta:
+        model = profile
+        fields = ('displayPicture' , 'prefix' ,'pk','mobile','lat','lon','isDashboard','isManager','zoom_token')
+
+class userSearchSerializer(serializers.ModelSerializer):
+    profile = userProfileLiteSerializer(many=False , read_only=True)
+    logo = serializers.SerializerMethodField()
+    division = serializers.SerializerMethodField()
+    class Meta:
+        model = User
+        fields = ( 'pk', 'username' , 'first_name' , 'last_name' , 'profile' , 'designation', 'email' ,'logo','is_staff','last_login','division')
+    def get_logo(self, obj):
+        return globalSettings.BRAND_LOGO
+    def get_division(self, obj):
+        return obj.designation.division.pk
+
+
 class notificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = notification
@@ -67,6 +86,7 @@ class calendarSerializer(serializers.ModelSerializer):
     clients = ContactLiteSerializer(many = True , read_only = True)
     time = serializers.SerializerMethodField()
     remainingHours = serializers.SerializerMethodField()
+    followers = userSearchSerializer(read_only=True,many=True)
     class Meta:
         model = calendar
         fields = ('pk' , 'eventType' , 'followers' ,'originator', 'duration' , 'created', 'updated', 'user' , 'text'  ,'when'  , 'deleted' , 'completed' , 'canceled' , 'level' , 'venue' , 'attachment' , 'myNotes', 'clients', 'data','time','remainingHours')
@@ -77,7 +97,7 @@ class calendarSerializer(serializers.ModelSerializer):
         return  str(date.time()).split('.')[0][:-3]
     def get_remainingHours(self,obj):
         tz_IN = pytz.timezone('Asia/Kolkata')
-        now = datetime.now(tz_IN)
+        now = datetime.datetime.now(tz_IN)
         date = obj.when
         diff = date - now
         remainingHours = int(math.floor(diff.seconds/(60*60)))
@@ -142,8 +162,8 @@ class calendarSerializer(serializers.ModelSerializer):
             else:
                 for tag in tagged:
                     instance.followers.add( User.objects.get(pk = tag))
-        instance.clients.clear()
         if 'clients' in  self.context['request'].data:
+            instance.clients.clear()
             clients = self.context['request'].data['clients']
             for c in clients:
                 instance.clients.add(Contact.objects.get(pk = c))
@@ -160,24 +180,9 @@ class calendarSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-class userProfileLiteSerializer(serializers.ModelSerializer):
-    # to be used in the typehead tag search input, only a small set of fields is responded to reduce the bandwidth requirements
-    class Meta:
-        model = profile
-        fields = ('displayPicture' , 'prefix' ,'pk','mobile','lat','lon','isDashboard','isManager','zoom_token')
 
 
-class userSearchSerializer(serializers.ModelSerializer):
-    profile = userProfileLiteSerializer(many=False , read_only=True)
-    logo = serializers.SerializerMethodField()
-    division = serializers.SerializerMethodField()
-    class Meta:
-        model = User
-        fields = ( 'pk', 'username' , 'first_name' , 'last_name' , 'profile' , 'designation', 'email' ,'logo','is_staff','last_login','division')
-    def get_logo(self, obj):
-        return globalSettings.BRAND_LOGO
-    def get_division(self, obj):
-        return obj.designation.division.pk
+
 
 
 class chatMessageLiteSerializer(serializers.ModelSerializer):

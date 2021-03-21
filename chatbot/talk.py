@@ -124,6 +124,7 @@ EAI_open = open
 EAI_sys = sys
 EAI_os = os
 
+
 def initialiseBlock(node , cntx):
     if node is None:
         print "Next block is None , returning , execution ended"
@@ -135,7 +136,7 @@ def initialiseBlock(node , cntx):
         # EAI_open = open
         open = None
         os = None
-        sys = None
+        # sys = None
         try:
             # print os , "os"
             # print sys , "sys"
@@ -866,7 +867,7 @@ def getResponse(txt, ctx , compProfile , fil = None):
 
 
 
-        if config.blockType == 'getEmail':
+        if config.blockType == 'getMobile':
 
             if config.verify and config.context_key + '_otp' in ctx and ctx[config.context_key + '_otp'] != '':
                 if ctx[config.context_key + '_otp'] == txt:

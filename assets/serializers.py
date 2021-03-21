@@ -56,4 +56,4 @@ class CheckinSerializer(serializers.ModelSerializer):
 class CheckinLiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Checkin
-        fields = ('pk' , 'asset','serialNo')
+        fields = ('pk' ,'serialNo','name','price')

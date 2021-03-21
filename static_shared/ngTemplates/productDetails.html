@@ -46,7 +46,7 @@ z-index: 1;position: relative;background-color:white;"><i class="fa fa-arrow-dow
               <span class="ng-scope" style="margin-right:10px;">
                 <strong style="font-size:14px;"><strike class="ng-binding"><i class="fa fa-inr"></i>{{products.mrp}}</strike> </strong>
               </span><span class="ng-scope" style="margin-right:10px;">
-                <span style="color:red;" class="ng-binding"> 17% OFF </span>
+                <span style="color:red;" class="ng-binding"> {{(products.mrp - products.rate) / products.mrp * 100 | number:0}} % OFF </span>
               </span>
             </div>
           </div>
@@ -54,15 +54,28 @@ z-index: 1;position: relative;background-color:white;"><i class="fa fa-arrow-dow
           <div class="col-md-12">
             <p>Delivered in:5 days</p>
           </div>
+          <div class="row" style="margin:0px;margin-bottom:30px">
+            <div class="col-md-5" ng-if="products.addonsData.length>0">
+              Addons
+              <select class="form-control bookInput" name="" ng-model="products.addon" ng-options = "k.description +' - '+k.price for k in products.addonsData" placeholder="Select the paper" style="background:#ededed;" ng-change="updateCart()">
+              </select>
+            </div>
+            <!-- <div class="col-md-5" ng-if="products.customizationData.length>0">
+              Customization
+              <select class="form-control bookInput" name="" ng-model="products.customization" ng-options = "k.text for k in products.customizationData" placeholder="Select the paper" style="background:#ededed;">
+              </select>
+            </div> -->
+          </div>
           <div class="row" style="margin:0px;">
-            <div class="col-md-5">
-              <button type="button" name="button" class="btn btn-block" style="background-color:var(--themeColor);color:white;font-weight:700;">Add To Cart</button>
+            <div class="col-md-5" ng-if="products.cart<=0">
+              <button type="button" name="button" class="btn btn-block" style="background-color:var(--themeColor);color:white;font-weight:700;outline:none;" ng-click="addToCart()">Add To Cart</button>
             </div>
-            <div class="col-md-3">
-              <button type="button" name="button" class="btn btn-block btn-success">BUY NOW</button>
-            </div>
-            <div class="col-md-4">
-              <button type="button" name="button" class="btn btn-block btn-success">ADD TO WISHLIST</button>
+            <div class="col-md-5" ng-if="products.cart>0">
+              <div class="btn-group btn-group-justified">
+                <a href="#" class="btn btn-primary" style="background-color:var(--themeColor);color:white;font-weight:700;border:none !important;outline:none;" ng-click="changeQty('decrement')"><i class="fa fa-minus"></i></a>
+                <a href="#" class="btn btn-primary"style="background-color:var(--themeColor);color:white;font-weight:700;border:none !important;outline:none;" >{{products.cart}}</a>
+                <a href="#" class="btn btn-primary"style="background-color:var(--themeColor);color:white;font-weight:700;border:none !important;outline:none;" ng-click="changeQty('increment')"><i class="fa fa-plus"></i></a>
+              </div>
             </div>
           </div>
         </div>
@@ -78,7 +91,8 @@ z-index: 1;position: relative;background-color:white;"><i class="fa fa-arrow-dow
           <div class="" style="background-image:url({{k.img1}});background-position:center;height:200px;background-size:contain;background-repeat:no-repeat">
 
           </div>
-          <p style="margin-top:10px;" ng-click="getDetails()"><b>{{k.name}}</b></p>
+          <a href="/pages/{{division}}/details/{{k.pk}}/{{k.url}}" style="margin-top:10px;color:black" >{{k.name}}</a>
+          <p ng-click="getDetails()"><b></b></p>
           <div class="col-md-12" style="padding:0px;">
             <span  style="font-weight:500;font-size:16px;color:black;padding-right:10px;" class=" "><i class="fa fa-inr"></i>{{k.rate}}</span>
             <strike>

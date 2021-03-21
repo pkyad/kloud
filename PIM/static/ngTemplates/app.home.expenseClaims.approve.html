@@ -40,7 +40,8 @@
             <th scope="col">Particular</th>
             <th scope="col">Description</th>
             <th scope="col">Amount</th>
-            <th scope="col">Attachment</th>
+            <th scope="col">Attachmentttt</th>
+            <th scope="col" ng-repeat = "a in headerTitles  track by $index">{{a}}</th>
           </tr>
         </thead>
         <tbody>
@@ -49,6 +50,8 @@
             <td>{{d.product}}</td>
             <td>{{d.description}}</td>
             <td>{{d.total}}</td>
+            <td><a ng-if="d.attachment" href="{{d.attachment}}"><i class="fa fa-download fa-lg"></i></a></td>
+            <td ng-repeat="a in d.data track by $index">{{a.value}}</td>
           </tr>
 
 

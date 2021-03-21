@@ -13,6 +13,62 @@ app.directive("mathjaxBind", function() {
   };
 });
 
+app.directive('myDraggable', ['$document', function($document) {
+  return {
+    scope:{
+      startX: '=',
+      startY: '=',
+      x: '=',
+      y: '='
+    },
+    link: function(scope, element, attr) {
+      element.css({
+       position: 'relative',
+       // border: '1px solid red',
+       // backgroundColor: 'lightgrey',
+       // cursor: 'pointer'
+      });
+
+
+
+
+      element.on('mousedown', function(event) {
+        // Prevent default dragging of selected content
+        // event.preventDefault();
+        scope.startX = event.pageX - scope.x;
+        scope.startY = event.pageY - scope.y;
+        $document.on('mousemove', mousemove);
+        $document.on('mouseup', mouseup);
+        scope.$apply();
+      });
+
+      function mousemove(event) {
+        scope.y = event.pageY - scope.startY;
+        scope.x = event.pageX - scope.startX;
+        element.css({
+          top: scope.y + 'px',
+          left: scope.x + 'px'
+        });
+        scope.$apply();
+      }
+
+      function mouseup() {
+        $document.off('mousemove', mousemove);
+        $document.off('mouseup', mouseup);
+      }
+
+      // element.on('select', function(event) {
+      //   console.log("ssssssssssssssss");
+      //   scope.startX = event.pageX - scope.x;
+      //   scope.startY = event.pageY - scope.y;
+      //   $document.on('mousemove', mousemove);
+      //   $document.on('mouseup', mouseup);
+      //   scope.$apply();
+      // });
+    }
+  };
+}]);
+
 app.directive('tabsStrip', function() {
   return {
     templateUrl: '/static/ngTemplates/tabsStrip.html',
@@ -1360,7 +1416,6 @@ app.directive('formView', function() {
     //   };
     // },
     controller: function($scope, $state, $http, Flash, $rootScope, $filter, $timeout) {
-      $scope.typ = typeof($scope.data)
       $scope.uploadmediafile = function(file, key) {
         $timeout(function(){
 
@@ -1394,8 +1449,9 @@ app.directive('formView', function() {
           return response.data.results;
         })
       };
+
       $scope.editArrayObj = function(field, idx, key) {
-        console.log(field, idx, key);
+
         if(idx == -1){
           data = angular.copy(field.form)
         }else{
@@ -1407,15 +1463,67 @@ app.directive('formView', function() {
         $scope.key = key;
         $scope.form = data;
 
-        console.log($scope.data,data,'e443');
 
         $scope.data[$scope.key].array.push(data)
 
 
       }
+      $scope.deleteTab = function(indx){
+        $scope.data.productsMap.tabs.splice(indx,1)
+      }
+      console.log($scope.data,'342pofdgdggfgop32');
+      $scope.createTab = function(){
+        // $scope.tabForm =
+      }
 
+      $scope.tabData  = function(key1,idx){
+
+
+        // $scope.data[key1].tabs.push($scope.data[key1].form)
+        // $scope.data[key1].form.products.string = ''
+
+      }
+
+      $scope.tabArray = function(field, idx, key,key1) {
+        console.log($scope.data[key1].form,idx,'3u4i34u');
+        if(idx == -1){
+
+          tabdata = angular.copy($scope.data[key1].form)
+        }else{
+          tabdata = $scope.data[key1].tabs[idx-1];
+        }
+        console.log(tabdata,"434");
+        $scope.form = tabdata;
+        $scope.form[key].productList.push(($scope.form[key].string))
+        if (idx == -1) {
+          $scope.data[key1].tabs.push($scope.data[key1].form)
+
+        }
+        $scope.data[key1].tabs[idx-1] = $scope.data[key1].form
+
+
+
+
+      }
+
+
+
+      $scope.showForm = false
+      $scope.getIndex = function(indx,key) {
+
+        $scope.index = indx
+        console.log(indx,'jhyuyhjhj');
+        if (indx >0 ) {
+          $scope.items = $scope.data[key].tabs[indx-1].products.productList
+          $scope.showForm=true
+          $scope.form = $scope.data[key].tabs[indx-1]
+          // $scope.data[key].tabs[indx-1].form = $scope.data[key].tabs[indx-1]
+
+
+        }
+      }
       $scope.save = function(data) {
-        console.log(data,"3243049=23-");
+
         $http({
           method: 'PATCH',
           url: '/api/website/components/' + $scope.component.pk + '/',
@@ -1656,14 +1764,18 @@ app.directive('academyCourses', function() {
     restrict: 'E',
     transclude: true,
     replace: true,
+    scope: {
+      data: '=',
+    },
     controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
-      $http({
-        method: 'GET',
-        url: '/api/LMS/course/?activeCourse=True',
-      }).
-      then(function(response) {
-        $scope.courses = response.data
-      })
+    $scope.courses = JSON.parse($scope.data)
+      // $http({
+      //   method: 'GET',
+      //   url: '/api/LMS/course/?activeCourse=True',
+      // }).
+      // then(function(response) {
+      //   $scope.courses = response.data
+      // })
     }
   }
 })

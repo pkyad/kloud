@@ -1,0 +1,61 @@
+<style media="screen">
+  .couponInput{
+    background:white;
+    outline: none !important;
+    box-shadow: none !important;
+    padding-left:10px !important;
+  }
+  .couponInput:focus{
+    outline: none !important;
+    box-shadow: none !important;
+  }
+</style>
+
+<div class="row hidden-xs" style="background-color:#fbfbfb;margin-top:10%;" ng-if="totalDetails.showDetails">
+  <div class="col-md-12" style="padding:40px;">
+    <h4> <strong> Cart Total </strong> </h4>
+    <hr style="border-top: 1px solid #c1bdbd;" />
+    <h6> Subtotal : <span class="pull-right" > <i class="fa {{currency}}"></i> {{totalDetails.subTotal  | number:2}} </span> </h6>
+    <hr style="border-top: 1px solid #c1bdbd;" />
+    <h6> GST : <span class="pull-right" > + <i class="fa {{currency}}"></i> {{totalDetails.totalGST | number:2}} </span> </h6>
+    <hr style="border-top: 1px solid #c1bdbd;" />
+    <h6 ng-if="totalDetails.addonTotal>0" > Addon Total : <span class="pull-right" ng-if="totalDetails.addonTotal>0" > + <i class="fa {{currency}}"></i> {{totalDetails.addonTotal | number : 2}} </span> </h6>
+    <hr  style="border-top: 1px solid #c1bdbd;" ng-if="totalDetails.addonTotal>0" />
+    <h6 > Shipping Cost : <span class="pull-right" > + <i class="fa {{currency}}"></i> {{totalDetails.shipping | number : 2}} </span> </h6>
+    <hr  style="border-top: 1px solid #c1bdbd;" />
+    <!-- <div ng-show="data.stage == 'payment'">
+    <div  class="input-group" style="margin-top:35px;border:1px solid #c1bdbd" ng-controller="applyCoupon">
+      <input type="text" class="form-control couponInput"  placeholder="Coupon Code" ng-model="coupon"/>
+      <span class="input-group-btn" >
+        <button type="button" class="btn btn-default" style="border-left:1px solid #c1bdbd" ng-click="getCoupon(coupon)"><i class="fa  fa-arrow-right"></i></button>
+      </span>
+    </div>
+    <h6 ng-if="couponData"> Discount Code : <span class="pull-right" >{{couponData.name}} </span> </h6>
+      <hr ng-if="couponData.discountInPercentage" style="border-top: 1px solid #c1bdbd;" />
+    <h6 ng-if="couponData.discountInPercentage"> Discount : <span class="pull-right" > {{couponData.discount}} % </span> </h6>
+      <hr ng-if="couponData" style="border-top: 1px solid #c1bdbd;" />
+    <h6 ng-if="couponData"> Discount Price : <span class="pull-right" > <i class="fa {{currency}}"></i> {{discountedPrice | number : 2}} </span> </h6>
+      <hr style="border-top: 1px solid #c1bdbd;" />
+    </div> -->
+    <h4 style="color:var(--themeColor)"> Total : <span style="color:#ff754a" class="pull-right"> <i class="fa {{currency}}"></i> {{totalDetails.grandTotal | number : 2}} </span> </h4>
+    <a class="btn btn-default" style="border:1px solid var(--themeColor);color:var(--themeColor);width:100%;margin-top:15px" href="/pages/{{division}}/address"  ng-if="data.stage == 'review'">
+      <span ng-if="data.stage == 'review'"> PROCEED FOR CHECKOUT </span>
+    </a>
+    <div ng-if="data.stage == 'address'">
+    <a class="btn btn-default" style="border:1px solid var(--themeColor);color:var(--themeColor);width:100%;margin-top:15px" href="/pages/{{division}}/payment" >
+      <span > PROCEED FOR PAYMENT </span>
+    </a>
+    <a class="btn btn-default" style="border: 1px solid red;color:red;width:100%;margin-top:15px;" href="/pages/{{division}}/checkout">
+      <span> GO BACK </span>
+    </a>
+    </div>
+    <div ng-if="data.stage == 'payment'">
+    <button class="btn btn-default" style="border:1px solid var(--themeColor);color:var(--themeColor);width:100%;margin-top:15px"  ng-click="order()">
+      <span> {{data.modeOfPayment=='COD'?'ORDER' : 'PAY'}}  </span>
+    </button>
+    <a class="btn btn-default" style="border: solid 2px red;width:100%;margin-top:15px" href="/pages/{{division}}/address">
+      <span style="color:red;"> GO BACK </span>
+    </a>
+    </div>
+  </div>
+</div>

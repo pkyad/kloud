@@ -27,8 +27,10 @@ import datetime
 from marketing.models import Contacts
 import getpass
 # if getpass.getuser() == 'cioc-d2':
-# from talk import *
+from talk import *
 from PIM.models import *
+from twilio.rest import Client
+# from chatbot.essgi import *
 
 # Create your views here.
 
@@ -445,10 +447,9 @@ class SendAppLinkAPIView(APIView):
             url = globalSettings.SMS_API_PREFIX + 'number=%s&message=%s'%(params['mob'] , msg)
             requests.get( url )
         elif params['device'] == 'whatsappTest':
-
             msg = 'Hi '+ request.user.first_name +', Your whatsapp sandbox is ready to use. Reply here to talk to your bot.'
-
             client = Client(globalSettings.TWILLIO_SID , globalSettings.TWILLIO_AUTH_TOKEN )
+            print params['mob'],'aaaaaaaaaaaaaaaa'
             message = client.messages.create(
                                           body= msg ,
                                           from_='whatsapp:+%s'%(globalSettings.DEFAULT_WHATSAPP_NUMBER ),
@@ -839,7 +840,7 @@ def publicAPI(request , objectType):
                 fileUrl = None
 
             context = getResponse(s.message, context, chatThObj.company , fil = fileUrl)
-            print context
+            # print context
             print "BOT LOGIC ---------------------------------ENDS"
             return JsonResponse(SupportChatSerializer(s , many = False).data , safe=False , status = 201)
         if request.method == 'GET':
@@ -849,8 +850,6 @@ def publicAPI(request , objectType):
 
     return
 
-if getpass.getuser() == 'cioc-d2':
-    from talk import initialiseBlock , saveContext
 
 @csrf_exempt
 def ExternalWindow(request):

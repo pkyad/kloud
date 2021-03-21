@@ -126,7 +126,9 @@
             <div class="col-md-12">
               <div class="row" ng-click="view($index)">
                 <div class="col-md-12">
-                  <h4>  {{d.version}} - {{d.name}} </h4>
+                  <h4>  {{d.version}} - {{d.name}} <i class="fa fa-trash pull-right" ng-click="$event.stopPropagation()"  mwl-confirm title="Delete the Company"  message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>"
+                    cancel-text="No" on-confirm="delete($index)" confirm-button-type="success" cancel-button-type="default" placement="bottom" style="color:#fff;background-color:#d9534f;border-color:
+        #d43f3a;"></i></h4>
                 </div>
               </div>
               <div class="row" ng-if="$index == preview" style="margin-top:15px;margin-bottom:15px;padding:30px;">

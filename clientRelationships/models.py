@@ -63,7 +63,7 @@ class Contact(models.Model):
     facebook = models.CharField(max_length = 100 , null = True, blank = True)
     dp = models.FileField(null = True , upload_to = getClientRelationshipContactDP)
     male = models.BooleanField(default = True)
-    street = models.CharField(max_length = 100 , null = True , blank = True)
+    street = models.TextField(max_length = 500 , null = True , blank = True)
     city = models.CharField(max_length = 100 , null = True , blank = True)
     pincode = models.CharField(max_length = 100 , null = True, blank = True)
     state = models.CharField(max_length = 100 , null = True, blank = True)
@@ -74,6 +74,16 @@ class Contact(models.Model):
     division = models.ForeignKey(Division , related_name='divisionContacts' , null = True)
     typ = models.CharField(choices = CONTACTS_CHOICES , max_length = 50 , default = 'b2b')
     isFav =  models.BooleanField(default = False)
+
+class ContactAuth(models.Model):
+    created = models.DateTimeField(auto_now_add = True) # quoted date
+    updated = models.DateTimeField(auto_now=True)
+    contact = models.ForeignKey(Contact , related_name='contactAuths' , null = True)
+    division = models.ForeignKey(Division , related_name='contactAuths' , null = True)
+    otp = models.CharField(max_length = 100 , null = True, blank = True)
+    token = models.CharField(max_length = 100 , null = True, blank = True)
+    expiryDate =  models.DateTimeField(null = True)
+
 
 class CustomerSession(models.Model):
     created = models.DateTimeField(auto_now_add = True)

@@ -255,7 +255,10 @@ $scope.getComponents()
 
 
   $scope.EditComponent = function(idx) {
+
     data = $scope.components[idx];
+    console.log(data,'SSSSSSSSSSSSSSSDDDDDDDDDDDDDDDDDDDDDD');
+
     $uibModal.open({
       templateUrl: '/static/ngTemplates/app.website.uitemplateEditable.html',
       size: 'lg',
@@ -271,7 +274,13 @@ $scope.getComponents()
       controller: function($scope, $http,$uibModal, $uibModalInstance, data, idx, $timeout) {
 
         $scope.component = data;
-        $scope.component.data = JSON.parse($scope.component.data)
+        try {
+          $scope.component.data = JSON.parse($scope.component.data)
+
+        }
+        catch(err) {
+
+        }
         console.log($scope.component.data,'34343');
 
 
@@ -294,7 +303,7 @@ $scope.getComponents()
         //
         // }
 
-      
+
 
         $scope.add = function(){
           console.log($scope.search.searchVal,'eqwerqwerwerrwer');
@@ -343,6 +352,7 @@ $scope.getComponents()
 
 
         $scope.save = function(data) {
+          console.log(data);
 
           $http({
             method: 'PATCH',

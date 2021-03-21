@@ -1,0 +1,51 @@
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-offset-2 col-md-8">
+      <div class="row" style="margin-top:15px">
+        <div class="col-md-12">
+          <h3> {{invoiceForm.pk?'Edit':'Add'}} Expenses </h3>
+        </div>
+      </div>
+      <div class="row" style="margin-top:15px">
+        <div class="col-md-12">
+            <label> Particular</label>
+            <input type="text" class="form-control" ng-model="invoiceForm.product" uib-typeahead="p as p.title for p in codeSearch($viewValue)" placeholder="Particular">
+        </div>
+      </div>
+      <div class="row" style="margin-top:15px">
+        <div class="col-md-12">
+            <label> Description</label>
+          <input type="text" class="form-control" ng-model="invoiceForm.description" placeholder="Description">
+        </div>
+      </div>
+      <div class="row" style="margin-top:15px">
+        <div class="col-md-12">
+            <label> Amount </label>
+          <input type="tel" class="form-control" ng-model="invoiceForm.total" placeholder="Amount">
+        </div>
+      </div>
+      <div class="row" style="margin-top:15px">
+        <div class="col-md-12">
+            <label> Attachment </label>
+            <input type="file" file-model="invoiceForm.attachment">
+        </div>
+      </div>
+      <div class="row" style="margin-top:15px" ng-repeat="d in invoiceForm.data track by $index">
+        <div class="col-md-12">
+            <label> {{d.title}} </label>
+            <input type="text" class="form-control expenseInpClaim" ng-if="d.typ == 'input'" ng-model="d.value" placeholder="{{d.title}}">
+            <input type="checkbox" ng-model="d.value" ng-if="d.typ == 'checkbox'">
+            <textarea class="form-control expenseInpClaim" ng-if="d.typ == 'textarea'" rows="2" cols="50" ng-model="d.value" style="resize: none;"></textarea>
+          </div>
+      </div>
+      <div class="row" style="margin-top:15px">
+        <div class="col-md-offset-7 col-md-2">
+          <button type="button" name="button" class="btn btn-block" style="border:1px solid #d91111;color:#d91111;border-radius:25px!important;background:#ffffff" ng-click="close()">Close</button>
+        </div>
+        <div class="col-md-3">
+          <button type="button" name="button" class="btn btn-block" style="background:#0027cd;color:#ffffff;border-radius:25px!important" ng-click="save()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

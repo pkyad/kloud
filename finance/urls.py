@@ -17,7 +17,7 @@ router.register(r'vendorprofile' , VendorProfileViewSet , base_name ='vendorprof
 router.register(r'vendorservice' , VendorServiceViewSet , base_name ='vendorservice')
 # router.register(r'vendorinvoice' , VendorInvoiceViewSet , base_name ='vendorinvoice')
 router.register(r'expenseHeading' , ExpenseHeadingViewSet , base_name ='expenseHeading')
-router.register(r'sale' , SaleViewSet , base_name ='outBoundInvoice')
+router.register(r'sale' , SaleViewSet , base_name ='sale')
 router.register(r'saleAll' , SaleAllViewSet , base_name ='outBoundInvoice')
 router.register(r'salesQty' , SalesQtyViewSet , base_name ='outBoundInvoiceQty')
 router.register(r'inventory' , RateListViewSet , base_name ='ratelist')
@@ -29,6 +29,7 @@ router.register(r'disbursallite' , DisbursalliteViewSet , base_name ='disbursall
 router.register(r'invoiceReceived' , InvoiceReceivedViewSet , base_name ='invoiceReceived')
 router.register(r'invoiceReceivedAll' , InvoiceReceivedAllViewSet , base_name ='invoiceReceivedAll')
 router.register(r'invoiceQty' , InvoiceQtyViewSet , base_name ='invoiceQty')
+router.register(r'cart' , CartViewSet , base_name ='cart')
 # router.register(r'outBoundInvoice' , OutBoundInvoiceViewSet , base_name ='outBoundInvoice')
 # router.register(r'outBoundInvoiceAll' , OutBoundInvoiceAllViewSet , base_name ='outBoundInvoice')
 # router.register(r'outBoundInvoiceQty' , OutBoundInvoiceQtyViewSet , base_name ='outBoundInvoiceQty')
@@ -114,4 +115,6 @@ urlpatterns = [
     url(r'makeImageTransparent/$' , TransparentImageAPI.as_view()),
     url(r'updateInvTotal/$' , UpdateTotalAPI.as_view()),
     url(r'getAllExpenses/$' , getAllExpensesAPIView.as_view()),
+    url(r'cartTotal/$' , CartTotalAPIView.as_view()),
+    url(r'sales/$' , SalesAPIView.as_view()),
 ]

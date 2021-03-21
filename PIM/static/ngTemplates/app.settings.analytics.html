@@ -1,0 +1,43 @@
+<div class="container-fluid">
+  <div class="row" style="margin-top:30px" >
+    <div class="col-md-offset-6 col-md-1  text-right">
+      From:
+    </div>
+    <div class=" col-md-2">
+      <div class="input-group">
+        <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="fromDate" is-open="manufacturedOn.opened" disabled min-date="minDate"  ng-change="getData()"/>
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="manufacturedOn.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </div>
+    </div>
+    <div class=" col-md-1 text-right">
+      To:
+    </div>
+    <div class=" col-md-2">
+      <div class="input-group">
+        <input type="text" class="form-control" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="toDate" is-open="manufacturedto.opened" disabled min-date="minDate"  ng-change="getData()" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="manufacturedto.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top:30px" >
+    <div class="col-md-12">
+      <canvas id="admin-main-line-chart" height="50" style="cursor:pointer"></canvas>
+    </div>
+  </div>
+  <hr/>
+  <div class="row" style="margin-top:30px" >
+    <div class="col-md-offset-10 col-md-2">
+      <select class="form-control bookInput" name="" ng-model="selectedDiv" ng-options = "k.name for k in allDivisions" placeholder="Select Division" ng-change="getData()">
+      </select>
+    </div>
+  </div>
+  <div class="row" style="margin-top:30px" >
+    <div class="col-md-12">
+      <canvas id="admin-line-chart" height="50" style="cursor:pointer"></canvas>
+    </div>
+  </div>
+</div>

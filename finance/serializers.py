@@ -446,7 +446,7 @@ class SaleSerializer(serializers.ModelSerializer):
             if instance.recDate == None and validated_data['status'] == 'Received':
                 instance.recDate = datetime.now().date()
         if 'cancelled' in validated_data:
-            instance.cancelledDate = datetime.now().date()
+            instance.cancelledDate = datetime.datetime.now().date()
 
         instance.save()
         if 'invoiceQty' in self.context['request'].data:
@@ -554,7 +554,7 @@ class SaleAllSerializer(serializers.ModelSerializer):
     receivedAmount = serializers.SerializerMethodField()
     class Meta:
         model = Sale
-        fields=('pk','created','user','status','isInvoice','poNumber','name','personName','phone','email','address','pincode','state','city','country','pin_status','deliveryDate','payDueDate','gstIn','total','tax','recDate','invoiceqty','parent','costcenter','balanceAmount' , 'paidAmount','account','contact','terms','termsandcondition','serviceFor','receivedAmount','isPerforma','sameasbilling','billingAddress','billingPincode','billingState','billingCity','billingCountry')
+        fields=('pk','created','user','status','isInvoice','poNumber','name','personName','phone','email','address','pincode','state','city','country','pin_status','deliveryDate','payDueDate','gstIn','total','tax','recDate','invoiceqty','parent','costcenter','balanceAmount' , 'paidAmount','account','contact','terms','termsandcondition','serviceFor','receivedAmount','isPerforma','sameasbilling','billingAddress','billingPincode','billingState','billingCity','billingCountry','cancelled')
     def get_total(self , obj):
         objData = SalesQty.objects.filter(outBound=obj.pk).aggregate(tot=Sum('total'))
         tot = objData['tot'] if objData['tot'] else 0
@@ -592,10 +592,10 @@ class SaleLiteSerializer(serializers.ModelSerializer):
         return tot
 
 class CategorySerializer(serializers.ModelSerializer):
-    # products = serializers.SerializerMethodField()
+    products_count = serializers.SerializerMethodField()
     class Meta:
         model = Category
-        fields=('pk','created','name','theme_color')
+        fields=('pk','created','name','theme_color','products_count')
     def create(self , validated_data):
         cat = Category(**validated_data)
         try:
@@ -608,24 +608,38 @@ class CategorySerializer(serializers.ModelSerializer):
         except:
             pass
         return cat
-    # def get_products(self,obj):
-    #     return RateListSerializer(obj.categoryInventory.all(),many=True).data
+    def get_products_count(self,obj):
+        try:
+            return obj.categoryInventory.all().count()
+        except:
+            return 0
+
+class InventoryLiteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Inventory
+        fields=('pk','created','name','img1')
+
 
 class RateListSerializer(serializers.ModelSerializer):
     category = CategorySerializer(many=False,read_only=True)
+    cart = serializers.SerializerMethodField()
+    cartId = serializers.SerializerMethodField()
+    addon = serializers.SerializerMethodField()
     class Meta:
         model = Inventory
-        fields=('pk','created','name','value','rate','qtyAdded','refurnished','refurnishedAdded','sellable','description','richtxtDesc','taxCode','img1','img2','img3','category','buyingPrice','sku','taxRate','mrp','division')
+        fields=('pk','created','name','value','rate','qtyAdded','refurnished','refurnishedAdded','sellable','description','richtxtDesc','taxCode','img1','img2','img3','category','buyingPrice','sku','taxRate','mrp','division','cart','cartId','addonsData','customizationData','addon')
     def create(self , validated_data):
         inven = Inventory(**validated_data)
         try:
             inven.division = self.context['request'].user.designation.division
         except:
             pass
+        if 'category' in self.context['request'].data:
+            inven.category =  Category.objects.get(pk = int(self.context['request'].data['category']))
         inven.save()
         return inven
     def update(self ,instance, validated_data):
-        for key in ['img1', 'img2' , 'img3' ,'description','richtxtDesc','sellable','category' , 'name' , 'rate','buyingPrice','sku','taxRate','taxCode','mrp']:
+        for key in ['img1', 'img2' , 'img3' ,'description','richtxtDesc','sellable','category' , 'name' , 'rate','buyingPrice','sku','taxRate','taxCode','mrp','addonsData','customizationData']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
@@ -636,6 +650,35 @@ class RateListSerializer(serializers.ModelSerializer):
             instance.qtyAdded = self.context['request'].data['value']
         instance.save()
         return instance
+    def get_cart(self, obj):
+        cart = 0
+        print self.context
+        try:
+            val = self.context['data']
+        except:
+            val =  self.context['request'].GET
+        if 'contact' in val and 'divId' in val :
+            id = hash_fn.unhash(self.context['request'].GET['divId'])
+            data = obj.carts.filter(division__id = id, contact__id = val['contact'])
+            if data.count()>0:
+                cart = data.first().qty
+        return cart
+    def get_cartId(self, obj):
+        cart = None
+        if 'contact' in self.context['request'].GET and 'divId' in self.context['request'].GET :
+            id = hash_fn.unhash(self.context['request'].GET['divId'])
+            data = obj.carts.filter(division__id = id, contact__id = self.context['request'].GET['contact'])
+            if data.count()>0:
+                cart = data.first().id
+        return cart
+    def get_addon(self, obj):
+        addon = None
+        if 'contact' in self.context['request'].GET and 'divId' in self.context['request'].GET :
+            id = hash_fn.unhash(self.context['request'].GET['divId'])
+            data = obj.carts.filter(division__id = id, contact__id = self.context['request'].GET['contact'])
+            if data.count()>0:
+                addon = data.first().addon
+        return addon
 
 class InventoryLogSerializer(serializers.ModelSerializer):
     inventory = RateListSerializer(many = False , read_only = True)
@@ -655,6 +698,7 @@ class InventoryLogSerializer(serializers.ModelSerializer):
             inv.inventory = Inventory.objects.get(pk=int(self.context['request'].data['inventory']))
         inv.save()
         return inv
+
 
 class ExpenseHeadingLiteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -689,9 +733,10 @@ class DisbursalSerializer(serializers.ModelSerializer):
 
 
 class InvoiceReceivedSerializer(serializers.ModelSerializer):
+    userName = serializers.SerializerMethodField()
     class Meta:
         model = InvoiceReceived
-        fields=('pk','created','user','companyName','personName','totalAmount','invType','title','status')
+        fields=('pk','created','user','companyName','personName','totalAmount','invType','title','status','userName')
     def create(self , validated_data):
         u = self.context['request'].user
         print u.first_name,'aaaaaaaaaaaaaaaaaaaaaaaaa'
@@ -753,12 +798,18 @@ class InvoiceReceivedSerializer(serializers.ModelSerializer):
                     a.settled = True
             a.save()
         return instance
-
+    def get_userName(self, obj):
+        name = None
+        try:
+            name = obj.user.first_name + ' ' + obj.user.last_name
+        except:
+            pass
+        return name
 
 class InvoiceQtySerializer(serializers.ModelSerializer):
     class Meta:
         model = InvoiceQty
-        fields=('pk','product','created','price','taxCode','taxPer','tax','total','receivedQty','description','attachment','invoice')
+        fields=('pk','product','created','price','taxCode','taxPer','tax','total','receivedQty','description','attachment','invoice','data')
     def create(self , validated_data):
         u = self.context['request'].user
         inv = InvoiceQty(**validated_data)
@@ -775,7 +826,7 @@ class InvoiceQtySerializer(serializers.ModelSerializer):
             invoice.save()
         return inv
     def update(self , instance , validated_data):
-        for key in ['invoice']:
+        for key in ['invoice','product','price','taxCode','taxPer','tax','total','receivedQty','description','attachment','invoice','data']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
@@ -801,3 +852,35 @@ class InvoiceReceivedAllSerializer(serializers.ModelSerializer):
         fields=('pk','created','user','companyName','personName','phone','email','address' ,'state' , 'city' ,'country','pincode' , 'deliveryDate' , 'paymentDueDate' , 'costcenter' , 'accNo' , 'ifsc' , 'bankName' , 'account'  , 'totalAmount' , 'balanceAmount' , 'paidAmount' , 'companyReference' , 'note','products','invNo','gstIn','invType','title','status')
     def get_products(self, obj):
         return InvoiceQtySerializer(obj.parentInvoice, many = True).data
+
+
+class CartSerializer(serializers.ModelSerializer):
+    product = InventoryLiteSerializer(many = False , read_only = True)
+    addonPrice = serializers.SerializerMethodField()
+    class Meta:
+        model = Cart
+        fields=('pk','created','contact','product','qty','price','total','division','addon','addonPrice')
+    def create(self , validated_data):
+        cart = Cart(**validated_data)
+        # division = self.context['request'].user.designation.division
+        if 'product' in self.context['request'].data:
+            cart.product = Inventory.objects.get(pk = int(self.context['request'].data['product']))
+        if 'divId' in self.context['request'].data:
+            id = hash_fn.unhash(self.context['request'].data['divId'])
+            cart.division = Division.objects.get(pk = int(id))
+        # cart.division = division
+        cart.price = cart.product.rate
+        cart.total = cart.product.rate * cart.qty
+        cart.save()
+        return cart
+    def update(self , instance , validated_data):
+        instance.qty =  self.context['request'].data['qty']
+        instance.total = instance.product.rate * instance.qty
+        instance.save()
+        return instance
+    def get_addonPrice(self, obj):
+        addonPrice = 0
+        if obj.addon is not None:
+            obj.addon  = json.loads(obj.addon)
+            addonPrice = float(obj.qty) * float(obj.addon['price'])
+        return addonPrice

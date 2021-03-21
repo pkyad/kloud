@@ -44,6 +44,7 @@ class payslipSerializer(serializers.ModelSerializer):
         fields = ('pk','user','month' , 'year' , 'report' , 'days' , 'deffered', 'miscellaneous' , 'totalPayable' , 'reimbursement' , 'grandTotal','amount','pfAmnt','pfAdmin','tds')
     def create(self , validated_data):
         pr = Payslip(**validated_data)
+        pr.division = self.context['request'].user.designation.division
         if 'user' in self.context['request'].data:
             pr.user= User.objects.get(pk=int(self.context['request'].data['user']))
         pr.save()
@@ -87,6 +88,7 @@ class payrollReportSerializer(serializers.ModelSerializer):
     def create(self , validated_data):
         pr = PayrollReport(**validated_data)
         pr.user = self.context['request'].user
+        pr.division = self.context['request'].user.designation.division
         pr.save()
         try:
             CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Created new payroll report')
@@ -184,5 +186,6 @@ class Form16Serializer(serializers.ModelSerializer):
         i = Form16(**validated_data)
         if 'user' in self.context['request'].data:
             i.user = User.objects.get( pk = int(self.context['request'].data['user']))
+        i.division = self.context['request'].user.designation.division
         i.save()
         return i

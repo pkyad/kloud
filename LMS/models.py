@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from time import time
 from clientRelationships.models import Contact
+from ERP.models import Division
 # Create your models here.
 def getQAttachmentPath(instance , filename ):
     return 'lms/questions/%s_%s' % (str(time()).replace('.', '_'), filename)
@@ -38,6 +39,7 @@ class Book(models.Model):
     topic = models.CharField(max_length = 200 , null = True)
     subject = models.CharField(max_length = 200 , null = True)
     shortUrl = models.CharField(max_length = 100 , null = True , unique = True)
+    division = models.ForeignKey(Division,related_name='bookDivision',null=True)
 
 class Section(models.Model):
     created = models.DateTimeField(auto_now_add = True)
@@ -85,6 +87,8 @@ class Paper(models.Model):
     description = models.TextField(null = True)
     timelimit = models.PositiveIntegerField(default= 0)
     contacts = models.ManyToManyField(Contact , related_name='papers' )
+    division = models.ForeignKey(Division,related_name='paperDivision',null=True)
+
 class Question(models.Model):
     created = models.DateTimeField(auto_now_add = True)
     updated = models.DateField(auto_now=True)
@@ -157,6 +161,7 @@ class Course(models.Model):
     contacts = models.ManyToManyField(Contact , related_name='students' )
     activeCourse = models.BooleanField(default = True)
     topic = models.CharField(max_length = 250 , null = True)
+    division =  models.ForeignKey(Division,related_name='coursesdivision',null=True)
 
 class Enrollment(models.Model):
     created = models.DateTimeField(auto_now_add = True)

@@ -14,7 +14,7 @@ import os
 class DivisionLiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Division
-        fields = ('pk' , 'name' ,'website', 'logo', 'simpleMode', 'telephony', 'messaging')
+        fields = ('pk' , 'name' ,'website', 'logo', 'simpleMode', 'telephony', 'messaging','expenseData')
 
 class UnitsLiteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -47,7 +47,7 @@ class DivisionSerializer(serializers.ModelSerializer):
     users = serializers.SerializerMethodField()
     class Meta:
         model = Division
-        fields = ('pk' , 'name','website','logo','pan','cin','l1','l2', 'installations', 'installationsCount', 'simpleMode', 'upi', 'telephony', 'messaging','headerTemplate','headerData','footerData','footerTemplate','defaultOgWidth','defaultOgHeight','defaultDescription','defaultTitle','defaultOgImage' , 'locked' , 'counter','enableChatbot','footerCss','headerCss','users','freeQuotaExcceded','subscriptionExpiryDate')
+        fields = ('pk' , 'name','website','logo','pan','cin','l1','l2', 'installations', 'installationsCount', 'simpleMode', 'upi', 'telephony', 'messaging','headerTemplate','headerData','footerData','footerTemplate','defaultOgWidth','defaultOgHeight','defaultDescription','defaultTitle','defaultOgImage' , 'locked' , 'counter','enableChatbot','footerCss','headerCss','users','freeQuotaExcceded','subscriptionExpiryDate','expenseData')
         read_only_fields=('contacts',)
     def get_installationsCount(self , obj):
         return obj.installations.all().count()
@@ -56,7 +56,7 @@ class DivisionSerializer(serializers.ModelSerializer):
         users = User.objects.filter(designation__division = obj.pk)
         count = users.count()
         lastlogin = userSearchViewSerializer(users.first(),many=False).data
-        print lastlogin
+        print lastlogin, 'test'
         return{'users':count,'last_login':lastlogin['last_login']}
     def create(self , validated_data):
         d = Division(**validated_data)
@@ -138,7 +138,7 @@ class UnitFullSerializer(serializers.ModelSerializer):
     children = UnitSuperLiteSerializer(many = True , read_only = True)
     class Meta:
         model = Unit
-        fields = ( 'pk' , 'name' , 'pincode' , 'l1' , 'l2' , 'mobile','telephone','email', 'children', 'division','city','state','country','master' )
+        fields = ( 'pk' , 'name' , 'pincode' , 'l1' , 'l2' , 'mobile','telephone','email', 'children', 'division','city','state','country','master','address' )
 
 class UnitSerializer(serializers.ModelSerializer):
     division = DivisionLiteSerializer(many = False , read_only = True)

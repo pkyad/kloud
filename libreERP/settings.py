@@ -52,6 +52,7 @@ INVOICE_NUMBER_PREFIX = 'ZIGMA/20-21/'
 CRM_OFFSET = 200
 INVOICE_THEME_COLOR_V2 = '#1e73be'
 IS_AGGREMENT = True
+# DEFAULT_WHATSAPP_NUMBER = '+1(512)851-0366'
 # DISABLED_APPS = ['app.projects' , 'app.profile' , 'app.CRM']
 
 LOGIN_TEMPLATE = 'login.html'
@@ -119,7 +120,7 @@ DEFAULT_WHATSAPP_NUMBER = '15128510366'
 
 PAYMENT_MODE = 'razorpay' # options are EBS , paypal , paytm , PAYU , ccavenue,razorpay
 WEBRTC_ADDRESS = 'https://socket.syrow.com'
-WAMP_PREFIX = 'aasssssss.'
+WAMP_PREFIX = 'aassssddddddddddddddsss.'
 RAZORPAY_KEY = 'rzp_live_UVCQtyXr9DpVJK'
 RAZORPAY_SECRET = 'aOaFKukng2tSEld41cEebBBM'
 
@@ -422,7 +423,7 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'zigma',
+#         'NAME': 'latest_kloud',
 #         'USER': 'newuser',
 #         'PASSWORD': 'titan@1234',
 #         'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
@@ -433,13 +434,24 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'klouderp',
+#         'NAME': 'zigma',
 #         'USER': 'newuser',
 #         'PASSWORD': 'titan@1234',
 #         'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
 #         'PORT': '3306',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'kloud',
+        'USER': 'newuser',
+        'PASSWORD': 'titan@1234',
+        'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
+    }
+}
 
 
 # DATABASES = {
@@ -468,7 +480,7 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'sdpl',
+#         'NAME': 'latest_kloud',
 #         'USER': 'newuser',
 #         'PASSWORD': 'titan@1234',
 #         'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on

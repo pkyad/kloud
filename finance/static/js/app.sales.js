@@ -184,10 +184,10 @@ $scope.getFilters()
           url = url+'&isInvoice=false&status=SaleOrder&cancelled=false'
       }
       else if ($scope.filters == 'Cancelled') {
-          url = url+'&isInvoice=false&cancelled=true'
+          url = url+'&isInvoice=true&cancelled=true'
       }
       else{
-        url = url+'&isInvoice=false&cancelled=false&status='+$scope.filters
+        url = url+'&isInvoice=true&cancelled=false&status='+$scope.filters
       }
       // else{
       //   url = url+'&haveparent=&filters='+$scope.filters
@@ -232,6 +232,20 @@ $scope.getFilters()
 })
 
 app.controller('businessManagement.finance.invoicing.explore', function($scope, $http, $aside, $state, Flash, $users, $filter,  $uibModal, $timeout) {
+
+  $scope.cancel = function(){
+    $http({
+      method: 'PATCH',
+      url: '/api/finance/sale/' + $scope.form.pk + '/',
+      data:{
+      cancelled:true,
+      // cancelledDate:new Date().toJSON().split('T')[0]
+    }
+    }).
+    then(function(response) {
+
+    })
+  }
 
   // $scope.postPay = function(){
   //

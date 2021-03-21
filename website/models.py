@@ -27,7 +27,7 @@ class Page(models.Model):
 class Components(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     component_type = models.CharField(max_length=250,null=True)
-    data = models.TextField(max_length=10000,null=True)
+    data = models.TextField(null=True)
     parent = models.ForeignKey(Page , related_name = 'components' , null = True)
     template = models.TextField(max_length=100000,null=False,default='')
     index = models.PositiveIntegerField(null = True)

@@ -1,0 +1,91 @@
+<footer class="footer no-padding" style="margin:0px;">
+
+        <div class="row" class="footer" style="margin:0px;">
+          <div class="newContainer" >
+            <div class="row no-padding" style="margin:0">
+              <div class="col-md-4 text-center" style="padding:70px;">
+                <img src="{{divisionDetails.logo}}"  style="width:60px;height:60px;margin-right:20px;"alt=""> <span style="font-weight: 700;
+                background: -webkit-linear-gradient(#FA012F, #FF3E64);background-clip: border-box;-webkit-background-clip: text;
+                -webkit-text-fill-color:transparent;">{{divisionDetails.name}}</span>
+              </div>
+
+              <div class="col-md-4 col-xs-12  store_footer">
+
+                <ul class="hidden-xs">
+                    <li class="col-md-4 col-xs-3" ng-if="!$state.is('adminMode')"><a href="{{divisionDetails.fbLink}}"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                    <li class="col-md-4 col-xs-3" ng-if="$state.is('adminMode')"><a ng-click="addsocial('fbLink')"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                    <li class="col-lg-4 col-xs-3" ng-if="!$state.is('adminMode')"><a href="{{divisionDetails.twitterLink}}"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                    <li class="col-lg-4 col-xs-3" ng-if="$state.is('adminMode')"><a ng-click="addsocial('twitterLink')"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                    <li class="col-lg-4 col-xs-3" ng-if="!$state.is('adminMode')"><a href="{{divisionDetails.instagramLink}}"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                    <li class="col-lg-4 col-xs-3" ng-if="$state.is('adminMode')"><a ng-click="addsocial('instagramLink')"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                  </ul>
+                <div class="visible-xs">
+                  <div class="col-md-12 text-center" style="display:flex;margin:0px;margin-top:20px;">
+                    <div class="flex-container" style="margin:auto;display:flex;">
+                    <div class="" style="width:60px;height:60px;background-color:#4a69ad;border-radius:50%;margin-right:10px;">
+
+                      <a href="{{divisionDetails.fbLink}}"><i class="fa fa-facebook" aria-hidden="true" style="font-size: 29px;color:white;padding: 27%;"></i></a>
+
+                    </div>
+                    <div class="" style="width:60px;height:60px;background-color:#55acee;border-radius:50%;margin-right:10px;">
+
+                      <a  href="{{divisionDetails.twitterLink}}"><i class="fa fa-twitter" aria-hidden="true" style="font-size: 29px;color:white;padding: 27%;"></i></a>
+
+                    </div>
+                    <div class="" style="width:60px;height:60px;background-color:#dd4b39;border-radius:50%;margin-right:10px">
+
+                      <a  href="{{divisionDetails.instagramLink}}"><i class="fa fa-instagram"aria-hidden="true" style="font-size: 29px;color:white;padding: 27%;"></i></a>
+
+                    </div>
+                    </div>
+                  </div>
+                    <div class="text-center col-xs-12 visible-xs " style="padding-top:20px;">
+                      <span style="font-size:24px;">Address</span> <br>
+                      <address class="">
+                         {{divisionDetails.unit.address}}<br> {{divisionDetails.unit.city}}<br> {{divisionDetails.unit.country}} -- {{divisionDetails.unit.pincode}}
+                      </address>
+                    </div>
+                </div>
+              </div>
+                <div class="col-md-2 text-right col-xs-12 hidden-xs store_footer ">
+                  <span style="font-size:24px;">Address</span> <br><br>
+                  <address class="">
+                     {{divisionDetails.unit.address}}<br>{{divisionDetails.unit.city}}<br> {{divisionDetails.unit.country}} -- {{divisionDetails.unit.pincode}}
+                  </address>
+
+                </div>
+                <div class="col-md-2" style="padding:50px 15px;">
+                  <a href="/" ><img src="/static/images/playStore.png" alt="" style="width:70%;height:60px;padding-right:5px;border-radius:10px;"></a><br><br>
+                  <a href="/"><img src="/static/images/googleplay.png" alt="" style="width:70%;height:60px;padding-left:5px;border-radius:10px"></a>
+
+                </div>
+
+                <div class="col-xs-12 " style="margin-top:20px;margin-bottom:20px">
+                  <div class="col-xs-6" style="padding:0px">
+                  </div>
+                  <div class="col-xs-6" style="padding:0px">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <div class="" style="padding: 20px;background:var(--themeColor);color:white;">
+            <span style="font-size:17px;"></span>  <span style="font-size:17px;"> All rights reserved (C) 2021</span>
+              <div class="pull-right footer_pages ">
+
+                <span class="hidden-xs" style="margin-right:30px;cursor:pointer;"> <a href="/aboutus" style="color:white;font-size:17px;">About us</a>  </span>
+                <span class="hidden-xs" style="margin-right:30px;cursor:pointer;"> <a href="/terms-and-conditions" style="color:white;font-size:17px;">Terms and Conditions</a>  </span>
+                <span class="hidden-xs" style="margin-right:30px;cursor:pointer;"> <a href="/privacy-policy" style="color:white;font-size:17px;">Privacy Policy</a>  </span>
+                <span class="hidden-xs" style="margin-right:30px;cursor:pointer;"> <a href="/privacy-policy" style="color:white;font-size:17px;">Find Us</a>  </span>
+
+              </div>
+
+          </div>
+
+
+          <div class="visible-xs" style="height:60px;">
+
+          </div>
+        </div>
+      </footer>

@@ -46,6 +46,15 @@ class DivisionViewSet(viewsets.ModelViewSet):
             # queryset = Division.objects.all()
             return queryset
 
+class DivisionLiteViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated, )
+    serializer_class = DivisionLiteSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['name']
+    def get_queryset(self):
+        queryset = Division.objects.all().order_by('-pk')
+        return queryset
+
 
 
 class UnitLiteViewSet(viewsets.ModelViewSet):

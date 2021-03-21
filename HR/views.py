@@ -43,6 +43,7 @@ from payroll.serializers import payrollSerializer
 import django
 import requests
 from ERP.initializing import *
+from chatbot.models import Activity
 
 class userProfileViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
@@ -230,7 +231,7 @@ class ExitManagementViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['is_exited' ]
     def get_queryset(self):
-        toRet = ExitManagement.objects.all()
+        toRet = ExitManagement.objects.filter(user__designation__division = self.request.user.designation.division)
         if 'search' in self.request.GET:
             toRet = toRet.filter(Q(user__first_name__icontains = self.request.GET['search']) | Q(user__last_name__icontains = self.request.GET['search'])| Q(user__email__icontains = self.request.GET['search'])| Q(user__profile__mobile__icontains = self.request.GET['search']))
         return toRet
@@ -619,7 +620,7 @@ class SaveLocationAPIView(APIView):
             dist =  (distance.distance(new_dimensions, old_dimensions).miles)
             timeObj.distanceTravelled = float(timeObj.distanceTravelled) + float(dist)
             timeObj.save()
-        trackerObj = UserTourTracker.objects.filter(user = request.user ,  created__contains = today)
+        trackerObj = Activity.objects.filter(user = request.user ,  created__contains = today)
         print trackerObj , len(trackerObj)
         dataObj = {'user' : user , 'lat' : data['lat'] , 'lng' : data['lon']}
         if len(trackerObj)>0:
@@ -629,9 +630,9 @@ class SaveLocationAPIView(APIView):
             totalNewMin = float(now.hour*60) + now.minute
             difference = float(totalNewMin) - float(totalPrevMin)
             if difference>0:
-                traker = UserTourTracker.objects.create(**dataObj)
+                traker = Activity.objects.create(**dataObj)
         else:
-            traker = UserTourTracker.objects.create(**dataObj)
+            traker = Activity.objects.create(**dataObj)
 
         if 'battery_level' in data:
             if data['battery_level']!=None:
@@ -645,13 +646,15 @@ class GetUsersAPIView(APIView):
     def get(self, request, format=None):
         data = request.data
         user = request.user
-        if permission.objects.filter(app__name = 'app.geoLocation', user = user).count()>0 or user.is_superuser == True:
-            profObj = profile.objects.filter()
-            print 'ssssssssssssssssssssss'
-            data  = userProfileViewSerializer(profObj,many=True).data
-            return Response({'data' : data}, status = status.HTTP_200_OK)
-        else:
-            return Response({'error':'Permission Denied'}, status = status.HTTP_200_OK)
+        div = user.designation.division
+        # div = Division.objects.get(pk = int(3))
+        # if permission.objects.filter(app__name = 'app.geoLocation', user = user).count()>0 or user.is_superuser == True:
+        profObj = profile.objects.filter(user__is_staff = False, user__designation__division = div)
+        print profObj
+        data  = userProfileViewSerializer(profObj,many=True).data
+        return Response({'data' : data}, status = status.HTTP_200_OK)
+        # else:
+        #     return Response({'error':'Permission Denied'}, status = status.HTTP_200_OK)
 
 
 class fetchAllDetailsAPIView(APIView):

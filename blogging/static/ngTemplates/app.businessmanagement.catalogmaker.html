@@ -78,7 +78,7 @@
       </div>
       <div class="col-md-2">
 
-        <a type="button" class="btn newBtn btn-block" ng-click="addInventory()"> New <i class="fa fa-plus"></i> </a>
+        <a type="button" class="btn newBtn btn-block" ng-click="$state.go('businessManagement.form',{id:$state.params.id})"> New <i class="fa fa-plus"></i> </a>
       </div>
       <div class="col-md-2 pull-right" style="margin-bottom:20px;">
         <a href="/api/finance/ProductsCatalog/?id={{category}}" type="button" class="btn newBtn btn-block">Download </a>

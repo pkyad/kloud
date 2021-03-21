@@ -13,7 +13,7 @@ app.config(function($stateProvider) {
         },
         "@businessManagement.website": {
           templateUrl: '/static/ngTemplates/app.website.pages.html',
-          controller: 'pages'
+          // controller: 'pages'
         }
 
 
@@ -342,9 +342,12 @@ app.controller('templates', function($scope, $http, $aside, $state, Flash, $user
   }
 })
 app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $filter,  $uibModal,$location) {
-  if ($state.is('businessManagement.website')) {
-    $state.go('businessManagement.website.pages')
-  }
+  // if ($state.is('businessManagement.website')) {
+  //   $state.go('businessManagement.website.pages')
+  // }
+
+
+
 
 
   $scope.isDisabled = true
@@ -361,6 +364,123 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
   $scope.getTemplates()
 
 
+
+
+
+
+  $scope.initialPage = function() {
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.website.initialPage.html',
+      size: 'lg',
+      backdrop: true,
+      resolve: {
+
+      },
+      controller: function($scope, $http, $uibModalInstance) {
+
+        $scope.selectTyp = ['Ecommerce','Freelancer professional profile','Agency','Services','Blank','LMS']
+        $scope.selectTypForm = {
+          cardTyp:''
+        }
+        $scope.reset = function() {
+          $scope.form = {
+            title: '',
+            description: '',
+            url: '',
+            stage:''
+
+          }
+
+        }
+        $scope.reset()
+        // $scope.$watch('form.title', function(newValue, oldValue) {
+        //
+        //
+        //
+        //
+        //   var space = /[ ]/;
+        //   var special = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+        //   var nonascii = /[^\x20-\x7E]/;
+        //   var url = $scope.form.title;
+        //   if (space.test(newValue)) {
+        //     url = newValue.replace(/\s+/g, '-').toLowerCase();
+        //     if (special.test(url)) {
+        //       url = url.replace(/[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?]+/g, '');
+        //       if (nonascii.test(url)) {
+        //         url = url.replace(/[^\x20-\x7E]/g, '');
+        //       }
+        //     }
+        //   } else {
+        //     url = url.replace(/[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?]+/g, '-').toLowerCase();;
+        //   }
+        //   url = url.replace(/-/g, ' ');
+        //   url = url.trim();
+        //   $scope.form.url = url.replace(/-/g, ' ').trim().replace(/\s/g, '-');
+        //
+        // })
+
+        $scope.selectTab = function(indx){
+          $scope.selectedIndx = indx
+          $scope.form.stage = $scope.selectTyp[indx]
+        }
+
+        $scope.isValid = true
+
+        $scope.checkUrl = function(){
+          $http({
+            method: 'GET',
+            url: '/api/website/checkUrl/?url=' + $scope.form.url
+          }).
+          then(function(response) {
+            $scope.isValid = response.data.isValid
+          })
+        }
+
+        $scope.save = function() {
+          if ($scope.form.title.length == 0 || $scope.form.description.length == 0) {
+            Flash.create('warning', 'Please fill all the details')
+            return
+          }
+          var fd = new FormData()
+          fd.append('title', $scope.form.title)
+          fd.append('url', $scope.form.url)
+          fd.append('description', $scope.form.description)
+          fd.append('stage', $scope.form.stage)
+          var dataTosend = {
+            title:$scope.form.title,
+            url:$scope.form.url,
+            description:$scope.form.description,
+            stage:$scope.form.stage
+          }
+          var method = 'POST'
+          var url = '/api/website/initializewebsitebuilder/'
+          // if ($scope.form.pk != undefined) {
+          //   method = "PATCH"
+          //   url = '/api/website/page/' + $scope.form.pk + '/'
+          // }
+          $http({
+            method: method,
+            url: url,
+            data: dataTosend
+          }).
+          then(function(response) {
+            Flash.create('success', 'Created....!!!')
+            $uibModalInstance.dismiss()
+          })
+        }
+
+
+      }
+
+    }).result.then(function(data) {}, function() {
+
+      $scope.getPages()
+    });
+  }
+
+
+
+
   var emptyFile = new File([""], "");
   $scope.showForm = false
   $scope.showcomponentForm = false
@@ -371,6 +491,8 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
     search:''
   }
   $scope.getPages = function() {
+    // alert('sssssssss')
+    console.log($state,'ssssssssssssss');
     var url = '/api/website/page/?limit=' + $scope.limit + '&offset=' + $scope.offset
     if ($scope.searchForm.search.length > 0) {
       url += '&search='+$scope.searchForm.search
@@ -381,13 +503,19 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
     }).
     then(function(response) {
       $scope.pages = response.data.results
-      for (var i = 0; i < $scope.pages.length; i++) {
-        $scope.pages[i].domain = window.location.host
-        $scope.pages[i].domainUrl = window.location.host+'/'+$scope.pages[i].url
+      console.log($scope.pages.length,"askdfasfdasdfa");
+      if ($scope.pages.length  == 0 && $state.is('businessManagement.website')) {
+          $scope.initialPage()
+      }else {
+        for (var i = 0; i < $scope.pages.length; i++) {
+          $scope.pages[i].domain = window.location.host
+          $scope.pages[i].domainUrl = window.location.host+'/'+$scope.pages[i].url
+        }
+        $scope.total = response.data.count
+        $scope.prev = response.data.previous
+        $scope.next = response.data.next
+        return
       }
-      $scope.total = response.data.count
-      $scope.prev = response.data.previous
-      $scope.next = response.data.next
     })
   }
   $scope.getPages()
@@ -600,12 +728,10 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
 
           }).
           then(function(response) {
-            console.log(reponse.data,'432423243');
+            console.log(response.data,'432423243');
             if (response.data.pk) {
                 Flash.create('success', 'Created....!!!')
-
             } else {
-
               Flash.create('danger', `${response.data.status}`)
             }
             $uibModalInstance.dismiss()
@@ -615,7 +741,6 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
       }
 
     }).result.then(function() {}, function() {
-      $scope.getPages()
     });
   }
 

@@ -16,6 +16,9 @@ class Activity(models.Model):
     page = models.TextField(max_length = 550 , null = False)
     timeDuration = models.PositiveIntegerField(default=0) # In Seconds
     reference = models.TextField(null=True)
+    user = models.ForeignKey(User , related_name='activitiesUser' , null = True)
+    lat = models.FloatField(null=False , default=0)
+    lng = models.FloatField(null=False , default=0)
 
 class FAQ(models.Model):
     company = models.ForeignKey(Division , related_name = 'faqs' , null = False)

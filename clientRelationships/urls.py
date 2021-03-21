@@ -52,4 +52,5 @@ urlpatterns = [
     url(r'downloadAllvisits/$' , DownloadAllVisitsAPIView.as_view()),
     url(r'fixDivision/$' , FixDivisionView.as_view()),
     url(r'materialIssue/$' , MaterialIssuedNoteAPIView.as_view()),
+    url(r'order/$' , OrderAPIView.as_view()),
 ]

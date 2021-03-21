@@ -1,0 +1,146 @@
+<div class="row" style="background-color:#f8f8f8;">
+  <div class="col-md-8 col-md-offset-2 " style="background-color:white;margin-bottom:50px;margin-top:50px;">
+    <div class="row" style="padding:30px;">
+      <div class="col-md-5 text-center">
+        <h3 style="margin:0px;color:red">Thank You !</h3>
+        <img src="/static/images/goals-spot-icons_2x.jpg" alt="" style="width:100%">
+      </div>
+      <div class="col-md-7">
+        <div class="row" style="border-bottom:1px solid #ccc;padding-bottom:20px;">
+          <div class="col-md-6">
+            <h3 style="margin:0px;">Your Order Details</h3>
+
+          </div>
+          <div class="col-md-3 pull-right">
+            <a type="button" class="btn btn-primary" name="button" style="border-radius:30px;" href="/api/finance/invoiceDownload/?value={{orderid}}&typ=outbond">DOWNLOAD INVOICE</a>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-6">
+            <h5>Order ID: {{orderData.pk}}</h5>
+            <br>
+            <h5>SHIPPING ADDRESS</h5>
+            <span><i class="fa fa-user-o" style="padding-right:3px;"></i> {{orderData.personName}} </span><br>
+            <span><i class="fa fa-map-marker" style="padding-right:10px;"></i>{{orderData.address}},{{orderData.city}},{{orderData.state}},{{orderData.pincode}}</span><br>
+            <span><i class="fa fa-mobile" style="padding-right:10px;"></i>{{orderData.phone}}</span><br>
+          </div>
+          <div class="col-md-6">
+            <br>
+            <br>
+            <br>
+            <h5>BILLING ADDRESS</h5>
+            <span><i class="fa fa-user-o" style="padding-right:3px;"></i> {{orderData.personName}} </span><br>
+            <span><i class="fa fa-map-marker" style="padding-right:10px;"></i>{{orderData.billingAddress}},{{orderData.billingCity}},{{orderData.billingState}},{{orderData.billingPincode}}</span><br>
+            <span><i class="fa fa-mobile" style="padding-right:10px;"></i>{{orderData.phone}}</span><br>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <h5>Order Summary</h5>
+          <table class="table">
+              <thead>
+                <tr style="border:2px solid #000">
+                  <th style="border-bottom:none">SN</th>
+                  <th style="border-bottom:none">Product</th>
+                  <th style="border-bottom:none">Qty</th>
+                  <th style="border-bottom:none">Price</th>
+                  <th style="border-bottom:none">GST</th>
+                  <th style="border-bottom:none">Total Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="k in salesQty track by $index">
+                  <td>{{$index+1}}</td>
+                  <td>{{k.product}}</td>
+                  <td>{{k.qty}}</td>
+                  <td>{{k.price}}</td>
+                  <td>{{k.tax}}</td>
+                  <td>{{k.total}}</td>
+                </tr>
+              </tbody>
+          </table>
+        </div>
+        <br><br>
+        <div class="row" style="white-space:nowrap">
+          <div class="col-md-5 pull-right">
+            <div class="row">
+              <div class="col-md-6 text-right">
+                <p>Subtotal :</p>
+              </div>
+              <div class="col-md-6 text-right">
+
+                <p><i class="fa fa-inr">{{orderData.total}}</i></p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 text-right">
+                <p>Tax :</p>
+              </div>
+              <div class="col-md-6 text-right">
+
+                <p> + <i class="fa fa-inr"></i> {{orderData.tax}}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 text-right">
+                <p>Discount :</p>
+              </div>
+              <div class="col-md-6 text-right">
+
+                <p> - <i class="fa fa-inr"></i> 0.00</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 text-right">
+                <p> Coupon Discount :</p>
+              </div>
+              <div class="col-md-6 text-right">
+
+                <p> - <i class="fa fa-inr"></i> 0.00</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 text-right">
+                <p>Delivery :</p>
+              </div>
+              <div class="col-md-6 text-right">
+
+                <p>+ <i class="fa fa-inr"></i> 0.00</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 text-right">
+                <p>Saved Amount :</p>
+              </div>
+              <div class="col-md-6 text-right">
+
+                <p><i class="fa fa-inr"> {{orderData.total-orderData.paidAmount}}</i></p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 text-right">
+                <p>Mode of Payment :</p>
+              </div>
+              <div class="col-md-6 text-right">
+
+                <p>COD</p>
+              </div>
+            </div>
+            <div class="row" style="border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;padding-top: 10px;">
+              <div class="col-md-6 text-right">
+                <p><b>Grand Total : </b></p>
+              </div>
+              <div class="col-md-6 text-right">
+                <h4 style="margin:0px;"><i class="fa fa-inr"></i> {{orderData.total}}</h4>
+              </div>
+            </div><br>
+            <div class="row pull-right">
+              <a href="/pages/{{apikey}}/" type="button" class="btn btn-success" name="button">CONTINUE SHOPPING</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

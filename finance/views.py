@@ -60,7 +60,8 @@ from marketing.models import TourPlanStop
 from svglib.svglib import svg2rlg
 import cv2
 import numpy as np
-
+import basehash
+hash_fn = basehash.base36()
 
 class TermsAndConditionsViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,  )
@@ -293,10 +294,10 @@ class CreateSalesTransactionAPI(APIView):
                     transObj3.save()
         except:
             pass
-        print outBondObj.paidAmount,'ssssssssssss'
         outBondObj.paidAmount = float(outBondObj.paidAmount) + float(data['amount']) + float(data['tds'])
-        print outBondObj.paidAmount
         outBondObj.balanceAmount = float(outBondObj.total) - float(outBondObj.paidAmount)
+        if outBondObj.balanceAmount <= 0:
+            outBondObj.status = 'Received'
         outBondObj.save()
         data = TransactionSerializer(transObj,many=False).data
         return Response(data, status = status.HTTP_200_OK)
@@ -369,7 +370,11 @@ class CategoryViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny ,)
     serializer_class = CategorySerializer
     def get_queryset(self):
-        divsn = self.request.user.designation.division
+        if 'divId' in self.request.data:
+            id = hash_fn.unhash(self.request.GET['divId'])
+            divsn = Division.objects.get(pk = int(id))
+        else:
+            divsn = self.request.user.designation.division
         return Category.objects.filter(division = divsn)
 
 class RateListViewSet(viewsets.ModelViewSet):
@@ -380,6 +385,9 @@ class RateListViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         divsn = self.request.user.designation.division
         toReturn = Inventory.objects.filter(division = divsn)
+        if 'id' in  self.request.GET:
+            toReturn = toReturn.filter(pk = self.request.GET['id'])
+            return toReturn
         if 'category' in self.request.GET:
             toReturn = toReturn.filter(category__pk = self.request.GET['category'])
             return toReturn
@@ -1314,6 +1322,14 @@ class InvoiceAPIView(APIView):
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment;filename="Invoicedownload.pdf"'
         invoice(response , inv , invDetails , typ, request)
+        if 'download' in request.GET:
+            filePath = os.path.join(globalSettings.BASE_DIR, 'media_root/Invoicedownload%s.pdf' %
+                                  ( inv.pk))
+            f = open(filePath, 'wrb')
+            f.write(response.content)
+            f.close()
+            file_name = 'media/' + filePath.split('/')[-1]
+            return Response({'fileUrl' : file_name }, status = status.HTTP_200_OK)
         return response
 
 class SendInvoiceAPIView(APIView):
@@ -1683,7 +1699,7 @@ class GetExpensesAPIView(APIView):
             fromDate = fromDate - datetime.timedelta(days=1)
             toDate = date.replace(day = calendar.monthrange(int(year), int(month))[1], month = int(month), year = int(year))
             toDate = toDate + datetime.timedelta(days=1)
-            expenseObj = ExpenseSheet.objects.filter(stage=request.GET['stage'])
+            expenseObj = ExpenseSheet.objects.filter(stage=request.GET['stage'], division = request.user.designation.division)
             expenseObj = list(expenseObj.filter(created__range=(fromDate,toDate)).values('pk','created','user','notes','project','stage'))
             for i in expenseObj:
                 invoice = Expense.objects.filter(sheet = int(i['pk'])).aggregate(totAmount=Sum('amount'),gstAmount=Sum('gstVal'))
@@ -1705,7 +1721,7 @@ class GetExpensesAPIView(APIView):
                     pass
 
         else:
-            expenseObj = InvoiceReceived.objects.filter(status='submitted', invType = 'EXPENSES')
+            expenseObj = InvoiceReceived.objects.filter(status='submitted', invType = 'EXPENSES', division = request.user.designation.division)
             user = request.user
             expenseObj = expenseObj.filter(user__designation__reportingTo = user).values('pk','created','user','title','status')
             for i in expenseObj:
@@ -1730,7 +1746,7 @@ class DownloadExpensesAPIView(APIView):
     def get(self, request, format=None):
         frm = request.GET['frm']
         to = request.GET['to']
-        expenseObj = ExpenseSheet.objects.all()
+        expenseObj = ExpenseSheet.objects.filter(division = request.user.designation.division)
         if 'stage' in request.GET:
             expenseObj = expenseObj.filter(stage=request.GET['stage'])
         if 'user' in request.GET:
@@ -1784,12 +1800,15 @@ class DownloadSheetAPIView(APIView):
     def get(self, request, format=None):
         expenseSheet = InvoiceReceived.objects.get(pk=request.GET['pkVal'])
         expenseObj =  expenseSheet.parentInvoice.all()
+        lastexpenseObj = json.loads(expenseObj.last().data)
         workbook = Workbook()
         Sheet1 = workbook.active
         hdFont = Font(size=12,bold=True)
         alphaChars = list(string.ascii_uppercase)
         Sheet1.title = 'Reimbursement'
         hd = ["Dated", 'Particulars','Description','Amount']
+        for h in lastexpenseObj:
+            hd.append(h['title'])
         Sheet1.append(hd)
         for idx,i in enumerate(hd):
             cl = str(alphaChars[idx])+'1'
@@ -1802,6 +1821,10 @@ class DownloadSheetAPIView(APIView):
             if i.description is not None:
                 description = i.description
             expense = [i.created,i.product,description,i.total]
+            print i.data
+            if i.data:
+                for d in json.loads(i.data):
+                    expense.append(d['value'])
             Sheet1.append(expense)
             for idx,i in enumerate(expense):
                 cl = str(alphaChars[idx])+str(count)
@@ -2166,7 +2189,7 @@ class InvoicingSpreadsheetAPI(APIView):
         hdFont = Font(size=12,bold=True)
         alphaChars = list(string.ascii_uppercase)
         Sheet1.title = 'Outbound Invoices'
-        outBondObj = Sale.objects.all()
+        outBondObj = Sale.objects.filter(division = request.user.designation.division)
         if 'search__in' in self.request.GET:
             search = self.request.GET['search__in']
             outBondObj = outBondObj.filter(Q(poNumber__icontains=search) | Q(name__icontains=search) | Q(personName__icontains=search)
@@ -2206,6 +2229,14 @@ class InvoicingSpreadsheetAPI(APIView):
                 Sheet1.column_dimensions[character].width = 20
         response = HttpResponse(content=save_virtual_workbook(workbook),content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = 'attachment; filename=Sales.xlsx'
+        if 'download' in request.GET:
+            filePath = os.path.join(globalSettings.BASE_DIR, 'media_root/Sales%s.xlsx' %
+                                  ( request.user.designation.division.pk))
+            f = open(filePath, 'wrb')
+            f.write(response.content)
+            f.close()
+            file_name = 'media/' + filePath.split('/')[-1]
+            return Response({'fileUrl' : file_name }, status = status.HTTP_200_OK)
         return response
 
 class PageNumCanvas(canvas.Canvas):
@@ -3985,7 +4016,6 @@ class OuttbondInvoiceAPIView(APIView):
     renderer_classes = (JSONRenderer,)
     permission_classes = (permissions.AllowAny ,)
     def post(self,request , format= None):
-        print request.data,'sssssssssssssssss'
         if 'invoicePk' in request.data:
             data  = request.data
             data_to_post = {}
@@ -4158,6 +4188,7 @@ class OuttbondInvoiceAPIView(APIView):
                     else:
                         qtyObj = SalesQty(**prodData)
                         qtyObj.outBound= outBondObj
+                        qtyObj.division= request.user.designation.division
                         if 'id' in i:
                             tourObj = TourPlanStop.objects.get(pk = int(i['id']))
                             tourObj.billed = True
@@ -4763,6 +4794,19 @@ class InvoiceQtyViewSet(viewsets.ModelViewSet):
     serializer_class = InvoiceQtySerializer
     queryset = InvoiceQty.objects.all()
 
+class CartViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny, )
+    serializer_class = CartSerializer
+    # filter_backends = [DjangoFilterBackend]
+    # filter_fields = ['title','group','heading','personal']
+    def get_queryset(self):
+        # divsn = self.request.user.designation.division
+        if 'divId' in self.request.GET:
+            id = hash_fn.unhash(self.request.GET['divId'])
+            return Cart.objects.filter(division__id = int(id))
+        else:
+            return Cart.objects.all()
+
 
 class SaveInvoiceReceived(APIView):
     renderer_classes = (JSONRenderer,)
@@ -4855,4 +4899,42 @@ class getAllExpensesAPIView(APIView):
             inv = InvoiceReceived.objects.get(pk = int(request.GET['id']))
             data = InvoiceReceivedAllSerializer(inv, many=False).data
             data['unapproved'] = InvoiceQtySerializer(InvoiceQty.objects.filter(invoice__isnull = True), many = True).data
+        return Response(data ,status = status.HTTP_200_OK)
+
+
+class CartTotalAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def get(self,request , format= None):
+        # div = request.user.designation.division
+        data = request.GET
+        id = hash_fn.unhash(self.request.GET['divId'])
+        divsn = Division.objects.get(pk = int(id))
+        cartObj = Cart.objects.filter(division = divsn, contact__id = int(data['contact']))
+        total = 0
+        gst = 0
+        shipping = 0
+        addontotal = 0
+        showDetails = False
+        if cartObj.count()>0:
+            showDetails = True
+        tot = cartObj.aggregate(sum = Sum('total'))
+        if tot['sum'] is not None:
+            total = tot['sum']
+        for c in cartObj:
+            if c.addon is not None:
+                c.addon = json.loads(c.addon)
+                addontotal = float(c.qty) * float(c.addon['price'])
+        grandTotal = total + gst + shipping + addontotal
+        data = {'subTotal' : total, 'totalGST' : gst , 'shipping' : shipping , 'grandTotal' : grandTotal , 'showDetails' : showDetails , 'addonTotal' : addontotal}
+        return Response(data ,status = status.HTTP_200_OK)
+
+
+class SalesAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def get(self,request , format= None):
+        print request.GET,'lkllk'
+        sale = Sale.objects.get(pk = request.GET['orderid'])
+        data ={'sale':SaleSerializer(sale,many=False).data,'salesQty':SalesQtySerializer(sale.outBoundQty.all(),many=True).data}
         return Response(data ,status = status.HTTP_200_OK)
