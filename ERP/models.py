@@ -182,6 +182,7 @@ def getogImageAttachmentPath(instance , filename ):
 
 # Create your models here.
 class Division(models.Model):
+    created = models.DateTimeField(auto_now_add = True)
     name = models.CharField(max_length = 200 , null = True)
     website = models.CharField(max_length = 200 , null = True)
     logo = models.FileField(upload_to = getDivisionLogoAttachmentPath , null = True)
@@ -255,7 +256,9 @@ class Division(models.Model):
     freeQuotaExcceded = models.BooleanField(default = False)
     enterpriseSubscriptionReq =  models.BooleanField(default = False)
     subscriptionExpiryDate =  models.DateField(null = True)
-
+    whatsapp_test_number = models.CharField(max_length = 100 , null = True ,blank=True)
+    pageType =  models.CharField(max_length = 100 , null = True ,blank=True)
+    expenseData =  models.TextField(max_length = 1000 , null = True)
     # address
     # themeColor
     # invoiceVersion

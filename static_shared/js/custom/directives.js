@@ -13,6 +13,62 @@ app.directive("mathjaxBind", function() {
   };
 });
 
+app.directive('myDraggable', ['$document', function($document) {
+  return {
+    scope:{
+      startX: '=',
+      startY: '=',
+      x: '=',
+      y: '='
+    },
+    link: function(scope, element, attr) {
+      element.css({
+       position: 'relative',
+       // border: '1px solid red',
+       // backgroundColor: 'lightgrey',
+       // cursor: 'pointer'
+      });
+
+
+
+
+      element.on('mousedown', function(event) {
+        // Prevent default dragging of selected content
+        // event.preventDefault();
+        scope.startX = event.pageX - scope.x;
+        scope.startY = event.pageY - scope.y;
+        $document.on('mousemove', mousemove);
+        $document.on('mouseup', mouseup);
+        scope.$apply();
+      });
+
+      function mousemove(event) {
+        scope.y = event.pageY - scope.startY;
+        scope.x = event.pageX - scope.startX;
+        element.css({
+          top: scope.y + 'px',
+          left: scope.x + 'px'
+        });
+        scope.$apply();
+      }
+
+      function mouseup() {
+        $document.off('mousemove', mousemove);
+        $document.off('mouseup', mouseup);
+      }
+
+      // element.on('select', function(event) {
+      //   console.log("ssssssssssssssss");
+      //   scope.startX = event.pageX - scope.x;
+      //   scope.startY = event.pageY - scope.y;
+      //   $document.on('mousemove', mousemove);
+      //   $document.on('mouseup', mouseup);
+      //   scope.$apply();
+      // });
+    }
+  };
+}]);
+
 app.directive('tabsStrip', function() {
   return {
     templateUrl: '/static/ngTemplates/tabsStrip.html',
@@ -1415,7 +1471,7 @@ app.directive('formView', function() {
       $scope.deleteTab = function(indx){
         $scope.data.productsMap.tabs.splice(indx,1)
       }
-      console.log($scope.data,'342pofdgdggfgop32');
+      console.log(typeof($scope.data),'342pofdgdggfgop32');
       $scope.createTab = function(){
         // $scope.tabForm =
       }
@@ -1476,6 +1532,7 @@ app.directive('formView', function() {
           },
         }).
         then(function(response) {
+          $uibModalInstance.dimiss()
         })
       }
       $scope.appMediaPro = {
@@ -1708,14 +1765,18 @@ app.directive('academyCourses', function() {
     restrict: 'E',
     transclude: true,
     replace: true,
+    scope: {
+      data: '=',
+    },
     controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
-      $http({
-        method: 'GET',
-        url: '/api/LMS/course/?activeCourse=True',
-      }).
-      then(function(response) {
-        $scope.courses = response.data
-      })
+    $scope.courses = JSON.parse($scope.data)
+      // $http({
+      //   method: 'GET',
+      //   url: '/api/LMS/course/?activeCourse=True',
+      // }).
+      // then(function(response) {
+      //   $scope.courses = response.data
+      // })
     }
   }
 })

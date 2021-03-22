@@ -331,6 +331,8 @@ class InvoiceSerializer(serializers.ModelSerializer):
         'lockInvoice','machinemodel')
     def create(self, validated_data):
         i = Invoice(**validated_data)
+        print validated_data, 'validated_data'
+        print self.context['request'].data, 'validated_data'
         user = self.context['request'].user
         divisionObj = user.designation.division
         i.division  = divisionObj

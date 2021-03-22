@@ -83,7 +83,7 @@
         <table class="table table-hover" style=" width: 100%;white-space:nowrap">
         <tbody>
           <tr style="background-color: #eeeeee;height: 50px;">
-            <th><input type="checkbox" ng-model="filter1.selectAll"/></th>
+            <!-- <th><input type="checkbox" ng-model="filter1.selectAll"/></th> -->
             <th style="width:33px;">ID</th>
             <th style="width:410px;">Title</th>
             <th>Type</th>
@@ -96,7 +96,7 @@
             <th>Operations</th>
           </tr>
           <tr ng-repeat="v in articles track by $index" style="">
-            <td> <input type="checkbox"  ng-model="v.selected" > </td>
+            <!-- <td> <input type="checkbox"  ng-model="v.selected" > </td> -->
             <td>{{v.pk}}</td>
             <td>{{v.title}}</td>
             <td>{{v.typ.name}}</td>

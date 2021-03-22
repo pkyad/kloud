@@ -47,7 +47,7 @@ import xlsxwriter
 from clientRelationships.serializers import ContractSerializer,ContactSerializer,DealLiteSerializer
 from projects.models import project,Issues, ProjectObjective
 from projects.serializers import IssueSerializer
-from finance.models import Sale,SalesQty
+from finance.models import Sale,SalesQty, TermsAndConditions
 from finance.serializers import SaleSerializer,SalesQtySerializer
 from mail.models import mailAttachment
 from ERP.models import GenericPincode
@@ -97,10 +97,14 @@ class DownloadInvoice(APIView):
         if 'contract' not in request.GET:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         response = HttpResponse(content_type='application/pdf')
-        o = Contract.objects.get(id=request.GET['contract'] , division = request.user.designation.division)
+        if 'user' in request.GET:
+            user = User.objects.get(pk = int(request.GET['user']))
+        else:
+            user =  request.user
+        o = Contract.objects.get(id=request.GET['contract'] , division = user.designation.division)
         response.contract = o
-        response.division = request.user.designation.division
-        response.unit = request.user.designation.unit
+        response.division = user.designation.division
+        response.unit = user.designation.unit
         if o.termsAndCondition is not None:
             if o.termsAndCondition.version == 'V2':
                 from Invoice2 import *
@@ -110,7 +114,7 @@ class DownloadInvoice(APIView):
                 from Invoice1 import *
         else:
             # try:
-            crmObj = CRMTermsAndConditions.objects.filter(division = request.user.designation.division).first()
+            crmObj = CRMTermsAndConditions.objects.filter(division = user.designation.division).first()
             if crmObj.version == 'V2':
                 from Invoice2 import *
             elif crmObj.version == 'V3':
@@ -426,7 +430,7 @@ def QuoteDouwnload(data):
     wb = Workbook()
     ws1 = wb.active
     ws1.title = "UID Wise"
-    heading = ['#','Date','Customer', 'Company' , 'Value' , 'Sender']
+    heading = ['#','Date','Customer', 'Customer Mobile', 'Customer Email', 'Customer Address', 'Company' , 'Value' , 'Sender']
     heading_font = Font(bold=True, size=14)
     ws1.append(heading)
     for idx,cell in enumerate(ws1["1:1"]):
@@ -436,8 +440,26 @@ def QuoteDouwnload(data):
         data =[str(row['pk']),str(row['created'].strftime("%b %d, %Y")),]
         if row['contact__pk']:
             data.append(str(row['contact__name']))
+            data.append(str(row['contact__mobile']))
+            data.append(str(row['contact__email']))
         else:
             data.append(' ')
+            data.append(' ')
+            data.append(' ')
+
+
+        address = ''
+        if row['contact__street']:
+            address+=row['contact__street']+' '
+        if row['contact__city']:
+            address+=row['contact__city']+' '
+        if row['contact__state']:
+            address+=row['contact__state']+' '
+        if row['contact__country']:
+            address+=row['contact__country']+' '
+        if row['contact__pincode']:
+            address+=row['contact__pincode']+' '
+        data.append(address)
         if row['contact__company__name']:
             data.append(str(row['contact__company__name']))
         else:
@@ -521,9 +543,9 @@ class ClientHomeCalAPIView(APIView):
             quotedQuote = quoted.filter(division = divsn).order_by('-created')
         else:
             quotedQuote = quoted.filter(user = request.user).order_by('-created')
-        quotedQuote = quotedQuote.values('pk', 'data', 'value','created','updated','status','deal__name','deal__pk','deal__company__name','deal__company__pk','contact__name','contact__pk','contact__company__name','contact__company__pk','contact__dp','user__pk','user__first_name','user__last_name','dueDate','termsAndCondition__heading','termsAndCondition__canSupplyOrder' , 'termsAndCondition__canInvoice')
-        billedQuote = Contract.objects.filter(status = 'billed',user = request.user).order_by('-value').values('pk', 'data', 'value','created','updated','status','deal__name','deal__pk','contact__name','contact__pk','deal__company__name','deal__company__pk','contact__name','contact__pk','contact__company__name','contact__dp','user__pk','user__first_name','user__last_name','dueDate','termsAndCondition__canSupplyOrder' , 'termsAndCondition__canInvoice')
-        dueElapsedQuote = Contract.objects.filter(status = 'dueElapsed',user = request.user).values('pk', 'data', 'value','created','updated','status','deal__name','deal__pk','contact__name','contact__pk','deal__company__name','deal__company__pk','contact__name','contact__pk','contact__company__name','contact__dp','user__pk','user__first_name','user__last_name','dueDate','termsAndCondition__canSupplyOrder' , 'termsAndCondition__canInvoice')
+        quotedQuote = quotedQuote.values('pk', 'data', 'value','created','updated','status','deal__name','deal__pk','deal__company__name','deal__company__pk','contact__name','contact__pk','contact__company__name','contact__company__pk','contact__dp','user__pk','user__first_name','user__last_name','dueDate','termsAndCondition__heading','termsAndCondition__canSupplyOrder' , 'termsAndCondition__canInvoice','contact__mobile','contact__email','contact__street','contact__city','contact__state','contact__country','contact__pincode')
+        billedQuote = Contract.objects.filter(status = 'billed',user = request.user).order_by('-value').values('pk', 'data', 'value','created','updated','status','deal__name','deal__pk','contact__name','contact__pk','deal__company__name','deal__company__pk','contact__name','contact__pk','contact__company__name','contact__dp','user__pk','user__first_name','user__last_name','dueDate','termsAndCondition__canSupplyOrder' , 'termsAndCondition__canInvoice','contact__mobile','contact__email','contact__street','contact__city','contact__state','contact__country','contact__pincode')
+        dueElapsedQuote = Contract.objects.filter(status = 'dueElapsed',user = request.user).values('pk', 'data', 'value','created','updated','status','deal__name','deal__pk','contact__name','contact__pk','deal__company__name','deal__company__pk','contact__name','contact__pk','contact__company__name','contact__dp','user__pk','user__first_name','user__last_name','dueDate','termsAndCondition__canSupplyOrder' , 'termsAndCondition__canInvoice','contact__mobile','contact__email','contact__street','contact__city','contact__state','contact__country','contact__pincode')
 
         if 'download' in request.GET:
             response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
@@ -1623,6 +1645,7 @@ class CreateContactView(APIView):
     permission_classes = (permissions.AllowAny,)
     def post(self, request, format=None):
         data = request.data
+        # print data['gstin'],'aaaaaaaaaaaaaaaa'
         div = request.user.designation.division
         if 'companypk' in data and 'company' in data:
             companyObj = service.objects.get(pk = int(data['companypk']))
@@ -1673,6 +1696,7 @@ class CreateContactView(APIView):
             if 'pincode' in data:
                 addressObj.pincode = data['pincode']
             addressObj.save()
+            companyObj.save()
             # companyObj.save()
 
         # if 'company' not in data:
@@ -2028,13 +2052,34 @@ class OrderAPIView(APIView):
         accountObj = division.divisionAccount.filter(personal = False, heading = 'income').first()
         data = []
         saleData = {'division' : division , 'contact' : contactObj, 'personName' : contactObj.name , 'phone' : contactObj.mobile , 'address' :  contactObj.street , 'pincode' : contactObj.pincode, 'state' : contactObj.state, 'city' : contactObj.city , 'country' : contactObj.country, 'costcenter' : costcenterObj, 'account' : accountObj , 'sameasbilling' : True , 'billingAddress' : contactObj.street , 'billingPincode' : contactObj.pincode , 'billingState' : contactObj.state , 'billingCity' : contactObj.city , 'billingCountry' : contactObj.country}
+
         saleObj = Sale(**saleData)
         saleObj.save()
+        try:
+            terms = TermsAndConditions.objects.all().first()
+            saleObj.termsandcondition = terms
+            saleObj.terms = terms.body
+            saleObj.save()
+        except:
+            pass
+        try:
+            userObj = User.objects.filter(designation__division = division, is_staff = True)
+            saleObj.user = userObj.first()
+            saleObj.save()
+        except:
+            pass
         for i in cartObj:
-            saleQtyObj = {'outBound' : saleObj , 'product' : i.product.name , 'qty' : i.qty , 'price' : i.price , 'tax' : 0 , 'total' : i.total , 'division' : division}
+            if i.addon is not None:
+                i.addon = json.loads(i.addon)
+                price = float(i.price) + float(i.addon['price'])
+                total = price * i.qty
+            else:
+                price = float(i.price)
+                total = i.total
+            saleQtyObj = {'outBound' : saleObj , 'product' : i.product.name , 'qty' : i.qty , 'price' : price , 'tax' : 0 , 'total' : total , 'division' : division}
             saleqtyObj = SalesQty(**saleQtyObj)
             saleqtyObj.save()
-            amount+=i.total
+            amount+=total
             i.delete()
         saleObj.total = amount
         saleObj.balanceAmount = amount

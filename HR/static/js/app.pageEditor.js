@@ -105,7 +105,7 @@ app.controller('pages', function($scope, $http, $state, Flash, $sce, $uibModal) 
       parent: $scope.page.pk,
       component_type: $scope.componentform.component_type.name,
       template: $scope.componentform.component_type.template,
-      data: $scope.componentform.component_type.defaultData
+      data: JSON.stringify($scope.componentform.component_type.defaultData)
     }
 
     $http({
@@ -144,9 +144,10 @@ app.controller('pages', function($scope, $http, $state, Flash, $sce, $uibModal) 
     }).
     then(function(response) {
       $scope.components = response.data
-      // for (var i = 0; i < $scope.components.length; i++) {
-      //   $scope.components[i].data = JSON.parse($scope.components[i].data)
-      // }
+      for (var i = 0; i < $scope.components.length; i++) {
+        // $scope.data =
+        $scope.components[i].data =JSON.parse($scope.components[i].data)
+      }
     })
   }
 
@@ -255,7 +256,10 @@ $scope.getComponents()
 
 
   $scope.EditComponent = function(idx) {
+
     data = $scope.components[idx];
+    console.log(data,'SSSSSSSSSSSSSSSDDDDDDDDDDDDDDDDDDDDDD');
+
     $uibModal.open({
       templateUrl: '/static/ngTemplates/app.website.uitemplateEditable.html',
       size: 'lg',
@@ -271,7 +275,14 @@ $scope.getComponents()
       controller: function($scope, $http,$uibModal, $uibModalInstance, data, idx, $timeout) {
 
         $scope.component = data;
-        $scope.component.data = JSON.parse($scope.component.data)
+        try {
+          $scope.component.data = JSON.parse($scope.component.data)
+          // console.log($scope.component.data);
+
+        }
+        catch(err) {
+
+        }
         console.log($scope.component.data,'34343');
 
 

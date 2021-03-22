@@ -14,4 +14,10 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'publish/$' , PublishAPIView.as_view() ),
     url(r'initializewebsitebuilder/$' , InitializewebsitebuilderAPIView.as_view() ),
+    url(r'getFooterDetails/$' , GetFooterDetailsView.as_view() ),
+    url(r'checkUrl/$' , CheckDivisionUrlUsedView.as_view() ),
+    url(r'updateContact/$' ,UpdateContactView.as_view() ),
+    url(r'getProducts/$' ,GetProductsView.as_view() ),
+    url(r'getCategory/$' ,GetCategoryView.as_view() ),
+    # url(r'checkNumber/$' ,CheckNumberView.as_view() ),
 ]

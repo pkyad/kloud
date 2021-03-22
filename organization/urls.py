@@ -5,6 +5,7 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'divisions' , DivisionViewSet , base_name = 'division')
+router.register(r'divisionLite' , DivisionLiteViewSet , base_name = 'divisionLite')
 router.register(r'unit' , UnitViewSet , base_name = 'unit')
 router.register(r'unitLite' , UnitLiteViewSet , base_name = 'unitLite')
 router.register(r'firstLevelUnit' , FirstLevelUnitViewSet , base_name = 'firstLevelUnit')

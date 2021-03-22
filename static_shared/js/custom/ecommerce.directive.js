@@ -15,6 +15,19 @@ function getCookie(cname) {
   return "";
 }
 
+function setCookie(cname, cvalue, exdays) {
+  // console.log('set cookie');
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  var expires = "expires=" + d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function deleteCookie(name) {
+  document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+}
+
+
 app.directive('ecommerceHeader', function() {
   return {
     templateUrl: '/static/ngTemplates/ecommerceheader.html',
@@ -23,7 +36,20 @@ app.directive('ecommerceHeader', function() {
     transclude: true,
     controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
       $scope.me = $users.get('mySelf')
-      $scope.division = DIVISION_APIKEY
+      try {
+        $scope.division = DIVISION_APIKEY
+        url = '/api/website/getFooterDetails/?divId='+$scope.division
+      }
+      catch(err) {
+        url = '/api/website/getFooterDetails/'
+      }
+      $http({
+        method: 'GET',
+        url: url
+      }).
+      then(function(response) {
+        $scope.divisionDetails = response.data
+      })
       $scope.getAllCartItems = function(){
         $http({
           method: 'GET',
@@ -31,14 +57,30 @@ app.directive('ecommerceHeader', function() {
         }).
         then(function(response) {
           $scope.allCartItems = response.data
+          if (customer!=undefined && customer!=null && customer.length>0) {
+            $scope.createCartData()
+          }
         })
       }
       $rootScope.$on('getCart', function(event, message) {
         $scope.getAllCartItems()
       });
 
+      $scope.cartCookieData = []
+      $scope.getCookieCart = function(){
+        detail = getCookie("addToCart");
+        if (detail != "") {
+          $scope.cartCookieData = JSON.parse(detail)
+
+        }
+      }
+
+      $rootScope.$on('getCookieCart', function(event, message) {
+        $scope.getCookieCart()
+      });
+
       var customer = getCookie("customer");
-      if (customer!=undefined && customer!=null) {
+      if (customer!=undefined && customer!=null && customer.length>0) {
         $http({
           method: 'GET',
           url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY,
@@ -48,11 +90,49 @@ app.directive('ecommerceHeader', function() {
           $scope.getAllCartItems()
         })
       }
+      else{
+        $scope.getCookieCart()
+        }
+
+      $scope.createCartData = function(){
+        detail = getCookie("addToCart");
+        if (detail != "") {
+          $scope.cartCookieData = JSON.parse(detail)
+          document.cookie = encodeURIComponent("addToCart") + "=deleted; expires=" + new Date(0).toUTCString()
+          if ($scope.cartCookieData.length>0) {
+            for (var i = 0; i < $scope.cartCookieData.length; i++) {
+              var dataToSend = {
+                product :  $scope.cartCookieData[i].product,
+                qty : $scope.cartCookieData[i].qty,
+                contact:$scope.userDetails.pk,
+                divId:DIVISION_APIKEY
+
+              }
+              $http({
+                method: 'POST',
+                url: '/api/finance/cart/',
+                data:dataToSend
+              }).
+              then((function(i) {
+                return function(response) {
+                  $scope.allCartItems.push(response.data)
+                  if (i == $scope.cartCookieData.length - 1) {
+                    deleteCookie('addToCart')
+                    $scope.cartCookieData()
+
+                  }
+                }
+              })(i))
+            }
+          }
+        }
+      }
+
 
       $scope.getCategories = function(){
         $http({
           method: 'GET',
-          url: '/api/finance/category/?divId='+$scope.division
+          url: '/api/website/getCategory/?divId='+$scope.division
 
         }).
         then(function(response) {
@@ -131,6 +211,8 @@ app.directive('ecommerceHeader', function() {
                 data:dataToSend
               }).
               then(function(response) {
+                $scope.form.errMsg = ''
+                $scope.form.successMsg = ''
                 if (response.data.errMsg!=undefined) {
                   $scope.form.errMsg = response.data.errMsg
                 }
@@ -160,14 +242,24 @@ app.directive('ecommerceHeader', function() {
           if (data!=undefined) {
             $scope.userDetails = data
             location.reload();
+
           }
 
         });
       }
 
+      $scope.logoutCustomer = function(){
+        deleteCookie("customer");
+        location.reload();
+      }
+      $scope.goToProfile = function(){
+        window.location.href = '/pages/'+$scope.division+'/profile'
+        return
+      }
     },
   };
 });
+
 app.directive('categories', function() {
   return {
     templateUrl: '/static/ngTemplates/categories.html',
@@ -196,7 +288,7 @@ app.directive('categories', function() {
       $scope.getProducts = function(){
         $http({
           method: 'GET',
-          url: '/api/finance/inventory/?category='+ID,
+          url: '/api/website/getProducts/?category='+ID,
         }).
         then(function(response) {
           $scope.products = response.data
@@ -239,6 +331,9 @@ app.directive('ordersuccessfulView', function() {
     transclude: true,
     controller: function($scope,$rootScope, $state, $stateParams, $users,$http) {
       $scope.orderid = ORDERID
+      $scope.apikey = APIKEY
+
+
       // $rootScope.$on('getCart', function(event, message) {
       //   $scope.getCartItems()
       // });
@@ -268,8 +363,16 @@ app.directive('checkoutSideview', function() {
         stage : 'review',
         // modeOfPayment:'COD'
       }
+      $scope.totalDetails = {
+        showDetails : false,
+        subTotal : 0,
+        totalGST : 0,
+        shipping : 0,
+        grandTotal : 0
+
+      }
       var customer = getCookie("customer");
-      if (customer!=undefined && customer!=null) {
+      if (customer!=undefined && customer!=null && customer.length>0) {
         $http({
           method: 'GET',
           url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY+'&getId',
@@ -279,6 +382,7 @@ app.directive('checkoutSideview', function() {
           $scope.getCartTotal()
         })
       }
+
       console.log(window.location.pathname);
       if (window.location.pathname.includes("checkout")) {
         $scope.data.stage = 'review'
@@ -289,7 +393,6 @@ app.directive('checkoutSideview', function() {
       else if (window.location.pathname.includes("payment")) {
         $scope.data.stage = 'payment'
       }
-      console.log($scope.data.stage,'ssssssssssssssssss');
       $scope.getCartTotal = function(){
         $http({
           method: 'GET',
@@ -315,7 +418,6 @@ app.directive('checkoutSideview', function() {
           }
         }).
         then(function(res) {
-          console.log(res.data,'kllklkl');
           if ($scope.data.modeOfPayment=='COD') {
             window.location.href = '/pages/'+$scope.division+'/orderSuccessful/?orderid='+res.data.id
             return
@@ -370,7 +472,7 @@ app.directive('addressView', function() {
       $scope.getContactDetails = function(){
         $http({
           method: 'GET',
-          url: '/api/clientRelationships/contact/'+$scope.userId+'/'
+          url: '/api/website/updateContact/?id='+$scope.userId
         }).
         then(function(response) {
           $scope.contact = response.data
@@ -409,11 +511,117 @@ app.directive('addressView', function() {
         pincode : $scope.contact.pincode,
         city : $scope.contact.city,
         state : $scope.contact.state,
-        country : $scope.contact.country
+        country : $scope.contact.country,
+        pk:$scope.userId
       }
       $http({
-        method: 'PATCH',
-        url: '/api/clientRelationships/contact/'+$scope.userId+'/',
+        method: 'POST',
+        url: '/api/website/updateContact/',
+        data : dataToSend,
+      }).
+      then(function(response) {
+        $scope.contact = response.data
+        $scope.editAddress = false
+
+      })
+    }
+
+    $scope.pinSearch = function() {
+      if ($scope.contact.pincode.length>5) {
+        $http.get('/api/ERP/genericPincode/?limit=10&pincode__contains=' + $scope.contact.pincode).
+        then(function(response) {
+          var result =  response.data.results[0];
+          $scope.contact.city = result.city
+          $scope.contact.state = result.state
+          $scope.contact.country = result.country
+        })
+      }
+    };
+    },
+  };
+});
+
+app.directive('profileView', function() {
+  return {
+    templateUrl: '/static/ngTemplates/profile.html',
+    restrict: 'E',
+    replace: false,
+    transclude: true,
+    controller: function($scope, $state, $stateParams, $users,$http,$timeout,$rootScope) {
+      $scope.me = $users.get('mySelf')
+      $scope.currency = "fa-inr"
+      var customer = getCookie("customer");
+      if (customer!=undefined && customer!=null) {
+        $http({
+          method: 'GET',
+          url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY+'&getId',
+        }).
+        then(function(response) {
+          $scope.userId = response.data.id
+          $scope.getContactDetails()
+        })
+      }
+      $scope.getContactDetails = function(){
+        $http({
+          method: 'GET',
+          url: '/api/website/updateContact/?id='+$scope.userId
+        }).
+        then(function(response) {
+          $scope.contact = response.data
+        })
+      }
+      $scope.errMsg = {
+        street:'',
+        pincode:'',
+        city:'',
+        state:'',
+        country:'',
+        name:'',
+        email:'',
+        mobile:'',
+      }
+    $scope.save = function(){
+      if ($scope.contact.name == null || $scope.contact.name.length == 0) {
+        $scope.errMsg.name = "Name is required"
+        return
+      }
+      if ($scope.contact.mobile == null || $scope.contact.mobile.length == 0) {
+        $scope.errMsg.mobile = "Mobile number is required"
+        return
+      }
+      if ($scope.contact.street == null || $scope.contact.street.length == 0) {
+        $scope.errMsg.street = "Address is required"
+        return
+      }
+      if ($scope.contact.pincode == null || $scope.contact.pincode.length == 0) {
+        $scope.errMsg.pincode = "Pincode is required"
+        return
+      }
+      if ($scope.contact.city == null || $scope.contact.city.length == 0) {
+        $scope.errMsg.city = "City is required"
+        return
+      }
+      if ($scope.contact.state == null || $scope.contact.state.length == 0) {
+        $scope.errMsg.state = "Pincode is required"
+        return
+      }
+      if ($scope.contact.country == null || $scope.contact.country.length == 0) {
+        $scope.errMsg.country = "Pincode is required"
+        return
+      }
+      var dataToSend = {
+        street : $scope.contact.street,
+        pincode : $scope.contact.pincode,
+        city : $scope.contact.city,
+        state : $scope.contact.state,
+        country : $scope.contact.country,
+        pk : $scope.contact.pk,
+        name : $scope.contact.name,
+        email : $scope.contact.email,
+      }
+      $http({
+        method: 'POST',
+        url: '/api/website/updateContact/',
         data : dataToSend,
       }).
       then(function(response) {
@@ -467,7 +675,7 @@ app.directive('checkoutpaymentView', function() {
       $scope.getContactDetails = function(){
         $http({
           method: 'GET',
-          url: '/api/clientRelationships/contact/'+$scope.userId+'/'
+          url: '/api/website/updateContact/?id='+$scope.userId
         }).
         then(function(response) {
           $scope.contact = response.data
@@ -497,7 +705,7 @@ app.directive('checkoutView', function() {
       $scope.me = $users.get('mySelf')
       $scope.division = DIVISION_APIKEY
       var customer = getCookie("customer");
-      if (customer!=undefined && customer!=null) {
+      if (customer!=undefined && customer!=null && customer.length>0 ) {
         $http({
           method: 'GET',
           url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY+'&getId',
@@ -505,8 +713,10 @@ app.directive('checkoutView', function() {
         then(function(response) {
           $scope.userId = response.data.id
           $scope.getCartItems()
+
         })
       }
+      $scope.cartData = []
       $scope.getCartItems = function(){
         $http({
           method: 'GET',
@@ -514,6 +724,9 @@ app.directive('checkoutView', function() {
         }).
         then(function(response) {
           $scope.cartData = response.data
+          if (customer!=undefined && customer!=null && customer.length>0) {
+            // $scope.createCartData()
+          }
         })
       }
 
@@ -529,31 +742,81 @@ app.directive('checkoutView', function() {
 
         })
       }
-    $scope.changeQty = function(pk, indx, val) {
-      var cartData = $scope.cartData[indx]
-      if (val == 'increment') {
-        $scope.cartData[indx].qty += 1
-      }
-      if (val == 'decrement') {
-        if ($scope.cartData[indx].qty == 1) {
-          return
+      $scope.changeQty = function(pk, indx, val) {
+        var cartData = $scope.cartData[indx]
+        if (val == 'increment') {
+          $scope.cartData[indx].qty += 1
         }
-        $scope.cartData[indx].qty -= 1
-      }
-    $http({
-      method: 'PATCH',
-      url: '/api/finance/cart/' + $scope.cartData[indx].pk + '/',
-      data: {
-        qty: $scope.cartData[indx].qty
-      }
-    }).
-    then(function(res) {
-      $scope.cartData[indx] = res.data
-      $rootScope.$broadcast("getCartTotal", {});
+        if (val == 'decrement') {
+          if ($scope.cartData[indx].qty == 1) {
+            return
+          }
+          $scope.cartData[indx].qty -= 1
+        }
+      $http({
+        method: 'PATCH',
+        url: '/api/finance/cart/' + $scope.cartData[indx].pk + '/',
+        data: {
+          qty: $scope.cartData[indx].qty
+        }
+      }).
+      then(function(res) {
+        $scope.cartData[indx] = res.data
+        $rootScope.$broadcast("getCartTotal", {});
 
-    })
+      })
 
-  }
+    }
+    },
+  };
+});
+
+app.directive('secondlevelBanners', function() {
+  return {
+    templateUrl: '/static/ngTemplates/secondlevelBanners.html',
+    restrict: 'E',
+    replace: false,
+    transclude: true,
+    scope:{
+      data:'='
+    },
+    controller: function($scope, $state, $stateParams, $users) {
+      $scope.me = $users.get('mySelf')
+      $scope.curoselAsset = {
+        lazyLoad: false,
+        loop: true,
+        items: 1,
+        autoplay: true,
+        autoplayTimeout: 10000,
+        dots: true,
+        // nav:true,
+        responsive: {
+          0: {
+            items: 1
+          },
+          479: {
+            items: 2
+          },
+          600: {
+            items: 3
+          },
+          1000: {
+            items: 1,
+          }
+        },
+      };
+      $scope.banners = []
+      if ($scope.data!=undefined) {
+      try {
+        $scope.data = JSON.parse($scope.data)
+      }
+      catch(err) {
+      $scope.data = $scope.data
+      }
+      $scope.banners = [$scope.data.backgroundimage, $scope.data.secondbackgroundimage]
+    }
+
+
     },
   };
 });
@@ -592,25 +855,40 @@ app.directive('ecommerceBanners', function() {
           }
         },
       };
-      $scope.banners = [
-
-        {
-          "title": " Upto 50% off ... ",
-          "description": " More offer click below!",
-          "webImage": "https://systunix.com/media/finance/productV2/1592129907_41_banner_without_offer.png",
-          "potraitImage": "https://systunix.com/media/finance/productV2/1593619450_56_Banner_for_offer_wo_boder_and_popup_80.png"
-
-
-        },
-        {
-          "title": "  Covid 19 Prevention Items  ",
-          "description": "  All Kind of Prevention Items available..",
-          "webImage": "https://systunix.com/media/finance/productV2/1592132263_84_New1.jpg",
-          "potraitImage": "https://systunix.com/media/finance/productV2/1592132263_84_Prevention.png"
+      $scope.banners = []
+      if ($scope.data!=undefined) {
+      try {
+        $scope.data = JSON.parse($scope.data)
+      }
+      catch(err) {
+      $scope.data = $scope.data
+      }
+      $scope.banners = [$scope.data.backgroundimage, $scope.data.secondbackgroundimage]
+    }
 
 
-        }
-      ]
+
+
+    // }
+      // $scope.banners = [
+      //
+      //   {
+      //     "title": " Upto 50% off ... ",
+      //     "description": " More offer click below!",
+      //     "webImage": "https://systunix.com/media/finance/productV2/1592129907_41_banner_without_offer.png",
+      //     "potraitImage": "https://systunix.com/media/finance/productV2/1593619450_56_Banner_for_offer_wo_boder_and_popup_80.png"
+      //
+      //
+      //   },
+      //   {
+      //     "title": "  Covid 19 Prevention Items  ",
+      //     "description": "  All Kind of Prevention Items available..",
+      //     "webImage": "https://systunix.com/media/finance/productV2/1592132263_84_New1.jpg",
+      //     "potraitImage": "https://systunix.com/media/finance/productV2/1592132263_84_Prevention.png"
+      //
+      //
+      //   }
+      // ]
 
 
     },
@@ -626,15 +904,23 @@ app.directive('ecommerceFooter', function() {
     scope:{
       data:'='
     },
-    controller: function($scope, $state, $stateParams, $users) {
+    controller: function($scope, $state, $stateParams, $users, $http) {
       $scope.me = $users.get('mySelf')
-
       console.log($scope.data,'i8i4i123489');
-
-
-
-
-
+      try {
+        $scope.division = DIVISION_APIKEY
+        url = '/api/website/getFooterDetails/?divId='+$scope.division
+      }
+      catch(err) {
+        url = '/api/website/getFooterDetails/'
+      }
+      $http({
+        method: 'GET',
+        url: url
+      }).
+      then(function(response) {
+        $scope.divisionDetails = response.data
+      })
     }
   };
 });
@@ -646,11 +932,25 @@ app.directive('ecommerceSecondheader', function() {
     transclude: true,
     controller: function($scope, $state, $stateParams, $users,$http) {
       $scope.me = $users.get('mySelf')
-      $scope.division = DIVISION_APIKEY
+      // $scope.division = DIVISION_APIKEY
+      try {
+        $scope.division = DIVISION_APIKEY
+        url = '/api/website/getFooterDetails/?divId='+$scope.division
+      }
+      catch(err) {
+        url = '/api/website/getFooterDetails/'
+      }
+      $http({
+        method: 'GET',
+        url: url
+      }).
+      then(function(response) {
+        $scope.divisionDetails = response.data
+      })
       $scope.getCategories = function(){
         $http({
           method: 'GET',
-          url: '/api/finance/category/?divId='+$scope.division
+          url: '/api/website/getCategory/?divId='+$scope.division
 
         }).
         then(function(response) {
@@ -701,6 +1001,16 @@ app.directive('ecommerceNewproducts', function() {
     },
     controller: function($scope, $state, $stateParams, $users) {
       $scope.me = $users.get('mySelf')
+      console.log($scope.data,'aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+      if ($scope.data!=undefined) {
+      try {
+        $scope.data = JSON.parse($scope.data)
+      }
+      catch(err) {
+      $scope.data = $scope.data
+      }
+    }
+      console.log($scope.data,'sssssssssssssssssss');
       $scope.items = $scope.data
       console.log($scope.items,'243423');
       $scope.recentProductsProperties = {
@@ -728,6 +1038,7 @@ app.directive('ecommerceNewproducts', function() {
           }
         },
       };
+
 
       $scope.recentProducts = [{
           "heading": "Newly Added Products",
@@ -1031,9 +1342,16 @@ app.directive('ecommerceBestdeals', function() {
         },
       };
       console.log($scope.data);
-      $scope.deals = JSON.parse(JSON.stringify($scope.data))
+      // $scope.deals = JSON.parse(JSON.stringify($scope.data))
+        if ($scope.data!=undefined) {
+        try {
+          $scope.data = JSON.parse($scope.data)
+        }
+        catch(err) {
 
-
+        }
+      }
+        $scope.deals = $scope.data
 
       $scope.getIndex = function(indx) {
         if ($scope.deals.productsMap.tabs.length > 0) {
@@ -1063,6 +1381,7 @@ app.directive('ecommerceHotproducts', function() {
     },
     controller: function($scope, $state, $http, Flash, $rootScope, $users, $filter, $interval) {
       $scope.items = $scope.data
+
       if ($scope.data!=undefined) {
       try {
         $scope.data = JSON.parse($scope.data)
@@ -1097,11 +1416,14 @@ app.directive('recentlyViewedproducts', function() {
       data:'='
     },
     controller: function($scope, $state, $http, Flash, $rootScope, $users, $filter, $interval) {
-      console.log($scope.data,"43423234234123cxvxczvcv");
       if ($scope.data!=undefined) {
+      try {
         $scope.data = JSON.parse($scope.data)
+      }
+      catch(err) {
 
       }
+    }
       $scope.viewedProductsProperties = {
         lazyLoad: false,
         loop: true,
@@ -1333,24 +1655,49 @@ app.directive('productDetails', function() {
       }).
       then(function(response) {
         $scope.userId = response.data.id
+        $scope.getProd()
       })
     }
-      console.log(PRODUCT,'#$38ijsdksdhf');
-      $http({
-        method: 'GET',
-        url: '/api/finance/inventory/'+PRODUCT+'/'
 
-      }).
-      then(function(response) {
-      $scope.products = response.data
-      $scope.getsimilarProducts($scope.products.category.pk)
-        $scope.showImage($scope.products.img1)
-      })
+      $scope.getProd = function(){
+        var url = '/api/website/getProducts/?id='+PRODUCT
+        if ($scope.userId!=undefined) {
+          url+='&contact='+$scope.userId+'&divId='+DIVISION_APIKEY
+        }
+        $http({
+          method: 'GET',
+          url: url
+        }).
+        then(function(response) {
+          $scope.products = response.data
+          if ($scope.products.addonsData!=undefined && $scope.products.addonsData!=null && $scope.products.addonsData.length>0) {
+            $scope.products.addonsData = JSON.parse($scope.products.addonsData)
+            if ($scope.products.addon!=null) {
+              $scope.products.addon =   JSON.parse($scope.products.addon)
+            }
+          }
+          else{
+            $scope.products.addonsData = []
+          }
+          if ($scope.products.customizationData!=undefined && $scope.products.customizationData!=null && $scope.products.customizationData.length>0) {
+            $scope.products.customizationData = JSON.parse($scope.products.customizationData)
+          }
+          else{
+            $scope.products.customizationData = []
+          }
+          $scope.getsimilarProducts($scope.products.category.pk)
+          $scope.showImage($scope.products.img1)
+          if (customer==undefined || customer==null || customer.length == 0) {
+            $scope.checkOtherCart()
+          }
+        })
+      }
+
 
       $scope.getsimilarProducts = function(pk){
         $http({
           method: 'GET',
-          url: '/api/finance/inventory/?category='+pk
+          url: '/api/website/getProducts/?category='+pk
 
         }).
         then(function(response) {
@@ -1380,16 +1727,44 @@ app.directive('productDetails', function() {
         }
         })
       }
+      $scope.cartData = []
+      $scope.checkOtherCart = function(){
+          detail = getCookie("addToCart");
+          if (detail != "") {
+            $scope.cartData = JSON.parse(detail)
+            document.cookie = encodeURIComponent("addToCart") + "=deleted; expires=" + new Date(0).toUTCString()
+            for (var i = 0; i < $scope.cartData.length; i++) {
+              if ($scope.cartData[i].product == $scope.products.pk) {
+                $scope.products.cart = $scope.cartData[i].qty
+              }
+            }
+          }
+      }
 
       $scope.addToCart = function(){
         if ($scope.userId==undefined || $scope.userId==null || $scope.userId.length == 0) {
-          $rootScope.$broadcast("getloginPage", {});
+          $scope.products.cart = 1
+          $scope.item = {
+            product :  $scope.products.pk,
+            qty : 1,
+            divId : DIVISION_APIKEY
+          }
+          if ($scope.products.addon!=undefined&&$scope.products.addon!=null) {
+            $scope.item.addon = $scope.products.addon
+          }
+          $scope.cartData.push($scope.item)
+          setCookie("addToCart", JSON.stringify($scope.cartData), 365);
+            $rootScope.$broadcast("getCookieCart", {});
           return
         }
         var dataToSend = {
           product :  $scope.products.pk,
           qty : 1,
-          contact:$scope.userId
+          contact:$scope.userId,
+          divId : DIVISION_APIKEY
+        }
+        if ($scope.products.addon!=undefined&&$scope.products.addon!=null) {
+          dataToSend.addon = JSON.stringify($scope.products.addon)
         }
         $http({
           method: 'POST',
@@ -1403,6 +1778,19 @@ app.directive('productDetails', function() {
         })
       }
 
+      // $scope.changeQytyCookie = function() {
+      //   if ($scope.list.added_cart < $scope.selectedObj.orderThreshold) {
+      //     $scope.list.added_cart++
+      //   }
+      //   $scope.qtyToAddInit.qty = $scope.list.added_cart
+      //   for (var i = 0; i < $rootScope.addToCart.length; i++) {
+      //     if ($rootScope.addToCart[i].prodSku == $scope.selectedObj.sku) {
+      //       $rootScope.addToCart[i].qty = $rootScope.addToCart[i].qty + 1
+      //       setCookie("addToCart", JSON.stringify($rootScope.addToCart), 365);
+      //     }
+      //   }
+      // }
+
       $scope.changeQty = function(val){
         if (val == 'increment') {
           $scope.products.cart+=1
@@ -1411,6 +1799,16 @@ app.directive('productDetails', function() {
           $scope.products.cart-=1
         }
         if ($scope.products.cart>0) {
+         if ($scope.userId==undefined || $scope.userId==null || $scope.userId.length == 0) {
+           for (var i = 0; i < $scope.cartData.length; i++) {
+             console.log($scope.cartData[i].product, $scope.products.pk);
+             if ($scope.cartData[i].product == $scope.products.pk) {
+                 $scope.cartData[i].qty = $scope.products.cart
+                setCookie("addToCart", JSON.stringify($scope.cartData), 365);
+             }
+           }
+           return
+          }
           var dataToSend = {
             qty:$scope.products.cart,
           }
@@ -1423,6 +1821,16 @@ app.directive('productDetails', function() {
           })
         }
         else{
+          if ($scope.userId==undefined || $scope.userId==null || $scope.userId.length == 0) {
+            for (var i = 0; i < $scope.cartData.length; i++) {
+              console.log($scope.cartData[i].product, $scope.products.pk);
+              if ($scope.cartData[i].product == $scope.products.pk) {
+                  $scope.cartData.splice(i,1)
+                 setCookie("addToCart", JSON.stringify($scope.cartData), 365);
+              }
+            }
+            return
+           }
           $http({
             method: 'DELETE',
             url: '/api/finance/cart/'+$scope.products.cartId+'/',
@@ -1432,73 +1840,6 @@ app.directive('productDetails', function() {
           })
         }
       }
-
-
-
-
-
-      // $scope.products = {
-      //   "images": [{
-      //       "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-      //
-      //     },
-      //     {
-      //
-      //       "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-      //     },
-      //     {
-      //       "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-      //
-      //     }
-      //
-      //   ],
-      //   "category": "Desk Organizer",
-      //   "name": "SIT01 Bamboo Speaker",
-      //   "mrp": 450,
-      //   "sellingPrice": 200,
-      //   "endDateTime": new Date()
-      //
-      // }
-      $scope.similarproducts = [
-
-        {
-        "images": [{
-            "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-
-          }],
-        "category": "Desk Organizer",
-        "name": "SIT01 Bamboo Speaker",
-        "mrp": 450,
-        "sellingPrice": 200,
-        "endDateTime": new Date()
-
-      },
-        {
-        "images": [{
-            "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-
-          }],
-        "category": "Desk Organizer",
-        "name": "SIT01 Bamboo Speaker",
-        "mrp": 450,
-        "sellingPrice": 200,
-        "endDateTime": new Date()
-
-      },
-        {
-        "images": [{
-            "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-
-          }],
-        "category": "Desk Organizer",
-        "name": "SIT01 Bamboo Speaker",
-        "mrp": 450,
-        "sellingPrice": 200,
-        "endDateTime": new Date()
-
-      }
-
-    ]
 
       $scope.showImage = function(indx){
 

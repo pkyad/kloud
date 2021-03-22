@@ -54,6 +54,9 @@ import ast
 from simplecrypt import encrypt, decrypt
 from clientRelationships.models import ContactAuth
 from clientRelationships.serializers import ContactLiteSerializer
+# from chatbot.talk import *
+from twilio.rest import Client
+import html2text
 
 def generateOTPCode(length = 4):
     chars = string.digits
@@ -234,7 +237,6 @@ def GetCustomerOTP(request):
             id = hash_fn.unhash(divId)
             div = Division.objects.get(pk = int(id))
             contactAutObj = ContactAuth.objects.filter(contact__mobile = mobile, division = div, otp = otp)
-            print contactAutObj
             if contactAutObj.count()>0:
                 authData = contactAutObj.last()
                 authData.token = randomPassword()
@@ -271,9 +273,26 @@ def GetCustomerOTP(request):
                 success = True
                 # randomPassword()
             else:
-                print 'err'
-                errMsg = 'Not a valid user'
-                success = False
+                # print 'err'
+                # errMsg = 'Not a valid user'
+                # success = False
+                cont = Contact.objects.create(name = mobile, division = div, mobile = mobile )
+                otp = generateOTPCode()
+                print otp
+                authData = {'contact' : cont, 'otp' : otp, 'division' : div }
+                contactAutObj = ContactAuth(**authData)
+                contactAutObj.save()
+                msg = "Hi, your OTP is {0}".format(otp)
+                try:
+                    globalSettings.SEND_WHATSAPP_MSG( mobile, msg)
+                except:
+                    pass
+                try:
+                    globalSettings.SEND_SMS( mobile, msg)
+                except:
+                    pass
+                successMsg = 'OTP sent successfully'
+                success = True
 
     return JsonResponse({'errMsg' : errMsg , 'successMsg' : successMsg , 'success' : success} ,status =200 )
 
@@ -1143,7 +1162,7 @@ def versionDetails(request,app):
     #     selectedObj = obj.first()
     #     data = {'minVersion' : selectedObj.minVersion , 'latestVersion' : selectedObj.latestVersion}
     print app,'ssssssssssssss'
-    alldata = {'app.CRM':{'playstore' : {'version':'0.0.1', 'url':'','redirect':False},'appstore' : {'version':'0.0.1', 'url':'','redirect':False}},'app.messenger':{'playstore' : {'version':'0.0.1', 'url':'','redirect':False},'appstore' : {'version':'0.0.1', 'url':'','redirect':False}},'app.contacts':{'playstore' : {'version':'0.0.1', 'url':'','redirect':False},'appstore' : {'version':'0.0.1', 'url':'','redirect':False}},'app.klouderp':{'playstore' : {'version':'1.0.1', 'url':'','redirect':False},'appstore' : {'version':'0.0.1', 'url':'','redirect':False}},'app.calendar':{'playstore' : {'version':'1.0.1', 'url':'','redirect':False},'appstore' : {'version':'0.0.1', 'url':'','redirect':False}},'app.serviceengineer':{'playstore' : {'version':'0.0.1', 'url':'','redirect':False},'appstore' : {'version':'0.0.1', 'url':'','redirect':False}}}
+    alldata = {'app.CRM':{'playstore' : {'version':'0.0.1', 'url':'','redirect':True},'appstore' : {'version':'0.0.1', 'url':'','redirect':True}},'app.messenger':{'playstore' : {'version':'0.0.1', 'url':'','redirect':True},'appstore' : {'version':'0.0.1', 'url':'','redirect':True}},'app.contacts':{'playstore' : {'version':'0.0.1', 'url':'','redirect':True},'appstore' : {'version':'0.0.1', 'url':'','redirect':True}},'app.klouderp':{'playstore' : {'version':'1.0.1', 'url':'','redirect':True},'appstore' : {'version':'0.0.1', 'url':'','redirect':True}},'app.calendar':{'playstore' : {'version':'1.0.1', 'url':'','redirect':True},'appstore' : {'version':'0.0.1', 'url':'','redirect':True}},'app.serviceengineer':{'playstore' : {'version':'0.0.2', 'url':'','redirect':True},'appstore' : {'version':'0.0.2', 'url':'','redirect':True}},'app.sales':{'playstore' : {'version':'0.0.1', 'url':'','redirect':True},'appstore' : {'version':'0.0.1', 'url':'','redirect':True}},'app.expenses':{'playstore' : {'version':'0.0.1', 'url':'','redirect':True},'appstore' : {'version':'0.0.1', 'url':'','redirect':True}},'app.hiring':{'playstore' : {'version':'0.0.1', 'url':'','redirect':True},'appstore' : {'version':'0.0.1', 'url':'','redirect':True}}}
     data = alldata[app]
     return JsonResponse(data)
 
@@ -1152,37 +1171,190 @@ def versionDetails(request,app):
 def WhatsappHookView(request):
     print request
     print request.POST
-    recipient_id = request.POST['From'].split('whatsapp:+91')[1]
 
-    user = User.objects.get(profile__mobile__endswith = recipient_id)
-    print user
+    if request.method == 'GET':
+        twiml = '<Response></Response>'
+        return HttpResponse(twiml, content_type='text/xml')
 
-    mediaUrl = request.POST['MediaUrl0']
-    r = requests.get(mediaUrl)
-    fileName = request.POST['SmsMessageSid']
-    print request.POST
-    typ = request.POST['MediaContentType0']
+    # <QueryDict: {u'Body': [u'dsa'], u'MessageSid': [u'SM7ea14a398c63042b776d44b916722279'], u'SmsStatus': [u'received'], u'SmsMessageSid': [u'SM7ea14a398c63042b776d44b916722279'], u'ApiVersion': [u'2010-04-01'], u'To': [u'whatsapp:+14155238886'], u'From': [u'whatsapp:+919702438730'], u'NumMedia': [u'0'], u'AccountSid': [u'ACeef54d4946f61de33d1dacc2388fb702'], u'NumSegments': [u'1'], u'SmsSid': [u'SM7ea14a398c63042b776d44b916722279']}>
 
-    if typ == 'image/jpeg':
-        fileName += '.jpg'
-    elif typ == 'application/pdf':
-        fileName += '.pdf'
-
-    filePath = os.path.join(globalSettings.BASE_DIR, 'media_root' , fileName)
-    with open( filePath , 'wb') as f:
-        f.write(r.content)
-
-    print "Save message"
-
-    requests.post( globalSettings.WAMP_ENDPINT,
-        json={
-          'topic': 'service.updates.' + user.username,
-          'args': [{'type' : 'fileScan' ,'file':  fileName }]
-        }
-    , verify=False)
+    # <QueryDict: {u'Body': [u''], u'MessageSid': [u'MM838d543a5ef39dd577ebeca716c12d12'], u'SmsStatus': [u'received'], u'SmsMessageSid': [u'MM838d543a5ef39dd577ebeca716c12d12'], u'ApiVersion': [u'2010-04-01'], u'MediaUrl0': [u'https://api.twilio.com/2010-04-01/Accounts/ACeef54d4946f61de33d1dacc2388fb702/Messages/MM838d543a5ef39dd577ebeca716c12d12/Media/ME05d764fae46ea24a99e75f04854785ef'], u'To': [u'whatsapp:+14155238886'], u'From': [u'whatsapp:+919702438730'], u'NumMedia': [u'1'], u'AccountSid': [u'ACeef54d4946f61de33d1dacc2388fb702'], u'MediaContentType0': [u'image/jpeg'], u'NumSegments': [u'1'], u'SmsSid': [u'MM838d543a5ef39dd577ebeca716c12d12']}>
 
 
-    return JsonResponse({})
+    recipient_id = request.POST['From'].split('whatsapp:+')[1]
+    frm = request.POST['From'].split('whatsapp:+')[1]
+    message = request.POST['Body']
+
+    try:
+        compProfile = Division.objects.get(whatsappNumber = request.POST['To'].split('whatsapp:+')[1] )
+        account_sid = compProfile.twillioAccountSID
+        auth_token = compProfile.trillioAuthToken
+        if account_sid is None:
+            account_sid = globalSettings.TWILLIO_SID
+            auth_token = globalSettings.TWILLIO_AUTH_TOKEN
+        whatsapp_from = compProfile.whatsappNumber
+    except:
+
+        print frm
+        compProfile = Division.objects.get(whatsapp_test_number = frm )
+        account_sid = globalSettings.TWILLIO_SID
+        auth_token = globalSettings.TWILLIO_AUTH_TOKEN
+        whatsapp_from = globalSettings.DEFAULT_WHATSAPP_NUMBER
+
+
+
+
+    client = Client(account_sid, auth_token)
+    print "whatsapp_from" , whatsapp_from
+
+    try:
+        uid = recipient_id + str(request.POST['SmsSid'])[-5:]
+        ctharr = ChatThread.objects.filter(fid = recipient_id, status = 'started')
+        # ctharr.delete()
+        if ctharr.count() == 0:
+            cth = ChatThread(fid = recipient_id, company = compProfile , firstMessage = compProfile.firstMessage , channel = "whatsapp", uid= uid )
+            cnts = Contacts(name = request.POST['ProfileName'] , mobile =  frm , source = "whatsapp" )
+            cnts.save()
+            cth.visitor = cnts
+            cth.save()
+
+
+
+
+            wmessage = client.messages.create(body= html2text.html2text(compProfile.firstMessage),
+                                          from_='whatsapp:+%s'%(whatsapp_from),
+                                          to='whatsapp:+%s'%(recipient_id))
+            print wmessage
+            print "After sending the message"
+
+        else:
+
+            print "already exist , uid" , recipient_id , uid
+
+
+        if int(request.POST['NumMedia']) == 0:
+            sc = ChatMessage(message = message, uid = ctharr[0].uid, sentByAgent = False)
+            sc.save()
+        else:
+
+            mediaUrl = request.POST['MediaUrl0']
+            r = requests.get(mediaUrl)
+            fileName = request.POST['SmsMessageSid']
+
+            typ = request.POST['MediaContentType0']
+
+            if typ == 'image/jpeg':
+                fileName += '.jpg'
+            elif typ == 'application/pdf':
+                fileName += '.pdf'
+
+            filePath = os.path.join(globalSettings.BASE_DIR, 'media_root' ,'support', 'chat', fileName)
+            with open( filePath , 'wb') as f:
+                f.write(r.content)
+
+            print "Save message"
+            sc = ChatMessage(uid = ctharr[0].uid, sentByAgent = False)
+            sc.attachment.save(fileName, File(open(filePath)), save = False)
+            sc.fileName = fileName
+            ext = str(fileName).split('.')[-1]
+            print "ext : " , ext
+
+            if ext in ['pdf' , 'docx' , 'ppt' , 'doc', 'odt']:
+                typ = 'application'
+            elif ext in ['jpg' , 'png', 'jpeg']:
+                typ = 'image'
+            elif ext in ['mp4' , 'webm']:
+                typ = 'video'
+            print "typ: " , typ
+            sc.attachmentType = typ
+            sc.fileType = typ
+            sc.fileSize = sc.attachment.size
+            sc.save()
+
+
+        if ctharr[0].transferred and compProfile.botMode:
+            print "whatsapp Thread already transferred , returning"
+            return Response(status = status.HTTP_200_OK)
+        context = {"uid" : sc.uid}
+        empty = True
+        for cntx in ChatContext.objects.filter(uid = sc.uid):
+            empty = False
+            if cntx.typ == 'int':
+                if cntx.value == 'None':
+                    context[cntx.key] = None
+                else:
+                    context[cntx.key] = int(cntx.value)
+            elif cntx.typ == 'date':
+                try:
+                    context[cntx.key] = datetime.datetime.strptime(cntx.value, '%Y-%m-%d %H:%M:%S')
+                except:
+                    context[cntx.key] = datetime.datetime.strptime(cntx.value, '%Y-%m-%d %H:%M:%S.%f')
+            else:
+                context[cntx.key] = cntx.value
+
+
+        if 'step_id' not in context:
+            context['step_id'] = str(NodeBlock.objects.filter(company = compProfile , type = 'FAQ')[0].id)
+
+        if 'leadMagnetDefer' not in context:
+            context['leadMagnetDefer'] = 0
+        if 'leadMagnetSuccess' not in context:
+            context['leadMagnetSuccess'] = "0"
+
+
+        if 'retryID' not in context:
+            context['retryID'] = None
+
+        if 'retry' not in context:
+            context['retry'] = 0
+
+        context['chatThread'] = ctharr[0]
+        if sc.attachment != None:
+            fileUrl = globalSettings.SITE_ADDRESS + sc.attachment.url
+        else:
+            fileUrl = None
+        context = getResponse(sc.message, context, compProfile , fil = fileUrl)
+        print "BOT LOGIC ---------------------------------ENDS"
+
+    except:
+        traceback.print_exc(file=sys.stdout)
+    twiml = '<Response></Response>'
+    return HttpResponse(twiml, content_type='text/xml')
+
+
+
+
+    # recipient_id = request.POST['From'].split('whatsapp:+91')[1]
+
+    # user = User.objects.get(profile__mobile__endswith = recipient_id)
+    # print user
+
+    # mediaUrl = request.POST['MediaUrl0']
+    # r = requests.get(mediaUrl)
+    # fileName = request.POST['SmsMessageSid']
+    # print request.POST
+    # typ = request.POST['MediaContentType0']
+
+    # if typ == 'image/jpeg':
+    #     fileName += '.jpg'
+    # elif typ == 'application/pdf':
+    #     fileName += '.pdf'
+
+    # filePath = os.path.join(globalSettings.BASE_DIR, 'media_root' , fileName)
+    # with open( filePath , 'wb') as f:
+    #     f.write(r.content)
+
+    # print "Save message"
+
+    # requests.post( globalSettings.WAMP_ENDPINT,
+    #     json={
+    #       'topic': 'service.updates.' + user.username,
+    #       'args': [{'type' : 'fileScan' ,'file':  fileName }]
+    #     }
+    # , verify=False)
+
+
+    # return JsonResponse({})
 
 
 class GetDashBoardDataAPI(APIView):
@@ -1205,6 +1377,7 @@ class uploadmediafileAPI(APIView):
         f.write(request.FILES['file'].read())
         f.close()
         return Response({"imageUrl" : '/media/UploadedFiles/%s_%s'%( str(user.pk),str(data['name'])) , "key" : request.data['key'] },status=status.HTTP_200_OK)
+
 import os
 import shutil
 class downloadBundleFileAPI(APIView):
@@ -1832,8 +2005,8 @@ def payuMoneyInitiate(request, data):
 
     hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10";
 
-    hash_string = '';
-    hashVarsSeq = hashSequence.split('|');
+    hash_string = ''
+    hashVarsSeq = hashSequence.split('|')
     hash_object = hashlib.sha256(b'randint(0,20)')
     trxnID = hash_object.hexdigest()[0:20]
     print '8088024500'
@@ -1849,7 +2022,7 @@ def payuMoneyInitiate(request, data):
 
     for hvs in hashVarsSeq:
         try:
-            hash_string += posted[hvs];
+            hash_string += posted[hvs]
         except:
             hash_string += ''
 
@@ -2224,3 +2397,40 @@ def downloadLicense(request):
     response = HttpResponse(content, content_type='text/plain')
     response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
     return response
+
+
+
+class GetAppUsageGraphAPIView(APIView):
+    permission_classes = (permissions.AllowAny ,)
+    def get(self, request , format = None):
+        data = []
+        divObj = Division.objects.get(pk = int(request.GET['div']))
+        labelsArr = []
+        dataArr = []
+        seriesArr = []
+        usage = divObj.divisionUsage.all()
+        for j in usage:
+            labelsArr.append(j.detail)
+            dataArr.append(j.count)
+        toReturn = {
+            "data" : dataArr,
+            "labels" : labelsArr,
+        }
+        data = {'name' : divObj.name, 'pk': divObj.pk, 'data' : toReturn}
+        fromDate = request.GET['fromDate']
+        toDate = request.GET['toDate']
+        fromDate = datetime.datetime.strptime(fromDate,'%Y-%m-%d')
+        toDate = datetime.datetime.strptime(toDate,'%Y-%m-%d')
+        totalDays = toDate - fromDate
+        totalDays = str(totalDays).split(' ')[0]
+        divisons = Division.objects.all()
+        divChart = {"data" : [] , "labels" : []}
+        try:
+            for i in range(1,int(totalDays)+1):
+                currDate =  fromDate + datetime.timedelta(days=i)
+                currDate = currDate.date()
+                divChart['labels'].append(currDate)
+                divChart['data'].append(divisons.filter(created__contains = currDate).count())
+        except:
+            pass
+        return Response({'usage' : data, 'division' : divChart},status = status.HTTP_200_OK)

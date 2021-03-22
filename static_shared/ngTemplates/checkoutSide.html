@@ -11,7 +11,7 @@
   }
 </style>
 
-<div class="row hidden-xs" style="background-color:#fbfbfb;margin-top:10%;" >
+<div class="row hidden-xs" style="background-color:#fbfbfb;margin-top:10%;" ng-if="totalDetails.showDetails">
   <div class="col-md-12" style="padding:40px;">
     <h4> <strong> Cart Total </strong> </h4>
     <hr style="border-top: 1px solid #c1bdbd;" />
@@ -19,6 +19,8 @@
     <hr style="border-top: 1px solid #c1bdbd;" />
     <h6> GST : <span class="pull-right" > + <i class="fa {{currency}}"></i> {{totalDetails.totalGST | number:2}} </span> </h6>
     <hr style="border-top: 1px solid #c1bdbd;" />
+    <h6 ng-if="totalDetails.addonTotal>0" > Addon Total : <span class="pull-right" ng-if="totalDetails.addonTotal>0" > + <i class="fa {{currency}}"></i> {{totalDetails.addonTotal | number : 2}} </span> </h6>
+    <hr  style="border-top: 1px solid #c1bdbd;" ng-if="totalDetails.addonTotal>0" />
     <h6 > Shipping Cost : <span class="pull-right" > + <i class="fa {{currency}}"></i> {{totalDetails.shipping | number : 2}} </span> </h6>
     <hr  style="border-top: 1px solid #c1bdbd;" />
     <!-- <div ng-show="data.stage == 'payment'">

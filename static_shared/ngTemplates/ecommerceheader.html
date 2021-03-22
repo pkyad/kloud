@@ -3,14 +3,8 @@
     <div class="container-fluid newContainer ">
       <div class="row  header_top2" style="margin-left:0px;margin-right:0px;">
         <div class="col-md-4 col-xs-4 col-sm-3" style="margin:1.5% 0%;padding-left:20px;">
-
-          <div style="background: url('/static/images/xicon.png') no-repeat;background-size: contain;height:54px" class="ng-scope">
+          <div style="background: url({{divisionDetails.logo}}) no-repeat;background-size: contain;height:54px" class="ng-scope">
           </div>
-
-
-
-
-
         </div>
         <div class="col-md-3 hidden-xs hidden-sm" style="margin:1.8% 0%;">
           <div class="rounded_search">
@@ -19,14 +13,15 @@
 
           </div>
         </div>
-        <div class="col-md-offset-1 col-md-2  col-xs-4 col-sm-3 add_cart1" " style="cursor:pointer;margin-top:0.5%;">
+        <div class="col-md-offset-1 col-md-2  col-xs-4 col-sm-3 add_cart1" style="cursor:pointer;margin-top:0.5%;">
 
         </div>
         <div class=" col-md-2 col-xs-4 col-sm-3 add_cart1" style="margin-top:0.5%;">
           <div class="row" style="cursor:pointer;margin:1% 0%;">
             <a href="/pages/{{division}}/checkout/">
               <div class="col-md-4 col-sm-4 col-xs-4"  style="padding:10px;">
-                <span><img src="/static/images/CartIconUnfill.png" style="width:60px"><span class="cart_count ng-binding" style="background: var(--themeColor);">{{allCartItems.length}}</span></span>
+                <span ng-if="userDetails.pk"><img src="/static/images/CartIconUnfill.png" style="width:60px"><span class="cart_count ng-binding" style="background: var(--themeColor);">{{allCartItems.length}}</span></span>
+                <span ng-if="!userDetails.pk"><img src="/static/images/CartIconUnfill.png" style="width:60px"><span class="cart_count ng-binding" style="background: var(--themeColor);">{{cartCookieData.length}}</span></span>
               </div>
               <div class="col-md-7 col-sm-8 col-xs-8 no-padding"  style="margin:10% 0%;">
                 <span> <strong class="hidden-xs" style="color:#000;"> Cart <br> </strong> </span>
@@ -61,7 +56,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="row">
-            <div id="logoinnav" class="col-md-2" style="padding-right: 0px; background-image: url('/static/images/xicon.png'); background-position: right center; background-size: contain; background-repeat: no-repeat; height: 0px;">
+            <div id="logoinnav" class="col-md-2" style="padding-right: 0px; background-image: url({{divisionDetails.logo}}); background-position: center; background-size: contain; background-repeat: no-repeat; height: 0px;">
 
             </div>
             <div class="col-md-2 dropdown1" style="padding:15px 25px;background:var(--themeColor);cursor:pointer;"
@@ -117,25 +112,25 @@
 
                     </div>
                     <div class="" style="margin-right:15px;">
-                      <span ng-click="loginPage()" ng-if="!userDetails.pk" style="cursor:pointer;float:right"> <img src="/static/images/LoginIcon.png" style="height:30px;font-size:0.98vw"> Login</span>
+                      <span ng-click="loginPage()" ng-if="!userDetails.pk" style="cursor:pointer;float:right"> <img src="/static/images/LoginIcon.png" style="height:30px;font-size:0.98vw"> Login/Register</span>
                       <span ng-click="show=!show" ng-init="show=false" ng-if="userDetails.pk" style="cursor:pointer;float:right"> <img src="/static/images/LoginIcon.png" style="height:30px;font-size:0.98vw"> {{userDetails.name}}
 
-                        <!-- <div class="dropdown-content " style="background-color:#ffffff;width:67%;top: 140%;
+                        <div class="dropdown-content " style="background-color:#ffffff;width:67%;top: 140%;
                       padding: 0px 30px;left: 35%;position: absolute;z-index:9999" ng-if="show">
 
                           <ul class="list-unstyled text-muted" id="horizontal" style="margin-bottom:0;text-align: left;font-size:16px;line-height:2">
-                            <li style="cursor:pointer">Accounts </li>
+                            <!-- <li style="cursor:pointer">Accounts </li>
                             <li style="cursor:pointer">Settings </li>
                             <li style="cursor:pointer">Orders </li>
-                            <li style="cursor:pointer">Support </li>
-
-                            <li style="cursor:pointer">Logout </li>
+                            <li style="cursor:pointer">Support </li> -->
+                            <li style="cursor:pointer"  ng-click="goToProfile()">Accounts </li>
+                            <li style="cursor:pointer" ng-click="logoutCustomer()">Logout </li>
 
 
 
 
                           </ul>
-                        </div> -->
+                        </div>
                       </span>
 
 
@@ -155,13 +150,20 @@
                       </div>
                 <div class="col-md-6 no-padding ng-binding" style="cursor:pointer">
 
-                  <a href="/pages/{{division}}/checkout/" ng-show="allCartItems.length>0">
+                  <a href="/pages/{{division}}/checkout/" ng-show="allCartItems.length>0&&userDetails.pk">
                     <img class="pull-left" src="/static/images/CartIconUnfill.png" style="width:30px;margin-left:10px;"><span>{{allCartItems.length}}</span>
 
 
                   <!-- <a href="/checkout/{{division}}" ng-show="allCartItems.length>0">
                     <img class="pull-left" src="/static/images/CartIconUnfill.png" style="width:30px;margin-left:10px;"><span>{{allCartItems.length}}</span> -->
                   </a>
+                  <div ng-click="loginPage()" ng-show="!userDetails.pk">
+                    <img class="pull-left" src="/static/images/CartIconUnfill.png" style="width:30px;margin-left:10px;"><span>{{cartCookieData.length}}</span>
+
+
+                  <!-- <a href="/checkout/{{division}}" ng-show="allCartItems.length>0">
+                    <img class="pull-left" src="/static/images/CartIconUnfill.png" style="width:30px;margin-left:10px;"><span>{{allCartItems.length}}</span> -->
+                  </div>
                     <!-- <img class="pull-left" ng-if="!allCartItems||allCartItems.length==0" src="/static/images/CartIconUnfill.png" style="width:30px;margin-left:10px;"> -->
                 </div>
               </div>

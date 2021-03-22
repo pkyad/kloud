@@ -43,8 +43,11 @@ body {
       </div>
       <div class="col-md-4">
         <!-- <button type="button" class="btn btn-primary" name="button" ng-click="publish()" style="border-radius:100px !important;">Publish</button> -->
-
+      {% if page.url %}
         <a href="/pages/{{API_KEY}}/{{page.url}}" target="_blank"type="button" class="btn btn-primary" name="button" style="border-radius:100px !important;">Preview</a>
+      {% else %}
+              <a href="/pages/{{API_KEY}}/" target="_blank"type="button" class="btn btn-primary" name="button" style="border-radius:100px !important;">Preview</a>
+      {% endif %}
       </div>
     </div>
   </div>
@@ -68,9 +71,9 @@ body {
       {{component.css | safe}}
     </style>
 
-    <div ng-init='data = {{component.data | safe}}' style="position:relative;">
+    <div ng-init="component.data =  '{{component.data}}'"  style="position:relative;">
       <div class="" style="position:absolute;width:100%;height:80%;z-index:10;" ng-click="EditComponent({{ forloop.counter0 }})">
-
+      
       </div>
       {{component.template | safe}}
     </div>

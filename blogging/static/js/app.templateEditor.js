@@ -173,7 +173,7 @@ app.controller('templateEditor', function($scope, $rootScope , $sce , $http , $t
       });
       $scope.editor1.setFontSize("14px");
       $scope.editor1.setBehavioursEnabled(true);
-      if ($scope.form != undefined) {
+      if ($scope.form != undefined &&  $scope.form!=null && $scope.form.template!=undefined && $scope.form.template!=null) {
         console.log($scope.form);
         $scope.editor1.setValue($scope.form.template, -1);
       }

@@ -11,6 +11,7 @@ import requests
 from django.conf import settings as globalSettings
 from ERP.zoomapi import *
 import base64
+from twilio.rest import Client
 
 # Create your models here.
 def getThemeImageUploadPath(instance , filename ):
@@ -172,17 +173,6 @@ class ChatMessage(models.Model):
     replyTo = models.ForeignKey("self" , null = True, related_name="children")
     is_forwarded = models.BooleanField(default = False)
 
-@receiver(post_save, sender=ChatMessage, dispatch_uid="server_post_save")
-def createMessageThread(sender, instance, **kwargs):
-    if instance.thread == None and instance.uid is not None:
-        try:
-            threadObj = ChatThread.objects.get(uid = instance.uid)
-            instance.thread = threadObj
-            instance.save()
-        except:
-            pass
-
-
 
 
 def getCalendarAttachment(instance , filename ):
@@ -299,6 +289,7 @@ date_handler = lambda obj: (
 )
 
 def createMessage(uid, message , fileObj = None):
+    print "Inside the models > create message"
     sc = ChatMessage(uid = uid , message = message , sentByAgent = True, responseTime = 0 , is_hidden = False )
 
 
@@ -367,3 +358,210 @@ def createMessage(uid, message , fileObj = None):
               'args': [ "M" , sc.pk , {"agentDp" : logoAdd , "last_name" : chatThObj[0].company.name }, datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ') ]
             }
         )
+
+
+
+@receiver(post_save, sender=ChatMessage, dispatch_uid="server_post_save")
+def pushMessageToUI(sender, instance, **kwargs):
+
+    if instance.thread == None and instance.uid is not None:
+        try:
+            threadObj = ChatThread.objects.get(uid = instance.uid)
+            instance.thread = threadObj
+            instance.save()
+        except:
+            pass
+        return
+
+    print "saved ..............//......................." , instance.message
+    # if not kwargs['created']:
+    #     print kwargs
+    #     print "returning because it might be an update"
+    #     return
+
+    try:
+        attachmentUrl = instance.attachment.url
+        attType = instance.attachmentType
+    except:
+        attachmentUrl = None
+        attType = None
+    toPush = { "pk" :	instance.pk,
+        "created" :	instance.created.isoformat(),
+        "uid" :	instance.uid,
+        "attachment" :attachmentUrl,
+        "user" :1,
+        "message" :	instance.message,
+        "attachmentType" :attType,
+        "sentByAgent" :	False,
+        "responseTime" :	None,
+        "logs" :	None,
+        "delivered" :	False,
+        "read" :	False,
+        "is_hidden" :	False
+    }
+    print toPush
+
+    ct = ChatThread.objects.get(uid = instance.uid)
+    print ct , "chatthread" , ct.pk
+    print "instance.sentByAgent" , instance.sentByAgent , ct.transferred , ct.company.botMode , ct.channel
+    if not instance.sentByAgent and ct.transferred and not ct.channel== 'self' :
+        print "Sending it to the agent--------------------------------"
+        res = requests.post(globalSettings.WAMP_POST_ENDPOINT,
+            json={
+              'topic': globalSettings.WAMP_PREFIX+ 'service.support.' + str(ct.company.pk),
+              'args': [instance.uid, 'M', instance.pk, ct.company.pk , False, ct.pk , ct.company.name]
+            }
+        )
+        
+        print " posted to the agent " , res.text
+        return
+
+    if ct.channel == 'FB' and instance.sentByAgent:
+        bot = Bot(ct.company.access_token)
+        if instance.attachment == None:
+            bot.send_text_message(ct.fid, instance.message)
+        else:
+            ext = instance.attachment.url.split('.')[-1]
+            typ = instance.attachmentType
+
+            if ext in ['pdf' , 'docx' , 'ppt' , 'doc', 'odt']:
+                typ = 'file'
+
+            print "instance.attachment.url" , instance.attachment.url
+            print "typ : " , typ
+
+            bot.send_raw({
+                "recipient" : {"id":ct.fid},
+              "message":{
+                "attachment":{
+                  "type":typ,
+                  "payload":{
+                    "is_reusable": True,
+                    "url": globalSettings.SITE_ADDRESS + instance.attachment.url
+                  }
+                }
+            }})
+
+    if ct.channel == 'whatsapp-gupshup' and instance.sentByAgent:
+
+
+
+
+        if instance.attachment == None:
+            # bot.send_text_message(ct.fid, instance.message)
+
+             # curl -X POST https://api.gupshup.io/sm/api/v1/msg \
+             # -H 'Cache-Control: no-cache' \
+             # -H 'Content-Type: application/x-www-form-urlencoded' \
+             # -H 'apikey: 97fc389c7b1545eec5d1aaf49321aa17' \
+             # -H 'cache-control: no-cache' \
+             # -d 'channel=whatsapp&source=918209371323&destination=91&message=%7B%22type%22:%22text%22,%22text%22:%22%22%7D&src.name=EPSILON'
+
+            headers = {
+                'Cache-Control':'no-cache',
+                'Content-Type':'application/x-www-form-urlencoded',
+                'apikey':'97fc389c7b1545eec5d1aaf49321aa17',
+            }
+            data = {
+                'channel' : 'whatsapp',
+                'source' : '918209371323',
+                'destination' : ct.fid,
+                'message' : instance.message,
+                'src.name' : 'EPSILON'
+            }
+            res = requests.post('https://api.gupshup.io/sm/api/v1/msg' , headers=headers , data = data)
+
+
+        else:
+
+             # curl -X POST https://api.gupshup.io/sm/api/v1/msg \
+             # -H 'Cache-Control: no-cache' \
+             # -H 'Content-Type: application/x-www-form-urlencoded' \
+             # -H 'apikey: 97fc389c7b1545eec5d1aaf49321aa17' \
+             # -H 'cache-control: no-cache' \
+             # -d 'channel=whatsapp&source=918209371323&destination=916456565&message=%7B%22type%22:%22image%22,%22previewUrl%22:%22https://www.buildquickbots.com/whatsapp/media/sample/png/sample01.png%22,%22originalUrl%22:%22https://www.buildquickbots.com/whatsapp/media/sample/png/sample01.png%22,%22caption%22:%22fdsfdfsd%22,%22filename%22:%22Sample.png%22%7D&src.name=EPSILON'
+
+            headers = {
+                'Cache-Control':'no-cache',
+                'Content-Type':'application/x-www-form-urlencoded',
+                'apikey':'97fc389c7b1545eec5d1aaf49321aa17',
+            }
+            data = {
+                'channel' : 'whatsapp',
+                'source' : '918209371323',
+                'destination' : ct.fid,
+                'src.name' : 'EPSILON',
+                'message' : {
+                    'type': 'file',
+                    'url': globalSettings.SITE_ADDRESS + instance.attachment.url,
+                    'caption' : 'Attachment',
+                    'filename' : instance.attachment.url.split('_')[-1]
+                },
+            }
+
+            res = requests.post('https://api.gupshup.io/sm/api/v1/msg' , headers=headers , data = data)
+            print '===================SENDING FILE TO GUPSHUP===========\n\n\n'
+            print "data" , data
+
+            print globalSettings.SITE_ADDRESS + instance.attachment.url
+            print res.text
+            print '===================SENDING FILE TO GUPSHUP===========\n\n\n'
+
+            # ext = instance.attachment.url.split('.')[-1]
+            # typ = instance.attachmentType
+            #
+            # if ext in ['pdf' , 'docx' , 'ppt' , 'doc', 'odt']:
+            #     typ = 'file'
+            #
+            # print "instance.attachment.url" , instance.attachment.url
+            # print "typ : " , typ
+            #
+            # bot.send_raw({
+            #     "recipient" : {"id":ct.fid},
+            #   "message":{
+            #     "attachment":{
+            #       "type":typ,
+            #       "payload":{
+            #         "is_reusable": True,
+            #         "url": globalSettings.SITE_ADDRESS + instance.attachment.url
+            #       }
+            #     }
+            # }})
+
+
+
+    if ct.channel == 'whatsapp' and instance.sentByAgent:
+        print "Publish on whatsapp "
+        # Your Account Sid and Auth Token from twilio.com/console
+        # DANGER! This is insecure. See http://twil.io/secure
+        if ct.company.whatsappNumber is None:
+            account_sid = globalSettings.TWILLIO_SID
+            auth_token = globalSettings.TWILLIO_AUTH_TOKEN
+            from_number = globalSettings.DEFAULT_WHATSAPP_NUMBER
+        else:
+            account_sid = ct.company.twillioAccountSID
+            auth_token = ct.company.trillioAuthToken
+            from_number = ct.company.whatsappNumber
+            if account_sid is None:
+                account_sid = globalSettings.TWILLIO_SID
+                auth_token = globalSettings.TWILLIO_AUTH_TOKEN
+
+        client = Client(account_sid, auth_token)
+        print account_sid, auth_token
+        print "instance.message" , instance.message , ct.fid
+        if instance.attachment == None:
+            print "plain text"
+
+            message = client.messages.create(
+                                          body= instance.message,
+                                          from_='whatsapp:+%s'%(from_number),
+                                          to='whatsapp:+%s'%(ct.fid.replace(' ', ''))
+                                      )
+        else:
+            print "media message"
+            message = client.messages.create(
+                                          media_url= [ globalSettings.SITE_ADDRESS + instance.attachment.url],
+                                          from_='whatsapp:+%s'%(from_number),
+                                          to='whatsapp:+%s'%(ct.fid.replace(' ', ''))
+                                      )
+

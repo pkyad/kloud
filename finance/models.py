@@ -320,6 +320,8 @@ class Inventory(models.Model):
     taxRate = models.FloatField(default=0)
     mrp = models.FloatField(default=0)
     stock = models.FloatField(default=0)
+    customizationData = models.TextField(max_length=10000 , null=True)
+    addonsData = models.TextField(max_length=10000 , null=True)
 
 class InventoryLog(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -415,6 +417,7 @@ class InvoiceQty(models.Model):
     receivedQty = models.PositiveIntegerField(default=0)
     user = models.ForeignKey(User , related_name='invoiceQtyUsers' , null = True)
     attachment = models.FileField(upload_to = getInvoicesPath ,  null = True) #REQUIRED IF EXPENSES
+    data =  models.TextField(max_length = 2000 , null = True) 
 
 class Cart(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -424,3 +427,7 @@ class Cart(models.Model):
     price = models.FloatField(default=1)
     total = models.FloatField(default=1)
     division = models.ForeignKey(Division,related_name='carts',null=True)
+    addon = models.TextField(max_length=500 , null = True)
+    customisation = models.TextField(max_length=500 , null = True)
+    class Meta:
+        unique_together = ('contact', 'product')

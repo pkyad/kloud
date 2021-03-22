@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ui.router','flash', 'ui.bootstrap']);
+var app = angular.module('app', ['ui.router','flash', 'ui.bootstrap','chart.js']);
 var emptyFile = new File([""], "");
 app.config(function($httpProvider,$stateProvider, $urlRouterProvider,$provide) {
 
@@ -76,6 +76,11 @@ app.config(function($stateProvider) {
       templateUrl: '/static/ngTemplates/app.settings.version.html',
       controller: 'admin.settings.configure.version.form'
    })
+   .state('analytics', {
+      url: "/analytics",
+      templateUrl: '/static/ngTemplates/app.settings.analytics.html',
+      controller: 'admin.settings.configure.analytics',
+   })
    .state('appDetails', {
       url: "/:id",
       templateUrl: '/static/ngTemplates/app.organization.appDetails.html',
@@ -87,18 +92,85 @@ app.config(function($stateProvider) {
       templateUrl: '/static/ngTemplates/app.organization.usage.html',
       controller: 'businessManagement.usage',
    })
-   .state('analytics', {
-      url: "/analytics",
-      templateUrl: '/static/ngTemplates/app.organization.analytics.html',
-      controller: 'businessManagement.analytics',
-   })
+
 
 
  });
 
 
 
-app.controller('businessManagement.analytics', function($scope, $state, $stateParams, $http, Flash, $uibModal) {
+app.controller('admin.settings.configure.analytics', function($scope, $state, $stateParams, $http, Flash, $uibModal) {
+  $scope.fromDate  = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+  $scope.toDate = new Date()
+
+  $scope.getAllDivision = function(){
+    $http({
+      method: 'GET',
+      url: '/api/organization/divisions/'
+    }).then(function(response) {
+      $scope.allDivisions = response.data
+      $scope.selectedDiv = $scope.allDivisions[0]
+      $scope.getData()
+    })
+  }
+  $scope.getAllDivision()
+
+$scope.getData = function(){
+  $http({
+    method: 'GET',
+    url: '/api/ERP/getAppUsageGraph/?div='+$scope.selectedDiv.pk+'&fromDate='+$scope.fromDate.toJSON().split('T')[0]+'&toDate='+$scope.toDate.toJSON().split('T')[0]
+  }).
+  then(function(response) {
+    $scope.allCompanydata = response.data;
+    new Chart(document.getElementById('admin-line-chart'), {
+      type: 'line',
+      data: {
+        datasets: [{
+          data:   $scope.allCompanydata.usage.data.data,
+          borderColor: '#2490EF',
+          label: $scope.allCompanydata.usage.name,
+          fill: false
+        },
+      ],
+      labels: $scope.allCompanydata.usage.data.labels
+    },
+    options: {
+      scales: {
+        xAxes: [{
+          gridLines: {
+            display: false
+          }
+        }],
+      }
+    }
+  });
+  
+  new Chart(document.getElementById('admin-main-line-chart'), {
+    type: 'line',
+    data: {
+      datasets: [{
+        data:   $scope.allCompanydata.division.data,
+        borderColor: '#2490EF',
+        label: '',
+        fill: false
+      },
+    ],
+    labels: $scope.allCompanydata.division.labels
+  },
+  options: {
+    scales: {
+      xAxes: [{
+        gridLines: {
+          display: false
+        }
+      }],
+    }
+  }
+});
+
+})
+
+}
 
 })
 

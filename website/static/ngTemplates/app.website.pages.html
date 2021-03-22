@@ -38,7 +38,7 @@
 
     <div class="row" style="margin:0px;margin-bottom:20px;">
       <div class="col-md-2">
-        <img src="/static/images/google.jpg" style="height:100px" alt="">
+        <img src="/static/images/google.jpg" style="height:100px" alt="" ng-dblclick="initialPage()">
       </div>
       <div class="col-md-6">
         <div class="form-group">
@@ -69,7 +69,7 @@
 
               </div>
               <div class="col-md-1">
-                <i class="fa fa-trash" mwl-confirm title="Delete" message="Are you sure?" data-placement="bottom" confirm-text="Yes <i class='fa fa-check'></i>"
+                <i class="fa fa-trash" ng-if="k.url.length>0" mwl-confirm title="Delete" message="Are you sure?" data-placement="bottom" confirm-text="Yes <i class='fa fa-check'></i>"
                   cancel-text="No" on-confirm="deletePage($index);" confirm-button-type="default" cancel-button-type="default"></i>
               </div>
             </div>

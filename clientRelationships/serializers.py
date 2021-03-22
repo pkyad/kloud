@@ -27,7 +27,7 @@ class ContactLiteSerializer(serializers.ModelSerializer):
     company = serviceSerializer(many = False , read_only = True)
     class Meta:
         model = Contact
-        fields = ('pk' , 'user' ,'name', 'company', 'email', 'mobile' , 'designation', 'dp', 'male','isGst')
+        fields = ('pk' , 'user' ,'name', 'company', 'email', 'mobile' , 'designation', 'dp', 'male','isGst', 'city' , 'street' , 'pincode' , 'country' , 'state')
         read_only_fields = ( 'user' ,'name', 'company', 'email', 'mobile' , 'designation', 'dp', 'male', 'city' , 'street' , 'pincode' , 'country' , 'state','typ')
 
 
@@ -379,5 +379,5 @@ class ServiceTicketSerializer(serializers.ModelSerializer):
         if obj.closedOn is not None:
             lastDate = obj.closedOn
         if obj.referenceContact is not None:
-            allData = Contract.objects.filter(created__range = [obj.created , lastDate], contact = obj.referenceContact).values('pk' , 'heading')
+            allData = Contract.objects.filter(created__range = [obj.created , lastDate], contact = obj.referenceContact).values('pk' , 'heading','grandTotal','created')
         return allData

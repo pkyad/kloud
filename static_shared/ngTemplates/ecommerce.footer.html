@@ -4,19 +4,19 @@
           <div class="newContainer" >
             <div class="row no-padding" style="margin:0">
               <div class="col-md-4 text-center" style="padding:70px;">
-                <img src="/static/images/xicon.png"  style="width:60px;height:60px;margin-right:20px;"alt=""> <span style="font-weight: 700;
-background: -webkit-linear-gradient(#FA012F, #FF3E64);background-clip: border-box;-webkit-background-clip: text;
--webkit-text-fill-color:transparent;">Kloud ERP</span>
+                <img src="{{divisionDetails.logo}}"  style="width:60px;height:60px;margin-right:20px;"alt=""> <span style="font-weight: 700;
+                background: -webkit-linear-gradient(#FA012F, #FF3E64);background-clip: border-box;-webkit-background-clip: text;
+                -webkit-text-fill-color:transparent;">{{divisionDetails.name}}</span>
               </div>
 
               <div class="col-md-4 col-xs-12  store_footer">
 
                 <ul class="hidden-xs">
-                    <li class="col-md-4 col-xs-3" ng-if="!$state.is('adminMode')"><a href="{{storeData.fbLink}}"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                    <li class="col-md-4 col-xs-3" ng-if="!$state.is('adminMode')"><a href="{{divisionDetails.fbLink}}"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
                     <li class="col-md-4 col-xs-3" ng-if="$state.is('adminMode')"><a ng-click="addsocial('fbLink')"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                    <li class="col-lg-4 col-xs-3" ng-if="!$state.is('adminMode')"><a href="{{storeData.twitterLink}}"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                    <li class="col-lg-4 col-xs-3" ng-if="!$state.is('adminMode')"><a href="{{divisionDetails.twitterLink}}"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
                     <li class="col-lg-4 col-xs-3" ng-if="$state.is('adminMode')"><a ng-click="addsocial('twitterLink')"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                    <li class="col-lg-4 col-xs-3" ng-if="!$state.is('adminMode')"><a href="{{storeData.instagramLink}}"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                    <li class="col-lg-4 col-xs-3" ng-if="!$state.is('adminMode')"><a href="{{divisionDetails.instagramLink}}"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
                     <li class="col-lg-4 col-xs-3" ng-if="$state.is('adminMode')"><a ng-click="addsocial('instagramLink')"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
                   </ul>
                 <div class="visible-xs">
@@ -24,17 +24,17 @@ background: -webkit-linear-gradient(#FA012F, #FF3E64);background-clip: border-bo
                     <div class="flex-container" style="margin:auto;display:flex;">
                     <div class="" style="width:60px;height:60px;background-color:#4a69ad;border-radius:50%;margin-right:10px;">
 
-                      <a href="{{storeData.fbLink}}"><i class="fa fa-facebook" aria-hidden="true" style="font-size: 29px;color:white;padding: 27%;"></i></a>
+                      <a href="{{divisionDetails.fbLink}}"><i class="fa fa-facebook" aria-hidden="true" style="font-size: 29px;color:white;padding: 27%;"></i></a>
 
                     </div>
                     <div class="" style="width:60px;height:60px;background-color:#55acee;border-radius:50%;margin-right:10px;">
 
-                      <a  href="{{storeData.twitterLink}}"><i class="fa fa-twitter" aria-hidden="true" style="font-size: 29px;color:white;padding: 27%;"></i></a>
+                      <a  href="{{divisionDetails.twitterLink}}"><i class="fa fa-twitter" aria-hidden="true" style="font-size: 29px;color:white;padding: 27%;"></i></a>
 
                     </div>
                     <div class="" style="width:60px;height:60px;background-color:#dd4b39;border-radius:50%;margin-right:10px">
 
-                      <a  href="{{storeData.instagramLink}}"><i class="fa fa-instagram"aria-hidden="true" style="font-size: 29px;color:white;padding: 27%;"></i></a>
+                      <a  href="{{divisionDetails.instagramLink}}"><i class="fa fa-instagram"aria-hidden="true" style="font-size: 29px;color:white;padding: 27%;"></i></a>
 
                     </div>
                     </div>
@@ -42,7 +42,7 @@ background: -webkit-linear-gradient(#FA012F, #FF3E64);background-clip: border-bo
                     <div class="text-center col-xs-12 visible-xs " style="padding-top:20px;">
                       <span style="font-size:24px;">Address</span> <br>
                       <address class="">
-                         4th floor Parappana Agrahara Main Rd,<br><br><br> Kudlu, Bengaluru,<br><br> Karnataka -- 560068
+                         {{divisionDetails.unit.address}}<br> {{divisionDetails.unit.city}}<br> {{divisionDetails.unit.country}} -- {{divisionDetails.unit.pincode}}
                       </address>
                     </div>
                 </div>
@@ -50,7 +50,7 @@ background: -webkit-linear-gradient(#FA012F, #FF3E64);background-clip: border-bo
                 <div class="col-md-2 text-right col-xs-12 hidden-xs store_footer ">
                   <span style="font-size:24px;">Address</span> <br><br>
                   <address class="">
-                     4th floor Parappana Agrahara Main Rd,<br> Kudlu, Bengaluru,<br> Karnataka -- 560068
+                     {{divisionDetails.unit.address}}<br>{{divisionDetails.unit.city}}<br> {{divisionDetails.unit.country}} -- {{divisionDetails.unit.pincode}}
                   </address>
 
                 </div>

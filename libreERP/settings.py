@@ -52,6 +52,7 @@ INVOICE_NUMBER_PREFIX = 'ZIGMA/20-21/'
 CRM_OFFSET = 200
 INVOICE_THEME_COLOR_V2 = '#1e73be'
 IS_AGGREMENT = True
+# DEFAULT_WHATSAPP_NUMBER = '+1(512)851-0366'
 # DISABLED_APPS = ['app.projects' , 'app.profile' , 'app.CRM']
 
 LOGIN_TEMPLATE = 'login.html'
@@ -114,7 +115,7 @@ SHOW_COMMON_APPS = True
 DEFAULT_STATE = '/businessManagement/clientRelationships'
 
 TWILLIO_SID = 'ACeef54d4946f61de33d1dacc2388fb702'
-TWILLIO_AUTH_TOKEN = '4ba9d3bddacb4e9d1ea84c17c6a7e4bc'
+TWILLIO_AUTH_TOKEN = '5f71b0577135173f0910f48403958af2'
 DEFAULT_WHATSAPP_NUMBER = '15128510366'
 
 PAYMENT_MODE = 'razorpay' # options are EBS , paypal , paytm , PAYU , ccavenue,razorpay
@@ -401,6 +402,17 @@ AUTHENTICATION_BACKENDS = (
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
 #         'NAME': 'erp.cioc.in',
+#         'USER': 'newuser',
+#         'PASSWORD': 'titan@1234',
+#         'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
+#         'PORT': '3306',
+#     }
+# }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'sdpl',
 #         'USER': 'newuser',
 #         'PASSWORD': 'titan@1234',
 #         'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
