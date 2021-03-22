@@ -54,7 +54,7 @@ import ast
 from simplecrypt import encrypt, decrypt
 from clientRelationships.models import ContactAuth
 from clientRelationships.serializers import ContactLiteSerializer
-from chatbot.talk import *
+# from chatbot.talk import *
 from twilio.rest import Client
 import html2text
 
@@ -1194,7 +1194,7 @@ def WhatsappHookView(request):
             auth_token = globalSettings.TWILLIO_AUTH_TOKEN
         whatsapp_from = compProfile.whatsappNumber
     except:
-        
+
         print frm
         compProfile = Division.objects.get(whatsapp_test_number = frm )
         account_sid = globalSettings.TWILLIO_SID
@@ -1217,9 +1217,9 @@ def WhatsappHookView(request):
             cnts.save()
             cth.visitor = cnts
             cth.save()
-            
 
-            
+
+
 
             wmessage = client.messages.create(body= html2text.html2text(compProfile.firstMessage),
                                           from_='whatsapp:+%s'%(whatsapp_from),

@@ -207,7 +207,7 @@ class ProjectStockSummaryViewSet(viewsets.ModelViewSet):
         queryset = ProjectStockSummary.objects.filter(division = divisionObj)
         return queryset
 
-class InvoiceViewSet(viewsets.ModelViewSet):
+class IMInvoiceViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny , )
     serializer_class = InvoiceSerializer
     filter_backends = [DjangoFilterBackend]
@@ -223,7 +223,7 @@ class InvoiceViewSet(viewsets.ModelViewSet):
 
         return toReturn.order_by('-pk')
 
-class InvoiceQtyViewSet(viewsets.ModelViewSet):
+class IMInvoiceQtyViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny , )
     queryset = InvoiceQty.objects.all()
     serializer_class = InvoiceQtySerializer
@@ -3629,7 +3629,7 @@ def invoice(response, pkVal  , request,flag):
         <para>
         GSTIN : %s
         </para>
-        """ %(inv.billGst),styles['Normal'])
+        """ %(inv.shipGst),styles['Normal'])
         t6data=[detail61],[detail62]
         td5header+=[t6data]
         t7=Table(td5header,colWidths=(127*mm,127*mm))
@@ -3926,7 +3926,7 @@ def invoice(response, pkVal  , request,flag):
         <para>
         GSTIN : %s
         </para>
-        """ %(inv.billGst),styles['Normal'])
+        """ %(inv.shipGst),styles['Normal'])
         t6data=[detail61],[detail62]
         td5header+=[t6data]
         t7=Table(td5header,colWidths=(102.5*mm,102.5*mm))

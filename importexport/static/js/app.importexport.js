@@ -231,7 +231,6 @@ app.controller("businessManagement.importexport", function($rootScope, $scope, $
 
 
   $rootScope.$on('customEvent', function(event, message) {
-    console.log($rootScope.formToggle.toggleMain, 'jjjjjjjjjjjjjjj')
     $state.reload()
   });
 
@@ -275,7 +274,6 @@ app.controller("businessManagement.importexport", function($rootScope, $scope, $
         $scope.allData = response.data.results
 
         $scope.count = response.data.count
-        console.log($scope.allData, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaTable");
       })
     }
     $scope.fetchData()
@@ -291,7 +289,6 @@ app.controller("businessManagement.importexport", function($rootScope, $scope, $
     $scope.projectSearch = function(query) {
       return $http.get('/api/importexport/projectSearch/?search=' + query + '&flag='+ $scope.flagValue + '&comm_nr='+  $stateParams.id+'&type=poView').
       then(function(response) {
-        console.log('response', response);
         return response.data;
       })
     };
@@ -549,7 +546,6 @@ app.controller("businessManagement.importexport", function($rootScope, $scope, $
       then(function(response) {
         $scope.allData = response.data.results
         $scope.count = response.data.count
-        console.log($scope.allData, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
       })
     }
     $scope.fetchData()
@@ -561,7 +557,6 @@ app.controller("businessManagement.importexport", function($rootScope, $scope, $
 app.controller("businessManagement.importexport.projects.form", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal, $filter, $rootScope) {
 
   if ($state.is('businessManagement.importexport.projectsEdit')) {
-    console.log("MMMMMMMMMMMMMMMMMMMMMMMMMMM", $stateParams.id);
     $http({
       url: '/api/importexport/projects/' + $stateParams.id + '/',
       method: 'GET',
@@ -2346,7 +2341,7 @@ app.controller("businessManagement.importexport.projects.service.view", function
             $scope.fetchData = function() {
               $http({
                 method: 'GET',
-                url: '/api/importexport/invoiceQty/?invoice=' + $scope.form.pk
+                url: '/api/importexport/iminvoiceQty/?invoice=' + $scope.form.pk
               }).
               then(function(response) {
                 $scope.products = response.data
@@ -2379,7 +2374,7 @@ app.controller("businessManagement.importexport.projects.service.view", function
             $scope.products = []
             $http({
               method: 'GET',
-              url: '/api/importexport/invoice/?project=' + $scope.data.pk
+              url: '/api/importexport/iminvoice/?project=' + $scope.data.pk
             }).
             then(function(response) {
               console.log(response.data);
@@ -2439,7 +2434,7 @@ app.controller("businessManagement.importexport.projects.service.view", function
               } else {
                 $http({
                   method: 'DELETE',
-                  url: '/api/importexport/invoiceQty/' + pkVal + '/'
+                  url: '/api/importexport/iminvoiceQty/' + pkVal + '/'
                 }).
                 then(function(response) {
                   $scope.products.splice(idx, 1)
@@ -2546,7 +2541,7 @@ app.controller("businessManagement.importexport.projects.service.view", function
               }
 
               var method = 'POST'
-              var url = '/api/importexport/invoice/'
+              var url = '/api/importexport/iminvoice/'
 
               if ($scope.form.pk) {
                 method = 'PATCH'
@@ -2582,7 +2577,7 @@ app.controller("businessManagement.importexport.projects.service.view", function
                         igstVal: $scope.products[i].igstVal,
                         total: $scope.products[i].total,
                       }
-                      var url = '/api/importexport/invoiceQty/'
+                      var url = '/api/importexport/iminvoiceQty/'
                       var method = 'POST'
                     } else {
                       var sendVal = {
@@ -2602,7 +2597,7 @@ app.controller("businessManagement.importexport.projects.service.view", function
                         igstVal: $scope.products[i].igstVal,
                         total: $scope.products[i].total,
                       }
-                      var url = '/api/importexport/invoiceQty/' + $scope.products[i].pk + '/'
+                      var url = '/api/importexport/iminvoiceQty/' + $scope.products[i].pk + '/'
                       var method = 'PATCH'
                     }
                     $http({
@@ -4378,7 +4373,7 @@ app.controller("businessManagement.importexport.invoice", function($scope, $stat
     query: ''
   }
   $scope.fetchData = function() {
-    let url = '/api/importexport/invoice/?limit=' + $scope.limit + '&offset=' + $scope.offset + '&flag=' + true
+    let url = '/api/importexport/iminvoice/?limit=' + $scope.limit + '&offset=' + $scope.offset + '&flag=' + true
     if ($scope.search.query.length > 0) {
       url = url + '&invoiceno=' + $scope.search.query
 
@@ -4397,7 +4392,7 @@ app.controller("businessManagement.importexport.invoice", function($scope, $stat
   $scope.deleteInvoice = function(pk) {
     $http({
       method: 'DELETE',
-      url: '/api/importexport/invoice/' + pk + "/",
+      url: '/api/importexport/iminvoice/' + pk + "/",
     }).then(function(response) {
       Flash.create("success", "Project deleted")
       $scope.fetchData();
@@ -4412,7 +4407,7 @@ app.controller("businessManagement.importexport.invoice", function($scope, $stat
 app.controller("businessManagement.importexport.invoice.form", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal, $rootScope, $timeout, ) {
   if ($state.is('businessManagement.importexport.editInvoice')) {
     $http({
-      url: '/api/importexport/invoice/' + $stateParams.id + '/',
+      url: '/api/importexport/iminvoice/' + $stateParams.id + '/',
       method: 'GET',
     }).then(function(response) {
       $scope.form = response.data
@@ -4420,7 +4415,7 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
       $scope.fetchData = function() {
         $http({
           method: 'GET',
-          url: '/api/importexport/invoiceQty/?invoice=' + $stateParams.id
+          url: '/api/importexport/iminvoiceQty/?invoice=' + $stateParams.id
         }).
         then(function(response) {
           $scope.products = response.data
@@ -4656,7 +4651,7 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
         } else {
           $http({
             method: 'DELETE',
-            url: '/api/importexport/invoiceQty/' + pkVal + '/'
+            url: '/api/importexport/iminvoiceQty/' + pkVal + '/'
           }).
           then(function(response) {
             $scope.products.splice(idx, 1)
@@ -4766,7 +4761,7 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
         if ($scope.form.hasOwnProperty('project')) {
           delete $scope.form.project
         }
-        var url = '/api/importexport/invoice/' + $stateParams.id + "/"
+        var url = '/api/importexport/iminvoice/' + $stateParams.id + "/"
         $scope.form.billAddress = JSON.stringify($scope.form.billAddress)
         $scope.form.shipAddress = JSON.stringify($scope.form.shipAddress)
         method = 'PATCH'
@@ -4804,7 +4799,7 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
   $scope.fetchData = function() {
     $http({
       method: 'GET',
-      url: '/api/importexport/invoiceQty/?invoice=' + $scope.form.pk
+      url: '/api/importexport/iminvoiceQty/?invoice=' + $scope.form.pk
     }).
     then(function(response) {
       $scope.products = response.data
@@ -4940,13 +4935,15 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
         $scope.form.shipAddress.city = newValue.city
         $scope.form.shipAddress.pincode = newValue.pincode
         $scope.form.shipState = newValue.state
+        $scope.form.shipGst = newValue.gst
       } else {
+        console.log(newValue, 'newValue');
         $scope.form.shipName = newValue.name
         $scope.form.shipAddress.street = newValue.address.street
         $scope.form.shipAddress.city = newValue.address.city
         $scope.form.shipAddress.pincode = newValue.address.pincode
         $scope.form.shipState = newValue.address.state
-        $scope.form.shipGst = newValue.gst
+        $scope.form.shipGst = newValue.tin
       }
     }
 
@@ -4984,7 +4981,7 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
         $scope.all = true
 
       } else {
-        console.log($scope.data.tableData[$scope.tab.data.index], 'ggg');
+        // console.log($scope.data.tableData[$scope.tab.data.index], 'ggg');
         $scope.form.shipName = $scope.editData.shipName
         $scope.form.shipAddress.street = $scope.editData.shipAddress.street
         $scope.form.shipAddress.city = $scope.editData.shipAddress.city
@@ -5050,7 +5047,7 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
     } else {
       $http({
         method: 'DELETE',
-        url: '/api/importexport/invoiceQty/' + pkVal + '/'
+        url: '/api/importexport/iminvoiceQty/' + pkVal + '/'
       }).
       then(function(response) {
         $scope.products.splice(idx, 1)
@@ -5203,7 +5200,7 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
     }
 
     var method = 'POST'
-    var url = '/api/importexport/invoice/'
+    var url = '/api/importexport/iminvoice/'
     $scope.form.billAddress = JSON.stringify($scope.form.billAddress)
     $scope.form.shipAddress = JSON.stringify($scope.form.shipAddress)
     if ($scope.form.pk) {
@@ -5241,7 +5238,7 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
               total: $scope.products[i].total,
               flag: $scope.form.flag
             }
-            var url = '/api/importexport/invoiceQty/'
+            var url = '/api/importexport/iminvoiceQty/'
             var method = 'POST'
           } else {
             var sendVal = {
@@ -5262,7 +5259,7 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
               total: $scope.products[i].total,
             }
 
-            var url = '/api/importexport/invoiceQty/' + $scope.products[i].pk + '/'
+            var url = '/api/importexport/iminvoiceQty/' + $scope.products[i].pk + '/'
             var method = 'PATCH'
           }
           $http({
@@ -5289,15 +5286,13 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
 })
 app.controller("businessManagement.importexport.invoice.explore", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal, $rootScope, $timeout, ) {
   $http({
-    url: '/api/importexport/invoice/' + $stateParams.id + '/',
+    url: '/api/importexport/iminvoice/' + $stateParams.id + '/',
     method: 'GET',
   }).then(function(response) {
     $scope.form = response.data
-    console.log($scope.form);
 
-    $http.get('/api/importexport/invoiceQty/?invoice=' + $scope.form.pk).
+    $http.get('/api/importexport/iminvoiceQty/?invoice=' + $scope.form.pk).
     then(function(response) {
-      console.log(response.data);
       $scope.products = response.data
     })
     $scope.data = $scope.form
@@ -5316,7 +5311,6 @@ app.controller("businessManagement.importexport.invoice.explore", function($scop
 
     $scope.products = []
     // $scope.getDetails($scope.data.pk)
-    console.log($scope.data, 'aaaaaaa');
   })
   $scope.lockInvoice = function(pk) {
     var datatosSend = {
@@ -5324,12 +5318,11 @@ app.controller("businessManagement.importexport.invoice.explore", function($scop
     }
     $http({
       method: 'PATCH',
-      url: '/api/importexport/invoice/' + pk + '/',
+      url: '/api/importexport/iminvoice/' + pk + '/',
       data: datatosSend,
     }).
     then(function(response) {
       $scope.lockInvoice = response.data
-      console.log($scope.customs_no);
       Flash.create('success', 'Invoice Locked');
 
     })
@@ -5377,7 +5370,6 @@ app.controller("businessManagement.importexport.deliveryChallan", function($scop
       $scope.allData = response.data.results
 
       $scope.count = response.data.count
-      console.log($scope.allData, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
     })
   }
   $scope.fetchData()
@@ -5385,7 +5377,6 @@ app.controller("businessManagement.importexport.deliveryChallan", function($scop
 })
 app.controller("businessManagement.importexport.deliveryChallan.explore", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal, $rootScope, $permissions, $timeout, ) {
   if ($state.is('businessManagement.importexport.viewDeliverychallan')) {
-    console.log("MMMMMMMMMMMMMMMMMMMMMMMMMMM", $stateParams.id);
     $http({
       url: '/api/importexport/deliveryChallan/' + $stateParams.id + '/',
       method: 'GET',
@@ -5399,7 +5390,6 @@ app.controller("businessManagement.importexport.deliveryChallan.explore", functi
 //-------------------------------------delierychallan-------------------------------------------------
 app.controller("businessManagement.importexport.stockReport", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal, $rootScope, $permissions, $timeout, ) {
   $rootScope.$on('customEvent', function(event, message) {
-    console.log($rootScope.formToggle.toggleMain, 'jjjjjjjjjjjjjjj')
     $state.reload()
 
 
@@ -5444,7 +5434,6 @@ app.controller("businessManagement.importexport.stockReport", function($scope, $
       $scope.allData = response.data.results
 
       $scope.count = response.data.count
-      console.log($scope.allData, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaTable");
     })
   }
   $scope, data = $scope.allData
@@ -5470,10 +5459,8 @@ app.controller("businessManagement.importexport.stockReport", function($scope, $
             url: '/api/importexport/stockCheck/?flag=' + flag
           }).
           then(function(response) {
-            console.log(response.data);
             $scope.count = response.data[0].count
             $scope.data = response.data[0].data
-            console.log($scope.data, 'aaaaaaaaa');
             if ($scope.data.pk != undefined) {
               $http({
                 method: 'GET',
@@ -5532,7 +5519,6 @@ app.controller("businessManagement.importexport.stockReport", function($scope, $
                   url: '/api/importexport/stockCheckItem/' + $scope.products[i].pk + '/'
                 }).
                 then(function(response) {
-                  console.log($scope.products[i]);
                   $scope.products.splice(i, 1)
                 })
                 return
@@ -5644,7 +5630,6 @@ app.controller("businessManagement.importexport.stockReportItem", function($scop
 
 
   $rootScope.$on('customEvent', function(event, message) {
-    console.log($rootScope.formToggle.toggleMain, 'jjjjjjjjjjjjjjj')
     $state.reload()
 
 
@@ -5672,11 +5657,9 @@ app.controller("businessManagement.importexport.report", function($scope, $sce, 
   $scope.datewiseInvoice = function(){
     var s = $scope.dateForm.start
     s = new Date(s.getFullYear(), s.getMonth(), s.getDate() + 1)
-    console.log(s,"toddddd");
 
     var d = $scope.dateForm.end
     d = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1)
-    console.log(d,"toddddd");
 
      window.location.href = '/api/importexport/datewiseinvoiceReport/?start='+ s.toJSON().split('T')[0] + '&end=' + d.toJSON().split('T')[0]
     // $http({
@@ -5702,7 +5685,6 @@ app.controller("businessManagement.importexport.report", function($scope, $sce, 
   // }, true)
 
   $rootScope.$on('customEvent', function(event, message) {
-    console.log($rootScope.formToggle.toggleMain, 'jjjjjjjjjjjjjjj')
     $state.reload()
   });
 
@@ -5776,7 +5758,6 @@ then(function(response) {
     supplier: null,
   }
   $scope.selectAll = function(value) {
-    console.log(typeof value, $scope.formConsumtion.supplier, $scope.formConsumtion.comm_nr, 'lllll');
     if (value == 'all') {
       var link = "/api/importexport/consumptionewiseReport/?commnr=" + $scope.formConsumtion.comm_nr + "&supplier=" + $scope.formConsumtion.supplier + "&all=True&flag=" + $scope.flagValue
       $scope.url = $sce.trustAsResourceUrl(link)
@@ -5786,7 +5767,6 @@ then(function(response) {
     }
   }
   $scope.selectConsumtion = function(value) {
-    console.log(typeof value, $scope.formConsumtion.supplier, $scope.formConsumtion.comm_nr, 'lllll');
     if ($scope.formConsumtion.supplier == 'all') {
       var link = "/api/importexport/consumptionewiseReport/?commnr=" + $scope.formConsumtion.comm_nr + "&supplier=" + $scope.formConsumtion.supplier + "&all=True&flag=" + $scope.flagValue
       $scope.url = $sce.trustAsResourceUrl(link)
@@ -5808,7 +5788,6 @@ then(function(response) {
       url: '/api/importexport/createStockReportData/?flag=' + $scope.flagValue,
     }).
     then(function(response) {
-      console.log(response.data);
       Flash.create('success', response.data.status);
     }, function(err) {
       Flash.create('warning', err.status + ' : ' + err.statusText);
@@ -5905,7 +5884,6 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
       $scope.form = response.data
 
       $scope.complaintEdit = function() {
-        console.log($scope.form.date);
         if ($scope.form.date == '') {
           Flash.create('warning', 'Please Add Closing Date')
           return
@@ -5915,7 +5893,6 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
 
         }
 
-        console.log($scope.form.customer.pk);
         var data = {
           customer: $scope.form.customer.pk,
           contact: $scope.form.contact,
@@ -5934,7 +5911,6 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
           comm_nr: $scope.form.comm_nr
 
         }
-        console.log(data, 'data');
 
         var url = '/api/importexport/complaintManagement/' + $stateParams.id + "/"
         method = 'PATCH';
@@ -5988,7 +5964,6 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
   $scope.complaintProcessing = false;
 
   $scope.complaintCreation = function() {
-    console.log($scope.form.date);
     if ($scope.form.date == '') {
       Flash.create('warning', 'Please Add Closing Date')
       return
@@ -5999,7 +5974,6 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
     }
     $scope.complaintProcessing = true;
 
-    console.log($scope.form.customer.pk);
     var data = {
       customer: $scope.form.customer.pk,
       contact: $scope.form.contact,
@@ -6039,7 +6013,6 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
     })
   }
   $scope.complaintUpdate = function(pk) {
-    console.log($scope.form.date);
     if ($scope.form.date == '') {
       Flash.create('warning', 'Please Add Closing Date')
       return
@@ -6049,7 +6022,6 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
 
     }
 
-    console.log($scope.form.customer.pk);
     var data = {
       customer: $scope.form.customer.pk,
       contact: $scope.form.contact,
@@ -6070,7 +6042,6 @@ app.controller("businessManagement.importexport.CMS.form", function($scope, $sta
 
 
     }
-    console.log(data, 'data');
     var method = 'PATCH'
     var url = '/api/importexport/complaintManagement/' + pk + "/"
 
@@ -6102,7 +6073,6 @@ app.controller("businessManagement.importexport.CMSView", function($scope, $stat
     }).
     then(function(response) {
       $scope.products = response.data
-      console.log($scope.products, "bbbbbbbbbbb");
     })
   }
   $scope.fetchData()
