@@ -17,9 +17,9 @@ class Migration(migrations.Migration):
         #     name='subscriptionExpiryDate',
         #     field=models.DateField(null=True),
         # ),
-        migrations.AlterField(
-            model_name='onlinepaymentdetails',
-            name='failureUrl',
-            field=models.CharField(blank=True, max_length=200, null=True),
-        ),
+        # migrations.AlterField(
+        #     model_name='onlinepaymentdetails',
+        #     name='failureUrl',
+        #     field=models.CharField(blank=True, max_length=200, null=True),
+        # ),
     ]
