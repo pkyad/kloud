@@ -4465,11 +4465,15 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
 
       $scope.form = response.data
 
+      console.log($scope.form, 'form');
+
 
       if (typeof $scope.form.billAddress === 'object') {
         $scope.form.billAddress = $scope.form.billAddress
+        console.log($scope.form.billAddress, 'in object');
       } else {
         $scope.form.billAddress = JSON.parse($scope.form.billAddress)
+        console.log($scope.form.billAddress, 'not object');
       }
       if (typeof $scope.form.shipAddress === 'object') {
         $scope.form.shipAddress = $scope.form.shipAddress
@@ -4497,12 +4501,12 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
 
       $scope.vendorSearch = function(query) {
         if ($scope.form.toggleVendor == false) {
-          return $http.get('/api/importexport/vendor/?name__contains=' + query).
+          return $http.get('/api/importexport/vendor/?name__icontains=' + query).
           then(function(response) {
             return response.data;
           })
         } else {
-          return $http.get('/api/ERP/service/?name__contains=' + query).
+          return $http.get('/api/ERP/service/?name__icontains=' + query).
           then(function(response) {
             return response.data;
           })
@@ -4858,7 +4862,7 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
     $scope.form = $scope.data.tableData[$scope.tab.data.index]
 
 
-    if (typeof $scope.form.billAddress === 'object') {
+    if (typeof $scope.form.billAddress === 'object' ) {
       $scope.form.billAddress = $scope.form.billAddress
     } else {
       $scope.form.billAddress = JSON.parse($scope.form.billAddress)
@@ -4868,6 +4872,7 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
     } else {
       $scope.form.shipAddress = JSON.parse($scope.form.shipAddress)
     }
+
     if ($scope.status == false) {
       $scope.editData = $scope.data.tableData[$scope.tab.data.index]
       if (typeof $scope.editData.billAddress === 'object') {
@@ -4905,6 +4910,16 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
 
   $scope.$watch('form.billName', function(newValue, oldValue) {
 
+
+    if ($scope.form.billAddress == null || $scope.form.billAddress == undefined){
+        $scope.form.billAddress = {
+                                    street: '',
+                                    city: '',
+                                    pincode: ''
+                                  }
+    }
+
+
     if (typeof newValue === 'object') {
       if ($scope.form.toggleVendor == false) {
         $scope.form.billName = newValue.name
@@ -4928,6 +4943,15 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
     }
   })
   $scope.$watch('form.shipName', function(newValue, oldValue) {
+
+    if ($scope.form.shipAddress == null || $scope.form.shipAddress == undefined){
+        $scope.form.shipAddress = {
+                                    street: '',
+                                    city: '',
+                                    pincode: ''
+                                  }
+    }
+
     if (typeof newValue === 'object' && $scope.form.isDetails == false) {
       if ($scope.form.toggleVendor == false) {
         $scope.form.shipName = newValue.name
@@ -4950,6 +4974,21 @@ app.controller("businessManagement.importexport.invoice.form", function($scope, 
   })
   $scope.all = false
   $scope.$watch('form.isDetails', function(newValue, oldValue) {
+    if ($scope.form.billAddress == null || $scope.form.billAddress == undefined){
+        $scope.form.billAddress = {
+                                    street: '',
+                                    city: '',
+                                    pincode: ''
+                                  }
+    }
+    if ($scope.form.shipAddress == null || $scope.form.shipAddress == undefined){
+        $scope.form.shipAddress = {
+                                    street: '',
+                                    city: '',
+                                    pincode: ''
+                                  }
+    }
+
     if (!$scope.form.pk) {
       if (newValue == true) {
         $scope.form.shipName = $scope.form.billName
