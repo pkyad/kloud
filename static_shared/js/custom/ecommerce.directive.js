@@ -1359,9 +1359,11 @@ app.directive('ecommerceBestdeals', function() {
           $scope.items = $scope.deals.productsMap.tabs[indx-1].products.productList
 
         }
-        console.log($scope.items, "werer");
       }
-      $scope.getIndex(1)
+      if ($scope.data.productsMap.tabs.length > 1 ) {
+        $scope.getIndex(2)
+
+      }
 
 
 

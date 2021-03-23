@@ -168,7 +168,7 @@ class Team(models.Model):
 class designation(models.Model):
 
     user = models.OneToOneField(User)
-    division = models.ForeignKey( Division , null = True )
+    division = models.ForeignKey( Division ,related_name='designations', null = True )
     unit = models.ForeignKey( Unit , null = True )
     role = models.ForeignKey( Role , null = True)
     hrApprover = models.ForeignKey(User , related_name = "hrTo" , null=True)

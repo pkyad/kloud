@@ -88,7 +88,7 @@ TRUSTED_DOMAINS = ['http://192.168.1.152','http://192.168.1.127', 'http://192.16
 SOURCE_LIST = ['OEM','WEBSITE','BNI']
 
 
-LOGIN_REDIRECT = 'ERP' # the url to which the user will be redirected once successfully loggedin
+LOGIN_REDIRECT = '/' # the url to which the user will be redirected once successfully loggedin
 # Options are : ERP , ecommerce , blogs , corporate
 
 LOGOUT_REDIRECT = 'ERP' # similarly the url to which the user will be directed one logged out

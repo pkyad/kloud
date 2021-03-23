@@ -8,6 +8,8 @@ from django.template import RequestContext
 from django.conf import settings as globalSettings
 from django.core.exceptions import ObjectDoesNotExist , SuspiciousOperation
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from django.http import HttpResponse ,StreamingHttpResponse
+
 # Related to the REST Framework
 from rest_framework import viewsets , permissions , serializers
 from rest_framework.exceptions import *
@@ -38,6 +40,9 @@ from openpyxl import load_workbook
 from io import BytesIO,StringIO
 from performance.models import TimeSheet
 from ERP.send_email import send_email
+from blogging.models import *
+from recruitment.models import *
+from LMS.models import *
 import os
 from organization.serializers import DivisionSerializer, UnitFullSerializer
 from clientRelationships.serializers import ContactLiteSerializer
@@ -87,6 +92,7 @@ class UIelementTemplateViewSet(viewsets.ModelViewSet):
 class InitializewebsitebuilderAPIView(APIView):
 
     def post(self , request , format = None):
+        Page.objects.all().delete()
         data = request.data
         division = Division.objects.get(pk = request.user.designation.division.pk)
         if 'title' in request.data :
@@ -213,3 +219,44 @@ class GetCategoryView(APIView):
         objs = Category.objects.filter(division = divObj)
         toRet = CategorySerializer(objs, many = True).data
         return Response(toRet, status =  status.HTTP_200_OK)
+
+
+
+
+def rootSitemapView(request):
+    stAddress = globalSettings.SITE_ADDRESS + str('/')
+    priority='0.7'
+    changefreq = 'weekly'
+    sitemapsObjs = []
+    ctx = {}
+    staticDataUrls = ['','login','contactus','terms','refundpolicy','privacypolicy','careers']
+    staticData = []
+    for i in staticDataUrls:
+        staticData.append({'loc':'{0}{1}'.format(stAddress,i),'changefreq':changefreq,'priority':priority})
+        ctx['staticData'] = staticData
+
+    articleObj = Article.objects.all()
+    for i in articleObj:
+        addr =  i.articleUrl
+        details =  'articles/'+i.articleUrl
+        print i.articleUrl, addr,"lll"
+        staticData.append({'loc':'{0}{1}'.format(stAddress,addr),'changefreq':changefreq,'priority':priority})
+        ctx['staticData'] = staticData
+        staticData.append({'loc':'{0}{1}'.format(stAddress,details),'changefreq':changefreq,'priority':priority})
+        print staticData,"0iostaticData"
+
+
+    recObj = Jobs.objects.all()
+    for i in recObj:
+        addr =  'career/'+str(i.pk)
+        staticData.append({'loc':'{0}{1}'.format(stAddress,addr),'changefreq':changefreq,'priority':priority})
+        ctx['staticData'] = staticData
+
+    accObj = Course.objects.all()
+    for i in accObj:
+        addr =  'academy/%s/%s'%(str(i.pk),str(i.urlSuffix))
+        staticData.append({'loc':'{0}{1}'.format(stAddress,addr),'changefreq':changefreq,'priority':priority})
+        ctx['staticData'] = staticData
+    ctx = {"staticData": staticData}
+    email_body = get_template('sitemap.klouderp.html').render(ctx)
+    return HttpResponse(email_body, content_type='text/xml')

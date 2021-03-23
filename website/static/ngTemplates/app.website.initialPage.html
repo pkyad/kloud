@@ -1,6 +1,12 @@
-<div class="container-fluid">
+<style media="screen">
+  .selectTyp:hover{
+    background:#fafafa;
+  }
+</style>
+
+<div class="container-fluid" style="padding:20px 40px">
   <div class="modal-header text-center">
-    <h3>Your website basic details</h3>
+    <h3>Your website basic details </h3>
   </div>
   <div class="modal-body">
     <div class="row">
@@ -24,13 +30,12 @@
 
       </div>
 
-
       <div class="row">
         <div class="col-md-2" ng-repeat="k in selectTyp track by $index">
-          <div class="" style="	height: 150px;	background-color: #f1f1f1;padding: 40px 20px;border-radius: 5px;	font-weight: 700;" ng-click="selectTab($index)">
-            <p>{{k}} </p>
-            <img ng-if="selectedIndx==$index" src="/static/images/icons8-checked-48.png" style="height:20px;position:absolute;right:20px;top:10px">
+          <div class="selectTyp" style="	height: 150px;	background:{{selectedIndx==$index?'#ccc':'#F2F3F7'}} ;padding: 40px 20px;border-radius: 5px;	font-weight: 700;background-image:url({{k.img}});background-size: 80%;background-repeat:no-repeat;background-position:center;border: 1px solid #ccc;" ng-click="selectTab($index)">
+            <!-- <img ng-if="selectedIndx==$index" src="/static/images/icons8-checked-48.png" style="height:20px;position:absolute;right:20px;top:10px"> -->
           </div>
+          <p style="margin-top:10px"> <b>{{k.text}}</b> </p>
         </div>
       </div>
 
@@ -40,8 +45,9 @@
 
     </div>
   </div>
-  <div class="modal-footer text-center">
-    <button type="button" name="button" class="btn newBtn" ng-click="save()" ng-disabled="!isValid">Save</button>
+  <div class=" text-right">
+    <button type="button" name="button" class="btn newBtn"  ng-disabled="!isValid"  mwl-confirm title=""  message="Are you sure ?<br>(it will delete all the existing pages..)" confirm-text="Yes <i class='fa fa-check'></i>"
+      cancel-text="No" on-confirm="save()"  confirm-button-type="success" cancel-button-type="default" placement="top">Save and setup my website</button>
 
   </div>
 </div>

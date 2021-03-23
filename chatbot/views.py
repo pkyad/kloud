@@ -27,10 +27,10 @@ import datetime
 from marketing.models import Contacts
 import getpass
 # if getpass.getuser() == 'cioc-d2':
-from talk import *
+# from talk import *
 from PIM.models import *
 from twilio.rest import Client
-from chatbot.essgi import *
+# from chatbot.essgi import *
 
 # Create your views here.
 

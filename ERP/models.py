@@ -259,6 +259,7 @@ class Division(models.Model):
     whatsapp_test_number = models.CharField(max_length = 100 , null = True ,blank=True)
     pageType =  models.CharField(max_length = 100 , null = True ,blank=True)
     expenseData =  models.TextField(max_length = 1000 , null = True)
+    last_login = models.DateTimeField(auto_now_add = True, null = True)
     # address
     # themeColor
     # invoiceVersion

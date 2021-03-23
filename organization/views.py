@@ -26,6 +26,9 @@ from clientRelationships.models import CRMTermsAndConditions, Contact, Contract
 from finance.models import Inventory
 from HR.serializers import userSearchSerializer
 from ERP.serializers import UserAppSerializer
+from rest_framework.request import Request
+from rest_framework.test import APIRequestFactory
+
 # Create your views here.
 
 
@@ -334,7 +337,11 @@ class Getheaderandfooter(APIView):
         #     d.defaultOgWidth = width
         #     d.defaultOgHeight = height
         d.save()
-        divsionObj = DivisionSerializer(d,many=False).data
+        serializer_context = {
+            'request': Request(request),
+        }
+        print serializer_context['request'],"serializer_context"
+        divsionObj = DivisionSerializer(d,context=serializer_context,many=False).data
         return Response({'data':divsionObj}, status=status.HTTP_200_OK)
 
 

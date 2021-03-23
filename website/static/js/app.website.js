@@ -153,7 +153,7 @@ app.controller('settings', function($scope, $http, $aside, $state, Flash, $users
       $scope.form.footerTemplate = response.data.footerTemplate
       $scope.form.headerTemplate = response.data.headerTemplate
       Flash.create('success', 'Created....!!!')
-      // $scope.reset()
+      $scope.renderheaderfooter()
     })
   }
 
@@ -166,6 +166,12 @@ app.controller('settings', function($scope, $http, $aside, $state, Flash, $users
   }
 
 
+  $scope.renderheaderfooter = function(){
+    $scope.headerandfooter = '/renderheaderfooter/'
+    var i = document.getElementById('iframeId')
+     i.src = i.src
+  }
+  $scope.renderheaderfooter()
   $scope.selectHeader = function() {
 
     $uibModal.open({
@@ -211,8 +217,14 @@ app.controller('settings', function($scope, $http, $aside, $state, Flash, $users
 
       }
 
-    }).result.then(function(header) {}, function(header) {
+    }).result.then(function(header) {
+
+
+    }, function(header) {
       $scope.form.headerTemplate = header
+
+       $scope.save()
+       // $scope.renderheaderfooter()
     });
 
 
@@ -258,6 +270,8 @@ app.controller('settings', function($scope, $http, $aside, $state, Flash, $users
 
     }).result.then(function(footer) {}, function(footer) {
       $scope.form.footerTemplate = footer
+      $scope.save()
+      
     });
 
 
@@ -348,7 +362,7 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
 
 
 
-
+  $scope.apiKey= API_KEY
 
   $scope.isDisabled = true
 
@@ -378,13 +392,22 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
       },
       controller: function($scope, $http, $uibModalInstance) {
 
-        $scope.selectTyp = ['Ecommerce','Freelancer professional profile','Agency','Services','Blank','LMS']
+        $scope.selectTyp = [
+          {text:'Ecommerce',img:'/static/images/Ecommerce.png'},
+          {text:'Freelancer professional profile',img:'/static/images/portfolio.png'},
+          {text:'Agency',img:'/static/images/Agency.png'},
+          {text:'Services',img:'/static/images/service.png'},
+          {text:'Blank',img:'/static/images/Blank.png'},
+          {text:'LMS',img:'/static/images/LMS.png'}
+
+
+        ]
         $scope.selectTypForm = {
           cardTyp:''
         }
         $scope.reset = function() {
           $scope.form = {
-            title: '',
+            title:DIVISION_NAME,
             description: '',
             url: '',
             stage:''
@@ -421,7 +444,7 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
 
         $scope.selectTab = function(indx){
           $scope.selectedIndx = indx
-          $scope.form.stage = $scope.selectTyp[indx]
+          $scope.form.stage = $scope.selectTyp[indx].text
         }
 
         $scope.isValid = true
@@ -470,7 +493,10 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
         }
 
 
+
       }
+
+
 
     }).result.then(function(data) {}, function() {
 
@@ -1051,7 +1077,7 @@ app.controller('businessManagement.articles.form', function($scope, $http, $asid
       category: '',
       featuredContent: false,
       sensitive: false,
-      scheduleTime: new Date(),
+      // scheduleTime: new Date(),
       summary: '',
       tags: [],
       // metaTitle: '',
@@ -1211,7 +1237,7 @@ app.controller('businessManagement.articles.form', function($scope, $http, $asid
   }
 
   $scope.$watch('form.title', function(newValue, oldValue) {
-    if (newValue && $scope.mode != 'edit' && $scope.form.link == true) {
+    if (newValue) {
       console.log('aaaaaaaaaaaaaaa');
       $scope.form.ogTitle = newValue;
       $scope.form.metaTitle = newValue;
@@ -1238,6 +1264,7 @@ app.controller('businessManagement.articles.form', function($scope, $http, $asid
       console.log(url.replace(/-/g, ' ').trim().replace(' ', '-'));
       // $scope.form.articleUrl = url.replace('-' , ' ').replace(/^\s+|\s+$/gm,'');
       $scope.form.articleUrl = url.replace(/-/g, ' ').trim().replace(/\s/g, '-');
+      console.log($scope.form.articleUrl,"ll;");
     }
     // console.log(url);
     // $scope.form.articleUrl = newValue.replace(/\s+/g, '-').toLowerCase();
@@ -1339,27 +1366,27 @@ app.controller('businessManagement.articles.form', function($scope, $http, $asid
     console.log($scope.form)
     var findError = []
 
-    if ($scope.form.title == undefined || $scope.form.title == '' || $scope.form.title == null) {
-      $scope.errors.title = true
-      findError.push($scope.errors.title)
-    }
-    if ($scope.form.articleUrl == undefined || $scope.form.articleUrl == '' || $scope.form.articleUrl == null) {
-      $scope.errors.articleUrl = true
-      findError.push($scope.errors.articleUrl)
-    }
-    console.log($scope.form.author, 'kkkkkkk');
-
-    if ($scope.form.author != '') {
-      if (typeof $scope.form.author == 'string') {
-        $scope.errors.author = true
-        findError.push($scope.errors.author)
-      }
-    }
-
-    if ($scope.form.typ == undefined || $scope.form.typ == '' || $scope.form.typ == null) {
-      $scope.errors.typ = true
-      findError.push($scope.errors.typ)
-    }
+    // if ($scope.form.title == undefined || $scope.form.title == '' || $scope.form.title == null) {
+    //   $scope.errors.title = true
+    //   findError.push($scope.errors.title)
+    // }
+    // if ($scope.form.articleUrl == undefined || $scope.form.articleUrl == '' || $scope.form.articleUrl == null) {
+    //   $scope.errors.articleUrl = true
+    //   findError.push($scope.errors.articleUrl)
+    // }
+    // console.log($scope.form.author, 'kkkkkkk');
+    //
+    // if ($scope.form.author != '') {
+    //   if (typeof $scope.form.author == 'string') {
+    //     $scope.errors.author = true
+    //     findError.push($scope.errors.author)
+    //   }
+    // }
+    //
+    // if ($scope.form.typ == undefined || $scope.form.typ == '' || $scope.form.typ == null) {
+    //   $scope.errors.typ = true
+    //   findError.push($scope.errors.typ)
+    // }
     // if (typeof $scope.form.parent == 'object') {
     //   $scope.form.otherCategories.push($scope.form.parent)
     // }
@@ -1369,10 +1396,10 @@ app.controller('businessManagement.articles.form', function($scope, $http, $asid
     //   findError.push($scope.errors.category)
     // }
 
-    console.log(findError.length, 'error');
-    if (findError.length >= 1) {
-      return
-    }
+    // console.log(findError.length, 'error');
+    // if (findError.length >= 1) {
+    //   return
+    // }
 
     $scope.sections_to_send = [];
     $scope.saving = true;
@@ -1442,7 +1469,7 @@ app.controller('businessManagement.articles.form', function($scope, $http, $asid
       //
       // fd.append('header', d.header);
       // fd.append('shortTitle', d.shortTitle);
-      console.log(d.img, 'image');
+      // console.log(d.img, 'image');
       if ($scope.form.content_type == 'image') {
         if (i == 0 && d.img == emptyFile || d.img.name == "") {
           Flash.create('warning', 'Please upload atleast one image in Introduction section')
@@ -1570,7 +1597,7 @@ app.controller('businessManagement.articles.form', function($scope, $http, $asid
     finalData.append('title',d.title)
     finalData.append('articleUrl',d.articleUrl)
     finalData.append('lang',d.lang)
-    finalData.append('category__id',$scope.form.otherCategories[0].pk)
+    // finalData.append('category__id',$scope.form.otherCategories[0].pk)
     finalData.append('featuredContent',d.featuredContent)
 
 
@@ -1630,7 +1657,7 @@ app.controller('businessManagement.articles.form', function($scope, $http, $asid
       $scope.saving = false;
       if ($scope.mode != 'edit') {
         $scope.form = response.data
-        // Flash.create('success', 'Updated');
+        Flash.create('success', 'Updated');
         $scope.resetForms();
       }
     })
@@ -1645,9 +1672,9 @@ app.controller('businessManagement.articles.form', function($scope, $http, $asid
   })
 
 
-
+  // '/api/HR/userSearch/?search=' + query + '&profile__is_creator=false&is_superuser=false&is_staff=false&profile__is_doctor=true'
   $scope.userSearch = function(query) {
-    return $http.get('/api/HR/userSearch/?search=' + query + '&profile__is_creator=false&is_superuser=false&is_staff=false&profile__is_doctor=true').
+    return $http.get('/api/HR/userSearch/?search=' + query ).
     then(function(response) {
       return response.data;
     })
@@ -1665,6 +1692,7 @@ app.controller('businessManagement.articles.form', function($scope, $http, $asid
 
 
   $scope.$watch('form.parent', function(newValue, oldValue) {
+    console.log(newValue,"jkkjjkjk");
     if (newValue != undefined) {
       $http.get('/api/blogging/category/?parent=' + newValue.pk).
       then(function(response) {
