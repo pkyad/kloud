@@ -27,7 +27,7 @@ DISABLED_APPS = ['app.social' , 'app.advances']
 
 ON_REGISTRATION_SUCCESS_REDIRECT = '/ERP' # when signup using google the user will be redirected to this url
 MATERIAL_INWARD = False
-SITE_ADDRESS = 'http://192.168.1.117:8000' # the url prefix of the site
+SITE_ADDRESS = 'http://localhost:8000' # the url prefix of the site
 LIMIT_EXPENSE_COUNT= False
 ROOT_APP = 'index' # the default app
 ECOMMERCE_APP = {
@@ -88,7 +88,7 @@ TRUSTED_DOMAINS = ['http://192.168.1.152','http://192.168.1.127', 'http://192.16
 SOURCE_LIST = ['OEM','WEBSITE','BNI']
 
 
-LOGIN_REDIRECT = 'ERP' # the url to which the user will be redirected once successfully loggedin
+LOGIN_REDIRECT = '/' # the url to which the user will be redirected once successfully loggedin
 # Options are : ERP , ecommerce , blogs , corporate
 
 LOGOUT_REDIRECT = 'ERP' # similarly the url to which the user will be directed one logged out
@@ -103,8 +103,8 @@ BRAND_LOGO_INVERT = '/static/images/24_tutors_icon_invert.svg'
 
 BRAND_LOGO_INVERT = '/static/images/eai.png'
 BRAND_ACTIVATION_LINK = "https://cioc.in/"
-SNERT_PATH_1 = '/home/cioc-d3/stanford-ner-2018-10-16/classifiers/english.all.3class.distsim.crf.ser.gz'
-SNERT_PATH_2 = '/home/cioc-d3/stanford-ner-2018-10-16/stanford-ner.jar'
+SNERT_PATH_1 = '/home/cioc/stanford-ner-2018-10-16/classifiers/english.all.3class.distsim.crf.ser.gz'
+SNERT_PATH_2 = '/home/cioc/stanford-ner-2018-10-16/stanford-ner.jar'
 
 SMS_API_PREFIX = "https://api.msg91.com/api/sendhttp.php?authkey=297203Ayys3IDSG5e66328dP1&route=4&sender=TESTIN&country=91&mobiles=%s&message=%s"
 
@@ -115,7 +115,7 @@ SHOW_COMMON_APPS = True
 DEFAULT_STATE = '/businessManagement/clientRelationships'
 
 TWILLIO_SID = 'ACeef54d4946f61de33d1dacc2388fb702'
-TWILLIO_AUTH_TOKEN = '4ba9d3bddacb4e9d1ea84c17c6a7e4bc'
+TWILLIO_AUTH_TOKEN = '5f71b0577135173f0910f48403958af2'
 DEFAULT_WHATSAPP_NUMBER = '15128510366'
 
 PAYMENT_MODE = 'razorpay' # options are EBS , paypal , paytm , PAYU , ccavenue,razorpay
@@ -125,8 +125,8 @@ RAZORPAY_KEY = 'rzp_live_UVCQtyXr9DpVJK'
 RAZORPAY_SECRET = 'aOaFKukng2tSEld41cEebBBM'
 
 MAP_API_KEY = 'AIzaSyBJO5IcouQ-yY2icc7TYaTNMcWc3B_-38Q'
-SNERT_PATH_1 = '/home/cioc-d3/stanford-ner-2018-10-16/classifiers/english.all.3class.distsim.crf.ser.gz'
-SNERT_PATH_2 = '/home/cioc-d3/stanford-ner-2018-10-16/stanford-ner.jar'
+SNERT_PATH_1 = '/home/cioc/stanford-ner-2018-10-16/classifiers/english.all.3class.distsim.crf.ser.gz'
+SNERT_PATH_2 = '/home/cioc/stanford-ner-2018-10-16/stanford-ner.jar'
 
 import requests
 def SEND_SMS(number , txt):
@@ -412,6 +412,17 @@ AUTHENTICATION_BACKENDS = (
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'sdpl',
+#         'USER': 'newuser',
+#         'PASSWORD': 'titan@1234',
+#         'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
+#         'PORT': '3306',
+#     }
+# }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
 #         'NAME': 'latest_kloud',
 #         'USER': 'newuser',
 #         'PASSWORD': 'titan@1234',
@@ -434,7 +445,7 @@ AUTHENTICATION_BACKENDS = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'latest_kloud',
+        'NAME': 'kloud_new',
         'USER': 'newuser',
         'PASSWORD': 'titan@1234',
         'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on

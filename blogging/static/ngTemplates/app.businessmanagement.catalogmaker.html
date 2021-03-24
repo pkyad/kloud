@@ -78,7 +78,7 @@
       </div>
       <div class="col-md-2">
 
-        <a type="button" class="btn newBtn btn-block" ng-click="addInventory()"> New <i class="fa fa-plus"></i> </a>
+        <a type="button" class="btn newBtn btn-block" ng-click="$state.go('businessManagement.form',{id:$state.params.id})"> New <i class="fa fa-plus"></i> </a>
       </div>
       <div class="col-md-2 pull-right" style="margin-bottom:20px;">
         <a href="/api/finance/ProductsCatalog/?id={{category}}" type="button" class="btn newBtn btn-block">Download </a>
@@ -110,7 +110,15 @@
 
               </div>
               <p><b>{{k.name}}</b> </p>
-              <p>Price :<i class="fa fa-inr" style="font-size:13px;padding-right:5px;"></i>{{k.rate}} <span> <i class="fa fa-inr" style="font-size:13px;padding-right:5px;text-decoration-line: line-through;">{{k.mrp}}</i></span></p>
+                    <p><b style="font-size:20px;margin-right:5px;"><i class="fa fa-inr" ></i>{{k.rate | number:2}}</b><s style="margin-left:10px;"> <i class="fa fa-inr"></i>{{k.mrp}}</s>
+              <!-- <p>Price :<i class="fa fa-inr" style="font-size:13px;padding-right:5px;"></i>{{k.mrp-(k.mrp*k.buyingPrice)/100 | number:2}} <span> <span ng-if="k.taxRate"> +  <i class="fa fa-inr"></i> {{((k.mrp-(k.mrp*k.buyingPrice)/100)*k.taxRate)/100 | number:2}} <span style="color:green">GST</span></span> <br>
+                <span>MRP :
+                  <i class="fa fa-inr" style="font-size:13px;padding-right:5px;text-decoration-line: line-through;">{{k.mrp}}</i>
+
+                </span>
+
+               </span>
+               </p> -->
               <p style="color:gray">{{k.richtxtDesc}}</p>
               <div class="row" ng-if="k.show" >
                 <div class="col-md-6">
@@ -119,7 +127,7 @@
                   <i class="fa fa-trash"  ng-click="deleteData($index)" style="cursor:pointer;"></i>
                 </div>
                 <div class="col-md-6 text-right">
-                  <i class="fa fa-pencil" ng-click="postData($index)"></i>
+                  <i class="fa fa-pencil" ng-click="$state.go('businessManagement.form',{id:$state.params.id,productid:k.pk})"></i>
 
                 </div>
 

@@ -11,12 +11,319 @@ app.config(function($stateProvider) {
     url: "/products/:id",
     templateUrl: '/static/ngTemplates/app.finance.products.html',
     controller: 'businessManagement.catalog'
+  }).state('businessManagement.form', {
+    url: "/product/:id/new/:productid",
+    templateUrl: '/static/ngTemplates/app.finance.inventoryProductCatalog.modal.html',
+    controller: 'businessManagement.form'
   })
 
 });
 
 
+app.controller('businessManagement.form', function($scope, $http, $aside, $state, Flash, $users, $filter, $uibModal) {
 
+  console.log($state.params,"klll");
+
+  console.log($scope.allCategories,"342112312");
+  $scope.show = false;
+  $scope.productMetaSearch = function(query) {
+    return $http.get('/api/ERP/productMeta/?search=' + query).
+    then(function(response) {
+      return response.data;
+    })
+  };
+  $scope.close = function() {
+    $uibModalInstance.close();
+  }
+
+  $scope.refresh = function() {
+    $scope.form = {
+      name: '',
+      mrp:'',
+      buyingPrice:0,
+      rate: '',
+      sku:'',
+      value: 0,
+      refurnished: 0,
+      productMeta:'',
+      taxRate:'',
+      taxDescription:'',
+      img1:emptyFile,
+      img2:emptyFile,
+      img3:emptyFile,
+      richtxtDesc:'',
+      taxCode : '',
+      addonsData:[],
+      customizationData:[]
+    }
+    $scope.addons = {'description' : '' , 'price' : 0}
+    $scope.customization =  {'backgroundColor' : '' , 'color':'', data:[], 'height':100, 'width':100, 'backgroundImage' : '','title':'' }
+    $scope.addIndex = null
+    $scope.custIndex = null
+  }
+  $scope.refresh()
+
+  $scope.getCategory = function(){
+    // var url="/api/finance/category/"
+    $http({
+      method: 'GET',
+      // url: 'https://bnistore.in/api/ecommerce/genericProduct/?limit='+$scope.limit+'&offset='+$scope.offset
+      url: '/api/finance/inventory/?category='+$state.params.id
+
+    }).
+    then(function(response) {
+      // $scope.allCategories = response.data.results
+      $scope.form.sku = 'SKU00'+response.data.length
+    })
+  }
+
+  $scope.getCategory()
+
+  // $scope.addCustomisation = function(){
+  //   $scope.form.customizationData.push($scope.customization)
+  //   $scope.customization = {'text' : 'Sample Text' , 'sampleimage' : emptyFile , 'color' : '','sampleimageHeight':'','sampleimageWidth':'', 'backgroundColor' : ''}
+  // }
+  $scope.addText = function(){
+    var data = {'type' : 'textarea', 'startX' : 0,  'startY' : 0, 'x': 0, 'y' : 0, 'data':'Sample Text', 'rows':1}
+    $scope.customization.data.push(data)
+  }
+  $scope.addImage = function(){
+    var data = {'type' : 'image', 'startX' : 0,  'startY' : 0, 'x': 0, 'y' : 0, 'data':'', 'rows':1}
+    $scope.customization.data.push(data)
+  }
+
+  $scope.increaseRow = function(indx){
+    $scope.customization.data[indx].rows+=1
+  }
+
+
+  $scope.addCustomisation = function(){
+    if ($scope.custIndex != null) {
+      $scope.form.customizationData[$scope.custIndex] = $scope.customization
+    }
+    else{
+      $scope.form.customizationData.push($scope.customization)
+    }
+    $scope.customization = {'backgroundColor' : '' , 'color':'', data:[], 'height':100, 'width':100, 'backgroundImage' : '','title':'' }
+    $scope.custIndex = null
+  }
+
+  $scope.editAddons = function(indx){
+    $scope.addIndex = indx
+    $scope.addons = $scope.form.addonsData[indx]
+  }
+  $scope.editCustomisation = function(indx){
+    $scope.custIndex = indx
+    $scope.customization = $scope.form.customizationData[indx]
+  }
+
+  $scope.deleteAddons = function(indx){
+      $scope.form.addonsData.splice(indx,1)
+  }
+
+  $scope.deleteCust = function(indx){
+    $scope.form.customizationData.splice(indx,1)
+  }
+
+  $scope.uploadSampleImage = function(){
+    var fd = new FormData();
+    fd.append('file', $scope.customization.backgroundImage);
+    $http({
+      method: 'POST',
+      url: '/api/PIM/saveImage/',
+      data: fd,
+      transformRequest: angular.identity,
+      headers: {
+        'Content-Type': undefined
+      }
+    }).
+    then(function(response) {
+      console.log(response.data);
+      $scope.customization.backgroundImage = response.data.link
+      // $scope.customization.sampleimageHeight = response.data.height
+      // $scope.customization.sampleimageWidth = response.data.width
+      // $uibModalInstance.dismiss({
+      //   file: response.data.link,
+      //   alt: $scope.form.alt,
+      //   height: response.data.height,
+      //   width: response.data.width
+      // })
+    })
+  }
+
+  $scope.selectedMeta = function(){
+      if (typeof $scope.form.taxCode == 'object') {
+        // $scope.form.taxDescription = $scope.form.productMeta.description
+        $scope.form.taxRate = $scope.form.taxCode.taxRate
+        $scope.form.taxCode  = $scope.form.taxCode.code
+      }
+  }
+
+
+  $scope.$watch('form.img1' , function(newValue , oldValue) {
+    console.log(newValue,'334');
+    $scope.reader = new FileReader();
+
+    if (typeof newValue == 'string' && newValue.length > 0 ) {
+      $('#image1').attr('src', newValue);
+    }
+    $scope.reader.onload = function(e) {
+      $('#image1').attr('src', e.target.result);
+      $('#image4').attr('src', e.target.result);
+      $scope.showfullImage('image4')
+    }
+    $scope.reader.readAsDataURL(newValue);
+  })
+
+  $scope.$watch('form.img2' , function(newValue , oldValue) {
+    $scope.reader = new FileReader();
+    if (typeof newValue == 'string' && newValue.length > 0 ) {
+      $('#image2').attr('src', newValue);
+    }
+    $scope.reader.onload = function(e) {
+      $('#image2').attr('src', e.target.result);
+      $('#image5').attr('src', e.target.result);
+      console.log(e.target.result,"kllkl");
+    }
+
+    $scope.reader.readAsDataURL(newValue);
+
+  })
+  $scope.$watch('form.img3' , function(newValue , oldValue) {
+    $scope.reader = new FileReader();
+    if (typeof newValue == 'string' && newValue.length > 0 ) {
+      $('#image3').attr('src', newValue);
+    }
+    $scope.reader.onload = function(e) {
+      $('#image3').attr('src', e.target.result);
+      $('#image6').attr('src', e.target.result);
+    }
+
+    $scope.reader.readAsDataURL(newValue);
+
+
+  })
+
+
+  $scope.addAddons = function(){
+    if ($scope.addIndex!=null) {
+      $scope.form.addonsData[$scope.addIndex] = $scope.addons
+    }
+    else{
+      $scope.form.addonsData.push($scope.addons)
+    }
+    $scope.addons = {'description' : '' , 'price' : 0}
+    $scope.addIndex = null
+  }
+
+
+  $scope.saveInventory = function() {
+    // if ($scope.form.name == undefined || $scope.form.name == '') {
+    //   Flash.create("warning", 'Add name')
+    //   return
+    // }
+    // if ($scope.form.buyingPrice == undefined ||  $scope.form.buyingPrice == null  || $scope.form.buyingPrice.length == 0) {
+    //   Flash.create("warning", 'Add Selling Price')
+    //   return
+    // }
+    // if ($scope.form.rate == undefined || $scope.form.rate == '') {
+    //   Flash.create("warning", 'Add Price')
+    //   return
+    // }
+    var rate = ($scope.form.mrp-($scope.form.mrp*$scope.form.buyingPrice)/100)+((($scope.form.mrp-($scope.form.mrp*$scope.form.buyingPrice)/100)*$scope.form.taxRate)/100)
+
+    var fd = new FormData();
+    fd.append('name', $scope.form.name);
+    fd.append('value', $scope.form.value);
+    fd.append('rate', rate);
+    fd.append('buyingPrice', $scope.form.buyingPrice);
+    fd.append('category',$state.params.id);
+    fd.append('mrp',$scope.form.mrp);
+
+    if ($scope.form.sku != undefined &&  $scope.form.sku != null  ) {
+        fd.append('sku',$scope.form.sku);
+    }
+
+
+    if ($scope.form.taxRate!=null) {
+    fd.append('taxRate',$scope.form.taxRate);
+    }
+    if ($scope.form.taxCode!=null) {
+    fd.append('taxCode',$scope.form.taxCode);
+    }
+
+    if ($scope.form.richtxtDesc!=null) {
+    fd.append('richtxtDesc',$scope.form.richtxtDesc);
+    }
+
+    if ($scope.form.img1!=null&&$scope.form.img1!=emptyFile&&typeof $scope.form.img1=='object') {
+      fd.append('img1',$scope.form.img1);
+    }
+    if ($scope.form.img2!=null&&$scope.form.img2!=emptyFile&&typeof $scope.form.img2=='object') {
+      fd.append('img2',$scope.form.img2);
+    }
+    if ($scope.form.img3!=null&&$scope.form.img3!=emptyFile&&typeof $scope.form.img3=='object') {
+      fd.append('img3',$scope.form.img3);
+    }
+    if ($scope.form.addonsData!=undefined&&$scope.form.addonsData!=null&&$scope.form.addonsData.length>0) {
+      fd.append('addonsData',JSON.stringify($scope.form.addonsData));
+    }
+    if ($scope.form.customizationData!=undefined&&$scope.form.customizationData!=null&&$scope.form.customizationData.length>0) {
+      fd.append('customizationData',JSON.stringify($scope.form.customizationData));
+    }
+
+    if ($state.params.productid == '' || $state.params.productid == undefined) {
+      var method = "POST"
+      var url = '/api/finance/inventory/'
+    }else {
+      method ="PATCH"
+      url = '/api/finance/inventory/'+$state.params.productid+'/'
+
+    }
+
+    $http({
+      method: method,
+      url:url ,
+      data: fd,
+      transformRequest: angular.identity,
+      headers: {
+        'Content-Type': undefined
+      }
+    }).
+    then(function(response) {
+      Flash.create("success", 'Saved')
+      if ($state.params.productid == '' || $state.params.productid == undefined) {
+
+        $scope.refresh()
+      }else {
+        return
+      }
+    })
+
+  }
+
+
+  $scope.showfullImage = function(id ){
+    console.log();
+    $scope.image =  document.getElementById(id).src
+  }
+
+  if ($state.params.productid != undefined || $state.params.productid != '' ) {
+      $http({
+        method: 'GET',
+        url:'/api/finance/inventory/'+$state.params.productid+'/' ,
+
+      }).
+      then(function(response) {
+        $scope.form = response.data
+        $scope.form.sku = response.data.sku
+
+        console.log(response.data,"lakdflasldf");
+      })
+      $scope.showfullImage('image4')
+  }
+
+})
 
 app.controller('businessManagement.category', function($scope, $http, $aside, $state, Flash, $users, $filter, $uibModal) {
 $scope.deleteCategory = function(indx){

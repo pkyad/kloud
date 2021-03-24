@@ -15,7 +15,7 @@
   <span class="font20" >Your website preview</span>
 </div>
 <div class="row">
-  <iframe src="/renderheaderfooter/" width="100%" frameborder="0" style="height:70vh;"></iframe>
+  <iframe src="{{headerandfooter}}" id="iframeId" width="100%" frameborder="0" style="height:70vh;"></iframe>
 </div>
 <div class="container-fluid">
 
@@ -49,7 +49,7 @@
       <div class="row" ng-if="!me.pk">
         <div class="col-md-2">
           <label for="" ng-if="!form.footerTemplate.pk">Footer</label>
-          <button type="button" name="button" class="btn btn-primary" ng-if="form.footerTemplate.pk" ng-click="changeFooter()">Change Footer</button>
+          <button type="button" name="button" class="btn btn-primary" ng-if="form.footerTemplate.pk" ng-click="changeFooter();renderheaderfooter()">Change Footer</button>
 
         </div>
         <div class="col-md-6">
@@ -124,7 +124,7 @@
         </div>
         <div class="col-md-6">
           <switch ng-model="form.enableChatbot" class="green"></switch>
-          
+
 
         </div>
       </div>

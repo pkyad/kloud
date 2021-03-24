@@ -71,6 +71,8 @@ app.controller('main', function($scope, $state,Flash, $http, $timeout, $uibModal
 
 
 
+
+
 })
 
 app.controller("careers.modal.apply", function($scope, $state, $http, $timeout, data, Flash, $uibModalInstance) {

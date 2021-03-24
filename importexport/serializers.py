@@ -19,6 +19,7 @@ from django.db.models import Q,Count ,F,Sum
 from django.db.models import CharField,FloatField, Value , Func, PositiveIntegerField
 from django.template.loader import render_to_string, get_template
 from django.core.mail import send_mail, EmailMessage
+import json
 
 class ProductsSerializer(serializers.ModelSerializer):
     total_quantity = serializers.SerializerMethodField()
@@ -61,7 +62,7 @@ class ProductSheetSerializer(serializers.ModelSerializer):
 
 
 class VendorSerializer(serializers.ModelSerializer):
-    division = DivisionSerializer(many = False , read_only = True)
+    # division = DivisionSerializer(many = False , read_only = True)
     class Meta:
         model = Vendor
         fields = ('pk','created','name' ,'personName' , 'city','street','state','pincode','country','mobile','gst','email','division')
@@ -158,7 +159,7 @@ class ProjectsSerializer(serializers.ModelSerializer):
 class BoMSerializer(serializers.ModelSerializer):
     products = ProductsSerializer(many = False , read_only = True)
     project =  ProjectsSerializer(many = False  , read_only =True)
-    division = DivisionSerializer(many = False , read_only = True)
+    # division = DivisionSerializer(many = False , read_only = True)
     class Meta:
         model = BoM
         fields = ('pk','created','user' , 'products','project','quantity1','quantity2','price','landed_price','invoice_price','customer_price','gst','custom','customs_no',
@@ -190,7 +191,7 @@ class BoMSerializer(serializers.ModelSerializer):
 class InventorySerializer(serializers.ModelSerializer):
     product = ProductsSerializer(many = False , read_only = True)
     project =  ProjectsSerializer(many = False  , read_only =True)
-    division = DivisionSerializer(many = False , read_only = True)
+    # division = DivisionSerializer(many = False , read_only = True)
     class Meta:
         model = Inventory
         fields = ('pk','created','product','qty','rate','project','addedqty','division')
@@ -222,7 +223,7 @@ class InventorySerializer(serializers.ModelSerializer):
 
 class MaterialIssueSerializer(serializers.ModelSerializer):
     product = ProductsSerializer(many = False , read_only = True)
-    division = DivisionSerializer(many = False , read_only =True )
+    # division = DivisionSerializer(many = False , read_only =True )
     class Meta:
         model = MaterialIssue
         fields = ('pk','created','product','qty','price','division')
@@ -242,7 +243,7 @@ class MaterialIssueMainSerializer(serializers.ModelSerializer):
     materialIssue = MaterialIssueSerializer(many = True , read_only = True)
     project = ProjectsSerializer(many = False , read_only = True)
     user = userSearchSerializer(many = False , read_only = True)
-    division = DivisionSerializer(many = False, read_only = True)
+    # division = DivisionSerializer(many = False, read_only = True)
     class Meta:
         model = MaterialIssueMain
         fields = ('pk','created','project','materialIssue','user','division')
@@ -279,7 +280,7 @@ class MaterialIssueMainSerializer(serializers.ModelSerializer):
         return instance
 
 class StockCheckSerializer(serializers.ModelSerializer):
-    division = DivisionSerializer(many = False , read_only = True)
+    # division = DivisionSerializer(many = False , read_only = True)
     class Meta:
         model = StockCheck
         fields = ('pk','date','inventory','count','status','false','division')
@@ -299,7 +300,7 @@ class StockCheckLogSerializer(serializers.ModelSerializer):
         fields = ('pk','product')
 
 class StockSummaryReportSerializer(serializers.ModelSerializer):
-    division = DivisionSerializer(many = False , read_only = True)
+    # division = DivisionSerializer(many = False , read_only = True)
     class Meta:
         model = StockSummaryReport
         fields = ('pk','created','dated','stockValue','division')
@@ -311,7 +312,7 @@ class StockSummaryReportSerializer(serializers.ModelSerializer):
         stock.save()
 
 class ProjectStockSummarySerializer(serializers.ModelSerializer):
-    division = DivisionSerializer(many = False , read_only = True)
+    # division = DivisionSerializer(many = False , read_only = True)
     class Meta:
         model = ProjectStockSummary
         fields = ('pk','created','stockReport','value','title','comm_nr','flag','division')
@@ -324,13 +325,17 @@ class ProjectStockSummarySerializer(serializers.ModelSerializer):
 
 class InvoiceSerializer(serializers.ModelSerializer):
     project = ProjectsSerializer(many = False , read_only = True)
-    division = DivisionSerializer(many = False ,read_only = True)
+    # division = DivisionSerializer(many = False ,read_only = True)
+    # billAddress = serializers.SerializerMethodField()
+    # shipAddress = serializers.SerializerMethodField()
     class Meta:
         model = Invoice
         fields = ('pk','created','invoiceNumber','invoiceDate','poNumber','insuranceNumber','transporter','lrNo','billName','shipName','billAddress','shipAddress','billGst','shipGst','billState','shipState','billCode','shipCode','isDetails','invoiceTerms','project','flag','division','comm_nr','packing',
         'lockInvoice','machinemodel')
     def create(self, validated_data):
         i = Invoice(**validated_data)
+        print validated_data, 'validated_data'
+        print self.context['request'].data, 'validated_data'
         user = self.context['request'].user
         divisionObj = user.designation.division
         i.division  = divisionObj
@@ -348,13 +353,23 @@ class InvoiceSerializer(serializers.ModelSerializer):
             instance.project = Projects.objects.get(pk=int(self.context['request'].data['project']))
         instance.save()
         return instance
+    # def get_shipAddress(self, obj):
+    #     toReturn = None
+    #     if obj.shipAddress is not None:
+    #         toReturn = json.loads(obj.shipAddress)
+    #     return toReturn
+    # def get_billAddress(self, obj):
+    #     toReturn = None
+    #     if obj.billAddress is not None:
+    #         toReturn = json.loads(obj.billAddress)
+    #     return toReturn
 
 class InvoiceQtySerializer(serializers.ModelSerializer):
     # product = ProductsSerializer(many = False , read_only = True)
     invoice = InvoiceSerializer(many = False , read_only = True)
     class Meta:
         model = InvoiceQty
-        fields = ('pk','created','product','invoice','customs_no','part_no','description_1','price','qty','taxableprice','cgst','cgstVal','sgst','sgstVal','igst','igstVal','total','data')
+        fields = ('pk','created','product','invoice','customs_no','part_no','description_1','price','qty','taxableprice','cgst','cgstVal','sgst','sgstVal','igst','igstVal','total')
     def create(self, validated_data):
         i = InvoiceQty(**validated_data)
         if 'product' in self.context['request'].data:
@@ -364,7 +379,7 @@ class InvoiceQtySerializer(serializers.ModelSerializer):
         i.save()
         return i
     def update (self, instance, validated_data):
-        for key in ['pk','created','product','invoice','customs_no','part_no','description_1','price','qty','taxableprice','cgst','cgstVal','sgst','sgstVal','igst','igstVal','total','data']:
+        for key in ['pk','created','product','invoice','customs_no','part_no','description_1','price','qty','taxableprice','cgst','cgstVal','sgst','sgstVal','igst','igstVal','total']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
@@ -378,7 +393,7 @@ class InvoiceQtySerializer(serializers.ModelSerializer):
 
 class DeliveryChallanSerializer(serializers.ModelSerializer):
     materialIssue = MaterialIssueMainSerializer(many = False , read_only = True)
-    division = DivisionSerializer(many = False , read_only = True)
+    # division = DivisionSerializer(many = False , read_only = True)
     class Meta:
         model = DeliveryChallan
         fields = ('pk','created','materialIssue','customername','customeraddress','customergst','heading','challanNo','challanDate','deliveryThr','refNo','apprx','notes','flag','division')
@@ -404,7 +419,7 @@ class DeliveryChallanSerializer(serializers.ModelSerializer):
 
 class StockCheckReportSerializer(serializers.ModelSerializer):
     user = userSearchSerializer(many = False , read_only = True)
-    division = DivisionSerializer(many = False,read_only = True)
+    # division = DivisionSerializer(many = False,read_only = True)
     class Meta:
         model = StockCheckReport
         fields = ('pk','created','user','flag','division')
@@ -473,7 +488,7 @@ class complaintManagementSerializer(serializers.ModelSerializer):
     customer = serviceLiteSerializer(many = False , read_only = True)
     registeredBy = userSearchSerializer(many = False , read_only = True)
     closedBy = userSearchSerializer(many = False , read_only = True)
-    division = DivisionSerializer(many = False , read_only = True)
+    # division = DivisionSerializer(many = False , read_only = True)
     class Meta:
         model  = ComplaintManagement
         fields = ('pk','date','customer','contact','complaintRef','machine','description','complaintType',

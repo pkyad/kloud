@@ -229,7 +229,7 @@ class userSerializer(serializers.ModelSerializer):
     designation = userDesignationSerializer(read_only=True)
     class Meta:
         model = User
-        fields = ('pk' , 'username' , 'email' , 'first_name' , 'last_name' , 'designation' ,'settings' , 'password' , 'is_superuser','is_active','profile','payroll','is_staff','logo')
+        fields = ('pk' , 'username' , 'email' , 'first_name' , 'last_name' , 'designation' ,'settings' , 'password' , 'is_superuser','is_active','profile','payroll','is_staff','logo','last_login')
         read_only_fields = ('designation' , 'profile' , 'settings', 'payroll' )
         extra_kwargs = {'password': {'write_only': True} }
     def create(self , validated_data):

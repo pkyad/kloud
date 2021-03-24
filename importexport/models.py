@@ -209,7 +209,7 @@ class Invoice(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     invoiceNumber = models.CharField( max_length = 20 , null=True,blank=True)
     invoiceDate = models.DateField(null = True)
-    poNumber =  models.CharField( max_length = 20 , null=True,blank=True)
+    poNumber =  models.CharField( max_length = 50 , null=True,blank=True)
     insuranceNumber =  models.CharField( max_length = 20 , null=True,blank=True)
     transporter =  models.CharField( max_length = 50 , null=True,blank=True)
     lrNo =  models.CharField( max_length = 50 , null=True,blank=True)

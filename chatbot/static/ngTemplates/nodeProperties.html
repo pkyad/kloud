@@ -534,6 +534,36 @@
       <label>Python Code</label>
     </div>
     <div id="aceEditor3" style="width:100%;min-height:30vh;"></div>
+    <hr>
+    <h3 style="margin-left:20px;">Need help ? read below</h3>
+    <div class="container-fluid">
+      Getting data from context
+      <pre>
+        value = cntx["key"]
+      </pre>
+    </div>
+    <div class="container-fluid">
+      Saving data in context
+      <pre>
+        cntx["key"]= value
+        saveContext("key" , "str" , cntx)
+      </pre>
+    </div>
+
+    <div class="container-fluid">
+      Making REST API request and using it
+      <pre>
+        url = 'https://jsonplaceholder.typicode.com/todos/1'
+        res = requests.get(url)
+        t = res.json()['title']
+        cntx["title"]= t
+        saveContext('title' , 'str' , cntx)
+      </pre>
+    </div>
+
+
+
+
   </div>
 
 

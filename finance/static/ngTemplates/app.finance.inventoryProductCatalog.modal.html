@@ -3,291 +3,357 @@
     display: flex;
     flex-wrap: nowrap;
   }
+    .websiteInput {
+    background:
+      #F2F3F7;
+    color:
+      #555;
+    border-radius: 25px !important;
+    padding: 10px 20px;
+    border: none !important;
+    margin-top: 10px;
+    height: 45px;
+  }
 </style>
 <div class="modal-header">
   <div class="col-md-11">
     <h3>Add master product</h3>
   </div>
-  <div class="col-md-1" style="padding-top:10px">
+  <!-- <div class="col-md-1" style="padding-top:10px">
     <button class="btn btn-primary" ng-click="close()"><i class="fa fa-close"></i></button>
-  </div>
+  </div> -->
 </div>
 <div class="modal-body">
   <div class="row">
     <div class="col-md-6">
-      <div class="form-group">
-        <label>Product</label>
-        <input type="text " class="form-control websiteInput" ng-model="form.name">
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>MRP</label>
-        <input type="text " class="form-control websiteInput" ng-model="form.mrp">
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Buying Price</label>
-        <input type="text " class="form-control websiteInput" ng-model="form.buyingPrice">
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Selling Price</label>
-        <input type="text " class="form-control websiteInput" ng-model="form.rate">
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Product SKU</label>
-        <input type="text" class="form-control websiteInput" ng-model="form.sku">
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Tax Code</label>
-        <input type="text" class="form-control websiteInput" ng-model="form.taxCode" uib-typeahead="meta as  (meta.code + ' : ' + meta.description) for meta in productMetaSearch($viewValue)" typeahead-on-select="selectedMeta()">
-
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Tax Rate</label>
-        <input type="text" class="form-control websiteInput" ng-model="form.taxRate">
-      </div>
-    </div>
-    <!-- <div class="col-md-3">
-      <div class="form-group">
-        <label>Tax Description</label>
-      <input type="text" class="form-control websiteInput" ng-model="form.taxDescription">
-      </div>
-    </div> -->
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Description</label>
-        <textarea class="form-control websiteInput" rows="3" placeholder="Description" ng-model="form.richtxtDesc"></textarea>
-      </div>
-    </div>
-
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Image1</label>
-        <input type="file" file-model="form.img1">
-        <img src="{{form.img1}}" style="width:100px;height:100px;margin-top:10px;" id="image1" alt="image1">
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Image2</label>
-        <input type="file" file-model="form.img2">
-        <img src="" style="width:100px;height:100px;margin-top:10px;" id="image2" alt="image2">
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Image3</label>
-        <input type="file" file-model="form.img3">
-        <img src="{{form.img3}}" style="width:100px;height:100px;margin-top:10px;" id="image3" alt="image3">
-      </div>
-    </div>
-  </div>
-  <hr />
-  <div class="row">
-    <div class="col-md-12">
-      <h4>Addons</h4>
-    </div>
-    <div class="col-md-12">
       <div class="row">
         <div class="col-md-12">
-          <table class="table table-hover pad10">
-            <thead>
-              <tr style="">
-                <th> Description </th>
-                <th>Price</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="a in form.addonsData track by $index" ng-click="editAddons($index)">
-                <td>{{a.description}}</td>
-                <td>{{a.price}} </td>
-                <td><i class="fa fa-trash fa-lg" ng-click="$event.stopPropagation()" mwl-confirm title="Delete the Company"  message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>"
-                  cancel-text="No" on-confirm="deleteAddons($index)" confirm-button-type="success" cancel-button-type="default" placement="bottom" ></i></td>
-              </tr>
-            </tbody>
-          </table>
-          <!-- <div class="col-md-6" style="padding:15px;font-size:15px;border:1px solid black">
-            {{a.description}}
+          <div class="form-group">
+            <label>Product name </label>
+            <input type="text " class="form-control websiteInput" ng-model="form.name">
           </div>
-          <div class="col-md-2" style="padding:15px;font-size:15px;border:1px solid black">
-            {{a.price}}
-          </div> -->
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <input type="text" class="form-control websiteInput" ng-model="addons.description" placeholder="Description">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Rate</label>
+            <input type="text " class="form-control websiteInput" ng-model="form.mrp">
+          </div>
         </div>
-        <div class="col-md-2">
-          <input type="text" class="form-control websiteInput" ng-model="addons.price" placeholder="Price">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Discount</label>
+            <input type="text " class="form-control websiteInput" ng-model="form.buyingPrice">
+          </div>
         </div>
-        <div class="col-md-2" style="margin-top:15px">
-          <button type="button" name="button" class="btn btn-block" ng-click="addAddons()">Add</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <hr />
-  <div class="row">
-    <div class="col-md-12">
-      <h4>Customization</h4>
-    </div>
-    <div class="col-md-12">
 
-      <div class="row">
-        <div class="col-md-3">
-          <div class="row">
-            <div class="col-md-12">
-              <button type="button" name="button" class="btn btn-default btn-block pull-right" ng-click="addText()"> Add Text </button>
+        <!--
+          <div class="col-md-3">
+            <div class="form-group">
+              <label></label>
+              <input type="text " class="form-control websiteInput" ng-model="form.rate">
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-12">
-              <label type="button" name="button" class="btn btn-default btn-block pull-right" ng-click="addImage()"> Add Image </label>
-            </div>
+
+        -->
+
+
+        <!-- <div class="col-md-3">
+          <div class="form-group">
+            <label>Tax Description</label>
+            <input type="text" class="form-control websiteInput" ng-model="form.taxDescription">
           </div>
-          <div class="row">
-            <div class="col-md-12">
-              <label type="button" name="button" class="btn btn-default btn-block pull-right"> Add Color<input type="color" style="display:none" ng-model="customization.color"></label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-7" style="padding-right:0px">
-            <label type="button" name="button" class="btn btn-default btn-block "> Add Background Image<input type="file" style="display:none" file-model="customization.backgroundImage"></label>
-            </div>
-            <div class="col-md-5" style="padding-left:0px">
-              <label type="button" name="button" class="btn btn-default btn-block "
-                ng-click="uploadSampleImage()"> Upload</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <label type="button" name="button" class="btn btn-default btn-block pull-right"> Add Background Color<input type="color" style="display:none" ng-model="customization.backgroundColor"></label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-3" style="padding-right:0px">
-            <label type="button" name="button" class="btn btn-default  btn-block"> Height </label>
-            </div>
-            <div class="col-md-8" style="padding-left:0px">
-             <input type="text" class="form-control" ng-model="customization.height">
-            </div>
-            <div class="col-md-1" style="padding:0px" >
-             <h4>px </h4>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-3" style="padding-right:0px">
-            <label type="button" name="button" class="btn btn-default  btn-block"> Width </label>
-            </div>
-            <div class="col-md-8" style="padding-left:0px">
-             <input type="text" class="form-control" ng-model="customization.width">
-            </div>
-            <div class="col-md-1" style="padding:0px" >
-             <h4>px </h4>
-            </div>
+        </div> -->
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Description</label>
+            <textarea class="form-control websiteInput" rows="3" placeholder="Description" ng-model="form.richtxtDesc"></textarea>
           </div>
         </div>
-        <div class="col-md-9" id="customizationDiv">
-          <!-- {{customizationData}} -->
-            <div class="row">
-              <div class="col-md-8">
-                  <label>Description</label>
-               <input type="text" class="form-control" ng-model="customization.title" placeholder="Description">
-           </div>
-         </div>
-          <div style="background:{{customization.backgroundColor}};height:{{customization.height}}px;width:{{customization.width}}px;background-image: url('{{customization.backgroundImage}}');background-size:contain;background-repeat: no-repeat;">
-            <div ng-repeat="a in customization.data">
-              <textarea type="text" ng-if="a.type=='textarea'" rows="{{a.rows}}" ng-model="a.data" my-draggable start-x="a.startX" start-y="a.startY" x="a.x" y="a.y" style="background:transparent;color:#ffffff"
-                ng-enter="increaseRow($index)" > </textarea>
-              <div ng-if="a.type=='image'"> <label type="button" name="button" class="btn btn-default" my-draggable start-x="a.startX" start-y="a.startY" x="a.x" y="a.y"> <i class="fa fa-plus"></i> </label> </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-offset-10 col-md-2">
-          <button type="button" name="button" class="btn btn-default btn-block pull-right" ng-click="addCustomisation()"> Add </button>
-        </div>
-      </div>
-      <!-- <div class="row" >
+
         <div class="col-md-4">
-          <div class="row">
-            <div class="col-md-6">
-              <label>Upload Sample Image</label>
-              <input type="file" file-model="customization.sampleimage">
-            </div>
-            <div class="col-md-6">
-              <button type="button" name="button" class="btn btn-primary" ng-click="uploadSampleImage()">Upload</button>
-            </div>
-            <div class="col-md-12" style="margin-top:15px">
-            <label >Select Color</label><br/>
-            <input type="color"  ng-model="customization.color" >
+          <div class="form-group">
+            <label>Image1</label>
+            <input type="file" file-model="form.img1">
+            <img src="{{form.img1}}" style="width:100px;height:100px;margin-top:10px;" id="image1" alt="image1">
           </div>
-          <div class="col-md-12" style="margin-top:15px">
-          <label >Select Background Color</label><br/>
-          <input type="color"  ng-model="customization.backgroundColor" >
         </div>
-          <div class="col-md-12" style="margin-top:15px">
-          <button type="button" name="button" class="btn btn-primary" ng-click="addCustomisation()"> Add</button>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Image2</label>
+            <input type="file" file-model="form.img2">
+            <img src="" style="width:100px;height:100px;margin-top:10px;" id="image2" alt="image2">
+          </div>
         </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Image3</label>
+            <input type="file" file-model="form.img3">
+            <img src="{{form.img3}}" style="width:100px;height:100px;margin-top:10px;" id="image3" alt="image3">
+          </div>
         </div>
       </div>
-        <div class="col-md-6">
-          <div style="background-image: url('{{customization.sampleimage}}');background-size:contain;height:{{customization.sampleimageHeight}}px;width:{{customization.sampleimageWidth}}px;background-repeat: no-repeat;" class="text-center">
-              <textarea type="text" ng-if="customization.sampleimage" rows="2"   ng-model="customization.text" style="margin-top:{{customization.sampleimageHeight/3}}px;width:{{customization.sampleimageWidth/3}}px"> </textarea>
-          </div>
-        </div>
-    </div> -->
-      <!-- <div class="row">
-        <div class="col-md-3" ng-repeat="c in form.customizationData track by $index" style="margin-top:60px" ng-click="editCustomisation($index)">
-          <span style="position:absolute;right:0px;top:-10px;" ng-click="deleteCust($index)"><i class="fa fa-times fa-2x"></i></span>
-          <div style="background-image: url('{{c.sampleimage}}');background-size:contain;height:200px;background-repeat: no-repeat;" class="text-center">
-          </div>
-          <p> {{c.text}} </p>
-          <div class="flex-container">
-            <div> Color : </div>
-            <div style="height:20px;width:20px;border-radius:50%;background:{{c.color}}"> </div>
-          </div>
-          <div class="flex-container">
-            <div> Background Color : </div>
-            <div style="height:20px;width:20px;border-radius:50%;background:{{c.backgroundColor}}"> </div>
-          </div>
-        </div>
-      </div> -->
-
-      <div class="row">
+      <div class="text-center" >
+        <h4 ng-click="show= true;"  > {{show?'':'SHOW MORE'}}</h4>
+      </div>
+      <div class="row" ng-if="show">
         <div class="col-md-12">
-          <table class="table table-hover pad10">
-            <thead>
-              <tr style="">
-                <th> Description </th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="a in form.customizationData track by $index" ng-click="editCustomisation($index)">
-                <td>{{a.title}}</td>
-                <td><i class="fa fa-trash fa-lg" ng-click="$event.stopPropagation()" mwl-confirm title="Delete the Company"  message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>"
-                  cancel-text="No" on-confirm="deleteCust($index)" confirm-button-type="success" cancel-button-type="default" placement="bottom" ></i></td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="form-group">
+            <label>Tax Code</label>
+            <input type="text" class="form-control websiteInput" ng-model="form.taxCode" uib-typeahead="meta as  (meta.code + ' : ' + meta.description) for meta in productMetaSearch($viewValue)" typeahead-on-select="selectedMeta()">
+
+          </div>
         </div>
-      </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Tax Rate</label>
+            <input type="text" class="form-control websiteInput" ng-model="form.taxRate">
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Product SKU</label>
+            <input type="text" class="form-control websiteInput" ng-model="form.sku">
+          </div>
+        </div>
+        <div class="col-md-12">
+          <h4>Addons</h4>
+        </div>
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-12">
+              <table class="table table-hover pad10">
+                <thead>
+                  <tr style="">
+                    <th> Description </th>
+                    <th>Price</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="a in form.addonsData track by $index" ng-click="editAddons($index)">
+                    <td>{{a.description}}</td>
+                    <td>{{a.price}} </td>
+                    <td><i class="fa fa-trash fa-lg" ng-click="$event.stopPropagation()" mwl-confirm title="Delete the Company"  message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>"
+                      cancel-text="No" on-confirm="deleteAddons($index)" confirm-button-type="success" cancel-button-type="default" placement="bottom" ></i></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- <div class="col-md-6" style="padding:15px;font-size:15px;border:1px solid black">
+                  {{a.description}}
+                </div>
+                <div class="col-md-2" style="padding:15px;font-size:15px;border:1px solid black">
+                  {{a.price}}
+                </div> -->
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <input type="text" class="form-control websiteInput" ng-model="addons.description" placeholder="Description">
+              </div>
+              <div class="col-md-2">
+                <input type="text" class="form-control websiteInput" ng-model="addons.price" placeholder="Price">
+              </div>
+              <div class="col-md-2" style="margin-top:15px">
+                <button type="button" name="button" class="btn btn-block" ng-click="addAddons()">Add</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-3">
+                <img src="{{form.img1}}" style="width:50px;height:50px;margin-top:10px;" id="image4" alt="" ng-click="showfullImage('image4')"><br>
+                <img src="{{form.img2}}" style="width:50px;height:50px;margin-top:10px;" id="image5" alt="" ng-click="showfullImage('image5')"><br>
+                <img src="{{form.img3}}" style="width:50px;height:50px;margin-top:10px;" id="image6" alt="" ng-click="showfullImage('image6')"><br>
+
+              </div>
+              <div class="col-md-9">
+                <img src="{{image}}" style="width:100%;" alt="">
+
+              </div>
+            </div>
+
+          </div>
+          <div class="col-md-6">
+            <h3><b>{{form.name}} {{form.sku}} </b></h3>
+            <p>
+              <b style="font-size:20px;margin-right:5px;" ><i class="fa fa-inr" ></i>{{(form.mrp-(form.mrp*form.buyingPrice)/100)+(((form.mrp-(form.mrp*form.buyingPrice)/100)*form.taxRate)/100) | number:2}}</b>
+
+
+              <s style="margin-left:10px;"> <i class="fa fa-inr"></i>{{form.mrp}}</s>
+              <!-- <span ng-if="form.taxRate"> +  <i class="fa fa-inr"></i> {{((form.mrp-(form.mrp*form.buyingPrice)/100)*form.taxRate)/100 | number:2}} <span style="color:green">GST</span></span>  -->
+
+
+
+            </p>
+            <p>{{form.richtxtDesc}}</p>
+          </div>
+        </div>
     </div>
   </div>
+  <hr />
+
+
+
+
+  <!--
+
+ <div class="row">
+        <div class="col-md-12">
+          <h4>Customization</h4>
+        </div>
+        <div class="col-md-12">
+
+          <div class="row">
+            <div class="col-md-3">
+              <div class="row">
+                <div class="col-md-12">
+                  <button type="button" name="button" class="btn btn-default btn-block pull-right" ng-click="addText()"> Add Text </button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <label type="button" name="button" class="btn btn-default btn-block pull-right" ng-click="addImage()"> Add Image </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <label type="button" name="button" class="btn btn-default btn-block pull-right"> Add Color<input type="color" style="display:none" ng-model="customization.color"></label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7" style="padding-right:0px">
+                <label type="button" name="button" class="btn btn-default btn-block "> Add Background Image<input type="file" style="display:none" file-model="customization.backgroundImage"></label>
+                </div>
+                <div class="col-md-5" style="padding-left:0px">
+                  <label type="button" name="button" class="btn btn-default btn-block "
+                    ng-click="uploadSampleImage()"> Upload</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <label type="button" name="button" class="btn btn-default btn-block pull-right"> Add Background Color<input type="color" style="display:none" ng-model="customization.backgroundColor"></label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3" style="padding-right:0px">
+                <label type="button" name="button" class="btn btn-default  btn-block"> Height </label>
+                </div>
+                <div class="col-md-8" style="padding-left:0px">
+                <input type="text" class="form-control" ng-model="customization.height">
+                </div>
+                <div class="col-md-1" style="padding:0px" >
+                <h4>px </h4>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3" style="padding-right:0px">
+                <label type="button" name="button" class="btn btn-default  btn-block"> Width </label>
+                </div>
+                <div class="col-md-8" style="padding-left:0px">
+                <input type="text" class="form-control" ng-model="customization.width">
+                </div>
+                <div class="col-md-1" style="padding:0px" >
+                <h4>px </h4>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-9" id="customizationDiv">
+
+                <div class="row">
+                  <div class="col-md-8">
+                      <label>Description</label>
+                  <input type="text" class="form-control" ng-model="customization.title" placeholder="Description">
+              </div>
+            </div>
+              <div style="background:{{customization.backgroundColor}};height:{{customization.height}}px;width:{{customization.width}}px;background-image: url('{{customization.backgroundImage}}');background-size:contain;background-repeat: no-repeat;">
+                <div ng-repeat="a in customization.data">
+                  <textarea type="text" ng-if="a.type=='textarea'" rows="{{a.rows}}" ng-model="a.data" my-draggable start-x="a.startX" start-y="a.startY" x="a.x" y="a.y" style="background:transparent;color:#ffffff"
+                    ng-enter="increaseRow($index)" > </textarea>
+                  <div ng-if="a.type=='image'"> <label type="button" name="button" class="btn btn-default" my-draggable start-x="a.startX" start-y="a.startY" x="a.x" y="a.y"> <i class="fa fa-plus"></i> </label> </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-offset-10 col-md-2">
+              <button type="button" name="button" class="btn btn-default btn-block pull-right" ng-click="addCustomisation()"> Add </button>
+            </div>
+          </div>
+          <div class="row" >
+            <div class="col-md-4">
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Upload Sample Image</label>
+                  <input type="file" file-model="customization.sampleimage">
+                </div>
+                <div class="col-md-6">
+                  <button type="button" name="button" class="btn btn-primary" ng-click="uploadSampleImage()">Upload</button>
+                </div>
+                <div class="col-md-12" style="margin-top:15px">
+                <label >Select Color</label><br/>
+                <input type="color"  ng-model="customization.color" >
+              </div>
+              <div class="col-md-12" style="margin-top:15px">
+              <label >Select Background Color</label><br/>
+              <input type="color"  ng-model="customization.backgroundColor" >
+            </div>
+              <div class="col-md-12" style="margin-top:15px">
+              <button type="button" name="button" class="btn btn-primary" ng-click="addCustomisation()"> Add</button>
+            </div>
+            </div>
+          </div>
+            <div class="col-md-6">
+              <div style="background-image: url('{{customization.sampleimage}}');background-size:contain;height:{{customization.sampleimageHeight}}px;width:{{customization.sampleimageWidth}}px;background-repeat: no-repeat;" class="text-center">
+                  <textarea type="text" ng-if="customization.sampleimage" rows="2"   ng-model="customization.text" style="margin-top:{{customization.sampleimageHeight/3}}px;width:{{customization.sampleimageWidth/3}}px"> </textarea>
+              </div>
+            </div>
+        </div> -->
+          <!-- <div class="row">
+            <div class="col-md-3" ng-repeat="c in form.customizationData track by $index" style="margin-top:60px" ng-click="editCustomisation($index)">
+              <span style="position:absolute;right:0px;top:-10px;" ng-click="deleteCust($index)"><i class="fa fa-times fa-2x"></i></span>
+              <div style="background-image: url('{{c.sampleimage}}');background-size:contain;height:200px;background-repeat: no-repeat;" class="text-center">
+              </div>
+              <p> {{c.text}} </p>
+              <div class="flex-container">
+                <div> Color : </div>
+                <div style="height:20px;width:20px;border-radius:50%;background:{{c.color}}"> </div>
+              </div>
+              <div class="flex-container">
+                <div> Background Color : </div>
+                <div style="height:20px;width:20px;border-radius:50%;background:{{c.backgroundColor}}"> </div>
+              </div>
+            </div>
+              <div class="row">
+            <div class="col-md-12">
+              <table class="table table-hover pad10">
+                <thead>
+                  <tr style="">
+                    <th> Description </th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="a in form.customizationData track by $index" ng-click="editCustomisation($index)">
+                    <td>{{a.title}}</td>
+                    <td><i class="fa fa-trash fa-lg" ng-click="$event.stopPropagation()" mwl-confirm title="Delete the Company"  message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>"
+                      cancel-text="No" on-confirm="deleteCust($index)" confirm-button-type="success" cancel-button-type="default" placement="bottom" ></i></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+          </div> -->
+
+
+
+
   <div class="row">
     <div class="col-md-12" style="padding-top:25px">
       <button type="button" class="btn newBtn" ng-click="saveInventory()">Save</button>

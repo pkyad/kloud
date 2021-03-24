@@ -73,7 +73,7 @@
 
 
     </div>
-
+    <p>{{division.simpleMode}}</p>
 
 
     <div ng-if="division.simpleMode">
@@ -116,7 +116,12 @@
         <div class="col-md-9">
           <input type="text" class="form-control greyInput" ng-model="unitsData[0].pincode" typeahead-on-select="saveUnit()"  uib-typeahead="pin as pin.pincode for pin in pinSearch($viewValue)">
           <br>
-          {{unitsData[0].city}}, {{unitsData[0].state}}, India
+          <span ng-dblclick="show=true" ng-init="show=false" ng-hide="show">  {{unitsData[0].city}}, {{unitsData[0].state}}, {{unitsData[0].country}}</span>
+          <div class="row" ng-if="show" style="margin:0px;">
+            <input type="text" class="form-control greyInput" ng-model="unitsData[0].city" ng-change="saveUnit()"><br>
+            <input type="text" class="form-control greyInput" ng-model="unitsData[0].state" ng-change="saveUnit()"><br>
+            <input type="text" class="form-control greyInput" ng-model="unitsData[0].country" ng-change="saveUnit()"><br>
+          </div>
         </div>
       </div>
     </div>

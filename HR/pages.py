@@ -25,6 +25,7 @@ from django.template import Context, Template
 from django.http import HttpResponse
 import os
 from LMS.serializers import CourseSerializer
+from website.serializers import ComponentsSerializer
 
 import basehash
 hash_fn = basehash.base36()
@@ -34,7 +35,7 @@ def page1(request):
     return render(request, 'app.HR.page1.html',context)
 
 def storeHome(request):
-    return redirect('/login')
+    # return redirect('/login')
     context={}
     firstApp =application.objects.all()[0]
     secondApp =application.objects.all()[1]
@@ -122,6 +123,8 @@ def refundpolicy(request):
     context={}
     return render(request, 'app.HR.refundpolicy.html',context)
 
+
+import json
 def pageeditor(request,id):
     header =None
     footer = None
@@ -137,12 +140,14 @@ def pageeditor(request,id):
 
     components = Components.objects.filter(parent = page).order_by('index')
     data = ''
+
     for indx, i in enumerate(components):
 
         i.template = i.template.replace('$data' , 'components[%s].data'%(indx))
-        data += i.template
-        print data
 
+        data += i.template
+
+        print header,'00900-'
     API_KEY = hash_fn.hash(page.user.designation.division.pk)
 
     return render(request, 'app.HR.pageeditor.html',{'page':page,'data':data, 'components' : components,'API_KEY':API_KEY,'header':header,'headerCss':headerCss,'footer':footer,'footerCss':footerCss})
@@ -186,10 +191,10 @@ def renderpage(request,apiKey,url):
     components = Components.objects.filter(parent = page)
     data = ''
     for indx, i in enumerate(components):
-        i.template = i.template.replace('"$data"' , "'"+components[indx].data+"'")
+        i.template = i.template.replace('$data' , 'components[%s].data'%(indx))
         i.dataTemplate = i.template
         # i.data = json.loads(json.dumps(i.data))
-        print i.data,"4k324kl3k4las;dflkasidfo"
+
 
     # if page.enableChat:
 
@@ -230,13 +235,8 @@ def renderpageMain(request,apiKey):
     for indx, i in enumerate(components):
         i.template = i.template.replace('"$data"' , "'"+components[indx].data+"'")
         i.dataTemplate = i.template
-        # i.data = json.loads(json.dumps(i.data))
         print i.data,"4k324kl3k4las;dflkasidfo"
-    # components = ComponentsSerializer(Components.objects.filter(parent = page), many=True).data
-    # data = ''
-    # for indx, i in enumerate(components):
-    #     i['template'] = i['template'].replace('"$data"' , "'"+components[indx].data+"'")
-    #     i['template'] = i['template']
+
     return render(request,'app.HR.page.html',{'components':components,'page':page,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':div,'showLms' : showLms})
 
 def uielement(request):
@@ -530,8 +530,86 @@ def blog(request ):
 
 
     return render(request,"app.HR.blogs.html" , {"blogs" : blogs,"featuredblogs":featuredblogs,"home" : False , "pageNumber" : pageNumber ,"prevpage":prevpage, "nextPage" : nextpage , "firstArticle" : featuredblogs[0] , "pageNumbers" : pageNumbers , "pageCount" : int(pageCount) , "currentPage" : currentPage,'totalCatg':[]})
+def Divisionblogs(request,apiKey ):
+
+    pageNumber = 1
+    offset = pageNumber*6
+    articlesAll = Article.objects.all()
+    # totalCatg = Catrgory.objects.all()
+    # for i in totalCatg:
+    #     articlescount = Article.objects.filter(category = i).count()
+    #     i.articlesCount = articlescount
+
+    first_set =[]
+    pageCount = math.floor(float(articlesAll.count())/float(5))
+    pageNumbers = range(1, int(pageCount+1))
+
+    print pageNumbers
+    randPks = []
+    if len(articlesAll) >0:
+        for i in range(1,len(articlesAll),3):
+            randPks.append(articlesAll[i])
+
+
+
+    featuredblogs = articlesAll.filter(featuredContent = True)[:4]
+    print featuredblogs,'49320842390'
+    for i in featuredblogs:
+        if i.contents.all().count()>0 and  i.contents.all()[0].content != None:
+            i.introSectionImg = i.contents.all()[0].img
+            print i.pk
+
+    blogs = articlesAll[offset:offset+6]
+    prevpage = 0
+    nextpage = 0
+    if pageNumber > 0:
+        prevpage = pageNumber-1
+    if len(blogs) > 0:
+        nextpage = pageNumber+1
+        print  nextpage ,'klsafkalsdkfldsfialsdf'
+    else:
+        nextpage = pageNumber
+    if len(blogs) >0:
+        for i in blogs:
+            if i.contents.all().count()>0 and  i.contents.all()[0].content != None:
+                i.introSectionTxt = i.contents.all()[0].content
+                i.introSectionImg = i.contents.all()[0].img
+                i.tagsArr = i.tags.split(',')
+                i.tagsArr.pop(-1)
+
+    currentPage = pageNumber+1
+    if pageNumber!=0:
+        currentPage = pageNumber
+
+
+
+    return render(request,"app.HR.blogs.html" , {"blogs" : blogs,"featuredblogs":featuredblogs,"home" : False , "pageNumber" : pageNumber ,"prevpage":prevpage, "nextPage" : nextpage , "firstArticle" : featuredblogs[0] , "pageNumbers" : pageNumbers , "pageCount" : int(pageCount) , "currentPage" : currentPage,'totalCatg':[]})
 
 from django.urls import resolve
+def DivisionblogDetails(request ,apiKey, articleUrl):
+    # print articleUrl,'2390resdsdasdasr219732'
+    article = []
+    article = Article.objects.get(articleUrl = articleUrl)
+    print article.title,'23902rer19732'
+    comments = Comment.objects.filter(article = article, verified=True)
+    intro = article.contents.all()[0]
+
+
+    blogs = Article.objects.all()
+    restsec = article.contents.all()[1:]
+    randPks = []
+    randPkss = None
+    data={}
+
+    relatedArticles = Article.objects.all()[0:5]
+    for i in relatedArticles:
+        if i.contents.all().count() >0:
+            if i.contents.all()[0].img:
+                i.blgimage =  i.contents.all()[0].img
+
+
+    # return render(request , 'app.HR.articleView.html' , { "article" : article })
+    return render(request , 'app.HR.articleView.html' , { "article" : article , "intro" : intro ,"restsec":restsec, "relatedArticles" : relatedArticles,"comments":comments,'blogs':blogs,'randPks':Article.objects.all().order_by('-created')[:5]})
 def renderedArticleView(request , articleUrl):
     # print articleUrl,'2390resdsdasdasr219732'
     article = []
@@ -547,7 +625,7 @@ def renderedArticleView(request , articleUrl):
     randPkss = None
     data={}
 
-    relatedArticles = article.category.articles.filter(~Q(pk= article.pk))
+    relatedArticles = Article.objects.all()[0:5]
     for i in relatedArticles:
         if i.contents.all().count() >0:
             if i.contents.all()[0].img:

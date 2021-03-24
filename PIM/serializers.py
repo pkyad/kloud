@@ -199,15 +199,21 @@ class chatMessageSerializer(serializers.ModelSerializer):
         model = ChatMessage
         fields = ('pk' , 'thread' ,'uid', 'attachment' , 'created' , 'read' , 'user','message','attachmentType','sentByAgent','responseTime','logs','delivered','read','is_hidden','fileType','fileSize','fileName','replyTo')
     def create(self , validated_data):
-        im = ChatMessage.objects.create(**validated_data)
+        im = ChatMessage(**validated_data)
         im.user = self.context['request'].user
-        im.save()
+        im.sentByAgent = True
+        chatThread = im.thread
+        if 'thread' in self.context['request'].data:
+            im.thread = chatThread
+            im.uid = chatThread.uid
+        if 'replyTo' in self.context['request'].data:
+            im.replyTo = ChatMessage.objects.get(pk=self.context['request'].data['replyTo'])
         try:
             im.attachment = self.context['request'].FILES['attachment']
         except:
             pass
+
         try:
-            im.attachment = self.context['request'].FILES['attachment']
             if im.attachment.name.endswith('.pdf'):
                 im.fileType = 'pdf'
             elif im.attachment.name.endswith('.png') or  im.attachment.name.endswith('.jpg') or  im.attachment.name.endswith('.jpeg'):
@@ -228,25 +234,21 @@ class chatMessageSerializer(serializers.ModelSerializer):
         #     im.delete()
         #     raise ParseError(detail=None)
         # else:
-        if 'thread' in self.context['request'].data:
-            im.thread = ChatThread.objects.get(pk=self.context['request'].data['thread'])
-        if 'replyTo' in self.context['request'].data:
-            im.replyTo = ChatMessage.objects.get(pk=self.context['request'].data['replyTo'])
-        chatThread = im.thread
-        if im.message is not None:
+        
+        
+        if im.message is not None and chatThread.firstMessage is None:
             chatThread.firstMessage = im.message
         else:
             chatThread.firstMessage = im.fileName
         chatThread.save()
         if chatThread.uid is not None:
             im.uid = chatThread.uid
-        im.save()
         if im.attachment !=None and im.attachmentType == None:
             if im.fileType == 'image':
                 im.attachmentType = 'image'
             else:
                 im.attachmentType = 'application'
-            im.save()
+        im.save()
         return im
 
 

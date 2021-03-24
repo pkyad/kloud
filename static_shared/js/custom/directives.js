@@ -1471,7 +1471,7 @@ app.directive('formView', function() {
       $scope.deleteTab = function(indx){
         $scope.data.productsMap.tabs.splice(indx,1)
       }
-      console.log($scope.data,'342pofdgdggfgop32');
+      console.log(typeof($scope.data),'342pofdgdggfgop32');
       $scope.createTab = function(){
         // $scope.tabForm =
       }
@@ -1532,6 +1532,7 @@ app.directive('formView', function() {
           },
         }).
         then(function(response) {
+          $uibModalInstance.dimiss()
         })
       }
       $scope.appMediaPro = {

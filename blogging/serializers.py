@@ -177,8 +177,8 @@ class ArticleSerializer(serializers.ModelSerializer):
         if 'author__id' in self.context['request'].data:
             a.author = User.objects.get(pk =self.context['request'].data['author__id'])
 
-        a.typ = Typ.objects.get(pk = self.context['request'].data['typ__id'])
-        a.articleUrl = a.articleUrl.replace('-' , ' ').strip().replace(' ' , '-')
+        # a.typ = Typ.objects.get(pk = self.context['request'].data['typ__id'])
+        a.articleUrl = a.articleUrl
 
         a.save()
 

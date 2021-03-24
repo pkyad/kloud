@@ -28,6 +28,14 @@
   .pagination-prev{
     display:none !important;
   }
+  .preview{
+    opacity:0;
+  }
+
+  .showPreview:hover .preview{
+    opacity:1;
+
+  }
 </style>
 
 <div class="container-fluid">
@@ -38,7 +46,7 @@
 
     <div class="row" style="margin:0px;margin-bottom:20px;">
       <div class="col-md-2">
-        <img src="/static/images/google.jpg" style="height:100px" alt="">
+        <img src="/static/images/google.jpg" style="height:100px" alt="" ng-dblclick="initialPage()">
       </div>
       <div class="col-md-6">
         <div class="form-group">
@@ -61,16 +69,20 @@
       <div class="col-md-10">
         <div class="row"  >
           <div class="col-md-8" ng-repeat="k in pages track by $index"  style="margin:15px 0px;">
-            <div class="row" style="cursor:pointer;">
-              <div class="col-md-11">
+            <div class="row showPreview" style="cursor:pointer;">
+              <div class="col-md-10 ">
                 <p class="font14" style="margin:0px;">{{k.url}}</p>
-                <a href="/pageeditor/{{k.pk}}" ><h2 class="font30"style="color:#1a0dab;margin:0px;">{{k.title}}</h2></a>
+                <a href="/pageeditor/{{k.pk}}" target="_blank" ><h2 class="font30"style="color:#1a0dab;margin:0px;">{{k.title}}</h2></a>
                 <p class="font14"  style="margin:0px;">{{k.description}}</p>
 
               </div>
               <div class="col-md-1">
                 <i class="fa fa-trash" ng-if="k.url.length>0" mwl-confirm title="Delete" message="Are you sure?" data-placement="bottom" confirm-text="Yes <i class='fa fa-check'></i>"
                   cancel-text="No" on-confirm="deletePage($index);" confirm-button-type="default" cancel-button-type="default"></i>
+              </div>
+              <div class="col-md-1">
+                <a href="/pages/{{apiKey}}" target="_blank" type="button" class="btn btn-info preview" name="button" ng-if="!k.url" >Preview {{k.url.length}}</a>
+                <a  href="/pages/{{apiKey}}/{{k.url}}" target="_blank" type="button" class="btn btn-info preview" name="button" ng-if="k.url" >Preview</a>
               </div>
             </div>
 
