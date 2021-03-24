@@ -590,6 +590,14 @@ class PFslipsReport(APIView):
             #         hdWidth[idx] = len(str(k)) + 5
         response = HttpResponse(content=save_virtual_workbook(workbook),content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = 'attachment; filename=payrollReport.xlsx'
+        if 'download' in request.GET:
+            filePath = os.path.join(globalSettings.BASE_DIR, 'media_root/payrollReport%s.pdf' %
+                                  ( request.GET['report']))
+            f = open(filePath, 'wrb')
+            f.write(response.content)
+            f.close()
+            file_name = 'media/' + filePath.split('/')[-1]
+            return Response({'fileUrl' : file_name }, status = status.HTTP_200_OK)
         return response
 
 class GetReimbursement(APIView):
