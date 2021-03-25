@@ -146,7 +146,10 @@ $scope.refreshError()
     $state.go('businessManagement.contacts.delatils', {id :ID});
   }
 
+  $scope.isContactProcessing = false;
+
   $scope.save = function() {
+
     $scope.refreshError()
     if ($scope.form.name == null || $scope.form.name.length == 0 ) {
       $scope.errMsg.name = "Name is required"
@@ -176,6 +179,8 @@ $scope.refreshError()
       Flash.create('warning', 'Address, Pincode, City, State and Country are required')
       return
     }
+
+    $scope.isContactProcessing = true
     var dataToSend = {
       name: $scope.form.name,
       email: $scope.form.email,
@@ -215,6 +220,7 @@ $scope.refreshError()
     then(function(response) {
       Flash.create('success', 'Saved')
       $scope.form = response.data;
+      $scope.isContactProcessing = false
       if ($scope.form.company != null) {
         $scope.form.gstin = $scope.form.company.tin
         if ($scope.form.company.address) {

@@ -32,8 +32,11 @@
       </button>
     </div>
     <div class="col-md-2 text-right" style="padding-top:15px;">
-      <button type="button" class="btn btn-primary cutebuttonplain pull-right" style="background:rgb(14, 67, 136);color:white;" ng-click="save()">
-      Save
+      <button type="button" class="btn btn-primary cutebuttonplain pull-right" style="background:rgb(14, 67, 136);color:white;" ng-click="save()" ng-if="!isContactProcessing">
+        Save
+      </button>
+      <button type="button" class="btn btn-primary cutebuttonplain pull-right" style="background:rgb(14, 67, 136);color:white;" ng-if="isContactProcessing">
+        <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Please wait
     </button>
     </div>
   </div>
