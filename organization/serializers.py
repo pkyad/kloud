@@ -47,17 +47,20 @@ class DivisionSerializer(serializers.ModelSerializer):
     users = serializers.SerializerMethodField()
     class Meta:
         model = Division
-        fields = ('pk' , 'name','website','logo','pan','cin','l1','l2', 'installations', 'installationsCount', 'simpleMode', 'upi', 'telephony', 'messaging','headerTemplate','headerData','footerData','footerTemplate','defaultOgWidth','defaultOgHeight','defaultDescription','defaultTitle','defaultOgImage' , 'locked' , 'counter','enableChatbot','footerCss','headerCss','users','freeQuotaExcceded','subscriptionExpiryDate','expenseData')
+        fields = ('pk' , 'name','website','logo','pan','cin','l1','l2', 'installations', 'installationsCount', 'simpleMode', 'upi', 'telephony', 'messaging','headerTemplate','headerData','footerData','footerTemplate','defaultOgWidth','defaultOgHeight','defaultDescription','defaultTitle','defaultOgImage' , 'locked' , 'counter','enableChatbot','footerCss','headerCss','users','freeQuotaExcceded','subscriptionExpiryDate','expenseData','pageType','last_login')
         read_only_fields=('contacts',)
     def get_installationsCount(self , obj):
         return obj.installations.all().count()
     def get_users(self , obj):
         # users = User.objects.filter(designation__division = obj.pk,is_superuser=False,is_staff=True)
-        users = User.objects.filter(designation__division = obj.pk)
-        count = users.count()
-        lastlogin = userSearchViewSerializer(users.first(),many=False).data
-        print lastlogin, 'test'
-        return{'users':count,'last_login':lastlogin['last_login']}
+        # users = User.objects.filter(designation__division = obj.pk)
+        # count = users.count()
+        count = len(obj.designations.all())
+        # print self.context,"98789897jh"
+        # u = self.context['request'].user
+        # if obj.pk == u.designation.division.pk :
+        #     obj.last_login = u.last_login
+        return{'users':count}
     def create(self , validated_data):
         d = Division(**validated_data)
         d.website = 'NA'

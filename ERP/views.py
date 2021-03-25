@@ -178,7 +178,7 @@ def loginView(request):
                     else:
                         division = None
                     return JsonResponse({'csrf_token':csrf_token , "pk" : user.pk , "division" : division} , status = 200)
-                return redirect('/ERP/')
+                return redirect('/')
             else:
                 authStatus = {'status' : 'warning' , 'message' : 'Your account is Inactive'}
 
@@ -385,11 +385,21 @@ def home(request):
     # else:
     #     pass
     u = request.user
+
+
+
     if u.is_superuser:
         return redirect('adminView')
     division = u.designation.division
+
+    divApikey = hash_fn.hash(division.pk)
     if division == None:
         return redirect('newuser')
+
+    if division:
+        division.last_login = datetime.datetime.now()
+        division.save()
+
 
     print "is staff : " , u.is_staff , "is super user : " , u.is_superuser
     if u.profile.onboarding == False and not (u.is_staff or u.is_superuser):
@@ -516,7 +526,7 @@ def home(request):
         pass
     response =  render(request , 'ngBase.html' , {'wamp_prefix' : globalSettings.WAMP_PREFIX ,'isOnSupport' : isOnSupport , 'division' : division , 'homeState': homeState , 'dashboardEnabled' : u.profile.isDashboard , 'wampServer' : globalSettings.WAMP_SERVER, 'appsWithJs' : jsFilesList \
     ,'appsWithCss' : apps.filter(haveCss=True) , 'useCDN' : globalSettings.USE_CDN , 'BRAND_LOGO' : brandLogo \
-    ,'BRAND_NAME' :  globalSettings.BRAND_NAME,'sourceList':globalSettings.SOURCE_LIST , 'commonApps' : globalSettings.SHOW_COMMON_APPS , 'defaultState' : state, 'limit_expenses_count':globalSettings.LIMIT_EXPENSE_COUNT  , 'MATERIAL_INWARD' : MATERIAL_INWARD, 'DIVISIONPK' : divisionPk , "SIP" : SIP_DETAILS ,"NOTIFICATIONCOUNT":notificationCount,'telephony' : telephony , 'simpleMode' : simpleMode, 'messaging' : messaging,  "wampLongPoll" : globalSettings.WAMP_LONG_POLL,'langDataList' : langDataList,'menusData':menusData,'freeQuotaExcceded':freeQuotaExcceded,'enterpriseSubscriptionReq' : enterpriseSubscriptionReq})
+    ,'BRAND_NAME' :  globalSettings.BRAND_NAME,'sourceList':globalSettings.SOURCE_LIST , 'commonApps' : globalSettings.SHOW_COMMON_APPS , 'defaultState' : state, 'limit_expenses_count':globalSettings.LIMIT_EXPENSE_COUNT  , 'MATERIAL_INWARD' : MATERIAL_INWARD, 'DIVISIONPK' : divisionPk , "SIP" : SIP_DETAILS ,"NOTIFICATIONCOUNT":notificationCount,'telephony' : telephony , 'simpleMode' : simpleMode, 'messaging' : messaging,  "wampLongPoll" : globalSettings.WAMP_LONG_POLL,'langDataList' : langDataList,'menusData':menusData,'freeQuotaExcceded':freeQuotaExcceded,'enterpriseSubscriptionReq' : enterpriseSubscriptionReq,'API_KEY':divApikey})
     # response.set_cookie('lang', 'en')
     return response
 
@@ -619,7 +629,9 @@ def generateOTPView(request):
 def adminView(request):
     if not request.user.is_superuser:
         return redirect(reverse('ERP'))
-    return render(request , 'app.adminView.html', {'wamp_prefix' : globalSettings.WAMP_PREFIX} )
+    users = User.objects.filter(designation__division = request.user.designation.division.pk)
+    usersCount = users.count()
+    return render(request , 'app.adminView.html', {'wamp_prefix' : globalSettings.WAMP_PREFIX,'users':usersCount} )
 
 def bankloanform(request):
     return render(request , 'app.bankloan.form.html' , {})

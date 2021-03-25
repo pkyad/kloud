@@ -144,7 +144,7 @@ $scope.getData = function(){
       }
     }
   });
-  
+
   new Chart(document.getElementById('admin-main-line-chart'), {
     type: 'line',
     data: {
@@ -200,8 +200,9 @@ $scope.getData = function(){
    $scope.getAppDetails()
  })
 
- app.controller('businessManagement.kloudERP', function($scope, $state, $stateParams, $http, Flash, $uibModal) {
+ app.controller('businessManagement.kloudERP', function($scope,$users, $state, $stateParams, $http, Flash, $uibModal) {
 
+   $scope.me = $users.get('mySelf')
    $scope.searchForm = {
      searchValue: ''
 

@@ -12,7 +12,7 @@ app.config(function($stateProvider) {
     templateUrl: '/static/ngTemplates/app.finance.products.html',
     controller: 'businessManagement.catalog'
   }).state('businessManagement.form', {
-    url: "/product/:id/new",
+    url: "/product/:id/new/:productid",
     templateUrl: '/static/ngTemplates/app.finance.inventoryProductCatalog.modal.html',
     controller: 'businessManagement.form'
   })
@@ -22,6 +22,9 @@ app.config(function($stateProvider) {
 
 app.controller('businessManagement.form', function($scope, $http, $aside, $state, Flash, $users, $filter, $uibModal) {
 
+  console.log($state.params,"klll");
+
+  console.log($scope.allCategories,"342112312");
   $scope.show = false;
   $scope.productMetaSearch = function(query) {
     return $http.get('/api/ERP/productMeta/?search=' + query).
@@ -59,6 +62,22 @@ app.controller('businessManagement.form', function($scope, $http, $aside, $state
     $scope.custIndex = null
   }
   $scope.refresh()
+
+  $scope.getCategory = function(){
+    // var url="/api/finance/category/"
+    $http({
+      method: 'GET',
+      // url: 'https://bnistore.in/api/ecommerce/genericProduct/?limit='+$scope.limit+'&offset='+$scope.offset
+      url: '/api/finance/inventory/?category='+$state.params.id
+
+    }).
+    then(function(response) {
+      // $scope.allCategories = response.data.results
+      $scope.form.sku = 'SKU00'+response.data.length
+    })
+  }
+
+  $scope.getCategory()
 
   // $scope.addCustomisation = function(){
   //   $scope.form.customizationData.push($scope.customization)
@@ -150,8 +169,9 @@ app.controller('businessManagement.form', function($scope, $http, $aside, $state
     }
     $scope.reader.onload = function(e) {
       $('#image1').attr('src', e.target.result);
+      $('#image4').attr('src', e.target.result);
+      $scope.showfullImage('image4')
     }
-
     $scope.reader.readAsDataURL(newValue);
   })
 
@@ -162,10 +182,11 @@ app.controller('businessManagement.form', function($scope, $http, $aside, $state
     }
     $scope.reader.onload = function(e) {
       $('#image2').attr('src', e.target.result);
+      $('#image5').attr('src', e.target.result);
+      console.log(e.target.result,"kllkl");
     }
 
     $scope.reader.readAsDataURL(newValue);
-
 
   })
   $scope.$watch('form.img3' , function(newValue , oldValue) {
@@ -175,6 +196,7 @@ app.controller('businessManagement.form', function($scope, $http, $aside, $state
     }
     $scope.reader.onload = function(e) {
       $('#image3').attr('src', e.target.result);
+      $('#image6').attr('src', e.target.result);
     }
 
     $scope.reader.readAsDataURL(newValue);
@@ -208,11 +230,12 @@ app.controller('businessManagement.form', function($scope, $http, $aside, $state
     //   Flash.create("warning", 'Add Price')
     //   return
     // }
+    var rate = ($scope.form.mrp-($scope.form.mrp*$scope.form.buyingPrice)/100)+((($scope.form.mrp-($scope.form.mrp*$scope.form.buyingPrice)/100)*$scope.form.taxRate)/100)
 
     var fd = new FormData();
     fd.append('name', $scope.form.name);
     fd.append('value', $scope.form.value);
-    fd.append('rate', $scope.form.rate);
+    fd.append('rate', rate);
     fd.append('buyingPrice', $scope.form.buyingPrice);
     fd.append('category',$state.params.id);
     fd.append('mrp',$scope.form.mrp);
@@ -249,9 +272,18 @@ app.controller('businessManagement.form', function($scope, $http, $aside, $state
       fd.append('customizationData',JSON.stringify($scope.form.customizationData));
     }
 
+    if ($state.params.productid == '' || $state.params.productid == undefined) {
+      var method = "POST"
+      var url = '/api/finance/inventory/'
+    }else {
+      method ="PATCH"
+      url = '/api/finance/inventory/'+$state.params.productid+'/'
+
+    }
+
     $http({
-      method: 'POST',
-      url: '/api/finance/inventory/',
+      method: method,
+      url:url ,
       data: fd,
       transformRequest: angular.identity,
       headers: {
@@ -260,12 +292,36 @@ app.controller('businessManagement.form', function($scope, $http, $aside, $state
     }).
     then(function(response) {
       Flash.create("success", 'Saved')
-      $uibModalInstance.dismiss()
-      $scope.refresh()
+      if ($state.params.productid == '' || $state.params.productid == undefined) {
+
+        $scope.refresh()
+      }else {
+        return
+      }
     })
 
   }
 
+
+  $scope.showfullImage = function(id ){
+    console.log();
+    $scope.image =  document.getElementById(id).src
+  }
+
+  if ($state.params.productid != undefined || $state.params.productid != '' ) {
+      $http({
+        method: 'GET',
+        url:'/api/finance/inventory/'+$state.params.productid+'/' ,
+
+      }).
+      then(function(response) {
+        $scope.form = response.data
+        $scope.form.sku = response.data.sku
+
+        console.log(response.data,"lakdflasldf");
+      })
+      $scope.showfullImage('image4')
+  }
 
 })
 

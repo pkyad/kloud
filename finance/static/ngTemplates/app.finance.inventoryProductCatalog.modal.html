@@ -19,145 +19,185 @@
   <div class="col-md-11">
     <h3>Add master product</h3>
   </div>
-  <div class="col-md-1" style="padding-top:10px">
+  <!-- <div class="col-md-1" style="padding-top:10px">
     <button class="btn btn-primary" ng-click="close()"><i class="fa fa-close"></i></button>
-  </div>
+  </div> -->
 </div>
 <div class="modal-body">
   <div class="row">
     <div class="col-md-6">
-      <div class="form-group">
-        <label>Product name </label>
-        <input type="text " class="form-control websiteInput" ng-model="form.name">
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>MRP</label>
-        <input type="text " class="form-control websiteInput" ng-model="form.mrp">
-      </div>
-    </div>
-     <div class="col-md-3">
-      <div class="form-group">
-        <label>Discount</label>
-        <input type="text " class="form-control websiteInput" ng-model="form.buyingPrice">
-      </div>
-    </div> 
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Product name </label>
+            <input type="text " class="form-control websiteInput" ng-model="form.name">
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Rate</label>
+            <input type="text " class="form-control websiteInput" ng-model="form.mrp">
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Discount</label>
+            <input type="text " class="form-control websiteInput" ng-model="form.buyingPrice">
+          </div>
+        </div>
 
-  <!--  
-  <div class="col-md-3">
-      <div class="form-group">
-        <label></label>
-        <input type="text " class="form-control websiteInput" ng-model="form.rate">
-      </div>
-    </div> 
+        <!--
+          <div class="col-md-3">
+            <div class="form-group">
+              <label></label>
+              <input type="text " class="form-control websiteInput" ng-model="form.rate">
+            </div>
+          </div>
 
-    -->
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Product SKU</label>
-        <input type="text" class="form-control websiteInput" ng-model="form.sku">
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Tax Code</label>
-        <input type="text" class="form-control websiteInput" ng-model="form.taxCode" uib-typeahead="meta as  (meta.code + ' : ' + meta.description) for meta in productMetaSearch($viewValue)" typeahead-on-select="selectedMeta()">
+        -->
 
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Tax Rate</label>
-        <input type="text" class="form-control websiteInput" ng-model="form.taxRate">
-      </div>
-    </div>
-    <!-- <div class="col-md-3">
-      <div class="form-group">
-        <label>Tax Description</label>
-      <input type="text" class="form-control websiteInput" ng-model="form.taxDescription">
-      </div>
-    </div> -->
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Description</label>
-        <textarea class="form-control websiteInput" rows="3" placeholder="Description" ng-model="form.richtxtDesc"></textarea>
-      </div>
-    </div>
 
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Image1</label>
-        <input type="file" file-model="form.img1">
-        <img src="{{form.img1}}" style="width:100px;height:100px;margin-top:10px;" id="image1" alt="image1">
+        <!-- <div class="col-md-3">
+          <div class="form-group">
+            <label>Tax Description</label>
+            <input type="text" class="form-control websiteInput" ng-model="form.taxDescription">
+          </div>
+        </div> -->
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Description</label>
+            <textarea class="form-control websiteInput" rows="3" placeholder="Description" ng-model="form.richtxtDesc"></textarea>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Image1</label>
+            <input type="file" file-model="form.img1">
+            <img src="{{form.img1}}" style="width:100px;height:100px;margin-top:10px;" id="image1" alt="image1">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Image2</label>
+            <input type="file" file-model="form.img2">
+            <img src="" style="width:100px;height:100px;margin-top:10px;" id="image2" alt="image2">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Image3</label>
+            <input type="file" file-model="form.img3">
+            <img src="{{form.img3}}" style="width:100px;height:100px;margin-top:10px;" id="image3" alt="image3">
+          </div>
+        </div>
       </div>
+      <div class="text-center" >
+        <h4 ng-click="show= true;"  > {{show?'':'SHOW MORE'}}</h4>
+      </div>
+      <div class="row" ng-if="show">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Tax Code</label>
+            <input type="text" class="form-control websiteInput" ng-model="form.taxCode" uib-typeahead="meta as  (meta.code + ' : ' + meta.description) for meta in productMetaSearch($viewValue)" typeahead-on-select="selectedMeta()">
+
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Tax Rate</label>
+            <input type="text" class="form-control websiteInput" ng-model="form.taxRate">
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Product SKU</label>
+            <input type="text" class="form-control websiteInput" ng-model="form.sku">
+          </div>
+        </div>
+        <div class="col-md-12">
+          <h4>Addons</h4>
+        </div>
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-12">
+              <table class="table table-hover pad10">
+                <thead>
+                  <tr style="">
+                    <th> Description </th>
+                    <th>Price</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="a in form.addonsData track by $index" ng-click="editAddons($index)">
+                    <td>{{a.description}}</td>
+                    <td>{{a.price}} </td>
+                    <td><i class="fa fa-trash fa-lg" ng-click="$event.stopPropagation()" mwl-confirm title="Delete the Company"  message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>"
+                      cancel-text="No" on-confirm="deleteAddons($index)" confirm-button-type="success" cancel-button-type="default" placement="bottom" ></i></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- <div class="col-md-6" style="padding:15px;font-size:15px;border:1px solid black">
+                  {{a.description}}
+                </div>
+                <div class="col-md-2" style="padding:15px;font-size:15px;border:1px solid black">
+                  {{a.price}}
+                </div> -->
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <input type="text" class="form-control websiteInput" ng-model="addons.description" placeholder="Description">
+              </div>
+              <div class="col-md-2">
+                <input type="text" class="form-control websiteInput" ng-model="addons.price" placeholder="Price">
+              </div>
+              <div class="col-md-2" style="margin-top:15px">
+                <button type="button" name="button" class="btn btn-block" ng-click="addAddons()">Add</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
     </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Image2</label>
-        <input type="file" file-model="form.img2">
-        <img src="" style="width:100px;height:100px;margin-top:10px;" id="image2" alt="image2">
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Image3</label>
-        <input type="file" file-model="form.img3">
-        <img src="{{form.img3}}" style="width:100px;height:100px;margin-top:10px;" id="image3" alt="image3">
-      </div>
+    <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-3">
+                <img src="{{form.img1}}" style="width:50px;height:50px;margin-top:10px;" id="image4" alt="" ng-click="showfullImage('image4')"><br>
+                <img src="{{form.img2}}" style="width:50px;height:50px;margin-top:10px;" id="image5" alt="" ng-click="showfullImage('image5')"><br>
+                <img src="{{form.img3}}" style="width:50px;height:50px;margin-top:10px;" id="image6" alt="" ng-click="showfullImage('image6')"><br>
+
+              </div>
+              <div class="col-md-9">
+                <img src="{{image}}" style="width:100%;" alt="">
+
+              </div>
+            </div>
+
+          </div>
+          <div class="col-md-6">
+            <h3><b>{{form.name}} {{form.sku}} </b></h3>
+            <p>
+              <b style="font-size:20px;margin-right:5px;" ><i class="fa fa-inr" ></i>{{(form.mrp-(form.mrp*form.buyingPrice)/100)+(((form.mrp-(form.mrp*form.buyingPrice)/100)*form.taxRate)/100) | number:2}}</b>
+
+
+              <s style="margin-left:10px;"> <i class="fa fa-inr"></i>{{form.mrp}}</s>
+              <!-- <span ng-if="form.taxRate"> +  <i class="fa fa-inr"></i> {{((form.mrp-(form.mrp*form.buyingPrice)/100)*form.taxRate)/100 | number:2}} <span style="color:green">GST</span></span>  -->
+
+
+
+            </p>
+            <p>{{form.richtxtDesc}}</p>
+          </div>
+        </div>
     </div>
   </div>
   <hr />
 
 
-  <div class="text-center" > 
-    <h4 ng-click="show= true;"  > {{show?'':'SHOw MORE'}}</h4>
-   </div>
-  <div class="row" ng-if="show">
-    <div class="col-md-12">
-      <h4>Addons</h4>
-    </div>
-    <div class="col-md-12">
-      <div class="row">
-        <div class="col-md-12">
-          <table class="table table-hover pad10">
-            <thead>
-              <tr style="">
-                <th> Description </th>
-                <th>Price</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="a in form.addonsData track by $index" ng-click="editAddons($index)">
-                <td>{{a.description}}</td>
-                <td>{{a.price}} </td>
-                <td><i class="fa fa-trash fa-lg" ng-click="$event.stopPropagation()" mwl-confirm title="Delete the Company"  message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>"
-                  cancel-text="No" on-confirm="deleteAddons($index)" confirm-button-type="success" cancel-button-type="default" placement="bottom" ></i></td>
-              </tr>
-            </tbody>
-          </table>
-          <!-- <div class="col-md-6" style="padding:15px;font-size:15px;border:1px solid black">
-            {{a.description}}
-          </div>
-          <div class="col-md-2" style="padding:15px;font-size:15px;border:1px solid black">
-            {{a.price}}
-          </div> -->
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <input type="text" class="form-control websiteInput" ng-model="addons.description" placeholder="Description">
-        </div>
-        <div class="col-md-2">
-          <input type="text" class="form-control websiteInput" ng-model="addons.price" placeholder="Price">
-        </div>
-        <div class="col-md-2" style="margin-top:15px">
-          <button type="button" name="button" class="btn btn-block" ng-click="addAddons()">Add</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
 
   <!--
@@ -223,7 +263,7 @@
               </div>
             </div>
             <div class="col-md-9" id="customizationDiv">
-           
+
                 <div class="row">
                   <div class="col-md-8">
                       <label>Description</label>
@@ -311,9 +351,9 @@
       </div>
           </div> -->
 
-        
-  
-     
+
+
+
   <div class="row">
     <div class="col-md-12" style="padding-top:25px">
       <button type="button" class="btn newBtn" ng-click="saveInventory()">Save</button>

@@ -1,6 +1,7 @@
 from django.core.exceptions import PermissionDenied , SuspiciousOperation
 import re
 from django.conf import settings as globalSettings
+import datetime
 regex = re.compile('^HTTP_')
 apiList = ['api/marketing/schedule','api/marketing/leads','api/marketing/inviteMail']
 
@@ -23,6 +24,7 @@ class simple_middleware(object):
                 if any(api in request.META['PATH_INFO'] for api in apiList):
                     if 'HTTP_X_CSRFTOKEN' not in request.META:
                         request.META['HTTP_X_CSRFTOKEN'] = str(request.META['HTTP_COOKIE']).split(';')[0].split('csrftoken=')[1]
+
                         # print 'updateddddddddddddddddd HTTP_X_CSRFTOKEN '
             except:
                 pass
