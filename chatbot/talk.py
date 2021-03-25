@@ -571,7 +571,7 @@ def getResponse(txt, ctx , compProfile , fil = None):
     servce = compProfile
     if DEBUG:
         print ctx
-    if (txt is None and fil is not None) or (txt is not None and len(txt) >= 2):
+    if (txt is None and fil is not None) or (txt is not None ):
         print ctx["step_id"] , "step_id"
 
         if ctx["step_id"] == None:
@@ -1188,8 +1188,18 @@ def getResponse(txt, ctx , compProfile , fil = None):
 
             choiceSimMatrix.sort(key=lambda x: x.sim, reverse=True)
 
+            indexMatch = None
+            try:
+                indexMatch = int(txt)
+            except:
+                pass
+
             if len(choiceSimMatrix)>0:
                 nxt = choiceSimMatrix[0]
+                ctx[config.context_key] = txt
+                saveContext(config.context_key  , 'str' , ctx)
+            elif indexMatch is not None:
+                nxt = config.connections.all()[indexMatch]
                 ctx[config.context_key] = txt
                 saveContext(config.context_key  , 'str' , ctx)
             else:
