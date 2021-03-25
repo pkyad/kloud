@@ -1050,6 +1050,8 @@ app.directive('appdetailedView', function() {
       // addCart: '='
     },
     controller: function($scope, $state, $http, Flash, $rootScope, $filter,$location, $users, $timeout,$uibModal) {
+      // alert('988999')
+      console.log($scope.id,"uioiuuoiioiuoiouuiobn  b mn");
       $scope.isMobile = false
       if (screen.width <= 480) {
         $scope.isMobile = true
@@ -1110,7 +1112,8 @@ app.directive('appdetailedView', function() {
       if ($state.is('workforceManagement.appDetails')) {
         var id = $state.params.id;
       }else{
-        var id = window.location.href.split('=')[1]
+        var id = APP_ID
+        console.log(APP_ID);
       }
 
 

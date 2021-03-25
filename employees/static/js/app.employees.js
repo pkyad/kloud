@@ -13,7 +13,7 @@ app.config(function($stateProvider) {
     })
     .state('workforceManagement.appDetails', {
       url: "/appDetails/:id",
-      template: '<appdetailed-view> </appdetailed-view>',
+      template: '<appdetailed-view id="$state.params.id"> </appdetailed-view>',
       controller: 'controller.appStore',
     })
     .state('workforceManagement.employees', {

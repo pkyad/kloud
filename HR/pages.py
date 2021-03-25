@@ -285,9 +285,14 @@ def renderheaderfooter(request):
     return render(request, 'app.HR.headerandfooter.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
 
 def appdetails(request):
-    # app = application.objects.get(pk = request.GET['id'])
+    app = application.objects.get(pk = request.GET['id'])
     # appMedia = app.appMedia.all()
-    return render(request, 'app.HR.appdetails.html')
+    return render(request, 'app.HR.appdetails.html',{'APP_NAME':app.name,'APP_ID':app.pk})
+def appDetails(request,name):
+    print name,'kllk'
+    app = application.objects.get(name__iexact = name)
+    # appMedia = app.appMedia.all()
+    return render(request, 'app.HR.appdetails.html',{'APP_NAME':name,'APP_ID':app.pk})
 
 
 
@@ -480,7 +485,10 @@ def blog(request ):
 
     pageNumber = 1
     offset = pageNumber*6
-    articlesAll = Article.objects.all()
+    if request.user.designation.division.pk:
+        articlesAll = Article.objects.filter(division = request.user.designation.division)
+    else:
+        articlesAll = Article.objects.filter(division = globalSettings.PARENT_DIVSION)
     # totalCatg = Catrgory.objects.all()
     # for i in totalCatg:
     #     articlescount = Article.objects.filter(category = i).count()
@@ -534,7 +542,10 @@ def Divisionblogs(request,apiKey ):
 
     pageNumber = 1
     offset = pageNumber*6
-    articlesAll = Article.objects.all()
+    if request.user.designation.division.pk:
+        articlesAll = Article.objects.filter(division = request.user.designation.division)
+    else:
+        articlesAll = Article.objects.filter(division = globalSettings.PARENT_DIVSION)
     # totalCatg = Catrgory.objects.all()
     # for i in totalCatg:
     #     articlescount = Article.objects.filter(category = i).count()
@@ -600,8 +611,10 @@ def DivisionblogDetails(request ,apiKey, articleUrl):
     randPks = []
     randPkss = None
     data={}
-
-    relatedArticles = Article.objects.all()[0:5]
+    if request.user.designation.division.pk:
+        relatedArticles = Article.objects.filter(division = request.user.designation.division)[0:5]
+    else:
+        relatedArticles = Article.objects.filter(division = globalSettings.PARENT_DIVSION)[0:5]
     for i in relatedArticles:
         if i.contents.all().count() >0:
             if i.contents.all()[0].img:
@@ -619,13 +632,18 @@ def renderedArticleView(request , articleUrl):
     intro = article.contents.all()[0]
 
 
-    blogs = Article.objects.all()
     restsec = article.contents.all()[1:]
-    randPks = []
     randPkss = None
     data={}
 
-    relatedArticles = Article.objects.all()[0:5]
+    if request.user.designation.division.pk:
+        relatedArticles = Article.objects.filter(division = request.user.designation.division)[0:5]
+        randPks = Article.objects.filter(division = request.user.designation.division).order_by('-created')[0:5]
+        blogs = Article.objects.filter(division = request.user.designation.division)
+    else:
+        relatedArticles = Article.objects.filter(division = globalSettings.PARENT_DIVSION)[0:5]
+        randPks = Article.objects.filter(division = globalSettings.PARENT_DIVSION).order_by('-created')[0:5]
+        blogs = Article.objects.filter(division = request.user.designation.division)
     for i in relatedArticles:
         if i.contents.all().count() >0:
             if i.contents.all()[0].img:
@@ -633,7 +651,7 @@ def renderedArticleView(request , articleUrl):
 
 
     # return render(request , 'app.HR.articleView.html' , { "article" : article })
-    return render(request , 'app.HR.articleView.html' , { "article" : article , "intro" : intro ,"restsec":restsec, "relatedArticles" : relatedArticles,"comments":comments,'blogs':blogs,'randPks':Article.objects.all().order_by('-created')[:5]})
+    return render(request , 'app.HR.articleView.html' , { "article" : article , "intro" : intro ,"restsec":restsec, "relatedArticles" : relatedArticles,"comments":comments,'blogs':blogs,'randPks':randPks})
 
 
 def renderedModalView(request ):

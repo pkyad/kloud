@@ -320,7 +320,7 @@ height: 100%;" >
           <div  class="display_picture_view" style="background-image:url({{u.dp?u.dp:'/static/images/userIcon.png'}})">
           </div>
         </div>
-        <div class="col-md-8 col-sm-9 col-xs-2" style="font-size: 1vw;">
+        <div class="col-md-7 col-sm-9 col-xs-2" style="font-size: 1vw;">
           <div class="row" style="margin:0px;border-bottom:1px solid #f5f5f5;height:60px;">
             <div class="">
               <h5>
@@ -343,7 +343,12 @@ height: 100%;" >
             </div>
           </div>
         </div>
-        <div class="col-md-1 col-sm-1 " style="padding:0px;">
+        <div class="col-md-1" style="padding:10px; 0px" ng-if="u.unreadMsgs>0">
+          <div class="text-center" style="width:25px;height:25px;background-color:#3bd17a;border-radius:50%;padding:3px;">
+            <span style="color:white;"><b>{{u.unreadMsgs}}</b></span>
+          </div>
+        </div>
+        <div class="col-md-1 col-sm-1 " style="padding:10px 0px;">
             <!-- <i class="fa fa-star"> </i> -->
             <img ng-if="u.is_pin" src="/static/images/icons8-star-filled-48.png" style="height:20px" ng-click="u.is_pin=!u.is_pin;updatePinned(u.pk,u.is_pin)">
             <img class="pinned" ng-if="!u.is_pin" src="/static/images/icons8-star-filled-50.png" style="height:20px" ng-click="u.is_pin=!u.is_pin;updatePinned(u.pk,u.is_pin)">

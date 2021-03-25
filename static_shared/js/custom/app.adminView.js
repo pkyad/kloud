@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ui.router','flash', 'ui.bootstrap','chart.js']);
+var app = angular.module('app', ['ui.router','flash', 'ui.bootstrap','chart.js','uiSwitch']);
 var emptyFile = new File([""], "");
 app.config(function($httpProvider,$stateProvider, $urlRouterProvider,$provide) {
 
@@ -402,7 +402,8 @@ $scope.getData = function(){
        telephony: $scope.data.telephony,
        messaging: $scope.data.messaging,
        locked: $scope.data.locked,
-       freeQuotaExcceded : $scope.data.freeQuotaExcceded
+       freeQuotaExcceded : $scope.data.freeQuotaExcceded,
+       enableWelcome : $scope.data.enableWelcome
      }
      $http({
        method: 'PATCH',

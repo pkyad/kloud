@@ -195,13 +195,25 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
     color: black
   }
+  .messageColumn{
+    position:absolute;
+    width:66%;
+  }
+  @keyframes example {
+
+    { left:0px; right:200px;
+
+
+
+    }
+}
 </style>
 <div class="col-md-9 col-sm-8 pull-right " style="padding:0px;" id="messenger">
   <div class="row" style=";margin:0px;">
-    <div class="{{user.is_show?'col-md-8':'col-md-12'}} bgImg " style="padding:0px;">
+    <div class="{{user.is_show?'col-md-8 ':'col-md-12'}} bgImg " style="padding:0px;transition:width 500ms;   transition-timing-function:cubic-bezier(.1,.82,.25,1)">
       <div class="row" style="margin:0px;position:sticky;z-index:1;">
         <div class="" style="background-color:#ededed;height:60px;padding:10px;">
-          <div class=" {{user.is_show?'col-md-2':'col-md-1'}}  " ng-click="user.is_show=true">
+          <div class=" {{user.is_show?'col-md-1':'col-md-1'}}  " style="padding:0px;" ng-click="user.is_show=true">
             <!-- <div class="">
               <img ng-src="{{user.dp}}" src="p/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
             </div> -->
@@ -219,7 +231,7 @@
             <!-- <i style="padding:10px" class="fa fa-thumb-tack fa-lg " ng-click="setToPin()"></i> -->
             <img  ng-if="user.is_pin" src="/static/images/icons8-star-filled-48.png" style="height:20px;margin-top:10px;" ng-click="setToPin()" class="pull-right">
             <img ng-if="!user.is_pin" src="/static/images/icons8-star-filled-50.png" style="height:20px;margin-top:10px;"ng-click="setToPin()" class="pull-right">
-
+            
 
 
         </div>
@@ -904,8 +916,9 @@
 
     </div>
     </div>
-    <div class="col-md-4 col-sm-12 Messenger_groupInfo" ng-if="user.is_show" style="">
-      <div class="row" style="height: 92.5vh;overflow-y: scroll;scrollbar-width: none;padding: 0px 10px;">
+    <div class="col-md-4 pull-right col-sm-12 Messenger_groupInfo" ng-if="user.is_show" style="transition:width 10ms;   transition-timing-function:cubic-bezier(.1,.82,.25,1);
+" >
+      <div class="row" style="height: 92.5vh;overflow-y: scroll;scrollbar-width: none;padding: 0px 10px;transition:width 10s ease-in-out">
         <div class="row" style="position: sticky;top: 0;z-index: 1;">
           <div class="" style="background-color:#ededed;height:60px;padding:20px 10px;" ng-click="user.is_show=true">
             <div class="col-md-12">

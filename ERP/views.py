@@ -54,7 +54,7 @@ import ast
 from simplecrypt import encrypt, decrypt
 from clientRelationships.models import ContactAuth
 from clientRelationships.serializers import ContactLiteSerializer
-from chatbot.talk import *
+# from chatbot.talk import *
 from twilio.rest import Client
 import html2text
 from django.template.loader import render_to_string, get_template
@@ -180,7 +180,7 @@ def loginView(request):
                     else:
                         division = None
                     return JsonResponse({'csrf_token':csrf_token , "pk" : user.pk , "division" : division} , status = 200)
-                return redirect('/')
+                return redirect('/ERP/')
             else:
                 authStatus = {'status' : 'warning' , 'message' : 'Your account is Inactive'}
 
@@ -402,7 +402,7 @@ def home(request):
 
 
     print "is staff : " , u.is_staff , "is super user : " , u.is_superuser
-    if u.profile.onboarding == False and not (u.is_staff or u.is_superuser):
+    if u.profile.onboarding == False and division.enableWelcome == True and not (u.is_staff or u.is_superuser):
         return redirect('welcome')
 
     apps = application.objects.all()
@@ -1196,7 +1196,7 @@ def versionDetails(request,app):
     #     selectedObj = obj.first()
     #     data = {'minVersion' : selectedObj.minVersion , 'latestVersion' : selectedObj.latestVersion}
     print app,'ssssssssssssss'
-    alldata = {'app.CRM':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.messenger':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.contacts':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.klouderp':{'playstore' : {'version':'1.0.3', 'url':'','redirect':True},'appstore' : {'version':'1.0.3', 'url':'','redirect':True}},'app.calendar':{'playstore' : {'version':'1.0.1', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.serviceengineer':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.sales':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.expenses':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.hiring':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.payroll':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.attendance':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}}}
+    alldata = {'app.CRM':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.messenger':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.contacts':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.klouderp':{'playstore' : {'version':'1.0.3', 'url':'','redirect':True},'appstore' : {'version':'1.0.3', 'url':'','redirect':True}},'app.calendar':{'playstore' : {'version':'1.0.1', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.serviceengineer':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.sales':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.expenses':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.hiring':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.payroll':{'playstore' : {'version':'0.0.1', 'url':'','redirect':True},'appstore' : {'version':'0.0.1', 'url':'','redirect':True}},'app.attendance':{'playstore' : {'version':'0.0.1', 'url':'','redirect':True},'appstore' : {'version':'0.0.1', 'url':'','redirect':True}}}
     data = alldata[app]
     return JsonResponse(data)
 
