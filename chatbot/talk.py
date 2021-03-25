@@ -1190,7 +1190,7 @@ def getResponse(txt, ctx , compProfile , fil = None):
 
             indexMatch = None
             try:
-                indexMatch = int(txt)
+                indexMatch = int(txt)-1
             except:
                 pass
 
