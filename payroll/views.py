@@ -337,18 +337,18 @@ class GetPayslip(APIView):
             response = HttpResponse(content_type='application/pdf')
             response['Content-Disposition'] = 'attachment;filename="payslip.pdf"'
             payslip(response , payrol , user ,report,month, year, request)
-            if 'output' in request.GET:
-                filePath = os.path.join(globalSettings.BASE_DIR, 'media_root/payslip%s.pdf' %
-                                      ( datetime.datetime.now(pytz.timezone('Asia/Kolkata')).year))
-                f = open(filePath, 'wrb')
-                f.write(response.content)
-                f.close()
-                file_name = 'media/' + filePath.split('/')[-1]
-                return Response({'fileUrl' : file_name }, status = status.HTTP_200_OK)
 
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment;filename="payslipdownload.pdf"'
         payslip(response , payrol , user ,report,month, year, request)
+        if 'output' in request.GET:
+            filePath = os.path.join(globalSettings.BASE_DIR, 'media_root/payslip%s.pdf' %
+            ( datetime.datetime.now(pytz.timezone('Asia/Kolkata')).year))
+            f = open(filePath, 'wrb')
+            f.write(response.content)
+            f.close()
+            file_name = 'media/' + filePath.split('/')[-1]
+            return Response({'fileUrl' : file_name }, status = status.HTTP_200_OK)
         return response
 
 months = ["","January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
