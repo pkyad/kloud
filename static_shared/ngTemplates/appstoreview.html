@@ -682,7 +682,7 @@
                     </div>
                     <div class="col-md-8 col-xs-6">
                       <h4 class="font25" style="padding-bottom:10px;">{{k.displayName}} </h4>
-                      <p style="height:20px;">4.3 <i class="fa fa-star"></i></p>
+                      <p style="height:20px;">{{k.totalRatings}} <i class="fa fa-star"></i></p>
                       <div class="installed " style="{{k.displayName.length>15?'bottom: 45px;':'bottom: 22px'}};" ng-if="k.is_app_installed">
                         <!-- <img src="/static/images/icons8-check-mark-144.png" style="width: 47px;transform: rotate(-56deg);margin-top: 54px;" alt=""> -->
                         <div class="font11" style="width: 40px;transform: rotate(90deg);margin-top: 54px;color: white;"> INSTALLED  </div>
@@ -708,7 +708,7 @@
                     </div>
                     <div class="col-md-8 col-xs-6">
                       <h4 class="font25" style="padding-bottom:10px;">{{k.displayName}}</h4>
-                      <p style="height:20px;">4.3 <i class="fa fa-star"></i></p>
+                      <p style="height:20px;">{{k.totalRatings}} <i class="fa fa-star"></i></p>
                       <div class="installed" style="{{k.displayName.length>15?'bottom: 45px;':'bottom: 22px'}};" ng-if="k.is_app_installed">
                         <!-- <img src="/static/images/icons8-check-mark-144.png" style="width: 47px;transform: rotate(-56deg);margin-top: 54px;" alt=""> -->
                         <div class="font11"style="width: 40px;transform: rotate(90deg);margin-top: 54px;color: white;"> INSTALLED </div>

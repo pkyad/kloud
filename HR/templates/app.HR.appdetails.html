@@ -95,8 +95,8 @@ margin-bottom:20px;
 
 {% block content %}
 
+<appdetailed-view id="{{API_ID}}" > </appdetailed-view>
 {% verbatim %}
-  <appdetailed-view > </appdetailed-view>
 {% endverbatim %}
 
 {% endblock %}
@@ -105,4 +105,11 @@ margin-bottom:20px;
 
 {% block footer %}
   {% include 'app.HR.pagefooter.html'%}
+{% endblock %}
+
+{% block pageJS%}
+<script type="text/javascript">
+  var APP_ID="{{APP_ID}}"
+
+</script>
 {% endblock %}

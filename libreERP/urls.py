@@ -67,6 +67,7 @@ urlpatterns = [
     url(r'^renderheaderfooter/', renderheaderfooter , name ='renderheaderfooter'),
     url(r'^headerfooter/', headerfooter , name ='headerfooter'),
     url(r'^appdetails/', appdetails , name ='appdetails'),
+    url(r'^app/(?P<name>[\w|\W]+)/', appDetails , name ='appDetails'),
     # url(r'^details/(?P<div>[\w|\W]+)/(?P<id>\d+)', ProductDetails , name ='ProductDetails'),
     # url(r'^categories/(?P<div>[\w|\W]+)/(?P<id>\d+)', Categories , name ='Categories'),
     url(r'^products/(?P<id>\d+)', getProducts , name ='products'),

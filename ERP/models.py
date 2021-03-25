@@ -61,7 +61,7 @@ class application(models.Model):
     appStoreUrl = models.TextField(max_length = 500 , null = True )
     playStoreUrl = models.TextField(max_length = 500 , null = True )
     inMenu = models.BooleanField(default = True)
-    totalRatings = models.FloatField(null=True , default=0)
+    totalRatings = models.FloatField(null=True , default=4.5)
     def __unicode__(self):
         return self.name
 
@@ -260,6 +260,7 @@ class Division(models.Model):
     pageType =  models.CharField(max_length = 100 , null = True ,blank=True)
     expenseData =  models.TextField(max_length = 1000 , null = True)
     last_login = models.DateTimeField(auto_now_add = True, null = True)
+    enableWelcome = models.BooleanField(default = False)
     # address
     # themeColor
     # invoiceVersion

@@ -178,7 +178,7 @@ def loginView(request):
                     else:
                         division = None
                     return JsonResponse({'csrf_token':csrf_token , "pk" : user.pk , "division" : division} , status = 200)
-                return redirect('/')
+                return redirect('/ERP/')
             else:
                 authStatus = {'status' : 'warning' , 'message' : 'Your account is Inactive'}
 
@@ -402,7 +402,7 @@ def home(request):
 
 
     print "is staff : " , u.is_staff , "is super user : " , u.is_superuser
-    if u.profile.onboarding == False and not (u.is_staff or u.is_superuser):
+    if u.profile.onboarding == False and division.enableWelcome == True and not (u.is_staff or u.is_superuser):
         return redirect('welcome')
 
     apps = application.objects.all()

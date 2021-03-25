@@ -224,7 +224,9 @@ class GetCategoryView(APIView):
 
 
 def rootSitemapView(request):
-    stAddress = globalSettings.SITE_ADDRESS + str('/')
+    domain = request.build_absolute_uri('/')[:-1]
+    print domain,"088998098jkjh"
+    stAddress = domain + str('/')
     priority='0.7'
     changefreq = 'weekly'
     sitemapsObjs = []
@@ -255,6 +257,11 @@ def rootSitemapView(request):
     accObj = Course.objects.all()
     for i in accObj:
         addr =  'academy/%s/%s'%(str(i.pk),str(i.urlSuffix))
+        staticData.append({'loc':'{0}{1}'.format(stAddress,addr),'changefreq':changefreq,'priority':priority})
+        ctx['staticData'] = staticData
+    apps = application.objects.all()
+    for i in apps:
+        addr =  'app/%s'%(str(i.name))
         staticData.append({'loc':'{0}{1}'.format(stAddress,addr),'changefreq':changefreq,'priority':priority})
         ctx['staticData'] = staticData
     ctx = {"staticData": staticData}

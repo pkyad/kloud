@@ -3,6 +3,7 @@ from django.contrib.auth.models import User, Group
 from time import time
 from django.db import models
 from django.db import models
+from ERP.models import Division
 
 # Create your models here.
 
@@ -84,7 +85,7 @@ class Article(models.Model):
     status = models.CharField(choices = STATUS_CHOICES, null = False , default = 'created' , max_length = 20)
     read_time = models.PositiveIntegerField(blank=True,null=True)
     ogImg = models.ImageField(upload_to = getArticleImagePath , null = True)
-
+    division= models.ForeignKey(Division , related_name='articles' , null = True)
     def get_absolute_url(self):
         return '/'+ self.articleUrl
 

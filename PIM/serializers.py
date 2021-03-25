@@ -234,8 +234,8 @@ class chatMessageSerializer(serializers.ModelSerializer):
         #     im.delete()
         #     raise ParseError(detail=None)
         # else:
-        
-        
+
+
         if im.message is not None and chatThread.firstMessage is None:
             chatThread.firstMessage = im.message
         else:
@@ -351,12 +351,13 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
     visitor = ContactsSerializer(read_only=True,many=False)
     name = serializers.SerializerMethodField()
     lastmsg = serializers.SerializerMethodField()
+    unreadMsgs = serializers.SerializerMethodField()
     # agent_dp = serializers.SerializerMethodField()
     # companyName = serializers.SerializerMethodField()
     class Meta:
         model = ChatThread
 
-        fields = ( 'pk' , 'created' , 'title', 'participants' , 'description','dp','lastActivity','isLate','visitor','uid','status','customerRating','customerFeedback','company','userDevice','location','userDeviceIp','firstResponseTime','typ','userAssignedTime','firstMessage','channel','transferred','fid','closedOn','closedBy','name','user','is_personal','lastmsg','is_pin')
+        fields = ( 'pk' , 'created' , 'title', 'participants' , 'description','dp','lastActivity','isLate','visitor','uid','status','customerRating','customerFeedback','company','userDevice','location','userDeviceIp','firstResponseTime','typ','userAssignedTime','firstMessage','channel','transferred','fid','closedOn','closedBy','name','user','is_personal','lastmsg','is_pin','unreadMsgs')
 
 
     def create(self ,  validated_data):
@@ -461,6 +462,9 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
     def get_lastmsg(self , obj):
 
         return chatMessageSerializer(obj.messages.all().last(),many=False).data
+    def get_unreadMsgs(self , obj):
+
+        return obj.messages.filter(read=False ).exclude(user = self.context['request'].user).count()
 
 
 
