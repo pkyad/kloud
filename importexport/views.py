@@ -3442,7 +3442,9 @@ class PageNumCanvas1(canvas.Canvas):
 
 def invoice(response, pkVal  , request,flag):
     print flag , "flag value "
-    if flag == "False":
+    flag = str(flag)
+    print type(flag)
+    if flag == 'False':
         styles = getSampleStyleSheet()
         style_right = ParagraphStyle(name='right', parent=styles['Normal'], alignment=TA_RIGHT)
         style_center = ParagraphStyle(name='center', parent=styles['Normal'], alignment=TA_CENTER)
@@ -3668,11 +3670,11 @@ def invoice(response, pkVal  , request,flag):
         s04 =Paragraph("<para fontSize=8 alignment='center'>Rate </para>",styles['Normal'])
         s05 =Paragraph("<para fontSize=8 alignment='center'>Taxable Value </para>",styles['Normal'])
         s20 =Paragraph("<para fontSize=8 alignment='center'>HSN Code </para>",styles['Normal'])
-        s06 =Paragraph("<para fontSize=8 alignment='center'>CGST Rate (%) </para>",styles['Normal'])
+        s06 =Paragraph("<para fontSize=8 alignment='center'>CGST Rate(%) </para>",styles['Normal'])
         s07 =Paragraph("<para fontSize=8 alignment='center'>CGST Amount </para>",styles['Normal'])
-        s08 =Paragraph("<para fontSize=8 alignment='center'>SGST Rate (%)</para>",styles['Normal'])
+        s08 =Paragraph("<para fontSize=8 alignment='center'>SGST Rate(%)</para>",styles['Normal'])
         s09 =Paragraph("<para fontSize=8 alignment='center'>SGST Amount </para>",styles['Normal'])
-        s10 =Paragraph("<para fontSize=8 alignment='center'>IGST Rate (%)  </para>",styles['Normal'])
+        s10 =Paragraph("<para fontSize=8 alignment='center'>IGST Rate(%)  </para>",styles['Normal'])
         s11 =Paragraph("<para fontSize=8 alignment='center'>IGST Amount </para>",styles['Normal'])
         s12 =Paragraph("<para fontSize=8 alignment='center'>Total </para>",styles['Normal'])
         if inv.billCode == '29':
@@ -3730,16 +3732,18 @@ def invoice(response, pkVal  , request,flag):
         else:
             data2.append([s21,s22,s23,s24,s25,s40,s30,s31,s32])
 
+        # print 1/0
+
         if inv.billCode == '29':
-            t9=Table(data2,colWidths=(12*mm,55*mm,12*mm,15*mm,24*mm,20*mm,24*mm,23*mm,24*mm,23*mm,22*mm),repeatRows=1)
+            t9=Table(data2,colWidths=(11*mm,46*mm,12*mm,23*mm,24*mm,20*mm,24*mm,23*mm,24*mm,23*mm,24*mm),repeatRows=1)
         else:
-            t9=Table(data2,colWidths=(15*mm,85*mm,12*mm,20*mm,30*mm,20*mm,25*mm,25*mm,22*mm),repeatRows=1)
+            t9=Table(data2,colWidths=(11*mm,77*mm,12*mm,30*mm,30*mm,20*mm,25*mm,25*mm,24*mm),repeatRows=1)
         t9.hAlign = 'LEFT'
         t9.setStyle(TableStyle([('TEXTFONT', (0, 0), (-1, -1), 'Times-Bold'),('TEXTCOLOR',(0,0),(-1,-1),black),('ALIGN',(0,0),(-1,-1),'RIGHT'),('VALIGN',(0,0),(-1,-1),'TOP'),('BOX',(0,0),(-1,-1),0.25,colors.black),('INNERGRID', (0,0), (-1,-1), 0.25, colors.black)]))
         elements.append(t9)
         gtotalText = num2words(int(grandtot), to='cardinal', lang='en_IN')
         print gtotalText
-        s41 =Paragraph("<para fontSize=8> Rupees {0} </para>".format(gtotalText),styles['Normal'])
+        s41 =Paragraph("<para fontSize=8> RUPEES {0} only</para>".format(gtotalText),styles['Normal'])
         datawords =[[s41]]
         t10=Table(datawords,colWidths=(254*mm))
         t10.hAlign = 'LEFT'
@@ -3980,11 +3984,11 @@ def invoice(response, pkVal  , request,flag):
         s04 =Paragraph("<para fontSize=8 alignment='center'>Rate </para>",styles['Normal'])
         s05 =Paragraph("<para fontSize=8 alignment='center'>Taxable Value </para>",styles['Normal'])
         s20 =Paragraph("<para fontSize=8 alignment='center'>HSN Code </para>",styles['Normal'])
-        s06 =Paragraph("<para fontSize=8 alignment='center'>CGST Rate (%) </para>",styles['Normal'])
+        s06 =Paragraph("<para fontSize=8 alignment='center'>CGST Rate(%) </para>",styles['Normal'])
         s07 =Paragraph("<para fontSize=8 alignment='center'>CGST Amount </para>",styles['Normal'])
-        s08 =Paragraph("<para fontSize=8 alignment='center'>SGST Rate (%)</para>",styles['Normal'])
+        s08 =Paragraph("<para fontSize=8 alignment='center'>SGST Rate(%)</para>",styles['Normal'])
         s09 =Paragraph("<para fontSize=8 alignment='center'>SGST Amount </para>",styles['Normal'])
-        s10 =Paragraph("<para fontSize=8 alignment='center'>IGST Rate (%)  </para>",styles['Normal'])
+        s10 =Paragraph("<para fontSize=8 alignment='center'>IGST Rate(%)  </para>",styles['Normal'])
         s11 =Paragraph("<para fontSize=8 alignment='center'>IGST Amount </para>",styles['Normal'])
         s12 =Paragraph("<para fontSize=8 alignment='center'>Total </para>",styles['Normal'])
 
@@ -4046,13 +4050,13 @@ def invoice(response, pkVal  , request,flag):
         if inv.billCode == '29':
             t9=Table(data2,colWidths=(11*mm,51*mm,12*mm,12*mm,16*mm,20*mm,16*mm,16*mm,16*mm,15*mm,20*mm),repeatRows=1)
         else:
-            t9=Table(data2,colWidths=(12*mm,54*mm,12*mm,12*mm,25*mm,20*mm,25*mm,25*mm,20*mm),repeatRows=1)
+            t9=Table(data2,colWidths=(11*mm,45*mm,12*mm,22*mm,25*mm,20*mm,22*mm,23*mm,25*mm),repeatRows=1)
 
         t9.setStyle(TableStyle([('TEXTFONT', (0, 0), (-1, -1), 'Times-Bold'),('TEXTCOLOR',(0,0),(-1,-1),black),('ALIGN',(0,0),(-1,-1),'RIGHT'),('VALIGN',(0,0),(-1,-1),'TOP'),('BOX',(0,0),(-1,-1),0.25,colors.black),('INNERGRID', (0,0), (-1,-1), 0.25, colors.black)]))
         elements.append(t9)
         gtotalText = num2words(int(grandtot), to='cardinal', lang='en_IN')
         print gtotalText
-        s41 =Paragraph("<para fontSize=8> Rupees {0} </para>".format(gtotalText),styles['Normal'])
+        s41 =Paragraph("<para fontSize=8> RUPEES {0} only</para>".format(gtotalText),styles['Normal'])
         datawords =[[s41]]
         t10=Table(datawords,colWidths=(205*mm))
         t10.setStyle(TableStyle([('TEXTFONT', (0, 0), (-1, -1), 'Times-Bold'),('TEXTCOLOR',(0,0),(-1,-1),black),('ALIGN',(0,0),(-1,-1),'RIGHT'),('VALIGN',(0,0),(-1,-1),'TOP'),('BOX',(0,0),(-1,-1),0.25,colors.black),('INNERGRID', (0,0), (-1,-1), 0.25, colors.black)]))
