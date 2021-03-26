@@ -625,7 +625,9 @@ def generateOTPView(request):
     except:
         pass
     try:
-        send_otp_email(user.email , user.first_name + ' '+user.last_name , otp)
+        to_email = []
+        to_email.append(str(user.email))
+        send_otp_email(to_email , user.first_name + ' '+user.last_name , otp)
     except:
         pass
     return JsonResponse({'newReg' : False} ,status =200 )
@@ -657,7 +659,7 @@ def templateEditorView(request , pk):
 def send_otp_email(to_email,name, otp):
 
     email_subject ="KloudERP OTP"
-    to_email = []
+    to_email = to_email
     to_email.append(to_email)
     ctx = {
         'otp': otp,
@@ -666,7 +668,7 @@ def send_otp_email(to_email,name, otp):
 
     email_body = get_template('app.ERP.otp.html').render(ctx)
     # email_body = 'Hi'
-    msg = EmailMessage(email_subject, email_body,  to= to_email )
+    msg = EmailMessage(email_subject, email_body, to=to_email)
     msg.content_subtype = 'html'
     msg.send()
     return {'status':'ok'}
