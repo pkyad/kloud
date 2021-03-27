@@ -177,6 +177,9 @@ class GetChatThreadsAPIView(APIView):
     permission_classes = (permissions.AllowAny ,)
     def get(self , request , format = None):
         frm = request.user
+        if 'transfered' in request.GET:
+            toRet = chatMessageLiteSerializer(ChatMessage.objects.filter(transfered = True, participants__isnull = True))
+            return Response(toRet, status = status.HTTP_200_OK)
         q1 =[]
         # q1 = chatMessage.objects.filter(user=frm).values_list('originator' ,  flat=True ).distinct() # recieved
         q2 = ChatMessage.objects.filter(user=frm).values_list('user' ,  flat=True ).distinct() # sent

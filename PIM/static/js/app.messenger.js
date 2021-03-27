@@ -1032,4 +1032,17 @@ $scope.postFiles = function(){
 
 
 
+
+$scope.getTransferedChats = function(){
+  $http({
+    method: 'GET',
+    url: '/api/PIM/chatThreads/?transfered='
+  }).
+  then(function(response) {
+    $scope.allTransferedChats = response.data
+  })
+}
+
+$scope.getTransferedChats()
+
   });
