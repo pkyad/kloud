@@ -1,0 +1,52 @@
+<style media="screen">
+
+</style>
+
+<div class="container-fluid" style="margin-left: 15px;">
+  <div class="row" >
+    <div class="col-md-12 text-center">
+      <h2>Welcome to chit chat conversation page. Entertain your users with witty replies</h2>
+    </div>
+  </div>
+  <div class="" style="margin-top: 50px">
+      <div class="row" ng-repeat="item in nodeVariants track by $index">
+      <div class="col-md-4">
+        <span>{{item.txt}}</span>
+      </div>
+      <div class="col-md-4">
+        <span>{{item.response}}</span>
+      </div>
+      <div class="col-md-1">
+        <input type="checkbox" ng-change="nodeInitUpdate($index)" ng-model="item.init">
+      </div>
+
+      <div class="col-md-1">
+          <button type="button" class="btn btn-block" name="button" ng-click="updateNodeVariant('edit',$index)">EDIT</button>
+      </div>
+      <div class="col-md-1">
+          <button type="button" class="btn btn-block" name="button" ng-click="updateNodeVariant('delete',$index)" >Delete</button>
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <div class="col-md-5">
+        <label >What user will ask?</label>
+        <input type="text" class="form-control" name="" value="" ng-model="form.txt">
+      </div>
+      <div class="col-md-5">
+        <label >Bots Response</label>
+        <input type="text" class="form-control" name="" value="" ng-model="form.response">
+      </div>
+      <div class="col-md-2" >
+        <label ></label>
+        <button type="button" class="btn btn-block" name="button" ng-click="nodeVariantModal()" ng-if="!waitingResponse && !form.pk">Add</button>
+        <button type="button" class="btn btn-block" name="button" ng-click="nodeVariantModal()" ng-if="!waitingResponse && form.pk">Update</button>
+        <button type="button" class="btn btn-block" name="button" ng-click="" ng-if="waitingResponse"><i class="fa fa-spinner fa-spin"></i> Please wait</button>
+      </div>
+
+
+    </div>
+  </div>
+
+
+</div>

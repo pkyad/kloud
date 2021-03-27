@@ -18,7 +18,7 @@ class NodeSlectionsVariationsSerializer(serializers.ModelSerializer):
 class NodeBlockInputVariationLiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = NodeBlockInputVariation
-        fields = ('pk', 'txt','response')
+        fields = ('pk', 'txt','response','init')
 
 class ActionIntentInputVariationLiteSerializer(serializers.ModelSerializer):
     class Meta:

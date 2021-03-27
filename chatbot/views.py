@@ -27,7 +27,7 @@ import datetime
 from marketing.models import Contacts
 import getpass
 # if getpass.getuser() == 'cioc-d2':
-# from talk import *
+from talk import *
 from PIM.models import *
 from twilio.rest import Client
 # from chatbot.essgi import *
@@ -808,7 +808,10 @@ def publicAPI(request , objectType):
                     if cntx.value == 'None':
                         context[cntx.key] = None
                     else:
-                        context[cntx.key] = int(cntx.value)
+                        try:
+                            context[cntx.key] = int(cntx.value)
+                        except Exception as e:
+                            context[cntx.key] = cntx.value
                 elif cntx.typ == 'date':
                     try:
                         context[cntx.key] = datetime.datetime.strptime(cntx.value, '%Y-%m-%d %H:%M:%S')
@@ -990,6 +993,42 @@ class VariableContextViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
     serializer_class = VariableContextSerializer
     queryset = VariableContext.objects.all()
+
+class ChitchatAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes=(permissions.AllowAny,)
+    def get(self , request, format = None):
+        obj, created = NodeBlock.objects.get_or_create(type= 'general', company = Division.objects.get(pk = int(globalSettings.PARENT_DIVSION)))
+        data = obj.input_vatiations.all()
+        print data, 'data'
+        toReturn = NodeBlockInputVariationLiteSerializer(data, many = True).data
+        return JsonResponse(toReturn ,safe = False, status = 200)
+
+    def post(self , request, format = None):
+        data = request.data
+        parentObj, created = NodeBlock.objects.get_or_create(type= 'general', company = Division.objects.get(pk = int(globalSettings.PARENT_DIVSION)))
+        obj = None
+        if 'type' in data:
+            if data['type'] == 'delete':
+                obj = NodeBlockInputVariation.objects.get(pk = int(data['pk']))
+                obj.delete()
+                return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+        if 'pk' in data:
+            obj = NodeBlockInputVariation.objects.get(pk = int(data['pk']))
+            if 'txt' in data:
+                obj.txt = data['txt']
+            if 'response' in data:
+                obj.response = data['response']
+            if 'init' in data:
+                obj.init = data['init']
+
+            obj.save()
+        else:
+            obj = NodeBlockInputVariation.objects.create(txt = data['txt'],response = data['response'], parent = parentObj)
+
+        return JsonResponse(NodeBlockInputVariationLiteSerializer(obj, many = False).data,safe = False,status = 200)
 
 
 
