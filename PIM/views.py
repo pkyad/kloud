@@ -177,6 +177,9 @@ class GetChatThreadsAPIView(APIView):
     permission_classes = (permissions.AllowAny ,)
     def get(self , request , format = None):
         frm = request.user
+        if 'transfered' in request.GET:
+            toRet = chatMessageLiteSerializer(ChatMessage.objects.filter(transfered = True, participants__isnull = True))
+            return Response(toRet, status = status.HTTP_200_OK)
         q1 =[]
         # q1 = chatMessage.objects.filter(user=frm).values_list('originator' ,  flat=True ).distinct() # recieved
         q2 = ChatMessage.objects.filter(user=frm).values_list('user' ,  flat=True ).distinct() # sent
@@ -340,4 +343,18 @@ class ForwardMessageAPIView(APIView):
             chatObj = ChatMessage.objects.get(pk = int(data['messageId']))
             for i in data['threads']:
                 ChatMessage.objects.create(user = request.user , thread = ChatThread.objects.get(pk = int(i)), message = chatObj.message, attachment = chatObj.attachment , fileType = chatObj.fileType , fileName = chatObj.fileName,fileSize = chatObj.fileSize, is_forwarded = True)
+        return Response(data,status=status.HTTP_200_OK)
+
+class readMessageAPIView(APIView):
+    permission_classes = (permissions.IsAuthenticated ,)
+    def get(self , request , format = None):
+        chatObj = ChatThread.objects.get(pk = request.GET['thread'])
+        chatmsgs = chatObj.messages.filter(read=False ).exclude(user = request.user)
+        for i in chatmsgs:
+            msg = ChatMessage.objects.get(pk = i.pk)
+            msg.read = True
+            msg.save()
+        print chatmsgs,len(chatmsgs),"i8989iujl"
+        data =  []
+
         return Response(data,status=status.HTTP_200_OK)

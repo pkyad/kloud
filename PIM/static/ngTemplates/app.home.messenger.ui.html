@@ -231,7 +231,7 @@
             <!-- <i style="padding:10px" class="fa fa-thumb-tack fa-lg " ng-click="setToPin()"></i> -->
             <img  ng-if="user.is_pin" src="/static/images/icons8-star-filled-48.png" style="height:20px;margin-top:10px;" ng-click="setToPin()" class="pull-right">
             <img ng-if="!user.is_pin" src="/static/images/icons8-star-filled-50.png" style="height:20px;margin-top:10px;"ng-click="setToPin()" class="pull-right">
-            
+
 
 
         </div>
@@ -289,8 +289,8 @@
 
                 <div class="row">
 
-                  <span class=" " style="display:flex;color:#7bbaf4">
-                    <!-- {{message.message}} -->
+                  <!-- <span class=" " style="display:flex;color:#7bbaf4">
+                    {{message.message}}
                     {{message.user.first_name}} {{message.user.last_name}}
                     <div class=" dropdown reply_icon_rec">
                       <i class="fa fa-angle-down  dropdown-toggle  pull-right" ng-click="message.show=!message.show" style="padding:3px;"></i>
@@ -301,7 +301,7 @@
                       </div>
 
                     </div>
-                  </span>
+                  </span> -->
 
                 </div>
 
@@ -313,7 +313,16 @@
                   <span style="color:#676767" ng-if="message.replyTo.attachment === null"> {{message.replyTo.message}} </span>
                   <span style="color:#676767" ng-if="message.replyTo.attachment != null"> {{message.replyTo.fileName}} </span>
                 </div>
-                <span> {{message.message}} </span>
+                <span style="display:flex"> {{message.message}} gdffg
+                <div class=" dropdown reply_icon_rec">
+                  <i class="fa fa-angle-down  dropdown-toggle  pull-right" ng-click="message.show=!message.show" style="padding:3px;"></i>
+                  <br>
+                  <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer;left:100%;">
+                    <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                    <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+                  </div>
+                                  </div>
+                </span>
               </div>
             </div>
             <div style="display:flex;width:87%" class=" margin-auto">

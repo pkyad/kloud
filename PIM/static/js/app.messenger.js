@@ -823,6 +823,8 @@ $scope.postFiles = function(){
 
 
 
+
+
         $scope.updatePinned = function(pk,val){
           $http({
             method: 'PATCH',
@@ -1030,6 +1032,30 @@ $scope.postFiles = function(){
 
 
 
+  $scope.updateMessage = function(id){
+    $http({
+      method: 'GET',
+      url: '/api/PIM/readMessage/?thread='+id,
 
+    }).
+    then(function(response) {
+
+    })
+  }
+  $scope.updateMessage(1098)
+
+
+
+$scope.getTransferedChats = function(){
+  $http({
+    method: 'GET',
+    url: '/api/PIM/chatThreads/?transfered='
+  }).
+  then(function(response) {
+    $scope.allTransferedChats = response.data
+  })
+}
+
+$scope.getTransferedChats()
 
   });
