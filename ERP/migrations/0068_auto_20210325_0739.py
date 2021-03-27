@@ -17,9 +17,9 @@ class Migration(migrations.Migration):
         #     name='subscriptionExpiryDate',
         #     field=models.DateField(null=True),
         # ),
-        migrations.AddField(
-            model_name='application',
-            name='totalRatings',
-            field=models.FloatField(default=4.5, null=True),
-        ),
+        # migrations.AddField(
+        #     model_name='application',
+        #     name='totalRatings',
+        #     field=models.FloatField(default=4.5, null=True),
+        # ),
     ]

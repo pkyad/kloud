@@ -54,9 +54,11 @@ import ast
 from simplecrypt import encrypt, decrypt
 from clientRelationships.models import ContactAuth
 from clientRelationships.serializers import ContactLiteSerializer
-# from chatbot.talk import *
+from chatbot.talk import *
 from twilio.rest import Client
 import html2text
+from django.template.loader import render_to_string, get_template
+from django.core.mail import send_mail , EmailMessage
 
 def generateOTPCode(length = 4):
     chars = string.digits
@@ -386,8 +388,6 @@ def home(request):
     #     pass
     u = request.user
 
-
-
     if u.is_superuser:
         return redirect('adminView')
     division = u.designation.division
@@ -624,6 +624,12 @@ def generateOTPView(request):
         globalSettings.SEND_SMS( user.profile.mobile, msg)
     except:
         pass
+    try:
+        to_email = []
+        to_email.append(str(user.email))
+        send_otp_email(to_email , user.first_name + ' '+user.last_name , otp)
+    except:
+        pass
     return JsonResponse({'newReg' : False} ,status =200 )
 
 def adminView(request):
@@ -649,6 +655,24 @@ def templateEditorView(request , pk):
     # cssStyle.write(data['css'])
 
     return render(request , 'app.templateEditor.html' , {'pk':pk})
+
+def send_otp_email(to_email,name, otp):
+
+    email_subject ="KloudERP OTP"
+    to_email = to_email
+    to_email.append(to_email)
+    ctx = {
+        'otp': otp,
+        'name' : name,
+    }
+
+    email_body = get_template('app.ERP.otp.html').render(ctx)
+    # email_body = 'Hi'
+    msg = EmailMessage(email_subject, email_body, to=to_email)
+    msg.content_subtype = 'html'
+    msg.send()
+    return {'status':'ok'}
+
 
 def renderedStatic(request , filename):
     print filename
