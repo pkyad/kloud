@@ -1319,7 +1319,10 @@ def WhatsappHookView(request):
                 if cntx.value == 'None':
                     context[cntx.key] = None
                 else:
-                    context[cntx.key] = int(cntx.value)
+                    try:
+                        context[cntx.key] = int(cntx.value)
+                    except Exception as e:
+                        context[cntx.key] = cntx.value
             elif cntx.typ == 'date':
                 try:
                     context[cntx.key] = datetime.datetime.strptime(cntx.value, '%Y-%m-%d %H:%M:%S')
