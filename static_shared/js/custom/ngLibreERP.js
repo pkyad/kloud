@@ -974,6 +974,15 @@ app.controller('sideMenu', function($scope, $http, $aside, $state, Flash, $users
     $state.go(HOME_STATE)
   }
 
+  $scope.totalMessages = 0;
+
+  $scope.increaseChatCount = function(){
+    if (!$state.is('home.messenger.explore')) {
+      $scope.totalMessages+=1
+    }
+  }
+
+
 
 
   $scope.dial = function(num) {

@@ -54,7 +54,7 @@ import ast
 from simplecrypt import encrypt, decrypt
 from clientRelationships.models import ContactAuth
 from clientRelationships.serializers import ContactLiteSerializer
-# from chatbot.talk import *
+from chatbot.talk import *
 from twilio.rest import Client
 import html2text
 from django.template.loader import render_to_string, get_template
@@ -1319,7 +1319,10 @@ def WhatsappHookView(request):
                 if cntx.value == 'None':
                     context[cntx.key] = None
                 else:
-                    context[cntx.key] = int(cntx.value)
+                    try:
+                        context[cntx.key] = int(cntx.value)
+                    except Exception as e:
+                        context[cntx.key] = cntx.value
             elif cntx.typ == 'date':
                 try:
                     context[cntx.key] = datetime.datetime.strptime(cntx.value, '%Y-%m-%d %H:%M:%S')

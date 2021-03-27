@@ -420,7 +420,7 @@ height: 100%;" >
             </div>
           </div>
           <div class="row" ng-if="participants.length>0" ng-click="changeType('groupDetails')">
-            <div class="col-md-12" style="position:fixed;bottom:41px">
+            <div class="col-md-12" style="position:fixed;bottom:85px">
               <div class="text-center" style="height:60px;width:60px;background-color:#3bd17a;border-radius: 50%;padding: 10px;margin-left: 254px;">
                 <i class="fa fa-arrow-right fa-2x" aria-hidden="true" style="color:white;"></i>
               </div>
@@ -528,21 +528,65 @@ height: 100%;" >
 
 
 <script>
+  function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+  function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+  }
 function openwindow() {
   chatWindow = document.getElementById("openchatwindow")
   mainChatAll =  document.getElementById("mainChatAll")
-  if (chatWindow.style.height == '50px') {
+  if (chatWindow.style.height == '50px' ) {
     chatWindow.style.height = '500px'
     mainChatAll.style.maxHeight="34vh"
+    setCookie("chatdropOpen", 1, 365);
   }
   else{
     chatWindow.style.height = '50px'
     mainChatAll.style.maxHeight="80vh"
+    setCookie("chatdropOpen", 0, 365);
+
   }
 
   chatWindow.style.transition =  "0.7s";
   chatWindow.style.transform =  "translateY(-1%)";
 }
+
+
+
+function openwindowCookie() {
+  var chatdropOpen = getCookie("chatdropOpen")
+  chatWindow = document.getElementById("openchatwindow")
+  mainChatAll =  document.getElementById("mainChatAll")
+  if (chatdropOpen == '1') {
+    chatWindow.style.height = '500px'
+    mainChatAll.style.maxHeight="34vh"
+  }else{
+    chatWindow.style.height = '50px'
+    mainChatAll.style.maxHeight="80vh"
+
+  }
+  chatWindow.style.transition =  "0.7s";
+  chatWindow.style.transform =  "translateY(-1%)";
+}
+openwindowCookie()
+
 </script>
 
 <style media="screen">

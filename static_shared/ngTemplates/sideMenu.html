@@ -10,7 +10,7 @@
   }
 </style>
 
-<div class="" ng-controller="sideMenu">
+<div class="" ng-controller="sideMenu" id="asideMenu">
 
   <div class="row logo" style="" ng-if="brandLogo">
     <div >
@@ -85,7 +85,7 @@
   <div ng-if="enableMessaing" class="{{enableTelephony?'whatsapp':'whatsappWeb'}} text-center" ng-click="$state.go('home.messenger')" >
     <img  class="otherIcons" src="/static/images/messenger.png"  style="filter: drop-shadow(5px 5px 5px #c8c4c4);">
     <div class="whatsappCount"  >
-                1
+                {{totalMessages}}
     </div>
   </div>
 

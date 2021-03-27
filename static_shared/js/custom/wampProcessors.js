@@ -51,9 +51,16 @@ connection.onopen = function (session) {
     });
   }
 
+  // processNotification = function(args){
+  //   console.log('ssssssssssssssssssss');
+  //   var scope = angular.element(document.getElementById('main')).scope();
+  //   scope.$apply(function() {
+  //     scope.fetchNotifications(args[0]);
+  //   });
+  // };
+
   processNotification = function(args){
-    console.log('ssssssssssssssssssss');
-    var scope = angular.element(document.getElementById('main')).scope();
+    var scope = angular.element(document.getElementById('asideMenu')).scope();
     scope.$apply(function() {
       scope.fetchNotifications(args[0]);
     });

@@ -1006,6 +1006,14 @@ $scope.postFiles = function(){
     then(function(response) {
       $scope.getChatthreads()
       $scope.showUsers = 'chats'
+      for (var i = 0; i < response.data.participants.length; i++) {
+        connection.session.publish(wamp_prefix+'service.notification.'+response.data.participants[i].first_name).
+        then(function(publication) {
+          console.log('published');
+        },function(){
+          console.log('Failed to publish message to all');
+        });
+      }
       $state.go('home.messenger.explore',{id:response.data.pk})
     })
   }
