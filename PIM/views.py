@@ -341,3 +341,17 @@ class ForwardMessageAPIView(APIView):
             for i in data['threads']:
                 ChatMessage.objects.create(user = request.user , thread = ChatThread.objects.get(pk = int(i)), message = chatObj.message, attachment = chatObj.attachment , fileType = chatObj.fileType , fileName = chatObj.fileName,fileSize = chatObj.fileSize, is_forwarded = True)
         return Response(data,status=status.HTTP_200_OK)
+
+class readMessageAPIView(APIView):
+    permission_classes = (permissions.IsAuthenticated ,)
+    def get(self , request , format = None):
+        chatObj = ChatThread.objects.get(pk = request.GET['thread'])
+        chatmsgs = chatObj.messages.filter(read=False ).exclude(user = request.user)
+        for i in chatmsgs:
+            msg = ChatMessage.objects.get(pk = i.pk)
+            msg.read = True
+            msg.save()
+        print chatmsgs,len(chatmsgs),"i8989iujl"
+        data =  []
+
+        return Response(data,status=status.HTTP_200_OK)
