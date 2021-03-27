@@ -212,7 +212,7 @@
   <div class="row" style=";margin:0px;">
     <div class="{{user.is_show?'col-md-8 ':'col-md-12'}} bgImg " style="padding:0px;transition:width 500ms;   transition-timing-function:cubic-bezier(.1,.82,.25,1)">
       <div class="row" style="margin:0px;position:sticky;z-index:1;">
-        <div class="" style="background-color:#ededed;height:60px;padding:10px;">
+        <div class="" style="background-color:#ededed;height:75px;padding:10px;">
           <div class=" {{user.is_show?'col-md-1':'col-md-1'}}  " style="padding:0px;" ng-click="user.is_show=true">
             <!-- <div class="">
               <img ng-src="{{user.dp}}" src="p/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle">
@@ -221,9 +221,10 @@
             </div>
           </div>
           <div class="{{user.is_show?'col-md-9':'col-md-10'}} col-sm-9" ng-click="user.is_show=true" style="">
-            <h5 style="margin-top:0px;">{{user.name.name}} </h5>
-            <p ng-if="!show.showTypingVal">last seen today</p>
-              <p ng-if="show.showTypingVal">Typing....</p>
+            <h5 style="margin-top:0px;margin-bottom:5px">{{user.name.name}} </h5>
+            <p ng-if="!show.showTypingVal" style="margin-bottom:5px">last seen today</p>
+            <p ng-if="show.showTypingVal" style="margin-bottom:5px">Typing....</p>
+            <span ng-if="user.participants.length>1&&!user.is_personal" ng-repeat="p in user.participants" style="overflow: hidden;white-space: nowrap;"> {{p.first_name}} </span>
           </div>
           <div class="pull-right" >
             <img src="/static/images/icons8-outgoing-call-30.png" alt="" ng-click="call(user.name.mobile)" style="padding-right:10px;margin-top:5px;cursor: pointer;">
@@ -313,7 +314,7 @@
                   <span style="color:#676767" ng-if="message.replyTo.attachment === null"> {{message.replyTo.message}} </span>
                   <span style="color:#676767" ng-if="message.replyTo.attachment != null"> {{message.replyTo.fileName}} </span>
                 </div>
-                <span style="display:flex"> {{message.message}} gdffg
+                <span style="display:flex"> {{message.message}}
                 <div class=" dropdown reply_icon_rec">
                   <i class="fa fa-angle-down  dropdown-toggle  pull-right" ng-click="message.show=!message.show" style="padding:3px;"></i>
                   <br>

@@ -306,12 +306,12 @@ height: 100%;" >
         </div>
       </div>
       <div class="col-md-2 " style="padding-top:15px;padding-left:0px">
-        <img src="/static/images/chat.svg" alt="" ng-click="changeType('users')" ng-show="showUsers=='chats'" style="height: 35px;padding: 5px;">
+        <img src="/static/images/chat.svg" alt="" ng-click="changeType('users')" ng-show="showUsers=='chats'" style="height: 35px;padding: 5px;" >
         <i class="fa fa-close fa-2x" ng-click="changeType('chats')" ng-show="showUsers=='users'||showUsers=='group'"></i>
       </div>
     </div>
-    <div class="" style="height:100%;overflow-y:scroll;scrollbar-width:thin;scrollbar-behavior:smooth;scrollbar-color:rgba(0, 0, 0, .2) hsla(0, 0%, 100%, .1)">
-      <div class="chatThreads" style="">
+    <div class="" style="max-height:80vh;overflow-y:scroll;scrollbar-width:thin;scrollbar-behavior:smooth;scrollbar-color:rgba(0, 0, 0, .2) hsla(0, 0%, 100%, .1)" id="mainChatAll">
+      <div class="chatThreads" style="" >
         <div ng-if="showUsers=='chats'"  class="allChat row contact userMenuItem {{ $state.is('home.messenger.explore') && $state.params.id == u.pk   ? 'activeUserItem':''}}" ng-click="$state.go('home.messenger.explore' , {id : u.pk})"
         style="padding:10px 15px;padding-bottom:0px;" ng-repeat="u in chatthreads">
         <div class="col-md-3 col-sm-2 text-right" style="padding:0px;">
@@ -467,20 +467,59 @@ height: 100%;" >
       </div>
 
     </div>
-
-    <div style="position: absolute;bottom: 0px;width: 100%;height: 50px;background:#ffffff" id="openchatwindow" onclick="openwindow()">
-      <div class="" style="background: red;height: 50px;color:#ffffff;padding:5px;">
-      <h4>  New Chats </h4>
+</div>
+    <div style="position: absolute;bottom: 0px;width: 100%;height: 50px;background:#ffffff" id="openchatwindow" >
+      <div class="" style="background: #27af61;height: 50px;color:#ffffff;padding:5px;padding-left:15px;padding-right:15px" onclick="openwindow()">
+      <span style="font-size:25px">  New Chats </span>
+      <span style="font-size:20px;" class="pull-right"> {{allTransferedChats.length}} </span>
       </div>
+      <div class="chatThreads" style="">
+        <div   class="allChat row contact userMenuItem {{ $state.is('home.messenger.explore') && $state.params.id == u.pk   ? 'activeUserItem':''}}" ng-click="markasTaken(u.pk, $index)"
+        style="padding:10px 15px;padding-bottom:0px;" ng-repeat="u in allTransferedChats">
+        <div class="col-md-3 col-sm-2 text-right" style="padding:0px;">
+          <div  class="display_picture_view" style="background-image:url({{u.dp?u.dp:'/static/images/userIcon.png'}})">
+          </div>
+        </div>
+        <div class="col-md-7 col-sm-9 col-xs-2" style="font-size: 1vw;">
+          <div class="row" style="margin:0px;border-bottom:1px solid #f5f5f5;height:60px;">
+            <div class="">
+              <h5>
+                {{u.name.name}}
+              </h5>
+            </div>
+            <div class="">
+              <p class="font10" ng-if="u.lastmsg.fileType == null">
+                {{u.lastmsg.message | limitTo:35}}
+              </p>
+              <p ng-if="u.lastmsg.fileType == 'image'" class="font14">
+                <i class="fa fa-camera"></i> Photo
+              </p>
+              <p ng-if="u.lastmsg.fileType == 'xl' || u.lastmsg.fileType == 'pdf' || u.lastmsg.fileType == 'word' || u.lastmsg.fileType == 'ppt' " class="font12">
+                <i class="fa fa-file-text-o"></i> {{u.lastmsg.fileName | limitTo:35}}
+              </p>
+              <p ng-if="u.lastmsg.fileType == null && u.lastmsg.fileType == 'image'">
+                {{u.lastmsg.message | limitTo:35}}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2" style="padding:10px 0px" ng-if="u.unreadMsgs>0">
+          <div class="text-center" style="width:25px;height:25px;background-color:#3bd17a;border-radius:50%;padding:3px;">
+            <span style="color:white;"><b>{{u.unreadMsgs}}</b></span>
+          </div>
+        </div>
+
+      </div>
+
     </div>
     </div>
+
+
+
 
 </div>
 <div>
   <ui-view> </ui-view>
-</div>
-
-
 </div>
 
   </div>
@@ -491,11 +530,14 @@ height: 100%;" >
 <script>
 function openwindow() {
   chatWindow = document.getElementById("openchatwindow")
+  mainChatAll =  document.getElementById("mainChatAll")
   if (chatWindow.style.height == '50px') {
     chatWindow.style.height = '500px'
+    mainChatAll.style.maxHeight="34vh"
   }
   else{
     chatWindow.style.height = '50px'
+    mainChatAll.style.maxHeight="80vh"
   }
 
   chatWindow.style.transition =  "0.7s";

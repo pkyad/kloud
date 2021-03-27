@@ -88,7 +88,7 @@ TRUSTED_DOMAINS = ['http://192.168.1.152','http://192.168.1.127', 'http://192.16
 SOURCE_LIST = ['OEM','WEBSITE','BNI']
 
 
-LOGIN_REDIRECT = '/' # the url to which the user will be redirected once successfully loggedin
+LOGIN_REDIRECT = 'ERP' # the url to which the user will be redirected once successfully loggedin
 # Options are : ERP , ecommerce , blogs , corporate
 
 LOGOUT_REDIRECT = 'ERP' # similarly the url to which the user will be directed one logged out
@@ -445,7 +445,7 @@ AUTHENTICATION_BACKENDS = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'kloud_new',
+        'NAME': 'latest_kloud',
         'USER': 'newuser',
         'PASSWORD': 'titan@1234',
         'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
