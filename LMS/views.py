@@ -225,7 +225,7 @@ class CourseViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, isAdmin, )
     serializer_class = CourseSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['activeCourse']
+    filter_fields = ['activeCourse','division']
     def get_queryset(self):
         div = self.request.user.designation.division
         if 'search' in self.request.GET:

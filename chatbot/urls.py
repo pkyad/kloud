@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'publicFacing/(?P<objectType>[\w|\W]+)/$' , publicAPI ),
     url(r'getAllVariables/$' , GetVariablesAPIView.as_view() ),
     url(r'sendAppLink/$' , SendAppLinkAPIView.as_view() ),
+    url(r'chitchat/$' , ChitchatAPIView.as_view() ),
 
      # url(r'saveSettings/$' , SaveSettingsAPIView.as_view() ),
 

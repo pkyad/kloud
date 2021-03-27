@@ -360,17 +360,7 @@
         $scope.user = response.data
         console.log($scope.user,'$scope.user');
 
-        // $scope.contactform.name = response.data.name
-        // if (response.data.visitor != null) {
-        //   $scope.contactform.mobile = response.data.visitor.mobile
-        //   $scope.contactform.email = response.data.visitor.email
-        //   $scope.contactform.notes = response.data.visitor.notes
-        //   $scope.contactform.addrs = response.data.visitor.addrs
-        //   $scope.contactform.pinCode = response.data.visitor.pinCode
-        //   $scope.contactform.visitor = response.data.visitor.pk
-        //   $scope.contactform.pk = response.data.visitor.pk
-        //
-        // }
+
 
 
 
@@ -379,7 +369,7 @@
     }
     $scope.getThread()
 
-    $scope.setToPin = function() {
+    $rootScope.setToPin = function() {
       $scope.user.is_pin=!$scope.user.is_pin
       $http({
         method: 'PATCH',
@@ -394,6 +384,7 @@
         });
       })
     }
+
 
 
     $scope.editThread = function(typ) {
@@ -815,10 +806,28 @@ $scope.postFiles = function(){
 
   $scope.showUsers = 'chats'
   $scope.me = $users.get('mySelf');
-
+  console.log($state,"oiiuoiijhjk");
     $scope.search = {
       searchTxt: ''
     }
+
+
+    $scope.getThread = function() {
+      $http({
+        method: 'GET',
+        url: '/api/PIM/chatThreads/' + $state.params.id+'/'
+      }).
+      then(function(response) {
+        $scope.user = response.data
+        console.log($scope.user,'$scope.user');
+
+
+
+
+        $scope.user.is_show = false
+      })
+    }
+    $scope.getThread()
 
 
 
@@ -832,10 +841,14 @@ $scope.postFiles = function(){
             },
           }).
           then(function(response) {
-            $rootScope.$broadcast("update", {
+            $rootScope.$broadcast("updatePinned", {
             });
           })
         }
+
+        $rootScope.$on("updatePinned",function(event) {
+          $rootScope.setToPin()
+        });
 
 
     // $scope.getUsers = function() {
@@ -896,9 +909,11 @@ $scope.postFiles = function(){
       })
 
     }
-
+      $scope.getChatthreads()
     $rootScope.$on('update', function(event) {
       $scope.getChatthreads()
+      // $rootScope.setToPin()
+
     });
     $scope.getChatthreads()
 
@@ -1036,7 +1051,10 @@ $scope.postFiles = function(){
   }
   $scope.getMessages()
 
-
+//   $scope.getChatthreads()
+//
+// })
+// }
 
 
 
@@ -1052,6 +1070,8 @@ $scope.postFiles = function(){
       $scope.allTransferedChats = response.data
     })
   }
+
+
 
   $scope.getTransferedChats()
 

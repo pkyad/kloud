@@ -62,8 +62,11 @@ class ArticleViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ('title' , 'author' , 'contentWriter' , 'reviewer' , 'articleUrl','published','contents','content_type' )
     def get_queryset(self):
-        divsn = self.request.user.designation.division
-        articles = Article.objects.filter(contentWriter__designation__division=divsn)
+        if self.request.user.pk:
+            divsn = self.request.user.designation.division
+            articles = Article.objects.filter(contentWriter__designation__division=divsn)
+        else:
+            articles = Article.objects.filter(contentWriter__designation__division=globalSettings.PARENT_DIVSION)
         try:
             if 'status' in  self.request.GET:
                 qs = articles.filter(status = self.request.GET['status']).order_by('-created')

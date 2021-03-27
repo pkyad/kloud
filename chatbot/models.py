@@ -136,6 +136,7 @@ class NodeBlockInputVariation(models.Model): # also the positive affirmation tex
     parent = models.ForeignKey(NodeBlock , null = False , related_name='input_vatiations')
     txt =  models.CharField(max_length = 500 , null = True)
     response = models.TextField(max_length = 500 , null = True)
+    init = models.BooleanField(default = False)
 
 class ActionIntentInputVariation(models.Model): # not used as of now anywhere
     parent = models.ForeignKey(NodeBlock , null = False , related_name='action_intent_vatiations')

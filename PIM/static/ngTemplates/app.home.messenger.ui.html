@@ -96,11 +96,14 @@
     opacity: 1
   }
 
-  .sent-text:hover .reply_icons {
+  /* .sent-text:hover .reply_icons {
     opacity: 1;
     position: absolute;
     right: 20px;
     margin-top: -70px;
+  } */
+  .sent-text:hover .replyMsg .reply_icon{
+      opacity: 1;
   }
 
   .recived-text:hover .reply_icon_rec {
@@ -143,6 +146,7 @@
     flex-wrap: nowrap;
     justify-content: center;
     overflow-x: auto;
+    padding:10px;
     /* background-color: DodgerBlue; */
 
   }
@@ -150,7 +154,7 @@
   .flex-container>div {
     background-color: #f1f1f1;
     width: 100px;
-    margin: 10px;
+    margin-right: 10px;
     text-align: center;
     /* line-height: 100px; */
     font-size: 30px;
@@ -244,13 +248,22 @@
 
             <div class="" style="display:flex">
               <div class="sent-text" style="margin-left: auto;box-shadow: 0px 8px 15px rgba(213, 213, 213, 0.5) !important;">
-                <div ng-if="message.replyTo.pk" style="padding:5px 65px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#cfe9ba;padding-left:10px">
+                <div class="replyMsg" ng-if="message.replyTo.pk" style="padding:10px;border-left:5px solid #7bbaf4;border-radius:5px ;background:#cfe9ba;padding-left:10px">
                   <span ng-if="message.replyTo.user.pk !=me.pk" style="color:#7bbaf4">{{message.replyTo.user.first_name}} {{message.replyTo.user.last_name}} <br /> </span>
-                  <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4"> You <br /></span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment === null"> {{message.replyTo.message}} </span>
-                  <span style="color:#676767" ng-if="message.replyTo.attachment != null"> {{message.replyTo.fileName}} </span>
+                  <span ng-if="message.replyTo.user.pk == me.pk" style="color:#7bbaf4;"> You
+                    <div class="reply_icon pull-right dropdown">
+                      <i class="fa fa-angle-down  dropdown-toggle pull-right" ng-click="message.show=!message.show" style="padding:7px;color:black;font-size:16px;"></i><br>
+                      <div class="dropdown-menus" ng-if="message.show" style="display:block!important;padding-left:15px;cursor:pointer">
+                        <div class="dropdown-item" ng-click="replyTo($index)"> Reply </div>
+                        <div class="dropdown-item" ng-click="forwardTo($index)"> Forward </div>
+                      </div>
+
+                    </div>
+                  </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment === null"> <br> {{message.replyTo.message}} </span>
+                  <span style="color:#676767" ng-if="message.replyTo.attachment != null"> <br> {{message.replyTo.fileName}} </span>
                 </div>
-                <div class="row">
+                <div class="row" style="margin:0px;">
                   <span style="display:flex;position:relative">
                     {{message.message}}
                     <div class="{{message.replyTo.pk?'reply_icons':'reply_icon'}} dropdown">
@@ -860,13 +873,13 @@
         <div class="col-md-12">
           <div class="row" style="position:relative">
             <div class="col-md-12">
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-md-12" style="position:absolute;bottom:85px;left:900px;z-index:3333">
                   <div class="text-center" style="height:60px;width:60px;background-color:#3bd17a;border-radius: 50%;padding: 10px;">
                     <i class="fa fa-arrow-right fa-2x" aria-hidden="true" style="color:white;" ng-click="postFiles()"></i>
                   </div>
                 </div>
-              </div>
+              </div> -->
               <div class="row" style="height:60px;background:#3bd17a">
                 <div class="col-md-12">
                   <h4 style="color:#ffffff;padding-top:10px"> <i class="fa fa-close" style="padding-right:15px" ng-click="closeAtachment()"></i> Preview </h4>
@@ -882,11 +895,16 @@
                 </div>
               </div>
               <div class="row" style="background:#dedede;height:13vh">
-                <div class="col-md-12 flex-container text-center">
-                  <div ng-click="previewImage($index);$event.stopPropagation()" ng-repeat="f in allFiles" style="padding-top:15px"><i class="fa fa-file"></i><br /><span style="font-size:5px!important">{{f.name | limitTo : 40}}</span></div>
+                <div class="col-md-10 flex-container text-center">
+                  <div ng-click="previewImage($index);$event.stopPropagation()" ng-repeat="f in allFiles" style=""><i class="fa fa-file"></i><br /><span style="font-size:5px!important">{{f.name | limitTo : 40}}</span></div>
                   <div style="padding-top:30px">
                     <i class="fa fa-plus fa-lg"></i>
                     <input type="file" class="file_upload_add" ng-model="form.file" onchange="angular.element(this).scope().fileAdded(this.files)" />
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="text-center" style="height:60px;width:60px;background-color:#3bd17a;border-radius: 50%;padding: 10px;">
+                    <i class="fa fa-arrow-right fa-2x" aria-hidden="true" style="color:white;" ng-click="postFiles()"></i>
                   </div>
                 </div>
               </div>

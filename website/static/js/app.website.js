@@ -271,7 +271,7 @@ app.controller('settings', function($scope, $http, $aside, $state, Flash, $users
     }).result.then(function(footer) {}, function(footer) {
       $scope.form.footerTemplate = footer
       $scope.save()
-      
+
     });
 
 
@@ -391,6 +391,31 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
 
       },
       controller: function($scope, $http, $uibModalInstance) {
+        $scope.selectTypForm = {
+          cardTyp:''
+        }
+
+        $scope.reset = function() {
+          $scope.form = {
+            defaultTitle:'',
+            defaultDescription: '',
+            url: '',
+            stage:''
+
+          }
+
+        }
+        $scope.reset()
+        console.log(DIVISIONPK,'ooiopo8p');
+        $http({
+          method: 'GET',
+          url: '/api/organization/divisions/' +DIVISIONPK+'/'
+        }).
+        then(function(response) {
+          $scope.division = response.data
+          $scope.form = response.data
+          console.log($scope.form,"opopop");
+        })
 
         $scope.selectTyp = [
           {text:'Ecommerce',img:'/static/images/Ecommerce.png'},
@@ -402,20 +427,7 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
 
 
         ]
-        $scope.selectTypForm = {
-          cardTyp:''
-        }
-        $scope.reset = function() {
-          $scope.form = {
-            title:DIVISION_NAME,
-            description: '',
-            url: '',
-            stage:''
 
-          }
-
-        }
-        $scope.reset()
         // $scope.$watch('form.title', function(newValue, oldValue) {
         //
         //
@@ -444,7 +456,7 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
 
         $scope.selectTab = function(indx){
           $scope.selectedIndx = indx
-          $scope.form.stage = $scope.selectTyp[indx].text
+          $scope.form.pageType = $scope.selectTyp[indx].text
         }
 
         $scope.isValid = true
@@ -460,20 +472,16 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
         }
 
         $scope.save = function() {
-          if ($scope.form.title.length == 0 || $scope.form.description.length == 0) {
+          if ($scope.form.defaultTitle.length == 0 || $scope.form.defaultDescription.length == 0) {
             Flash.create('warning', 'Please fill all the details')
             return
           }
-          var fd = new FormData()
-          fd.append('title', $scope.form.title)
-          fd.append('url', $scope.form.url)
-          fd.append('description', $scope.form.description)
-          fd.append('stage', $scope.form.stage)
+
           var dataTosend = {
-            title:$scope.form.title,
+            defaultTitle:$scope.form.defaultTitle,
             url:$scope.form.url,
-            description:$scope.form.description,
-            stage:$scope.form.stage
+            defaultDescription:$scope.form.defaultDescription,
+            pageType:$scope.form.pageType
           }
           var method = 'POST'
           var url = '/api/website/initializewebsitebuilder/'
