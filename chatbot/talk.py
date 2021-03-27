@@ -15,6 +15,8 @@ from .uipathHelper import uiPathToken , ReleasekeyGet
 from PIM.models import *
 import math, random
 from finance.models import Category
+import html2text
+from bs4 import BeautifulSoup
 
 def isSafe(code):
     for word in ['getcwd', 'open(' , 'open (' , 'import' , ' os ' , ' os' , 'os ' , ' open' , 'open ' , ' open ']:
@@ -426,7 +428,7 @@ def answerFAQandGeneral(txt , ctx, compProfile):
             print "check for variations and corresponding response. If none matches reply the auto_response"
             nodes = NodeBlock.objects.filter(type = 'general')
             # node = NodeBlock.objects.filter(company = compProfile , type = 'general')[0]
-
+            print "general node blocks" , nodes
             for node in nodes:
                 generalReplySimArr = []
                 for inp in node.input_vatiations.all():
@@ -439,6 +441,10 @@ def answerFAQandGeneral(txt , ctx, compProfile):
                 if len(generalReplySimArr)>0:
                     print "Inside If , 297"
                     createMessage(ctx['uid'] , generalReplySimArr[0].response )
+                    firstMessage = BeautifulSoup(ctx['chatThread'].company.firstMessage)
+                    firstMessage = firstMessage.get_text()
+                    createMessage(ctx['uid'] , firstMessage)
+
                     return True
                 else:
                     print "Inside else , 301---------------------------------------"

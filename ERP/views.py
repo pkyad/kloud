@@ -59,6 +59,7 @@ from twilio.rest import Client
 import html2text
 from django.template.loader import render_to_string, get_template
 from django.core.mail import send_mail , EmailMessage
+from bs4 import BeautifulSoup
 
 def generateOTPCode(length = 4):
     chars = string.digits
@@ -1257,7 +1258,7 @@ def WhatsappHookView(request):
 
 
 
-            wmessage = client.messages.create(body= html2text.html2text(compProfile.firstMessage),
+            wmessage = client.messages.create(body= BeautifulSoup(compProfile.firstMessage).get_text(),
                                           from_='whatsapp:+%s'%(whatsapp_from),
                                           to='whatsapp:+%s'%(recipient_id))
             print wmessage

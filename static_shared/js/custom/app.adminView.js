@@ -81,17 +81,23 @@ app.config(function($stateProvider) {
       templateUrl: '/static/ngTemplates/app.settings.analytics.html',
       controller: 'admin.settings.configure.analytics',
    })
+   .state('usage', {
+      url: "/companies/:company",
+      templateUrl: '/static/ngTemplates/app.organization.usage.html',
+      controller: 'businessManagement.usage',
+   })
+   .state('chitchat', {
+      url: "/chitchat",
+      templateUrl: '/static/ngTemplates/app.organization.chitchat.html',
+      controller: 'businessManagement.chitchat',
+   })
    .state('appDetails', {
       url: "/:id",
       templateUrl: '/static/ngTemplates/app.organization.appDetails.html',
       controller: 'businessManagement.appsDetails',
    })
 
-   .state('usage', {
-      url: "/companies/:company",
-      templateUrl: '/static/ngTemplates/app.organization.usage.html',
-      controller: 'businessManagement.usage',
-   })
+
 
 
 
@@ -844,6 +850,89 @@ app.controller('businessManagement.templates', function($scope, $http, $state, $
 
  })
 
+
+ app.controller("businessManagement.chitchat", function($scope, $state, $stateParams, $http, Flash, $uibModal,$rootScope) {
+   $scope.resetForm = function(){
+     $scope.form ={
+       txt:'',
+       response:'',
+       type:'new',
+       init: false
+     }
+
+   }
+   $scope.resetForm()
+
+
+   $scope.waitingResponse = false
+
+   $scope.updateNodeVariant = function(type, index){
+     if(type == 'edit'){
+       $scope.form = $scope.nodeVariants[index]
+       $scope.form.type = 'edit'
+     }
+     if(type == 'delete'){
+       $scope.form = $scope.nodeVariants[index]
+       $scope.form.type = 'delete'
+       $scope.nodeVariantModal()
+   }
+ }
+
+   $scope.nodeInitUpdate = function(index){
+     var data = $scope.nodeVariants[index]
+     var method ='POST'
+     var url ='/api/chatbot/chitchat/'
+     $http({
+       method:method,
+       url:url,
+       data:data
+     }).then(function(response){
+
+   })
+   }
+
+   $scope.nodeVariantModal = function(){
+     if($scope.form.txt.length == 0){
+       Flash.create('warning', 'Kindly enter user input.')
+       return
+     }
+     if($scope.form.response.length == 0){
+       Flash.create('warning', 'Kindly enter bot response.')
+       return
+     }
+     $scope.waitingResponse = true
+     var method ='POST'
+     var url ='/api/chatbot/chitchat/'
+     $http({
+       method:method,
+       url:url,
+       data:$scope.form
+     }).then(function(response){
+       if ($scope.form.type == 'delete'){
+         Flash.create('success','Deleted')
+       }else{
+         Flash.create('success','Saved')
+       }
+       $scope.waitingResponse = false
+       $scope.resetForm()
+       $scope.getGeneralNodeVariant()
+     })
+   }
+   $scope.getGeneralNodeVariant = function(){
+     var method ='GET'
+     var url ='/api/chatbot/chitchat/'
+     $http({
+       method:method,
+       url:url
+     }).then(function(response){
+       $scope.nodeVariants = response.data
+       console.log($scope.nodeVariants,'$scope.nodeVariants');
+     })
+   }
+
+   $scope.getGeneralNodeVariant()
+
+ })
 
  app.controller("admin.settings.configure.hsnsac.form", function($scope, $state, $stateParams, $http, Flash, $uibModal,$rootScope) {
    $scope.resetForm = function(){
