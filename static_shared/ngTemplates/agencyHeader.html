@@ -1,0 +1,126 @@
+
+<style media="screen">
+  html {
+    overflow-x: hidden;
+
+  }
+
+  body {
+    overflow-x: hidden;
+
+  }
+
+  #myNavbar {
+    overflow: hidden;
+
+  }
+
+  .container {
+    width: 1250px !important;
+  }
+
+  .navbar-toggle {
+    float: none !important;
+    position: inherit !important;
+  }
+</style>
+<nav class="navbar navbar-fixed-top navbar-dark" style="border:none;">
+  <div class="container">
+
+
+    <div class="navbar-header">
+      <a class="navbar-brand lightIcon" href="/" style="padding:0px;"> <img src="/static/images/epsilonai_logo_white.svg" alt="" style="height:50%;margin-top:10%;margin-left:10px;"> </a>
+      <a class="navbar-brand darkIcon" href="/" style="padding:0px;"> <img src="/static/images/epsilonai_logo_dark.svg" alt="" style="height:50%;margin-top:10%;margin-left:10px;"> </a>
+
+      <div class="navbar-toggle toggleBtn" data-toggle="collapse" data-target="#myNavbar" ng-click="toggleNavbar = !toggleNavbar" style="border:none;padding:0px">
+        <img src="/static/images/menuiconWhite.svg " class="lightIcon" style="height:40px;width:45px;position:absolute;right:0px" alt="">
+        <img src="/static/images/menuicon.svg" class="darkIcon" style="height:40px;width:45px;position:absolute;right:0px" alt="">
+
+      </div>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar" uib-collapse="!toggleNavbar">
+
+      <ul class="nav navbar-nav header_nav {{device.smallDevice?'pull-left':'pull-right'}}">
+
+
+        <li class="header_element">
+          <a href="" ng-mouseleave="show[1]=false" ng-mouseover="show[1]=true" class="navLink"> Services</a>
+          <ul ng-mouseleave="keepshow[1]=false" ng-click="keepshow[1] = false; toggleNavbar = false;" ng-mouseover="keepshow[1]=true" ng-show="show[1]||keepshow[1]" class="container_box ng-hide" style="width:250px;">
+            <!-- <li ng-click="$state.go('impliment')"><a href="/rpa-implimentation-services">Implimentation</a></li>
+            <li ng-click="$state.go('remote')"><a href="/rpa-remote-technical-assistant"> Remote Technical Support</a></li>
+            <li ng-click="$state.go('training')"><a href="/robotic-process-automation-training">Corporate Training</a></li> -->
+          </ul>
+        </li>
+
+        <li class="header_element">
+          <a href="" ng-mouseleave="show[3]=false" ng-mouseover="show[3]=true" class="navLink"> Company</a>
+          <ul ng-mouseleave="keepshow[3]=false" ng-click="keepshow[3] = false; toggleNavbar = false;" ng-mouseover="keepshow[3]=true" ng-show="show[3]||keepshow[3]" class="container_box ng-hide">
+
+              <li ng-click="$state.go('career')"><a href="/career">Careers</a></li>
+              <li ng-click="$state.go('contact_us')"> <a href="/contact_us">Contact Us</a></li>
+            </ul>
+        </li>
+        <!-- <li class="header_element" ng-click="toggleNavbar = false">
+          <a href="/pricing" class="navLink">
+            Pricing</a>
+        </li>
+        <li class="header_element" ng-click="toggleNavbar = false">
+          <a href="/blog" class="navLink"> Blogs</a>
+        </li> -->
+
+
+        <li style="margin-left:30px; {{device.smallDevice ? 'display:inline-block;': ''}}">
+          <button type="button" class="btn btn-warning" style="background-color:#ff6900;margin-top:10px;border-radius:50px;outline:none !important;"
+            onclick="Calendly.initPopupWidget({url: 'https://calendly.com/epsilonai/60min'});return false;">
+          Schedule a Demo
+          </button>
+        </li>
+        <li style="margin-left:20px;width:55px; {{device.smallDevice ? 'display:inline-block;': ''}}">
+          <div class="dropdown" style="margin-top:10px;">
+            <button class="btn btn-default dropdown-toggle " style="border:none !important;" type="button" data-toggle="dropdown"> <img ng-src="{{data.currentLang.flag}}" style="height:15px;" alt="">
+            </button>
+            <ul class="dropdown-menu">
+              <li class="selectLang"><a href="" ng-repeat="l in langOptions" ng-click="changeLan(l)" ng-if="data.currentLang != l"><img ng-src="{{l.flag}}" style="height:15px;" alt=""> {{l.lang}}</a></li>
+            </ul>
+          </div>
+        </li>
+
+
+        <li class="lightic" style="width:70px;cursor:pointer;display:inline-block" ng-if="me.pk">
+          <a class="link" href="/account" style="margin-left:0px;"> <img class=" lightIcon" src="/static/images/loggedinwhite-min.svg" style="width:30px;">
+          </a>
+        </li>
+        <li class="darkic" style="width:70px;cursor:pointer;inline-block" ng-if="me.pk">
+          <a class="link" href="/account" style="margin-left:0px;">
+            <img class="  darkIcon" src="/static/images/loggedinblack-min.svg" style="width:30px;"></a>
+        </li>
+
+
+        <li class="lightic" style="cursor:pointer;" ng-if="!me.pk">
+          <a class="link" ng-click="erpLogin()" style="margin-left:0px;"> <img src="/static/images/LoginThickWhite.svg" alt="" style="width:30px;" class="lightIcon">
+          </a>
+        </li>
+        <li class="darkic header_element" style="cursor:pointer;" ng-if="!me.pk">
+          <a class="link" ng-click="erpLogin()" style="margin-left:0px;"> <img src="/static/images/LoginThickBlack.svg" alt="" style="width:30px;" class="darkIcon"></a>
+        </li>
+
+        <!-- <img src="static/images/login.svg" alt="" style="height:30px;width:30px;margin-top:10px;"> -->
+
+      </ul>
+    </div>
+  </div>
+  <!-- <div class="row" style="position:relative;" ng-show="show_cokie_agree">
+    <div class="col-md-12 cookie_agremt">
+      <div class="col-md-10">
+        <span>This website uses cookie.
+          This <a href="/policy">policy</a> will inform you how the cookies are placed, used on this
+          website and how you can manage them.</span>
+      </div>
+      <div class=" col-md-2 common_padding">
+        <button type="button" class="btn decline_btn" ng-click="cookie(0)" style="">Decline</button>
+        <button type="button" class="btn accept_btn" ng-click="cookie(0)" style="">Accept</button>
+      </div>
+    </div>
+  </div> -->
+
+</nav>

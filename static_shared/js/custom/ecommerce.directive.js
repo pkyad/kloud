@@ -259,6 +259,30 @@ app.directive('ecommerceHeader', function() {
     },
   };
 });
+app.directive('agencyHeader', function() {
+  return {
+    templateUrl: '/static/ngTemplates/agencyHeader.html',
+    restrict: 'E',
+    replace: false,
+    transclude: true,
+    controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
+      $scope.me = $users.get('mySelf')
+
+    },
+  };
+});
+app.directive('servicesHeader', function() {
+  return {
+    templateUrl: '/static/ngTemplates/servicesHeader.html',
+    restrict: 'E',
+    replace: false,
+    transclude: true,
+    controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
+      $scope.me = $users.get('mySelf')
+      console.log($scope.me,"oll");
+    },
+  };
+});
 
 app.directive('categories', function() {
   return {
@@ -1042,115 +1066,11 @@ app.directive('ecommerceNewproducts', function() {
 
       $scope.recentProducts = [{
           "heading": "Newly Added Products",
-          "items": [{
-              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 450,
-              "sellingPrice": 700,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 450,
-              "sellingPrice": 700,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 450,
-              "sellingPrice": 700,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 450,
-              "sellingPrice": 700,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 450,
-              "sellingPrice": 700,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 450,
-              "sellingPrice": 700,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 450,
-              "sellingPrice": 700,
-              "endDateTime": new Date()
-            }
-          ]
+          "items": $scope.data
         },
         {
           "heading": "Top Deals",
-          "items": [{
-              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 450,
-              "sellingPrice": 700,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 450,
-              "sellingPrice": 700,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 450,
-              "sellingPrice": 700,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 450,
-              "sellingPrice": 700,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 450,
-              "sellingPrice": 700,
-              "endDateTime": new Date()
-            },
-            {
-              "image": "https://systunix.com/media/finance/productV2/1602671180_24_DSC_2578-removebg-preview.png",
-              "category": "Desk Organizer",
-              "name": "SIT01 Bamboo Speaker",
-              "mrp": 450,
-              "sellingPrice": 700,
-              "endDateTime": new Date()
-            },
-          ]
+          "items": $scope.data
         }
 
 
@@ -1382,9 +1302,9 @@ app.directive('ecommerceHotproducts', function() {
       data:"="
     },
     controller: function($scope, $state, $http, Flash, $rootScope, $users, $filter, $interval) {
+      console.log($scope.data,"klklllk");
       $scope.items = $scope.data
-
-      if ($scope.data!=undefined) {
+      if ($scope.data.heading !=undefined) {
       try {
         $scope.data = JSON.parse($scope.data)
       }
@@ -1394,6 +1314,12 @@ app.directive('ecommerceHotproducts', function() {
       $scope.hotproducts = {
         "heading": $scope.data.heading.string,
         "items": $scope.data.products.array
+      }
+    }
+    else {
+      $scope.hotproducts = {
+        "heading": 'Hot Products',
+        "items": $scope.data
       }
     }
 

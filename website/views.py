@@ -95,17 +95,17 @@ class InitializewebsitebuilderAPIView(APIView):
         Page.objects.all().delete()
         data = request.data
         division = Division.objects.get(pk = request.user.designation.division.pk)
-        if 'title' in request.data :
-            division.defaultTitle = data['title']
-        if 'description' in request.data :
-            division.defaultDescription = data['description']
+        if 'defaultTitle' in request.data :
+            division.defaultTitle = data['defaultTitle']
+        if 'defaultDescription' in request.data :
+            division.defaultDescription = data['defaultDescription']
         if 'url' in request.data :
             division.subDomain = data['url']
-        if 'stage' in request.data :
-            division.pageType = data['stage']
+        if 'pageType' in request.data :
+            division.pageType = data['pageType']
         division.save()
         request.user.designation.division = division
-        page = Page.objects.create(title= data['title'],description=data['description'],user=request.user)
+        page = Page.objects.create(title= data['defaultTitle'],description=data['defaultDescription'],user=request.user)
         page.save()
         return Response({'page':PageSerializer(page,many=False).data})
 

@@ -312,8 +312,7 @@ height: 100%;" >
     </div>
     <div class="" style="height:100%;overflow-y:scroll;scrollbar-width:thin;scrollbar-behavior:smooth;scrollbar-color:rgba(0, 0, 0, .2) hsla(0, 0%, 100%, .1)">
       <div class="chatThreads" style="">
-        <div ng-if="showUsers=='chats'"  class="allChat row contact userMenuItem {{ $state.is('home.messenger.explore') && $state.params.id == u.pk   ? 'activeUserItem':''}}" ng-click="$state.go('home.messenger.explore' , {id : u.pk})"
-        style="padding:10px 15px;padding-bottom:0px;" ng-repeat="u in chatthreads">
+        <div ng-if="showUsers=='chats'"  class="allChat row contact userMenuItem {{ $state.is('home.messenger.explore') && $state.params.id == u.pk   ? 'activeUserItem':''}}" ng-click="$state.go('home.messenger.explore' , {id : u.pk});updateMessage(u.pk)"        style="padding:10px 15px;padding-bottom:0px;" ng-repeat="u in chatthreads">
         <div class="col-md-3 col-sm-2 text-right" style="padding:0px;">
           <!-- <img ng-src="{{u.dp}}" src="/static/images/userIcon.png" onerror="this.src='/static/images/userIcon.png'" style="width:40px;" class="img img-circle"> -->
           <!-- <div class="" style="clip-path:circle(50%);background:#2edd2e;width:15px;height:15px;position: absolute;bottom: -5px;right: -5px;"></div> -->
@@ -350,8 +349,8 @@ height: 100%;" >
         </div>
         <div class="col-md-1 col-sm-1 " style="padding:10px 0px;">
             <!-- <i class="fa fa-star"> </i> -->
-            <img ng-if="u.is_pin" src="/static/images/icons8-star-filled-48.png" style="height:20px" ng-click="u.is_pin=!u.is_pin;updatePinned(u.pk,u.is_pin)">
-            <img class="pinned" ng-if="!u.is_pin" src="/static/images/icons8-star-filled-50.png" style="height:20px" ng-click="u.is_pin=!u.is_pin;updatePinned(u.pk,u.is_pin)">
+            <img ng-if="u.is_pin" src="/static/images/icons8-star-filled-48.png" style="height:20px" ng-click="u.is_pin=!u.is_pin;updatePinned(u.pk,u.is_pin);">
+            <img class="pinned" ng-if="!u.is_pin" src="/static/images/icons8-star-filled-50.png" style="height:20px" ng-click="u.is_pin=!u.is_pin;updatePinned(u.pk,u.is_pin);">
         </div>
       </div>
       <div class="row" ng-if="showUsers=='users'">

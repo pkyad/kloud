@@ -230,6 +230,7 @@ def renderpageMain(request,apiKey):
         components = json.dumps(CourseSerializer(Course.objects.filter(division = div, activeCourse = True), many = True).data)
         return render(request,'app.HR.page.html',{'componentsData':components,'page':page,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':div,'showLms' : showLms})
 
+    products = Inventory.objects.all()[0:10]
     components = Components.objects.filter(parent = page)
     data = ''
     for indx, i in enumerate(components):
@@ -237,7 +238,7 @@ def renderpageMain(request,apiKey):
         i.dataTemplate = i.template
         print i.data,"4k324kl3k4las;dflkasidfo"
 
-    return render(request,'app.HR.page.html',{'components':components,'page':page,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':div,'showLms' : showLms})
+    return render(request,'app.HR.page.html',{'components':components,'page':page,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':div,'showLms' : showLms,'products':products})
 
 def uielement(request):
     component = UIelementTemplate.objects.get(pk = request.GET['id'])
@@ -477,6 +478,10 @@ def coursedetails(request,id,urlSuffix):
     idx = id
     context = {}
     return render(request, 'app.LMS.academy.coursesdetails.html',{'id':idx})
+def Divisioncoursedetails(request,apiKey,id,urlSuffix):
+    idx = id
+    context = {}
+    return render(request, 'app.LMS.academy.coursesdetails.html',{'id':idx})
 
 
 import math
@@ -485,10 +490,8 @@ def blog(request ):
 
     pageNumber = 1
     offset = pageNumber*6
-    if request.user.designation.division.pk:
-        articlesAll = Article.objects.filter(division = request.user.designation.division)
-    else:
-        articlesAll = Article.objects.filter(division = globalSettings.PARENT_DIVSION)
+    articlesAll = Article.objects.filter(division = globalSettings.PARENT_DIVSION)
+
     # totalCatg = Catrgory.objects.all()
     # for i in totalCatg:
     #     articlescount = Article.objects.filter(category = i).count()
@@ -542,10 +545,8 @@ def Divisionblogs(request,apiKey ):
 
     pageNumber = 1
     offset = pageNumber*6
-    if request.user.designation.division.pk:
-        articlesAll = Article.objects.filter(division = request.user.designation.division)
-    else:
-        articlesAll = Article.objects.filter(division = globalSettings.PARENT_DIVSION)
+    articlesAll = Article.objects.filter(division = request.user.designation.division)
+
     # totalCatg = Catrgory.objects.all()
     # for i in totalCatg:
     #     articlescount = Article.objects.filter(category = i).count()
@@ -613,8 +614,7 @@ def DivisionblogDetails(request ,apiKey, articleUrl):
     data={}
     if request.user.designation.division.pk:
         relatedArticles = Article.objects.filter(division = request.user.designation.division)[0:5]
-    else:
-        relatedArticles = Article.objects.filter(division = globalSettings.PARENT_DIVSION)[0:5]
+
     for i in relatedArticles:
         if i.contents.all().count() >0:
             if i.contents.all()[0].img:
@@ -636,14 +636,9 @@ def renderedArticleView(request , articleUrl):
     randPkss = None
     data={}
 
-    if request.user.designation.division.pk:
-        relatedArticles = Article.objects.filter(division = request.user.designation.division)[0:5]
-        randPks = Article.objects.filter(division = request.user.designation.division).order_by('-created')[0:5]
-        blogs = Article.objects.filter(division = request.user.designation.division)
-    else:
-        relatedArticles = Article.objects.filter(division = globalSettings.PARENT_DIVSION)[0:5]
-        randPks = Article.objects.filter(division = globalSettings.PARENT_DIVSION).order_by('-created')[0:5]
-        blogs = Article.objects.filter(division = request.user.designation.division)
+    relatedArticles = Article.objects.filter(division = globalSettings.PARENT_DIVSION)[0:5]
+    randPks = Article.objects.filter(division = globalSettings.PARENT_DIVSION).order_by('-created')[0:5]
+    blogs = Article.objects.filter(division = globalSettings.PARENT_DIVSION)
     for i in relatedArticles:
         if i.contents.all().count() >0:
             if i.contents.all()[0].img:
