@@ -1,18 +1,32 @@
 <div>
+  <style media="screen">
+    .websiteInput {
+      background:
+        #F2F3F7;
+      color:
+        #555;
+      border-radius: 25px !important;
+      padding: 10px 20px;
+      border: none !important;
+      margin-top: 10px;
+      height: 45px;
+    }
+  </style>
     <div class="form-group" >
         <label>{{label | humanize}}</label>
-        <input style="background:#F3F6FB;padding:25px !important;font-size:20px;border-radius:10px !important;border:none !important;" type="text" class="form-control" ng-model = "d.user" uib-typeahead="user as getName(user) for user in userSearch($viewValue)" placeholder="Search and select a user to add him/her in this group">
+        <input class="form-control websiteInput" type="text" class="form-control" ng-model = "d.user" uib-typeahead="user as getName(user) for user in userSearch($viewValue)" placeholder="Search and select a user to add him/her in this group">
     </div>
     <div class="row" style="padding-bottom:20px;" ng-if="showResults">
         <div class="col-md-{{col}}" ng-repeat="u in data" style="padding-top:10px;">
-            <div class="container-fluid" style="padding-left:0px;position:relative;position: relative;background: #e8e8e8;padding: 20px;font-size: 22px;border-radius:10px;">
-                <div ng-if="!viewOnly" style="position:absolute;right:30px;top:30px;padding:5px;cursor:pointer;">
+            <div class="row" style="padding-left:0px;position:relative;background: #e8e8e8;padding: 20px 0px;font-size: 16px;border-radius:10px;">
+                <div ng-if="!viewOnly" style="position:absolute;right:10px;top:0px;padding:5px;cursor:pointer;">
                   <i class="fa fa-times" ng-click="removeUser($index)"></i>
                 </div>
                 <div class="col-md-4" style="padding-top:5px;">
-                  <img ng-src="{{u | getDP}}" class="img-circle" alt="DP" height="50" width="50" />
+                  <img ng-src="{{u | getDP}}" style="height:50px;"class="img-circle" alt="DP"  />
                 </div>
                 <div class="col-md-8">
+
                   {{u | getName}} <br>
                   <!-- ID : <strong>{{u}}</strong> -->
                 </div>

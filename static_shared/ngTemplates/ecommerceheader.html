@@ -18,7 +18,7 @@
         </div>
         <div class=" col-md-2 col-xs-4 col-sm-3 add_cart1" style="margin-top:0.5%;">
           <div class="row" style="cursor:pointer;margin:1% 0%;">
-            <a href="/pages/{{division}}/checkout/">
+            <a href="/pages/{{divApikey}}/checkout/">
               <div class="col-md-4 col-sm-4 col-xs-4"  style="padding:10px;">
                 <span ng-if="userDetails.pk"><img src="/static/images/CartIconUnfill.png" style="width:60px"><span class="cart_count ng-binding" style="background: var(--themeColor);">{{allCartItems.length}}</span></span>
                 <span ng-if="!userDetails.pk"><img src="/static/images/CartIconUnfill.png" style="width:60px"><span class="cart_count ng-binding" style="background: var(--themeColor);">{{cartCookieData.length}}</span></span>
@@ -83,7 +83,7 @@
             <div class="dropdown-content" ng-if="onEnter">
               <div class="col-md-2" style="background-color:#ffffff;top: 100%;padding: 5px 20px;left: 16.65%;position: absolute;z-index: 9999;">
                 <ul class="list-unstyled" style="height:560px;overflow-y:auto" ng-click="onEnter=false">
-                  <li ng-repeat="k in categories" ><a href="/pages/{{division}}/categories/{{k.pk}}/{{k.url}}">{{k.name}}</a></li>
+                  <li ng-repeat="k in categories" ><a href="/pages/{{divApikey}}/categories/{{k.pk}}/{{k.url}}">{{k.name}}</a></li>
                 </ul>
               </div>
             </div>

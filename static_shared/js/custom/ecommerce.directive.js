@@ -37,6 +37,7 @@ app.directive('ecommerceHeader', function() {
     controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
       $scope.me = $users.get('mySelf')
       try {
+        $scope.divApikey = DIVISION_APIKEY
         $scope.division = DIVISION_APIKEY
         url = '/api/website/getFooterDetails/?divId='+$scope.division
       }
@@ -267,7 +268,46 @@ app.directive('agencyHeader', function() {
     transclude: true,
     controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
       $scope.me = $users.get('mySelf')
-
+      $http({
+        method:'GET',
+        url:'/api/organization/divisions/'+$scope.me.designation.division
+      }).then(function(response){
+        $scope.division = response.data
+      })
+    },
+  };
+});
+app.directive('blankHeader', function() {
+  return {
+    templateUrl: '/static/ngTemplates/blankHeader.html',
+    restrict: 'E',
+    replace: false,
+    transclude: true,
+    controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
+      $scope.me = $users.get('mySelf')
+      $http({
+        method:'GET',
+        url:'/api/organization/divisions/'+$scope.me.designation.division
+      }).then(function(response){
+        $scope.division = response.data
+      })
+    },
+  };
+});
+app.directive('agencyFooter', function() {
+  return {
+    templateUrl: '/static/ngTemplates/agencyFooter.html',
+    restrict: 'E',
+    replace: false,
+    transclude: true,
+    controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
+      $scope.me = $users.get('mySelf')
+      $http({
+        method:'GET',
+        url:'/api/organization/divisions/'+$scope.me.designation.division
+      }).then(function(response){
+        $scope.division = response.data
+      })
     },
   };
 });
@@ -279,7 +319,37 @@ app.directive('servicesHeader', function() {
     transclude: true,
     controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
       $scope.me = $users.get('mySelf')
-      console.log($scope.me,"oll");
+      $http({
+        method:'GET',
+        url:'/api/organization/divisions/'+$scope.me.designation.division
+      }).then(function(response){
+        $scope.division = response.data
+      })
+      $scope.me = $users.get('mySelf')
+    },
+  };
+});
+app.directive('servicesFooter', function() {
+  return {
+    templateUrl: '/static/ngTemplates/servicesFooter.html',
+    restrict: 'E',
+    replace: false,
+    transclude: true,
+    controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
+      $scope.me = $users.get('mySelf')
+      $http({
+        method:'GET',
+        url:'/api/organization/divisions/'+$scope.me.designation.division
+      }).then(function(response){
+        $scope.division = response.data
+      })
+      $http({
+        method:'GET',
+        url:'/api/organization/unit/?division='+$scope.me.designation.division
+      }).then(function(response){
+        $scope.unit = response.data[0]
+      })
+      $scope.me = $users.get('mySelf')
     },
   };
 });

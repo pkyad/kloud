@@ -224,7 +224,7 @@
             <div class="display_picture_view" style="background-image:url({{user.dp?user.dp:'/static/images/userIcon.png'}})">
             </div>
           </div>
-          <div class="{{user.is_show?'col-md-9':'col-md-10'}} col-sm-9" ng-click="user.is_show=true" style="">
+          <div class="{{user.is_show?'col-md-9':'col-md-9'}} col-sm-9" ng-click="user.is_show=true" style="">
             <h5 style="margin-top:0px;margin-bottom:5px">{{user.name.name}} </h5>
             <p ng-if="!show.showTypingVal" style="margin-bottom:5px">last seen today</p>
             <p ng-if="show.showTypingVal" style="margin-bottom:5px">Typing....</p>
@@ -234,9 +234,9 @@
             <img src="/static/images/icons8-outgoing-call-30.png" alt="" ng-click="call(user.name.mobile)" style="padding-right:10px;margin-top:5px;cursor: pointer;">
             <i></i>
             <!-- <i style="padding:10px" class="fa fa-thumb-tack fa-lg " ng-click="setToPin()"></i> -->
-            <img  ng-if="user.is_pin" src="/static/images/icons8-star-filled-48.png" style="height:20px;margin-top:10px;" ng-click="setToPin()" class="pull-right">
-            <img ng-if="!user.is_pin" src="/static/images/icons8-star-filled-50.png" style="height:20px;margin-top:10px;"ng-click="setToPin()" class="pull-right">
-
+            <img  ng-if="user.is_pin" src="/static/images/icons8-star-filled-48.png" style="height:20px;margin-top:10px;" ng-click="setToPin()" >
+            <img ng-if="!user.is_pin" src="/static/images/icons8-star-filled-50.png" style="height:20px;margin-top:10px;"ng-click="setToPin()" >
+            <button type="button" name="button" class="btn" style="background-color:#27af61;border-radius:50px !important;color:white;margin-top:10px;border:2px solid #27af61" ng-click="transferTobot(user.pk,user.transferred)">Transfer to Bot</button>
 
 
         </div>

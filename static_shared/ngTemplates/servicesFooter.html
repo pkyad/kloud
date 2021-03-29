@@ -1,0 +1,55 @@
+<div class="container-fluid">
+
+  <style media="screen">
+    .location  li a,location > li > a:hover,.location li  a:focus {
+      color:white;line-height:2.5
+    }
+    .serviceFooter h4{
+      color:#ff914a;
+    }
+  </style>
+  <div class="row serviceFooter" style="background-color:black;padding:70px;color:white;">
+    <div class="col-md-10 col-md-offset-1" style="border-bottom: 1px solid
+#ccc;padding-bottom: 50px;padding-left:0px;">
+      <div class="col-md-4" style="padding-left:0px;">
+        <img src="{{division.logo}}" alt="" style="height:100px;margin-bottom:30px;"><br>
+        <p><b style="color:#ff914a">We do care about everything</b><br>Drop us a mail or visi our office</p>
+      </div>
+      <div class="col-md-4 text-left">
+        <h3 style="color:#ffffff"><b>Links</b></h3>
+        <ul class="list-unstyled location ">
+          <li><a href="careers">Careers</a></li>
+          <li><a href="contactus">Contact Us</a></li>
+          <li><a href="blog">Blog</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4 text-left">
+        <h3 style="color:#ffffff"><b>Other links</b></h3>
+        <ul class="list-unstyled location">
+          <li><a href="/terms">Terms & Conditions </a></li>
+          <li><a href="/privacypolicy">Privacy Policy</a></li>
+          <li><a href="/refundpolicy">Refund Policy</a></li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="col-md-10 col-md-offset-1" style="padding-left:0px;padding-top:40px;">
+      <div class="col-md-4" style="padding-left:0px;">
+        <h4><i class="fa fa-map-marker"></i> Our location</h4>
+        <address class="">
+          {{unit.address}}<br>{{unit.city}}, {{unit.state}} - {{unit.pincode}}, {{unit.country}}
+        </address>
+
+      </div>
+      <div class="col-md-4">
+        <h4><i class="fa fa-phone"></i> Contact Us</h4>
+        <p>tel: +91 80503 22286,{{unit.mobile}}</p>
+        <p>email: info@epsilonai.com</p>
+
+      </div>
+      <div class="col-md-4">
+        <span style="color:#ffffff;font-size:10px;"><i class="fa fa-copyright"></i>2021 All Rights Reserved.</span>
+      </div>
+    </div>
+  </div>
+</div>

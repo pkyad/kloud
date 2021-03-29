@@ -63,6 +63,21 @@
 
       })
     }
+    $scope.transferTobot = function(pk,val){
+
+      $http({
+        method: 'PATCH',
+        url: '/api/PIM/chatThreads/'+pk+'/',
+        data:{
+          transferred : val
+        }
+      }).
+      then(function(response) {
+        if (!response.data.transferred) {
+          Flash.create('success','Transfered to Bot')
+        }
+      })
+    }
 
     // $scope.getaddChat = function(signal){
     //

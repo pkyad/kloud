@@ -137,7 +137,10 @@ def pageeditor(request,id):
     if request.user.designation.division.headerTemplate:
         footer  = request.user.designation.division.footerTemplate
         footerCss  = request.user.designation.division.footerCss
-
+    try:
+        div = request.user.designation.division
+    except:
+        pass
     components = Components.objects.filter(parent = page).order_by('index')
     data = ''
 
@@ -150,7 +153,7 @@ def pageeditor(request,id):
         print header,'00900-'
     API_KEY = hash_fn.hash(page.user.designation.division.pk)
 
-    return render(request, 'app.HR.pageeditor.html',{'page':page,'data':data, 'components' : components,'API_KEY':API_KEY,'header':header,'headerCss':headerCss,'footer':footer,'footerCss':footerCss})
+    return render(request, 'app.HR.pageeditor.html',{'page':page,'data':data, 'components' : components,'API_KEY':API_KEY,'header':header,'headerCss':headerCss,'footer':footer,'footerCss':footerCss,'divisionJson':div})
 
 # def renderpage(request,url):
 #     filePath = os.path.join(globalSettings.BASE_DIR , 'media_root' , 'publishedPages' , ('%s_%s.html'% (1, url)))
@@ -455,6 +458,16 @@ def ProfileView(request,apiKey):
 
 import json
 def careers(request):
+    context={}
+
+    finalData =  Jobs.objects.all()
+
+
+    halfData = len(finalData)/2
+    firstSec = finalData[:halfData]
+    secondSec = finalData[halfData:len(finalData)]
+    return render(request, 'app.HR.careers.html',{'firstSec':firstSec,'secondSec':secondSec})
+def careersbyDivision(request,apiKey):
     context={}
 
     finalData =  Jobs.objects.all()

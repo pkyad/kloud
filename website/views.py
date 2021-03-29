@@ -103,8 +103,31 @@ class InitializewebsitebuilderAPIView(APIView):
             division.subDomain = data['url']
         if 'pageType' in request.data :
             division.pageType = data['pageType']
+        if division.pageType == 'Services':
+            division.headerTemplate = '<services-header></services-header>'
+            division.footerTemplate = '<services-footer></services-footer>'
+        elif division.pageType == 'Ecommerce' :
+            division.headerTemplate = '<ecommerce-header></ecommerce-header>'
+            division.footerTemplate = '<ecommerce-footer></ecommerce-footer>'
+        elif division.pageType == 'LMS' or division.pageType == 'Agency':
+            division.headerTemplate = '<agency-header></agency-header>'
+            division.footerTemplate = '<agency-footer></agency-footer>'
+        elif division.pageType == 'Blank' or division.pageType == 'Agency':
+            division.headerTemplate = '<blank-header></blank-header>'
+            # division.footerTemplate = '<agency-footer></agency-footer>'
+        else:
+            pass
+
+
+
+        #   {% if divisionJson.pageType == 'LMS' or divisionJson.pageType == 'Agency' %}
+        # <agency-footer></agency-footer>
+        # {% elif divisionJson.pageType == 'Ecommerce' %}
+        # <ecommerce-footer></ecommerce-footer>
+        # {% elif divisionJson.pageType == 'Services'  %}
+        # <services-footer></services-footer>
+        # {% else %}
         division.save()
-        request.user.designation.division = division
         page = Page.objects.create(title= data['defaultTitle'],description=data['defaultDescription'],user=request.user)
         page.save()
         return Response({'page':PageSerializer(page,many=False).data})

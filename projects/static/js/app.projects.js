@@ -1143,6 +1143,14 @@ app.controller('projectManagement.project.modal.project', function($scope, $http
 });
 app.controller('projectManagement.projects.new', function($scope, $http, $aside, $state, Flash, $users, $filter, $permissions , $uibModalInstance) {
 
+
+$scope.getCC = function(){
+  $http.get('/api/finance/costCenter/').
+  then(function(response) {
+    $scope.costcenters = response.data
+  })
+}
+$scope.getCC()
   $scope.ccSearch = function(query) {
     return $http.get('/api/finance/costCenter/?name__icontains=' + query).
     then(function(response) {

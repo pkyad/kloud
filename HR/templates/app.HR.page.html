@@ -17,41 +17,27 @@
 
 {% block specific_css %}
 <style media="screen">
-  {{footerCss | safe}}
-  {{headerCss | safe}}
+{{footerCss | safe}}
+{{headerCss | safe}}
 </style>
 
 
 {% endblock %}
 
 {% block header %}
-
-  {% if divisionJson.pageType == 'Agency' or divisionJson.pageType == 'LMS' %}
-      {% verbatim %}
-      <agency-header></agency-header>
-      {% endverbatim %}
-  {% elif divisionJson.pageType == 'Ecommerce' %}
-      {% verbatim %}
-      <ecommerce-header></ecommerce-header>
-      {% endverbatim %}
-  {% elif divisionJson.pageType == 'Services' %}
-      {% verbatim %}
-      <services-header></services-header>
-      {% endverbatim %}
-  {% else %}
-    {{ header | safe}}
-  {% endif %}
+  {{ header | safe}}
 
 
 {% endblock %}
 {% block content %}
-<body ng-app="app" ng-controller="main"  ng-init="division = '{{divisionJson}}'" style="background-color:#f7f7f7;">
-  <div >
+
+<body ng-app="app" ng-controller="main" ng-init="division = '{{divisionJson}}'" style="background-color:#f7f7f7;">
+  <div>
     <div class="container-fluid" style="margin-top:130px;margin-bottom:30px;">
-      {% if divisionJson.pageType == 'Ecommerce'%}
+      {% if divisionJson.pageType == 'Ecommerce' %}
       {% verbatim %}
-        <ecommerce-hotproducts data="products" >  </ecommerce-hotproducts>
-        <ecommerce-newproducts data="products" >  </ecommerce-newproducts>
+      <ecommerce-hotproducts data="products"> </ecommerce-hotproducts>
+      <ecommerce-newproducts data="products"> </ecommerce-newproducts>
       {% endverbatim %}
 
 
@@ -62,11 +48,11 @@
         <academy-courses data="componentsData"> </academy-courses>
         <!-- {% endverbatim %} -->
       </div>
-
+      <p>{{components}}</p>
       {% else %}
       {% for component in components %}
       <div class="" ng-init="component.data = {{component.data | safe}}">
-        <style media="screen" >
+        <style media="screen">
         {{component.css | safe}}
         </style>
         {{component.template | safe}}
@@ -92,14 +78,10 @@
   <script src="/static/js/angular-sanitize.min.js"></script>
   <script src="/static/js/ngDraggable.js"></script>
 
-  <script type="text/javascript">
-    var page = '{{page.pk}}'
-    var DIVISION_APIKEY = '{{API_KEY}}'
-  </script>
+
   <!-- <script src="/static/js/app.pageEditor.js"></script> -->
   <script type="text/javascript">
-
-    var app = angular.module('app',  ['ui.router', 'flash', 'ngSanitize', 'ngDraggable', 'ui.bootstrap','angular-owl-carousel-2','uiSwitch']);
+    var app = angular.module('app', ['ui.router', 'flash', 'ngSanitize', 'ngDraggable', 'ui.bootstrap', 'angular-owl-carousel-2', 'uiSwitch']);
     app.config(function($httpProvider, $stateProvider, $urlRouterProvider, $provide) {
 
       $httpProvider.defaults.xsrfCookieName = 'csrftoken';
@@ -115,25 +97,25 @@
 
       $scope.getComponents = function() {
 
-        console.log($scope.data,'34343');
+        console.log($scope.data, '34343');
         $http({
           method: 'GET',
-          url: '/api/website/components/?parent=' +page,
+          url: '/api/website/components/?parent=' + page,
         }).
         then(function(response) {
           $scope.components = response.data
           for (var i = 0; i < $scope.components.length; i++) {
-            $scope.components[i].data =JSON.parse($scope.components[i].data)
+            $scope.components[i].data = JSON.parse($scope.components[i].data)
           }
         })
       }
       $scope.getComponents()
       $scope.getProducts = function() {
 
-        console.log($scope.data,'34343');
+        console.log($scope.data, '34343');
         $http({
           method: 'GET',
-          url: '/api/finance/inventory/?division='+DIVISION,
+          url: '/api/finance/inventory/?division=' + DIVISION,
         }).
         then(function(response) {
           $scope.products = response.data
@@ -144,7 +126,7 @@
 
       $http({
         method: 'GET',
-        url: '/api/organization/divisions/' +DIVISION,
+        url: '/api/organization/divisions/' + DIVISION,
       }).
       then(function(response) {
         $scope.division = response.data
@@ -154,9 +136,6 @@
 
 
     });
-
-
-
   </script>
 
 
@@ -219,13 +198,13 @@
   {% block footer %}
 
 
-    <div class="" >
-      <style media="screen">
-        {{footerCss | safe}}
-      </style>
-      {{ footer | safe}}
-      {{ footer.footerData | safe}}
-    </div>
+  <div class="">
+
+    <style media="screen">
+    {{footerCss | safe}}
+    </style>
+    {{ footer | safe}}
+  </div>
 
   {% endblock %}
 
