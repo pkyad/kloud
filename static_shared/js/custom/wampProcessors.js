@@ -51,9 +51,16 @@ connection.onopen = function (session) {
     });
   }
 
+  // processNotification = function(args){
+  //   console.log('ssssssssssssssssssss');
+  //   var scope = angular.element(document.getElementById('main')).scope();
+  //   scope.$apply(function() {
+  //     scope.fetchNotifications(args[0]);
+  //   });
+  // };
+
   processNotification = function(args){
-    console.log('ssssssssssssssssssss');
-    var scope = angular.element(document.getElementById('main')).scope();
+    var scope = angular.element(document.getElementById('asideMenu')).scope();
     scope.$apply(function() {
       scope.fetchNotifications(args[0]);
     });
@@ -84,6 +91,20 @@ connection.onopen = function (session) {
     }
   };
 
+  updateRemovedChat = function(args) {
+    console.log(args);
+    var scope = angular.element(document.getElementById('mainChat')).scope();
+    console.log(scope);
+
+    if (typeof scope != 'undefined') {
+      scope.$apply(function() {
+        scope.getTransferedChats(args[0]);
+      });
+    }
+  };
+
+
+
 
 
   session.subscribe(wamp_prefix + 'service.chat.'+wampBindName, chatResonse).then(
@@ -105,6 +126,16 @@ connection.onopen = function (session) {
     );
   }
   session.subscribe(wamp_prefix +'service.division.'+DIVISIONPK, processFreeQuotaUpdates).then(
+    // for the various dashboard updates
+    function (sub) {
+      console.log("subscribed to topic 'quota'", DIVISIONPK);
+    },
+    function (err) {
+      console.log("failed to subscribed: " + err);
+    }
+  );
+
+  session.subscribe(wamp_prefix +'service.chatThread.'+DIVISIONPK, updateRemovedChat).then(
     // for the various dashboard updates
     function (sub) {
       console.log("subscribed to topic 'quota'", DIVISIONPK);

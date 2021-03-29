@@ -88,7 +88,7 @@ TRUSTED_DOMAINS = ['http://192.168.1.152','http://192.168.1.127', 'http://192.16
 SOURCE_LIST = ['OEM','WEBSITE','BNI']
 
 
-LOGIN_REDIRECT = '/' # the url to which the user will be redirected once successfully loggedin
+LOGIN_REDIRECT = 'ERP' # the url to which the user will be redirected once successfully loggedin
 # Options are : ERP , ecommerce , blogs , corporate
 
 LOGOUT_REDIRECT = 'ERP' # similarly the url to which the user will be directed one logged out
@@ -103,8 +103,8 @@ BRAND_LOGO_INVERT = '/static/images/24_tutors_icon_invert.svg'
 
 BRAND_LOGO_INVERT = '/static/images/eai.png'
 BRAND_ACTIVATION_LINK = "https://cioc.in/"
-SNERT_PATH_1 = '/home/cioc/stanford-ner-2018-10-16/classifiers/english.all.3class.distsim.crf.ser.gz'
-SNERT_PATH_2 = '/home/cioc/stanford-ner-2018-10-16/stanford-ner.jar'
+SNERT_PATH_1 = '/home/cioc-d3/stanford-ner-2018-10-16/classifiers/english.all.3class.distsim.crf.ser.gz'
+SNERT_PATH_2 = '/home/cioc-d3/stanford-ner-2018-10-16/stanford-ner.jar'
 
 SMS_API_PREFIX = "https://api.msg91.com/api/sendhttp.php?authkey=297203Ayys3IDSG5e66328dP1&route=4&sender=TESTIN&country=91&mobiles=%s&message=%s"
 
@@ -125,8 +125,8 @@ RAZORPAY_KEY = 'rzp_live_UVCQtyXr9DpVJK'
 RAZORPAY_SECRET = 'aOaFKukng2tSEld41cEebBBM'
 
 MAP_API_KEY = 'AIzaSyBJO5IcouQ-yY2icc7TYaTNMcWc3B_-38Q'
-SNERT_PATH_1 = '/home/cioc/stanford-ner-2018-10-16/classifiers/english.all.3class.distsim.crf.ser.gz'
-SNERT_PATH_2 = '/home/cioc/stanford-ner-2018-10-16/stanford-ner.jar'
+SNERT_PATH_1 = '/home/cioc-d3/stanford-ner-2018-10-16/classifiers/english.all.3class.distsim.crf.ser.gz'
+SNERT_PATH_2 = '/home/cioc-d3/stanford-ner-2018-10-16/stanford-ner.jar'
 
 import requests
 def SEND_SMS(number , txt):
@@ -445,7 +445,7 @@ AUTHENTICATION_BACKENDS = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'kloud_new',
+        'NAME': 'latest_kloud',
         'USER': 'newuser',
         'PASSWORD': 'titan@1234',
         'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on

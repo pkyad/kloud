@@ -374,6 +374,7 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
                 for p in self.context['request'].data['participants']:
                     c.participants.add( User.objects.get(pk = int(p)))
         c.save()
+        c.participantscount = c.participants.all().count()
         return c
     def update(self ,instance, validated_data):
 
@@ -413,6 +414,11 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
             tagged = self.context['request'].data['participants']
             for tag in tagged:
                 instance.participants.add( User.objects.get(pk = tag))
+            instance.save()
+        print instance.participants.all().count(),'aaaaaaaaaaaaaaaaaaaa'
+        instance.participantscount  = instance.participants.all().count()
+        if 'received' in self.context['request'].data:
+            instance.receivedBy = self.context['request'].user
         instance.save()
         return instance
     def get_name(self , obj):
@@ -463,8 +469,10 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
 
         return chatMessageSerializer(obj.messages.all().last(),many=False).data
     def get_unreadMsgs(self , obj):
-
-        return obj.messages.filter(read=False ).exclude(user = self.context['request'].user).count()
+        try:
+            return obj.messages.filter(read=False ).exclude(user = self.context['request'].user).count()
+        except:
+            return 0
 
 
 

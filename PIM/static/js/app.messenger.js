@@ -832,8 +832,6 @@ $scope.postFiles = function(){
 
 
 
-
-
         $scope.updatePinned = function(pk,val){
           $http({
             method: 'PATCH',
@@ -1023,6 +1021,14 @@ $scope.postFiles = function(){
     then(function(response) {
       $scope.getChatthreads()
       $scope.showUsers = 'chats'
+      for (var i = 0; i < response.data.participants.length; i++) {
+        connection.session.publish(wamp_prefix+'service.notification.'+response.data.participants[i].first_name).
+        then(function(publication) {
+          console.log('published');
+        },function(){
+          console.log('Failed to publish message to all');
+        });
+      }
       $state.go('home.messenger.explore',{id:response.data.pk})
     })
   }
@@ -1045,32 +1051,50 @@ $scope.postFiles = function(){
   }
   $scope.getMessages()
 
+//   $scope.getChatthreads()
+//
+// })
+// }
 
 
-  $scope.updateMessage = function(id){
+
+
+
+
+  $scope.getTransferedChats = function(){
     $http({
       method: 'GET',
-      url: '/api/PIM/readMessage/?thread='+id,
-
+      url: '/api/PIM/getChatThreads/?transfered='
     }).
     then(function(response) {
-        $scope.getChatthreads()
-
+      $scope.allTransferedChats = response.data
     })
   }
 
 
 
-$scope.getTransferedChats = function(){
-  $http({
-    method: 'GET',
-    url: '/api/PIM/chatThreads/?transfered='
-  }).
-  then(function(response) {
-    $scope.allTransferedChats = response.data
-  })
-}
+  $scope.getTransferedChats()
 
-$scope.getTransferedChats()
+  $scope.markasTaken = function(id, indx){
+    $http({
+      method: 'POST',
+      url: '/api/PIM/createChatThread/',
+      data:{
+        received : " ",
+        id : id
+      }
+    }).
+    then(function(response) {
+      $scope.chatthreads.unshift(response.data)
+      $scope.allTransferedChats.splice(indx,1)
+      connection.session.publish(wamp_prefix+'service.chatThread.'+DIVISIONPK).
+      then(function(publication) {
+        console.log('published');
+      },function(){
+        console.log('Failed to publish message to all');
+      });
+      $state.go('home.messenger.explore' , {'id' : id})
+    })
+  }
 
   });

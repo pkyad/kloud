@@ -156,7 +156,20 @@ class ChatThreadsViewSet(viewsets.ModelViewSet):
             return threadObj
 
         # chatObj = ChatThread.objects.filter(participants =  self.request.user) | ChatThread.objects.filter( company = self.request.user.designation.division , participants = None).order_by('is_pin')
-        chatObj = ChatThread.objects.filter(company = self.request.user.designation.division).filter(Q(participants =  self.request.user)|Q(participants__isnull = True)).order_by('-updated')
+        # isOnSupport = False
+        # try:
+        #     isOnSupport = self.request.user.designation.team.isOnSupport
+        # except:
+        #     pass
+        # if self.request.user.is_staff and isOnSupport:
+        #     chatObj = ChatThread.objects.filter(company = self.request.user.designation.division).filter(Q(participants =  self.request.user)|Q(uid__isnull = False, receivedBy__isnull = False)).order_by('-updated')
+        # else:
+        chatObj = ChatThread.objects.filter(company = self.request.user.designation.division).filter(Q(participants =  self.request.user)|Q(receivedBy = self.request.user)).order_by('-updated')
+
+
+
+
+        # chatObj = ChatThread.objects.filter(company = self.request.user.designation.division).filter(Q(participants =  self.request.user)|Q(participants__isnull = True)).order_by('-updated')
         # chatObj2 = allObj.filter(is_pin = False).order_by('-updated')
         # chatObj1 = allObj.filter(is_pin = True)
         # chatObj = chatObj1|chatObj2
@@ -171,6 +184,12 @@ class createChatThreadAPIView(APIView):
         if 'user' and 'company' in request.data:
             chatThread = ChatThread.objects.get_or_create(company__id=request.data['company'],user__id = request.data['user'],title=request.data['title'])
             chatThread.save()
+        if 'received' in request.data:
+            chatThread = ChatThread.objects.get(id = int(request.data['id']))
+            chatThread.participants.add(request.user)
+            chatThread.participantscount = 1
+            chatThread.save()
+            return Response(ChatThreadsSerializer(chatThread, many=False).data, status = status.HTTP_200_OK)
         return Response({}, status = status.HTTP_200_OK)
 
 class GetChatThreadsAPIView(APIView):
@@ -178,7 +197,7 @@ class GetChatThreadsAPIView(APIView):
     def get(self , request , format = None):
         frm = request.user
         if 'transfered' in request.GET:
-            toRet = chatMessageLiteSerializer(ChatMessage.objects.filter(transfered = True, participants__isnull = True))
+            toRet = ChatThreadsSerializer(ChatThread.objects.filter(company = frm.designation.division, transferred = True, participantscount = 0), many = True).data
             return Response(toRet, status = status.HTTP_200_OK)
         q1 =[]
         # q1 = chatMessage.objects.filter(user=frm).values_list('originator' ,  flat=True ).distinct() # recieved
@@ -319,6 +338,8 @@ class CreateNewChatAPIView(APIView):
             chatObj = ChatThread.objects.create(user = user, company = div, is_personal = True)
             for p in c_id_list:
                 chatObj.participants.add( User.objects.get(pk = int(p)))
+            chatObj.save()
+            chatObj.participantscount = chatObj.participants.all().count()
             chatObj.save()
             data  = ChatThreadsSerializer(chatObj, context=serializer_context).data
         return Response(data,status=status.HTTP_200_OK)

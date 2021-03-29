@@ -133,6 +133,7 @@ class ChatThread(models.Model):
     user = models.ForeignKey(User , related_name='externalChatThreads' , null = True)
     is_personal =  models.BooleanField(default = False)
     is_pin = models.BooleanField(default = False)
+    participantscount = models.PositiveSmallIntegerField(default = 0)
 
 
 
@@ -412,7 +413,7 @@ def pushMessageToUI(sender, instance, **kwargs):
               'args': [instance.uid, 'M', instance.pk, ct.company.pk , False, ct.pk , ct.company.name]
             }
         )
-        
+
         print " posted to the agent " , res.text
         return
 
@@ -564,4 +565,3 @@ def pushMessageToUI(sender, instance, **kwargs):
                                           from_='whatsapp:+%s'%(from_number),
                                           to='whatsapp:+%s'%(ct.fid.replace(' ', ''))
                                       )
-
