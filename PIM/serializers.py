@@ -379,7 +379,7 @@ class ChatThreadsSerializer(serializers.ModelSerializer):
     def update(self ,instance, validated_data):
 
 
-        for key in ['status' , 'customerRating' , 'customerFeedback' , 'company','typ','isLate','location', 'participants','title',  'description','dp','is_pin','title','visitor']:
+        for key in ['status' , 'customerRating' , 'customerFeedback' , 'company','typ','isLate','location', 'participants','title',  'description','dp','is_pin','title','visitor','transferred']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
@@ -483,13 +483,15 @@ class NotebookFullSerializer(serializers.ModelSerializer):
     shares = userSearchSerializer(many=True , read_only=True)
     class Meta:
         model = notebook
-        fields = ('created', 'title', 'source', 'shares', 'type', 'locked', 'user', 'pk')
+        fields = ('created', 'title', 'source', 'shares', 'type', 'locked', 'user', 'pk','project')
         read_only_fields = ('shares' , )
     def create(self , validated_data):
         notesObj = notebook(**validated_data)
         user = self.context['request'].user
         notesObj.user = user
         notesObj.division = user.designation.division
+        if 'project' in self.context['request'].data:
+            notesObj.project = project.objects.get(pk = self.context['request'].data['project'] )
         notesObj.save()
         try:
             CreateUsageTracker(self.context['request'].user.designation.division.pk, 'Created new note')

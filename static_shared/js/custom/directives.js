@@ -1049,7 +1049,7 @@ app.directive('appdetailedView', function() {
       id: '=',
       // addCart: '='
     },
-    controller: function($scope, $state, $http, Flash, $rootScope, $filter,$location, $users, $timeout,$uibModal) {
+    controller: function($scope, $state,$sce, $http, Flash, $rootScope, $filter,$location, $users, $timeout,$uibModal) {
       // alert('988999')
       console.log($scope.id,"uioiuuoiioiuoiouuiobn  b mn");
       $scope.isMobile = false
@@ -1274,10 +1274,11 @@ app.directive('appdetailedView', function() {
           $scope.users =  $scope.allData.appUser
           $scope.appMedia =  $scope.allData.appMedias
           $scope.mobileMedia =  $scope.allData.mobileMedia
-          $scope.app.feedback = $scope.allData.appFeedbacks
+          $scope.feedback = $scope.allData.appFeedbacks
           $scope.installedApp = $scope.allData.installedApp
           $scope.is_staff =  $scope.allData.is_staff
           $scope.is_user_installed =  $scope.allData.is_user_installed
+          $scope.richText = $sce.trustAsHtml($scope.allData.appData.richText)
           if ($scope.installedApp.pk) {
             $scope.step = 'installed'
             $scope.getAppName()

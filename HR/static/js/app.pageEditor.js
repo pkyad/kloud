@@ -524,5 +524,5 @@ $scope.getComponents()
     });
   }
 
-  
+
 })

@@ -182,6 +182,7 @@ INSTALLED_APPS = (
     'forum',
     'chatbot',
     'notes',
+    'RPA'
     # 'reports',
 )
 

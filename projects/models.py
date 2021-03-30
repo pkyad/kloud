@@ -66,7 +66,6 @@ class project(models.Model):
     company = models.ForeignKey(service , related_name = 'projects',null=True)
     icon = models.ImageField(upload_to = getIconPath , null = True)
 
-
 class projectComment(comment):
     project = models.ForeignKey(project , null= False , related_name='comments')
 

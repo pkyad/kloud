@@ -74,6 +74,7 @@ class projectSerializer(serializers.ModelSerializer):
     comments = projectCommentSerializer(many = True , read_only = True)
     costCenter = CostCenterLiteSerializer(many = False , read_only = True)
     ourBoundInvoices = OutBoundInvoiceLiteSerializer(many = True , read_only = True)
+
     totalCost = serializers.SerializerMethodField()
     team = userSerializer(many = True , read_only = True)
     class Meta:

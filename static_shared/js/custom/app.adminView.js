@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ui.router','flash', 'ui.bootstrap','chart.js','uiSwitch']);
+var app = angular.module('app', ['ui.router','flash', 'ui.bootstrap','chart.js','uiSwitch','ui.tinymce']);
 var emptyFile = new File([""], "");
 app.config(function($httpProvider,$stateProvider, $urlRouterProvider,$provide) {
 
@@ -1358,6 +1358,32 @@ app.controller('admin.settings.configure.language.form', function($scope, $http,
 
 app.controller('businessManagement.appsDetails', function($scope, $http, $state, $uibModal, Flash) {
 
+  $scope.tinymceOptions = {
+    selector: 'textarea',
+    content_css: '/static/css/bootstrap.min.css',
+    inline: false,
+    plugins: 'advlist autolink link image lists charmap preview imagetools paste table insertdatetime code searchreplace anchor',
+    skin: 'lightgray',
+    theme: 'modern',
+    height: 400,
+    toolbar: 'undo redo | bullist numlist | alignleft aligncenter alignright alignjustify | outdent  indent blockquote | bold italic underline | image link',
+    setup: function(editor) {
+      // editor.addButton();
+    },
+    rel_list: [{
+        title: 'None',
+        value: 'none'
+      },
+      {
+        title: 'No Follow',
+        value: 'nofollow'
+      },
+      {
+        title: 'Table of contents',
+        value: 'toc'
+      }
+    ]
+  };
 
    $scope.getApp  = function(){
      $http({
@@ -1441,6 +1467,11 @@ $scope.delMobileMedia = function(indx){
      fd.append('inMenu', $scope.data.inMenu)
      fd.append('admin', $scope.data.admin)
      fd.append('totalRatings' , $scope.data.totalRatings)
+     fd.append('appStoreUrl' , $scope.data.appStoreUrl)
+     fd.append('windowsStoreUrl' , $scope.data.windowsStoreUrl)
+     fd.append('playStoreUrl' , $scope.data.playStoreUrl)
+     fd.append('macStoreUrl' , $scope.data.macStoreUrl)
+     fd.append('richText' , $scope.data.richText)
      $http({
        method: 'PATCH',
        url: '/api/ERP/application/' + $state.params.id + '/',
@@ -1858,14 +1889,26 @@ $scope.delMobileMedia = function(indx){
    $scope.delFeedback = function(idx){
      $http({
        method: 'DELETE',
-       url: '/api/ERP/feedback/'+$scope.data.feedback[idx].pk+'/',
+       url: '/api/ERP/feedback/'+$scope.feedback[idx].pk+'/',
      }).
      then(function(response) {
-       $scope.data.feedback.splice(idx,1)
+       $scope.feedback.splice(idx,1)
        Flash.create('success', 'Deleted....!!!')
 
      })
    }
+   $scope.getFeedback = function(){
+     $http({
+       method: 'GET',
+       url: '/api/ERP/feedback/?app='+$state.params.id,
+     }).
+     then(function(response) {
+       $scope.feedback = response.data
+
+     })
+
+   }
+   $scope.getFeedback()
 
  });
 

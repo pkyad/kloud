@@ -9,11 +9,13 @@ from HR.serializers import userSearchSerializer,userSerializer,userLiteSerialize
 class notebookSerializer(serializers.ModelSerializer):
     class Meta:
         model = notebook
-        fields = ('pk' , 'user', 'created' , 'pages' , 'title')
+        fields = ('pk' , 'user', 'created' , 'pages' , 'title','project')
         read_only_fields = ('pages' , )
     def create(self , validated_data):
         n = notebook.objects.create(**validated_data)
         n.user = self.context['request'].user
+        if 'project' in self.context['request'].data:
+            n.project = project.object.get(pk = self.context['request'].data['project'] )
         n.save()
         return n
     def update(self, instance, validated_data): # like the comment

@@ -1374,7 +1374,7 @@ app.directive('ecommerceHotproducts', function() {
     controller: function($scope, $state, $http, Flash, $rootScope, $users, $filter, $interval) {
       console.log($scope.data,"klklllk");
       $scope.items = $scope.data
-      if ($scope.data.heading !=undefined) {
+      if ($scope.data !=undefined ) {
       try {
         $scope.data = JSON.parse($scope.data)
       }

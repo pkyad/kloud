@@ -1,0 +1,27 @@
+<style media="screen">
+  .CodeMirror, .CodeMirror-scroll {
+  	min-height: 70vh;
+  }
+</style>
+
+<div >
+  <div class="row" style="margin:0px;margin-top:20px">
+    <div class="col-md-8">
+
+    </div>
+    <div class="col-md-2 ">
+      <button type="button" style="border : none !important;border-radius:10px !important;background:#1E334C;color:white;padding:13px;padding-left:15px;padding-right:15px;" class="btn btn-block" ng-click="save()">Save</button>
+    </div>
+    <div class="col-md-2">
+      <button type="button" style="border : none !important;border-radius:10px !important;background:#1E334C;color:white;padding:13px;padding-left:15px;padding-right:15px;" class="btn btn-block" ng-click="share(noteData)">Share</button>
+    </div>
+  </div>
+</div>
+
+<div class="row" style="padding-right:15px;margin-top:50px;">
+  <div class="col-md-12" style="z-index: 100;">
+    <h5><b>Source</b></h5>
+    <textarea name="name" style="width:100%" simplemde='{spellChecker: false}' ng-model="noteData.source"></textarea>
+    <!-- <span mathjax-bind="noteData.source"></span> -->
+  </div>
+</div>

@@ -63,13 +63,13 @@
 
       })
     }
-    $scope.transferTobot = function(pk,val){
+    $scope.transferTobot = function(pk){
 
       $http({
         method: 'PATCH',
         url: '/api/PIM/chatThreads/'+pk+'/',
         data:{
-          transferred : val
+          transferred : false
         }
       }).
       then(function(response) {

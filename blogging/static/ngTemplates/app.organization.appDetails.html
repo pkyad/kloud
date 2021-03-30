@@ -93,9 +93,40 @@
       </div> -->
 
     </div>
+
+    <div class="row">
+      <div class="col-md-6" ng-if="data.ios">
+        <label for="">App store url</label>
+        <input type="text" class="form-control" name="" ng-model="data.appStoreUrl" value="">
+      </div>
+      <div class="col-md-6" ng-if="data.android">
+        <label for="">Play store url</label>
+        <input type="text" class="form-control" name="" ng-model="data.playStoreUrl" value="">
+
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-6" ng-if="data.windows" >
+        <label for="">Windows store url</label>
+        <input type="text" class="form-control" name="" ng-model="data.windowsStoreUrl" value="">
+      </div>
+      <div class="col-md-6" ng-if="data.mac">
+        <label for="">Mac store url</label>
+        <input type="text" class="form-control" name="" ng-model="data.macStoreUrl" value="">
+
+      </div>
+    </div>
+    <br>
     <div class="row" style="margin:0px;margin-bottom:30px;">
       <textarea name="name" class="form-control websiteInput" ng-model="data.description" rows="6"></textarea>
     </div>
+    <br>
+    <div class="row" style="margin:0px;">
+      <textarea ui-tinymce="tinymceOptions" ng-model="data.richText"></textarea>
+
+    </div>
+    <br>
     <div class="row">
       <div class="col-md-2">
         <div class="form-group">
@@ -316,7 +347,7 @@ right: 10px;top: -10%;padding: 5px;background:white;border-radius: 50%;"></i></s
 
         </thead>
         <tbody>
-          <tr ng-repeat="k in data.feedback track by $index">
+          <tr ng-repeat="k in feedback track by $index">
             <td class="text-center">{{$index+1}}</td>
             <td class="text-center">{{k.name}}</td>
             <td class="text-center">{{k.star}}</td>
