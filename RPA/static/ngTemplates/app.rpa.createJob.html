@@ -1,19 +1,38 @@
-<div class="modal-header">
+<div class="modal-header text-center">
   <h3>{{form.pk?'Edit':'Create'}}</h3>
 </div>
 
 
 <div class="modal-body">
-  <div class="row">
-    <div class="">
-
+  <div class="row" style="margin:0px;padding:20px;">
+    <div class="form-group">
+      <label for="">Retry Count</label>
+      <input type="number" class="form-control websiteInput" ng-model="form.retryCount"name="" value="">
     </div>
+    <div class="form-group">
+      <label for="">Status</label>
+      <select class="form-control websiteInput" ng-options="k for k in statusList" ng-model="form.status" name="">
+
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="">Process</label>
+      <select class="form-control websiteInput" ng-options="k.name for k in processList" ng-model="form.process" name="">
+
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="">Queue</label>
+      <select class="form-control websiteInput" ng-options="k.name for k in queuesList" ng-model="form.queue" name="">
+
+      </select>
+    </div>
+
   </div>
 </div>
 
 <div class="modal-footer">
-  <div class="btn-group">
-    <button type="button" class="defaultBtn" name="button">Reset</button>
-    <button type="button" class="newBtn" name="button">Save</button>
-  </div>
+  <button type="button" class="defaultBtn pull-left" name="button" ng-click="reset()">Reset</button>
+  <button type="button" class="newBtn pull-right" name="button" ng-click="save()">Save</button>
+
 </div>

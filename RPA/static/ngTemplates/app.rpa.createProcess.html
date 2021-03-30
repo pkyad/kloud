@@ -1,0 +1,40 @@
+<style media="screen">
+
+  #schema {
+    width: 100%;
+    height: 100%;
+    border-top: solid 2px #eee;
+    border-bottom: solid 2px #eee;
+  }
+</style>
+<div class="modal-header text-center">
+  <h3>{{form.pk?'Edit':'Create'}}</h3>
+</div>
+
+
+<div class="modal-body">
+  <div class="row" style="margin:0px;padding:20px;">
+    <div class="form-group">
+      <label for="">Name</label>
+      <input type="text" class="form-control websiteInput" ng-model="form.name"name="" value="">
+    </div>
+    <div class="form-group">
+      <label for="">URI</label>
+      <input type="text" class="form-control websiteInput" ng-model="form.uri"name="" value="">
+    </div>
+    <div class="form-group">
+      <label for="">Environment</label>
+      <input type="text" class="form-control websiteInput" ng-model="form.env"name="" value="">
+    </div>
+    <div id="schema" style="width:100%;min-height:30vh;" ng-bind-html="form.argSchema"></div>
+
+
+    </div>
+
+  </div>
+
+<div class="modal-footer">
+  <button type="button" class="defaultBtn pull-left" name="button" ng-click="reset()">Reset</button>
+  <button type="button" class="newBtn pull-right" name="button" ng-click="save()">Save</button>
+
+</div>

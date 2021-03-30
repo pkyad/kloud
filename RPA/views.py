@@ -56,3 +56,24 @@ from django.db.models import F ,Value,CharField,Prefetch
 
 
 import sys, traceback
+
+class JobssViewset(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = Job.objects.all()
+    serializer_class = JobssSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['process','queue','division']
+
+class QueueViewset(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = Queue.objects.all()
+    serializer_class = QueueSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['process','division']
+
+class ProcessViewset(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = Process.objects.all()
+    serializer_class = ProcessSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['uri','division','name']

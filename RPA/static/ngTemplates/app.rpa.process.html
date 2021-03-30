@@ -1,0 +1,26 @@
+<div class="container-fluid">
+  <div class="row pull-right">
+  <button type="button"  class="btn btn-primary"name="button" ng-click="createProcess()"><i class="fa fa-plus"></i></button>
+  </div><br><br><br>
+  <div class="row" style="margin:0px;">
+    <div class="col-md-3" ng-repeat="k in processList track by $index">
+      <div class="jobBox">
+        <div style="height:170px">
+          <p><b>Retry Count : </b>{{k.retryCount}}</p>
+          <p><b>Status : </b>{{k.status}}</p>
+
+        </div>
+        <div class="row" style="border-top: 1px solid #e5e5e5;margin-left: -30px;margin-right: -30px;padding:10px;">
+          <div class="col-md-6">
+            <i class="fa fa-trash" mwl-confirm title="Approve" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>"
+              cancel-text="No" on-confirm="delJob($index)" confirm-button-type="success" cancel-button-type="default" placement="bottom"></i>
+          </div>
+          <div class="col-md-6">
+            <i class="fa fa-pencil pull-right" ng-click="createrpaJob(k)"></i>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
