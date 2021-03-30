@@ -6,16 +6,12 @@ from .models import *
 from PIM.serializers import *
 from API.permissions import *
 from HR.serializers import TeamSerializer
+
 class deviceSerializer(serializers.ModelSerializer):
     class Meta:
         model = device
-        fields = ('pk', 'sshKey' , 'created' , 'name')
+        fields = ('pk', 'sshKey' , 'created' , 'name', 'user')
 
-class GitProfileSerializer(serializers.ModelSerializer):
-    devices = deviceSerializer(many = True , read_only = True)
-    class Meta:
-        model = GitProfile
-        fields = ('pk', 'user' , 'devices')
 
 class codeCommentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -44,21 +40,8 @@ class repoPermissionSerializer(serializers.ModelSerializer):
         rp.save()
         return rp
 
-class groupPermissionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = groupPermission
-        fields = ('pk', 'group' , 'canRead' , 'canWrite' , 'canDelete' , 'limited')
-    def create(self , validated_data):
-        u = self.context['request'].user
-        has_application_permission(u , ['app.GIT' , 'app.GIT.groups', 'app.GIT.repos'])
-        gp = groupPermission(**validated_data)
-        gp.group = gitGroup.objects.get(pk = self.context['request'].data['group'])
-        gp.save()
-        return gp
-
 class repoSerializer(serializers.ModelSerializer):
     perms = repoPermissionSerializer(many = True , read_only = True)
-    groups = groupPermissionSerializer(many = True , read_only = True)
     class Meta:
         model = repo
         fields = ('pk', 'perms' , 'name' , 'groups' , 'project' ,'creator')
@@ -72,10 +55,7 @@ class repoSerializer(serializers.ModelSerializer):
         for p in self.context['request'].data['perms']:
             r.perms.add(repoPermission.objects.get(pk = p))
         r.save()
-        r.groups.clear()
-        for p in self.context['request'].data['groups']:
-            r.groups.add(groupPermission.objects.get(pk = p))
-        r.save()
+       
         return r
     def update(self ,instance , validated_data):
         u = self.context['request'].user
@@ -84,10 +64,6 @@ class repoSerializer(serializers.ModelSerializer):
         instance.perms.clear()
         for p in self.context['request'].data['perms']:
             instance.perms.add(repoPermission.objects.get(pk = p))
-        instance.save()
-        instance.groups.clear()
-        for p in self.context['request'].data['groups']:
-            instance.groups.add(groupPermission.objects.get(pk = p))
         instance.save()
         return instance
 

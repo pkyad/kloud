@@ -48,15 +48,6 @@ class deviceViewSet(viewsets.ModelViewSet):
     serializer_class = deviceSerializer
     queryset = device.objects.all()
 
-class profileViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.AllowAny,)
-    serializer_class = GitProfileSerializer
-    queryset = GitProfile.objects.all()
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['id']
-
-
-
 def getOverview(repo):
     branches = []
     for b in repo.branches:
@@ -182,11 +173,6 @@ def generateGitoliteConf():
         with lcd(os.path.dirname('/home/git')):
             local('git clone git@localhost:gitolite-admin')
     f = open( os.path.join( gitoliteDir , 'conf' ,'gitolite.conf') , 'w')
-    for g in gitGroup.objects.all():
-        gStr = '@' + g.name + ' ='
-        for u in g.users.all():
-            gStr += ' ' + u.username
-        f.write('%s\n' %(gStr))
     rStr = '@administrators =  admin git\n'
     for r in repo.objects.all():
         rStr += 'repo %s\n' %(r.name)
@@ -198,15 +184,7 @@ def generateGitoliteConf():
                 rStr += '\t\t%s\tdev-%s\t=\t\t%s\n' %(getPermStr(p) , getBranchAlias(p.user) , p.user.username)
             else:
                 rStr += '\t\t%s\t\t=\t\t%s\n' %( getPermStr(p) , p.user.username)
-        for g in r.groups.all():
-            if g.limited:
-                if g.canRead:
-                    rStr += '\t\t%s\t\t=\t\t%s\n' %('R' , '@' + g.group.name)
-                for u in g.group.users.all():
-                    rStr += '\t\t%s\tdev-%s\t=\t\t%s\n' %(getPermStr(g) , u.username, u.username)
-                    rStr += '\t\t%s\tdev-%s\t=\t\t%s\n' %(getPermStr(g) , getBranchAlias(u), u.username)
-            else:
-                rStr += '\t\t%s\t\t=\t\t%s\n' %( getPermStr(g) , '@' + g.group.name)
+    
     rStr += 'repo CREATOR/[a-z].*\n'
     rStr += '\t\t%s\t\t=\t\t%s\n' %('RW+' , 'CREATOR')
     rStr += '\t\t%s\t\t=\t\t%s\n' %('C' , '@all')
@@ -222,15 +200,15 @@ def generateGitoliteConf():
     shutil.rmtree(keyDir)
     os.mkdir(keyDir)
     shutil.copyfile(os.path.join(os.path.dirname('/home/git') , 'git.pub'), os.path.join(keyDir , 'git.pub'))
-    for p in profile.objects.all():
+    for d in device.objects.all():
         idx = 0
-        for d in p.devices.all():
-            if not os.path.isdir(os.path.join( keyDir ,str(idx))):
-                os.mkdir(os.path.join( keyDir ,str(idx)))
-            f = open(os.path.join( keyDir ,str(idx), p.user.username + '.pub') , 'w')
-            f.write(d.sshKey)
-            idx +=1
-            f.close()
+        if not os.path.isdir(os.path.join( keyDir ,str(idx))):
+            os.mkdir(os.path.join( keyDir ,str(idx)))
+        f = open(os.path.join( keyDir ,str(idx), p.user.username + '.pub') , 'w')
+        f.write(d.sshKey)
+        # idx +=1
+        f.close()
+
     with lcd(gitoliteDir):
         try:
             local('git add -A ./')
@@ -255,10 +233,6 @@ class repoPermissionViewSet(viewsets.ModelViewSet):
     serializer_class = repoPermissionSerializer
     queryset = repoPermission.objects.all()
 
-class groupPermissionViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticated,)
-    serializer_class = groupPermissionSerializer
-    queryset = groupPermission.objects.all()
 
 class repoViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
@@ -268,10 +242,9 @@ class repoViewSet(viewsets.ModelViewSet):
         if u.is_superuser:
             return repo.objects.all()
         qs1 = repo.objects.filter(perms__in = u.repoPermissions.all())
-        qs2 = repo.objects.filter(groups__in = groupPermission.objects.filter(group__in = u.gitGroups.all()))
         qs3 = repo.objects.filter(creator = u)
-        print qs1 , qs2 , qs3
-        return (qs1 | qs2 )|  qs3
+        print qs1 , qs3
+        return qs1 | qs3
 
 
 def notifyUpdates(instance,sha,type):
