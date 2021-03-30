@@ -16,20 +16,11 @@ class device(models.Model):
     sshKey = models.CharField(max_length = 500 , null = True)
     created = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length = 50)
+    user = models.ForeignKey(User , null =False , related_name='gitdevices')
 
-class GitProfile(models.Model):
-    user = models.ForeignKey(User , null =False , related_name='gitProfile')
-    devices = models.ManyToManyField(device)
 
 class repoPermission(models.Model):
     user = models.ForeignKey(User , null = False , related_name = 'repoPermissions')
-    canRead = models.BooleanField(default = False)
-    canWrite = models.BooleanField(default = False)
-    canDelete = models.BooleanField(default = False)
-    limited = models.BooleanField(default = False)
-
-class groupPermission(models.Model):
-    group = models.ForeignKey(Team , null = True , related_name = 'repoGroupPermissions')
     canRead = models.BooleanField(default = False)
     canWrite = models.BooleanField(default = False)
     canDelete = models.BooleanField(default = False)
@@ -40,12 +31,10 @@ class repo(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length = 30)
     creator = models.ForeignKey(User , null = False)
-    groups = models.ManyToManyField(groupPermission , related_name = 'repos')
     lastNotified = models.DateTimeField(default = timezone.now) # used to check the latest commits when gitolite notify the same
     project = models.ForeignKey(project,null = True , related_name='repos')
     def __unicode__(self):
         return self.name
-
 
 class commitNotification(models.Model):
     created = models.DateTimeField(auto_now_add=True)
