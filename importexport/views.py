@@ -145,6 +145,9 @@ class ProjectSearchViewSet(viewsets.ModelViewSet):
 class VendorViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny , )
     serializer_class = VendorSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['name']
+
     def get_queryset(self):
         user = self.request.user
         divisionObj = user.designation.division
@@ -484,7 +487,9 @@ class UploadSheetAPIView(APIView):
         wb = load_workbook(filename = BytesIO(excelFile.read()) ,  read_only=True)
         products=[]
         productsExist = []
+        print 'herer in workshet'
         for ws in wb.worksheets:
+            print 'herer in workshet'
             wsTitle = ws.title
             sheetObj = ProductSheet(file_name = excelFile.name,sheet=wsTitle)
             sheetObj.save()
