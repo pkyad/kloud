@@ -582,7 +582,7 @@ app.controller("businessManagement.importexport.projects.form", function($scope,
       });
 
       $scope.companySearch = function(query) {
-        return $http.get('/api/ERP/service/?name__contains=' + query).
+        return $http.get('/api/ERP/service/?name__icontains=' + query).
         then(function(response) {
           return response.data;
         })
@@ -601,7 +601,7 @@ app.controller("businessManagement.importexport.projects.form", function($scope,
       $scope.me = $users.get('mySelf');
 
       $scope.companySearch = function(query) {
-        return $http.get('/api/ERP/service/?name__contains=' + query).
+        return $http.get('/api/ERP/service/?name__icontains=' + query).
         then(function(response) {
           return response.data;
         })
@@ -780,7 +780,7 @@ app.controller("businessManagement.importexport.projects.form", function($scope,
   });
 
   $scope.companySearch = function(query) {
-    return $http.get('/api/ERP/service/?name__contains=' + query).
+    return $http.get('/api/ERP/service/?name__icontains=' + query).
     then(function(response) {
       return response.data;
     })
@@ -799,7 +799,7 @@ app.controller("businessManagement.importexport.projects.form", function($scope,
   $scope.me = $users.get('mySelf');
 
   $scope.companySearch = function(query) {
-    return $http.get('/api/ERP/service/?name__contains=' + query).
+    return $http.get('/api/ERP/service/?name__icontains=' + query).
     then(function(response) {
       return response.data;
     })
@@ -1081,7 +1081,7 @@ app.controller("businessManagement.importexport.projects.service.view", function
 
         $http({
           method: 'POST',
-          url: 'api/support/UploadSheet/?projectpk=' + $scope.form.pk + '&userpk=' + $scope.me.pk + '&flag=' + $scope.flagValue,
+          url: '/api/importexport/UploadSheet/?projectpk=' + $scope.form.pk + '&userpk=' + $scope.me.pk + '&flag=' + $scope.flagValue,
           data: fd,
           transformRequest: angular.identity,
           headers: {
@@ -3628,7 +3628,7 @@ app.controller("businessManagement.importexport.inventory1", function($scope, $s
 
 
         $scope.serviceSearch = function(query) {
-          return $http.get('/api/ERP/service/?name__contains=' + query).
+          return $http.get('/api/ERP/service/?name__icontains=' + query).
           then(function(response) {
             return response.data;
           })
@@ -3749,7 +3749,7 @@ app.controller("businessManagement.importexport.inventory1", function($scope, $s
         };
 
         $scope.projectSearch = function(query) {
-          return $http.get('/api/importexport/projects/?title__contains=' + query + '&status=ongoing&flag='+  $scope.flagValue).
+          return $http.get('/api/importexport/projects/?title__icontains=' + query + '&status=ongoing&flag='+  $scope.flagValue).
           then(function(response) {
             return response.data;
           })
@@ -3873,7 +3873,7 @@ app.controller("businessManagement.importexport.inventory1", function($scope, $s
           };
 
           $scope.userSearch = function(query) {
-            return $http.get('/api/HR/userSearch/?first_name__contains=' + query).
+            return $http.get('/api/HR/userSearch/?first_name__icontains=' + query).
             then(function(response) {
               return response.data;
             })
