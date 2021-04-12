@@ -57,6 +57,6 @@
   </select>
 </div>
 
-<button class="btn btn-default" ng-click="save()" style="background:#461482;color:white;border: none !important;border-radius: 64px !important;padding: 17px;padding-right: 17px;padding-left: 17px;right: 59px;font-size: 16px;z-index: 10;padding-right: 30px;padding-left: 30px">Create</button>
+<button class="btn btn-default" ng-click="save()" style="background:#461482;color:white;border: none !important;border-radius: 64px !important;padding: 17px;padding-right: 17px;padding-left: 17px;right: 59px;font-size: 16px;z-index: 10;padding-right: 30px;padding-left: 30px" ng-if="!viewProfile">Create</button>
 <button ng-if="viewProfile" class="btn btn-default" ng-click="$state.go('workforceManagement.profile',{'id':userPk})" style="background:#461482;color:white;border: none !important;border-radius: 64px !important;padding: 17px;padding-right: 17px;padding-left: 17px;right: 59px;font-size: 16px;z-index: 10;padding-right: 30px;padding-left: 30px;margin-left:15px">View Profile</button>
 </div>

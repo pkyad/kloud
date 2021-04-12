@@ -1459,7 +1459,7 @@ class AddITDeclarationAPIView(APIView):
                             basicRent.save()
                             rentData.amount = monthlyRent
                             rentData.save()
-                            montlyhouseRent = min(float(monthlyRent), monthlyHra, montlyBasicRent)
+                            montlyhouseRent = min(float(monthlyRent), float(monthlyHra), float(montlyBasicRent))
                             totalExcemption = montlyhouseRent + montlytravel
                             houserentData.amount = montlyhouseRent
                             houserentData.save()

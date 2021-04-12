@@ -1039,6 +1039,7 @@ app.controller('admin.manageUsers.form', function($scope, $http, Flash, $uibModa
     //   Flash.create('warning' , 'Username is required')
     //   return
     // }
+
     if ($scope.form.first_name == '' || $scope.form.first_name.length == 0) {
       Flash.create('warning' , 'First Name is required')
       return
@@ -1051,6 +1052,14 @@ app.controller('admin.manageUsers.form', function($scope, $http, Flash, $uibModa
       Flash.create('warning' , 'Mobile is required')
       return
     }
+
+    if (/^\d+$/.test($scope.form.mobile)) {
+      }
+      else {
+        Flash.create('warning' , 'Invalid Mobile Number')
+        return
+      }
+
 
     var dataToSend = {
       'username' : $scope.form.mobile,

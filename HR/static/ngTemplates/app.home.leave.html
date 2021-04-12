@@ -160,7 +160,7 @@
           <div class="form-group">
             <label>From</label>
             <div class="input-group">
-              <input type="text" class="form-control whiteInputField" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.fromDate" is-open="status.Opened" ng-change ="checkLeaves()"/>
+              <input type="text" class="form-control whiteInputField" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" disabled min-date="minDate" ng-model="form.fromDate" is-open="status.Opened" ng-change ="checkLeaves()" style="padding: 19px;"/>
               <span class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-click="status.Opened = true;" style="padding: 6px 12px!important;"><i class="glyphicon glyphicon-calendar"></i></button>
               </span>
@@ -171,7 +171,7 @@
           <div class="form-group">
             <label>To</label>
             <div class="input-group">
-              <input type="text" class="form-control whiteInputField" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="form.toDate" is-open="status.Opened1" ng-change ="checkLeaves()" />
+              <input type="text" class="form-control whiteInputField" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" disabled min-date="minDate" ng-model="form.toDate" is-open="status.Opened1" ng-change ="checkLeaves()" style="padding: 19px;" />
               <span class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-click="status.Opened1 = true;" style="padding: 6px 12px!important;"><i class="glyphicon glyphicon-calendar"></i></button>
               </span>

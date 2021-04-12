@@ -159,6 +159,7 @@ function calcDays(date1, date2) {
 
 
 app.controller('controller.home.leave' , function($scope , $state , $http,$users, Flash){
+$scope.minDate = new Date() 
 $scope.resetAll = function(){
   $scope.form = {
     fromDate : new Date(),
@@ -373,10 +374,10 @@ app.controller('controller.home.itDeclaration' , function($scope , $http , $time
     $scope.years.push($scope.startYear++);
   }
   if ($scope.currentMonth+1>3) {
-    $scope.currentFinancialYear = $scope.currentYear +'-'+$scope.currentYear+1
+    $scope.currentFinancialYear = parseInt($scope.currentYear).toString() +'-'+(parseInt($scope.currentYear)+1).toString()
   }
   else{
-    $scope.currentFinancialYear =$scope.currentYear-1  +'-'+ $scope.currentYear
+    $scope.currentFinancialYear =(parseInt($scope.currentYear)-1).toString()  +'-'+ parseInt($scope.currentYear).toString()
   }
   $scope.allYears = []
 
@@ -386,12 +387,12 @@ app.controller('controller.home.itDeclaration' , function($scope , $http , $time
   }).
   then(function(response) {
     $scope.allYears =  response.data.yearLists
-    if ($scope.currentFinancialYear.inList($scope.allYears)){
-      console.log('yes')
-    }
-    else {
-      $scope.allYears.push($scope.currentFinancialYear)
-    }
+    // if ($scope.currentFinancialYear.inList($scope.allYears)){
+    //   console.log('yes')
+    // }
+    // else {
+    //   $scope.allYears.push($scope.currentFinancialYear)
+    // }
   })
   // for (var i = 0; i < $scope.years.length; i++) {
   //   var nxtYr = $scope.years[i] + 1
@@ -588,8 +589,8 @@ app.controller('controller.home.itDeclaration' , function($scope , $http , $time
       data : data
     }).
     then(function(response) {
-      $scope.allData.payroll.isOwnHouse = response.data.isOwnHouse
-      $scope.allData.payroll.isExtraIncome = response.data.isExtraIncome
+      $scope.payroll.isOwnHouse = response.data.isOwnHouse
+      $scope.payroll.isExtraIncome = response.data.isExtraIncome
     })
 
   }
