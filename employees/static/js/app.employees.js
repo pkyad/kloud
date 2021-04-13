@@ -947,6 +947,7 @@ app.controller('admin.manageUsers.form', function($scope, $http, Flash, $uibModa
       reportingTo:'',
       mobile:''
     }
+    $scope.viewProfile = false
   }
   $scope.reload()
   $scope.Reporting = function() {
