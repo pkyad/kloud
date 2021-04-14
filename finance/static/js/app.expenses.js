@@ -1700,11 +1700,12 @@ app.controller('businessManagement.finance.vendorService.form', function($scope,
     $scope.form.name = vsdata
   }
 
-  $scope.$watch('form.pincode', function(newValue, oldValue) {
-    if (newValue!=undefined && newValue.length == 6) {
+  // $scope.$watch('form.pincode', function(newValue, oldValue) {
+  $scope.addPincode = function(){
+    if ($scope.form.pincode!=undefined && $scope.form.pincode.toString().length == 6) {
       $http({
         method: 'GET',
-        url: '/api/ERP/genericPincode/?pincode=' + newValue
+        url: '/api/ERP/genericPincode/?pincode=' + $scope.form.pincode.toString()
       }).
       then(function(response) {
         if (response.data.length > 0) {
@@ -1714,7 +1715,9 @@ app.controller('businessManagement.finance.vendorService.form', function($scope,
         }
       })
     }
-  })
+
+  }
+  // })
 
   $scope.cancel = function() {
     $uibModalInstance.dismiss($scope.form);

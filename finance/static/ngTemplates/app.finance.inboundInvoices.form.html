@@ -19,11 +19,20 @@
   table{
     width:100%
   }
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
 </style>
 <div>
   <div class="container-fluid scroll" style="padding-top:30px;background: #FAFAFA;min-height:100vh">
     <div class="row">
+      <form name="purchaseOrderForm">
       <div class="col-md-offset-1 col-md-8">
         <div class="row">
           <div class="col-md-12 text-center">
@@ -34,13 +43,15 @@
         <div class="row" style="margin-top:30px">
 
           <div class="col-md-6">
-            <label> Company </label>
+            <label> Company  </label>
             <div class="form-group">
               <span style="position:absolute;right:15px;padding:15px;"><i
                   class="fa fa-{{form.companyReference.pk? 'pencil':'plus'}} fa-2x" ng-click="createVendorService()"></i></span>
               <input type="text " class="form-control font20" ng-model="form.companyReference" uib-typeahead="n as n.name for n in companySearch($viewValue)" placeholder="Select or Add Company"
-                style="padding: 29px;border: none;margin-top:5px;margin-bottom:15px;border-radius:10px;"  typeahead-on-select="selectCompany()" >
-
+                style="padding: 29px;border: none;margin-top:5px;margin-bottom:15px;border-radius:10px;"  typeahead-on-select="selectCompany()" name="companyReference" required>
+                <span style = "color:red" ng-show = "purchaseOrderForm.companyReference.$dirty">
+                <span ng-show = "purchaseOrderForm.companyReference.$error.required">Company is required.</span>
+              </span>
             </div>
           </div>
           <div class="col-md-6">
@@ -54,29 +65,37 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label> Person Name </label>
-              <input type="text" class="form-control font20" ng-model="form.personName" placeholder="Add Person Name" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;;">
+              <label> Person Name* </label>
+              <input type="text" class="form-control font20" ng-model="form.personName" placeholder="Add Person Name" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;" name="personName" required>
+              <span style = "color:red" ng-show = "purchaseOrderForm.personName.$dirty">
+              <span ng-show = "purchaseOrderForm.personName.$error.required">Person name is required.</span>
+            </span>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label> Mobile Number </label>
-              <input type="text" class="form-control font20" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:30px;;" ng-model="form.phone">
+              <label> Mobile Number* </label>
+              <input type="number" class="form-control font20" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;" ng-model="form.phone" name="phone" required>
+              <span style = "color:red" ng-show = "purchaseOrderForm.phone.$dirty && purchaseOrderForm.phone.$invalid">
+               <span ng-show = "purchaseOrderForm.phone.$error.required">Mobile number is required.</span>
+               <span ng-show = "purchaseOrderForm.phone.$error.number">Invalid mobile number.</span>
+            </span>
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" style="margin-bottom:15px">
           <div class="col-md-6">
             <label>Delivery Date </label>
             <div class="form-group">
               <span style="position:absolute;right:15px;padding:20px;"><i
                 class="glyphicon glyphicon-calendar" ng-click="statusStart.opened = true;"></i></span>
-
               <input type="text" class="form-control font20" ng-model="form.deliveryDate" placeholder="Delivery Date"
                 style="padding: 29px;border: none; border-radius: 10px;margin-top:5px;margin-bottom:15px;" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy"
-                is-open="statusStart.opened" ng-init="today">
-
+                is-open="statusStart.opened" ng-init="today" name="deliveryDate" required>
             </div>
+            <span style = "color:red" ng-show = "purchaseOrderForm.deliveryDate.$dirty">
+            <span ng-show = "purchaseOrderForm.deliveryDate.$error.required">Delivery date is required.</span>
+          </span>
           </div>
           <div class="col-md-6">
             <label>Payment Due Date </label>
@@ -85,15 +104,17 @@
                 class="glyphicon glyphicon-calendar" ng-click="statusPay.opened = true;"></i></span>
               <input type="text" class="form-control font20" ng-model="form.paymentDueDate" placeholder="Payment Due Date"
                 style="padding: 29px;border: none; border-radius: 10px;margin-top:5px;margin-bottom:15px;" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" is-open="statusPay.opened"
-                ng-init="today">
-
+                ng-init="today" name="paymentDueDate" required>
             </div>
+            <span style = "color:red" ng-show = "purchaseOrderForm.paymentDueDate.$dirty">
+            <span ng-show = "purchaseOrderForm.paymentDueDate.$error.required">Delivery date is required.</span>
+          </span>
           </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
 
 
-        </div>
+        </div> -->
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
@@ -173,7 +194,7 @@
         </div>
         <div class="row fixedActionStrip" style="padding-top:15px;background:transparent!important">
           <div class="col-md-2 pull-right ">
-              <button type="button" class="btn btn-primary btn-block cutebuttonplain" style="background:rgb(14, 67, 136);color:white;" ng-click="save()">Save</button>
+              <button type="button" class="btn btn-primary btn-block cutebuttonplain" style="background:rgb(14, 67, 136);color:white;" ng-click="save()" ng-disabled = "purchaseOrderForm.companyReference.$error.required ||  purchaseOrderForm.personName.$error.required || purchaseOrderForm.phone.$invalid ||  purchaseOrderForm.deliveryDate.$error.required || purchaseOrderForm.paymentDueDate.$error.required ">Save</button>
           </div>
           <!-- <div class="col-md-2">
               <button ng-show="form.pk" ng-click="pay()"  class="btn btn-default btn-block cutebuttonplain" style="background:#461482;color:white;">PAYMENT DETAILS</button>
@@ -273,5 +294,6 @@
           </div>
         </div>
       </div>
+      </form>
     </div>
   </div>

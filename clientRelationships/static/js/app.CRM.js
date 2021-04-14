@@ -104,12 +104,17 @@ app.controller('businessManagement.clientRelationships.contacts.edit', function(
     }).
     then(function(response) {
       $scope.form = response.data;
-      console.log($scope.form.designation, $scope.form);
+      if ($scope.form.mobile!=null) {
+        $scope.form.mobile = parseInt($scope.form.mobile)
+      }
+      if ($scope.form.pincode!=null) {
+        $scope.form.pincode = parseInt($scope.form.pincode)
+      }
       if ($scope.form.company != null) {
         $scope.form.gstin = $scope.form.company.tin
         $scope.form.street = $scope.form.company.address.street;
         $scope.form.city = $scope.form.company.address.city;
-        $scope.form.pincode = $scope.form.company.address.pincode;
+        $scope.form.pincode = parseInt($scope.form.company.address.pincode);
         $scope.form.state = $scope.form.company.address.state;
       }
 
@@ -150,35 +155,35 @@ $scope.refreshError()
 
   $scope.save = function() {
 
-    $scope.refreshError()
-    if ($scope.form.name == null || $scope.form.name.length == 0 ) {
-      $scope.errMsg.name = "Name is required"
-      return
-    }
-    if ($scope.form.mobile == null || $scope.form.mobile.length == 0) {
-      $scope.errMsg.mobile = "Mobile is required"
-      return
-    }
-    if ($scope.form.email == null || $scope.form.email.length == 0) {
-      $scope.errMsg.email = "Email is required"
-      return
-    }
-    if ($scope.form.street == null || $scope.form.street.length == 0) {
-      $scope.errMsg.address = "Address is required"
-      return
-    }
-    if ($scope.form.pincode == null || $scope.form.pincode.length == 0 || $scope.form.city == null || $scope.form.city.length == 0 || $scope.form.state == null || $scope.form.state.length == 0 || $scope.form.country == null || $scope.form.country.length == 0   ) {
-      $scope.errMsg.pincode = "Add valid pincode"
-      return
-    }
-    if ($scope.form.name == null || $scope.form.name.length == 0 || $scope.form.email == null || $scope.form.email.length == 0 || $scope.form.mobile == null || $scope.form.mobile.length == 0) {
-      Flash.create('warning', 'Name ,  Email and Mobile are required')
-      return
-    }
-    if ($scope.form.street == null || $scope.form.street.length == 0 || $scope.form.pincode == null || $scope.form.pincode.length == 0) {
-      Flash.create('warning', 'Address, Pincode, City, State and Country are required')
-      return
-    }
+    // $scope.refreshError()
+    // if ($scope.form.name == null || $scope.form.name.length == 0 ) {
+    //   $scope.errMsg.name = "Name is required"
+    //   return
+    // }
+    // if ($scope.form.mobile == null || $scope.form.mobile.length == 0) {
+    //   $scope.errMsg.mobile = "Mobile is required"
+    //   return
+    // }
+    // if ($scope.form.email == null || $scope.form.email.length == 0) {
+    //   $scope.errMsg.email = "Email is required"
+    //   return
+    // }
+    // if ($scope.form.street == null || $scope.form.street.length == 0) {
+    //   $scope.errMsg.address = "Address is required"
+    //   return
+    // }
+    // if ($scope.form.pincode == null || $scope.form.pincode.length == 0 || $scope.form.city == null || $scope.form.city.length == 0 || $scope.form.state == null || $scope.form.state.length == 0 || $scope.form.country == null || $scope.form.country.length == 0   ) {
+    //   $scope.errMsg.pincode = "Add valid pincode"
+    //   return
+    // }
+    // if ($scope.form.name == null || $scope.form.name.length == 0 || $scope.form.email == null || $scope.form.email.length == 0 || $scope.form.mobile == null || $scope.form.mobile.length == 0) {
+    //   Flash.create('warning', 'Name ,  Email and Mobile are required')
+    //   return
+    // }
+    // if ($scope.form.street == null || $scope.form.street.length == 0 || $scope.form.pincode == null || $scope.form.pincode.length == 0) {
+    //   Flash.create('warning', 'Address, Pincode, City, State and Country are required')
+    //   return
+    // }
 
     $scope.isContactProcessing = true
     var dataToSend = {
@@ -252,11 +257,13 @@ $scope.refreshError()
     }
   })
 
-  $scope.$watch('form.pincode', function(newValue, oldValue) {
-    if (newValue.length == 6) {
+  // $scope.$watch('form.pincode', function(newValue, oldValue) {
+  $scope.addPincode = function(){
+
+    if ($scope.form.pincode.toString().length == 6) {
       $http({
         method: 'GET',
-        url: '/api/ERP/genericPincode/?pincode=' + $scope.form.pincode
+        url: '/api/ERP/genericPincode/?pincode=' + $scope.form.pincode.toString()
       }).
       then(function(response) {
         if (response.data.length > 0) {
@@ -267,7 +274,9 @@ $scope.refreshError()
         }
       })
     }
-  })
+
+  }
+  // })
 
   // $scope.save = function() {
   //   var method = 'POST';
@@ -6298,11 +6307,12 @@ app.controller("businessManagement.clientRelationships.customer.form", function(
   //   })
   // }
 
-  $scope.$watch('form.address.pincode', function(newValue, oldValue) {
-    if (newValue.length == 6) {
+  // $scope.$watch('form.address.pincode', function(newValue, oldValue) {
+  $scope.addPincode = function(){
+    if ($scope.form.address.pincode.toString().length == 6) {
       $http({
         method: 'GET',
-        url: '/api/ERP/genericPincode/?pincode=' + newValue
+        url: '/api/ERP/genericPincode/?pincode=' + $scope.form.address.pincode.toString()
       }).
       then(function(response) {
         if (response.data.length > 0) {
@@ -6312,7 +6322,8 @@ app.controller("businessManagement.clientRelationships.customer.form", function(
         }
       })
     }
-  })
+  }
+  // })
 
   $scope.createCompany = function() {
     console.log('jbvjbdvjbdjfvbfd................');

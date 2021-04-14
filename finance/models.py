@@ -215,7 +215,7 @@ class Transaction(models.Model):
     outBound = models.ForeignKey(Sale,related_name='outbondTransaction',null=True)
     tds =  models.FloatField(default=0)
     def __unicode__(self):
-        return '<from : %s > , <to : %s > , <amount : %s> , < user : %s>' %(self.fromAcc , self.toAcc , self.amount , self.user.username)
+        return '<from : %s > , <to : %s > ,  < user : %s>' %(self.fromAcc , self.toAcc  , self.user.username)
 
 APPROVAL_CHOICES = (
     ('Yes' , 'Yes'),
@@ -417,7 +417,7 @@ class InvoiceQty(models.Model):
     receivedQty = models.PositiveIntegerField(default=0)
     user = models.ForeignKey(User , related_name='invoiceQtyUsers' , null = True)
     attachment = models.FileField(upload_to = getInvoicesPath ,  null = True) #REQUIRED IF EXPENSES
-    data =  models.TextField(max_length = 2000 , null = True) 
+    data =  models.TextField(max_length = 2000 , null = True)
 
 class Cart(models.Model):
     created = models.DateTimeField(auto_now_add=True)

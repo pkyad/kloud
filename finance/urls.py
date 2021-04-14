@@ -117,4 +117,5 @@ urlpatterns = [
     url(r'getAllExpenses/$' , getAllExpensesAPIView.as_view()),
     url(r'cartTotal/$' , CartTotalAPIView.as_view()),
     url(r'sales/$' , SalesAPIView.as_view()),
+    url(r'createPettyCashAmount/$' , CreatePetyCashAmountAPIView.as_view()),
 ]

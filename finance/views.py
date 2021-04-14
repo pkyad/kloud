@@ -79,12 +79,15 @@ def getProducts(request, id):
 
 
 class AccountViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticated, )
+    permission_classes = (permissions.AllowAny, )
     serializer_class = AccountSerializer
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['number','personal','contactPerson','title']
     def get_queryset(self):
-        divsn = self.request.user.designation.division
+        if 'id' in self.request.GET:
+            divsn = User.objects.get(pk = int(self.request.GET['id'])).designation.division
+        else:
+            divsn = self.request.user.designation.division
         accountObj = Account.objects.filter(division = divsn)
         if 'only' in self.request.GET:
             if self.request.GET['only'] == 'pettyCash':
@@ -117,9 +120,12 @@ class AccountViewSet(viewsets.ModelViewSet):
             return accountObj
 
 class GetAccountsTotalAPIView(APIView):
-    permission_classes = (permissions.IsAuthenticated ,)
+    permission_classes = (permissions.AllowAny ,)
     def get(self , request , format = None):
-        divsn = self.request.user.designation.division
+        if 'id' in self.request.GET:
+            divsn = User.objects.get(pk = int(self.request.GET['id'])).designation.division
+        else:
+            divsn = self.request.user.designation.division
         accountObj = Account.objects.filter(division = divsn)
         if 'type' in self.request.GET:
             if self.request.GET['type'] == 'pettyCash':
@@ -2652,9 +2658,10 @@ class GetPettyCashDataAPI(APIView):
                 endDate = startDate.replace(day=calendar.monthrange(startDate.year, startDate.month)[1])
         account = int(request.GET['account'])
         accountObj = Account.objects.get(pk = account)
-        pettyObj = ProjectPettyExpense.objects.filter(account = accountObj)
+        pettyObj = Transaction.objects.filter(fromAcc = accountObj)
+        print pettyObj,'aaaaaaaaaaaaaaaadfssssssssssssssssssssssssss'
         pettyObj = pettyObj.filter(created__range = (startDate,endDate))
-        data = PettyCashSerializer(pettyObj, many=True).data
+        data = TransactionSerializer(pettyObj, many=True).data
         return Response(data,status=status.HTTP_200_OK)
 
 
@@ -4938,3 +4945,17 @@ class SalesAPIView(APIView):
         sale = Sale.objects.get(pk = request.GET['orderid'])
         data ={'sale':SaleSerializer(sale,many=False).data,'salesQty':SalesQtySerializer(sale.outBoundQty.all(),many=True).data}
         return Response(data ,status = status.HTTP_200_OK)
+
+
+class CreatePetyCashAmountAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny ,)
+    def post(self,request , format= None):
+        data = request.data
+        division = request.user.designation.division
+        account = Account.objects.get(pk = int(data['account']))
+        transObj = Transaction.objects.create(narration = data['description'], fromAcc = account,type="debit",debit = float(data['creditAmount']), user = request.user)
+        account.balance = account.balance - float(data['creditAmount'])
+        account.save()
+        toRet = TransactionSerializer(transObj,many=False).data
+        return Response(toRet,status = status.HTTP_200_OK)

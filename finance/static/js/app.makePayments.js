@@ -576,7 +576,7 @@ $scope.save = function(){
     }
     $http({
       method : 'POST',
-      url : '/api/finance/pettyCash/',
+      url : '/api/finance/createPettyCashAmount/',
       data : dataToSend
     }).then(function(response){
       $scope.pettycashacntData.push(response.data)
