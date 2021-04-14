@@ -488,54 +488,56 @@ class UserBulkUploadAPIView(APIView):
                 except:
                     first_name = ''
 
-                try:
-                    last_name = ws['B' + str(i)].value
-                    if len(last_name) == None:
-                        last_name = ''
-                except:
-                    last_name = ''
+                # try:
+                #     last_name = ws['B' + str(i)].value
+                #     if len(last_name) == None:
+                #         last_name = ''
+                # except:
+                #     last_name = ''
 
                 try:
-                    email = ws['C' + str(i)].value
+                    email = ws['B' + str(i)].value
                 except:
                     email = None
 
                 try:
-                    phone = ws['D' + str(i)].value
+                    phone = ws['C' + str(i)].value
                 except:
                     phone = None
                 try:
-                    unit = ws['E' + str(i)].value
+                    unit = ws['D' + str(i)].value
                 except:
                     unit = None
 
                 try:
-                    department = ws['F' + str(i)].value
+                    department = ws['E' + str(i)].value
                 except:
                     department = None
                 try:
-                    role = ws['G' + str(i)].value
+                    role = ws['F' + str(i)].value
                 except:
                     role = None
                 try:
-                    ReportingTo = ws['H' + str(i)].value
+                    ReportingTo = ws['G' + str(i)].value
                 except:
                     ReportingTo = None
 
 
 
                 username = phone
+                print username,'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 
                 if username is not None:
                     userObj , n = User.objects.get_or_create( username = username)
                     userObj.email = email
                     userObj.first_name = first_name
-                    userObj.last_name = last_name
+                    # userObj.last_name = last_name
                     userObj.save()
                     profile = userObj.profile
                     profile.mobile = phone
                     profile.email = email
                     profile.save()
+                    print userObj.pk,'ssssssssssssssssss'
 
                     division = Division.objects.get(pk = request.data['division'] )
 

@@ -24,7 +24,7 @@
   <div class="form-group">
     <label>First Name*</label>
     <input type="text" name = "first_name" class="form-control darkInput" ng-model="form.first_name" required >
-    <span style = "color:red" ng-show = "empForm.first_name.$dirty ">
+    <span style = "color:red" ng-show = "empForm.first_name.$dirty">
     <span ng-show = "empForm.first_name.$error.required">First Name is required.</span>
   </span>
   </div>
@@ -71,6 +71,6 @@
 
 <button class="btn btn-default" ng-disabled = "empForm.first_name.$error.required || empForm.email.$invalid || empForm.mobile.$invalid"  ng-click="save()" style="background:#461482;color:white;border: none !important;border-radius: 64px !important;padding: 17px;padding-right: 17px;padding-left: 17px;right: 59px;font-size: 16px;z-index: 10;padding-right: 30px;padding-left: 30px" ng-if="!viewProfile" type="submit()">Create</button>
 <button ng-if="viewProfile" class="btn btn-default" ng-click="$state.go('workforceManagement.profile',{'id':userPk})" style="background:#461482;color:white;border: none !important;border-radius: 64px !important;padding: 17px;padding-right: 17px;padding-left: 17px;right: 59px;font-size: 16px;z-index: 10;padding-right: 30px;padding-left: 30px;margin-left:15px">View Profile</button>
-<button ng-if="viewProfile" type="button" class="btn btn-default" ng-click="reload()" style="background:#461482;color:white;border: none !important;border-radius: 64px !important;padding: 17px;padding-right: 17px;padding-left: 17px;right: 59px;font-size: 16px;z-index: 10;padding-right: 30px;padding-left: 30px;margin-left:15px">Reset</button>
+<!-- <button ng-if="viewProfile" type="button" class="btn btn-default" ng-click="reload()" style="background:#461482;color:white;border: none !important;border-radius: 64px !important;padding: 17px;padding-right: 17px;padding-left: 17px;right: 59px;font-size: 16px;z-index: 10;padding-right: 30px;padding-left: 30px;margin-left:15px">Reset</button> -->
 </form>
 </div>

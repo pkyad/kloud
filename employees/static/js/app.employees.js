@@ -954,6 +954,9 @@ app.controller('admin.manageUsers.form', function($scope, $http, Flash, $uibModa
     $http.get('/api/HR/users/?is_active=true&division=').
     then(function(response) {
       $scope.reportingToUsers =  response.data;
+      if (!$scope.simpleMode&&response.data.length>0) {
+        $scope.form.reportingTo = response.data[0]
+      }
     })
   };
   $scope.Reporting()
@@ -962,7 +965,7 @@ app.controller('admin.manageUsers.form', function($scope, $http, Flash, $uibModa
     $http.get('/api/organization/unit/?icansee=').
     then(function(response) {
       $scope.units =  response.data;
-      if ($scope.simpleMode&&response.data.length>0) {
+      if (response.data.length>0) {
         $scope.form.unit = response.data[0]
       }
     })
@@ -994,6 +997,9 @@ app.controller('admin.manageUsers.form', function($scope, $http, Flash, $uibModa
     $http.get('/api/organization/role/').
     then(function(response) {
       $scope.roles = response.data;
+      if (!$scope.simpleMode&&response.data.length>0) {
+        $scope.form.role = response.data[0]
+      }
     })
   };
   $scope.roleSearch()
