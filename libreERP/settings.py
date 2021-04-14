@@ -305,6 +305,9 @@ IOS_APP_VERSION = '1.0.0'
 REDIRECT = True
 PACKAGE_NAME = 'com.cioc.klouderp'
 
+
+CHAT_ENV = False
+
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 DEPENDENT_DETAILS = False
@@ -312,6 +315,7 @@ DEPENDENT_DETAILS = False
 PAYU_MERCHANT_KEY = "gtKFFx",
 
 PAYU_MERCHANT_SALT = "eCwWELxi",
+
 
 # And add the PAYU_MODE to 'TEST' for testing and 'LIVE' for production.
 PAYU_MODE = "TEST"

@@ -54,12 +54,15 @@ import ast
 from simplecrypt import encrypt, decrypt
 from clientRelationships.models import ContactAuth
 from clientRelationships.serializers import ContactLiteSerializer
-# from chatbot.talk import *
+
 from twilio.rest import Client
 import html2text
 from django.template.loader import render_to_string, get_template
 from django.core.mail import send_mail , EmailMessage
 from bs4 import BeautifulSoup
+
+if globalSettings.CHAT_ENV:
+    from chatbot.talk import *
 
 def generateOTPCode(length = 4):
     chars = string.digits
