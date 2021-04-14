@@ -30,7 +30,9 @@ import getpass
 # from talk import *
 from PIM.models import *
 from twilio.rest import Client
-# from chatbot.essgi import *
+
+if globalSettings.CHAT_ENV:
+    from talk import *
 
 # Create your views here.
 
