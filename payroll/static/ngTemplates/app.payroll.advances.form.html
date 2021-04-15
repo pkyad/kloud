@@ -14,6 +14,7 @@
 </style>
 <div class="col-md-offset-3 col-md-6" style="margin-top:30px;">
   <div class="container-fluid">
+    <form name="advanceForm">
     <div class="row">
       <div class="col-md-12 text-center">
         <h2> Create Advance </h2>
@@ -22,7 +23,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="form-group">
-          <label>User</label>
+          <label>User*</label>
           <!-- <input type="text" class="form-control adv_input" ng-model="form.user" uib-typeahead="user as user.username for user in userSearch($viewValue)" placeholder="Search For user"> -->
           <select class="form-control adv_select" ng-model="form.user"  ng-options="u.first_name+' '+u.last_name for u in allUsers">
           </select>
@@ -32,8 +33,11 @@
     <div class="row">
       <div class="col-md-12">
         <div class="form-group">
-          <label>Reason</label>
-          <textarea type="text" class="form-control adv_input" ng-model="form.reason" placeholder="Specify Reason for loan or advance" rows=6 style="resize:none;"> </textarea>
+          <label>Reason*</label>
+          <textarea type="text" class="form-control adv_input" ng-model="form.reason" placeholder="Specify Reason for loan or advance" rows=6 style="resize:none;" name="reason" required> </textarea>
+          <span style = "color:red" ng-show = "advanceForm.reason.$dirty">
+          <span ng-show = "advanceForm.reason.$error.required">Reason is required.</span>
+        </span>
         </div>
       </div>
     </div>
@@ -57,13 +61,17 @@
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          <label>Amount</label>
-          <input type="number" class="form-control adv_input" ng-model="form.amount" placeholder="">
+          <label>Amount*</label>
+          <input type="number" class="form-control adv_input" ng-model="form.amount" placeholder="" name="amount" required>
+          <span style = "color:red" ng-show = "advanceForm.amount.$dirty && advanceForm.amount.$invalid">
+           <span ng-show = "advanceForm.amount.$error.required">Amount is required.</span>
+           <span ng-show = "advanceForm.amount.$error.number">Invalid amount.</span>
+        </span>
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
-          <label>Return Method</label>
+          <label>Return Method*</label>
           <select type="number" class="form-control adv_select" ng-model="form.returnMethod">
             <option value="SALARY_ADVANCE">SALARY ADVANCE</option>
             <option value="PROJECT_ADVANCE">PROJECT ADVANCE</option>
@@ -74,11 +82,12 @@
 
     <div class="row">
       <div class="col-md-12">
-        <button type="button" class="btn btn-primary pull-right" ng-click="save()"
+        <button ng-disabled = "advanceForm.reason.$error.required  || advanceForm.amount.$invalid" type="button" class="btn btn-primary pull-right" ng-click="save()"
           style="background: #461482;color: white;border: none !important;border-radius: 64px !important;padding: 17px;padding-right: 17px;padding-left: 17px;right: 59px;font-size: 16px;  z-index: 10;  box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;  padding-right: 30px;padding-left: 30px;">
           Save
         </button>
       </div>
     </div>
+    </form>
   </div>
 </div>

@@ -12,18 +12,31 @@
     border-radius: 10px;
     /* padding: 15px; */
   }
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
 </style>
 <div class="modal-header text-center" style="font-size:18px;color:{{msg.length>0?'#35e031':''}}">
   <h3>{{msg.length>0?msg:'Apply'}}</h3>
 </div>
 <div class="modal-body">
   <div class="container-fluid">
+    <form name="candidateForm">
     <div class="col-md-12">
       <div class="row" style="font-size:16px;padding-right:20px;border-right:1px solid #eeeeee">
         <form >
           <div class="form-group">
-            <label><i style="color:#e27160">*</i> First Name </label>
-            <input type="text" class="form-control adv_input" ng-model="form.firstname" required>
+            <label><i style="color:#e27160">*</i> First Name* </label>
+            <input type="text" class="form-control adv_input" ng-model="form.firstname" name="firstname" required>
+            <span style = "color:red" ng-show = "candidateForm.firstname.$dirty">
+            <span ng-show = "candidateForm.firstname.$error.required">First Name is required.</span>
+          </span>
           </div>
           <div class="form-group">
             <label>Last Name</label>
@@ -31,11 +44,19 @@
           </div>
           <div class="form-group">
             <label><i style="color:#e27160">*</i> Email</label>
-            <input type="email" class="form-control adv_input" ng-model="form.email" required>
+            <input type="email" class="form-control adv_input" ng-model="form.email" name="email" required>
+            <span style = "color:red" ng-show = "candidateForm.email.$dirty && candidateForm.email.$invalid">
+             <span ng-show = "candidateForm.email.$error.required">Email is required.</span>
+             <span ng-show = "candidateForm.email.$error.email">Invalid email address.</span>
+          </span>
           </div>
           <div class="form-group">
             <label><i style="color:#e27160">*</i> Mobile</label>
-            <input type="text" class="form-control adv_input" ng-model="form.mobile" required>
+            <input type="number" class="form-control adv_input" ng-model="form.mobile" name="mobile" required>
+            <span style = "color:red" ng-show = "candidateForm.mobile.$dirty && candidateForm.mobile.$invalid">
+             <span ng-show = "candidateForm.mobile.$error.required">Mobile is required.</span>
+             <span ng-show = "candidateForm.mobile.$error.number">Invalid mobile number.</span>
+          </span>
           </div>
           <!-- <div class="form-group">
             <label>Cover Letter</label>
@@ -66,6 +87,7 @@
         </form>
       </div>
     </div>
+    </form>
     <!-- <div class="col-md-6">
       <div class="row" style="font-size:18px;">
         <div class="row text-center">

@@ -14,12 +14,13 @@
   }
 </style>
 <div class="container-fluid" >
+  <form name="hiringForm">
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
     <h3 ng-if="form.pk" class="text-center">Edit Job: <strong>{{form.jobtype}}</strong></h3>
     <h3 ng-if="!form.pk" class="text-center">Create a new job</h3>
     <div class="form-group">
-      <label>Job Type</label>
+      <label>Job Type*</label>
       <select class="form-control adv_select" ng-model="form.jobtype">
         <option value="Full Time">Full Time</option>
         <option value="Contract">Contract</option>
@@ -40,8 +41,11 @@
     </div> -->
 
     <div class="form-group" >
-      <label>Position</label>
-      <input type="text " class="form-control adv_input" ng-model="form.role"  placeholder=" Position">
+      <label>Position*</label>
+      <input type="text " class="form-control adv_input" ng-model="form.role"  placeholder=" Position" name="position" required>
+      <span style = "color:red" ng-show = "hiringForm.position.$dirty">
+      <span ng-show = "hiringForm.position.$error.required">Position is required.</span>
+    </span>
     </div>
 
     <!-- <div class="form-group" >
@@ -56,23 +60,29 @@
     </div> -->
 
     <div class="form-group">
-      <label>Skills Required</label>
-      <textarea ui-tinymce="tinymceOptions" ng-model="form.skill" ></textarea>
+      <label>Skills Required*</label>
+      <textarea ui-tinymce="tinymceOptions" ng-model="form.skill" name="skill" required></textarea>
+      <span style = "color:red" ng-show = "hiringForm.skill.$dirty">
+      <span ng-show = "hiringForm.skill.$error.required">Skills are required.</span>
+    </span>
     </div>
     <div class="form-group">
       <label>Description</label>
-      <textarea ui-tinymce="tinymceOptions" ng-model="form.description" ></textarea>
+      <textarea ui-tinymce="tinymceOptions" ng-model="form.description" name="description" required></textarea>
+      <span style = "color:red" ng-show = "hiringForm.description.$dirty">
+      <span ng-show = "hiringForm.description.$error.required">Description is required.</span>
+    </span>
     </div>
 
     <div class="btn-group pull-right">
       <button type="button" ng-if="!form.pk" class="btn btn-default" ng-click="resetForm()" style="background: #461482;color: white;border: none !important;border-radius: 64px !important;padding: 17px;padding-right: 17px;padding-left: 17px;padding-right: 17px;padding-left: 17px;right: 59px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;padding-right: 30px;padding-left: 30px;margin-right:20px">
           Reset
         </button>
-      <button type="button" class="btn btn-primary pull-right" ng-click="saveJobs()" style="background: #461482;color: white;border: none !important;border-radius: 64px !important;padding: 17px;padding-right: 17px;padding-left: 17px;padding-right: 17px;padding-left: 17px;right: 59px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;padding-right: 30px;padding-left: 30px;">Save</button>
+      <button type="button" class="btn btn-primary pull-right" ng-click="saveJobs()" style="background: #461482;color: white;border: none !important;border-radius: 64px !important;padding: 17px;padding-right: 17px;padding-left: 17px;padding-right: 17px;padding-left: 17px;right: 59px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;padding-right: 30px;padding-left: 30px;"  ng-if="!isContactProcessing" ng-disabled = "hiringForm.position.$error.required || hiringForm.skill.$error.required || hiringForm.description.$error.required">Save</button>
     </div>
   </div>
 
 </div>
-
+</form>
 
 </div>

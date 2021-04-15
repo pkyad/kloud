@@ -329,14 +329,16 @@ app.controller("workforceManagement.payroll.advances.explore", function($scope, 
 
 })
 app.controller("workforceManagement.payroll.advances.form", function($scope, $state, $users, $stateParams, $http, Flash, $uibModal, $rootScope) {
-
+  $scope.allUsers = []
   $scope.userSearch = function(query) {
     $http.get('/api/HR/userSearch/').
     then(function(response) {
       $scope.allUsers = response.data;
+      if ($scope.allUsers.length>0) {
+        $scope.form.user = $scope.allUsers[0]
+      }
     })
   }
-  $scope.userSearch()
   $scope.today = new Date()
   $scope.reset = function() {
     $scope.form = {
@@ -349,6 +351,8 @@ app.controller("workforceManagement.payroll.advances.form", function($scope, $st
     }
   }
   $scope.reset()
+  $scope.userSearch()
+
   $scope.save = function() {
     if ($scope.form.user == undefined || $scope.form.user == null || typeof $scope.form.user != 'object'  ) {
       Flash.create('warning' ,'Add user')

@@ -17,58 +17,75 @@
   </div>
   </div>
   <div class="modal-body">
+    <form name="checkinsForm">
     <div class="row">
     <div class="col-md-12">
       <div >
         <div class="row">
           <div class="col-md-12">
             <div class="form-group">
-              <label>Name</label>
-              <input type="text" class="form-control websiteInput" ng-model="checkinForm.name">
+              <label>Name*</label>
+              <input type="text" class="form-control websiteInput" ng-model="checkinForm.name" name="name" required>
+              <span style = "color:red" ng-show = "checkinsForm.name.$dirty">
+              <span ng-show = "checkinsForm.name.$error.required">Name is required.</span>
+            </span>
             </div>
             <div class="form-group">
-              <label>Manufactured On</label>
+              <label>Manufactured On*</label>
               <div >
                 <span style="position:absolute;right:15px;padding:15px" ng-click="manufacturedOn.opened = true;">
-
                   <i class="glyphicon glyphicon-calendar"></i>
                 </span>
-                <input type="text" class="form-control websiteInput" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="checkinForm.manufacturedOn" is-open="manufacturedOn.opened" ng-init="today" />
-
+                <input type="text" class="form-control websiteInput" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" disabled ng-model="checkinForm.manufacturedOn" is-open="manufacturedOn.opened" ng-init="today" name="manufacturedOn" required/>
+                <span style = "color:red" ng-show = "checkinsForm.manufacturedOn.$dirty">
+                <span ng-show = "checkinsForm.manufacturedOn.$error.required">Manufactured date is required.</span>
+              </span>
               </div>
             </div>
             <div class="form-group">
-              <label>Warranty Till</label>
+              <label>Warranty Till*</label>
               <div >
                 <span style="position:absolute;right:15px;padding:15px" ng-click="warrantyTill.opened = true;">
 
                   <i class="glyphicon glyphicon-calendar"></i>
                 </span>
-                <input type="text" class="form-control websiteInput" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="checkinForm.warrantyTill" is-open="warrantyTill.opened" ng-init="today" />
-
+                <input type="text" class="form-control websiteInput" show-weeks="false" uib-datepicker-popup="dd-MMMM-yyyy" disabled ng-model="checkinForm.warrantyTill" is-open="warrantyTill.opened" ng-init="today" name="warrantyTill" required/>
+                <span style = "color:red" ng-show = "checkinsForm.warrantyTill.$dirty">
+                <span ng-show = "checkinsForm.warrantyTill.$error.required">Warranty Till is required.</span>
+              </span>
               </div>
             </div>
             <div class="form-group">
-              <label>PO Number</label>
-              <input type="text" class="form-control websiteInput" ng-model="checkinForm.poNumber">
+              <label>PO Number*</label>
+              <input type="text" class="form-control websiteInput" ng-model="checkinForm.poNumber" name="poNumber" required>
+              <span style = "color:red" ng-show = "checkinsForm.poNumber.$dirty">
+              <span ng-show = "checkinsForm.poNumber.$error.required">PO Number is required.</span>
+            </span>
             </div>
             <div class="form-group">
-              <label>Serial Numbers</label>
-              <input type="text" class="form-control websiteInput" ng-model="checkinForm.serialNo">
+              <label>Serial Number*</label>
+              <input type="text" class="form-control websiteInput" ng-model="checkinForm.serialNo"  name="serialNo" required>
+              <span style = "color:red" ng-show = "checkinsForm.serialNo.$dirty">
+              <span ng-show = "checkinsForm.serialNo.$error.required">Serial Number is required.</span>
+            </span>
             </div>
             <div class="form-group">
-              <label>Value (in INR)</label>
-              <input type="text" class="form-control websiteInput" ng-model="checkinForm.price">
+              <label>Value (in INR)*</label>
+              <input type="text" class="form-control websiteInput" ng-model="checkinForm.price"  name="price" required>
+              <span style = "color:red" ng-show = "checkinsForm.price.$dirty">
+              <span ng-show = "checkinsForm.price.$error.required">Value is required.</span>
+              </span>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12" style="margin-top:10px;">
-            <button type="button" class="btn btn-primary" ng-click="save()">Save</button>
+            <button type="button" class="btn btn-primary" ng-click="save()"  ng-disabled = "empForm.name.$error.required || checkinsForm.manufacturedOn.$error.required || checkinsForm.warrantyTill.$error.required || checkinsForm.poNumber.$error.required || checkinsForm.serialNo.$error.required || checkinsForm.price.$error.required">Save</button>
               <button type="button" class="btn btn-danger" ng-click="cancel();">Close</button>
           </div>
         </div>
       </div>
     </div>
     </div>
+    </form>
     </div>
