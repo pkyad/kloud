@@ -78,6 +78,8 @@ import requests
 import datetime
 import pytz
 
+from .tasks import *
+
 
 @csrf_exempt
 def loginOTPView(request, id):
@@ -424,6 +426,7 @@ def home(request):
     #     lang = request.COOKIES['lang']
     # else:
     #     pass
+
     u = request.user
 
     if u.is_superuser:
@@ -626,6 +629,7 @@ def generateOTPView(request):
                         globalSettings.SEND_SMS( request.GET['mobile'], msg)
                     except:
                         pass
+
                     url = '/otplogin/' +request.GET['mobile']
                     return JsonResponse({'newReg' : True} ,status =200 )
             except:
@@ -665,7 +669,7 @@ def generateOTPView(request):
     try:
         to_email = []
         to_email.append(str(user.email))
-        send_otp_email(to_email , user.first_name + ' '+user.last_name , otp)
+        send_otp_email.delay(to_email , user.first_name + ' '+user.last_name , otp)
     except:
         pass
     return JsonResponse({'newReg' : False} ,status =200 )
@@ -694,22 +698,6 @@ def templateEditorView(request , pk):
 
     return render(request , 'app.templateEditor.html' , {'pk':pk})
 
-def send_otp_email(to_email,name, otp):
-
-    email_subject ="KloudERP OTP"
-    to_email = to_email
-    to_email.append(to_email)
-    ctx = {
-        'otp': otp,
-        'name' : name,
-    }
-
-    email_body = get_template('app.ERP.otp.html').render(ctx)
-    # email_body = 'Hi'
-    msg = EmailMessage(email_subject, email_body, to=to_email)
-    msg.content_subtype = 'html'
-    msg.send()
-    return {'status':'ok'}
 
 
 def renderedStatic(request , filename):

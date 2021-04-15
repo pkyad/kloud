@@ -128,6 +128,14 @@ MAP_API_KEY = 'AIzaSyBJO5IcouQ-yY2icc7TYaTNMcWc3B_-38Q'
 SNERT_PATH_1 = '/home/cioc-d3/stanford-ner-2018-10-16/classifiers/english.all.3class.distsim.crf.ser.gz'
 SNERT_PATH_2 = '/home/cioc-d3/stanford-ner-2018-10-16/stanford-ner.jar'
 
+
+BROKER_URL = "amqp://newuser:titan@localhost:5672/klouderp"
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+CELERY_TIMEZONE = 'Asia/Kolkata'
+
 import requests
 def SEND_SMS(number , txt):
     url = SMS_API_PREFIX%(number, txt)
