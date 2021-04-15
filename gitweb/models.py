@@ -16,11 +16,11 @@ class device(models.Model):
     sshKey = models.CharField(max_length = 500 , null = True)
     created = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length = 50)
-    user = models.ForeignKey(User , null =False , related_name='gitdevices')
+    user = models.ForeignKey(User , null =True , related_name='gitdevices')
 
 
 class repoPermission(models.Model):
-    user = models.ForeignKey(User , null = False , related_name = 'repoPermissions')
+    user = models.ForeignKey(User , null = True , related_name = 'repoPermissions')
     canRead = models.BooleanField(default = False)
     canWrite = models.BooleanField(default = False)
     canDelete = models.BooleanField(default = False)

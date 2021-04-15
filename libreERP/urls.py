@@ -107,7 +107,7 @@ urlpatterns = [
     url(r'getDetailsCustomer/$' , GetCustomerDetails , name = "getDetailsCustomer" ),
     url(r'^sitemap.xml$', rootSitemapView , name ='rootSitemapView'),
     # url(r'extractorTester/$' , ExtractorTesterView.as_view() , name = "extractorTester"),
-
+   url(r'dailyUserAcquisitation/$' , DailyUserAcquisitation , name = "dailyUserAcquisitation" ),
 ]
 
 
