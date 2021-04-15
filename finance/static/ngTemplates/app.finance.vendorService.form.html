@@ -1,13 +1,29 @@
+<<style media="screen">
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+</style>
 <div class="modal-body" style="background: #F3F3F3;padding: 40px;">
   <div class="row">
+  <form name="companyForm">
     <div class="col-md-12">
       <h3 ng-if="!form.pk">Create Company</h3>
       <h3 ng-if="form.pk">Edit Company</h3>
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <label>Company</label>
-            <input type="text " class="form-control" ng-model="form.name" style="height: 40px;border: none;border-radius: 10px;margin-top:10px;margin-bottom:30px;font-size:20px;">
+            <label>Company*</label>
+            <input type="text " class="form-control" ng-model="form.name" style="height: 40px;border: none;border-radius: 10px;margin-top:10px;margin-bottom:30px;font-size:20px;" name = "name" required>
+            <span style = "color:red" ng-show = "companyForm.name.$dirty">
+            <span ng-show = "companyForm.name.$error.required">Company is required.</span>
+          </span>
+
           </div>
         </div>
         <!-- <div class="col-md-6">
@@ -39,8 +55,11 @@
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <label>GSTIN</label>
-            <input ng-model="form.tin" type="text" class="form-control" style="height: 40px;border: none;border-radius: 10px;margin-top:10px;margin-bottom:30px;font-size:20px;">
+            <label>GSTIN*</label>
+            <input ng-model="form.tin" type="text" class="form-control" style="height: 40px;border: none;border-radius: 10px;margin-top:10px;margin-bottom:30px;font-size:20px;" name="tin" required>
+            <span style = "color:red" ng-show = "companyForm.tin.$dirty">
+            <span ng-show = "companyForm.tin.$error.required">GSTIN is required.</span>
+          </span>
           </div>
         </div>
       </div>
@@ -51,15 +70,22 @@
       <div class="row">
         <div class="col-md-12">
           <div class="form-group">
-            <label>Address</label>
+            <label>Address*</label>
             <div class="row" style="margin-top:5px;">
               <div class="col-md-12">
-                <input placeholder="Address" type="text" class="form-control" ng-model="form.street" style="height: 40px;border: none;border-radius: 10px;margin-top:10px;margin-bottom:5px;font-size:20px;">
+                <input placeholder="Address" type="text" class="form-control" ng-model="form.street" style="height: 40px;border: none;border-radius: 10px;margin-top:10px;margin-bottom:5px;font-size:20px;" name="street" required>
+                <span style = "color:red" ng-show = "companyForm.street.$dirty">
+                <span ng-show = "companyForm.street.$error.required">Address is required.</span>
+              </span>
               </div>
             </div>
             <div class="row" style="margin-top:5px;">
               <div class="col-md-6">
-                <input placeholder="Pincode" type="text" class="form-control" ng-model="form.pincode" style="height: 40px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:5px;font-size:20px;">
+                <input placeholder="Pincode*" type="number" class="form-control" ng-model="form.pincode" style="height: 40px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:5px;font-size:20px;" name="pincode" required ng-change="addPincode()">
+                <span style = "color:red" ng-show = "companyForm.pincode.$dirty && companyForm.pincode.$invalid">
+                 <span ng-show = "companyForm.pincode.$error.required">Pincode is required.</span>
+                 <span ng-show = "companyForm.pincode.$error.number">Invalid pincode.</span>
+              </span>
               </div>
               <div class=" col-md-6">
                 <input placeholder="City" type="text" class="form-control" ng-model="form.city" disabled style="height: 40px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:5px;font-size:20px;">
@@ -95,8 +121,9 @@
           <button class="btn btn-primary" ng-click="cancel()" style="background: rgb(215, 0, 0);color: white;border: none !important;border-radius: 64px !important;padding: 17px;width: 112px;font-size: 16px;"> Cancel
         </div>
         <div class="col-md-6 text-right">
-          <button class="btn btn-primary" ng-click="ServiceSave()" style="background: rgb(14, 67, 136);color: white;border: none !important;border-radius: 64px !important;padding: 17px;width: 112px;font-size: 16px;"> Add </div>
+          <button class="btn btn-primary" ng-click="ServiceSave()" style="background: rgb(14, 67, 136);color: white;border: none !important;border-radius: 64px !important;padding: 17px;width: 112px;font-size: 16px;" ng-disabled = "companyForm.name.$error.required || companyForm.email.$invalid  || companyForm.tin.$error.required || companyForm.street.$error.required || companyForm.pincode.$invalid"> Add </div>
       </div>
     </div>
+    </form>
   </div>
 </div>

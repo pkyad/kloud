@@ -1,10 +1,14 @@
 <div class="modal-body" style="background:#F2F3F7;padding: 30px;">
   <div class="row">
+    <form name="companyForm">
     <div class="col-md-12" style="padding-top:20px;">
       <h3> {{form.pk? 'Edit Company':'Add New Company'}}</h3>
       <div class="form-group">
-        <label>Company</label>
-        <input ng-model="form.name" type="text" class="form-control" placeholder="Company name" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;">
+        <label>Company*</label>
+        <input ng-model="form.name" type="text" class="form-control" placeholder="Company name" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;" name="name" required>
+        <span style = "color:red" ng-show = "companyForm.name.$dirty">
+        <span ng-show = "companyForm.name.$error.required">Company is required.</span>
+      </span>
       </div>
       <!-- <div class="form-group">
       <label>Mobile</label>
@@ -32,7 +36,11 @@
         </div>
         <div class="row" style="margin-top:5px;">
           <div class=" col-md-6">
-            <input placeholder="pincode" type="text " class="form-control" ng-model="form.address.pincode" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;">
+            <input placeholder="pincode*" type="number" class="form-control" ng-model="form.address.pincode" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;" ng-change="addPincode()" name="pincode" required>
+            <span style = "color:red" ng-show = "companyForm.pincode.$dirty && companyForm.pincode.$invalid">
+              <span ng-show = "companyForm.pincode.$error.required">Pincode is required.</span>
+              <span ng-show = "companyForm.pincode.$error.number">Invalid pincode</span>
+            </span>
           </div>
           <div class="col-md-6">
             <input placeholder="Country" type="text " class="form-control" ng-model="form.address.country" style="padding: 29px;border: none;border-radius: 10px;margin-top:5px;margin-bottom:15px;font-size:20px;">
@@ -88,8 +96,9 @@
           Reset
         </button>
         <button type="button" class="btn btn-primary pull-right" ng-click="createCompany()"
-          style="background:#461482;color:white;border: none !important;border-radius: 64px !important;padding: 17px;padding-right: 17px;padding-left: 17px;right: 59px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18pxrgba(157, 157, 157, 0.94) !important;padding-right: 30px;padding-left: 30px;">Save</button>
+          style="background:#461482;color:white;border: none !important;border-radius: 64px !important;padding: 17px;padding-right: 17px;padding-left: 17px;right: 59px;font-size: 16px;z-index: 10;box-shadow: 0px 8px 18pxrgba(157, 157, 157, 0.94) !important;padding-right: 30px;padding-left: 30px;" ng-disabled = "companyForm.name.$error.required || companyForm.pincode.$invalid" >Save</button>
       </div>
     </div>
+    </form>
   </div>
 </div>
