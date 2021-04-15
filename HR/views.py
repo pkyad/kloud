@@ -44,6 +44,7 @@ import django
 import requests
 from ERP.initializing import *
 from chatbot.models import Activity
+from .tasks import *
 
 class userProfileViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
@@ -111,21 +112,9 @@ class UserViewSet(viewsets.ModelViewSet):
         user = self.request.user
         divsn = user.designation.division
         profileObj = user.profile
-        # if profileObj.sipUserName is None:
-        #     try:
-        #         idVal = 100 + int(user.pk)
-        #         URL = 'https://'+globalSettings.SIP_WSS_SERVER +"/createAnEndpoint/?exten="+str(idVal)+"&username="+profileObj.mobile+str(divsn.pk)
-        #         r = requests.get(url = URL)
-        #         data = r.json()
-        #         print data, 'datatata'
-        #         profileObj.sipUserName = data['auths'][0]['username']
-        #         profileObj.sipPassword = data['auths'][0]['password']
-        #         profileObj.sipExtension = data['exten']
-        #         profileObj.save()
-        #
-        #     except:
-        #         print 'issue in createAnEndpoint'
-        #         pass
+
+        set_sip_credential.delay(profileObj.pk)
+
 
         if 'reportingTo' in self.request.GET:
             userPks = list(designation.objects.filter(reportingTo = int(self.request.GET['reportingTo']) , division = divsn ).values_list('user__pk',flat=True))

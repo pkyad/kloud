@@ -103,7 +103,7 @@ class profile(models.Model):
     prefix = models.CharField(choices = PREFIX_CHOICES , default = 'NA' , max_length = 4)
     gender = models.CharField(choices = GENDER_CHOICES , default = 'M' , max_length = 6)
     email = models.EmailField(max_length = 50)
-    mobile = models.CharField(null = True , max_length = 14)
+    mobile = models.CharField(null = True , max_length = 14,unique = True)
     emergency = models.CharField(null = True , max_length = 100) # supposed to be a "name:number" format
     website = models.URLField(max_length = 100 , null = True , blank = True)
     sign = models.FileField(upload_to = getSignaturesPath ,  null = True)

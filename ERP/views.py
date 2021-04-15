@@ -76,6 +76,11 @@ from django.template import Template
 import django
 import requests
 import datetime
+import pytz
+
+from .tasks import *
+
+
 @csrf_exempt
 def loginOTPView(request, id):
     print request.GET
@@ -326,6 +331,37 @@ def GetCustomerDetails(request):
             pass
     return JsonResponse({ 'success' : success} ,status =200 )
 
+
+
+
+@csrf_exempt
+def DailyUserAcquisitation(request):
+    ctx = {}
+    today = datetime.datetime.now(pytz.timezone('Asia/Kolkata')).date()
+    # step 1 : getting new users 
+    newUsers = len(User.objects.filter(date_joined__startswith = str(today)))
+
+    # step 2 : getting user who used the platform today
+    todayCount = len(User.objects.filter(profile__last_updated__startswith = str(today)))
+
+    # step 3 : getting division who are using today
+    divisionCount = len(Division.objects.filter(last_login__startswith = str(today)))
+
+
+    ctx['newUsers'] = newUsers
+    ctx['todayCount'] = todayCount
+    ctx['divisionCount'] = divisionCount
+
+    email_subject ="USER Update on %s"%(str(today))
+    to_email = ['info@epsilonai.com']
+    email_body = get_template('app.ERP.dailyUpdate.html').render(ctx)
+    msg = EmailMessage(email_subject, email_body, to=to_email)
+    msg.content_subtype = 'html'
+    msg.send()
+
+    return JsonResponse({ 'success' : True} ,status =200 )
+
+
 def QrLoginView(request):
     print "running qr login view"
     token = request.GET['t']
@@ -390,6 +426,7 @@ def home(request):
     #     lang = request.COOKIES['lang']
     # else:
     #     pass
+
     u = request.user
 
     if u.is_superuser:
@@ -583,7 +620,7 @@ def generateOTPView(request):
                     regObj, r = Registration.objects.get_or_create(mobile = request.GET['mobile'])
                     regObj.mobileOTP = otp
                     regObj.save()
-                    msg = "Hi, your OTP is {0}".format(otp)
+                    msg = "Hi, {0} is the OTP to verify your mobile number for KloudERP App. {1}".format(otp,'')
                     try:
                         globalSettings.SEND_WHATSAPP_MSG( request.GET['mobile'], msg)
                     except:
@@ -592,6 +629,7 @@ def generateOTPView(request):
                         globalSettings.SEND_SMS( request.GET['mobile'], msg)
                     except:
                         pass
+
                     url = '/otplogin/' +request.GET['mobile']
                     return JsonResponse({'newReg' : True} ,status =200 )
             except:
@@ -619,7 +657,7 @@ def generateOTPView(request):
     ak.save()
     print otp,ak
     print user.profile.mobile
-    msg = "Hi {0}, your OTP is {1}".format(user.first_name, otp)
+    msg = "Hi, {0} is the OTP to verify your mobile number for KloudERP App. {1}".format(otp,'')
     try:
         globalSettings.SEND_WHATSAPP_MSG( user.profile.mobile, msg)
     except:
@@ -631,7 +669,7 @@ def generateOTPView(request):
     try:
         to_email = []
         to_email.append(str(user.email))
-        send_otp_email(to_email , user.first_name + ' '+user.last_name , otp)
+        send_otp_email.delay(to_email , user.first_name + ' '+user.last_name , otp)
     except:
         pass
     return JsonResponse({'newReg' : False} ,status =200 )
@@ -660,22 +698,6 @@ def templateEditorView(request , pk):
 
     return render(request , 'app.templateEditor.html' , {'pk':pk})
 
-def send_otp_email(to_email,name, otp):
-
-    email_subject ="KloudERP OTP"
-    to_email = to_email
-    to_email.append(to_email)
-    ctx = {
-        'otp': otp,
-        'name' : name,
-    }
-
-    email_body = get_template('app.ERP.otp.html').render(ctx)
-    # email_body = 'Hi'
-    msg = EmailMessage(email_subject, email_body, to=to_email)
-    msg.content_subtype = 'html'
-    msg.send()
-    return {'status':'ok'}
 
 
 def renderedStatic(request , filename):
