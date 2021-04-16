@@ -588,26 +588,27 @@
         <div class="font22" style="font-weight: 700;background: -webkit-linear-gradient(#FA012F, #FF3E64);background-clip: border-box;-webkit-background-clip: text;
 -webkit-text-fill-color:transparent;"><img class="kloudImg"src="/static/images/xicon.png" >Kloud ERP </div>
       </div>
-      <div class="col-md-7  col-sm-9 col-xs-9" style="margin-bottom:30px">
+      <div class="col-md-7  col-sm-8 col-xs-8" style="margin-bottom:30px">
         <input type="text" class="form-control" ng-model="search.searchText" style="border: none;border-radius: 50px;background: #f6f5f4;height: 60px;padding-left: 60px;" placeholder="Search" ng-change="allApps()" ng-model-options="{debounce:1000}">
         <img src="/static/images/icons8-search-512.png" style="width: 40px;position: absolute;left: 33px;top: 10px;" alt="">
       </div>
-      <div class="col-md-2 col-sm-3 col-xs-3  pull-right ">
+      <div class="col-md-2  col-sm-4 col-xs-4  pull-right ">
         <div class="row"  ng-if="me.pk&&showLogo">
-          <div class="col-md-12 col-sm-12 col-xs-12 ">
+          <div class="col-md-12  hidden-xs hiddden-sm ">
             <button type="button" name="button" class="btn btn-block" style="height:60px;border-radius: 50px !important" ng-click="$state.go('workforceManagement.billing')">Billing</button>
           </div>
         </div>
         <div class="row"  ng-if="!me.pk">
-          <div class="col-md-12 col-sm-12 col-xs-12 ">
+          <div class="col-md-12 hidden-xs hiddden-sm ">
             <a type="button" href="/login/"  name="button" class="btn btn-default btn-block" style="height:60px;border-radius: 50px !important;padding-top:20px;" >Login</a>
           </div>
         </div>
         <div class="row"  ng-if="me.pk&&!showLogo">
-          <div class="col-md-12">
+          <div class="col-md-12 hidden-xs hiddden-sm">
             <a type="button" href="/ERP/"  name="button" class="btn btn-default btn-block" style="height:60px;border-radius: 50px !important;padding-top:20px;" >Go To Backend</a>
           </div>
         </div>
+        <div class="row" ><div class=" hidden-lg hiddden-md  col-sm-12 col-xs-12 "><a type="button" name="button" class="btn btn-default btn-block" style="height:60px;border-radius: 50px !important;padding-top:20px;font-size:14px!important" href="https://play.google.com/store/apps/details?id=com.cioc.klouderp"> Playstore</a></div></div>
         <!-- <div class="col-md-6 col-xs-6">
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/login/" type="button" class="btn btn-default " name="button" id="signup" class="sign">Sign Up</a></li>

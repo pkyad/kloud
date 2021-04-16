@@ -1,4 +1,4 @@
-<div class="container-fluid " >
+<div class="container-fluid ">
   <div class="row div_padding" style="padding-top: 0px;min-height: 100vh;">
     <div class="col-md-8 col-md-offset-2 page_css" style="padding-top:100px;box-shadow: 0px 8px 418px rgba(157, 157, 157, 0.94) !important;">
       <div class="">
@@ -9,10 +9,20 @@
             </div>
           </div>
           <div class="col-md-10">
-            <h3 style="font-size:30px;">{{app.displayName}} </h3>
-            <div class="col-md-8" style="padding:0px;">
-              <p>{{app.description}}</p>
-              <h1 class="font50" style="color: #ff8b5a;"> <span style="color:#e1e1e1;">Rated</span> {{app.totalRatings}} <small style="color:#e1e1e1">/5</small> </h1>
+            <div class="row">
+              <div class="col-md-12">
+                <h3 style="font-size:30px;">{{app.displayName}} </h3>
+                <div class="col-md-8" style="padding:0px;">
+                  <p>{{app.description}}</p>
+                  <h1 class="font50" style="color: #ff8b5a;"> <span style="color:#e1e1e1;">Rated</span> {{app.totalRatings}} <small style="color:#e1e1e1">/5</small> </h1>
+                </div>
+                <a href="{{app.playStoreUrl}}" class="col-md-2 col-xs-12 col-sm-12"  style="background-image:url('/static/images/googleplay.png');background-size:contain;height:40px;background-repeat:no-repeat;background-position:left;margin-bottom:15px">
+                <!-- <a href="{{app.playStoreUrl}}"></a> -->
+                </a>
+                <a href="{{app.appStoreUrl}}" class="col-md-2 col-xs-12 col-sm-12"  style="background-image:url('/static/images/app-min.png');background-size:contain;height:40px;background-repeat:no-repeat;background-position:left;margin-bottom:15px">
+                <!-- <a href="{{app.appStoreUrl}}"></a> -->
+                </a>
+              </div>
             </div>
             <div class="hidden-xs">
 
@@ -30,11 +40,8 @@
                 </div>
               </div>
             </div>
-            <div class="visible-xs">
+            <!-- <div class="visible-xs">
               <div class="row">
-                <!-- <div class="col-xs-8 " style="color:#8c8c8c;margin:0px;">
-
-                </div> -->
                 <div class="col-xs-12" ng-if="is_staff">
 
                   <button type="button" class="btn btn-success btn-block" name="button" ng-click="install()" ng-show="step=='notinstalled'" style="border-radius:50px!important;background:#02a33e;color:white;border:none!important">Install</button>
@@ -48,7 +55,7 @@
                   <button class="btn  btn-block" ng-click="openApp()" style="border-radius:50px!important;background:#0010fc;color:white;border:none!important;">Open</button>
                 </div>
               </div>
-            </div>
+            </div> -->
 
           </div>
         </div>
@@ -89,7 +96,7 @@
             </div>
           </ng-owl-carousel>
         </div>
-        <div class="" ng-if="is_staff&&app.inMenu">
+        <div class="hidden-xs" ng-if="is_staff&&app.inMenu">
           <div class="row">
             <div class="col-md-12">
               <h4 ng-if="users.length>0">USERS</h4>
@@ -194,7 +201,7 @@ right: 25px;margin: 20px 0px;" ng-click="delUser($index)">
         <div class="row" style="margin-bottom:20px;padding: 15px;">
 
           <div class="col-md-4">
-              <h4 style="margin-bottom:30px">RATINGS</h4>
+            <h4 style="margin-bottom:30px">RATINGS</h4>
             <div class="row no_margin" style="display:flex" ng-if="app.rating_five>0">
               <div class="" style="padding-right:15px">
                 <p style="padding:5px 0px;">5</p>
@@ -259,25 +266,27 @@ right: 25px;margin: 20px 0px;" ng-click="delUser($index)">
         </div>
         <div class="row">
 
-          <div class="row" style="margin:0px;margin-bottom:20px;background:white;padding: 40px;border-radius: 10px;border:1px solid #ccc;background:url('/static/images/4.png') no-repeat top left,url('/static/images/3.png') no-repeat bottom right;background-size: contain, contain;" ng-repeat="k in feedback track by $index">
+          <div class="row"
+            style="margin:0px;margin-bottom:20px;background:white;padding: 40px;border-radius: 10px;border:1px solid #ccc;background:url('/static/images/4.png') no-repeat top left,url('/static/images/3.png') no-repeat bottom right;background-size: contain, contain;"
+            ng-repeat="k in feedback track by $index">
 
-            <div class=""  style="">
+            <div class="" style="">
 
               <i class="fa fa-quote-left commentQuote" aria-hidden="true" style=""></i>
               <div class="col-md-10">
 
                 <div class="">
-            <div class="" style="padding: 29px 0px;">
-              <p >{{k.text}} <span>
-                <i class="fa fa-quote-left" aria-hidden="true" style="font-size: 36px;color:#ccc;transform: rotate(180deg);position:absolute;margin-left:18px;margin-top:10px;"></i>
+                  <div class="" style="padding: 29px 0px;">
+                    <p>{{k.text}} <span>
+                        <i class="fa fa-quote-left" aria-hidden="true" style="font-size: 36px;color:#ccc;transform: rotate(180deg);position:absolute;margin-left:18px;margin-top:10px;"></i>
 
-              </span> </p>
+                      </span> </p>
 
-            </div>
+                  </div>
 
 
 
-                  <div class="" >
+                  <div class="">
                     <h4>{{k.name}}</h4>
 
                   </div>
@@ -302,7 +311,7 @@ right: 25px;margin: 20px 0px;" ng-click="delUser($index)">
               </div>
 
               <div class="col-md-2 text-center">
-              <img alt="" src="/static/images/img_avatar_card2.png" class="img img-circle" style="height: 80px;">
+                <img alt="" src="/static/images/img_avatar_card2.png" class="img img-circle" style="height: 80px;">
                 <!-- <div class="comment_card" style="">
 
                 </div> -->
