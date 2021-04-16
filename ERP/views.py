@@ -338,7 +338,7 @@ def GetCustomerDetails(request):
 def DailyUserAcquisitation(request):
     ctx = {}
     today = datetime.datetime.now(pytz.timezone('Asia/Kolkata')).date()
-    # step 1 : getting new users 
+    # step 1 : getting new users
     newUsers = len(User.objects.filter(date_joined__startswith = str(today)))
 
     # step 2 : getting user who used the platform today
@@ -1224,7 +1224,7 @@ def versionDetails(request,app):
     #     selectedObj = obj.first()
     #     data = {'minVersion' : selectedObj.minVersion , 'latestVersion' : selectedObj.latestVersion}
     print app,'ssssssssssssss'
-    alldata = {'app.CRM':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.messenger':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.contacts':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.klouderp':{'playstore' : {'version':'1.0.3', 'url':'','redirect':True},'appstore' : {'version':'1.0.3', 'url':'','redirect':True}},'app.calendar':{'playstore' : {'version':'1.0.1', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.serviceengineer':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.sales':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.expenses':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.hiring':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.payroll':{'playstore' : {'version':'0.0.1', 'url':'','redirect':True},'appstore' : {'version':'0.0.1', 'url':'','redirect':True}},'app.attendance':{'playstore' : {'version':'0.0.1', 'url':'','redirect':True},'appstore' : {'version':'0.0.1', 'url':'','redirect':True}},'app.pettycash':{'playstore' : {'version':'0.0.1', 'url':'','redirect':True},'appstore' : {'version':'0.0.1', 'url':'','redirect':True}}}
+    alldata = {'app.CRM':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.messenger':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.contacts':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.klouderp':{'playstore' : {'version':'1.0.3', 'url':'','redirect':True},'appstore' : {'version':'1.0.3', 'url':'','redirect':True}},'app.calendar':{'playstore' : {'version':'1.0.1', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.serviceengineer':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.sales':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.expenses':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.hiring':{'playstore' : {'version':'0.0.3', 'url':'','redirect':True},'appstore' : {'version':'0.0.3', 'url':'','redirect':True}},'app.payroll':{'playstore' : {'version':'0.0.1', 'url':'','redirect':True},'appstore' : {'version':'0.0.1', 'url':'','redirect':True}},'app.attendance':{'playstore' : {'version':'0.0.1', 'url':'','redirect':True},'appstore' : {'version':'0.0.1', 'url':'','redirect':True}},'app.pettycash':{'playstore' : {'version':'0.0.1', 'url':'','redirect':True},'appstore' : {'version':'0.0.1', 'url':'','redirect':True}},'app.hospitalManagement':{'playstore' : {'version':'0.0.1', 'url':'','redirect':True},'appstore' : {'version':'0.0.1', 'url':'','redirect':True}}}
     data = alldata[app]
     return JsonResponse(data)
 
@@ -2499,3 +2499,24 @@ class GetAppUsageGraphAPIView(APIView):
         except:
             pass
         return Response({'usage' : data, 'division' : divChart},status = status.HTTP_200_OK)
+
+class ClearDataAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny,)
+    def get(self, request, format=None):
+        data = request.GET
+        if 'num' in data:
+            userObj = User.objects.filter(profile__mobile = data['num'])
+            if len(userObj)>0:
+                user = userObj[0]
+                if user.is_staff == True:
+                    div = user.designation.division
+                    allUsers = User.objects.filter(designation__division = div, is_staff = True).exclude(pk = user.pk)
+                    if len(allUsers)==0:
+                        div.delete()
+                    user.delete()
+                else:
+                    user.delete()
+            else:
+                print 'no user'
+        return Response({} , status = status.HTTP_200_OK)

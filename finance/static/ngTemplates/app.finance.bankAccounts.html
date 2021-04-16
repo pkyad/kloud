@@ -23,7 +23,8 @@
     <tbody>
       <tr ng-repeat="acc in accountData" ng-click="$state.go('businessManagement.accountsView',{'id':acc.pk})">
         <td>{{$index+1}}</td>
-        <td  class="font23">{{acc.title}} </td>
+        <!-- <td  class="font23">{{acc.title}} </td> -->
+        <td  class="font23">{{acc.authorizedSignaturies[0].first_name}} {{acc.authorizedSignaturies[0].last_name}} </td>
         <td><span ng-if="!acc.personal">{{acc.number}}</span> <span ng-if="acc.personal">Petty Cash</span> </td>
 
         <td class="font23" ng-click="viewAcc(acc)" style="text-align:center !important;border: 1px solid #ddd !important;">

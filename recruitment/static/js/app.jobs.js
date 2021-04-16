@@ -407,6 +407,11 @@ app.controller("workforceManagement.recruitment.jobs.explore", function($scope, 
   // if ($state.is('workforceManagement.exploreJob')) {
   //   $state.go('workforceManagement.exploreJob.allJob')
   // }
+
+  // $scope.$on('getJobs', function(data) {
+  //   $scope.getJob()
+  // });
+  // $rootScope.$broadcast("getJobs", {});
   $scope.limit = 10
   $scope.allCandidates = []
     $scope.fetchCandidates = function() {

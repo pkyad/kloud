@@ -528,8 +528,8 @@ class UserBulkUploadAPIView(APIView):
                     profile.save()
                     print userObj.pk,'ssssssssssssssssss'
 
-                    division = Division.objects.get(pk = request.data['division'] )
-
+                    # division = Division.objects.get(pk = request.data['division'] )
+                    division = request.user.designation.division
                     designation = userObj.designation
                     designation.division = division
                     if unit is not None:
