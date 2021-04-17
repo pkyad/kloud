@@ -1,0 +1,26 @@
+<div class="container-fluid">
+  <div class="row pull-right">
+  <button type="button"  class="btn btn-primary"name="button" ng-click="queueModal()"><i class="fa fa-plus"></i> Create A Queue</button>
+  </div><br><br><br>
+  <div class="row" style="margin:10px;">
+  <table style="width:80%">
+    <tr>
+      <th>Name</th>
+      <th>Process</th>
+      <th>Action</th>     
+    </tr>
+    <tr ng-repeat="item in queuesList track by $index" style="padding:10px;">
+      <td>{{item.name}}</td>
+      <td>{{item.process.name}}</td>
+      <td>
+        <a ng-click="queueModal(item)" style="cursor:pointer;">Edit</a>
+        <a ng-click="deleteQueue(item.pk)" style="cursor:pointer;">Delete</a>
+      </td>
+
+    </tr>
+
+</table> 
+  </div>
+
+  
+</div>

@@ -59,21 +59,30 @@ import sys, traceback
 
 class JobssViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
-    queryset = Job.objects.all()
     serializer_class = JobssSerializer
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['process','queue','division']
 
+    def get_queryset(self):
+        divisionObj = self.request.user.designation.division
+        return divisionObj.rpa_jobs.all().order_by('-pk')
+
 class QueueViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
-    queryset = Queue.objects.all()
     serializer_class = QueueSerializer
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['process','division']
+ 
+    def get_queryset(self):
+        divisionObj = self.request.user.designation.division
+        return divisionObj.rpa_queues.all().order_by('-pk')   
 
 class ProcessViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
-    queryset = Process.objects.all()
+    queryset = Process.objects.all().order_by('-pk')
     serializer_class = ProcessSerializer
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['uri','division','name']
+    def get_queryset(self):
+        divisionObj = self.request.user.designation.division
+        return divisionObj.rpa_processes.all().order_by('-pk')  
