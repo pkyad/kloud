@@ -103,7 +103,16 @@ app.config(function($stateProvider ){
     templateUrl: '/static/ngTemplates/app.home.leave.html',
     controller: 'controller.home.leave'
   })
-
+  .state('home.viewProfile.appliedLeaves', {
+    url: "/appliedLeaves",
+    templateUrl: '/static/ngTemplates/app.home.appliedLeaves.html',
+    controller: 'controller.home.appliedLeaves'
+  })
+  .state('home.viewProfile.applyLeave', {
+    url: "/applyLeave",
+    templateUrl: '/static/ngTemplates/app.home.leave.form.html',
+    controller: 'controller.home.leave.form'
+  })
   .state('home.createExpenseClaims', {
     url: "/createExpenseClaims",
     templateUrl: '/static/ngTemplates/app.home.expenseClaims.newForm.html',
@@ -159,7 +168,127 @@ function calcDays(date1, date2) {
 
 
 app.controller('controller.home.leave' , function($scope , $state , $http,$users, Flash){
-$scope.minDate = new Date() 
+// $scope.minDate = new Date()
+// $scope.resetAll = function(){
+//   $scope.form = {
+//     fromDate : new Date(),
+//     toDate : new Date(),
+//     comment : '',
+//     selected :'AL'
+//   }
+// }
+// $scope.resetAll()
+  $scope.me = $users.get('mySelf');
+  $scope.getPayroll = function(){
+  $http({
+    method: 'GET',
+    url: '/api/payroll/payroll/?user='+$scope.me.pk
+  }).
+  then(function(response) {
+    $scope.payrollData = response.data[0]
+  })
+}
+$scope.getPayroll()
+
+//   $scope.checkLeaves = function(){
+//     $http({
+//       method: 'GET',
+//       url: '/api/HR/leavesCal/?fromDate='+$scope.form.fromDate.toJSON().split('T')[0]+'&toDate='+$scope.form.toDate.toJSON().split('T')[0]
+//     }).
+//     then(function(response) {
+//       $scope.leavesData = response.data.data
+//     })
+//   }
+// $scope.checkLeaves()
+//   $scope.saveUserLeaves = function(){
+//     var totalDays = calcDays($scope.form.fromDate ,$scope.form.toDate )
+//     if ($scope.form.selected == 'ML') {
+//       if (totalDays>$scope.payrollData.mlCurrMonthLeaves) {
+//         Flash.create('warning', 'You cannot apply for ML leaves more than ' + $scope.payrollData.ml )
+//       }
+//     }
+//     if ($scope.form.selected == 'AL') {
+//       if (totalDays>$scope.payrollData.alCurrMonthLeaves) {
+//         Flash.create('warning', 'You cannot apply for AL leaves more than ' + $scope.payrollData.ml )
+//       }
+//     }
+//     if ($scope.form.comment.length == 0) {
+//       Flash.create('warning' , 'Add Reason')
+//       return
+//     }
+//
+//     var dataToSend = {
+//         category:$scope.form.selected,
+//         comment:$scope.form.comment,
+//         days:$scope.leavesData.total,
+//         fromDate:$scope.form.fromDate.toJSON().split('T')[0],
+//         holdDays:$scope.leavesData.leaves,
+//         leavesCount:$scope.leavesData.leaves,
+//         payroll:$scope.payrollData.pk,
+//         toDate:$scope.form.toDate.toJSON().split('T')[0],
+//     }
+//     $http({
+//       method: 'POST',
+//       url: '/api/HR/leave/',
+//       data : dataToSend
+//     }).
+//     then(function(response) {
+//       Flash.create('success', 'Applied');
+//       $scope.resetAll()
+//       $scope.getPayroll()
+//       $scope.checkLeaves()
+//       $scope.getLeaves()
+//       return
+//     })
+//
+//   }
+//
+//   $scope.getLeaves = function(){
+//   $http({
+//     method: 'GET',
+//     url: '/api/HR/leave/?leaves='
+//   }).
+//   then(function(response) {
+//     $scope.allLeaves = response.data
+//   })
+// }
+// $scope.getLeaves()
+
+$scope.select = {
+  dated : new Date()
+}
+
+
+  $scope.monthList = ['January' , 'February' , 'March' , 'April' , 'May' , 'June' , 'July' , 'August' , 'September' , 'Octember' , 'November' , 'December']
+  $scope.getAttendance = function(){
+  $http({
+    method: 'GET',
+    url: '/api/employees/getAttendance/?month='+($scope.select.dated.getMonth()+1)+'&year='+$scope.select.dated.getFullYear()+'&dated='+$scope.select.dated.toJSON().split('T')[0]
+  }).
+  then(function(response) {
+    $scope.allData = response.data
+  })
+}
+$scope.getAttendance()
+// select.dated
+})
+
+
+
+app.controller('controller.home.appliedLeaves' , function($scope , $state , $http,$users, Flash){
+  $scope.getLeaves = function(){
+  $http({
+    method: 'GET',
+    url: '/api/HR/leave/?leaves='
+  }).
+  then(function(response) {
+    $scope.allLeaves = response.data
+  })
+}
+$scope.getLeaves()
+})
+app.controller('controller.home.leave.form' , function($scope , $state , $http,$users, Flash){
+$scope.minDate = new Date()
 $scope.resetAll = function(){
   $scope.form = {
     fromDate : new Date(),
@@ -228,22 +357,12 @@ $scope.checkLeaves()
       $scope.resetAll()
       $scope.getPayroll()
       $scope.checkLeaves()
-      $scope.getLeaves()
       return
     })
 
   }
 
-  $scope.getLeaves = function(){
-  $http({
-    method: 'GET',
-    url: '/api/HR/leave/?leaves='
-  }).
-  then(function(response) {
-    $scope.allLeaves = response.data
-  })
-}
-$scope.getLeaves()
+
 
 })
 

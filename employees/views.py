@@ -635,3 +635,27 @@ class FetchAttendanceAPIView(APIView):
         except:
             pass
         return Response(finalData,status=status.HTTP_200_OK)
+
+
+class GetAttendanceAPIView(APIView):
+    def get(self , request , format = None):
+        val = {}
+        params = request.GET
+        monthList = ['January' , 'February' , 'March' , 'April' , 'May' , 'June' , 'July' , 'August' , 'September' , 'Octember' , 'November' , 'December' ]
+        monthIndx = params['month']
+        # val['user'] = userSearchSerializer(, many=False).data
+        allObj = TimeSheet.objects.filter(user = request.user ).filter(date__year=str(params['year'])).filter(date__month=str(monthIndx))
+        val['absent'] = allObj.filter(attendance_status = 'Absent').count()
+        val['present'] = allObj.filter(attendance_status = 'Present').count()
+        val['leave'] = allObj.filter(attendance_status = 'Leave').count()
+        val['halfDay'] = allObj.filter(attendance_status = 'Half-Day').count()
+        val['total'] =  allObj.count()
+        val['timesheet'] = {'status' : '' , 'login' : '' , 'logout' : ''}
+        if 'dated' in params:
+            try:
+                obj = TimeSheet.objects.get(date = params['dated'], user = request.user)
+                val['timesheet'] = {'status' : obj.attendance_status , 'login' : obj.checkIn , 'logout' : obj.checkOut}
+            except:
+                pass
+
+        return Response(val,status=status.HTTP_200_OK)

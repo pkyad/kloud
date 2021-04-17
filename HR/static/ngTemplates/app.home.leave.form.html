@@ -193,40 +193,7 @@
         <h3 class="font24"> You cannot apply for leaves </h3>
       </div>
     </div>
-        <table class="table table-bordered" style="margin-top:30px">
-          <thead>
-            <tr>
-              <th>From</th>
-              <th>To</th>
-              <th>No of Days</th>
-              <th>Category</th>
-              <th>Reason</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="a in allLeaves">
-              <td>
-                {{a.fromDate | date}}
-              </td>
-              <td>
-                {{a.toDate|date}}
-              </td>
-              <td>
-                {{a.days}}
-              </td>
-              <td>
-                {{a.category}}
-              </td>
-              <td>
-                {{a.comment}}
-              </td>
-              <td>
-                {{a.status=='inProcess'?'Sent for approval':a.status| capitalize}}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+
 
       </div>
 
