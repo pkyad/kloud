@@ -237,11 +237,15 @@ app.directive('ecommerceHeader', function() {
               $uibModalInstance.dismiss();
             }
           },
-        }).result.then(function() {
+        }).result.then(function(data) {
+          if (data!=undefined) {
+            $rootScope.userDetails = data
+            location.reload();
 
+          }
         }, function(data) {
           if (data!=undefined) {
-            $scope.userDetails = data
+            $rootScope.userDetails = data
             location.reload();
 
           }
@@ -1160,7 +1164,7 @@ app.directive('productCards', function() {
     scope: {
       list: '='
     },
-    controller: function($scope, $state, $http, Flash, $rootScope, $users, $timeout, $filter) {
+    controller: function($scope, $state, $http, Flash, $rootScope,$uibModal, $users, $timeout, $filter) {
 
       $scope.item = $scope.list
       console.log($scope.item,'3ZXcXZczx34');
@@ -1226,7 +1230,75 @@ app.directive('productCards', function() {
       }
 
 
+      $scope.loginPage = function(){
+        $uibModal.open({
+          templateUrl: '/static/ngTemplates/app.ecommerce.customer.login.html',
+          size: 'lg',
+          backdrop: false,
+          // resolve: {
+          //   job: function() {
+          //     return $scope.jobDetails.pk;
+          //   },
+          // },
+          controller: function($scope, $uibModalInstance) {
+            $scope.form = {
+              mobile:'',
+              otp:'',
+              errMsg:'',
+              successMsg:''
+            }
+            $scope.login = function(){
+              var dataToSend = {
+                  mobile : $scope.form.mobile,
+                  divId : DIVISION_APIKEY
+                }
+              if ($scope.form.otp != null && $scope.form.otp.length>0) {
+                dataToSend.otp = $scope.form.otp
+              }
+              $http({
+                method: 'POST',
+                url: '/getCustomerOtp/',
+                data:dataToSend
+              }).
+              then(function(response) {
+                $scope.form.errMsg = ''
+                $scope.form.successMsg = ''
+                if (response.data.errMsg!=undefined) {
+                  $scope.form.errMsg = response.data.errMsg
+                }
+                if (response.data.successMsg!=undefined) {
+                  $scope.form.successMsg = response.data.successMsg
+                }
+                if (response.data.success!=undefined) {
+                  $scope.form.success = response.data.success
+                }
+                if (response.data.contact!=undefined) {
+                  $scope.form.contact = response.data.contact
+                  $uibModalInstance.dismiss($scope.form.contact)
+                }
 
+              })
+            }
+
+
+
+            $scope.close = function(){
+              $uibModalInstance.dismiss();
+            }
+          },
+        }).result.then(function() {
+
+        }, function(data) {
+          if (data!=undefined) {
+            $scope.userDetails = data
+            location.reload();
+
+          }
+
+        });
+      }
+
+      
 
     },
   };
@@ -1372,19 +1444,26 @@ app.directive('ecommerceHotproducts', function() {
       data:"="
     },
     controller: function($scope, $state, $http, Flash, $rootScope, $users, $filter, $interval) {
-      console.log($scope.data,"klklllk");
+      console.log($scope.data);
       $scope.items = $scope.data
       if ($scope.data !=undefined ) {
       try {
         $scope.data = JSON.parse($scope.data)
+        $scope.hotproducts = {
+          "heading": $scope.data.heading.string,
+          "items": $scope.data.products.array
+        }
+        console.log($scope.data,"klklllk");
       }
       catch(err) {
+        $scope.hotproducts = {
+          "heading": 'Hot Products',
+          "items": $scope.data
+        }
+      }
+      console.log($scope.data);
 
-      }
-      $scope.hotproducts = {
-        "heading": $scope.data.heading.string,
-        "items": $scope.data.products.array
-      }
+
     }
     else {
       $scope.hotproducts = {
