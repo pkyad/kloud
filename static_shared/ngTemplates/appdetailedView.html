@@ -12,16 +12,15 @@
             <div class="row">
               <div class="col-md-12">
                 <h3 style="font-size:30px;">{{app.displayName}} </h3>
-                <div class="col-md-8" style="padding:0px;">
+                <div class="col-md-12 col-xs-12" style="padding:0px;">
                   <p>{{app.description}}</p>
                   <h1 class="font50" style="color: #ff8b5a;"> <span style="color:#e1e1e1;">Rated</span> {{app.totalRatings}} <small style="color:#e1e1e1">/5</small> </h1>
                 </div>
-                <a href="{{app.playStoreUrl}}" class="col-md-2 col-xs-12 col-sm-12"  style="background-image:url('/static/images/googleplay.png');background-size:contain;height:40px;background-repeat:no-repeat;background-position:left;margin-bottom:15px">
-                <!-- <a href="{{app.playStoreUrl}}"></a> -->
+
+                <!-- <a href="{{app.playStoreUrl}}" class="col-md-2 col-xs-12 col-sm-12"  style="background-image:url('/static/images/googleplay.png');background-size:contain;height:40px;background-repeat:no-repeat;background-position:left;margin-bottom:15px">
                 </a>
                 <a href="{{app.appStoreUrl}}" class="col-md-2 col-xs-12 col-sm-12"  style="background-image:url('/static/images/app-min.png');background-size:contain;height:40px;background-repeat:no-repeat;background-position:left;margin-bottom:15px">
-                <!-- <a href="{{app.appStoreUrl}}"></a> -->
-                </a>
+                </a> -->
               </div>
             </div>
             <div class="hidden-xs">
@@ -40,6 +39,15 @@
                 </div>
               </div>
             </div>
+            <div class="visible-xs" >
+              <div class="row" ng-if="app.playStoreUrl">
+                <div class="col-xs-6" >
+                      <button type="button" class="btn btn-success btn-block" name="button" ng-click="openappStore()" ng-show="step=='notinstalled'" style="border-radius:50px!important;background:#02a33e;color:white;border:none!important">Install</button>
+                </div>
+                <div class="col-xs-12" ng-if="msg.length>0" style="padding-top:5px">
+                <p style="color:red" > {{msg}}</p>
+                </div>
+              </div>
             <!-- <div class="visible-xs">
               <div class="row">
                 <div class="col-xs-12" ng-if="is_staff">
