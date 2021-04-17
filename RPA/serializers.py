@@ -49,38 +49,10 @@ class JobssSerializer(serializers.ModelSerializer):
                 pass
         instance.save()
         return instance
-class QueueSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Queue
-        fields = ('pk' , 'created' ,'updated', 'division', 'process', 'name')
-        read_only_fields = ('division',)
-    def create(self,validated_data):
-        jObj= Queue(**validated_data)
-        jObj.division = self.context['request'].user.designation.division
-        jObj.save()
-        data = self.context['request'].data
-        if 'process' in data:
-            try:
-                jObj.process = Process.objects.get(pk = int(data['process']))
-            except :
-                pass
 
-        jObj.save()
-        return jObj
-    def update(self,instance,validated_data):
-        for key in [ 'process', 'name' ]:
-            try:
-                setattr(instance , key , validated_data[key])
-            except:
-                pass
-        if 'process' in data:
-            instance.process = Process.objects.get(pk = data['process'])
-
-        instance.save()
-        return instance
 class ProcessSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Queue
+        model = Process
         fields = ('pk' , 'created' ,'updated','name','uri','argSchema','env', 'division')
         read_only_fields = ('division',)
     def create(self,validated_data):
@@ -88,8 +60,6 @@ class ProcessSerializer(serializers.ModelSerializer):
         jObj.division = self.context['request'].user.designation.division
         jObj.save()
         data = self.context['request'].data
-
-
         jObj.save()
         return jObj
     def update(self,instance,validated_data):
@@ -99,6 +69,34 @@ class ProcessSerializer(serializers.ModelSerializer):
             except:
                 pass
 
+
+        instance.save()
+        return instance
+
+
+class QueueSerializer(serializers.ModelSerializer):
+    process = ProcessSerializer(many = False, read_only= True)
+    class Meta:
+        model = Queue
+        fields = ('pk' , 'created' ,'updated', 'division', 'process', 'name')
+        read_only_fields = ('division',)
+    def create(self,validated_data):
+        data = self.context['request'].data
+        print data, 'data'
+        processObj = Process.objects.get(pk = int(data['process']))
+        divisionObj = self.context['request'].user.designation.division        
+        obj = Queue.objects.create(name = data['name'], process = processObj,division = divisionObj)
+
+        obj.save()
+        return obj
+    def update(self,instance,validated_data):
+        for key in [ 'process', 'name' ]:
+            try:
+                setattr(instance , key , validated_data[key])
+            except:
+                pass
+        if 'process' in data:
+            instance.process = Process.objects.get(pk = data['process'])
 
         instance.save()
         return instance
