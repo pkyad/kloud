@@ -1,26 +1,22 @@
 <div class="container-fluid ">
   <div class="row div_padding" style="padding-top: 0px;min-height: 100vh;">
-    <div class="col-md-8 col-md-offset-2 page_css" style="padding-top:100px;box-shadow: 0px 8px 418px rgba(157, 157, 157, 0.94) !important;">
+    <div class="col-md-8 col-md-offset-2 page_css" style="box-shadow: 0px 8px 418px rgba(157, 157, 157, 0.94) !important;">
       <div class="">
         <div class="row">
           <div class="col-md-2">
-            <div class="" style="background:url({{app.icon}}) no-repeat;background-size:contain;height:200px;background-position:top center">
-
+            <div  class="icon_image" style="background:url({{app.icon}}) no-repeat;background-size:contain;background-position:top center">
             </div>
           </div>
           <div class="col-md-10">
             <div class="row">
               <div class="col-md-12">
+                <div class="row">
                 <h3 style="font-size:30px;">{{app.displayName}} </h3>
                 <div class="col-md-12 col-xs-12" style="padding:0px;">
                   <p>{{app.description}}</p>
                   <h1 class="font50" style="color: #ff8b5a;"> <span style="color:#e1e1e1;">Rated</span> {{app.totalRatings}} <small style="color:#e1e1e1">/5</small> </h1>
+                  </div>
                 </div>
-
-                <!-- <a href="{{app.playStoreUrl}}" class="col-md-2 col-xs-12 col-sm-12"  style="background-image:url('/static/images/googleplay.png');background-size:contain;height:40px;background-repeat:no-repeat;background-position:left;margin-bottom:15px">
-                </a>
-                <a href="{{app.appStoreUrl}}" class="col-md-2 col-xs-12 col-sm-12"  style="background-image:url('/static/images/app-min.png');background-size:contain;height:40px;background-repeat:no-repeat;background-position:left;margin-bottom:15px">
-                </a> -->
               </div>
             </div>
             <div class="hidden-xs">
@@ -48,35 +44,14 @@
                 <p style="color:red" > {{msg}}</p>
                 </div>
               </div>
-            <!-- <div class="visible-xs">
-              <div class="row">
-                <div class="col-xs-12" ng-if="is_staff">
-
-                  <button type="button" class="btn btn-success btn-block" name="button" ng-click="install()" ng-show="step=='notinstalled'" style="border-radius:50px!important;background:#02a33e;color:white;border:none!important">Install</button>
-
-                  <button type="button" class="btn btn-success btn-block" name="button" ng-show="step=='installing'" style="border-radius:50px!important;background:#02a33e;color:white;border:none!important"> <i class="fa fa-spinner fa-spin"></i>
-                  </button>
-
-                  <button style="margin-top:0px;border-radius:50px!important;color: #fb0000;border: 2px solid #fb0000 !important;padding: 10px;font-size: 17px;" type="button" class="btn btn-block" name="button" ng-show="step=='installed'"
-                    ng-click="unInstall()">Uninstall </button>
-
-                  <button class="btn  btn-block" ng-click="openApp()" style="border-radius:50px!important;background:#0010fc;color:white;border:none!important;">Open</button>
-                </div>
-              </div>
-            </div> -->
-
           </div>
         </div>
-        <h4 ng-if="appMedia.length>0||mobileMedia.length>0">SCREENSHOTS</h4>
-        <div class="" ng-if="appMedia.length>0 && !isMobile">
-          <!-- <div class="row"  style="display:flex" >
-            <div class="col-md-6" style="width:100%" ng-repeat="i in appMedia.slice(0,4) track by $index">
-              <div class="" style="background-image:url({{i.attachment}});height:400px;background-size:contain;margin-bottom:10px;background-position: center;background-repeat: no-repeat;">
-
-              </div>
-
+        <div class="row" ng-if="appMedia.length>0||mobileMedia.length>0">
+          <div class="col-md-12">
+            <h4 >SCREENSHOTS</h4>
             </div>
-          </div> -->
+        </div>
+        <div class="" ng-if="appMedia.length>0 && !isMobile">
           <ng-owl-carousel class="owl-theme " owl-items="appMedia" owl-properties="appMediaPro" owl-ready="ready($api)">
             <div class="col-md-6" style="width:100%" ng-repeat="i in appMedia.slice(0,4) track by $index" ng-click="viewImages($index)">
               <div class="" style="background-image:url({{i.attachment}});height:400px;background-size:contain;margin-bottom:10px;background-position: center;background-repeat: no-repeat;">
@@ -87,14 +62,6 @@
           </ng-owl-carousel>
         </div>
         <div class="" ng-if="mobileMedia.length>0 && isMobile">
-          <!-- <div class="row"   >
-            <div class="col-md-3"  ng-repeat="i in mobileMedia.slice(0,4) track by $index">
-              <div class="" style="background-image:url({{i.attachment}});height:400px;background-size:contain;margin-bottom:10px;background-position: center;background-repeat: no-repeat;">
-
-              </div>
-
-            </div>
-          </div> -->
           <ng-owl-carousel class="owl-theme " owl-items="mobileMedia" owl-properties="mobileMediaPro" owl-ready="ready($api)">
             <div class="col-md-6" style="width:100%" ng-repeat="i in mobileMedia.slice(0,4) track by $index">
               <div class="" style="background-image:url({{i.attachment}});height:400px;background-size:contain;margin-bottom:10px;background-position: center;background-repeat: no-repeat;">
@@ -109,18 +76,6 @@
             <div class="col-md-12">
               <h4 ng-if="users.length>0">USERS</h4>
             </div>
-            <!-- <div class="col-md-4" >
-
-              <div class="input-group" style="background:#ffffff;border-radius:10px;" ng-if="step=='installed'">
-                <select class="form-control" ng-model="form.user"  ng-options="u.first_name + ' ' + u.last_name for u in selectUsers" >
-                </select>
-                <div class="input-group-btn">
-                  <button class="btn btn-default" type="submit" ng-click="addPermision()" style="border:none !important;background:#ffffff;">
-                  Add
-                  </button>
-                </div>
-              </div>
-            </div> -->
           </div>
           <div class="row">
             <div class="col-md-3" ng-repeat="k in users track by $index" ng-if="users.length>0">
@@ -135,7 +90,6 @@ right: 25px;margin: 20px 0px;" ng-click="delUser($index)">
             </div>
             <div class="col-md-3" ng-if="step=='installed'">
               <div class="text-center" style="background:white;border-radius:15px;padding: 15px;margin:10px 0px;min-height:127px;padding-top:42px;border: 1px solid #f1f1f1;" ng-click="addUser()">
-                <!-- <i class="fa fa-plus fa-3x"> </i> -->
                 <img src="/static/images/icons8-plus-math-96.png" style="width: 50px;">
               </div>
             </div>
@@ -320,9 +274,6 @@ right: 25px;margin: 20px 0px;" ng-click="delUser($index)">
 
               <div class="col-md-2 text-center">
                 <img alt="" src="/static/images/img_avatar_card2.png" class="img img-circle" style="height: 80px;">
-                <!-- <div class="comment_card" style="">
-
-                </div> -->
               </div>
 
             </div>

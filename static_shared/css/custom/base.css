@@ -3112,6 +3112,10 @@ width: 100%;
 
 }
 
+.icon_image{
+  height:200px;
+}
+
 @media screen and (min-width: 1366px) and (max-width:1439px) and (-webkit-device-pixel-ratio: 1) {
   .chatbotTextarea{
     position:absolute;
