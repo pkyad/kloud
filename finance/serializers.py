@@ -619,7 +619,8 @@ class InventoryLiteSerializer(serializers.ModelSerializer):
         model = Inventory
         fields=('pk','created','name','img1')
 
-
+from PIL import Image
+import PIL
 class RateListSerializer(serializers.ModelSerializer):
     category = CategorySerializer(many=False,read_only=True)
     cart = serializers.SerializerMethodField()
@@ -634,6 +635,24 @@ class RateListSerializer(serializers.ModelSerializer):
             inven.division = self.context['request'].user.designation.division
         except:
             pass
+        if 'img1' in self.context['request'].data:
+            fileName = self.context['request'].data['img1']
+            f =  open(os.path.join(globalSettings.BASE_DIR ,'static_shared','images','products',str(fileName)),"wb")
+
+            f.write(fileName.read())
+            f.close()
+        if 'img2' in self.context['request'].data:
+            fileName = self.context['request'].data['img2']
+            f =  open(os.path.join(globalSettings.BASE_DIR ,'static_shared','images','products',str(fileName)),"wb")
+
+            f.write(fileName.read())
+            f.close()
+        if 'img3' in self.context['request'].data:
+            fileName = self.context['request'].data['img3']
+            f =  open(os.path.join(globalSettings.BASE_DIR ,'static_shared','images','products',str(fileName)),"wb")
+
+            f.write(fileName.read())
+            f.close()
         if 'category' in self.context['request'].data:
             inven.category =  Category.objects.get(pk = int(self.context['request'].data['category']))
         inven.save()

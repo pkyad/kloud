@@ -994,6 +994,18 @@ app.directive('appstoreView', function() {
       }
         $scope.allApps()
 
+        $scope.openappStore = function(){
+          userAgent = window.navigator.userAgent
+          if (/Android/.test(userAgent)) {
+            window.location.href= 'https://play.google.com/store/apps/details?id=com.cioc.klouderp'
+
+          }
+          else{
+              $scope.msg = 'Sorry your device is not supported'
+              return
+          }
+        }
+
       $scope.viewBilling = function(){
         $uibModal.open({
           templateUrl: '/static/ngTemplates/app.viewBilling.modal.html',
@@ -1050,6 +1062,17 @@ app.directive('appdetailedView', function() {
       // addCart: '='
     },
     controller: function($scope, $state,$sce, $http, Flash, $rootScope, $filter,$location, $users, $timeout,$uibModal) {
+      $scope.msg = ''
+      $scope.openappStore = function(){
+        userAgent = window.navigator.userAgent
+        if (/Android/.test(userAgent)) {
+          window.location.href= $scope.app.playStoreUrl
+        }
+        else{
+            $scope.msg = 'Sorry your device is not supported'
+            return
+        }
+      }
       // alert('988999')
       console.log($scope.id,"uioiuuoiioiuoiouuiobn  b mn");
       $scope.isMobile = false
