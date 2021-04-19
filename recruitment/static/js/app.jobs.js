@@ -876,6 +876,15 @@ app.controller("workforceManagement.recruitment.jobs.explore", function($scope, 
         $scope.fetchCandidates()
     });
   }
+
+  $scope.call = function(data) {
+    $rootScope.$broadcast("call", {
+      type: 'call',
+      number: data.mobile,
+      source: 'hiring',
+      id: data.pk
+    });
+  }
 });
 
 app.controller("recruitment.application.form", function($scope, $state, $users, $stateParams, $http, Flash, $uibModalInstance, jobDetails, $timeout) {

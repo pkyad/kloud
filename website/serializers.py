@@ -13,7 +13,7 @@ import math
 class PageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Page
-        fields = ('pk' , 'created','title','description','url','ogImage','user','enableChat')
+        fields = ('pk' , 'created','title','description','url','ogImage','user','enableChat','inFooter')
         read_only_fields=('user',)
     def create(self , validated_data):
         pageObj = Page(**validated_data)
@@ -27,7 +27,7 @@ class PageSerializer(serializers.ModelSerializer):
 
         return pageObj
     def update(self, instance , validated_data):
-        for key in ['title','description','url','ogImage','user','enableChat']:
+        for key in ['title','description','url','ogImage','user','enableChat','inFooter']:
             try:
                 setattr(instance , key , validated_data[key])
             except:
