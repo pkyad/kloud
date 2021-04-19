@@ -109,6 +109,24 @@ def contactus(request):
 def aboutus(request):
     context={}
     return render(request, 'app.HR.aboutus.html',context)
+def Divisionaboutus(request,apiKey):
+    context={}
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    page = Page.objects.get(pk = id)
+    if request.user.designation.division.headerTemplate:
+        header  = request.user.designation.division.headerTemplate
+        headerCss  = request.user.designation.division.headerCss
+    if request.user.designation.division.headerTemplate:
+        footer  = request.user.designation.division.footerTemplate
+        footerCss  = request.user.designation.division.footerCss
+    try:
+        div = request.user.designation.division
+    except:
+        pass
+    return render(request, 'app.ecommerce.aboutus.html',{'header':header,'headerCss':headerCss,'footer':footer,'footerCss':footerCss})
 
 def carouselsection(request):
     context={}
@@ -116,7 +134,13 @@ def carouselsection(request):
 def termsofservices(request):
     context={}
     return render(request, 'app.HR.termsofservices.html',context)
+def Divisiontermsofservices(request,apiKey):
+    context={}
+    return render(request, 'app.ecommerce.aboutus.html',context)
 def privacypolicy(request):
+    context={}
+    return render(request, 'app.HR.privacypolicy.html',context)
+def Divisionprivacypolicy(request,apiKey):
     context={}
     return render(request, 'app.HR.privacypolicy.html',context)
 def refundpolicy(request):
@@ -198,6 +222,12 @@ def renderpage(request,apiKey,url):
         i.dataTemplate = i.template
         # i.data = json.loads(json.dumps(i.data))
 
+    # if url =='aboutus':
+    #     return render(request, 'app.ecommerce.aboutus.html',{'header':header,'headerCss':headerCss,'footer':footer,'footerCss':footerCss,'page':page,'API_KEY':apiKey,'divisionJson':div})
+    # elif  url =='privacypolicy':
+    #     return render(request, 'app.ecommerce.aboutus.html',{'header':header,'headerCss':headerCss,'footer':footer,'footerCss':footerCss,'page':page,'API_KEY':apiKey,'divisionJson':div})
+    # elif  url =='terms':
+    #     return render(request, 'app.ecommerce.termsandconditions.html',{'header':header,'headerCss':headerCss,'footer':footer,'footerCss':footerCss,'page':page,'API_KEY':apiKey,'divisionJson':div})
 
     # if page.enableChat:
 

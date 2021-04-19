@@ -28,6 +28,39 @@ function deleteCookie(name) {
 }
 
 
+app.directive('privacyPolicy', function() {
+  return {
+    templateUrl: '/static/ngTemplates/privacyPolicy.html',
+    restrict: 'E',
+    replace: false,
+    transclude: true,
+    controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
+
+    }
+  }
+})
+app.directive('aboutUs', function() {
+  return {
+    templateUrl: '/static/ngTemplates/aboutUs.html',
+    restrict: 'E',
+    replace: false,
+    transclude: true,
+    controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
+
+    }
+  }
+})
+app.directive('terms', function() {
+  return {
+    templateUrl: '/static/ngTemplates/terms.html',
+    restrict: 'E',
+    replace: false,
+    transclude: true,
+    controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
+
+    }
+  }
+})
 app.directive('ecommerceHeader', function() {
   return {
     templateUrl: '/static/ngTemplates/ecommerceheader.html',
@@ -39,6 +72,7 @@ app.directive('ecommerceHeader', function() {
       try {
         $scope.divApikey = DIVISION_APIKEY
         $scope.division = DIVISION_APIKEY
+        $scope.divisionPk = DIVISION
         url = '/api/website/getFooterDetails/?divId='+$scope.division
       }
       catch(err) {
@@ -54,7 +88,7 @@ app.directive('ecommerceHeader', function() {
       $scope.getAllCartItems = function(){
         $http({
           method: 'GET',
-          url: '/api/finance/cart/?divId='+$scope.division+'&contact='+$scope.userDetails.pk
+          url: '/api/finance/cart/?divId='+DIVISION_APIKEY+'&contact='+$scope.userDetails.pk
         }).
         then(function(response) {
           $scope.allCartItems = response.data
@@ -1019,6 +1053,18 @@ app.directive('ecommerceFooter', function() {
       then(function(response) {
         $scope.divisionDetails = response.data
       })
+
+      $scope.getLinks = function(){
+        $http({
+          method: 'GET',
+          url: '/api/website/page/?inFooter=True'
+        }).
+        then(function(response) {
+          $scope.footerLinks = response.data
+        })
+
+      }
+      $scope.getLinks()
     }
   };
 });
@@ -1298,7 +1344,7 @@ app.directive('productCards', function() {
         });
       }
 
-      
+
 
     },
   };

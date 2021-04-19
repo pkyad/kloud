@@ -56,7 +56,7 @@ class PageViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     serializer_class = PageSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['title' , 'url','user']
+    filter_fields = ['title' , 'url','user','inFooter']
     def get_queryset(self):
         # divsn = self.request.user.designation.division
         # toReturn = Page.objects.filter(user__designation__division=divsn)
@@ -107,6 +107,10 @@ class InitializewebsitebuilderAPIView(APIView):
             division.headerTemplate = '<services-header></services-header>'
             division.footerTemplate = '<services-footer></services-footer>'
         elif division.pageType == 'Ecommerce' :
+            pages = [{'title':'About us','url':'aboutus'},{'title':'Privacy and Policy','url':'privacypolicy'},{'title':'Terms and Conditions','url':'terms'}]
+            for k in pages:
+                page = Page.objects.create(title= k['title'],url=k['url'],description=k['title'],inFooter=True,user=request.user)
+                page.save()
             division.headerTemplate = '<ecommerce-header></ecommerce-header>'
             division.footerTemplate = '<ecommerce-footer></ecommerce-footer>'
         elif division.pageType == 'LMS' or division.pageType == 'Agency':

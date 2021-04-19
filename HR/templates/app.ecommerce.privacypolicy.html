@@ -31,37 +31,10 @@
 {% endblock %}
 {% block content %}
 
-<body ng-app="app" ng-controller="main" ng-init="division = '{{divisionJson}}'" style="background-color:#f7f7f7;">
-  <div>
-    <div class="container-fluid" style="margin-top:130px;margin-bottom:30px;">
-      {% if divisionJson.pageType == 'Ecommerce' and page.url == None %}
-      {% verbatim %}
-      <ecommerce-hotproducts data="products"> </ecommerce-hotproducts>
-      <ecommerce-newproducts data="products"> </ecommerce-newproducts>
-      {% endverbatim %}
-
-
-      {% endif %}
-      {% if showLms%}
-      <div class="" ng-init="componentsData = '{{componentsData}}'">
-        <!-- {% verbatim %} -->
-        <academy-courses data="componentsData"> </academy-courses>
-        <!-- {% endverbatim %} -->
-      </div>
-      {% else %}
-
-      {% for component in components %}
-      <div class="" ng-init="components.data = {{component.data | safe}}">
-        <style media="screen">
-        {{component.css | safe}}
-        </style>
-        {{component.template | safe}}
-      </div>
-      {% endfor %}
-      {% endif %}
-    </div>
-
-  </div>
+<body ng-app="app"ng-controller="main" style="background-color:#f7f7f7;">
+  {% verbatim %}
+      <privacy-policy>  </privacy-policy>
+  {% endverbatim %}
 
 
   {% endblock %}
@@ -182,14 +155,45 @@
   <script src="{% static 'js/custom/services.js' %}"></script>
   <script src="{% static 'js/custom/ecommerce.directive.js' %}"></script>
   <script src="{% static 'js/angular-ui-switch.min.js' %}"></script>
+  <script>
+    function animate(elem, style, unit, from, to, time, prop) {
+      if (!elem) {
+        return;
+      }
+      var start = new Date().getTime(),
+        timer = setInterval(function() {
+          var step = Math.min(1, (new Date().getTime() - start) / time);
+          if (prop) {
+            elem[style] = (from + step * (to - from)) + unit;
+          } else {
+            elem.style[style] = (from + step * (to - from)) + unit;
+          }
+          if (step === 1) {
+            clearInterval(timer);
+          }
+        }, 25);
+      if (prop) {
+        elem[style] = from + unit;
+      } else {
+        elem.style[style] = from + unit;
+      }
+    }
 
+    function getView(getId) {
+      var target = document.getElementById(getId);
+      animate(document.scrollingElement || document.documentElement, "scrollTop", "", 0, target.offsetTop, 200, true);
+    }
+
+    var h = window.innerHeight;
+    console.log(h);
+  </script>
   {% block pageJS %}
   <script type="text/javascript">
     var DIVISION_APIKEY = '{{API_KEY}}'
     var DIVISION = '{{divisionJson.pk}}'
     var page = '{{page.pk}}'
   </script>
-  {% if page.enableChat or divisionJson.enableChat   %}
+  {% if page.enableChat %}
   <script src="/script/chatter-{{API_KEY}}.js?debugger=1"></script>
   {% endif %}
   {% endblock %}

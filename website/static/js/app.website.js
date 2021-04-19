@@ -721,7 +721,7 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
               title: '',
               description: '',
               url: '',
-              ogImage: emptyFile,enableChat:false
+              ogImage: emptyFile,enableChat:false,inFooter:false
 
             }
 
@@ -741,6 +741,7 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
           fd.append('url', $scope.form.url)
           fd.append('description', $scope.form.description)
           fd.append('enableChat', $scope.form.enableChat)
+          fd.append('inFooter', $scope.form.inFooter)
           if ($scope.form.ogImage != emptyFile && $scope.form.ogImage != null && typeof $scope.form.ogImage != 'string') {
             fd.append('ogImage', $scope.form.ogImage)
 

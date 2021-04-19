@@ -31,37 +31,10 @@
 {% endblock %}
 {% block content %}
 
-<body ng-app="app" ng-controller="main" ng-init="division = '{{divisionJson}}'" style="background-color:#f7f7f7;">
-  <div>
-    <div class="container-fluid" style="margin-top:130px;margin-bottom:30px;">
-      {% if divisionJson.pageType == 'Ecommerce' and page.url == None %}
-      {% verbatim %}
-      <ecommerce-hotproducts data="products"> </ecommerce-hotproducts>
-      <ecommerce-newproducts data="products"> </ecommerce-newproducts>
-      {% endverbatim %}
-
-
-      {% endif %}
-      {% if showLms%}
-      <div class="" ng-init="componentsData = '{{componentsData}}'">
-        <!-- {% verbatim %} -->
-        <academy-courses data="componentsData"> </academy-courses>
-        <!-- {% endverbatim %} -->
-      </div>
-      {% else %}
-
-      {% for component in components %}
-      <div class="" ng-init="components.data = {{component.data | safe}}">
-        <style media="screen">
-        {{component.css | safe}}
-        </style>
-        {{component.template | safe}}
-      </div>
-      {% endfor %}
-      {% endif %}
-    </div>
-
-  </div>
+<body ng-app="app"ng-controller="main" style="background-color:#f7f7f7;">
+  {% verbatim %}
+      <about-us>  </about-us>
+  {% endverbatim %}
 
 
   {% endblock %}
@@ -189,7 +162,7 @@
     var DIVISION = '{{divisionJson.pk}}'
     var page = '{{page.pk}}'
   </script>
-  {% if page.enableChat or divisionJson.enableChat   %}
+  {% if page.enableChat %}
   <script src="/script/chatter-{{API_KEY}}.js?debugger=1"></script>
   {% endif %}
   {% endblock %}

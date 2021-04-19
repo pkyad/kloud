@@ -512,6 +512,8 @@ class SalesQtySerializer(serializers.ModelSerializer):
             obiq.outBound = Sale.objects.get(pk=int(self.context['request'].data['outBound']))
         if 'hsn' in self.context['request'].data:
             obiq.hsn = self.context['request'].data['hsn']
+        if 'taxRate' in self.context['request'].data:
+            obiq.taxPer = self.context['request'].data['taxRate']
         obiq.save()
         return obiq
     def update(self ,instance, validated_data):
@@ -667,6 +669,24 @@ class RateListSerializer(serializers.ModelSerializer):
         if 'value' in self.context['request'].data:
             instance.value = self.context['request'].data['value']
             instance.qtyAdded = self.context['request'].data['value']
+        if 'img1' in self.context['request'].data:
+            fileName = self.context['request'].data['img1']
+            f =  open(os.path.join(globalSettings.BASE_DIR ,'static_shared','images','products',str(fileName)),"wb")
+
+            f.write(fileName.read())
+            f.close()
+        if 'img2' in self.context['request'].data:
+            fileName = self.context['request'].data['img2']
+            f =  open(os.path.join(globalSettings.BASE_DIR ,'static_shared','images','products',str(fileName)),"wb")
+
+            f.write(fileName.read())
+            f.close()
+        if 'img3' in self.context['request'].data:
+            fileName = self.context['request'].data['img3']
+            f =  open(os.path.join(globalSettings.BASE_DIR ,'static_shared','images','products',str(fileName)),"wb")
+
+            f.write(fileName.read())
+            f.close()
         instance.save()
         return instance
     def get_cart(self, obj):

@@ -75,9 +75,9 @@
               <div class="pull-right footer_pages ">
 
                 <!-- <span class="hidden-xs" style="margin-right:30px;cursor:pointer;"> <a href="/aboutus" style="color:white;font-size:17px;">About us</a>  </span> -->
-                <span class="hidden-xs" style="margin-right:30px;cursor:pointer;"> <a href="/terms" style="color:white;font-size:17px;">Terms and Conditions</a>  </span>
-                <span class="hidden-xs" style="margin-right:30px;cursor:pointer;"> <a href="/privacypolicy" style="color:white;font-size:17px;">Privacy Policy</a>  </span>
-                <span class="hidden-xs" style="margin-right:30px;cursor:pointer;"> <a href="/privacypolicy" style="color:white;font-size:17px;">Find Us</a>  </span>
+                <span class="hidden-xs" style="margin-right:30px;cursor:pointer;" ng-repeat="k in footerLinks track by $index"> <a href="{{k.url}}" style="color:white;font-size:17px;">{{k.title}}</a>  </span>
+                <!-- <span class="hidden-xs" style="margin-right:30px;cursor:pointer;"> <a href="/privacypolicy" style="color:white;font-size:17px;">Privacy Policy</a>  </span>
+                <span class="hidden-xs" style="margin-right:30px;cursor:pointer;"> <a href="/privacypolicy" style="color:white;font-size:17px;">Find Us</a>  </span> -->
 
               </div>
 
