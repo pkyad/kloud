@@ -1245,7 +1245,9 @@ app.directive('appdetailedView', function() {
         });
       }
       $scope.openApp = function(){
-        $state.go($scope.app.module  + '.' + $scope.app.name.replace('app.' , ''))
+        // $state.go($scope.app.module  + '.' + $scope.app.name.replace('app.' , ''))
+        
+        window.location.href = '/ERP/#/'+ $scope.app.module  + '/' + $scope.app.name.replace('app.' , '')
       }
 
       // $scope.getInstalledApp = function(){

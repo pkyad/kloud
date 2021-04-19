@@ -2639,6 +2639,8 @@ padding: 10px 0px;
   scroll-behavior: smooth;
   scrollbar-width: none;
   background-color: #f1f1f1;
+  padding-right:40px;
+  padding-left:40px
 }
 .div_padding{
   background:#F2F2F2 !important;min-height:200vh;
@@ -3110,6 +3112,10 @@ width: 100%;
     margin-left: 1%
   }
 
+}
+
+.icon_image{
+  height:200px;
 }
 
 @media screen and (min-width: 1366px) and (max-width:1439px) and (-webkit-device-pixel-ratio: 1) {

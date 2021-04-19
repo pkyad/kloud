@@ -65,8 +65,7 @@
 
 
 
-      <button type="button" class="btn btn-primary font16" style="background: rgb(28, 172, 103);color: white;position: fixed;width: 20.5%;
-left: 11%;;bottom: 13px;border: none !important;border-radius: 10px !important;padding: 15px;" ng-click="updateUser()">Save</button>
+
 
 
     </div>
@@ -177,7 +176,7 @@ left: 11%;;bottom: 13px;border: none !important;border-radius: 10px !important;p
         </div>
         <div class="col-md-9" >
 
-          <div class="row" ng-if="!form.enablePayroll">
+          <div class="row" ng-if="!form.enablePayroll&&form.payroll.activatePayroll">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
               <div class="form-group">
                 <input type="number" ng-enter="checkCTC()" class="form-control darkInput font26" ng-model="form.ctc" style="height: 68px;">
@@ -193,7 +192,7 @@ left: 11%;;bottom: 13px;border: none !important;border-radius: 10px !important;p
             </div>
           </div>
         </div>
-        <div class="col-md-9" ng-if="form.enablePayroll">
+        <div class="col-md-9" ng-if="form.enablePayroll&&form.payroll.activatePayroll">
 
           <div class="row font20 text-center" ng-if="form.enablePayroll" style="padding:20px;background: orange;margin: 0px;border-radius: 20px;margin-bottom: 45px;margin-top: 33px;">
             {{form.ctc}} is above the income tax slab of 2,50,000, Please fill the CTC breakup instead in the below form. or You can autocalculate by clicking <span ng-click="calculateCTCBreakup()" class="label label-primary" style="cursor:pointer;">Auto Calculate</span> or re enter the CTC again by clicking <span ng-click="form.enablePayroll = false;" class="label label-success" style="cursor:pointer;">Re - Enter</span>
@@ -202,7 +201,7 @@ left: 11%;;bottom: 13px;border: none !important;border-radius: 10px !important;p
 
 
 
-          <div class="row">
+          <div class="row" ng-if="form.payroll.activatePayroll">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
               <div class="form-group">
                 <label>HRA</label>
@@ -218,7 +217,7 @@ left: 11%;;bottom: 13px;border: none !important;border-radius: 10px !important;p
           </div>
 
 
-          <div class="row">
+          <div class="row" ng-if="form.payroll.activatePayroll">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
               <div class="form-group">
                 <label>LTA</label>
@@ -234,7 +233,7 @@ left: 11%;;bottom: 13px;border: none !important;border-radius: 10px !important;p
 
           </div>
 
-          <div class="row">
+          <div class="row" ng-if="form.payroll.activatePayroll">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
               <div class="form-group">
                 <label>Fixed Variable</label>
@@ -251,7 +250,7 @@ left: 11%;;bottom: 13px;border: none !important;border-radius: 10px !important;p
 
 
 
-          <div class="row">
+          <div class="row" ng-if="form.payroll.activatePayroll">
             <div class="col-md-6">
               <div class="form-group">
                 <label>Company Contribution ( PF )</label>
@@ -266,7 +265,7 @@ left: 11%;;bottom: 13px;border: none !important;border-radius: 10px !important;p
             </div>
           </div>
 
-          <div class="row">
+          <div class="row" ng-if="form.payroll.activatePayroll">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
               <div class="form-group">
                 <label>Professional Tax</label>
@@ -288,7 +287,7 @@ left: 11%;;bottom: 13px;border: none !important;border-radius: 10px !important;p
         </div>
       </div>
 
-      <div class="row" ng-if="form.enablePayroll">
+      <div class="row" ng-if="form.enablePayroll&&form.payroll.activatePayrol">
         <div class="col-md-3 text-right">
           <h2 style="color:rgb(152, 152, 152)">PF Details</h2>
         </div>
@@ -402,6 +401,18 @@ left: 11%;;bottom: 13px;border: none !important;border-radius: 10px !important;p
 
           </div>
         </div>
+      </div>
+      <div class="row" style="min-height:100px;background:#393C45;position: fixed;bottom: 0px;width: 67%;">
+        <div class="col-md-12">
+          <div class="row" style="padding-top:30px">
+            <div class="col-md-6">
+              <button type="button" class="btn btn-primary font16" style="background: rgb(28, 172, 103);color: white;width: 20.5%;border: none !important;border-radius: 10px !important;padding: 15px;" ng-click="updateUser()">Save</button>
+              </div>
+            <div class="col-md-6 text-right">
+                      <button type="button" class="btn btn-primary font16" style="background: rgb(9, 9, 9);color: white;width: 25.5%;border: none !important;border-radius: 10px !important;padding: 15px;" ng-click="$state.go('workforceManagement.employees')">Employee's List</button>
+              </div>
+            </div>
+          </div>
       </div>
     </div>
   </div>

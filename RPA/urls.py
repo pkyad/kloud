@@ -6,12 +6,12 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 
 router.register(r'job' , JobssViewset , base_name ='jobs')
-router.register(r'queue' , QueueViewset , base_name ='queue')
 router.register(r'process' , ProcessViewset , base_name ='process')
-
+router.register(r'machine' , MachineViewset , base_name ='machine')
 
 urlpatterns = [
     url(r'^', include(router.urls)),
+    url(r'createJob/$' ,CreateJobAPIView.as_view() ),
 
 
 ]

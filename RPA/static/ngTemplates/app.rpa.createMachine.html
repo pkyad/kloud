@@ -1,3 +1,12 @@
+<style media="screen">
+
+  #schema {
+    width: 100%;
+    height: 100%;
+    border-top: solid 2px #eee;
+    border-bottom: solid 2px #eee;
+  }
+</style>
 <div class="modal-header text-center">
   <h3>{{form.pk?'Edit':'Create'}}</h3>
 </div>
@@ -9,16 +18,10 @@
       <label for="">Name</label>
       <input type="text" class="form-control websiteInput" ng-model="form.name"name="" value="">
     </div>
-
-    <div class="form-group">
-      <label for="">Process</label>
-      <select class="form-control websiteInput" ng-options="k.name for k in processList" ng-model="form.process" name="">
-
-      </select>
-    </div>
-
+   
 
   </div>
+
 </div>
 
 <div class="modal-footer">

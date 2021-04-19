@@ -1,0 +1,26 @@
+<div class="container-fluid">
+  <div class="row pull-right">
+  <button type="button"  class="btn btn-primary"name="button" ng-click="openModal()"><i class="fa fa-plus"></i> Create A Machine</button>
+  </div><br><br><br>
+  <div class="row" style="margin:10px;">
+  <table style="width:80%">
+    <tr>
+      <th>Name</th>
+      <th>Key</th>
+      <th>Action</th>           
+    </tr>
+    <tr ng-repeat="item in machineList track by $index" style="padding:10px;">
+      <td>{{item.name}}</td>
+      <td>{{item.key}}</td>
+      <td>
+        <a ng-click="openModal(item)" style="cursor:pointer;">Edit</a>
+        <a ng-click="delMachine(item.pk)" style="cursor:pointer;">Delete</a>
+      </td>
+
+    </tr>
+
+</table> 
+  </div>
+
+  
+</div>
