@@ -390,7 +390,7 @@ app.controller("workforceManagement.recruitment.roles.form", function($scope, $s
   }
 
 });
-app.controller("workforceManagement.recruitment.jobs.explore", function($scope, Flash, $state, $users, $stateParams, $http, Flash, $uibModal, $aside) {
+app.controller("workforceManagement.recruitment.jobs.explore", function($scope, Flash, $state, $users, $stateParams, $http, Flash, $uibModal, $aside, $rootScope) {
 
   $scope.jobApplied = []
 
@@ -786,8 +786,96 @@ app.controller("workforceManagement.recruitment.jobs.explore", function($scope, 
       controller: 'recruitment.resume.view'
     })
   }
+  $scope.sendViaMail = function(data) {
+    $rootScope.$broadcast('scheduleInterview', {
+      email: data.email,
+      name: data.firstname + ' ' +data.lastname
+    })
+  }
+
+  $scope.reject = function(data){
+    $http({
+      method: 'PATCH',
+      url: '/api/recruitment/applyJob/'+data.pk+'/',
+      data:{
+        status : 'Rejected'
+      }
+    }).
+    then(function(response) {
+      $scope.fetchCandidates()
+      Flash.create('warning','Saved')
+      return
+
+    });
+  }
+
+  $scope.addasSelected = function(data){
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.recruitment.candidate.selection.html',
+      size: 'md',
+      backdrop: false,
+      resolve: {
+        candidate: function() {
+          return data;
+        },
+      },
+      controller: function($scope, $uibModalInstance, candidate) {
+        $scope.form = {
+          joiningDate:new Date(),
+          ctc:0,
+          notice:0,
+          al : 0,
+          ml : 0,
+          basic:0,
+          hra : 0,
+          lta : 0,
+          special :0,
+          taxSlab : 0,
+          adHoc : 0,
+        }
 
 
+        $scope.save = function(){
+          $scope.form.ctc = parseInt($scope.form.ctc)
+          $scope.form.hra = 0.4 * $scope.form.ctc;
+          $scope.form.basic = 0.1* $scope.form.ctc;
+          $scope.form.adHoc = 0.2* $scope.form.ctc;
+          $scope.form.special = 0.1*$scope.form.ctc
+          $scope.form.lta = 0.1* $scope.form.ctc;
+          var dataSave = {
+            status : 'Selected',
+            // joiningDate:dateToString($scope.form.joiningDate),
+            basic:$scope.form.basic,
+            hra : $scope.form.hra,
+            lta : $scope.form.lta,
+            special : $scope.form.special,
+            taxSlab : $scope.form.taxSlab,
+            adHoc : $scope.form.adHoc,
+            al : $scope.form.al,
+            ml : $scope.form.ml,
+            ctc : $scope.form.ctc,
+            notice : $scope.form.notice,
+            isSelected:true
+          }
+          $http({
+            method: 'PATCH',
+            url: '/api/recruitment/applyJob/'+candidate.pk +'/',
+            data:dataSave
+          }).
+          then(function(response) {
+              $uibModalInstance.dismiss(response.data);
+          });
+        }
+        $scope.close = function(){
+          $uibModalInstance.dismiss();
+        }
+      },
+    }).result.then(function() {
+
+    }, function(data) {
+        $scope.fetchCandidates()
+    });
+  }
 });
 
 app.controller("recruitment.application.form", function($scope, $state, $users, $stateParams, $http, Flash, $uibModalInstance, jobDetails, $timeout) {

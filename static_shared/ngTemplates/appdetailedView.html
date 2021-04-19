@@ -96,8 +96,9 @@ right: 25px;margin: 20px 0px;" ng-click="delUser($index)">
           </div>
         </div>
         <br>
-        <div class="row" ng-if="app.richText.length > 0" ng-bind-html="app.richText">
-
+        <div class="row" ng-if="app.richText.length > 0" >
+        <div class="col-md-12" ng-bind-html="app.richText">
+          </div>
         </div>
         <br>
         <div ng-if="app.windows || app.android || app.ios || app.mac">
@@ -163,7 +164,10 @@ right: 25px;margin: 20px 0px;" ng-click="delUser($index)">
         <div class="row" style="margin-bottom:20px;padding: 15px;">
 
           <div class="col-md-4">
-            <h4 style="margin-bottom:30px">RATINGS</h4>
+            <div class="row">
+                  <h4 style="margin-bottom:30px">RATINGS</h4>
+            </div>
+
             <div class="row no_margin" style="display:flex" ng-if="app.rating_five>0">
               <div class="" style="padding-right:15px">
                 <p style="padding:5px 0px;">5</p>

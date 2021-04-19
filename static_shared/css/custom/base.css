@@ -2639,6 +2639,8 @@ padding: 10px 0px;
   scroll-behavior: smooth;
   scrollbar-width: none;
   background-color: #f1f1f1;
+  padding-right:40px;
+  padding-left:40px
 }
 .div_padding{
   background:#F2F2F2 !important;min-height:200vh;
