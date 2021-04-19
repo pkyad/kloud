@@ -27,6 +27,19 @@
       <input type="text" class="form-control websiteInput" ng-model="form.env"name="" value="">
     </div>
 
+    <div class="form-group">
+      <label for="">Form Configuration (Json Object) Example:</label>
+      <span>
+      {
+        "name": {
+            "type": "string",
+            "required":false
+        }    
+      }
+      
+      </span>
+    </div> 
+
   <div id="editor" style="width:100%;min-height:30vh;" ng-bind-html="form.argSchema">
     
   </div>

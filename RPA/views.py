@@ -61,21 +61,12 @@ class JobssViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = JobssSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['process','queue','division']
+    filter_fields = ['process','division']
 
     def get_queryset(self):
         divisionObj = self.request.user.designation.division
         return divisionObj.rpa_jobs.all().order_by('-pk')
 
-class QueueViewset(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticated,)
-    serializer_class = QueueSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['process','division']
- 
-    def get_queryset(self):
-        divisionObj = self.request.user.designation.division
-        return divisionObj.rpa_queues.all().order_by('-pk')   
 
 class ProcessViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)

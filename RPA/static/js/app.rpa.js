@@ -25,11 +25,7 @@ app.config(function($stateProvider) {
       templateUrl: '/static/ngTemplates/app.rpa.process.html',
       controller: 'businessManagement.process',
     })
-    .state('businessManagement.rpa.queue', {
-      url: "/queue",
-      templateUrl: '/static/ngTemplates/app.rpa.queue.html',
-      controller: 'businessManagement.queue',
-    })
+
 
 
 });
@@ -69,15 +65,20 @@ app.controller('businessManagement.job', function($scope, $users, Flash, $permis
           })
         }
         $scope.getProcess()
-        $scope.getQueues = function(){
-          $http({
-            method: 'GET',
-            url: '/api/RPA/queue/',
-          }).then(function(response) {
-            $scope.queuesList = response.data
-          })
+
+
+        $scope.processSelected = function(){
+
+          try {
+            console.log($scope.form.process.argSchema,'$scope.form.process.argSchema');
+            $scope.processForm = JSON.parse($scope.form.process.argSchema)
+            console.log($scope.processForm,'process json object');
+          } catch (e) {
+            Flash.create('warning','Kindly check process form configuration json object')
+          }
+
         }
-        $scope.getQueues()
+  
 
         $scope.statusList = ['queued', 'started', 'failed', 'success', 'aborted']
 
@@ -86,10 +87,7 @@ app.controller('businessManagement.job', function($scope, $users, Flash, $permis
         }else {
           $scope.reset = function() {
             $scope.form = {
-              retryCount: 0,
-              status: 'queued',
-              process: '',
-              queue: ''
+              process: ''
             }
           }
           $scope.reset()
@@ -127,6 +125,8 @@ app.controller('businessManagement.job', function($scope, $users, Flash, $permis
 
       }
     }).result.then(function() {
+
+    }, function() {
       $scope.getJobs()
     });
 
@@ -162,25 +162,36 @@ app.controller('businessManagement.job', function($scope, $users, Flash, $permis
 
 app.controller('businessManagement.process', function($scope, $users, Flash, $permissions, $http, $aside, $uibModal) {
 
-  $scope.createProcess = function(job) {
+  $scope.getProcess = function(){
+    $http({
+      method: 'GET',
+      url: '/api/RPA/process/',
+    }).then(function(response) {
+      $scope.processList = response.data
+    })
+  }
+  $scope.getProcess()
+
+
+  $scope.createProcess = function(item) {
     $uibModal.open({
       templateUrl: '/static/ngTemplates/app.rpa.createProcess.html',
       backdrop: true,
       size: "lg",
       resolve: {
-        job:function(){
-          return job
+        item:function(){
+          return item
         }
       },
-      controller: function($scope, $http, $uibModalInstance, Flash, $state,job) {
+      controller: function($scope, $http, $uibModalInstance, Flash, $state,item) {
         $scope.close = function() {
           $uibModalInstance.dismiss()
         }
         var myElement = document.getElementById("editor"); 
         console.log(myElement,'myElement');
 
-        if (job != undefined) {
-          $scope.form = job
+        if (item != undefined) {
+          $scope.form = item
         }else {
           $scope.reset = function() {
             $scope.form = {
@@ -195,27 +206,6 @@ app.controller('businessManagement.process', function($scope, $users, Flash, $pe
         }
 
 
-
-
-        $scope.getProcess = function(){
-          $http({
-            method: 'GET',
-            url: '/api/RPA/process/',
-          }).then(function(response) {
-            $scope.processList = response.data
-          })
-        }
-        $scope.getProcess()
-
-        $scope.getQueues = function(){
-          $http({
-            method: 'GET',
-            url: '/api/RPA/queue/',
-          }).then(function(response) {
-            $scope.queuesList = response.data
-          })
-        }
-        $scope.getQueues()
 
         $scope.statusList = ['queued', 'started', 'failed', 'success', 'aborted']
 
@@ -261,12 +251,12 @@ app.controller('businessManagement.process', function($scope, $users, Flash, $pe
             url: url,
             data: datatoSend
           }).then(function(response) {
-            if ($scope.form.pk != undefined) {
-              Flash.create('success', 'Updated..!!!!!')
-            } else {
-              Flash.create('success', 'Created..!!!!!')
+            // if ($scope.form.pk != undefined) {
+            //   Flash.create('success', 'Updated..!!!!!')
+            // } else {
+            //   Flash.create('success', 'Created..!!!!!')
 
-            }
+            // }
             $scope.close()
           })
 
@@ -274,23 +264,19 @@ app.controller('businessManagement.process', function($scope, $users, Flash, $pe
 
       }
     }).result.then(function() {
+
+    }, function() {
       $scope.getProcess()
     });
 
 
 
+
   }
 
 
-  $scope.getProcess = function(){
-    $http({
-      method: 'GET',
-      url: '/api/RPA/process/',
-    }).then(function(response) {
-      $scope.processList = response.data
-    })
-  }
-  $scope.getProcess()
+
+
 
   $scope.deleteProcess = function(id){
     $http({
@@ -305,115 +291,4 @@ app.controller('businessManagement.process', function($scope, $users, Flash, $pe
 
 
 })
-app.controller('businessManagement.queue', function($scope, $users, Flash, $permissions, $http, $aside, $uibModal) {
 
-
-  $scope.queueModal = function(item) {
-    $uibModal.open({
-      templateUrl: '/static/ngTemplates/app.rpa.createQueue.html',
-      backdrop: true,
-      size: "lg",
-      resolve: {
-        item:function(){
-          return item
-        }
-      },
-      controller: function($scope, $http, $uibModalInstance, Flash, $state,item) {
-        $scope.close = function() {
-          $uibModalInstance.dismiss()
-        }
-
-        $scope.getProcess = function(){
-          $http({
-            method: 'GET',
-            url: '/api/RPA/process/',
-          }).then(function(response) {
-            $scope.processList = response.data
-          })
-        }
-        $scope.getProcess()
-
-        if (item != undefined) {
-          $scope.form = item
-        }else {
-          $scope.reset = function() {
-            $scope.form = {
-              name: '',
-              process: '',
-            }
-          }
-          $scope.reset()
-        }
-
-
-
-
-
-        $scope.save = function() {
-          if(typeof $scope.form.process != 'object'){
-            Flash.create('warning', 'Kindly select a process')
-          }  
-
-          var datatoSend = {
-            name: $scope.form.name,
-            process: $scope.form.process.pk
-          }
-          var method= 'POST'
-          var url ="/api/RPA/queue/"
-          if ($scope.form.pk != undefined) {
-            method = "PATCH"
-            url += $scope.form.pk+'/'
-          }
-          $http({
-            method: method,
-            url: url,
-            data: datatoSend
-          }).then(function(response) {
-            if ($scope.form.pk != undefined) {
-              Flash.create('success', 'Updated..!!!!!')
-            } else {
-              Flash.create('success', 'Created..!!!!!')
-
-            }
-            $scope.close()
-          })
-
-        }
-
-      }
-    }).result.then(function() {
-      $scope.getQueues()
-    });
-
-
-
-  }
-
-
-  $scope.getQueues = function(){
-    $http({
-      method: 'GET',
-      url: '/api/RPA/queue/',
-    }).then(function(response) {
-      $scope.queuesList = response.data
-    })
-  }
-  $scope.getQueues()
-
-  $scope.deleteQueue = function(id){
-    $http({
-      method: 'DELETE',
-      url: '/api/RPA/queue/'+id+'/',
-    }).then(function(response) {
-      $scope.getQueues()
-    })
-  }
-  
-
-
-
-
-
-
-
-})
