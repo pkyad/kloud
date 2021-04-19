@@ -14,7 +14,7 @@
 
     <div class="form-group" ng-repeat="(key, val) in processForm">
       <label for="">{{key}}</label>
-      <input type={{val.type}} class="form-control websiteInput" ng-model="form.name"name="" value="" required = {{val.required}}>
+      <input type={{val.type}} class="form-control websiteInput" ng-model="val.value" name="" value="" required = {{val.required}}>
     </div>
   </div>
 </div>

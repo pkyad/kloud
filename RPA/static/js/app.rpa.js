@@ -82,7 +82,7 @@ app.controller('businessManagement.job', function($scope, $users, Flash, $permis
           }
 
         }
-  
+
 
         $scope.statusList = ['queued', 'started', 'failed', 'success', 'aborted']
 
@@ -103,10 +103,11 @@ app.controller('businessManagement.job', function($scope, $users, Flash, $permis
             retryCount: $scope.form.retryCount,
             status: $scope.form.status,
             process: $scope.form.process.pk,
-            queue: $scope.form.queue.pk
+            // queue: $scope.form.queue.pk,
+            processForm : $scope.processForm
           }
           var method= 'POST'
-          var url ="/api/RPA/job/"
+          var url ="/api/RPA/createJob/"
           if ($scope.form.pk != undefined) {
             method = "PATCH"
             url += $scope.form.pk+'/'
@@ -191,7 +192,7 @@ app.controller('businessManagement.process', function($scope, $users, Flash, $pe
         $scope.close = function() {
           $uibModalInstance.dismiss()
         }
-        var myElement = document.getElementById("editor"); 
+        var myElement = document.getElementById("editor");
         console.log(myElement,'myElement');
 
         if (item != undefined) {
@@ -232,7 +233,7 @@ app.controller('businessManagement.process', function($scope, $users, Flash, $pe
             $scope.aceEditorSchema.setValue($scope.form.argSchema, -1);
           }
       }
-      
+
         $uibModalInstance.rendered.then($scope.init);
 
 
@@ -290,9 +291,6 @@ app.controller('businessManagement.process', function($scope, $users, Flash, $pe
       $scope.getProcess()
     })
   }
-  
-
-
 
 })
 

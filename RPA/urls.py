@@ -11,6 +11,7 @@ router.register(r'machine' , MachineViewset , base_name ='machine')
 
 urlpatterns = [
     url(r'^', include(router.urls)),
+    url(r'createJob/$' ,CreateJobAPIView.as_view() ),
 
 
 ]

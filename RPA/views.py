@@ -88,4 +88,16 @@ class ProcessViewset(viewsets.ModelViewSet):
     filter_fields = ['uri','division','name']
     def get_queryset(self):
         divisionObj = self.request.user.designation.division
-        return divisionObj.rpa_processes.all().order_by('-pk')  
+        return divisionObj.rpa_processes.all().order_by('-pk')
+
+class CreateJobAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny,)
+    def post(self , request , format = None):
+        data = request.data
+        print type(data['processForm'])
+        jobObj = Job.objects.create(division = request.user.designation.division , process = Process.objects.get(pk = int(data['process'])))
+        for key, value in data['processForm'].items():
+            val = data['processForm'][key]
+            contObj = JobContext.objects.create(job = jobObj, key = key, value = val['value'] ,  typ = val['type'])
+        return Response( status =  status.HTTP_200_OK)
