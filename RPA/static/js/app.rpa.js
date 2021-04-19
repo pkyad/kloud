@@ -26,7 +26,11 @@ app.config(function($stateProvider) {
       controller: 'businessManagement.process',
     })
 
-
+    .state('businessManagement.rpa.machine', {
+      url: "/machine",
+      templateUrl: '/static/ngTemplates/app.rpa.machine.html',
+      controller: 'businessManagement.machine',
+    })
 
 });
 
@@ -292,3 +296,89 @@ app.controller('businessManagement.process', function($scope, $users, Flash, $pe
 
 })
 
+app.controller('businessManagement.machine', function($scope, $users, Flash, $permissions, $http, $aside, $uibModal) {
+
+
+
+
+  $scope.openModal = function(item) {
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.rpa.createMachine.html',
+      backdrop: true,
+      size: "lg",
+      resolve: {
+        item:function(){
+          return item
+        }
+      },
+      controller: function($scope, $http, $uibModalInstance, Flash, $state,item) {
+        $scope.close = function() {
+          $uibModalInstance.dismiss()
+        }
+
+
+        if (item != undefined) {
+          $scope.form = item
+        }else {
+          $scope.reset = function() {
+            $scope.form = {
+              name: ''
+            }
+          }
+          $scope.reset()
+
+        }
+
+        $scope.save = function() {
+          var datatoSend = {
+            name: $scope.form.name
+          }
+          var method= 'POST'
+          var url ="/api/RPA/machine/"
+          if ($scope.form.pk != undefined) {
+            method = "PATCH"
+            url += $scope.form.pk+'/'
+          }
+          $http({
+            method: method,
+            url: url,
+            data: datatoSend
+          }).then(function(response) {
+
+            $scope.close()
+          })
+
+        }
+
+      }
+    }).result.then(function() {
+
+    }, function() {
+      $scope.getMachine()
+    });
+
+
+
+  }
+
+
+  $scope.getMachine = function(){
+    $http({
+      method: 'GET',
+      url: '/api/RPA/machine/',
+    }).then(function(response) {
+      $scope.machineList = response.data
+    })
+  }
+  $scope.getMachine()
+
+  $scope.delMachine = function(id){
+    $http({
+      method:'DELETE',
+      url:'/api/RPA/machine/'+  id+'/'
+    }).then(function(response){
+        $scope.getMachine()
+    })
+  }
+
+})

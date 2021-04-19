@@ -7,6 +7,12 @@ from ERP.models import Division
 
 # Create your models here.
 
+class Machine(models.Model):
+    created = models.DateTimeField(auto_now_add = True)
+    updated = models.DateTimeField(auto_now=True)
+    name = models.CharField(max_length = 200 , null = False)
+    division = models.ForeignKey(Division, related_name = 'rpa_machine', null = False)
+    key = models.CharField(max_length = 200 , null = False, blank = True)
 
 class Process(models.Model):
     created = models.DateTimeField(auto_now_add = True)

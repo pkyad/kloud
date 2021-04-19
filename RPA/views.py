@@ -57,6 +57,18 @@ from django.db.models import F ,Value,CharField,Prefetch
 
 import sys, traceback
 
+class MachineViewset(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = MachineSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['division']
+
+    def get_queryset(self):
+        divisionObj = self.request.user.designation.division
+        return divisionObj.rpa_machine.all().order_by('-pk')
+
+
+
 class JobssViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = JobssSerializer

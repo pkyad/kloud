@@ -7,6 +7,27 @@ from PIM.serializers import *
 from HR.serializers import userSearchSerializer
 from rest_framework.response import Response
 from PIL import Image
+import uuid
+
+class MachineSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Machine
+        fields = ('pk' , 'created' ,'updated', 'division', 'name','key' )
+        read_only_fields = ('division',)
+    def create(self,validated_data):
+        obj= Machine(**validated_data)
+        obj.division = self.context['request'].user.designation.division
+        obj.key = uuid.uuid4()
+        obj.save()
+        return obj
+    def update(self,instance,validated_data):
+        for key in [ 'name' ]:
+            try:
+                setattr(instance , key , validated_data[key])
+            except:
+                pass
+        instance.save()
+        return instance
 
 class JobssSerializer(serializers.ModelSerializer):
     class Meta:
