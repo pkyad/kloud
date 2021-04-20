@@ -62,6 +62,13 @@ class JobssSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+
+class JobContextSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobContext
+        fields = ('pk' , 'created' ,'updated', 'key', 'value' , 'typ', 'attachment')
+
+
 class ProcessSerializer(serializers.ModelSerializer):
     class Meta:
         model = Process
@@ -84,5 +91,3 @@ class ProcessSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
-
-

@@ -79,6 +79,14 @@ class JobssViewset(viewsets.ModelViewSet):
         divisionObj = self.request.user.designation.division
         return divisionObj.rpa_jobs.all().order_by('-pk')
 
+class JobContextViewset(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = JobContextSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['job']
+    def get_queryset(self):
+        return JobContext.objects.all()
+
 
 class ProcessViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
@@ -99,5 +107,5 @@ class CreateJobAPIView(APIView):
         jobObj = Job.objects.create(division = request.user.designation.division , process = Process.objects.get(pk = int(data['process'])))
         for key, value in data['processForm'].items():
             val = data['processForm'][key]
-            contObj = JobContext.objects.create(job = jobObj, key = key, value = val['value'] ,  typ = val['type'])
+            contObj = JobContext.objects.create(job = jobObj.pk, key = key, value = val['value'] ,  typ = val['type'])
         return Response( status =  status.HTTP_200_OK)
