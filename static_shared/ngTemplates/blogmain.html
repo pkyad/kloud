@@ -1,0 +1,278 @@
+<div class="" style="cursor:pointer;">
+  <style media="screen">
+    body {
+      overflow-x: hidden;
+      font-family: 'Roboto'
+    }
+
+    .popover-title {
+      display: none
+    }
+
+    .popover {
+      background-color: #00064b;
+      box-shadow: none;
+      border-radius: 3px;
+      boder: 0px solid transparent;
+    }
+
+    .popover-content {
+      padding: 5px 14px;
+      color: white;
+    }
+
+    .popover.top>.arrow::after {
+      border-top-color: #00064b;
+    }
+
+    .popover .top {
+      margin-top: -20px;
+    }
+
+    .badge-slider {
+      max-height: 100px;
+      -webkit-transition: max-height linear 0.1s;
+      -moz-transition: max-height linear 0.1s;
+      -o-transition: max-height linear 0.1s;
+      transition: max-height linear 0.1s;
+      overflow: hidden;
+    }
+
+    a:hover,
+    a:focus {
+      text-decoration: none;
+    }
+
+    .navbar-dark {
+      background: #a5b6d4;
+    }
+
+    .navbar-dark .navLink {
+      color: black !important;
+      outline: none !important;
+    }
+
+    .navbar-dark .navLink:hover,
+    .navbar-dark .navLink:focus {
+      color: #ff6900 !important;
+      background: none !important;
+    }
+
+    .navbar-dark .btn-default {
+      background: none !important;
+    }
+
+    .lightIcon {
+      display: None;
+      color: white
+    }
+
+    .darkIcon {
+      display: initial;
+    }
+
+    .lightic {
+      display: none !important;
+    }
+
+    .darkic {
+      display: initial !important;
+    }
+
+    .link {
+      color: black;
+    }
+
+    .link:hover {
+      color: black;
+      background-color: transparent !important;
+    }
+
+    .btn_call {
+      background: #e44241 !important;
+      border: 2px solid #e44241;
+    }
+
+    .btn_call:hover,
+    .btn_call:focus {
+      background: white !important;
+      border: 2px solid #e44241;
+      color: #e44241
+    }
+
+    .forum_strting {
+      margin-right: 50px;
+      margin-left: 50px;
+      margin-bottom: 50px;
+    }
+
+    .forum_div {
+      margin-top: -65px;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-bottom: 50px;
+    }
+
+    .forum_posting {
+      /* margin-left: 25px; */
+      padding-left: 40px;
+    }
+
+    .forum_post_row {
+      background-color: #FFFFFF;
+      position: relative;
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+
+    .forum_stat_row {
+      background-color: #FFFFFF;
+      position: relative;
+      margin-top: 40px;
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+
+    .forum_active_row {
+      background-color: #FFFFFF;
+      position: relative;
+      margin-top: 40px;
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+
+    .forum_active_par {
+      border-top: 1px solid #e8eef1;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      padding-left: 25px;
+      padding-right: 20px;
+    }
+
+    .forum_new_start {
+      padding: 50px;
+    }
+
+    .forum_head {
+      /* top: 215px;; */
+      color: white;
+      position: relative;
+      margin-left: 50px;
+      padding-left: 50px;
+    }
+
+    .forum_crm_starting {
+      margin-left: 200px;
+      margin-right: 200px;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    .forum_crm_para {
+      padding-left: 0px;
+    }
+
+    .forum_crm_image {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+    }
+
+    .btn_post {
+      margin-top: 15px;
+      background-color: #5a44ff;
+      border: 2px solid #5a44ff;
+      font-weight: bold;
+      padding: 12px 25px;
+      border-radius: 40px;
+      white-space: nowrap;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .btn_post:hover,
+    .btn_post:focus {
+      background-color: #fff;
+      color: #5a44ff;
+      border: 2px solid #5a44ff;
+    }
+
+    .forum_crm_topcontri {
+      float: right
+    }
+
+    .forum_crm_post {
+      padding-left: 0px;
+    }
+  </style>
+  <div class="row" style="margin:0px;">
+    <div class="col-md-12">
+      <div class="container-fluid forum_container" style="padding-left:0px;padding-right:0px;background-color:#eee;overflow-x:hidden">
+        <div class="" style="background-image:url('/static/images/blog.jpg');background-size:cover;min-height:350px;position:relative">
+          <div class="row">
+            <div class="col-lg-12" style="margin-top:215px">
+              <div class=" col-lg-3 col-xs-6  forum_head">
+                <h2 class="font30" style="margin-top:0px;font-weight:bold">Blogs</h2>
+              </div>
+              <div class="col-lg-3 col-xs-6 pull-right hidden-lg hidden-md">
+                <a ng-click="$state.go('businessManagement.createForum')" type="button" class="btn btn-lg btn-default btn-rounded btn_call">
+                  Create Post
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="forum_strting">
+          <div class="col-md-12  col-lg-12 forum_div">
+            <div class="col-md-8 col-lg-9 forum_main" style="box-shadow:0px 5px #eeeeee;padding-left:0px;padding-right:0px;">
+              <div class="row forum_cards" >
+
+                <div class="table-responsive hidden-xs hidden-sm" style="padding-top:10px;margin-top:40px;background-color:#FFFFFF;height:100%;position:relative;">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <div class="col-md-12">
+                          <th style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;padding-left:25px;padding-right:25px;color:#00064b">Custom forums</th>
+                          <th style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;color:#00064b">Posts</th>
+                          <th style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;color:#00064b">Last post</th>
+                            <th class="hidden-xs" style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;color:#00064b" ng-if="$state.is('businessManagement.forum')"></th>
+                        </div>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr style="cursor:pointer;" ng-repeat="o in allForums.posts2 track by $index"  ng-click="goTo(o.pk)">
+                        <td style="padding-top:30px;padding-bottom:30px;padding-left:25px;padding-right:25px;">
+                          <div class="flex-container" style="display:flex">
+                            <div style="width: 60px;height: 60px;background-color: #eaeaea;border-radius: 50%;">
+                              <i class="fa fa-folder-open" aria-hidden="true" style="padding:16px;font-size: 26px;color:#bdc4ce;"></i>
+                            </div>
+                            <div style="padding-top:4px;padding-bottom:4px;padding-left:16px;">
+                              <a style="color:#00064b;margin-bottom:0px;font-size:16px;letter-spacing:0.5px;" href="/forum/{{o.pk}}">{{ o.title }}</a>
+                              <p style="color:#857f99;margin-bottom:0px;font-size:16px;letter-spacing:0.5px;" ng-bind-html="o.description"></p>
+                            </div>
+                          </div>
+                        </td>
+                        <td style="padding-top:30px;padding-bottom:30px;color:#857f99;text-align:center;padding-left: 0px;padding-right: 15px;">{{o.commentCount}}</td>
+                        <td style="padding-top:30px;padding-bottom:30px;padding-right:25px;">
+                          <div class="flex-container" style="display:flex;" ng-if="o.lstcomcreated">
+                            <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;" alt="">
+                            <p style="color:#006cfb;margin-bottom:0px;font-size:16px;letter-spacing:0.5px;padding-left:10px;padding-top:4px;padding-bottom:4px;">{{o.first_name}} {{o.last_name}}<br><span
+                                style="color:#857f99;margin-bottom:0px;font-size:16px;letter-spacing:0.5px;">{{o.lstcomcreated |  date:'dd MMM yyyy hh:mm a' }}</span></p>
+                          </div>
+                        </td>
+                          <th class="hidden-xs" style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;color:#00064b" ng-if="$state.is('businessManagement.forum')"><i class="fa fa-trash" class="fa fa-trash"  mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="deleteForum($index, 'posts2')" confirm-button-type="danger" cancel-button-type="default" ng-click="$event.stopPropagation()"></i> <i class="fa fa-pencil" ng-click="$state.go('businessManagement.editForum',{'id' : o.pk})"></i></th>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+            </div>
+            <div class="col-md-4 col-lg-3 forum_posting hidden-xs" style="margin-top: 40px">
+              <div class="text-center" ng-click="$state.go('businessManagement.blogging.createblog')">
+                  <button type="button" class="font32 forum_btn" name="button"
+                  >Create Blog</button>
+              </div>
+            </div>
+          </div>
+        </div>
