@@ -1246,7 +1246,7 @@ app.directive('appdetailedView', function() {
       }
       $scope.openApp = function(){
         // $state.go($scope.app.module  + '.' + $scope.app.name.replace('app.' , ''))
-        
+
         window.location.href = '/ERP/#/'+ $scope.app.module  + '/' + $scope.app.name.replace('app.' , '')
       }
 
@@ -2086,6 +2086,40 @@ app.directive('appointUser', function() {
         then(function(response) {
           Flash.create('success', 'Created')
           return;
+        })
+      }
+
+    },
+  };
+});
+
+
+app.directive('blogMain', function() {
+  return {
+    templateUrl: '/static/ngTemplates/blogmain.html',
+     // css: '/static/css/careerview.css',
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
+      $http({
+        method: 'GET',
+        url: '/api/blogging/article/',
+      }).
+      then(function(response) {
+        $scope.allBlogs = response.data
+      })
+      $scope.goTo = function(){
+        $state.go('businessManagement.newBlog')
+      }
+
+      $scope.delete = function(indx){
+        $http({
+          method: 'DELETE',
+          url: '/api/blogging/article/'+$scope.allBlogs[indx].pk+'/',
+        }).
+        then(function(response) {
+          $scope.allBlogs.splice(indx,1)
         })
       }
 

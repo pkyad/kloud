@@ -79,16 +79,16 @@
               <div class="col-md-6">
                 <div class="input-group">
                   <label>Category </label>
-                  <input type="text" typeahead-show-hint="true" typeahead-min-length="0" class="form-control websiteInput" ng-model="form.parent" uib-typeahead="c as c.name for c in parent " ng-change="errors.parent = false;"
+                  <input type="text"  class="form-control websiteInput" ng-model="form.category"  ng-change="errors.category = false;"
                     style="border-top-right-radius:0px !important;border-bottom-right-radius:0px !important;">
                   <!-- <p>{{form.parent}}</p> -->
                   <p ng-if="errors.parent" class="help-block" style="color:red;">Please fill the Category</p>
-                  <div class="input-group-btn">
+                  <!-- <div class="input-group-btn">
                     <button class="btn btn-default" type="submit" style="margin-top: 35px;padding: 13px 12px;border:0px;    border-top-right-radius: 25px !important;    border-bottom-right-radius: 25px !important;outline:none;background-color:#F2F3F7;height:45px;">
                       <span ng-if="!form.parent.pk" ng-click="createCategory(form.parent)">Create <i class="fa fa-plus"></i></span>
                       <span ng-if="form.parent.pk" ng-click="createCategory(form.parent)">Edit <i class="fa fa-pencil" style="margin-left:8px;"></i></span>
                     </button>
-                  </div>
+                  </div> -->
                 </div>
 
               </div>

@@ -1,0 +1,505 @@
+<!-- <div class="" style="cursor:pointer;">
+  <style media="screen">
+    body {
+      overflow-x: hidden;
+      font-family: 'Roboto'
+    }
+
+    .popover-title {
+      display: none
+    }
+
+    .popover {
+      background-color: #00064b;
+      box-shadow: none;
+      border-radius: 3px;
+      boder: 0px solid transparent;
+    }
+
+    .popover-content {
+      padding: 5px 14px;
+      color: white;
+    }
+
+    .popover.top>.arrow::after {
+      border-top-color: #00064b;
+    }
+
+    .popover .top {
+      margin-top: -20px;
+    }
+
+    .badge-slider {
+      max-height: 100px;
+      -webkit-transition: max-height linear 0.1s;
+      -moz-transition: max-height linear 0.1s;
+      -o-transition: max-height linear 0.1s;
+      transition: max-height linear 0.1s;
+      overflow: hidden;
+    }
+
+    a:hover,
+    a:focus {
+      text-decoration: none;
+    }
+
+    .navbar-dark {
+      background: #a5b6d4;
+    }
+
+    .navbar-dark .navLink {
+      color: black !important;
+      outline: none !important;
+    }
+
+    .navbar-dark .navLink:hover,
+    .navbar-dark .navLink:focus {
+      color: #ff6900 !important;
+      background: none !important;
+    }
+
+    .navbar-dark .btn-default {
+      background: none !important;
+    }
+
+    .lightIcon {
+      display: None;
+      color: white
+    }
+
+    .darkIcon {
+      display: initial;
+    }
+
+    .lightic {
+      display: none !important;
+    }
+
+    .darkic {
+      display: initial !important;
+    }
+
+    .link {
+      color: black;
+    }
+
+    .link:hover {
+      color: black;
+      background-color: transparent !important;
+    }
+
+    .btn_call {
+      background: #e44241 !important;
+      border: 2px solid #e44241;
+    }
+
+    .btn_call:hover,
+    .btn_call:focus {
+      background: white !important;
+      border: 2px solid #e44241;
+      color: #e44241
+    }
+
+    .forum_strting {
+      margin-right: 50px;
+      margin-left: 50px;
+      margin-bottom: 50px;
+    }
+
+    .forum_div {
+      margin-top: -65px;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-bottom: 50px;
+    }
+
+    .forum_posting {
+      /* margin-left: 25px; */
+      padding-left: 40px;
+    }
+
+    .forum_post_row {
+      background-color: #FFFFFF;
+      position: relative;
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+
+    .forum_stat_row {
+      background-color: #FFFFFF;
+      position: relative;
+      margin-top: 40px;
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+
+    .forum_active_row {
+      background-color: #FFFFFF;
+      position: relative;
+      margin-top: 40px;
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+
+    .forum_active_par {
+      border-top: 1px solid #e8eef1;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      padding-left: 25px;
+      padding-right: 20px;
+    }
+
+    .forum_new_start {
+      padding: 50px;
+    }
+
+    .forum_head {
+      /* top: 215px;; */
+      color: white;
+      position: relative;
+      margin-left: 50px;
+      padding-left: 50px;
+    }
+
+    .forum_crm_starting {
+      margin-left: 200px;
+      margin-right: 200px;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    .forum_crm_para {
+      padding-left: 0px;
+    }
+
+    .forum_crm_image {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+    }
+
+    .btn_post {
+      margin-top: 15px;
+      background-color: #5a44ff;
+      border: 2px solid #5a44ff;
+      font-weight: bold;
+      padding: 12px 25px;
+      border-radius: 40px;
+      white-space: nowrap;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .btn_post:hover,
+    .btn_post:focus {
+      background-color: #fff;
+      color: #5a44ff;
+      border: 2px solid #5a44ff;
+    }
+
+    .forum_crm_topcontri {
+      float: right
+    }
+
+    .forum_crm_post {
+      padding-left: 0px;
+    }
+  </style> -->
+  <!-- <div class="row" style="margin:0px;">
+    <div class="col-md-12">
+      <div class="container-fluid forum_container" style="padding-left:0px;padding-right:0px;background-color:#eee;overflow-x:hidden">
+        <div class="" style="background-image:url('/static/images/blog.jpg');background-size:cover;min-height:350px;position:relative">
+          <div class="row">
+            <div class="col-lg-12" style="margin-top:215px">
+              <div class=" col-lg-3 col-xs-6  forum_head">
+                <h2 class="font30" style="margin-top:0px;font-weight:bold">Blogs</h2>
+              </div>
+              <div class="col-lg-3 col-xs-6 pull-right hidden-lg hidden-md">
+                <a ng-click="$state.go('businessManagement.createForum')" type="button" class="btn btn-lg btn-default btn-rounded btn_call">
+                  Create Post
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="forum_strting">
+          <div class="col-md-12  col-lg-12 forum_div">
+            <div class="col-md-8 col-lg-9 forum_main" style="box-shadow:0px 5px #eeeeee;padding-left:0px;padding-right:0px;">
+              <div class="row forum_cards" >
+                <div class="table-responsive hidden-xs hidden-sm" style="padding-top:10px;margin-top:40px;background-color:#FFFFFF;height:100%;position:relative;">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <div class="col-md-12">
+                          <th style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;padding-left:25px;padding-right:25px;color:#00064b">Title</th>
+                          <th style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;color:#00064b">Author</th>
+                          <th style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;color:#00064b">Category</th>
+                            <th class="hidden-xs" style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;color:#00064b" ng-if="$state.is('businessManagement.forum')"></th>
+                        </div>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr style="cursor:pointer;" ng-repeat="o in allBlogs track by $index"  >
+                        <td style="padding-top:30px;padding-bottom:30px;padding-left:25px;padding-right:25px;">
+                          <div class="flex-container" style="display:flex">
+                            <div style="width: 60px;height: 60px;background-color: #eaeaea;border-radius: 50%;">
+                              <i class="fa fa-folder-open" aria-hidden="true" style="padding:16px;font-size: 26px;color:#bdc4ce;"></i>
+                            </div>
+                            <div style="padding-top:4px;padding-bottom:4px;padding-left:16px;">
+                              <a style="color:#00064b;margin-bottom:0px;font-size:16px;letter-spacing:0.5px;" href="/forum/{{o.pk}}">{{ o.title }}</a>
+                              <p style="color:#857f99;margin-bottom:0px;font-size:16px;letter-spacing:0.5px;" ng-bind-html="o.description"></p>
+                            </div>
+                          </div>
+                        </td>
+                        <td style="padding-top:30px;padding-bottom:30px;color:#857f99;padding-right: 15px;">{{o.author.first_name}} {{o.author.last_name}}</td>
+                        <td style="padding-top:30px;padding-bottom:30px;color:#857f99;padding-right: 15px;">{{o.category}}</td>
+                          <th class="hidden-xs" style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;color:#00064b" ng-if="$state.is('businessManagement.blogging')">
+                            <i class="fa fa-trash" class="fa fa-trash"  mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="delete($index)" confirm-button-type="danger" cancel-button-type="default" ng-click="$event.stopPropagation()"></i>
+                             <i class="fa fa-pencil" ng-click="$state.go('businessManagement.editblog',{'id' : o.pk});$event.stopPropagation()"></i></th>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-lg-3 forum_posting hidden-xs" style="margin-top: 40px">
+              <div class="text-center" ng-click="goTo()" ng-if="$state.is('businessManagement.blogging')">
+                  <button type="button" class="font32 forum_btn" name="button"
+                  >Create Blog</button>
+              </div>
+            </div>
+          </div>
+        </div> -->
+
+
+        <style media="screen">
+  .navbar-dark .navLink {
+    color: black !important;
+    outline: none !important;
+  }
+
+  .navbar-dark .navLink:hover,
+  .navbar-dark .navLink:focus {
+    color: #ff6900 !important;
+    background: none !important;
+  }
+
+  .lightIcon {
+    display: none;
+  }
+
+  .darkIcon {
+    display: intial;
+  }
+
+  .navbar-dark {
+    background: white;
+  }
+  .btn-rounded{
+    background-color:#0085ca;
+    color:white;
+    border:2px solid #0085ca;
+  }
+  .btn-rounded:hover{
+    background-color:white;
+    color:#0085ca !important;
+    border:2px solid #0085ca;
+  }
+  .lightic{
+    display:none !important;
+  }
+  .link{
+    color:black;
+  }
+  .link:hover{
+    color:black;
+    background-color:transparent !important;
+  }
+</style>
+<div class="container-fluid" style="">
+  <div class="row" ng-if="allBlogs[0].contents[0].img" style="background-image: url('/media/{{allBlogs[0].contents[0].img}}');background-size:cover;background-repeat:no-repeat;min-height:500px;background-position:center">
+
+    <div class="row" ng-if="!allBlogs[0].contents[0].img" style="background-image: url('static/images/bg.jpeg');background-size:cover;background-repeat:no-repeat;min-height:500px;">
+
+    <div class="col-md-8 col-md-offset-2 allMargins" style="margin-top:150px;">
+      <p style="color:white"> Blogs</p>
+      <div class="blog_date_tag">
+        <ul style="padding:0px;display:flex;margin-top:30px;">
+          <p style="color:white;font-size:18px;margin-bottom:0px;"> <li style="color:white;font-size:18px;margin-left:30px;" >{{allBlogs[0].contents[0].created}}</li></p>
+
+
+
+        </ul>
+
+      </div>
+      <h2 style="color:white;margin-top:0px;">{{allBlogs[0].contents[0].title}}</h2>
+      <button type="button" class="btn btn-lg btn-default  btn_read" name="button" style="margin-top:40px;padding:10px 25px"><a href="/{{firstArticle.articleUrl}} " class="link_read">Read Story</a></button>
+    </div>
+  </div>
+
+  <div class="row" style="margin:0px;margin-top:25px;">
+    <div class="col-md-8 col-md-offset-2 allMargins" style="padding:0px">
+
+      <h3 style=" margin-bottom:20px;">Featured Blogs</h3>
+      <div class="row">
+        <!-- {% for i in featuredblogs%}
+          {% if forloop.counter > 1 %} -->
+        <a ng-repeat="i in allBlogs[1:4]" href="/{{i.articleUrl}}">
+          <div class="col-lg-4 text-center" style="margin-bottom:20px;">
+            <!-- {% if i.introSectionImg %} -->
+            <div ng-if="i.contents[0].url" style="background-image:url('{{i.contents[0].url}}');background-size:cover;min-height:300px;padding:30px;border-radius:5px;" >
+              <!-- {% else %} -->
+            <div  ng-if="!i.contents[0].url"  style="background-image:url('/static/images/bg.jpeg');background-size:cover;min-height:300px;padding:20px;border-radius:5px;" >
+              <!-- {% endif %} -->
+              <h3 style="color:white;height:40px;">{{i.title}}</h3>
+              <button type="button" class="btn btn-lg btn-default  btn_cardread" name="button"><a class="read_art" href="/{{i.articleUrl}}">Read Article </a></button>
+          </div>
+          </div>
+
+        </a>
+        <!-- {% endif%}
+        {% endfor%} -->
+
+      </div>
+
+
+
+    </div>
+
+  <div class="row" style="margin:0px;">
+    <div class="col-md-8 col-md-offset-2 allMargins" style="margin-top:20px;padding:0px">
+      <div class="row blog_cards">
+
+        <!-- {% verbatim%}
+          {{fildata}}
+
+        {% endverbatim %} -->
+        <div class="col-lg-9"  style="padding:0px;">
+          <div class="row" id="blogcards" >
+          <h4 style="text-transform:uppercase;font-weight:bold;font-size:16px;padding-left:15px;">Explore Our Blog</h4>
+          {% for i in blogs%}
+          <a href="/{{i.articleUrl}}">
+            <div class="col-lg-4 col-sm-6 text-center" style="margin-bottom:20px;">
+              <div class="row" style="min-height:320px;margin-right:0px;margin-left:0px;border-bottom:1px solid rgba(0,40,85,.5);">
+                <div class="col-md-12" style="padding:0px;">
+                  {% if i.introSectionImg %}
+                  <div style="background-image:url('/media/{{i.introSectionImg}}');background-size:cover;min-height:150px;border-radius:5px;">
+                  </div>
+                  {% else%}
+                  <div style="background-image:url('/static/images/bg.jpeg');background-size:cover;min-height:150px;border-radius:5px;">
+                  </div>
+                  {%endif%}
+                  <div class="text-left" style="padding:20px;padding-left: 0px;padding-right: 0px;">
+                    <p style="color:#0085ca"><strong>{{i.category.name}}</strong></p>
+                    <a class="blog_text" href="/{{i.articleUrl}}" style="display:block;margin-bottom:10px;min-height:100px;">{{i.title |truncatechars:50}}</a>
+                    <p style="margin-top:10px;color:rgba(0,40,85,.5)">{{i.created}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </a>
+
+          {% endfor %}
+        </div>
+          <div class="row col-lg-12" style="margin:0px;">
+
+            <div class="prevNextBtn">
+              <div>
+
+
+                    <a role="button" class="btn btn-lg btn-default btn-rounded "href="/blog/{{prevpage}}">Previous</a>
+              </div>
+
+              <div >
+                <a role="button" class="btn btn-lg btn-default btn-rounded " href="/blog/{{nextPage}}">Next</a>
+              </div>
+
+            </div>
+          </div>
+
+
+        </div>
+        <div class="col-lg-3 ">
+          <h4 style="text-transform:uppercase;font-weight:bold;font-size:16px;">Blog categories</h4>
+
+
+          {% for i in totalCatg %}
+          {% if i.articlesCount > 0%}
+          <div class="blog_cat " style="">
+            <div class="col-lg-10 col-xs-8 text-left" style="padding:10px" ng-click="filBlog('{{i.pk}}')">
+              <p style="font-weight:normal;color:#0085ca;font-family:'Poppins',sans-serif" >{{i.name}}</p>
+            </div>
+
+            <div class="col-lg-2 col-xs-4" style="padding:10px">
+              <span class="badge" style="background-color:#f1f1f1;color:black;font-weight:normal;padding:6px 15px;float:right">{{i.articlesCount}}</span>
+            </div>
+          </div>
+          {% endif %}
+        {% endfor %}
+
+          {% verbatim%}
+          <div class="blog_sub" style="margin-top:40px;margin-bottom:40px;" ng-controller="controller.uipath-go-compoments">
+            <h4 style="text-transform:uppercase;font-weight:bold;font-size:16px;">subscribe to newsletter</h4>
+            <div class="row">
+              <div class="col-lg-12 col-xs-12">
+                <div class="" style="color:#bf0000" ng-if="errorMsg.length>0" >
+                  <span > * {{errorMsg}} </span>
+                </div>
+                <div class="" style="color:#02ba3a" ng-if="successMsg.length>0">
+                  <span >  {{successMsg}} </span>
+                </div>
+              </div>
+
+            </div>
+            <div class="form-group" style="margin-top:25px;">
+              <label for="inputlg" style="font-weight:normal">Email*</label>
+              <input class="form-control input-lg" id="bloginput" type="email" ng-model="data.email" style="border:none;background-color:#f1f2f7ff;font-weight:normal;width:100%;border-radius:30px;height:50px;padding:20px;">
+            </div>
+            <button type="submit" class="btn btn-default btn_subscribe" ng-click="subscribeData()">Subscribe</button>
+
+          </div>
+          {% endverbatim %}
+          <div class="blog_updates" style="border-top:1px solid #ccc;border-bottom:1px solid #ccc;padding:20px;">
+            <div class="row" style="margin:0px;">
+              <div class="col-lg-3 col-xs-3 ">
+                  <i class="fa fa-linkedin" aria-hidden="true" style="font-size:25px"></i>
+              </div>
+              <div class="col-lg-3 col-xs-3">
+                  <i class="fa fa-facebook" aria-hidden="true" style="font-size:25px"></i>
+              </div>
+              <div class="col-lg-3 col-xs-3">
+                  <i class="fa fa-twitter" aria-hidden="true" style="font-size:25px;"></i>
+              </div>
+              <div class="col-lg-3 ol-xs-3">
+                  <i class="fa fa-youtube" aria-hidden="true" style="font-size:25px;"></i>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row" style="background-image: linear-gradient(106deg,#0078d4 50vw,#243a5e calc(50vw + 1px),#243a5e 50vw);background-color: #243a5e;background-repeat: no-repeat;min-height:200px;background-position-x: -250px;margin-top:30px;">
+    <div class="col-md-12 ">
+      <div class="col-lg-12 col-xs-12  explore_text" style="text-align:center">
+        <!-- <h4>New to AI?</h4>
+        <h5>Explore popular pre-built services for free</h5> -->
+        <a type="button" class="btn neonbtn" ng-click="schedule()"  style="margin-top:60px;">Get a free demo</a>
+
+      </div>
+      <!-- <div class="col-md-8" style="text-align:left;color:#50e6ff;padding:30px 0px">
+        <div class="col-md-3 col-md-offset-1 text-center">
+          <img src="/static/images/penta.png" alt="">
+        </div>
+        <div class="col-md-7 col-md-offset-1 col-xs-12" style="padding:30px 0px;line-height:2.5;">
+
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>

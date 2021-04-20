@@ -15,6 +15,11 @@ app.config(function($stateProvider) {
         }
       }
     })
+    .state('businessManagement.rpa.viewjob', {
+      url: "/:id",
+      templateUrl: '/static/ngTemplates/app.rpa.viewjob.html',
+      controller: 'businessManagement.viewjob',
+    })
     .state('businessManagement.rpa.jobs', {
       url: "/job",
       templateUrl: '/static/ngTemplates/app.rpa.jobs.html',
@@ -38,6 +43,17 @@ app.config(function($stateProvider) {
 app.controller('businessManagement.rpa', function($scope, $users, Flash, $permissions, $http, $aside, $uibModal) {
 
 
+})
+app.controller('businessManagement.viewjob', function($scope, $users, Flash, $permissions, $http, $aside, $uibModal, $state) {
+  $scope.getJobs = function(){
+    $http({
+      method:'GET',
+      url:'/api/RPA/jobContext/?job='+$state.params.id
+    }).then(function(response){
+      $scope.contextData = response.data
+    })
+  }
+  $scope.getJobs()
 })
 
 app.controller('businessManagement.job', function($scope, $users, Flash, $permissions, $http, $aside, $uibModal) {

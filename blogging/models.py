@@ -66,6 +66,7 @@ class Article(models.Model):
     published = models.BooleanField(default = False)
     summary = models.TextField(max_length= 5000 , null = True , blank = True)
     tags = models.TextField(max_length= 1000 , null = True,blank = True)
+    category = models.CharField(max_length = 1000 , null = True)
     #seo section
     metaTitle =  models.CharField(max_length = 1000 , null = True)
     metaDescription =  models.CharField(max_length = 5000 , null = True, blank = True)
