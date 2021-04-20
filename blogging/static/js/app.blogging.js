@@ -1,27 +1,62 @@
 app.config(function($stateProvider) {
 
-  $stateProvider
-    .state('businessManagement.blogging', {
-      url: "/blogging",
-      views: {
-        "": {
-          templateUrl: '/static/ngTemplates/app.businessmanagement.allblogs.html',
-          controller: 'businessManagement.blogs'
+  // $stateProvider
+  //   .state('businessManagement.blogging', {
+  //     url: "/blogging",
+  //     views: {
+  //       "": {
+  //         templateUrl: '/static/ngTemplates/app.businessmanagement.allblogs.html',
+  //         controller: 'businessManagement.blogs'
+  //
+  //       },
+  //       "@businessManagement.blogging": {
+  //         templateUrl: '/static/ngTemplates/app.businessmanagement.allblogs.html',
+  //         // controller: 'pages'
+  //       }
+  //
+  //
+  //     }
+  //   })
+  //   .state('businessManagement.blogging.createblog', {
+  //     url: "/createblog",
+  //     templateUrl: '/static/ngTemplates/app.businessmanagement.blog.form.html',
+  //     controller: 'businessManagement.blog.form',
+  //   })
 
-        },
-        "@businessManagement.blogging": {
-          templateUrl: '/static/ngTemplates/app.businessmanagement.allblogs.html',
-          // controller: 'pages'
+    $stateProvider
+      .state('businessManagement.blogging', {
+        url: "/blogging",
+        views: {
+          "": {
+            templateUrl: '/static/ngTemplates/app.businessmanagement.allblogs.html',
+             controller: 'businessManagement.blogs'
+          }
         }
+      })
+      // .state('businessManagement.blogging.newblog', {
+      //   url: "/newblog",
+      //   templateUrl: '/static/ngTemplates/app.businessmanagement.blog.form.html',
+      //   controller: 'businessManagement.blog.form',
+      // })
+      .state('businessManagement.newBlog', {
+        url: "/newBlog",
+        views: {
+          "": {
+            templateUrl: '/static/ngTemplates/app.businessmanagement.blog.form.html',
+            controller: 'businessManagement.blog.form',
+          }
+        }
+      })
+      .state('businessManagement.editblog', {
+        url: "/editblog/:id",
+        views: {
+          "": {
+            templateUrl: '/static/ngTemplates/app.businessmanagement.blog.form.html',
+            controller: 'businessManagement.blog.form',
+          }
+        }
+      })
 
-
-      }
-    })
-    .state('businessManagement.blogging.createblog', {
-      url: "/createblog",
-      templateUrl: '/static/ngTemplates/app.businessmanagement.blog.form.html',
-      controller: 'businessManagement.articles.form',
-    })
   });
 app.controller('businessManagement.blogs', function($scope, $http, $aside, $state, Flash, $users, $filter ){
 
@@ -165,7 +200,7 @@ app.controller('businessManagement.blogs', function($scope, $http, $aside, $stat
     });
 
 
-    app.controller('businessManagement.articles.form', function($scope, $http, $aside, $state, Flash, $users, $filter,  $timeout,$uibModal) {
+    app.controller('businessManagement.blog.form', function($scope, $http, $aside, $state, Flash, $users, $filter,  $timeout,$uibModal) {
       $scope.surveySearch = function(query, preFill) {
         return $http.get('/api/PIM/survey/?name_icontains=' + query).
         then(function(response) {
@@ -399,8 +434,11 @@ app.controller('businessManagement.blogs', function($scope, $http, $aside, $stat
 
           if (typeof $scope.form.keywords == 'object') {
             var keyParts = []
-            for (var i = 0; i < $scope.form.keywords.length; i++) {
-              keyParts.push($scope.form.keywords[i].name)
+            if ($scope.form.keywords!=undefined&&$scope.form.keywords!=null) {
+              for (var i = 0; i < $scope.form.keywords.length; i++) {
+                keyParts.push($scope.form.keywords[i].name)
+              }
+
             }
             // var parts = keywordpush.join(',');
             // var keyParts = parts
@@ -673,6 +711,7 @@ app.controller('businessManagement.blogs', function($scope, $http, $aside, $stat
             fd.append('content', d.content);
             fd.append('index', i);
 
+
             if (d.img != emptyFile) {
               if ($scope.mode == 'edit' && typeof d.img != 'string' && d.img != null) {
                 fd.append('img', d.img);
@@ -837,14 +876,17 @@ app.controller('businessManagement.blogs', function($scope, $http, $aside, $stat
         if (d.articleSections.length == 0) {
           return;
         }
-        var otherCategories = []
-        for (var i = 0; i < $scope.form.otherCategories.length; i++) {
-          otherCategories.push($scope.form.otherCategories[i].pk);
-        }
+        // var otherCategories = []
+        // for (var i = 0; i < $scope.form.otherCategories.length; i++) {
+        //   otherCategories.push($scope.form.otherCategories[i].pk);
+        // }
         var finalData = new FormData();
         finalData.append('title',d.title)
         finalData.append('articleUrl',d.articleUrl)
         finalData.append('lang',d.lang)
+        if (d.category!=null&&d.category.length>0) {
+          finalData.append('category', d.category);
+        }
         // finalData.append('category__id',$scope.form.otherCategories[0].pk)
         finalData.append('featuredContent',d.featuredContent)
 
@@ -858,7 +900,7 @@ app.controller('businessManagement.blogs', function($scope, $http, $aside, $stat
         // finalData.append('ogUrl',d.articleUrl)
         // finalData.append('ogDescription',d.ogDescription)
         finalData.append('contents__ids',d.articleSections)
-        finalData.append('otherCategories__ids',otherCategories)
+        // finalData.append('otherCategories__ids',otherCategories)
         finalData.append('content_type',d.content_type)
         if (true) {
 

@@ -2104,13 +2104,24 @@ app.directive('blogMain', function() {
     controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
       $http({
         method: 'GET',
-        url: '/api/forum/getForums/',
+        url: '/api/blogging/article/',
       }).
       then(function(response) {
-        $scope.allForums = response.data
+        $scope.allBlogs = response.data
       })
+      $scope.goTo = function(){
+        $state.go('businessManagement.newBlog')
+      }
 
-
+      $scope.delete = function(indx){
+        $http({
+          method: 'DELETE',
+          url: '/api/blogging/article/'+$scope.allBlogs[indx].pk+'/',
+        }).
+        then(function(response) {
+          $scope.allBlogs.splice(indx,1)
+        })
+      }
 
     },
   };

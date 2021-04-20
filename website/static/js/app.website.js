@@ -25,11 +25,7 @@ app.config(function($stateProvider) {
       controller: 'businessManagement.articles',
     })
 
-    .state('businessManagement.website.editblog', {
-      url: "/editblog/:id",
-      templateUrl: '/static/ngTemplates/app.businessmanagement.blog.form.html',
-      controller: 'businessManagement.articles.form',
-    })
+
     .state('businessManagement.website.templates', {
       url: "/templates",
       templateUrl: '/static/ngTemplates/app.website.templates.item.html',

@@ -226,21 +226,20 @@
           <div class="col-md-12  col-lg-12 forum_div">
             <div class="col-md-8 col-lg-9 forum_main" style="box-shadow:0px 5px #eeeeee;padding-left:0px;padding-right:0px;">
               <div class="row forum_cards" >
-
                 <div class="table-responsive hidden-xs hidden-sm" style="padding-top:10px;margin-top:40px;background-color:#FFFFFF;height:100%;position:relative;">
                   <table class="table">
                     <thead>
                       <tr>
                         <div class="col-md-12">
-                          <th style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;padding-left:25px;padding-right:25px;color:#00064b">Custom forums</th>
-                          <th style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;color:#00064b">Posts</th>
-                          <th style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;color:#00064b">Last post</th>
+                          <th style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;padding-left:25px;padding-right:25px;color:#00064b">Title</th>
+                          <th style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;color:#00064b">Author</th>
+                          <th style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;color:#00064b">Category</th>
                             <th class="hidden-xs" style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;color:#00064b" ng-if="$state.is('businessManagement.forum')"></th>
                         </div>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr style="cursor:pointer;" ng-repeat="o in allForums.posts2 track by $index"  ng-click="goTo(o.pk)">
+                      <tr style="cursor:pointer;" ng-repeat="o in allBlogs track by $index"  >
                         <td style="padding-top:30px;padding-bottom:30px;padding-left:25px;padding-right:25px;">
                           <div class="flex-container" style="display:flex">
                             <div style="width: 60px;height: 60px;background-color: #eaeaea;border-radius: 50%;">
@@ -252,24 +251,19 @@
                             </div>
                           </div>
                         </td>
-                        <td style="padding-top:30px;padding-bottom:30px;color:#857f99;text-align:center;padding-left: 0px;padding-right: 15px;">{{o.commentCount}}</td>
-                        <td style="padding-top:30px;padding-bottom:30px;padding-right:25px;">
-                          <div class="flex-container" style="display:flex;" ng-if="o.lstcomcreated">
-                            <img src="/static/images/blog.jpg" style="width:55px;height:55px;border-radius:50%;" alt="">
-                            <p style="color:#006cfb;margin-bottom:0px;font-size:16px;letter-spacing:0.5px;padding-left:10px;padding-top:4px;padding-bottom:4px;">{{o.first_name}} {{o.last_name}}<br><span
-                                style="color:#857f99;margin-bottom:0px;font-size:16px;letter-spacing:0.5px;">{{o.lstcomcreated |  date:'dd MMM yyyy hh:mm a' }}</span></p>
-                          </div>
-                        </td>
-                          <th class="hidden-xs" style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;color:#00064b" ng-if="$state.is('businessManagement.forum')"><i class="fa fa-trash" class="fa fa-trash"  mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="deleteForum($index, 'posts2')" confirm-button-type="danger" cancel-button-type="default" ng-click="$event.stopPropagation()"></i> <i class="fa fa-pencil" ng-click="$state.go('businessManagement.editForum',{'id' : o.pk})"></i></th>
+                        <td style="padding-top:30px;padding-bottom:30px;color:#857f99;padding-right: 15px;">{{o.author.first_name}} {{o.author.last_name}}</td>
+                        <td style="padding-top:30px;padding-bottom:30px;color:#857f99;padding-right: 15px;">{{o.category}}</td>
+                          <th class="hidden-xs" style="border-bottom:none;font-size:18px;padding-bottom:20px;letter-spacing:0.5px;color:#00064b" ng-if="$state.is('businessManagement.blogging')">
+                            <i class="fa fa-trash" class="fa fa-trash"  mwl-confirm title="Confirm" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="delete($index)" confirm-button-type="danger" cancel-button-type="default" ng-click="$event.stopPropagation()"></i>
+                             <i class="fa fa-pencil" ng-click="$state.go('businessManagement.editblog',{'id' : o.pk});$event.stopPropagation()"></i></th>
                       </tr>
                     </tbody>
                   </table>
                 </div>
-
               </div>
             </div>
             <div class="col-md-4 col-lg-3 forum_posting hidden-xs" style="margin-top: 40px">
-              <div class="text-center" ng-click="$state.go('businessManagement.blogging.createblog')">
+              <div class="text-center" ng-click="goTo()" ng-if="$state.is('businessManagement.blogging')">
                   <button type="button" class="font32 forum_btn" name="button"
                   >Create Blog</button>
               </div>

@@ -165,7 +165,7 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ('pk','updated','created' , 'title' , 'articleUrl' , 'author' ,'contentWriter' , 'lang'  ,  'publishingChannel' , 'featuredContent' , 'sensitive' , 'scheduleTime' , 'published' , 'summary' , 'tags' , 'metaTitle' , 'metaDescription' , 'keywords' ,  'qb1' , 'qb2' , 'qb3' , 'qb4' , 'qb5' , 'qb6' , 'qb7' , 'content_type' , 'reviewer' , 'reviewDatetime'  , 'status' ,'contents' ,'read_time','ogImg')
+        fields = ('pk','updated','created' , 'title' , 'articleUrl' , 'author' ,'contentWriter' , 'lang'  ,  'publishingChannel' , 'featuredContent' , 'sensitive' , 'scheduleTime' , 'published' , 'summary' , 'tags' , 'metaTitle' , 'metaDescription' , 'keywords' ,  'qb1' , 'qb2' , 'qb3' , 'qb4' , 'qb5' , 'qb6' , 'qb7' , 'content_type' , 'reviewer' , 'reviewDatetime'  , 'status' ,'contents' ,'read_time','ogImg','category')
         read_only_fields = ('contentWriter' , 'author' , 'contents','division' )
     def get_contents(self , obj):
         return ArticleSectionSerializer(obj.contents.all().order_by('index'),  many=True).data
@@ -199,7 +199,7 @@ class ArticleSerializer(serializers.ModelSerializer):
                 instance.published = False
                 instance.save()
             return instance
-        fls = ['title' , 'articleUrl' , 'lang' , 'publishingChannel' , 'featuredContent' , 'sensitive' , 'scheduleTime' , 'published' , 'summary' , 'tags' , 'metaTitle' , 'metaDescription' , 'keywords' , 'qb1' , 'qb2' , 'qb3' , 'qb4' , 'qb5' , 'qb6' , 'qb7' , 'contents' , 'reviewer' , 'reviewDatetime'  , 'status' , 'content_type','read_time','ogImg']
+        fls = ['title' , 'articleUrl' , 'lang' , 'publishingChannel' , 'featuredContent' , 'sensitive' , 'scheduleTime' , 'published' , 'summary' , 'tags' , 'metaTitle' , 'metaDescription' , 'keywords' , 'qb1' , 'qb2' , 'qb3' , 'qb4' , 'qb5' , 'qb6' , 'qb7' , 'contents' , 'reviewer' , 'reviewDatetime'  , 'status' , 'content_type','read_time','ogImg','category']
         for key in fls:
             try:
                 if key in ['qb1' , 'qb2' , 'qb3' , 'qb4' , 'qb5' , 'qb6' , 'qb7'] and (validated_data[key] == "" or validated_data[key] is None):
@@ -213,7 +213,7 @@ class ArticleSerializer(serializers.ModelSerializer):
         instance.author = None
         if 'author__id' in self.context['request'].data:
             instance.author = User.objects.get(pk =self.context['request'].data['author__id'])
-        instance.typ = Typ.objects.get(pk = self.context['request'].data['typ__id'])
+        # instance.typ = Typ.objects.get(pk = self.context['request'].data['typ__id'])
         instance.articleUrl = instance.articleUrl.replace('-' , ' ').strip().replace(' ' , '-')
         instance.contents.clear()
         instance.save()
