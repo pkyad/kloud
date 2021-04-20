@@ -1,0 +1,24 @@
+<style media="screen">
+  .dropdown-menu{
+    width:100%;
+  }
+  .dropdown-menu li {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #f1f1f1;
+    height: 60px;
+  }
+  }
+</style>
+
+<a href="details/{{match.model.pk}}/{{match.model.name}}">
+
+  <div class="row" style="margin:0px;">
+    <div class="col-md-4" >
+      <img src="{{match.model.img1}}" alt="" style="height:50px;">
+    </div>
+    <div class="col-md-8">
+      <h4>{{match.model.name}} {{DIVISION_APIKEY}}</h4>
+    </div>
+  </div>
+
+</a>

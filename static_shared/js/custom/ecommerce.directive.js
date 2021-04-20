@@ -85,6 +85,19 @@ app.directive('ecommerceHeader', function() {
       then(function(response) {
         $scope.divisionDetails = response.data
       })
+
+      $scope.search = {
+        searchValue:''
+      }
+
+      $scope.productSearch = function(query) {
+        return $http.get('/api/finance/inventory/?limit=10&name__icontains=' + query).
+        then(function(response) {
+          $scope.data = response.data.results
+          return response.data.results;
+        })
+      };
+
       $scope.getAllCartItems = function(){
         $http({
           method: 'GET',
@@ -295,6 +308,32 @@ app.directive('ecommerceHeader', function() {
         window.location.href = '/pages/'+$scope.division+'/profile'
         return
       }
+
+
+
+
+  // $http.get('/api/ERP/appSettings/?app=25&name__iexact=searchImage').
+  // then(function(response) {
+  //   if (response.data[0] != null) {
+  //     if (response.data[0].flag) {
+  //       $scope.searchImage = true
+  //     }
+  //   }
+  // });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     },
   };
 });

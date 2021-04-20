@@ -97,6 +97,22 @@ min-height: 100%;display:inline-block" onerror="this.src='/static/images/no_tour
         Repos
       </div>
     </div>
+    <div class="row taskMenuItem {{$state.is('projectManagement.projects.details.files') ? 'activeMenuItem':''}}" style="padding:15px;margin:0px;" ng-click="$state.go('projectManagement.projects.details.files' , {id : project.pk})">
+      <div class="col-md-3" style="color:orange;">
+        <img style="width:30px;" src="/static/images/files.png">
+      </div>
+      <div class="col-md-9">
+        Files
+      </div>
+    </div>
+    <div class="row taskMenuItem {{$state.is('projectManagement.projects.details.team') ? 'activeMenuItem':''}}" style="padding:15px;margin:0px;" ng-click="$state.go('projectManagement.projects.details.team' , {id : project.pk})">
+      <div class="col-md-3" style="color:orange;">
+        <img style="width:30px;" src="/static/images/teams.png">
+      </div>
+      <div class="col-md-9">
+        Team
+      </div>
+    </div>
     <!-- <div class="row taskMenuItem {{$state.is('projectManagement.projects.details.issues') ? 'activeMenuItem':''}}" style="padding:15px;margin:0px;" ng-click="$state.go('projectManagement.projects.details.issues' , {id : project.pk})">
       <div class="col-md-3" style="color:rgb(167, 60, 209);">
         <img style="width:30px;" src="https://dev.azure.com/yadavkumar/_static/_ext/ms.vss-test-web/common-content/Nav-Test.CLbC8LbdE5__mhtfT.png">
@@ -119,10 +135,10 @@ min-height: 100%;display:inline-block" onerror="this.src='/static/images/no_tour
 </div>
 <div class="col-md-10" style="position:absolute;right:0px;">
 
-  <div class="row" style="padding-top:60px;padding-bottom:30px;">
-    <div class="col-md-1 text-right" style="padding-top: 15px;">
+  <div class="row" >
+    <!-- <div class="col-md-1 text-right" style="padding-top: 15px;">
       <img onclick="window.history.back();" src="/static/images/back-arrow-icon-png-6.png " style="width: 35px;" alt="">
-    </div>
+    </div> -->
     <!-- <div class="col-md-11" style="padding-top:15px;">
       <div class="row">
         <span>
@@ -157,237 +173,7 @@ min-height: 100%;display:inline-block" onerror="this.src='/static/images/no_tour
 
   <ui-view>
 
-    <div class="row" style="padding:60px;padding-top:0px;">
-      <!-- <div class="col-md-1 text-right">
 
-      </div> -->
-      <div class="col-md-12" style="padding-top:15px;">
-
-        <div class="row">
-          <!-- <div class="row" style="margin:0px;">
-            <h3 class="text-muted">Team</h3>
-          </div> -->
-<!--
-          <div class="row" style="margin:0px;">
-            <div class="row" ng-repeat="u in teamMembers" style="padding:10px;">
-              <div class="container-fluid" style="padding-top:15px;padding-left:20px;border:none;border-radius:20px;">
-                <div class="row">
-                  <div class="col-md-1 text-right">
-                    <img ng-src="{{u.user | getDP}}" class="img img-circle" width="40" height="40" />
-                  </div>
-                  <div class="col-md-2">
-                    <span style="font-size:17px;" class="text-muted">{{u.name}}</span> <br>
-                  </div>
-                  <div class="col-md-4">
-                    <span style="font-size:14px">Software Engineer</span> <br>
-                  </div>
-                  <div class="col-md-3">
-                    <span class="text-muted">{{u.tasksCount}} tasks pending.</span>
-                  </div>
-                  <div class="col-md-2 text-right">
-                    <span class="text-muted">3 Hours 30 Minutes</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row" style="margin-right:-5px;">
-              <div class="col-md-3 col-md-offset-9 text-right" style="border-top:2px solid #eee;">
-                <span class="text-muted"><h4>3 Hours 30 Minutes</h4></span>
-              </div>
-            </div>
-          </div> -->
-
-          <div class="row" style="margin:0px;">
-            <div class="col-md-11">
-              <h3 class="text-muted font24">Files</h3>
-            </div>
-            <div class="col-md-1">
-              <div class="fileCard" style="background-image:linear-gradient(135deg, #65799b 0%,#5e2563 100%);height:50px !important;cursor:pointer;" onclick="document.getElementById('newpick').click()">
-                <div class="row">
-                  <div style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);"><i class="fa fa-plus" style="color:white;font-size:30px;"></i></div>
-                  <input type="file" file-model="form.file" id="newpick" style="display:none">
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6" style="height:400px;" ng-if="project.files.length > 0">
-              <div class="fileCardXl" style="background-image: linear-gradient(45deg,#02050b,transparent), url({{project.files[0].attachment}});background-size:contain;background-repeat:no-repeat">
-                <div class="row">
-                  <div class="col-md-2">
-                    <img ng-if="a.mediaType == 'image'" src="https://img.icons8.com/fluent/96/microsoft-powerpoint-2019.png" style="width:70px;margin-left:10px;" alt="">
-                    <img ng-if="a.mediaType == 'pdf'" src="https://img.icons8.com/fluent/96/pdf-2.png" style="width:70px;margin-left:10px;" alt="">
-                    <img ng-if="a.mediaType == 'ppt'" src="https://img.icons8.com/ultraviolet/2x/stack-of-photos.png" style="width:70px;margin-left:10px;" alt="">
-                    <img ng-if="a.mediaType == 'doc'" src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
-                    <img ng-if="a.mediaType == 'excel'" src="https://img.icons8.com/fluent/96/microsoft-excel-2019.png" style="width:70px;margin-left:10px;" alt="">
-                    <img ng-if="a.mediaType == 'doc'" src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
-                  </div>
-                  <div class="col-md-10" style="color: white;font-size:17px;padding-top:10px;">
-                    {{text}} <br>
-                    <span style="font-size:14px;">{{size}}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="row">
-                <div class="col-md-6" ng-repeat="a in project.files.slice(1)">
-                  <div class="fileCard" style="background-image: linear-gradient(45deg,#02050b,transparent), url({{a.attachment}});background-size:contain;background-repeat:no-repeat">
-                    <i class="fa fa-thumb-tack" style="float:right;font-size:20px;color:white" ng-click="viewFile(file, $index)"></i>
-                    <div class="row">
-                      <div class="row">
-                        <img ng-if="a.mediaType == 'image'" src="https://img.icons8.com/fluent/96/microsoft-powerpoint-2019.png" style="width:70px;margin-left:10px;" alt="">
-                        <img ng-if="a.mediaType == 'pdf'" src="https://img.icons8.com/fluent/96/pdf-2.png" style="width:70px;margin-left:10px;" alt="">
-                        <img ng-if="a.mediaType == 'ppt'" src="https://img.icons8.com/ultraviolet/2x/stack-of-photos.png" style="width:70px;margin-left:10px;" alt="">
-                        <img ng-if="a.mediaType == 'doc'" src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
-                        <img ng-if="a.mediaType == 'excel'" src="https://img.icons8.com/fluent/96/microsoft-excel-2019.png" style="width:70px;margin-left:10px;" alt="">
-                        <img ng-if="a.mediaType == 'doc'" src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
-                      </div>
-                      <div class="row" style="color: white;padding-top:10px;margin:0px;">
-                        <p class="font17"> Initial Project Proposal</p>
-                         <br>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-md-3" ng-repeat="file in fiveBoxes">
-                <div class="fileCard" style="background-image: linear-gradient(45deg,#02050b,transparent), url({{file.attachment}});background-size:contain;background-repeat:no-repeat">
-                  <i class="fa fa-thumb-tack" style="float:right;font-size:20px;color:white" ng-click="viewFile(file, $index)"></i>
-                  <div class="row">
-                    <div class="row">
-                      <img ng-if="a.mediaType == 'image'" src="https://img.icons8.com/fluent/96/microsoft-powerpoint-2019.png" style="width:70px;margin-left:10px;" alt="">
-                      <img ng-if="a.mediaType == 'pdf'" src="https://img.icons8.com/fluent/96/pdf-2.png" style="width:70px;margin-left:10px;" alt="">
-                      <img ng-if="a.mediaType == 'ppt'" src="https://img.icons8.com/ultraviolet/2x/stack-of-photos.png" style="width:70px;margin-left:10px;" alt="">
-                      <img ng-if="a.mediaType == 'doc'" src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
-                      <img ng-if="a.mediaType == 'excel'" src="https://img.icons8.com/fluent/96/microsoft-excel-2019.png" style="width:70px;margin-left:10px;" alt="">
-                      <img ng-if="a.mediaType == 'doc'" src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
-                    </div>
-                    <div class="row" style="color: white;padding-top:10px;margin:0px;">
-                      <p class="font17"> Initial Project Proposal</p>
-                     <br>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- <div class="row" style="padding-top:30px">
-            <div class="col-md-3" ng-repeat="a in project.files.slice(4, project.files.length)">
-              <div class="fileCard" style="background-image: linear-gradient(45deg,#02050b,transparent), url({{a.attachment}});background-size:contain;background-repeat:no-repeat">
-                <i class="fa fa-thumb-tack" style="float:right;font-size:20px;color:white" ng-click="viewFile(file, $index)"></i>
-                <div class="row">
-                  <div class="row">
-                    <img ng-if="$index == 0" src="https://img.icons8.com/fluent/96/microsoft-powerpoint-2019.png" style="width:70px;margin-left:10px;" alt="">
-                    <img ng-if="$index == 1" src="https://img.icons8.com/fluent/96/pdf-2.png" style="width:70px;margin-left:10px;" alt="">
-                    <img ng-if="$index == 2" src="https://img.icons8.com/ultraviolet/2x/stack-of-photos.png" style="width:70px;margin-left:10px;" alt="">
-                    <img ng-if="$index == 3" src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
-                    <img ng-if="$index == 4" src="https://img.icons8.com/fluent/96/microsoft-excel-2019.png" style="width:70px;margin-left:10px;" alt="">
-                    <img ng-if="$index > 4" src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
-                  </div>
-                  <div class="row" style="color: white;font-size:17px;padding-top:10px;margin:0px;">
-                    Initial Project Proposal <br>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> -->
-
-
-
-          <div class="row">
-            <!-- <div class="col-md-6" style="height:400px;">
-              <div class="fileCardXl" style="background-image: linear-gradient(45deg,#02050b,transparent), url(https://www.uipath.com/hubfs/why-robotic-process-automation-critical-right-now.jpg)">
-
-
-                <div class="row">
-                  <div class="col-md-2">
-                    <img src="https://img.icons8.com/fluent/96/microsoft-excel-2019.png" style="width:70px;" alt="">
-                  </div>
-                  <div class="col-md-10" style="color: white;font-size:17px;padding-top:10px;">
-                    Initial Project Proposal <br>
-                    <span style="font-size:14px;">3 MB</span>
-                  </div>
-                </div>
-              </div>
-            </div> -->
-            <!-- <div class="col-md-6 col-md-offset-6">
-              <div class="col-md-6" ng-repeat="file in [1,2,3,4]">
-                <div ng-if="file == 1" class="fileCard" style="background-image: linear-gradient(45deg,#02050b,transparent), url(https://www.uipath.com/hubfs/leverage-automation-for-business-continuity-new-normal.jpg)">
-                  <div class="row">
-                    <div class="row">
-                      <img src="https://img.icons8.com/fluent/96/microsoft-powerpoint-2019.png" style="width:70px;margin-left:10px;" alt="">
-                    </div>
-                    <div class="row" style="color: white;font-size:17px;padding-top:10px;margin:0px;">
-                      Initial Project Proposal <br>
-                    </div>
-                  </div>
-                </div>
-
-                <div ng-if="file == 3" class="fileCard" style="background:linear-gradient(135deg, #65799b 0%,#5e2563 100%);">
-                  <div class="row">
-                    <div class="row">
-                      <img src="https://img.icons8.com/fluent/96/pdf-2.png" style="width: 65px;margin-left: 10px;" alt="">
-                    </div>
-                    <div class="row" style="color: white;font-size:17px;padding-top:10px;margin:0px;">
-                      Initial Project Proposal <br>
-                    </div>
-                  </div>
-                </div>
-
-                <div ng-if="file == 4" class="fileCard" style="background:linear-gradient(180deg, #E3E3E3 0%,#5D6874 100%);">
-                  <div class="row">
-                    <div class="row">
-                      <img src="https://img.icons8.com/ultraviolet/2x/stack-of-photos.png" style="width:65px;margin-left:10px;" alt="">
-                    </div>
-                    <div class="row" style="color: white;font-size:17px;padding-top:10px;margin:0px;">
-                      Initial Project Proposal <br>
-                    </div>
-                  </div>
-                </div>
-
-                <div ng-if="file == 2" class="fileCard" style="background-image: linear-gradient(45deg,#02050b,transparent), url(https://www.uipath.com/hubfs/why-robotic-process-automation-critical-right-now.jpg)">
-
-                  <div class="row">
-                    <div class="row">
-                      <img src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
-                    </div>
-                    <div class="row" style="color: white;font-size:17px;padding-top:10px;margin:0px;">
-                      Initial Project Proposal <br>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div> -->
-          </div>
-          <!-- <div class="row">
-            <div class="col-md-3 ">
-              <div class="fileCard" >
-                <div class="row">
-                  <div class="row">
-                    <img src="https://img.icons8.com/fluent/96/microsoft-word-2019.png" style="width:70px;margin-left:10px;" alt="">
-                  </div>
-                  <div class="row" style="color: white;font-size:17px;padding-top:10px;margin:0px;">
-                    Initial Project Proposal <br>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> -->
-        </div>
-      </div>
-
-
-
-    </div>
 
 
 

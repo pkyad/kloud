@@ -73,7 +73,10 @@
         <div class="row">
 
           <div class="col-md-4">
-            <div class="" style="height:100px;border-radius:20px;background:url('/static/images/microsoft-office-logo.jpg');background-size:contain;background-repeat:no-repeat;">
+            <div class="" style="height:100px;border-radius:20px;background:url('/static/images/microsoft-office-logo.jpg');background-size:contain;background-repeat:no-repeat;" ng-if="k.icon.length == 0">
+
+            </div>
+            <div class="" style="height:100px;border-radius:20px;background:url({{k.icon}});background-size:contain;background-repeat:no-repeat;" ng-if="k.icon.length > 0">
 
             </div>
           </div>
@@ -90,7 +93,7 @@
           <div class="col-md-6 text-right">
 
             <div style="position:relative;width:100%;text-align: right;margin-bottom:5px;">
-          
+
               <div class="Projects_teamCount" style="">
                {{k.team.length}}
               </div>
