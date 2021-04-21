@@ -15,11 +15,7 @@ app.config(function($stateProvider) {
         }
       }
     })
-    .state('businessManagement.rpa.viewjob', {
-      url: "/:id",
-      templateUrl: '/static/ngTemplates/app.rpa.viewjob.html',
-      controller: 'businessManagement.viewjob',
-    })
+
     .state('businessManagement.rpa.jobs', {
       url: "/job",
       templateUrl: '/static/ngTemplates/app.rpa.jobs.html',
@@ -36,21 +32,52 @@ app.config(function($stateProvider) {
       templateUrl: '/static/ngTemplates/app.rpa.machine.html',
       controller: 'businessManagement.machine',
     })
-
+    .state('businessManagement.rpa.viewjob', {
+      url: "/viewjob/:id",
+      templateUrl: '/static/ngTemplates/app.rpa.viewjob.html',
+      controller: 'businessManagement.viewjob',
+    })
 });
 
 
-app.controller('businessManagement.rpa', function($scope, $users, Flash, $permissions, $http, $aside, $uibModal) {
+app.controller('businessManagement.rpa', function($scope, $users, Flash, $permissions, $http, $aside, $uibModal, $state) {
 
 
 })
 app.controller('businessManagement.viewjob', function($scope, $users, Flash, $permissions, $http, $aside, $uibModal, $state) {
+  $scope.form = {
+    search : ''
+  }
+  $scope.limit = 10
+  $scope.offset = 0
+  $scope.count = 0
+
+  $scope.prev = function() {
+    if ($scope.offset > 0) {
+      $scope.offset -= $scope.limit
+      $scope.getJobs()
+    }
+  }
+
+  $scope.next = function() {
+    if ($scope.offset < $scope.count) {
+      $scope.offset += $scope.limit
+      $scope.getJobs()
+    }
+  }
+
+
   $scope.getJobs = function(){
+    var url = '/api/RPA/jobContext/?job='+$state.params.id+'&limit=' + $scope.limit + '&offset=' + $scope.offset
+    if ($scope.form.search!=null && $scope.form.search.length>0) {
+      url+='&search='+$scope.form.search
+    }
     $http({
       method:'GET',
-      url:'/api/RPA/jobContext/?job='+$state.params.id
+      url: url
     }).then(function(response){
-      $scope.contextData = response.data
+      $scope.contextData = response.data.results
+      $scope.count = response.data.count
     })
   }
   $scope.getJobs()
@@ -154,14 +181,37 @@ app.controller('businessManagement.job', function($scope, $users, Flash, $permis
 
 
   }
+  $scope.form = {
+    search : ''
+  }
+  $scope.limit = 10
+  $scope.offset = 0
+  $scope.count = 0
 
+  $scope.prev = function() {
+    if ($scope.offset > 0) {
+      $scope.offset -= $scope.limit
+      $scope.getJobs()
+    }
+  }
 
+  $scope.next = function() {
+    if ($scope.offset < $scope.count) {
+      $scope.offset += $scope.limit
+      $scope.getJobs()
+    }
+  }
   $scope.getJobs = function(){
+    var url = '/api/RPA/job/?limit=' + $scope.limit + '&offset=' + $scope.offset
+    if ($scope.form.search!=null && $scope.form.search.length>0) {
+      url+='&search='+$scope.form.search
+    }
     $http({
       method:'GET',
-      url:'/api/RPA/job/'
+      url: url
     }).then(function(response){
-      $scope.jobs = response.data
+      $scope.jobs = response.data.results
+      $scope.count =  response.data.count
     })
   }
   $scope.getJobs()
@@ -182,13 +232,41 @@ app.controller('businessManagement.job', function($scope, $users, Flash, $permis
 
 
 app.controller('businessManagement.process', function($scope, $users, Flash, $permissions, $http, $aside, $uibModal) {
+  $scope.form = {
+    search : ''
+  }
+  $scope.limit = 10
+  $scope.offset = 0
+  $scope.count = 0
+
+  $scope.prev = function() {
+    if ($scope.offset > 0) {
+      $scope.offset -= $scope.limit
+      $scope.getProcess()
+    }
+  }
+
+  $scope.next = function() {
+    if ($scope.offset < $scope.count) {
+      $scope.offset += $scope.limit
+      $scope.getProcess()
+    }
+  }
+
+
 
   $scope.getProcess = function(){
+    var url = '/api/RPA/process/?limit=' + $scope.limit + '&offset=' + $scope.offset
+    if ($scope.form.search!=null && $scope.form.search.length>0) {
+      url+='&search='+$scope.form.search
+    }
     $http({
       method: 'GET',
-      url: '/api/RPA/process/',
+      url: url,
     }).then(function(response) {
-      $scope.processList = response.data
+      $scope.processList = response.data.results
+      $scope.count = response.data.count
+
     })
   }
   $scope.getProcess()
@@ -312,8 +390,26 @@ app.controller('businessManagement.process', function($scope, $users, Flash, $pe
 
 app.controller('businessManagement.machine', function($scope, $users, Flash, $permissions, $http, $aside, $uibModal) {
 
+  $scope.form = {
+    search : ''
+  }
+  $scope.limit = 10
+  $scope.offset = 0
+  $scope.count = 0
 
+  $scope.prev = function() {
+    if ($scope.offset > 0) {
+      $scope.offset -= $scope.limit
+      $scope.getMachine()
+    }
+  }
 
+  $scope.next = function() {
+    if ($scope.offset < $scope.count) {
+      $scope.offset += $scope.limit
+      $scope.getMachine()
+    }
+  }
 
   $scope.openModal = function(item) {
     $uibModal.open({
@@ -377,11 +473,16 @@ app.controller('businessManagement.machine', function($scope, $users, Flash, $pe
 
 
   $scope.getMachine = function(){
+    var url = '/api/RPA/machine/?limit=' + $scope.limit + '&offset=' + $scope.offset
+    if ($scope.form.search!=null && $scope.form.search.length>0) {
+      url+='&search='+$scope.form.search
+    }
     $http({
       method: 'GET',
-      url: '/api/RPA/machine/',
+      url: url,
     }).then(function(response) {
-      $scope.machineList = response.data
+      $scope.machineList = response.data.results
+      $scope.count = response.data.count
     })
   }
   $scope.getMachine()

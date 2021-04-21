@@ -29,7 +29,31 @@ class MachineSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+class ProcessSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Process
+        fields = ('pk' , 'created' ,'updated','name','uri','argSchema','env', 'division')
+        read_only_fields = ('division',)
+    def create(self,validated_data):
+        jObj= Process(**validated_data)
+        jObj.division = self.context['request'].user.designation.division
+        jObj.save()
+        data = self.context['request'].data
+        jObj.save()
+        return jObj
+    def update(self,instance,validated_data):
+        for key in [ 'name','uri','argSchema','env', 'division' ]:
+            try:
+                setattr(instance , key , validated_data[key])
+            except:
+                pass
+
+
+        instance.save()
+        return instance
+
 class JobssSerializer(serializers.ModelSerializer):
+    process = ProcessSerializer(many = False , read_only = True)
     class Meta:
         model = Job
         fields = ('pk' , 'created' ,'updated', 'division', 'process' , 'retryCount', 'status')
@@ -67,27 +91,3 @@ class JobContextSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobContext
         fields = ('pk' , 'created' ,'updated', 'key', 'value' , 'typ', 'attachment')
-
-
-class ProcessSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Process
-        fields = ('pk' , 'created' ,'updated','name','uri','argSchema','env', 'division')
-        read_only_fields = ('division',)
-    def create(self,validated_data):
-        jObj= Process(**validated_data)
-        jObj.division = self.context['request'].user.designation.division
-        jObj.save()
-        data = self.context['request'].data
-        jObj.save()
-        return jObj
-    def update(self,instance,validated_data):
-        for key in [ 'name','uri','argSchema','env', 'division' ]:
-            try:
-                setattr(instance , key , validated_data[key])
-            except:
-                pass
-
-
-        instance.save()
-        return instance
