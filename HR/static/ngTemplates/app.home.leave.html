@@ -13,7 +13,8 @@
     background-color: transparent !important;
     border: none;
     color: black;
-    border-radius:50% !important
+    border-radius:50% !important;
+    min-width: 0px !important;
   }
 
   .datePicker1 .btn-info.active,
@@ -24,6 +25,7 @@
     /* background-color:red !important; */
     /* border:2px solid red !important; */
     border-radius: 50% !important;
+    border:solid 2px rgb(0, 25, 154) !important;
   }
 
   .textbold {
@@ -40,16 +42,21 @@
   /* .datePicker thead:first-child  tr:first-child  {
     display:  inline !important;
 } */
+.month_data{
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+        padding:15px;
+        border-radius:10px
+  }
 </style>
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-offset-2 col-md-8">
       <div class="row" style="margin-top:15px">
         <div class="col-md-6">
-          <h4 ng-click="$state.go('home.viewProfile.appliedLeaves')"> <u> VIEW APPLIED LEAVES </u> </h4>
+          <h3 ng-click="$state.go('home.viewProfile.appliedLeaves')" style="color:rgb(0, 25, 154);cursor:pointer"> <u> View applied leaves </u> </h3>
           </div>
         <div class="col-md-6 text-right">
-          <h4 ng-click="$state.go('home.viewProfile.applyLeave')"> <u> APPLY FOR LEAVE </u> </h4>
+          <h3 ng-click="$state.go('home.viewProfile.applyLeave')" style="color:rgb(0, 25, 154);cursor:pointer"> <u> Apply for leave </u> </h3>
           </div>
         </div>
       <div class="row">
@@ -58,16 +65,21 @@
               <div uib-datepicker ng-model="select.dated" datepicker-options="options" show-weeks="false" style="color:black !important" ng-change="getAttendance()"  change-month="getAttendance"></div>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4" style="padding-top:100px">
             <h4> Status :<span style="color:{{allData.timesheet.status=='Present'?'green':'red'}}"> {{allData.timesheet.status}} </h4>
             <h5 ng-if="allData.timesheet.status=='Present'"> Login Time : <span style="color:green"> {{allData.timesheet.login | date: 'dd-MMM-yyyy : hh:mm a'}} </span></h5>
             <h5 ng-if="allData.timesheet.status=='Present'" > Logout Time : <span style="color:green"> {{allData.timesheet.logout | date: 'dd-MMM-yyyy : hh:mm a'}} </span></h5>
           </div>
       </div>
       <div class="row">
-        <div class="col-md-offset-4 col-md-4" >
+        <div class="col-md-offset-3 col-md-5 month_data" >
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <h4><u>Monthly attendance</u></h4>
+              </div>
+            </div>
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8 text-right">
           <h4>Total Working Days :</h4>
           </div>
           <div class="col-md-4">
@@ -75,7 +87,7 @@
           </div>
         </div>
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8 text-right">
         <h4>  Present :</h4>
           </div>
           <div class="col-md-4">
@@ -83,7 +95,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-8">
+          <div class="col-md-8 text-right">
             <h4>Leaves :</h4>
             </div>
             <div class="col-md-4">
@@ -91,7 +103,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-8 text-right">
               <h4>Absent (LWP) :</h4>
               </div>
               <div class="col-md-4">

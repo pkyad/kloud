@@ -88,22 +88,7 @@ $scope.showMonthwise = function(month,year){
     })
   }
 
-  $scope.windowObjectReference = document.createElement("iframe");
-  $scope.openAuthenticator = function(typ) {
-    if (typ == 'zoom') {
-      $scope.windowObjectReference =   window.open("https://zoom.us/oauth/authorize?response_type=code&client_id=NSibt8TRCC1jSvaXk1bfw&redirect_uri=https://6be19224e4bb.ngrok.io/zoomAuthRedirect/" , 'popUpWindow','height=500,width=700,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes')
-      $timeout(function(){
-      $scope.windowObjectReference.close();
-      $http({
-        method: 'GET',
-        url: '/api/HR/profile/' + $scope.me.profile.pk + '/',
-      }).
-      then(function(response) {
-        $scope.me.profile.zoom_token = response.data.zoom_token
-      })
-      },10000)
-    }
-  }
+
 
 
 
@@ -161,6 +146,8 @@ $scope.showMonthwise = function(month,year){
 
 
 app.controller('controller.home.calendar.addSlots', function($scope, $uibModalInstance ,$timeout, $http, $users  , Flash ,$filter) {
+  $scope.me = $users.get("mySelf");
+  console.log($scope.me.profile.zoom_token,'aaaaaaaaaaaaaa');
   $http({
     method: 'GET',
     url: '/api/ERP/getAllSchedule/'
@@ -181,7 +168,22 @@ app.controller('controller.home.calendar.addSlots', function($scope, $uibModalIn
     })
 
   }
-
+  $scope.windowObjectReference = document.createElement("iframe");
+  $scope.openAuthenticator = function(typ) {
+    if (typ == 'zoom') {
+      $scope.windowObjectReference =   window.open("https://zoom.us/oauth/authorize?response_type=code&client_id=NSibt8TRCC1jSvaXk1bfw&redirect_uri=https://6be19224e4bb.ngrok.io/zoomAuthRedirect/" , 'popUpWindow','height=500,width=700,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes')
+      $timeout(function(){
+      $scope.windowObjectReference.close();
+      $http({
+        method: 'GET',
+        url: '/api/HR/profile/' + $scope.me.profile.pk + '/',
+      }).
+      then(function(response) {
+        $scope.me.profile.zoom_token = response.data.zoom_token
+      })
+      },10000)
+    }
+  }
 })
 
 app.controller('controller.home.calendar.aside', function($scope, $uibModalInstance ,$timeout, $http, $users , input , Flash ,$filter) {

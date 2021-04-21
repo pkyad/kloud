@@ -60,6 +60,7 @@
                 <th scope="col">Key</th>
                 <th scope="col">Value</th>
                 <th scope="col">Type</th>
+                <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
@@ -68,6 +69,7 @@
                 <td>{{a.key}}</td>
                 <td>{{a.value}}</td>
                 <td>{{a.typ}}</td>
+                <td><u style="color:#051dc1;cursor:pointer" ng-click="editJobContext($index)">Edit</u></td>
               </tr>
             </tbody>
           </table>

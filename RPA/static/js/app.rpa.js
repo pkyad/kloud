@@ -81,9 +81,56 @@ app.controller('businessManagement.viewjob', function($scope, $users, Flash, $pe
     })
   }
   $scope.getJobs()
+  $scope.editJobContext = function(indx){
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.rpa.editJobContext.html',
+      backdrop: true,
+      size: "lg",
+      resolve: {
+        data:function(){
+          return $scope.contextData[indx]
+        }
+      },
+      controller: function($scope, $http, $uibModalInstance, Flash, $state,data) {
+        $scope.form = data
+        $scope.save = function(){
+          $http({
+            method:'PATCH',
+            url: '/api/RPA/jobContext/'+$scope.form.pk+'/',
+            data:{
+              value : $scope.form.value
+            }
+          }).then(function(response){
+              $uibModalInstance.dismiss()
+          })
+        }
+
+
+
+
+
+
+
+
+      }
+    }).result.then(function() {
+
+    }, function() {
+    });
+  }
+
 })
 
 app.controller('businessManagement.job', function($scope, $users, Flash, $permissions, $http, $aside, $uibModal) {
+
+  $scope.deleteJob = function(pk){
+    $http({
+      method:'DELETE',
+      url: '/api/RPA/job/'+pk+'/'
+    }).then(function(response){
+        $scope.getJobs()
+    })
+  }
 
 
 

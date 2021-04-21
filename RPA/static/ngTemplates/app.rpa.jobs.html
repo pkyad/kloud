@@ -33,14 +33,17 @@
                 <th scope="col">Process</th>
                 <th scope="col">Retry Count</th>
                 <th scope="col">Status</th>
+                <th scope="col">Status</th>
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="k in jobs track by $index" ng-click="$state.go('businessManagement.rpa.viewjob',{'id':k.pk})">
+              <tr ng-repeat="k in jobs track by $index">
                 <th scope="row">{{$index+1}}</th>
                 <td>{{k.process.name}}</td>
                 <td>{{k.retryCount}}</td>
                 <td>{{k.status}}</td>
+                <td><u style="color:#051dc1;cursor:pointer"  ng-click="$state.go('businessManagement.rpa.viewjob',{'id':k.pk})">View</u> <u style="color:#c11605;cursor:pointer" ng-click="$event.stopPropagation()"  data-placement="top"  mwl-confirm title="Confirm" message="Are you sure?" data-placement="top" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="deleteJob(k.pk)"
+                  confirm-button-type="default" cancel-button-type="default"> Delete </u></td>
               </tr>
             </tbody>
           </table>

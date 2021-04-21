@@ -62,12 +62,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="item in machineList track by $index" ng-click="openModal(item)">
+              <tr ng-repeat="item in machineList track by $index">
                 <th scope="row">{{$index+1}}</th>
                 <td>{{item.name}}</td>
                 <td>{{item.key}}</td>
-                <td><i class="fa fa-trash fa-lg" ng-click="$event.stopPropagation()"  data-placement="top"  mwl-confirm title="Confirm" message="Are you sure?" data-placement="top" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="delMachine(item.pk)"
-                  confirm-button-type="default" cancel-button-type="default"></i></td>
+                  <td><u style="color:#051dc1;cursor:pointer" ng-click="openModal(item)">Edit</u> <u style="color:#c11605;cursor:pointer" ng-click="$event.stopPropagation()"  data-placement="top"  mwl-confirm title="Confirm" message="Are you sure?" data-placement="top" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="delMachine(item.pk)"
+                    confirm-button-type="default" cancel-button-type="default"> Delete </u></td>
               </tr>
             </tbody>
           </table>
