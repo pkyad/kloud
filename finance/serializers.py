@@ -619,7 +619,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class InventoryLiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Inventory
-        fields=('pk','created','name','img1')
+        fields=('pk','created','name','img1','taxRate')
 
 from PIL import Image
 import PIL

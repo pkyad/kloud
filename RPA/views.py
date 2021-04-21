@@ -66,7 +66,10 @@ class MachineViewset(viewsets.ModelViewSet):
 
     def get_queryset(self):
         divisionObj = self.request.user.designation.division
-        return divisionObj.rpa_machine.all().order_by('-pk')
+        toRet = divisionObj.rpa_machine.all().order_by('-pk')
+        if 'search' in self.request.GET:
+            toRet = toRet.filter(Q(name__icontains = self.request.GET['search']))
+        return toRet
 
 
 
@@ -78,7 +81,21 @@ class JobssViewset(viewsets.ModelViewSet):
 
     def get_queryset(self):
         divisionObj = self.request.user.designation.division
-        return divisionObj.rpa_jobs.all().order_by('-pk')
+        toRet = divisionObj.rpa_jobs.all().order_by('-pk')
+        if 'search' in self.request.GET:
+            toRet = toRet.filter(Q(process__name__icontains = self.request.GET['search']) | Q(status__icontains = self.request.GET['search']))
+        return toRet
+
+class JobContextViewset(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = JobContextSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['job']
+    def get_queryset(self):
+        toRet = JobContext.objects.all()
+        if 'search' in self.request.GET:
+            toRet = toRet.filter(Q(key__icontains = self.request.GET['search']) | Q(value__icontains = self.request.GET['search']))
+        return toRet
 
 
 class ProcessViewset(viewsets.ModelViewSet):
@@ -89,7 +106,10 @@ class ProcessViewset(viewsets.ModelViewSet):
     filter_fields = ['uri','division','name']
     def get_queryset(self):
         divisionObj = self.request.user.designation.division
-        return divisionObj.rpa_processes.all().order_by('-pk')
+        toRet = divisionObj.rpa_processes.all().order_by('-pk')
+        if 'search' in self.request.GET:
+            toRet = toRet.filter(Q(name__icontains = self.request.GET['search']) | Q(env__icontains = self.request.GET['search']))
+        return toRet
 
 class CreateJobAPIView(APIView):
     renderer_classes = (JSONRenderer,)
@@ -100,7 +120,7 @@ class CreateJobAPIView(APIView):
         jobObj = Job.objects.create(division = request.user.designation.division , process = Process.objects.get(pk = int(data['process'])))
         for key, value in data['processForm'].items():
             val = data['processForm'][key]
-            contObj = JobContext.objects.create(job = jobObj, key = key, value = val['value'] ,  typ = val['type'])
+            contObj = JobContext.objects.create(job = jobObj.pk, key = key, value = val['value'] ,  typ = val['type'])
         return Response( status =  status.HTTP_200_OK)
 
 

@@ -1,3 +1,31 @@
+<!-- <div class="container-fluid">
+  <div class="row">
+    <div class="col-md-offset-1 col-md-10">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Key</th>
+            <th scope="col">Value</th>
+            <th scope="col">Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="a in contextData">
+            <th scope="row">{{$index+1}}</th>
+            <td>{{a.key}}</td>
+            <td>{{a.value}}</td>
+            <td>{{a.typ}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div> -->
+
+
 <style>
   .has-search .form-control-feedback {
     right: initial;
@@ -17,7 +45,6 @@
     <div class="col-md-offset-1 col-md-10">
       <div class="row" style="background:#ffffff;padding:30px;margin-top:30px">
         <div class="col-md-12">
-            <button type="button"  class="btn btn-primary"name="button" style="position: absolute;top: -43px;right: 0px;border-radius: 50% !important;color: #fff;background: #051dc1;" ng-click="createrpaJob()"><i class="fa fa-plus" ></i></button>
             <div class="row" >
               <div class="col-md-5">
             <div class="form-group has-feedback has-search">
@@ -30,20 +57,19 @@
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Process</th>
-                <th scope="col">Retry Count</th>
-                <th scope="col">Status</th>
-                <th scope="col">Status</th>
+                <th scope="col">Key</th>
+                <th scope="col">Value</th>
+                <th scope="col">Type</th>
+                <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="k in jobs track by $index">
+              <tr ng-repeat="a in contextData">
                 <th scope="row">{{$index+1}}</th>
-                <td>{{k.process.name}}</td>
-                <td>{{k.retryCount}}</td>
-                <td>{{k.status}}</td>
-                <td><u style="color:#051dc1;cursor:pointer"  ng-click="$state.go('businessManagement.rpa.viewjob',{'id':k.pk})">View</u> <u style="color:#c11605;cursor:pointer" ng-click="$event.stopPropagation()"  data-placement="top"  mwl-confirm title="Confirm" message="Are you sure?" data-placement="top" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="deleteJob(k.pk)"
-                  confirm-button-type="default" cancel-button-type="default"> Delete </u></td>
+                <td>{{a.key}}</td>
+                <td>{{a.value}}</td>
+                <td>{{a.typ}}</td>
+                <td><u style="color:#051dc1;cursor:pointer" ng-click="editJobContext($index)">Edit</u></td>
               </tr>
             </tbody>
           </table>

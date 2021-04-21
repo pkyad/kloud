@@ -1,15 +1,15 @@
-<div class="" style="min-height:100vh;position:relative;padding:20px;background:#FAFAFA;">
+ <div class="" style="min-height:100vh;position:relative;padding:20px;background:#FAFAFA;">
 
   <div class="container-fluid">
     <div class="row" style="margin-left:20px;margin-right:20px;">
       <div class="container-fluid">
         <div class="row">
 
-          <div class="col-md-2" style="padding-top:20px;">
-            <div ng-if="!attendanceReport.currentMonth"> MONTHLY <switch ng-model="form.weekly" class="green" ng-change="initiate()"></switch><span> WEEKLY</span></div>
+          <div class="col-md-2" style="padding-top:20px;"  ng-if="!attendanceReport.currentMonth">
+            <div> MONTHLY <switch ng-model="form.weekly" class="green" ng-change="initiate()"></switch><span> WEEKLY</span></div>
           </div>
 
-          <div class="col-md-6" style="padding-top:25px;">
+          <div class="col-md-5" style="padding-top:25px;">
             <div class="col-md-3">
               <span class="badge badge-pill space " style="height:25px;width:25px;background-color: #ddf9d7;"> </span> Present
             </div>
@@ -27,19 +27,21 @@
             </div>
           </div>
           <div class="col-md-2">
-            <select class="form-control" ng-model="form.month" ng-options="m for m in monthList" style="border:none !important;background:#E4E4E4;color:black;padding:10px;border-radius:10px !important;margin-top:15px" ng-change="initiate()">
+            <select class="form-control" ng-model="form.month" ng-options="m for m in monthList" style="border:none !important;background:#E4E4E4;color:black;padding:10px;border-radius:10px !important;margin-top:15px;height:45px;" ng-change="initiate()">
             </select>
           </div>
           <div class="col-md-2">
-            <select class="form-control" ng-model="form.year" ng-options="y for y in years" style="border:none !important;background:#E4E4E4;color:black;padding:10px;border-radius:10px !important;margin-top:15px" ng-change="initiate()">
+            <select class="form-control" ng-model="form.year" ng-options="y for y in years" style="border:none !important;background:#E4E4E4;color:black;padding:10px;border-radius:10px !important;margin-top:15px;height:45px;" ng-change="initiate()">
             </select>
           </div>
-
-
-          <button type="button" class="btn btn-default " style="background: #000000;color: white;position: fixed;bottom: 24px;border: none !important;border-radius: 10px !important;padding: 15px;width: 139px;right: 25px;font-size: 16px;z-index:333"
+          <div class="col-md-1">
+            <button type="button" class="btn btn-default " style="background: #000000;color: white;border: none !important;border-radius: 10px !important;padding: 15px;width: 139px;font-size: 16px;z-index:333"
             ng-click="openUploadForm()">
             Upload <img src="/static/images/icons8-upload-48.png" style="width:25px;margin-left:10px;" alt="">
           </button>
+
+          </div>
+
 
           <!-- <div class="col-md-2 text-right" style="padding-top:10px;">
 
@@ -50,16 +52,7 @@
 
         <div class="row" ng-if="attendanceReport.currentMonth" style="margin-top:60px">
           <div class="col-md-12">
-            <div class="row">
-              <div class=" col-md-2">
-                <button class="btn btn-success btn-block" ng-disabled="attendanceReport.firstweek?true:false" ng-click="prev()" style="border:none !important;background:#E4E4E4;color:black;padding:10px;border-radius:10px !important;">
-                  Previous
-                </button>
-              </div>
-              <div class="col-md-offset-8 col-md-2">
-                <button class="btn btn-success btn-block" ng-disabled="attendanceReport.lastweek?true:false" ng-click="next()" style="border:none !important;background:#E4E4E4;color:black;padding:10px;border-radius:10px !important;">Next</button>
-              </div>
-            </div>
+
             <div class="row" style="margin-top:30px">
               <div class="col-md-12">
                 <table class="invoiceTable" style=" width: 100%;border-collapse: collapse;">
@@ -82,11 +75,8 @@
                 </table>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="row" ng-if="!attendanceReport.currentMonth&&form.weekly" style="margin-top:60px">
-          <div class="col-md-12">
-            <div class="row">
+
+            <div class="row" style='position: fixed;bottom:24px;width:85%'>
               <div class=" col-md-2">
                 <button class="btn btn-success btn-block" ng-disabled="attendanceReport.firstweek?true:false" ng-click="prev()" style="border:none !important;background:#E4E4E4;color:black;padding:10px;border-radius:10px !important;">
                   Previous
@@ -94,20 +84,6 @@
               </div>
               <div class="col-md-offset-8 col-md-2">
                 <button class="btn btn-success btn-block" ng-disabled="attendanceReport.lastweek?true:false" ng-click="next()" style="border:none !important;background:#E4E4E4;color:black;padding:10px;border-radius:10px !important;">Next</button>
-              </div>
-            </div>
-            <div class="row" style="margin-top:30px">
-              <div class="col-md-12">
-                <table class="invoiceTable" style=" width: 100%;border-collapse: collapse;">
-                  <tr style="background-color: #eeeeee;height: 50px;  ">
-                    <th class="font14">Employees</th>
-                    <th class="font14" ng-repeat="d in attendanceReport.dates">{{d}}</th>
-                  </tr>
-                  <tr class="font14" ng-repeat="i in attendanceReport.data ">
-                    <td>{{i.user.first_name}}{{i.user.last_name}}</td>
-                    <td ng-repeat="v in i.obj ">{{v.attendance_status}}</td>
-                  </tr>
-                </table>
               </div>
             </div>
           </div>
@@ -133,6 +109,34 @@
                 <td>{{i.total}}</td>
               </tr>
             </table>
+          </div>
+        </div>
+        <div class="row" ng-if="!attendanceReport.currentMonth&&form.weekly" style="margin-top:60px">
+          <div class="col-md-12">
+            <div class="row" style="position: fixed;bottom:25px;width:85%;">
+              <div class=" col-md-2">
+                <button class="btn btn-success btn-block" ng-disabled="attendanceReport.firstweek?true:false" ng-click="prev()" style="border:none !important;background:#E4E4E4;color:black;padding:10px;border-radius:10px !important;">
+                  Previous
+                </button>
+              </div>
+              <div class="col-md-offset-8 col-md-2">
+                <button class="btn btn-success btn-block" ng-disabled="attendanceReport.lastweek?true:false" ng-click="next()" style="border:none !important;background:#E4E4E4;color:black;padding:10px;border-radius:10px !important;">Next</button>
+              </div>
+            </div>
+            <div class="row" style="margin-top:30px">
+              <div class="col-md-12">
+                <table class="invoiceTable" style=" width: 100%;border-collapse: collapse;">
+                  <tr style="background-color: #eeeeee;height: 50px;  ">
+                    <th class="font14">Employees</th>
+                    <th class="font14" ng-repeat="d in attendanceReport.dates">{{d}}</th>
+                  </tr>
+                  <tr class="font14" ng-repeat="i in attendanceReport.data ">
+                    <td>{{i.user.first_name}}{{i.user.last_name}}</td>
+                    <td ng-repeat="v in i.obj ">{{v.attendance_status}}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>

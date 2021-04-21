@@ -1,0 +1,30 @@
+  <!-- <users-Field data="form.team" url="/api/HR/userSearch/" col="6" label="team"></users-Field> -->
+<div class="row" style="margin:0px;padding:20px;">
+
+  <div class="input-group">
+      <input type="text" class="form-control" placeholder="Search" ng-model="data.teams" name="" uib-typeahead="app as app.username for app in userSearch($viewValue)" ng-enter="addTeam()">
+      <div class="input-group-btn">
+        <button class="btn btn-primary" type="submit" ng-click="addTeam()">
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+    </div>
+  <div class="row" style="margin:30px 0px">
+    <div class="col-md-3" ng-repeat="k in data.team track by $index" style="margin-bottom: 20px;background-color: #f1f1f1;
+padding: 20px;height: 120px;border-radius: 20px;">
+      <div class="row">
+        <div class="col-md-3">
+          <img src="/static/images/userIcon.png" style="height:50px;" class="img-circle" alt="">
+        </div>
+        <div class="col-md-7">
+          <p><b>{{k.first_name}}</b></p>
+
+        </div>
+        <div class="col-md-1">
+          <i class="fa fa-times" ng-click="removeUser($index)"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

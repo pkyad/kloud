@@ -56,6 +56,20 @@ app.config(function($stateProvider) {
     //   templateUrl: '/static/ngTemplates/app.projects.explore.issues.html',
     //   controller : 'projectManagement.project.issues',
     // })
+    .state('projectManagement.projects.details.files', {
+      url: "/files",
+      templateUrl: '/static/ngTemplates/app.projects.explore.files.html',
+      controller : 'projectManagement.projects.project.explore',
+    })
+    .state('projectManagement.projects.details.files.explore', {
+      url: "/:fileid",
+      templateUrl: '/static/ngTemplates/app.projects.explore.wiki.html',
+      controller : 'projectManagement.project.wiki',
+    }).state('projectManagement.projects.details.team', {
+        url: "/team",
+        templateUrl: '/static/ngTemplates/app.projects.explore.team.html',
+        controller : 'projectManagement.project.team',
+      })
     .state('projectManagement.projects.details.wiki', {
       url: "/wiki",
       templateUrl: '/static/ngTemplates/app.projects.explore.wiki.html',
@@ -70,6 +84,66 @@ app.config(function($stateProvider) {
 });
 
 
+app.controller('projectManagement.project.team' , function($scope,$state , $users , Flash , $permissions , $http, $aside , $uibModal){
+
+  $scope.userSearch = function(query) {
+    return $http.get('/api/HR/userSearch/' + '?offset=0&limit=10&username__icontains=' + query).
+    then(function(response) {
+
+      return response.data.results;
+    })
+  };
+
+  $scope.data = {
+    teams:'',
+    team:[]
+  }
+  $scope.getProduct = function(){
+    $http({method : 'GET' , url : '/api/projects/project/'+$state.params.id+'/'}).
+    then(function(response) {
+      $scope.data.team = response.data.team
+    });
+  }
+  $scope.getProduct()
+
+
+  $scope.addTeam= function(){
+    if ($scope.data.teams.pk != undefined) {
+      for (var i = 0; i < $scope.data.team.length; i++) {
+        if ($scope.data.teams.pk == $scope.data.team[i].pk) {
+          $scope.data.team.splice(i,1)
+          Flash.create('danger','User was already there....')
+        }
+      }
+      $scope.data.team.push($scope.data.teams.pk)
+    }
+    $scope.save()
+    $scope.data.teams =''
+  }
+
+  $scope.save = function(){
+    $http({
+      method:'PATCH',
+      url:'/api/projects/project/'+$state.params.id+'/',
+      data:
+        {
+          team:$scope.data.team
+      }
+    }).then(function(response){
+
+      $scope.data.team = response.data.team
+
+    })
+  }
+
+  $scope.removeUser = function(idx){
+    $scope.data.team.splice(idx,1)
+    $scope.save()
+  }
+
+
+
+})
 app.controller('projectManagement.GIT.repos.explore' , function($scope , $users , Flash , $permissions , $http, $aside , $uibModal){
 
   $scope.openProperties = function() {
@@ -885,6 +959,10 @@ var parseNotifications = function(notifications) {
 
 app.controller('projectManagement.projects.project.explore', function($scope, $http, $aside, $state, Flash, $users, $filter,  $uibModal) {
 
+  if ($state.is('projectManagement.projects.details')) {
+    $state.go('projectManagement.projects.details.wiki')
+  }
+  // projectManagement.projects.details.wiki
   $scope.form = {
     icon: emptyFile,
     file: emptyFile,

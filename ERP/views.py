@@ -2347,6 +2347,7 @@ class GetAppInstalledAPIView(APIView):
         for j in otherApps:
             val = {'icon' : j.app.icon , 'displayName' : j.app.displayName, 'appStoreUrl' : j.app.appStoreUrl ,  'playStoreUrl' : j.app.playStoreUrl, 'type' : 'store'}
             data.append(val)
+        data.extend([{'icon' : '/static/images/file-signature.png' , 'displayName' : 'Docs', 'appStoreUrl' : '' ,  'playStoreUrl' : '', 'type' : 'page'},{'icon' : '/static/images/approval.png' , 'displayName' : 'Approvals', 'appStoreUrl' : '' ,  'playStoreUrl' : '', 'type' : 'page'}, {'icon' : '/static/images/iitdeclaration.png' , 'displayName' : 'IT Declaration', 'appStoreUrl' : '' ,  'playStoreUrl' : '', 'type' : 'page'}])
         return Response(data,status = status.HTTP_200_OK)
 
 

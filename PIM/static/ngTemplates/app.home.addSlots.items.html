@@ -27,4 +27,12 @@
         </table>
     </div>
   </div>
+  <div class="row" style="margin-top:30px"  ng-if="!me.profile.zoom_token" >
+    <div class="col-md-6">
+      <h4  ng-click="openAuthenticator('zoom')"  style="cursor:pointer"> <u> Link your zoom account </u> </h4>
+    </div>
+    <div class="col-md-6 text-right">
+      <h4 style="cursor:pointer"><u>View integration steps</u> </h4>
+    </div>
+  </div>
 </div>
