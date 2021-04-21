@@ -13,6 +13,7 @@ class Machine(models.Model):
     name = models.CharField(max_length = 200 , null = False)
     division = models.ForeignKey(Division, related_name = 'rpa_machine', null = False)
     key = models.CharField(max_length = 200 , null = False, blank = True)
+    env = models.CharField(max_length = 200 , null = False, blank = True)
 
 class Process(models.Model):
     created = models.DateTimeField(auto_now_add = True)
@@ -38,7 +39,7 @@ class Job(models.Model):
     updated = models.DateTimeField(auto_now=True)
     division = models.ForeignKey(Division, related_name = 'rpa_jobs', null = False)
     process = models.ForeignKey(Process , null = True , related_name='processjobs')
-    # queue = models.ForeignKey(Queue , related_name='jobs' , null = True)
+    machine = models.ForeignKey(Machine , related_name='rpa_jobs' , null = True)
     retryCount = models.PositiveIntegerField(default = 0)
     status = models.CharField(choices= JOB_STATUS_CHOICES , default='queued', max_length=50)
 

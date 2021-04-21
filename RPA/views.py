@@ -2,6 +2,7 @@ from django.contrib.auth.models import User , Group
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate , login , logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string, get_template
 from django.template import RequestContext , Context
@@ -65,7 +66,10 @@ class MachineViewset(viewsets.ModelViewSet):
 
     def get_queryset(self):
         divisionObj = self.request.user.designation.division
-        return divisionObj.rpa_machine.all().order_by('-pk')
+        toRet = divisionObj.rpa_machine.all().order_by('-pk')
+        if 'search' in self.request.GET:
+            toRet = toRet.filter(Q(name__icontains = self.request.GET['search']))
+        return toRet
 
 
 
@@ -77,7 +81,10 @@ class JobssViewset(viewsets.ModelViewSet):
 
     def get_queryset(self):
         divisionObj = self.request.user.designation.division
-        return divisionObj.rpa_jobs.all().order_by('-pk')
+        toRet = divisionObj.rpa_jobs.all().order_by('-pk')
+        if 'search' in self.request.GET:
+            toRet = toRet.filter(Q(process__name__icontains = self.request.GET['search']) | Q(status__icontains = self.request.GET['search']))
+        return toRet
 
 class JobContextViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
@@ -85,7 +92,10 @@ class JobContextViewset(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['job']
     def get_queryset(self):
-        return JobContext.objects.all()
+        toRet = JobContext.objects.all()
+        if 'search' in self.request.GET:
+            toRet = toRet.filter(Q(key__icontains = self.request.GET['search']) | Q(value__icontains = self.request.GET['search']))
+        return toRet
 
 
 class ProcessViewset(viewsets.ModelViewSet):
@@ -96,7 +106,10 @@ class ProcessViewset(viewsets.ModelViewSet):
     filter_fields = ['uri','division','name']
     def get_queryset(self):
         divisionObj = self.request.user.designation.division
-        return divisionObj.rpa_processes.all().order_by('-pk')
+        toRet = divisionObj.rpa_processes.all().order_by('-pk')
+        if 'search' in self.request.GET:
+            toRet = toRet.filter(Q(name__icontains = self.request.GET['search']) | Q(env__icontains = self.request.GET['search']))
+        return toRet
 
 class CreateJobAPIView(APIView):
     renderer_classes = (JSONRenderer,)
@@ -109,3 +122,5 @@ class CreateJobAPIView(APIView):
             val = data['processForm'][key]
             contObj = JobContext.objects.create(job = jobObj.pk, key = key, value = val['value'] ,  typ = val['type'])
         return Response( status =  status.HTTP_200_OK)
+
+

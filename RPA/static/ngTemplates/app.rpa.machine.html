@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<!-- <div class="container-fluid">
   <div class="row pull-right">
   <button type="button"  class="btn btn-primary"name="button" ng-click="openModal()"><i class="fa fa-plus"></i> Create A Machine</button>
   </div><br><br><br>
@@ -6,11 +6,13 @@
   <table style="width:80%">
     <tr>
       <th>Name</th>
+      <th>Environment</th>      
       <th>Key</th>
-      <th>Action</th>           
+      <th>Action</th>
     </tr>
     <tr ng-repeat="item in machineList track by $index" style="padding:10px;">
       <td>{{item.name}}</td>
+      <td>{{item.env}}</td>      
       <td>{{item.key}}</td>
       <td>
         <a ng-click="openModal(item)" style="cursor:pointer;">Edit</a>
@@ -19,8 +21,62 @@
 
     </tr>
 
-</table> 
+</table>
   </div>
 
-  
+
+</div> -->
+<style>
+  .has-search .form-control-feedback {
+    right: initial;
+    left: 0;
+    color: #ccc;
+}
+
+.has-search .form-control {
+    padding-right: 12px;
+    padding-left: 34px;
+}
+
+</style>
+<div class="container-fluid" style="background:rgb(237, 250, 255);min-height:100vh">
+
+  <div class="row" >
+    <div class="col-md-offset-1 col-md-10">
+      <div class="row" style="background:#ffffff;padding:30px;margin-top:30px">
+        <div class="col-md-12">
+            <button type="button"  class="btn btn-primary"name="button" style="position: absolute;top: -43px;right: 0px;border-radius: 50% !important;color: #fff;background: #051dc1;" ng-click="openModal()"><i class="fa fa-plus" ></i></button>
+            <div class="row" >
+              <div class="col-md-5">
+            <div class="form-group has-feedback has-search">
+              <span class="glyphicon glyphicon-search form-control-feedback"></span>
+              <input type="text" class="form-control" placeholder="Search" ng-model="form.search" ng-change="getMachine()">
+            </div>
+            </div>
+            </div>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Key</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in machineList track by $index">
+                <th scope="row">{{$index+1}}</th>
+                <td>{{item.name}}</td>
+                <td>{{item.key}}</td>
+                  <td><u style="color:#051dc1;cursor:pointer" ng-click="openModal(item)">Edit</u> <u style="color:#c11605;cursor:pointer" ng-click="$event.stopPropagation()"  data-placement="top"  mwl-confirm title="Confirm" message="Are you sure?" data-placement="top" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="delMachine(item.pk)"
+                    confirm-button-type="default" cancel-button-type="default"> Delete </u></td>
+              </tr>
+            </tbody>
+          </table>
+          <span ng-click="next()"> <i class="fa fa-angle-right fa-2x pull-right "  style="padding:15px;cursor:pointer"></i></span>
+          <span ng-click="prev()"> <i class="fa fa-angle-left fa-2x pull-right "  style="padding:15px;cursor:pointer"></i></span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
