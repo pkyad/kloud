@@ -13,5 +13,4 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'createJob/$' ,CreateJobAPIView.as_view() ),
 
-
 ]

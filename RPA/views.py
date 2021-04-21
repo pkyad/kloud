@@ -2,6 +2,7 @@ from django.contrib.auth.models import User , Group
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate , login , logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string, get_template
 from django.template import RequestContext , Context
@@ -101,3 +102,5 @@ class CreateJobAPIView(APIView):
             val = data['processForm'][key]
             contObj = JobContext.objects.create(job = jobObj, key = key, value = val['value'] ,  typ = val['type'])
         return Response( status =  status.HTTP_200_OK)
+
+

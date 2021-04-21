@@ -320,7 +320,8 @@ app.controller('businessManagement.machine', function($scope, $users, Flash, $pe
         }else {
           $scope.reset = function() {
             $scope.form = {
-              name: ''
+              name: '',
+              env:''
             }
           }
           $scope.reset()
@@ -329,7 +330,8 @@ app.controller('businessManagement.machine', function($scope, $users, Flash, $pe
 
         $scope.save = function() {
           var datatoSend = {
-            name: $scope.form.name
+            name: $scope.form.name,
+            env : $scope.form.env
           }
           var method= 'POST'
           var url ="/api/RPA/machine/"

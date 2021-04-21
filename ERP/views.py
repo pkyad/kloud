@@ -271,7 +271,7 @@ def GetCustomerOTP(request):
                 print otp
                 contactAutObj = ContactAuth(**authData)
                 contactAutObj.save()
-                msg = "Hi, your OTP is {0}".format(otp)
+                msg = "Hi, {0} is the OTP to verify your mobile number for KloudERP App. {1}".format(otp,'')
                 try:
                     globalSettings.SEND_WHATSAPP_MSG( mobile, msg)
                 except:
@@ -293,7 +293,7 @@ def GetCustomerOTP(request):
                 authData = {'contact' : cont, 'otp' : otp, 'division' : div }
                 contactAutObj = ContactAuth(**authData)
                 contactAutObj.save()
-                msg = "Hi, your OTP is {0}".format(otp)
+                "Hi, {0} is the OTP to verify your mobile number for KloudERP App. {1}".format(otp,'')
                 try:
                     globalSettings.SEND_WHATSAPP_MSG( mobile, msg)
                 except:

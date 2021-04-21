@@ -12,7 +12,7 @@ import uuid
 class MachineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Machine
-        fields = ('pk' , 'created' ,'updated', 'division', 'name','key' )
+        fields = ('pk' , 'created' ,'updated', 'division', 'name','key','env' )
         read_only_fields = ('division',)
     def create(self,validated_data):
         obj= Machine(**validated_data)
@@ -21,7 +21,7 @@ class MachineSerializer(serializers.ModelSerializer):
         obj.save()
         return obj
     def update(self,instance,validated_data):
-        for key in [ 'name' ]:
+        for key in [ 'name','env']:
             try:
                 setattr(instance , key , validated_data[key])
             except:

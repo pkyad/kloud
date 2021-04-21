@@ -6,11 +6,13 @@
   <table style="width:80%">
     <tr>
       <th>Name</th>
+      <th>Environment</th>      
       <th>Key</th>
       <th>Action</th>           
     </tr>
     <tr ng-repeat="item in machineList track by $index" style="padding:10px;">
       <td>{{item.name}}</td>
+      <td>{{item.env}}</td>      
       <td>{{item.key}}</td>
       <td>
         <a ng-click="openModal(item)" style="cursor:pointer;">Edit</a>
