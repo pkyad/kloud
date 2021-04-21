@@ -2077,7 +2077,7 @@ class OrderAPIView(APIView):
             else:
                 price = float(i.price)
                 total = i.total
-            saleQtyObj = {'outBound' : saleObj , 'product' : i.product.name , 'qty' : i.qty , 'price' : price , 'tax' : i.product.taxRate , 'total' : total , 'division' : division}
+            saleQtyObj = {'outBound' : saleObj , 'product' : i.product.name , 'qty' : i.qty , 'price' : price , 'taxPer' : i.product.taxRate , 'total' : total , 'division' : division,'hsn':i.product.taxCode}
             saleqtyObj = SalesQty(**saleQtyObj)
             saleqtyObj.save()
             amount+=total

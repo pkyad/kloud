@@ -348,8 +348,8 @@ def ProductDetails(request,apiKey,id):
     if div.headerTemplate:
         footer  = div.footerTemplate
         footerCss  = div.footerCss
-    # div = hash_fn.hash(request.user.designation.division.pk)
-    return render(request, 'app.finance.inventory.productDetails.html',{'product':product,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
+    div = hash_fn.hash(request.user.designation.division.pk)
+    return render(request, 'app.finance.inventory.productDetails.html',{'product':product,'API_KEY':div,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
 
 def Categories(request,apiKey,id):
     header =None

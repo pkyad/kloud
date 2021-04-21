@@ -18,7 +18,7 @@
         </div>
         <div class=" col-md-2 col-xs-4 col-sm-3 add_cart1" style="margin-top:0.5%;">
           <div class="row" style="cursor:pointer;margin:1% 0%;">
-            <a href="/pages/{{divApikey}}/checkout/">
+            <a href="/pages/{{divApikey}}/checkout/" ng-if="userDetails.pk">
               <div class="col-md-4 col-sm-4 col-xs-4"  style="padding:10px;">
                 <span ng-if="userDetails.pk"><img src="/static/images/CartIconUnfill.png" style="width:60px"><span class="cart_count ng-binding" style="background: var(--themeColor);">{{allCartItems.length}}</span></span>
                 <span ng-if="!userDetails.pk"><img src="/static/images/CartIconUnfill.png" style="width:60px"><span class="cart_count ng-binding" style="background: var(--themeColor);">{{cartCookieData.length}}</span></span>
@@ -26,6 +26,19 @@
               <div class="col-md-7 col-sm-8 col-xs-8 no-padding"  style="margin:10% 0%;">
                 <span> <strong class="hidden-xs" style="color:#000;"> Cart  <br> </strong> </span>
               </div>
+
+            </a>
+            <div class="row" ng-if="!userDetails.pk" ng-click="loginPage()">
+              <div class="col-md-4 col-sm-4 col-xs-4"  style="padding:10px;">
+
+                <span ng-if="!userDetails.pk"><img src="/static/images/CartIconUnfill.png" style="width:60px"><span class="cart_count ng-binding" style="background: var(--themeColor);">{{cartCookieData.length}}</span></span>
+              </div>
+              <div class="col-md-7 col-sm-8 col-xs-8 no-padding"  style="margin:10% 0%;">
+                <span> <strong class="hidden-xs" style="color:#000;"> Cart  <br> </strong> </span>
+              </div>
+
+            </div>
+            <a href="/pages/{{divApikey}}/checkout/"  >
 
             </a>
           </div>
@@ -64,7 +77,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <div style="color:#fff;padding-left:10px;">
-                    <div class="dropdown dropbtn" style="font-size:16px ;"><i class="fa fa-bars" style="font-size:20px;margin-right:15px;"></i><span style="margin-left:10px;">CATEGORIES </span> </div>
+                    <div class="dropdown dropbtn" style="font-size:16px ;"><i class="fa fa-bars" style="font-size:20px;margin-right:15px;"></i><span style="margin-left:10px;">CATEGORIES  </span> </div>
                   </div>
                 </div>
               </div>

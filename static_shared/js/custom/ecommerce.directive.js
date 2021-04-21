@@ -67,7 +67,7 @@ app.directive('ecommerceHeader', function() {
     restrict: 'E',
     replace: false,
     transclude: true,
-    controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
+    controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal,Flash) {
       $scope.me = $users.get('mySelf')
       try {
         $scope.divApikey = DIVISION_APIKEY
@@ -89,11 +89,16 @@ app.directive('ecommerceHeader', function() {
       $scope.search = {
         searchValue:''
       }
-
+      $scope.$watch('search.searchValue',function(newVal,oldVal){
+        console.log(newVal,oldVal,"lkl980iop");
+      })
       $scope.productSearch = function(query) {
         return $http.get('/api/finance/inventory/?limit=10&name__icontains=' + query).
         then(function(response) {
           $scope.data = response.data.results
+          for (var i = 0; i < response.data.results.length; i++) {
+            response.data.results[i].apiKey = DIVISION_APIKEY
+          }
           return response.data.results;
         })
       };
@@ -238,7 +243,9 @@ app.directive('ecommerceHeader', function() {
           //     return $scope.jobDetails.pk;
           //   },
           // },
-          controller: function($scope, $uibModalInstance) {
+          controller: function($scope, $uibModalInstance,Flash,$timeout) {
+            $scope.waitMsg = "please wait for otp"
+            $scope.isMsg = false
             $scope.form = {
               mobile:'',
               otp:'',
@@ -246,6 +253,14 @@ app.directive('ecommerceHeader', function() {
               successMsg:''
             }
             $scope.login = function(){
+              if ($scope.form.mobile.length == 0) {
+                $scope.msg = '* Please enter the mobile number'
+                $timeout(function(){
+                  $scope.msg =''
+                },500)
+                return
+              }
+              $scope.isMsg = true
               var dataToSend = {
                   mobile : $scope.form.mobile,
                   divId : DIVISION_APIKEY
@@ -274,7 +289,10 @@ app.directive('ecommerceHeader', function() {
                   $scope.form.contact = response.data.contact
                   $uibModalInstance.dismiss($scope.form.contact)
                 }
-
+                $timeout(function(){
+                  $scope.waitMsg =''
+                  $scope.msg =''
+                },250)
               })
             }
 
@@ -1808,6 +1826,7 @@ app.directive('productDetails', function() {
     transclude: true,
     replace: true,
     controller: function($scope, $state, $http, Flash, $rootScope, $users, $filter, $interval) {
+    $scope.division = DIVISION_APIKEY
     $scope.list = $scope.data
     var customer = getCookie("customer");
     if (customer!=undefined && customer!=null) {

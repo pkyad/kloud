@@ -1252,7 +1252,7 @@ def invoice(response , inv , invdetails , typ, request):
         if i.tax is not None:
             tax = i.tax
         else:
-             tax = ''
+             tax = 0
         s25 =Paragraph("<para  fontSize=11   alignment='right'> {0} ({1}%)</para>".format(hsn, taxPer),styles['Normal'])
         s26 =Paragraph("<para  fontSize=11   alignment='right'>{0} </para>".format(round(tax,2)),styles['Normal'])
         s27 =Paragraph("<para  fontSize=11   alignment='right'>{:,} </para>".format(round(i.total,2)),styles['Normal'])

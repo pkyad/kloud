@@ -45,8 +45,10 @@
 
         <div class="row" style="margin-top:15px">
           <div class="col-md-offset-4 col-md-4">
-              <span  style="color:green;margin-bottom:15px"> {{form.successMsg}} </span>
+              <span  style="color:green;margin-bottom:15px"> {{form.successMsg}}  </span>
+              <span  style="color:green;margin-bottom:15px" ng-if="isMsg"> {{waitMsg}} </span>
               <span style="color:red;margin-bottom:15px"> {{form.errMsg}} </span>
+              <span style="color:red;margin-bottom:15px"> {{msg}} </span>
               <input type="text" class="form-control loginPageInput" placeholder="Mobile Number" required autofocus ng-model="form.mobile" style="background:#ffffff!important">
           </div>
         </div>
