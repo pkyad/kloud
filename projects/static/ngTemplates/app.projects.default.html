@@ -49,13 +49,13 @@
 
 
       </div>
-      <!-- <div class="col-md-2">
+      <div class="col-md-2">
         <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="prevProj()">Prev</button>
       </div>
       <div class="col-md-2">
         <button type="button" class="navigationBtn btn btn-primary btn-block " name="button" ng-click="nextProj()">Next</button>
 
-      </div> -->
+      </div>
     </div>
   </div>
   <br>
@@ -73,10 +73,10 @@
         <div class="row">
 
           <div class="col-md-4">
-            <div class="" style="height:100px;border-radius:20px;background:url('/static/images/microsoft-office-logo.jpg');background-size:contain;background-repeat:no-repeat;" ng-if="k.icon.length == 0">
+            <div class="" style="height:100px;border-radius:20px;background:url('/static/images/microsoft-office-logo.jpg');background-size:contain;background-repeat:no-repeat;" ng-if="!k.icon">
 
             </div>
-            <div class="" style="height:100px;border-radius:20px;background:url({{k.icon}});background-size:contain;background-repeat:no-repeat;" ng-if="k.icon.length > 0">
+            <div class="" style="height:100px;border-radius:20px;background:url({{k.icon}});background-size:contain;background-repeat:no-repeat;" ng-if="k.icon">
 
             </div>
           </div>

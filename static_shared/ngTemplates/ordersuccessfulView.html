@@ -55,7 +55,7 @@
                   <td>{{k.product}}</td>
                   <td>{{k.qty}}</td>
                   <td>{{k.price}}</td>
-                  <td>{{k.tax}}</td>
+                  <td>{{k.taxPer}}%</td>
                   <td>{{k.total}}</td>
                 </tr>
               </tbody>
@@ -79,10 +79,10 @@
               </div>
               <div class="col-md-6 text-right">
 
-                <p> + <i class="fa fa-inr"></i> {{orderData.tax}}</p>
+                <p>  <i class="fa fa-inr"></i> {{orderData.totalGST}}%</p>
               </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
               <div class="col-md-6 text-right">
                 <p>Discount :</p>
               </div>
@@ -99,25 +99,25 @@
 
                 <p> - <i class="fa fa-inr"></i> 0.00</p>
               </div>
-            </div>
-            <div class="row">
+            </div> -->
+            <!-- <div class="row">
               <div class="col-md-6 text-right">
                 <p>Delivery :</p>
               </div>
               <div class="col-md-6 text-right">
 
-                <p>+ <i class="fa fa-inr"></i> 0.00</p>
+                <p>+ <i class="fa fa-inr"></i>{{orderData.addonPrice}}</p>
               </div>
-            </div>
-            <div class="row">
+            </div> -->
+            <!-- <div class="row">
               <div class="col-md-6 text-right">
                 <p>Saved Amount :</p>
               </div>
               <div class="col-md-6 text-right">
 
-                <p><i class="fa fa-inr"> {{orderData.total-orderData.paidAmount}}</i></p>
+                <p><i class="fa fa-inr"> 0</i></p>
               </div>
-            </div>
+            </div> -->
             <div class="row">
               <div class="col-md-6 text-right">
                 <p>Mode of Payment :</p>

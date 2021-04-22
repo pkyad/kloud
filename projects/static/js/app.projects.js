@@ -1457,6 +1457,14 @@ $scope.getCC()
   };
   $scope.resetForm();
 
+
+  $scope.getProjects  = function(){
+    $http.get('/api/projects/project/').
+    then(function(response) {
+      $scope.projects = response.data
+    })
+  }
+
   $scope.postProject = function() {
     if ($scope.form.title.length==0) {
       Flash.create('warning', 'Please Select The Title');
@@ -1484,6 +1492,8 @@ $scope.getCC()
     }).
     then(function(response) {
       Flash.create('success', 'Project created')
+      $uibModalInstance.dismiss()
+      $scope.getProjects()
       $scope.resetForm();
     });
   };
@@ -1502,7 +1512,7 @@ app.controller('projectManagement.projects.default', function($scope, $http, $as
   $scope.create = function() {
     $aside.open({
       templateUrl: '/static/ngTemplates/app.projects.new.html',
-      size: 'xl',
+      size: 'lg',
       placement: 'right',
       backdrop: true,
       controller : 'projectManagement.projects.new'
