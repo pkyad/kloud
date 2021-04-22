@@ -123,4 +123,15 @@ class CreateJobAPIView(APIView):
             contObj = JobContext.objects.create(job = jobObj.pk, key = key, value = val['value'] ,  typ = val['type'])
         return Response( status =  status.HTTP_200_OK)
 
+@csrf_exempt
+def IsMachineExist(request):
+    params = request.GET
+    isExist = False
 
+    try:
+        obj = Machine.objects.get(key = params['key'])
+        isExist = True
+    except:
+        pass
+
+    return  JsonResponse({'isExist':isExist})   

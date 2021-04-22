@@ -176,6 +176,7 @@ def pageeditor(request,id):
 
         print header,'00900-'
     API_KEY = hash_fn.hash(page.user.designation.division.pk)
+    print API_KEY, 'API_KEY'
 
     return render(request, 'app.HR.pageeditor.html',{'page':page,'data':data, 'components' : components,'API_KEY':API_KEY,'header':header,'headerCss':headerCss,'footer':footer,'footerCss':footerCss,'divisionJson':div})
 
