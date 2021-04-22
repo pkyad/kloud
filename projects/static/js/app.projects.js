@@ -390,6 +390,63 @@ app.controller('projectManagement.project.wiki', function($scope, $http, $aside,
 
   }, true);
 
+  $scope.form = {
+    title : ''
+  }
+
+  $scope.saveNote = function() {
+    var dataToSend = {
+      title : $scope.form.title,
+      project:$state.params.id
+    }
+
+    $http({
+      method: 'POST',
+      url: '/api/PIM/notes/',
+      data: dataToSend
+    }).
+    then(function(response) {
+
+      $scope.notes.push(response.data)
+        $scope.getNotes()
+        $scope.form.title = ''
+      Flash.create('success', 'Note created')
+    })
+  }
+  $scope.saveChildnote = function(parent) {
+    var dataToSend = {
+      title : $scope.form.title,
+      project:$state.params.id,
+      parent:parent
+    }
+
+    $http({
+      method: 'POST',
+      url: '/api/PIM/notes/',
+      data: dataToSend
+    }).
+    then(function(response) {
+
+      $scope.notes.push(response.data)
+        $scope.getNotes()
+        $scope.form.title = ''
+      Flash.create('success', 'Note created')
+    })
+  }
+
+  $scope.delNotes = function(indx){
+
+        $http({
+          method: 'DELETE',
+          url: '/api/PIM/notes/'+$scope.notes[indx].pk+'/',
+        }).
+        then(function(response) {
+
+          Flash.create('success', 'Note created')
+          $scope.notes.splice(indx,1)
+            $scope.getNotes()
+        })
+  }
   $scope.openCreateNote = function(){
     $uibModal.open({
       templateUrl: '/static/ngTemplates/app.home.createNote.html',
@@ -397,29 +454,9 @@ app.controller('projectManagement.project.wiki', function($scope, $http, $aside,
       backdrop: true,
       controller: function($scope, $uibModalInstance) {
 
-        $scope.form = {
-          title : ''
-        }
-
-        $scope.saveNote = function() {
-          var dataToSend = {
-            title : $scope.form.title,
-            project:$state.params.id
-          }
-
-          $http({
-            method: 'POST',
-            url: '/api/PIM/notes/',
-            data: dataToSend
-          }).
-          then(function(response) {
-            $uibModalInstance.dismiss();
-            Flash.create('success', 'Note created')
-          })
-        }
       },
     }).result.then(function() {
-      $scope.getNotes()
+
     }, function() {
       $scope.getNotes()
     });
