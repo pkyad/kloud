@@ -584,61 +584,81 @@ def blog(request ):
 
 
     return render(request,"app.HR.blogs.html" , {"blogs" : blogs,"featuredblogs":featuredblogs,"home" : False , "pageNumber" : pageNumber ,"prevpage":prevpage, "nextPage" : nextpage , "firstArticle" : featuredblogs[0] , "pageNumbers" : pageNumbers , "pageCount" : int(pageCount) , "currentPage" : currentPage,'totalCatg':[]})
-def Divisionblogs(request,apiKey ):
+def Divisionblogs(request ):
 
-    pageNumber = 1
-    offset = pageNumber*6
-    articlesAll = Article.objects.filter(division = request.user.designation.division)
+    # pageNumber = 1
+    # offset = pageNumber*6
+    # articlesAll = Article.objects.filter(division = request.user.designation.division)
+    #
+    # # totalCatg = Catrgory.objects.all()
+    # # for i in totalCatg:
+    # #     articlescount = Article.objects.filter(category = i).count()
+    # #     i.articlesCount = articlescount
+    #
+    # first_set =[]
+    # pageCount = math.floor(float(articlesAll.count())/float(5))
+    # pageNumbers = range(1, int(pageCount+1))
+    #
+    # print pageNumbers
+    # randPks = []
+    # if len(articlesAll) >0:
+    #     for i in range(1,len(articlesAll),3):
+    #         randPks.append(articlesAll[i])
+    #
+    #
+    #
+    # featuredblogs = articlesAll.filter(featuredContent = True)[:4]
+    # print featuredblogs,'49320842390'
+    # for i in featuredblogs:
+    #     if i.contents.all().count()>0 and  i.contents.all()[0].content != None:
+    #         i.introSectionImg = i.contents.all()[0].img
+    #         print i.pk
+    #
+    # blogs = articlesAll[offset:offset+6]
+    # prevpage = 0
+    # nextpage = 0
+    # if pageNumber > 0:
+    #     prevpage = pageNumber-1
+    # if len(blogs) > 0:
+    #     nextpage = pageNumber+1
+    #     print  nextpage ,'klsafkalsdkfldsfialsdf'
+    # else:
+    #     nextpage = pageNumber
+    # if len(blogs) >0:
+    #     for i in blogs:
+    #         if i.contents.all().count()>0 and  i.contents.all()[0].content != None:
+    #             i.introSectionTxt = i.contents.all()[0].content
+    #             i.introSectionImg = i.contents.all()[0].img
+    #             i.tagsArr = i.tags.split(',')
+    #             i.tagsArr.pop(-1)
+    #
+    # currentPage = pageNumber+1
+    # if pageNumber!=0:
+    #     currentPage = pageNumber
 
-    # totalCatg = Catrgory.objects.all()
-    # for i in totalCatg:
-    #     articlescount = Article.objects.filter(category = i).count()
-    #     i.articlesCount = articlescount
-
-    first_set =[]
-    pageCount = math.floor(float(articlesAll.count())/float(5))
-    pageNumbers = range(1, int(pageCount+1))
-
-    print pageNumbers
-    randPks = []
-    if len(articlesAll) >0:
-        for i in range(1,len(articlesAll),3):
-            randPks.append(articlesAll[i])
 
 
-
-    featuredblogs = articlesAll.filter(featuredContent = True)[:4]
-    print featuredblogs,'49320842390'
-    for i in featuredblogs:
-        if i.contents.all().count()>0 and  i.contents.all()[0].content != None:
-            i.introSectionImg = i.contents.all()[0].img
-            print i.pk
-
-    blogs = articlesAll[offset:offset+6]
-    prevpage = 0
-    nextpage = 0
-    if pageNumber > 0:
-        prevpage = pageNumber-1
-    if len(blogs) > 0:
-        nextpage = pageNumber+1
-        print  nextpage ,'klsafkalsdkfldsfialsdf'
-    else:
-        nextpage = pageNumber
-    if len(blogs) >0:
-        for i in blogs:
-            if i.contents.all().count()>0 and  i.contents.all()[0].content != None:
-                i.introSectionTxt = i.contents.all()[0].content
-                i.introSectionImg = i.contents.all()[0].img
-                i.tagsArr = i.tags.split(',')
-                i.tagsArr.pop(-1)
-
-    currentPage = pageNumber+1
-    if pageNumber!=0:
-        currentPage = pageNumber
+    return render(request,"app.HR.blogs.html" , {})
 
 
+def blogDetails(request, blogname):
+    # blogobj = blogPost.objects.get(title=blogname)
+    # title = blogobj.title
+    # header = blogobj.header
+    # us = ''
+    # blogId = blogobj.pk
+    # count = 0
+    # for j in blogobj.users.all():
+    #     if count == 0:
+    #         us = j.first_name + ' ' + j.last_name
+    #     else:
+    #         us += ' , ' + j.first_name + ' ' + j.last_name
+    #     count += 1
+    # date = blogobj.created
+    # body = blogobj.source
 
-    return render(request,"app.HR.blogs.html" , {"blogs" : blogs,"featuredblogs":featuredblogs,"home" : False , "pageNumber" : pageNumber ,"prevpage":prevpage, "nextPage" : nextpage , "firstArticle" : featuredblogs[0] , "pageNumbers" : pageNumbers , "pageCount" : int(pageCount) , "currentPage" : currentPage,'totalCatg':[]})
+    return render(request, 'blogdetails.html', {"blogname" : blogname})
+
 
 from django.urls import resolve
 def DivisionblogDetails(request ,apiKey, articleUrl):
