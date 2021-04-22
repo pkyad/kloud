@@ -2102,9 +2102,11 @@ app.directive('blogMain', function() {
     transclude: true,
     replace: true,
     controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
+      var url = '/api/blogging/article/'
+
       $http({
         method: 'GET',
-        url: '/api/blogging/article/',
+        url: url,
       }).
       then(function(response) {
         $scope.allBlogs = response.data
@@ -2123,6 +2125,102 @@ app.directive('blogMain', function() {
         })
       }
 
+    },
+  };
+});
+app.directive('blogDetail', function() {
+  return {
+    templateUrl: '/static/ngTemplates/blogdetail.html',
+     // css: '/static/css/careerview.css',
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    controller: function($scope, $state, $http, Flash, $rootScope, $filter, $users) {
+      $scope.me = $users.get('mySelf');
+      var url = '/api/blogging/article/?articleUrl='+BLOG_NAME
+      $http({
+        method: 'GET',
+        url: url,
+      }).
+      then(function(response) {
+        $scope.blogData = response.data[0]
+        $scope.getComments()
+      })
+      $scope.getComments = function(){
+        $http({
+          method: 'GET',
+          url: '/api/blogging/comment/',
+        }).
+        then(function(response) {
+          $scope.commentSent = response.data
+        })
+
+      }
+      $scope.showField = false
+      $scope.resetForm = function() {
+        $scope.data = {
+          txt: '',
+          name: '',
+          email: ''
+        }
+      }
+      $scope.resetForm()
+
+      $scope.error = ''
+      $scope.success = ''
+      $scope.commentSent = []
+      $scope.addComment = function() {
+
+        if ($scope.data.txt == '') {
+          $scope.error = "Add Comment"
+          return
+        }
+        if ($scope.data.name == '') {
+          $scope.error = "Add Name"
+          return
+        }
+        if ($scope.data.email == '') {
+          $scope.error = "Add Email"
+          return
+        }
+
+
+        $http({
+          method: 'POST',
+          url: '/api/blogging/comment/',
+          data: {
+            txt: $scope.data.txt,
+            name: $scope.data.name,
+            email: $scope.data.email,
+            article: $scope.blogData.pk
+          }
+        }).
+        then(function(response) {
+          $scope.error = ''
+          $scope.success = "Successfully Added!"
+          $scope.commentSent.push(response.data);
+          $scope.resetForm()
+          $timeout(function() {
+            $scope.success = ''
+          }, 2000);
+        })
+      }
+      $scope.verify = function(indx){
+        $http({
+          method: 'PATCH',
+          url: '/api/blogging/comment/' +$scope.commentSent[indx].pk+'/' ,
+          data:{
+            verified:true
+          }
+        }).
+        then(function(response) {
+          // Flash.create('success','Marked as Verified')
+          // $scope.getComments()
+          $scope.commentSent[indx].verified = true
+          return ;
+        })
+
+      }
     },
   };
 });
