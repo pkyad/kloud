@@ -13,5 +13,5 @@ router.register(r'jobContext' , JobContextViewset , base_name ='jobContext')
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'createJob/$' ,CreateJobAPIView.as_view() ),
-
+    url(r'isMachineExist/$' ,IsMachineExist, name = 'isMachineExist' ),
 ]
