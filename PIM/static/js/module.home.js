@@ -322,14 +322,17 @@ $scope.getPayroll()
 $scope.checkLeaves()
   $scope.saveUserLeaves = function(){
     var totalDays = calcDays($scope.form.fromDate ,$scope.form.toDate )
+    console.log(totalDays,'aaaaaaaaaaaaaa');
     if ($scope.form.selected == 'ML') {
-      if (totalDays>$scope.payrollData.mlCurrMonthLeaves) {
+      if (totalDays>$scope.leavesData.montlyml) {
         Flash.create('warning', 'You cannot apply for ML leaves more than ' + $scope.payrollData.ml )
+        return
       }
     }
     if ($scope.form.selected == 'AL') {
-      if (totalDays>$scope.payrollData.alCurrMonthLeaves) {
+      if (totalDays>$scope.leavesData.montlyal) {
         Flash.create('warning', 'You cannot apply for AL leaves more than ' + $scope.payrollData.ml )
+        return
       }
     }
     if ($scope.form.comment.length == 0) {

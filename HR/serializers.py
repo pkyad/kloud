@@ -325,18 +325,18 @@ class leaveSerializer(serializers.ModelSerializer):
             print 'sameeeeeeeeeee'
         elif validated_data['days'] > 15:
             print 'moreeeeeeeeeeee'
-        payrollObj = payroll.objects.get(pk=int(self.context['request'].data['payroll']))
-        if self.context['request'].data['category'] == 'ML':
-            print 'mlllllllllllll',payrollObj.ml
-            payrollObj.mlHold = payrollObj.mlHold + int(self.context['request'].data['holdDays'])
-            payrollObj.mlCurrMonthLeaves = payrollObj.mlCurrMonthLeaves - int(self.context['request'].data['holdDays'])
-        elif self.context['request'].data['category'] == 'AL':
-            payrollObj.alHold = payrollObj.alHold + int(self.context['request'].data['holdDays'])
-            payrollObj.alCurrMonthLeaves = payrollObj.alCurrMonthLeaves - int(self.context['request'].data['holdDays'])
-        elif self.context['request'].data['category'] == 'casual':
-            payrollObj.adHocLeavesHold = payrollObj.adHocLeavesHold + int(self.context['request'].data['holdDays'])
-            payrollObj.adHocLeaves = payrollObj.adHocLeaves - int(self.context['request'].data['holdDays'])
-        payrollObj.save()
+        # payrollObj = payroll.objects.get(pk=int(self.context['request'].data['payroll']))
+        # if self.context['request'].data['category'] == 'ML':
+        #     print 'mlllllllllllll',payrollObj.ml
+        #     payrollObj.mlHold = payrollObj.mlHold + int(self.context['request'].data['holdDays'])
+        #     payrollObj.mlCurrMonthLeaves = payrollObj.mlCurrMonthLeaves - int(self.context['request'].data['holdDays'])
+        # elif self.context['request'].data['category'] == 'AL':
+        #     payrollObj.alHold = payrollObj.alHold + int(self.context['request'].data['holdDays'])
+        #     payrollObj.alCurrMonthLeaves = payrollObj.alCurrMonthLeaves - int(self.context['request'].data['holdDays'])
+        # elif self.context['request'].data['category'] == 'casual':
+        #     payrollObj.adHocLeavesHold = payrollObj.adHocLeavesHold + int(self.context['request'].data['holdDays'])
+        #     payrollObj.adHocLeaves = payrollObj.adHocLeaves - int(self.context['request'].data['holdDays'])
+        # payrollObj.save()
         l = Leave(**validated_data)
         l.user = self.context['request'].user
         if validated_data['fromDate'] < datetime.date.today():

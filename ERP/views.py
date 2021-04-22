@@ -2327,6 +2327,8 @@ class AddNewUserAPIView(APIView):
             CreateProducts(div.pk)
         if div.divisionContacts.all().count() == 0:
             CreateContact(div.pk, user.pk)
+        if div.articles.all().count() == 0:
+            CreateBlog(div.pk, user.pk)
         data = {'url' : globalSettings.SITE_ADDRESS+ '/tlogin/?token=' + profile.linkToken}
         return Response(data, status = status.HTTP_200_OK)
 
