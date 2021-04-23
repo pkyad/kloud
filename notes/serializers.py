@@ -9,7 +9,7 @@ from HR.serializers import userSearchSerializer,userSerializer,userLiteSerialize
 class notebookSerializer(serializers.ModelSerializer):
     class Meta:
         model = notebook
-        fields = ('pk' , 'user', 'created' , 'pages' , 'title','project')
+        fields = ('pk' , 'user', 'created' , 'pages' , 'title','project','parent')
         read_only_fields = ('pages' , )
     def create(self , validated_data):
         n = notebook.objects.create(**validated_data)

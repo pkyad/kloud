@@ -2114,6 +2114,16 @@ app.directive('blogMain', function() {
       $scope.goTo = function(){
         $state.go('businessManagement.newBlog')
       }
+      $http({
+        method: 'GET',
+        url: '/api/blogging/getCategories/',
+      }).
+      then(function(response) {
+        $scope.getCategories = response.data
+      })
+
+
+
 
       $scope.delete = function(indx){
         $http({
@@ -2221,6 +2231,28 @@ app.directive('blogDetail', function() {
         })
 
       }
+    },
+  };
+});
+app.directive('blogCategory', function() {
+  return {
+    templateUrl: '/static/ngTemplates/blogCategory.html',
+     // css: '/static/css/careerview.css',
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    controller: function($scope, $state, $http, Flash, $rootScope, $filter, $users) {
+      $scope.me = $users.get('mySelf');
+      $scope.category = CATEGORY_NAME
+      var url = '/api/blogging/article/?category='+CATEGORY_NAME
+      $http({
+        method: 'GET',
+        url: url,
+      }).
+      then(function(response) {
+        $scope.blogData = response.data
+      })
+
     },
   };
 });

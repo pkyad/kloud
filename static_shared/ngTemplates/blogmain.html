@@ -57,7 +57,7 @@
         <div class="blog_date_tag">
           <ul style="padding:0px;display:flex;margin-top:30px;">
             <p style="color:white;font-size:18px;margin-bottom:0px;">
-              <li style="color:white;font-size:18px;margin-left:30px;">{{allBlogs[0].created}}</li>
+              <li style="color:white;font-size:18px;margin-left:30px;">{{allBlogs[0].created | date: 'dd-MMM-yyyy : hh:mm a'}}</li>
             </p>
           </ul>
         </div>
@@ -102,7 +102,7 @@
                     <div class="text-left" style="padding:20px;padding-left: 0px;padding-right: 0px;">
                       <p style="color:#0085ca"><strong>{{i.category}}</strong></p>
                       <a class="blog_text" href="/detailsblogs/{{i.articleUrl}}" style="display:block;margin-bottom:10px;min-height:100px;">{{i.title }}</a>
-                      <p style="margin-top:10px;color:rgba(0,40,85,.5)">{{i.created | date}}</p>
+                      <p style="margin-top:10px;color:rgba(0,40,85,.5)">{{i.created | date: 'dd-MMM-yyyy : hh:mm a'}}</p>
                     </div>
                   </div>
                 </div>
@@ -131,7 +131,61 @@
 
           </div>
           <div class="col-lg-3 ">
+            <h4 style="text-transform:uppercase;font-weight:bold;font-size:16px;">Blog categories</h4>
 
+
+                    <!-- {% for i in totalCatg %}
+                    {% if i.articlesCount > 0%} -->
+                    <div class="blog_cat " style="" ng-repeat="i in getCategories">
+                      <div class="col-lg-10 col-xs-8 text-left" style="padding:10px" ng-click="filBlog('{{i.pk}}')">
+                        <p style="font-weight:normal;color:#0085ca;font-family:'Poppins',sans-serif" ><a href="/category/{{i.name}}">{{i.name}}</a></p>
+                      </div>
+                      <div class="col-lg-2 col-xs-4" style="padding:10px">
+                        <span class="badge" style="background-color:#f1f1f1;color:black;font-weight:normal;padding:6px 15px;float:right">{{i.count}}</span>
+                      </div>
+                    </div>
+                    <!-- {% endif %}
+                  {% endfor %} -->
+
+                  <!--
+                    <div class="blog_sub" style="margin-top:40px;margin-bottom:40px;" ng-controller="controller.uipath-go-compoments">
+                      <h4 style="text-transform:uppercase;font-weight:bold;font-size:16px;">subscribe to newsletter</h4>
+                      <div class="row">
+                        <div class="col-lg-12 col-xs-12">
+                          <div class="" style="color:#bf0000" ng-if="errorMsg.length>0" >
+                            <span > * {{errorMsg}} </span>
+                          </div>
+                          <div class="" style="color:#02ba3a" ng-if="successMsg.length>0">
+                            <span >  {{successMsg}} </span>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="form-group" style="margin-top:25px;">
+                        <label for="inputlg" style="font-weight:normal">Email*</label>
+                        <input class="form-control input-lg" id="bloginput" type="email" ng-model="data.email" style="border:none;background-color:#f1f2f7ff;font-weight:normal;width:100%;border-radius:30px;height:50px;padding:20px;">
+                      </div>
+                      <button type="submit" class="btn btn-default btn_subscribe" ng-click="subscribeData()">Subscribe</button>
+
+                    </div> -->
+
+                    <!-- <div class="blog_updates" style="border-top:1px solid #ccc;border-bottom:1px solid #ccc;padding:20px;">
+                      <div class="row" style="margin:0px;">
+                        <div class="col-lg-3 col-xs-3 ">
+                            <i class="fa fa-linkedin" aria-hidden="true" style="font-size:25px"></i>
+                        </div>
+                        <div class="col-lg-3 col-xs-3">
+                            <i class="fa fa-facebook" aria-hidden="true" style="font-size:25px"></i>
+                        </div>
+                        <div class="col-lg-3 col-xs-3">
+                            <i class="fa fa-twitter" aria-hidden="true" style="font-size:25px;"></i>
+                        </div>
+                        <div class="col-lg-3 ol-xs-3">
+                            <i class="fa fa-youtube" aria-hidden="true" style="font-size:25px;"></i>
+                        </div>
+                      </div>
+
+                    </div> -->
 
           </div>
         </div>

@@ -98,7 +98,7 @@ class projectSerializer(serializers.ModelSerializer):
         p.save()
         return p
     def update(self, instance , validated_data):
-        for key in ['dueDate' , 'title' , 'description','budget','projectClosed',]:
+        for key in ['dueDate' , 'title' , 'description','budget','projectClosed']:
             try:
                 setattr(instance , key , validated_data[key])
             except:

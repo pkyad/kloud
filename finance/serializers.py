@@ -378,6 +378,21 @@ class ExpenseHeadingSerializer(serializers.ModelSerializer):
         model = ExpenseHeading
         fields = ('pk', 'title')
 
+class SalesliteSerializer(serializers.ModelSerializer):
+    costcenter = CostCenterLiteSerializer(many = False , read_only = True)
+    bussinessunit = UnitsLiteSerializer(many=False,read_only=True)
+    tax = serializers.SerializerMethodField()
+    salesQty= serializers.SerializerMethodField()
+    class Meta:
+        model = Sale
+        fields=('pk','created','user','status','isInvoice','poNumber','name','personName','phone','email','address','pincode','state','city','country','pin_status','deliveryDate','payDueDate','gstIn','costcenter','bussinessunit','tax','recDate','total','totalGST','paidAmount','balanceAmount','cancelled','cancelledDate','division','isCash','paymentImage','paymentRef','isPerforma','sameasbilling','billingAddress','billingPincode','billingState','billingCity','billingCountry','salesQty')
+    def get_tax(self , obj):
+        objData = SalesQty.objects.filter(outBound=obj.pk).aggregate(tot=Sum(((F('total')*F('tax'))/100) ,output_field=FloatField()))
+        tot = round(objData['tot']) if objData['tot'] else 0
+        return tot
+    def get_salesQty(self , obj):
+
+        return SalesQtySerializer(obj.outBoundQty.all(),many=True).data
 class SaleSerializer(serializers.ModelSerializer):
     costcenter = CostCenterLiteSerializer(many = False , read_only = True)
     bussinessunit = UnitsLiteSerializer(many=False,read_only=True)

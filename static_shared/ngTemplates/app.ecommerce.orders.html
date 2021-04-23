@@ -1,0 +1,174 @@
+<div class="row card" style="padding:20px; border-left:4px solid #0c9a9e;position:relative;margin-bottom:20px;margin:30px;" ng-repeat="data in datas track by $index">
+  <div class="row">
+    <div class="col-md-12">
+
+      <strong> Order No. : #{{data.pk}} </strong>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-md-9 hidden-sm hidden-xs">
+      <div class="row">
+        <div class="col-md-3 hidden-sm hidden-xs">
+          <span style="font-size:15px;"> Total Amount : <i class="fa {{currency}}"></i> {{data.total}} </span>
+        </div>
+        <div class="col-md-3 hidden-sm hidden-xs">
+          <span style="font-size:15px;"> Payment Mode : {{data.paymentMode}} </span>
+        </div>
+        <div class="col-md-3 hidden-sm hidden-xs">
+          <span style="font-size:15px;">  Approved :{{data.approved}} </span>
+        </div>
+        <div class="col-md-3 hidden-sm hidden-xs">
+          <span style="font-size:15px;"> Status : {{data.status}} </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 hidden-sm hidden-xs">
+      <div class="row">
+        <div class="col-md-6  hidden-sm hidden-xs">
+          <i class="fa fa-info fa-2x" style="cursor:pointer;" ng-click="showInfo=!showInfo"></i>
+        </div>
+        <div class="col-md-6  hidden-sm hidden-xs">
+          <a href="/api/finance/invoiceDownload/?value={{data.pk}}&typ=outbond" target="_blank"><button style="width:140px" class="btn btn-primary pull-right"><i class="fa fa-download "></i> Invoice</button></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-8 col-sm-8 hidden-md hidden-lg">
+      <div class="row">
+        <div class="col-xs-12 col-sm-3 hidden-md hidden-lg">
+          <span style="font-size:10px;"> Total Amount : <i class="fa {{currency}}"></i> {{data.totalAmount}}</span>
+        </div>
+        <div class="col-xs-12 col-sm-3 hidden-md hidden-lg">
+          <span style="font-size:10px;"> Payment Mode : {{data.paymentMode}} </span>
+        </div>
+        <div class="col-xs-12 col-sm-3 hidden-md hidden-lg">
+          <span style="font-size:10px;">  Approved :{{data.approved}} </span>
+        </div>
+        <div class="col-xs-12 col-sm-3 hidden-md hidden-lg">
+          <span style="font-size:10px;"> Status : {{data.status}} </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-4 col-sm-4 hidden-md hidden-lg">
+      <div class="row">
+        <div class="col-xs-6 col-sm-6 hidden-md hidden-lg">
+          <i class="fa fa-info fa-2x" style="cursor:pointer;" ng-click="showInfo=!showInfo"></i>
+        </div>
+        <div class="col-xs-6 col-sm-6 hidden-md hidden-lg">
+          <a href="/api/finance/invoiceDownload/?value={{data.pk}}&typ=outbond" target="_blank"><i class="fa fa-download fa-2x "></i> </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row anim-in-out anim-fade" data-anim-speed="200" ng-if="showInfo">
+    <hr>
+    <div class="container-fluid">
+      <div class="col-md-9 col-sm-12 col-xs-12">
+        <div class="row">
+          <strong>Address :</strong>
+          <span ng-if="data.street"> {{data.street}} ,</span>
+          <span ng-if="data.city"></span> {{data.city}} ,
+          <span ng-if="data.state"></span> {{data.state}} ,
+          <span ng-if="data.pincode"></span> {{data.pincode}} ,
+          <span ng-if="data.landMark"></span> landmark - {{data.landMark}}
+          <strong style="padding-left:15px;">Mobile :</strong> <span ng-if="data.mobileNo"> {{data.phone}}</span>
+        </div>
+        <div class="row">
+          <span ng-if="data.promoCode">   <strong>Coupon Applied:</strong>  {{data.promoCode}} - {{data.promoDiscount}}% </span>
+        </div>
+      </div>
+      <div class="col-md-3 col-xs-12 col-sm-12 text-center" ng-hide=" data.hideCancelBtn || data.hideReturnBtn">
+        <div class="row">
+          <div class="btn-group">
+            <button type="button" name="button" class="btn btn-danger" ng-click="tableAction1(data.pk,'cancel')"> Cancel </button>
+            <button type="button" name="button" class="btn btn-primary" ng-click="tableAction1(data.pk,'return')"> Return </button>
+          </div>
+        </div>
+        <div class="row">
+          <span class="text-muted"> Select one or more item to cancel or return </span>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="row" style="padding-top:15px;">
+          <div class="col-md-offset-1 col-sm-offset-1 {{isStoreGlobal==true?'col-md-4 col-sm-4':'col-md-3 col-sm-3'}}  hidden-xs">
+            <strong>Products </strong>
+          </div>
+          <div class="col-md-1 col-sm-1 hidden-xs">
+            <strong>Qty </strong>
+          </div>
+          <div ng-if="!isStoreGlobal" class="col-md-2 col-sm-2  hidden-xs">
+            <strong>Price  <span class="text-muted"> (+ GST)</span> </strong>
+          </div>
+          <div class="col-md-2 col-sm-2  hidden-xs">
+            <strong>Total</strong>
+          </div>
+          <div class="col-md-2 col-sm-2 hidden-xs">
+            <strong>Status </strong>
+          </div>
+          <div class="{{isStoreGlobal==true?'col-md-2 col-sm-2':'col-md-1 col-sm-1'}}  hidden-xs">
+            <strong>Track </strong>
+          </div>
+        </div>
+        <div class="row  hidden-xs" ng-repeat="i in data.salesQty">
+          <div class="col-md-1 col-sm-1 ">
+            <input type="checkbox" ng-model="i.selected" ng-show="i.status!='cancelled'&&i.status!='returned'">
+          </div>
+          <div class="{{isStoreGlobal==true?'col-md-4 col-sm-4':'col-md-3 col-sm-3'}} ">
+
+            <span > {{i.product.slice(0,25)}}
+
+              <!-- <span ng-if="i.product.product.unit!='Size and Color'&&i.product.product.unit!='Size'"> <span ng-if="i.product.product.howMuch!=1||i.product.product.unit!='Quantity'"> {{i.productName.slice(0,25)}} {{i.prodVar[0].unitPerpack | convertUnit:i.product.product.unit}}
+              </span>
+            <span ng-if="i.product.product.unit=='Size and Color'||i.product.product.unit=='Size'"> {{i.productName.slice(0,25)}} {{i.prodVar[0].unitPerpack}} {{i.desc}}
+              </span> -->
+            </span>
+          </div>
+          <div class="col-md-1 col-sm-1">
+            {{i.qty}}
+          </div>
+          <div ng-if="!isStoreGlobal" class="col-md-2 col-sm-2 ">
+            <span>
+            <i class="fa {{currency}}"></i> {{(i.price * i.qty).toFixed(2)}}</span>
+          </div>
+          <div class="col-md-2 col-sm-2 ">
+            <i class="fa {{currency}}"></i> {{(i.total).toFixed(2)}}
+          </div>
+          <div class="col-md-2 col-sm-2 hidden-xs">
+            {{i.status}}
+          </div>
+          <div class="{{isStoreGlobal==true?'col-md-2 col-sm-2':'col-md-1 col-sm-1'}}  hidden-xs">
+            <i style="cursor:pointer; padding-left:5px;" class="fa fa-info fa-lg" ng-click="showDetails(i)"></i>
+          </div>
+        </div>
+        <div class="row  hidden-sm  hidden-md hidden-lg " ng-repeat="i in data.salesQty">
+          <div class="col-xs-12  ">
+            <div class="row">
+              <div class="col-xs-1 ">
+                <input type="checkbox" ng-model="i.selected" ng-show="i.status!='cancelled'&&i.status!='returned'">
+              </div>
+              <div class="col-xs-10 ">
+                {{i.product.slice(0,25)}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-1 ">
+                {{i.qty}}
+              </div>
+              <div class="col-xs-5" style="cursor:pointer;">
+                <i class="fa {{currency}}"></i> {{((i.priceDuringOrder - i.discountAmount) * i.qty).toFixed(2)}}
+              </div>
+              <div class="col-xs-4 ">
+                {{i.status}}
+              </div>
+              <div class="col-xs-1 text-center">
+                <i style="cursor:pointer;" class="fa fa-info" ng-click="showDetails(i)"></i>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+    </div>

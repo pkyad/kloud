@@ -323,7 +323,11 @@ app.directive('ecommerceHeader', function() {
         location.reload();
       }
       $scope.goToProfile = function(){
-        window.location.href = '/pages/'+$scope.division+'/profile'
+        window.location.href = '/pages/'+DIVISION_APIKEY+'/profile'
+        return
+      }
+      $scope.gotoOrders = function(){
+        window.location.href = '/pages/'+DIVISION_APIKEY+'/orders'
         return
       }
 
@@ -1908,6 +1912,10 @@ app.directive('productDetails', function() {
         }
         })
       }
+
+      $scope.gotoDetails = function(pk,url){
+        window.open('/pages/'+$scope.division+'/details/'+pk+'/'+url,'_self')
+      }
       $scope.cartData = []
       $scope.checkOtherCart = function(){
           detail = getCookie("addToCart");
@@ -2042,3 +2050,284 @@ app.directive('productDetails', function() {
 
 
 });
+
+app.directive('ordersView',function(){
+  return {
+    templateUrl: '/static/ngTemplates/app.ecommerce.orders.html',
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+
+    controller: function($scope, $state, $http, Flash, $rootScope, $users, $filter, $interval,$timeout) {
+      console.log($scope.data,"ll");
+      $scope.getOrders = function(){
+        $http({
+          method:'GET',
+          url:'/api/finance/saleslite/?limit=10&isInvoice=false'
+        }).then(function(response){
+          $scope.datas = response.data.results
+        })
+      }
+      $scope.getOrders()
+  //     $scope.showDetails = function(val) {
+  //         $scope.trackItem = val
+  //         $uibModal.open({
+  //           templateUrl: '/static/ngTemplates/app.ecommerce.orders.trackModal.html',
+  //           size: 'lg',
+  //           backdrop: true,
+  //           resolve: {
+  //             items: function() {
+  //               return $scope.trackItem;
+  //             }
+  //           },
+  //           controller: function($scope, items, $state, $http, $timeout, $uibModal, $users, Flash, $uibModalInstance,$uibModal) {
+  //
+  //
+  //             $scope.trackItems = items
+  //
+  //
+  //
+  //           }
+  //
+  //         })
+  // }
+      // $timeout(function() {
+      //   for (var i = 0; i < $scope.data.length; i++) {
+      //     $scope.data[i].showInfo = false;
+      //     $scope.data[i].hideCancelBtn = false
+      //     $scope.data[i].hideReturnBtn = false
+      //     $scope.data[i].cancelCount = 0;
+      //     $scope.data[i].returnCount = 0;
+      //
+      //     for (var j = 0; j < $scope.data[i].orderQtyMap.length; j++) {
+      //       $scope.data[i].orderQtyMap[j].selected = false;
+      //       if ($scope.data[i].orderQtyMap[j].status == 'cancelled') {
+      //         $scope.data[i].cancelCount++
+      //       }
+      //       if ($scope.data[i].orderQtyMap[j].status == 'returned') {
+      //         $scope.data[i].returnCount++;
+      //       }
+      //     }
+      //     if ($scope.data[i].cancelCount == $scope.data[i].orderQtyMap.length) {
+      //       $scope.data[i].hideCancelBtn = true
+      //     }
+      //     if ($scope.data[i].returnCount == $scope.data[i].orderQtyMap.length) {
+      //       $scope.data[i].hideReturnBtn = true
+      //     }
+      //
+      //
+      //   }
+      //
+      // }, 2000);
+
+
+
+
+      // $scope.tableAction1 = function(target, action) {
+      //   for (var i = 0; i < $scope.data.length; i++) {
+      //     if ($scope.data[i].pk == parseInt(target)) {
+      //
+      //       if (action == 'toggleInfo') {
+      //         $scope.data[i].showInfo = !$scope.data[i].showInfo;
+      //       } else if (action == 'cancel') {
+      //
+      //         $scope.itemsToBeDeleted = [];
+      //
+      //
+      //         for (var j = 0; j < $scope.data[i].orderQtyMap.length; j++) {
+      //           if ($scope.data[i].orderQtyMap[j].selected == true) {
+      //             if ($scope.data[i].orderQtyMap[j].status == 'created' || $scope.data[i].orderQtyMap[j].status == 'packed') {
+      //               $scope.itemsToBeDeleted.push($scope.data[i].orderQtyMap[j])
+      //             } else {
+      //               // $scope.data[i].orderQtyMap[j].selected = false;
+      //               Flash.create('warning', 'selected items cant be cancelled')
+      //               return
+      //             }
+      //           }
+      //         }
+      //
+      //
+      //
+      //         if ($scope.itemsToBeDeleted.length > 0) {
+      //           $scope.indexofthis = i
+      //           $uibModal.open({
+      //             templateUrl: '/static/ngTemplates/app.ecommerce.orders.cancelModalWindow.html',
+      //             size: 'md',
+      //             backdrop: true,
+      //             resolve: {
+      //               items: function() {
+      //                 return $scope.itemsToBeDeleted;
+      //               }
+      //             },
+      //             controller: function($scope, items, $state, $http, $timeout, $uibModal, $users, Flash, $uibModalInstance) {
+      //               $scope.state = 'cancel';
+      //               $scope.items = items;
+      //               $scope.amtToBeRefunded = 0;
+      //               $scope.currency = settings_currencySymbol
+      //
+      //               for (var i = 0; i < $scope.items.length; i++) {
+      //                 $scope.amtToBeRefunded = $scope.amtToBeRefunded + $scope.items[i].paidAmount
+      //               }
+      //
+      //               $scope.cancel = function() {
+      //                 for (var i = 0; i < $scope.items.length; i++) {
+      //                   var pk = $scope.items[i].pk
+      //                   $http({
+      //                     method: 'PATCH',
+      //                     url: '/api/ecommerce/orderQtyMap/' + pk + '/',
+      //                     data: {
+      //                       status: 'cancelled'
+      //                     }
+      //                   }).
+      //                   then(function(response) {
+      //                     var toSend = {
+      //                       value: response.data.pk
+      //                     };
+      //                     $http({
+      //                       method: 'POST',
+      //                       url: '/api/ecommerce/sendStatus/',
+      //                       data: toSend
+      //                     }).
+      //                     then(function(response) {})
+      //                     $rootScope.$broadcast('forceRefetch', {});
+      //                     Flash.create('success', 'selected items cancelled')
+      //                     $uibModalInstance.dismiss();
+      //                   })
+      //                 }
+      //               }
+      //
+      //             },
+      //           }).result.then(function() {
+      //
+      //           }, function(res) {
+      //
+      //             $timeout(function() {
+      //               $scope.data[$scope.indexofthis].cancelCount = 0
+      //               $scope.data[$scope.indexofthis].returnCount = 0
+      //               for (var j = 0; j < $scope.data[$scope.indexofthis].orderQtyMap.length; j++) {
+      //                 $scope.data[$scope.indexofthis].orderQtyMap[j].selected = false;
+      //                 if ($scope.data[$scope.indexofthis].orderQtyMap[j].status == 'cancelled') {
+      //                   $scope.data[$scope.indexofthis].cancelCount++
+      //                 }
+      //                 if ($scope.data[$scope.indexofthis].orderQtyMap[j].status == 'returned') {
+      //                   $scope.data[$scope.indexofthis].returnCount++;
+      //                 }
+      //               }
+      //
+      //               if ($scope.data[$scope.indexofthis].cancelCount == $scope.data[$scope.indexofthis].orderQtyMap.length) {
+      //                 $scope.data[$scope.indexofthis].hideCancelBtn = true
+      //               }
+      //               if ($scope.data[$scope.indexofthis].returnCount == $scope.data[$scope.indexofthis].orderQtyMap.length) {
+      //                 $scope.data[$scope.indexofthis].hideReturnBtn = true
+      //               }
+      //             }, 2000);
+      //
+      //           });
+      //         } else {
+      //           Flash.create('warning', 'Please select items to cancel')
+      //         }
+      //
+      //
+      //       } else if (action == 'return') {
+      //
+      //         $scope.itemsToBeReturned = [];
+      //
+      //         for (var j = 0; j < $scope.data[i].orderQtyMap.length; j++) {
+      //           if ($scope.data[i].orderQtyMap[j].selected == true) {
+      //             if ($scope.data[i].orderQtyMap[j].status == 'delivered') {
+      //               $scope.itemsToBeReturned.push($scope.data[i].orderQtyMap[j])
+      //             } else {
+      //               // $scope.data[i].orderQtyMap[j].selected = false;
+      //               Flash.create('warning', 'selected items cant be returned')
+      //               return
+      //             }
+      //           }
+      //         }
+      //
+      //         if ($scope.itemsToBeReturned.length > 0) {
+      //           $uibModal.open({
+      //             templateUrl: '/static/ngTemplates/app.ecommerce.orders.cancelModalWindow.html',
+      //             size: 'md',
+      //             backdrop: true,
+      //             resolve: {
+      //               items: function() {
+      //                 return $scope.itemsToBeReturned;
+      //               }
+      //             },
+      //             controller: function($scope, items, $state, $http, $timeout, $uibModal, $users, Flash, $uibModalInstance) {
+      //               $scope.state = 'return';
+      //               $scope.items = items;
+      //               $scope.amtToBeRefunded = 0;
+      //               $scope.currency = settings_currencySymbol
+      //
+      //               for (var i = 0; i < $scope.items.length; i++) {
+      //                 $scope.amtToBeRefunded = $scope.amtToBeRefunded + $scope.items[i].paidAmount
+      //               }
+      //
+      //               $scope.return = function() {
+      //                 for (var i = 0; i < $scope.items.length; i++) {
+      //                   var pk = $scope.items[i].pk
+      //                   $http({
+      //                     method: 'PATCH',
+      //                     url: '/api/ecommerce/orderQtyMap/' + pk + '/',
+      //                     data: {
+      //                       status: 'returned'
+      //                     }
+      //                   }).
+      //                   then(function(response) {
+      //                     var toSend = {
+      //                       value: response.data.pk
+      //                     };
+      //                     $http({
+      //                       method: 'POST',
+      //                       url: '/api/ecommerce/sendStatus/',
+      //                       data: toSend
+      //                     }).
+      //                     then(function(response) {})
+      //                     $rootScope.$broadcast('forceRefetch', {});
+      //                     Flash.create('success', 'selected items returned')
+      //                     $uibModalInstance.dismiss();
+      //                   })
+      //                 }
+      //
+      //               }
+      //
+      //             },
+      //           }).result.then(function() {
+      //
+      //           }, function() {
+      //
+      //             $timeout(function() {
+      //               $scope.data[$scope.indexofthis].cancelCount = 0
+      //               $scope.data[$scope.indexofthis].returnCount = 0
+      //               for (var j = 0; j < $scope.data[$scope.indexofthis].orderQtyMap.length; j++) {
+      //                 $scope.data[$scope.indexofthis].orderQtyMap[j].selected = false;
+      //                 if ($scope.data[$scope.indexofthis].orderQtyMap[j].status == 'cancelled') {
+      //                   $scope.data[$scope.indexofthis].cancelCount++
+      //                 }
+      //                 if ($scope.data[$scope.indexofthis].orderQtyMap[j].status == 'returned') {
+      //                   $scope.data[$scope.indexofthis].returnCount++;
+      //                 }
+      //               }
+      //               if ($scope.data[$scope.indexofthis].cancelCount == $scope.data[$scope.indexofthis].orderQtyMap.length) {
+      //                 $scope.data[$scope.indexofthis].hideCancelBtn = true
+      //               }
+      //               if ($scope.data[$scope.indexofthis].returnCount == $scope.data[$scope.indexofthis].orderQtyMap.length) {
+      //                 $scope.data[$scope.indexofthis].hideReturnBtn = true
+      //               }
+      //             }, 2000);
+      //
+      //           });
+      //         } else {
+      //           Flash.create('warning', 'Please select item to return')
+      //         }
+      //
+      //
+      //       }
+      //
+      //     }
+      //   }
+      // }
+    }
+    }
+})

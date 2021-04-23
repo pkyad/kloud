@@ -1,6 +1,7 @@
 
 app.controller("businessManagement.clientRelationships.contacts", function($scope, $state, $users, $stateParams, $http, Flash,$uibModal) {
 
+
   $scope.data = {
     tableData: []
   };
@@ -181,6 +182,15 @@ $scope.next = function(){
     $scope.getallContacts ()
 
   }
+}
+
+$scope.refresh = function(){
+  $scope.contactForm ={
+    search:''
+  }
+  $scope.limit= 11
+  $scope.offset= 0
+  $scope.getallContacts()
 }
 
 $scope.uploadContactList = function(){
