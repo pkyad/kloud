@@ -71,6 +71,8 @@ class Campaign(models.Model):
     followUpText3 = models.TextField(max_length = 10000 , null= True)
     followUpText4 = models.TextField(max_length = 10000 , null= True)
     lead = models.ForeignKey(User , related_name='campaignlead' , null = True)
+    division = models.ForeignKey(Division , related_name='campaigns' , null = True)
+
 
 CAMPAIGN_ITEM_STATUS = (
     ('persuing', 'persuing'),
@@ -140,6 +142,8 @@ class TourPlan(models.Model):
     attachment = models.FileField(upload_to = getAttachmentPath ,  null = True)
     status = models.CharField(choices = APPROVED_STATUS , max_length = 15 , default = 'created')
     comment =  models.CharField(max_length = 1000 , null = True , blank = True)
+    division = models.ForeignKey(Division , related_name='tour_plans' , null = True)
+
     class Meta:
         unique_together = ('date', 'user')
 
@@ -174,7 +178,7 @@ class TourPlanStop(models.Model):
     country = models.TextField(max_length=500 , null=True , blank = True)
     lat  =models.CharField(max_length=20 , null=True , blank = True)
     lon  =models.CharField(max_length=20 , null=True , blank = True)
-
+    division = models.ForeignKey(Division , related_name='tour_plan_stops' , null = True)
 
 
 class CampaignTracker(models.Model):
@@ -188,7 +192,7 @@ class CampaignTracker(models.Model):
     context = models.TextField(max_length = 1000 , null= True)
     name = models.CharField(max_length = 10 , null= True)
     subject = models.CharField(max_length = 10 , null= True)
-
+    division = models.ForeignKey(Division , related_name='campaign_trackers' , null = True)
 
 LOG_TYP = (
     ('inbound' , 'inbound'),
