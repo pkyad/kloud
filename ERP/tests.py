@@ -21,24 +21,24 @@ import json
 
 
 
-# import requests
-#
-# url = 'http://localhost:8000/api/ERP/addNewUser/'
-# myobj = {'username' : 'neeluaa','first_name' : 'Neelu','last_name' : 'Singh','email' : 'neeluaa.s@aaa.in','applist' : ['app.messenger', 'app.catalogmaker','app.sales','app.chatbot','app.website'],'type':'chatbot'}
-#
-# x = requests.post(url, json = myobj)
+import requests
+
+url = 'http://localhost:8000/api/ERP/addNewUser/'
+myobj = {'username' : 'neeluaa','first_name' : 'Neelu','last_name' : 'Singh','email' : 'neeluaa.s@aaa.in','applist' : ['app.messenger', 'app.catalogmaker','app.sales','app.chatbot','app.website'],'type':'chatbot'}
+
+x = requests.post(url, json = myobj)
 #
 # #print the response text (the content of the requested file):
 #
 # print(x.text)
 
-from Crypto.Cipher import AES
-import base64
-
-obj = AES.new('This is a key123', AES.MODE_CBC, 'This is an IV456')
-message = "The answer is no"
-ciphertext = obj.encrypt(message)
-encoded_cipher = base64.b64encode(ciphertext)
-print encoded_cipher
-data = obj.decrypt(encoded_cipher)
-print data
+# from Crypto.Cipher import AES
+# import base64
+#
+# obj = AES.new('This is a key123', AES.MODE_CBC, 'This is an IV456')
+# message = "The answer is no"
+# ciphertext = obj.encrypt(message)
+# encoded_cipher = base64.b64encode(ciphertext)
+# print encoded_cipher
+# data = obj.decrypt(encoded_cipher)
+# print data
