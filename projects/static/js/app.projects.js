@@ -537,9 +537,9 @@ app.controller('projectManagement.project.wiki.explore', function($scope, $http,
 
   $scope.save = function() {
 
-    var url =  '/api/PIM/notes/' + $state.params.id + '/'
+    var url =  '/api/PIM/notes/' + $state.params.wikiid + '/'
     if ($scope.noteData) {
-      $http({method : 'PATCH' , url : url , data :{source : $scope.noteData.source} }).
+      $http({method : 'PATCH' , url : url , data :{source : $scope.noteData.source,project:$state.params.id} }).
       then(function(response) {
         Flash.create('success', 'Source Updated')
       })

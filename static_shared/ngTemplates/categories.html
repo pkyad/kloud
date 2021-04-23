@@ -135,7 +135,8 @@
         <div class="col-md-4 col-xs-12  text-right " style="padding:0px;">
           <span style=" font-size:24px;">₹{{i.rate}}</span><br>
           <span style="text-decoration:line-through; Color:lightgrey; top:58px;">₹{{i.mrp}} </span>
-          <span style="color:green ;top:57px; left:92px;"> {{ (i.mrp-i.rate)/(i.mrp)*100 | number:0}}% off </span><br>
+          <span style="color:green ;top:57px; left:92px;"> {{i.buyingPrice}}% off </span><br>
+          <span ng-if="i.taxRate>0">(gst included) </span>
         </div>
       </div>
     </div>
