@@ -13,5 +13,9 @@ router.register(r'jobContext' , JobContextViewset , base_name ='jobContext')
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'createJob/$' ,CreateJobAPIView.as_view() ),
-    url(r'isMachineExist/$' ,IsMachineExist, name = 'isMachineExist' ),
+    url(r'isMachineExist/$' ,is_machine_exist, name = 'isMachineExist' ),
+    url(r'getContext/$' ,get_context, name = 'getContext' ),
+    url(r'setContext/$' ,set_context, name = 'setContext' ),   
+    url(r'updateJobStatus/$' ,update_job_status, name = 'updateJobStatus' ),     
+
 ]

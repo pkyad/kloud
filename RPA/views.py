@@ -124,7 +124,7 @@ class CreateJobAPIView(APIView):
         return Response( status =  status.HTTP_200_OK)
 
 @csrf_exempt
-def IsMachineExist(request):
+def is_machine_exist(request):
     params = request.GET
     isExist = False
 
@@ -134,4 +134,56 @@ def IsMachineExist(request):
     except:
         pass
 
-    return  JsonResponse({'isExist':isExist})   
+    return  JsonResponse({'isExist':isExist})  
+
+@csrf_exempt
+def get_context(request):
+    params = request.GET
+    success = False
+    message = None
+    value = None
+
+    # getting value
+    try:
+        value = JobContext.objects.get(job = str(params['jobId']),key = params['key']).value
+        success = True
+    except:
+        message = 'Not found the key in job context'  
+
+    return  JsonResponse({'success':success,'message':message,'value':value})   
+
+@csrf_exempt
+def set_context(request):
+    data = request.POST
+    success = False
+    message = None
+    value = None
+
+    # setting value
+    try:
+        obj = JobContext.objects.get(job = str(data['jobId']),key = data['key'])
+        obj.value = data['value']
+        obj.save()
+        success = True
+    except:
+        message = 'Not found the key in job context'  
+
+    return  JsonResponse({'success':success,'message':message,'value':value})   
+
+@csrf_exempt
+def update_job_status(request):
+    data = request.POST
+    success = False
+    message = None
+    value = None
+
+    # updating status
+    try:
+        obj = Job.objects.get(pk = int(data['jobId']))
+        obj.status = data['status']
+        obj.save()
+        success = True
+    except:
+        message = 'Not able to set the status, status choices : started,failed,success,aborted'  
+
+    return  JsonResponse({'success':success,'message':message,'value':value})       
