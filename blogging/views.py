@@ -94,6 +94,10 @@ class CommentViewSet(viewsets.ModelViewSet):
     filter_fields = ['name' ,'reviewer']
     def get_queryset(self):
         qs = Comment.objects.all().order_by('-pk')
-        if 'isreviewer' in  self.request.GET:
-            qs = qs.filter(reviewer = None)
+        # if 'isreviewer' in  self.request.GET:
+        #     qs = qs.filter(reviewer = None)
+        if self.request.user:
+            pass
+        else:
+            qs = qs.filter(verified = True)
         return qs

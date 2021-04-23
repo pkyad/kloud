@@ -3,6 +3,7 @@ from finance.models import *
 from clientRelationships.models import *
 from ERP.models import *
 from website.models import *
+from blogging.models import *
 import os
 from django.conf import settings as globalSettings
 from time import time
@@ -113,3 +114,17 @@ def CreatePage(user):
     page = Page.objects.create(user = user)
     page.save()
     return page
+
+def CreateBlog(div, user):
+    division = Division.objects.get(pk = int(div))
+    user = User.objects.get(pk = int(user))
+    from_path = os.path.join(globalSettings.BASE_DIR, 'static_shared' ,'images', 'blog.jpg')
+    to_path = os.path.join(globalSettings.BASE_DIR,'media_root','articles','content')
+    shutil.copy(from_path, to_path)
+    blogSectionObj = ArticleSection.objects.create(header = 'Default Blog' , content = 'Default Blog' , shortTitle = 'Default Blog', img =  'articles/content/blog.jpg')
+    blogObj = Article.objects.create(title = 'Default Blog', articleUrl = 'default-blog' , author = user , contentWriter = user, lang='en', ogImg = 'articles/content/blog.jpg', division = division)
+    blogObj.save()
+    blogObj.add(blogSectionObj)
+    blogObj.save()
+    print blogObj.pk
+    return blogObj

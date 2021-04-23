@@ -37,7 +37,7 @@ ECOMMERCE_APP = {
     # shop UI is like Amazon
     'offtime':[23, 9],
 }
-PARENT_DIVSION = 2
+PARENT_DIVSION = 3
 LOGIN_PAGE_IMAGE = '/static/images/loginPage.png'
 APIMANAGER_URL_PREFIX = 'https://api.epsilonai.com'
 APIMANAGER_URL_KEY = '123456'

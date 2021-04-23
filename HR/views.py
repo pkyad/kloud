@@ -268,15 +268,35 @@ class TeamAllViewSet(viewsets.ModelViewSet):
 class LeavesCalAPI(APIView):
     def get(self , request , format = None):
         payrollObj = payroll.objects.get(user = self.request.user.pk)
-        print payrollObj,payrollObj.off
+        al = payrollObj.al
+        ml = payrollObj.ml
+        montlyal = al/12
+        montlyml = ml/12
+        leavesObj = Leave.objects.filter(user = self.request.user, status = 'approved' )
+        mlLeaves = leavesObj.filter(category = 'ML')
+        alLeaves = leavesObj.filter(category = 'AL')
         fromDate = self.request.GET['fromDate'].split('-')
         toDate = self.request.GET['toDate'].split('-')
         fd = date(int(fromDate[0]), int(fromDate[1]), int(fromDate[2]))
         td = date(int(toDate[0]), int(toDate[1]), int(toDate[2]))
         fromDate = fd + relativedelta(days=1)
         toDate = td + relativedelta(days=1)
+        startMonth = fromDate
         chObj = CompanyHolidays.objects.filter(date__range=(str(fromDate),str(toDate)))
-        print fromDate,toDate
+        fromMonth =  fromDate.month
+        toMonth = toDate.month
+        if fromMonth!=toMonth:
+            montlyal = montlyal*2
+            montlyml = montlyml*2
+            # pendingml = mlLeaves.filter(Q(fromDate__month = fromMonth)|Q(fromDate__month = Q(fromDate__month = fromMonth))|Q(toDate__month = fromMonth)|Q(toDate__month = Q(fromDate__month = fromMonth)))
+            # print pendingml['tot'],'aaaaaaaaaaaaaaaaaaaaaaa'
+            # if pendingml['tot'] is not None:
+            #     montlyml = montlyml - int(pendingml['tot'])
+            # pendingal = mlLeaves.filter(Q(fromDate__month = fromMonth)|Q(fromDate__month = Q(fromDate__month = fromMonth))|Q(toDate__month = fromMonth)|Q(toDate__month = Q(fromDate__month = fromMonth))).aggregate(tot = Sum('leavesCount'))
+            # if pendingal['tot'] is not None:
+            #     print pendingal['tot'],'aaaaaaaaaaaaaaaaaaaaaaa'
+            #     montlyal = montlyal - int(pendingal['tot'])
+
         total = (toDate-fromDate).days + 1
         if toDate<fromDate:
             total = 0
@@ -302,7 +322,8 @@ class LeavesCalAPI(APIView):
                     print 'sunday'
                     sundays.append(i)
             leaves = total - (len(holidays) + len(sundays) + len(saturdays))
-        toSend = {'total':total,'holidays':holidays,'sundays':sundays,'saturdays':saturdays,'leaves':leaves,'fromDate':fromDate,'toDate':toDate}
+        toSend = {'total':total,'holidays':holidays,'sundays':sundays,'saturdays':saturdays,'leaves':leaves,'fromDate':fromDate,'toDate':toDate,'montlyal' :montlyal,'montlyml':montlyml}
+
 
         return Response({'data':toSend}, status = status.HTTP_200_OK)
 
