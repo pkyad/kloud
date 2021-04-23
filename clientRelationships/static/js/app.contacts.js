@@ -1,6 +1,7 @@
 
 app.controller("businessManagement.clientRelationships.contacts", function($scope, $state, $users, $stateParams, $http, Flash,$uibModal) {
 
+
   $scope.data = {
     tableData: []
   };

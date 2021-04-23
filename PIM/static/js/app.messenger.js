@@ -289,8 +289,13 @@
 
 
 
-    $scope.call = function(num) {
-      $rootScope.$broadcast("call", {type : 'call' , number : num , source : 'dialPad'  });
+    $scope.call = function() {
+      if ($scope.user.is_personal) {
+        $rootScope.$broadcast("call", {type : 'call' , number : $scope.user.name.mobile , source : 'dialPad'  });
+      }
+    else if(!$scope.user.is_personal && $scope.user.visitor!=null&&$scope.user.visitor.mobile!=null&&$scope.user.visitor.mobile.length>0){
+          $rootScope.$broadcast("call", {type : 'call' , number : $scope.user.visitor.mobile , source : 'dialPad'  });
+      }
     }
 
     // $scope.call('8328412361')

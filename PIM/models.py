@@ -402,7 +402,8 @@ def pushMessageToUI(sender, instance, **kwargs):
     }
     print toPush
 
-    ct = ChatThread.objects.get(uid = instance.uid)
+    # ct = ChatThread.objects.get(pk = instance.thread.pk)
+    ct = instance.thread
     print ct , "chatthread" , ct.pk
     print "instance.sentByAgent" , instance.sentByAgent , ct.transferred , ct.company.botMode , ct.channel
     if not instance.sentByAgent and ct.transferred and not ct.channel== 'self' :

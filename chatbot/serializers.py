@@ -10,6 +10,11 @@ from PIL import Image
 import os
 from PIM.models import *
 
+class ContactsLiteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contacts
+        fields = ('pk' , 'created'  , 'name', 'email', 'mobile' , 'source' , 'pinCode'  , 'addrs', 'city', 'state', 'country')
+
 class NodeSlectionsVariationsSerializer(serializers.ModelSerializer):
     class Meta:
         model = NodeSlectionsVariations
@@ -211,6 +216,7 @@ class ChatThreadSerializer(serializers.ModelSerializer):
     agent_name = serializers.SerializerMethodField()
     agent_dp = serializers.SerializerMethodField()
     companyName = serializers.SerializerMethodField()
+    visitor = ContactsLiteSerializer(many = False , read_only = True)
     class Meta:
         model = ChatThread
         fields = ( 'pk' , 'created' , 'uid', 'status' , 'customerRating' , 'customerFeedback' ,
