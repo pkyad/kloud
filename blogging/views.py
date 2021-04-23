@@ -60,7 +60,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     serializer_class = ArticleSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ('title' , 'author' , 'contentWriter' , 'reviewer' , 'articleUrl','published','contents','content_type' )
+    filter_fields = ('title' , 'author' , 'contentWriter' , 'reviewer' , 'articleUrl','published','contents','content_type','category' )
     def get_queryset(self):
         if self.request.user.pk:
             divsn = self.request.user.designation.division
@@ -101,3 +101,20 @@ class CommentViewSet(viewsets.ModelViewSet):
         else:
             qs = qs.filter(verified = True)
         return qs
+
+
+class GetCategoriesAPI(APIView):
+    permission_classes = (permissions.IsAuthenticated ,)
+    def get(self, request, format=None):
+        data = []
+        if self.request.user.pk:
+            divsn = self.request.user.designation.division
+            articles = Article.objects.filter(contentWriter__designation__division=divsn)
+        else:
+            articles = Article.objects.filter(contentWriter__designation__division=globalSettings.PARENT_DIVSION)
+        cat = articles.filter(category__isnull = False).values_list('category', flat=True).distinct()
+        for i in cat:
+            count = 0
+            count = articles.filter(category = i).count()
+            data.append({'name' : i , 'count' : count})
+        return Response(data,status = status.HTTP_200_OK)

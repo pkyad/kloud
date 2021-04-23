@@ -1,0 +1,81 @@
+<div class="" style="cursor:pointer;">
+  <style media="screen">
+    .navbar-dark .navLink {
+      color: black !important;
+      outline: none !important;
+    }
+
+    .navbar-dark .navLink:hover,
+    .navbar-dark .navLink:focus {
+      color: #ff6900 !important;
+      background: none !important;
+    }
+
+    .lightIcon {
+      display: none;
+    }
+
+    .darkIcon {
+      display: intial;
+    }
+
+    .navbar-dark {
+      background: white;
+    }
+
+    .btn-rounded {
+      background-color: #0085ca;
+      color: white;
+      border: 2px solid #0085ca;
+    }
+
+    .btn-rounded:hover {
+      background-color: white;
+      color: #0085ca !important;
+      border: 2px solid #0085ca;
+    }
+
+    .lightic {
+      display: none !important;
+    }
+
+    .link {
+      color: black;
+    }
+
+    .link:hover {
+      color: black;
+      background-color: transparent !important;
+    }
+  </style>
+  <div class="container-fluid" style="">
+    <div class="row" style="margin:0px;">
+      <div class="col-md-8 col-md-offset-2 allMargins" style="margin-top:20px;padding:0px">
+        <div class="row blog_cards">
+          <div class="col-lg-12"  style="padding:0px;">
+            <div class="row" id="blogcards" >
+            <h3 style="text-transform:uppercase;font-weight:bold;font-size:16px;padding-left:15px;margin-bottom:30px"><u>{{category}}</u></h3>
+            <div ng-repeat="i in blogData">
+            <!-- <a href="/{{i.articleUrl}}"> -->
+              <div class="col-lg-4 col-sm-6 text-center" style="margin-bottom:20px;">
+                <div class="row" style="min-height:320px;margin-right:0px;margin-left:0px;border-bottom:1px solid rgba(0,40,85,.5);">
+                  <div class="col-md-12" style="padding:0px;">
+                    <div style="background-image:url('{{i.contents[0].img}}');background-size:cover;min-height:150px;border-radius:5px;">
+                    <i class="fa fa-pencil pull-right fa-lg" ng-click="$state.go('businessManagement.editblog',{'id' : i.pk});$event.stopPropagation()" ng-if="$state.is('businessManagement.blogging')"></i>
+                    </div>
+                    <div class="text-left" style="padding:20px;padding-left: 0px;padding-right: 0px;">
+                      <p style="color:#0085ca"><strong>{{i.category}}</strong></p>
+                      <a class="blog_text" href="/detailsblogs/{{i.articleUrl}}" style="display:block;margin-bottom:10px;min-height:100px;">{{i.title }}</a>
+                      <p style="margin-top:10px;color:rgba(0,40,85,.5)">{{i.created | date: 'dd-MMM-yyyy : hh:mm a'}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          </div>
+          </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
