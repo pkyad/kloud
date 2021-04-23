@@ -184,6 +184,15 @@ $scope.next = function(){
   }
 }
 
+$scope.refresh = function(){
+  $scope.contactForm ={
+    search:''
+  }
+  $scope.limit= 11
+  $scope.offset= 0
+  $scope.getallContacts()
+}
+
 $scope.uploadContactList = function(){
   $uibModal.open({
     templateUrl: '/static/ngTemplates/app.clientRelationships.contact.bulkUpload.html',
