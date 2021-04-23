@@ -661,6 +661,10 @@ def blogDetails(request, blogname):
     return render(request, 'blogdetails.html', {"blogname" : blogname})
 
 
+def BlogCategory(request, name):
+    return render(request, 'blogCategorydetails.html', {"category_name" : name})
+
+
 from django.urls import resolve
 def DivisionblogDetails(request ,apiKey, articleUrl):
     # print articleUrl,'2390resdsdasdasr219732'

@@ -55,6 +55,7 @@ urlpatterns = [
     url(r'^terms', termsofservices , name ='terms'),
     url(r'^blog', Divisionblogs , name ='blog'),
     url(r'^detailsblogs/(?P<blogname>[\w|\W]+)/', blogDetails , name ='blogDetails'),
+    url(r'^category/(?P<name>[\w|\W]+)/', BlogCategory , name ='blogCategory'),
     url(r'^academy/(?P<id>\d+)', academy , name ='academy'),
     url(r'^course/(?P<id>\d+)/(?P<urlSuffix>[\w|\W]+)', coursedetails , name ='coursedetails'),
     url(r'^articles/(?P<articleUrl>[\w|\W]+)', renderedArticleView , name ='blogs/(?P<articleUrl>[\w|\W]+)'),

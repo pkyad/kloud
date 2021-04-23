@@ -12,7 +12,7 @@ router.register(r'comment' , CommentViewSet , base_name ='comment')
 
 urlpatterns = [
     url(r'^', include(router.urls)),
-
+    url(r'getCategories/$' , GetCategoriesAPI.as_view()),
 
 
 
