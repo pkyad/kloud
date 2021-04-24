@@ -101,6 +101,7 @@ class GetCampaignStatsAPIView(APIView):
 
 
 def getContactsFromRequest(request):
+    division = request.user.designation.division
     cntry = []
     for cntr in request.GET['country'].split(','):
         if cntr != "," or cntr != "":
@@ -110,7 +111,7 @@ def getContactsFromRequest(request):
     for src in request.GET['sources'].split(','):
         if src != "," or src != "":
             srces.append(src)
-    conts = Contacts.objects.filter(country__in = cntry , source__in =  srces)
+    conts = division.marketingcontacts.filter(country__in = cntry , source__in =  srces)
     for filt in request.GET['filters'].split(','):
         if filt == "":
             continue
@@ -149,12 +150,12 @@ class TagViewSet(viewsets.ModelViewSet):
 class CampaignViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated ,)
     serializer_class = CampaignSerializer
-    queryset = Campaign.objects.all().order_by('-created')
+    # queryset = Campaign.objects.all().order_by('-created')
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['name','lead','typ']
     def get_queryset(self):
         division  = self.request.user.designation.division
-        return division
+        return division.campaigns.all().order_by('-created')
 
 
 
@@ -267,13 +268,15 @@ class ContactsViewSet(viewsets.ModelViewSet):
 class GetCountriesApi(APIView):
     permission_classes = (permissions.IsAuthenticated , isAdmin)
     def get(self, request, format=None):
-        toRet = Contacts.objects.values('country').annotate(Count('country'))
+        divsn = self.request.user.designation.division
+        toRet = divsn.marketingcontacts.values('country').annotate(Count('country'))
         return Response(toRet)
 
 class GetSourcesApi(APIView):
     permission_classes = (permissions.IsAuthenticated , isAdmin)
     def get(self, request, format=None):
-        return Response(Contacts.objects.values('source').annotate(Count('source')))
+        divsn = self.request.user.designation.division
+        return Response(divsn.marketingcontacts.values('source').annotate(Count('source')))
 
 class GetContactsCountApi(APIView):
     permission_classes = (permissions.IsAuthenticated , isAdmin)
@@ -286,6 +289,7 @@ class BulkContactsAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated , isAdmin)
     def post(self, request, format=None):
         print 'ttttttttttt',request.FILES['fil'],request.POST['source'],
+        divsn = self.request.user.designation.division
 
         fil = StringIO(request.FILES['fil'].read().decode('utf-8'))
         reader = csv.reader(fil, delimiter=':')
@@ -294,7 +298,7 @@ class BulkContactsAPIView(APIView):
             dat = row[0].split(',')
             print 'aaaaaaaaaaaaa',dat
             try:
-                check = Contacts.objects.get(email=dat[2],source=str(request.POST['source']))
+                check = divsn.marketingcontacts.get(email=dat[2],source=str(request.POST['source']))
             except:
                 check = None
             if check:
@@ -329,16 +333,19 @@ class BulkContactsAPIView(APIView):
 class ContactsScrapedAPIView(APIView):
     permission_classes = (permissions.AllowAny,)
     def post(self, request, format=None):
+        divsn = self.request.user.designation.division
 
         print 'ttttttttttt',request.POST
         count = 0
-        check = Contacts.objects.filter(mobile=str(request.POST['mobile']))
+        check = divsn.marketingcontacts.filter(mobile=str(request.POST['mobile']))
         if len(check)>0:
             pass
         else:
             contactData = {"name" : str(request.POST['name']) , "mobile" : str(request.POST['mobile']) ,"source" : str(request.POST['source']) , "pinCode" : str(request.POST['pincode'])}
             print contactData
             cObj = Contacts.objects.create(**contactData)
+            cObj.division = divsn
+            cObj.save()
             tgObj,created = Tag.objects.get_or_create(name=str(request.POST['tag']))
             cObj.tags.add(tgObj)
             count += 1
