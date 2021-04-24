@@ -799,13 +799,17 @@ app.controller('businessManagement.finance.inventory', function($scope, $http, $
 
   }
 
-  $scope.addInventory = function() {
+  $scope.addInventory = function(data) {
     $uibModal.open({
       templateUrl: '/static/ngTemplates/app.finance.inventoryProduct.modal.html',
       size: 'xl',
       backdrop: false,
-
-      controller: function($scope, $uibModalInstance, $rootScope) {
+      resolve:{
+        data:function(){
+          return data
+        }
+      },
+      controller: function($scope, $uibModalInstance, $rootScope,data) {
 
         $scope.productMetaSearch = function(query) {
           return $http.get('/api/ERP/productMeta/?search=' + query).
@@ -813,24 +817,36 @@ app.controller('businessManagement.finance.inventory', function($scope, $http, $
             return response.data;
           })
         };
+        $scope.categorySearch = function(query) {
+          return $http.get('/api/finance/category/?name__icontains=' + query).
+          then(function(response) {
+            return response.data;
+          })
+        };
         $scope.close = function() {
           $uibModalInstance.close();
         }
-        $scope.refresh = function() {
-          $scope.form = {
-            value: 0,
-            rate: '',
-            name: '',
-            refurnished: 0,
-            buyingPrice:0,
-            sku:'',
-            productMeta : '',
-            taxDescription:'',
-            taxRate:''
+        if (data == undefined || data == '') {
+          $scope.refresh = function() {
+            $scope.form = {
+              value: 0,
+              rate: '',
+              name: '',
+              refurnished: 0,
+              buyingPrice:0,
+              sku:'',
+              productMeta : '',
+              taxDescription:'',
+              taxRate:'',
+              category:'',mrp:0,img1:emptyFile,img2:emptyFile,img3:emptyFile
+            }
           }
+
+          $scope.refresh()
+        }else {
+          $scope.form = data
         }
 
-        $scope.refresh()
 
         $scope.selectedMeta = function(){
             if (typeof $scope.form.taxCode == 'object') {
@@ -838,48 +854,128 @@ app.controller('businessManagement.finance.inventory', function($scope, $http, $
               $scope.form.taxCode  = $scope.form.taxCode.code
             }
         }
+        $scope.$watch('form.img1' , function(newValue , oldValue) {
+          console.log(newValue,'334');
+          $scope.reader = new FileReader();
 
+          if (typeof newValue == 'string' && newValue.length > 0 ) {
+            $('#image1').attr('src', newValue);
+          }
+          $scope.reader.onload = function(e) {
+            $('#image1').attr('src', e.target.result);
+            $('#image4').attr('src', e.target.result);
+            $scope.showfullImage('image4')
+          }
+          $scope.reader.readAsDataURL(newValue);
+        })
+
+        $scope.$watch('form.img2' , function(newValue , oldValue) {
+          $scope.reader = new FileReader();
+          if (typeof newValue == 'string' && newValue.length > 0 ) {
+            $('#image2').attr('src', newValue);
+          }
+          $scope.reader.onload = function(e) {
+            $('#image2').attr('src', e.target.result);
+            $('#image5').attr('src', e.target.result);
+            console.log(e.target.result,"kllkl");
+          }
+
+          $scope.reader.readAsDataURL(newValue);
+
+        })
+        $scope.$watch('form.img3' , function(newValue , oldValue) {
+          $scope.reader = new FileReader();
+          if (typeof newValue == 'string' && newValue.length > 0 ) {
+            $('#image3').attr('src', newValue);
+          }
+          $scope.reader.onload = function(e) {
+            $('#image3').attr('src', e.target.result);
+            $('#image6').attr('src', e.target.result);
+          }
+
+          $scope.reader.readAsDataURL(newValue);
+
+
+        })
+
+
+        $scope.$watch('form.category',function(query){
+          $http({
+            method: 'GET',
+            // url: 'https://bnistore.in/api/ecommerce/genericProduct/?limit='+$scope.limit+'&offset='+$scope.offset
+            url: '/api/finance/inventory/?category='+query.pk
+
+          }).
+          then(function(response) {
+            // $scope.allCategories = response.data.results
+            $scope.form.sku = 'SKU00'+response.data.length
+          })
+
+        })
         $scope.saveInventory = function() {
           if ($scope.form.name == undefined || $scope.form.name == '') {
             Flash.create("warning", 'Add name')
             return
           }
-          if ($scope.form.buyingPrice == undefined ||  $scope.form.buyingPrice == null  || $scope.form.buyingPrice.length == 0) {
-            Flash.create("warning", 'Add Selling Price')
+          if ($scope.form.category == undefined || $scope.form.category == '' || $scope.form.category.length == 0) {
+            Flash.create("warning", 'Selec the category')
             return
           }
-          if ($scope.form.rate == undefined || $scope.form.rate == '') {
-            Flash.create("warning", 'Add Price')
-            return
-          }
-          var toSend = {
-            value: $scope.form.value,
-            rate: $scope.form.rate,
-            name: $scope.form.name,
-            // productMeta: $scope.form.productMeta.pk,
-            buyingPrice: $scope.form.buyingPrice,
-          }
+          var rate = ($scope.form.mrp-($scope.form.mrp*$scope.form.buyingPrice)/100)+((($scope.form.mrp-($scope.form.mrp*$scope.form.buyingPrice)/100)*$scope.form.taxRate)/100)
+
+          var fd = new FormData();
+          fd.append('name', $scope.form.name);
+          fd.append('value', $scope.form.value);
+          fd.append('rate', rate);
+          fd.append('buyingPrice', $scope.form.buyingPrice);
+          fd.append('category',$scope.form.category.pk);
+          fd.append('mrp',$scope.form.mrp);
+
           if ($scope.form.sku != undefined &&  $scope.form.sku != null  ) {
-            toSend.sku = $scope.form.sku
+              fd.append('sku',$scope.form.sku);
           }
 
-          // if ($scope.form.productMeta!=null) {
-          //   toSend.productMeta = $scope.form.productMeta
-          // }
+
           if ($scope.form.taxRate!=null) {
-            toSend.taxRate = $scope.form.taxRate
+          fd.append('taxRate',$scope.form.taxRate);
           }
           if ($scope.form.taxCode!=null) {
-            toSend.taxCode = $scope.form.taxCode
+          fd.append('taxCode',$scope.form.taxCode);
           }
+
+          if ($scope.form.richtxtDesc!=null) {
+          fd.append('richtxtDesc',$scope.form.richtxtDesc);
+          }
+
+          if ($scope.form.img1!=null&&$scope.form.img1!=emptyFile&&typeof $scope.form.img1=='object') {
+            fd.append('img1',$scope.form.img1);
+          }
+          if ($scope.form.img2!=null&&$scope.form.img2!=emptyFile&&typeof $scope.form.img2=='object') {
+            fd.append('img2',$scope.form.img2);
+          }
+          if ($scope.form.img3!=null&&$scope.form.img3!=emptyFile&&typeof $scope.form.img3=='object') {
+            fd.append('img3',$scope.form.img3);
+          }
+
+          var method = "POST"
+          var url = "/api/finance/inventory/"
+          if (data.pk != undefined) {
+            method = 'PATCH'
+            url = '/api/finance/inventory/'+data.pk+'/'
+          }
+
           $http({
-            method: 'POST',
-            url: '/api/finance/inventory/',
-            data: toSend
+            method: method,
+            url: url,
+            data: fd,
+            transformRequest: angular.identity,
+            headers: {
+              'Content-Type': undefined
+            }
           }).
           then(function(response) {
             Flash.create("success", 'Saved')
-            $scope.refresh()
+            $uibModalInstance.dismiss()
           })
         }
       },
@@ -1035,7 +1131,58 @@ app.controller('businessManagement.finance.inventory', function($scope, $http, $
   }
 
 
+  $scope.deleteCategory = function(indx){
+    $http({
+      method: 'DELETE',
+      url: '/api/finance/category/'+$scope.allCategories[indx].pk+'/',
+    }).
+    then(function(response) {
+      $scope.allCategories.splice(indx,1)
+    })
+  }
 
+  $scope.addCategory = function(indx){
+    if (indx!=undefined) {
+      var data = $scope.allCategories[indx]
+    }
+    else{
+      var data = ''
+    }
+    $uibModal.open({
+      templateUrl: '/static/ngTemplates/app.finance.addNewCategory.modal.html',
+      size: 'md',
+      backdrop: true,
+      resolve: {
+        data: function() {
+          return data;
+        },
+      },
+      controller: 'controller.addNewCategory'
+    }).result.then(function() {
+    }, function() {
+      $scope.getCategory()
+    });
+  }
+
+  $scope.limit =24
+  $scope.offset = 0
+
+  $scope.getCategory = function(){
+    // var url="/api/finance/category/"
+    $http({
+      method: 'GET',
+      // url: 'https://bnistore.in/api/ecommerce/genericProduct/?limit='+$scope.limit+'&offset='+$scope.offset
+      url: '/api/finance/category/'
+
+    }).
+    then(function(response) {
+      // $scope.allCategories = response.data.results
+      $scope.allCategories = response.data
+      console.log($scope.allCategories,"342112312");
+    })
+  }
+
+  $scope.getCategory()
 
 })
 

@@ -16,26 +16,28 @@
     </div>
     <div class="col-md-3">
       <div class="form-group">
-        <label>MRP</label>
+        <label>Rate</label>
         <input type="text " class="form-control websiteInput" ng-model="form.mrp">
       </div>
     </div>
     <div class="col-md-3">
       <div class="form-group">
-        <label>Buying Price</label>
+        <label>Discount</label>
         <input type="text " class="form-control websiteInput" ng-model="form.buyingPrice">
       </div>
     </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Selling Price</label>
-        <input type="text " class="form-control websiteInput" ng-model="form.rate">
-      </div>
-    </div>
+    
     <div class="col-md-3">
       <div class="form-group">
         <label>Product SKU</label>
       <input type="text" class="form-control websiteInput" ng-model="form.sku" >
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Category</label>
+      <input type="text" class="form-control websiteInput" ng-model="form.category" uib-typeahead="meta as  meta.name for meta in categorySearch($viewValue)" typeahead-on-select="selectedMeta()">
+
       </div>
     </div>
     <div class="col-md-3">
