@@ -1,7 +1,9 @@
+from __future__ import division
 from django.contrib.auth.models import User , Group
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate , login , logout
 from django.contrib.auth.decorators import login_required
+from rest_framework.status import HTTP_200_OK
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.conf import settings as globalSettings
@@ -150,6 +152,10 @@ class CampaignViewSet(viewsets.ModelViewSet):
     queryset = Campaign.objects.all().order_by('-created')
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['name','lead','typ']
+    def get_queryset(self):
+        division  = self.request.user.designation.division
+        return division
+
 
 
 class CampaignLogsViewSet(viewsets.ModelViewSet):
@@ -239,7 +245,7 @@ class ContactsViewSet(viewsets.ModelViewSet):
             return
         divsn = self.request.user.designation.division
         # toReturn = Contacts.objects.filter(creater__designation__division = divsn)
-        toReturn = Contacts.objects.all()
+        toReturn = divsn.marketingcontacts.all()
         for i in globalSettings.SOURCE_LIST:
             if i in self.request.GET and int(self.request.GET[i]) == 0:
                 toReturn = toReturn.exclude(source=i)
@@ -2890,3 +2896,58 @@ class DownloadExpensesAPIView(APIView):
         response['Content-Disposition'] = 'attachment; filename="expenses_%s.pdf"' % (o.pk)
         genExpense(response,tourplanObj, o, request)
         return response
+
+class MarketingDataMigrationsAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny, )
+    def get(self, request, format=None):
+        divisionPK = 2
+
+        divisionObj = Division.objects.get(pk = divisionPK)
+
+        marketingContactPath = os.path.join(globalSettings.BASE_DIR, 'static_shared','contacts.json')
+
+        count = 0
+        with open(marketingContactPath) as json_file:
+            contactsData = json.load(json_file)
+            for item in contactsData:
+                
+                try:
+                    # print item['mobile'],item['email'], item['referenceId'], item['name']
+                    contactObj,created = Contacts.objects.get_or_create(mobile = item['mobile'],email = item['email'],division = divisionObj,referenceId = item['referenceId'],name = item['name'])
+
+                    contactObj.source = item['source']
+                    contactObj.notes = item['notes']
+                    contactObj.pinCode = item['pinCode']
+                    contactObj.subscribe = item['subscribe']
+                    contactObj.about = item['about']
+                    contactObj.addrs = item['addrs']
+                    contactObj.altNumber = item['altNumber']
+                    contactObj.altNumber2 = item['altNumber2']
+                    contactObj.city = item['city']
+                    contactObj.companyName = item['companyName']
+                    contactObj.country = item['country']
+                    contactObj.directNumber = item['directNumber']
+                    contactObj.lang = item['lang']
+                    contactObj.socialLink = item['socialLink']
+                    contactObj.state = item['state']
+                    contactObj.website = item['website'] 
+                    contactObj.save()
+
+                    # getting and creating tags
+                    tags = contactObj.tags.all()
+
+                    for tagItem in item['tags']:
+                        filterTag = tags.filter(name = tagItem['name'])
+                        if len(filterTag) == 0:
+                            tagObj = Tag.objects.create(name = tagItem['name'])
+                            contactObj.tags.add(tagObj)
+                    contactObj.save()   
+
+                    count +=1     
+                except:
+                    print item['mobile'],item['email'], item['referenceId'], item['name'] , item['pk']
+
+
+                        
+        return Response({'count':count},status= status.HTTP_200_OK)                 

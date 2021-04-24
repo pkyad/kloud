@@ -64,8 +64,8 @@ class ContactsSerializer(serializers.ModelSerializer):
     # remaining = serializers.SerializerMethodField()
     class Meta:
         model = Contacts
-        fields = ('pk' , 'created' , 'referenceId' , 'name', 'email', 'mobile' , 'source' , 'pinCode' , 'notes' , 'tags' ,'subscribe' , 'addrs', 'companyName', 'directNumber', 'altNumber', 'altNumber2', 'website', 'socialLink', 'city', 'state', 'country', 'about', 'lang' )
-        read_only_fields=('subscribe', 'tags')
+        fields = ('pk' , 'created' , 'referenceId' , 'name', 'email', 'mobile' , 'source' , 'pinCode' , 'notes' , 'tags' ,'subscribe' , 'addrs', 'companyName', 'directNumber', 'altNumber', 'altNumber2', 'website', 'socialLink', 'city', 'state', 'country', 'about', 'lang', 'division')
+        read_only_fields=('subscribe', 'tags','division')
     def create(self , validated_data):
         div = self.context['request'].user.designation.division
         if 'tags' in validated_data:
