@@ -864,7 +864,6 @@ app.controller('businessManagement.finance.inventory', function($scope, $http, $
           $scope.reader.onload = function(e) {
             $('#image1').attr('src', e.target.result);
             $('#image4').attr('src', e.target.result);
-            $scope.showfullImage('image4')
           }
           $scope.reader.readAsDataURL(newValue);
         })
@@ -900,16 +899,19 @@ app.controller('businessManagement.finance.inventory', function($scope, $http, $
 
 
         $scope.$watch('form.category',function(query){
-          $http({
-            method: 'GET',
-            // url: 'https://bnistore.in/api/ecommerce/genericProduct/?limit='+$scope.limit+'&offset='+$scope.offset
-            url: '/api/finance/inventory/?category='+query.pk
+          if (query != null || query.length != 0) {
+            $http({
+              method: 'GET',
+              // url: 'https://bnistore.in/api/ecommerce/genericProduct/?limit='+$scope.limit+'&offset='+$scope.offset
+              url: '/api/finance/inventory/?category='+query.pk
 
-          }).
-          then(function(response) {
-            // $scope.allCategories = response.data.results
-            $scope.form.sku = 'SKU00'+response.data.length
-          })
+            }).
+            then(function(response) {
+              // $scope.allCategories = response.data.results
+              $scope.form.sku = 'SKU00'+response.data.length
+            })
+
+          }
 
         })
         $scope.saveInventory = function() {
