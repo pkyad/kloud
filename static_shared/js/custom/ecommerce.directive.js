@@ -1204,7 +1204,7 @@ app.directive('ecommerceNewproducts', function() {
     scope:{
       data:'='
     },
-    controller: function($scope, $state, $stateParams, $users) {
+    controller: function($scope, $state, $stateParams, $users,$http) {
       $scope.me = $users.get('mySelf')
       console.log($scope.data,'aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
       if ($scope.data!=undefined) {
@@ -1213,6 +1213,14 @@ app.directive('ecommerceNewproducts', function() {
       }
       catch(err) {
       $scope.data = $scope.data
+      $http({
+        method: 'GET',
+        url: '/api/finance/inventory/?division='+DIVISION,
+
+      }).
+      then(function(response) {
+        $scope.data = response.data
+      })
       }
     }
       console.log($scope.data,'sssssssssssssssssss');
@@ -1274,7 +1282,7 @@ app.directive('productCards', function() {
     controller: function($scope, $state, $http, Flash, $rootScope,$uibModal, $users, $timeout, $filter) {
 
       $scope.item = $scope.list
-      console.log($scope.item,'3ZXcXZczx34');
+
 
       $scope.me = $users.get('mySelf');
       $scope.priceDisplay = false
@@ -2060,15 +2068,36 @@ app.directive('ordersView',function(){
 
     controller: function($scope, $state, $http, Flash, $rootScope, $users, $filter, $interval,$timeout) {
       console.log($scope.data,"ll");
+      $scope.limit =10
+      $scope.offset=0
       $scope.getOrders = function(){
         $http({
           method:'GET',
-          url:'/api/finance/saleslite/?limit=10&isInvoice=false'
+          url:'/api/finance/saleslite/?limit='+$scope.limit+'&isInvoice=false&offset='+$scope.offset
         }).then(function(response){
           $scope.datas = response.data.results
         })
       }
       $scope.getOrders()
+      $scope.showblock = function(indx) {
+        $scope.indx = indx
+
+      }
+      $scope.cancelOrder = function(pk){
+        $http({
+          method:'PATCH',
+          url:'/api/finance/sale/'+pk+'/',
+          data:{
+            cancelled:true
+          }
+        }).then(function(response){
+          $scope.getOrders()
+        })
+      }
+      $scope.loadMore = function(){
+        $scope.offset = $scope.limit+$scope.offset
+        $scope.getOrders()
+      }
   //     $scope.showDetails = function(val) {
   //         $scope.trackItem = val
   //         $uibModal.open({
