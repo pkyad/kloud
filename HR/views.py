@@ -44,6 +44,7 @@ import django
 import requests
 from ERP.initializing import *
 from chatbot.models import Activity
+from ERP.tasks import *
 from .tasks import *
 
 class userProfileViewSet(viewsets.ModelViewSet):
@@ -1235,4 +1236,36 @@ class RegNewUserView(APIView):
 
 
 
+        return Response({} , status = status.HTTP_200_OK)
+
+
+
+
+
+class UpdateProfileAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.IsAuthenticated,)
+    def post(self, request, format=None):
+        data = request.data
+        if 'pk' in data:
+            userObj = User.objects.get(pk = int(data['pk']))
+        else:
+            userObj = request.user
+        prof = userObj.profile
+        div = userObj.designation.division
+        if 'name' in data:
+            userObj.first_name = data['name']
+        if 'company' in data:
+            div.name = data['company']
+        if 'email' in data:
+            userObj.email = data['name']
+            div.email = data['name']
+        files = request.FILES
+        if 'logo' in files:
+            div.logo = files['logo']
+        prof.newReg = True
+        div.save()
+        prof.save()
+        userObj.save()
+        send_division_welcome_email(userObj)
         return Response({} , status = status.HTTP_200_OK)

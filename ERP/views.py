@@ -616,11 +616,23 @@ def generateOTPView(request):
                     user = userObj.first()
                 else:
                     otp = generateOTPCode()
-                    print otp
-                    regObj, r = Registration.objects.get_or_create(mobile = request.GET['mobile'])
-                    regObj.mobileOTP = otp
-                    regObj.save()
-                    msg = "Hi, {0} is the OTP to verify your mobile number for KloudERP App. {1}".format(otp,'')
+                    # print otp
+                    # regObj, r = Registration.objects.get_or_create(mobile = request.GET['mobile'])
+                    # regObj.mobileOTP = otp
+                    # regObj.save()
+                    # msg = "Hi, {0} is the OTP to verify your mobile number for KloudERP App. {1}".format(otp,'')
+                    user = User.objects.create(username = val['mobile'] , first_name = val['mobile'] )
+                    prof = user.profile
+                    prof.mobile = val['mobile']
+                    div = user.designation.division
+                    resData = helperCreateUser(val['mobile'], '')
+                    designation = user.designation
+                    div = Division.objects.get(pk = int(resData['division']))
+                    designation.division = div
+                    unit = Unit.objects.get(pk = int(resData['unit']))
+                    designation.unit = unit
+                    designation.save()
+                    prof.save()
                     try:
                         globalSettings.SEND_WHATSAPP_MSG( request.GET['mobile'], msg)
                     except:
@@ -630,8 +642,8 @@ def generateOTPView(request):
                     except:
                         pass
 
-                    url = '/otplogin/' +request.GET['mobile']
-                    return JsonResponse({'newReg' : True} ,status =200 )
+                    # url = '/otplogin/' +request.GET['mobile']
+                    return JsonResponse({'newReg' : user.profile.newReg} ,status =200 )
             except:
                 user = get_object_or_404(User, profile__mobile = request.GET['mobile'])
 
@@ -672,7 +684,7 @@ def generateOTPView(request):
         send_otp_email.delay(to_email , user.first_name + ' '+user.last_name , otp)
     except:
         pass
-    return JsonResponse({'newReg' : False} ,status =200 )
+    return JsonResponse({'newReg' : user.profile.newReg} ,status =200 )
 
 def adminView(request):
     if not request.user.is_superuser:

@@ -40,5 +40,5 @@ urlpatterns = [
     url(r'updatePushToken/$' , UpdatePushTokenView.as_view(), name="updatePushToken" ),
     url(r'regNewUser/$' , RegNewUserView.as_view(), name="regNewUser" ),
     url(r'updateUrl/$' , UpdateUrlAPIView.as_view(), name="updateUrl" ),
-
+    url(r'updateProfile/$' , UpdateProfileAPIView.as_view(), name="updateUrl" ),
 ]

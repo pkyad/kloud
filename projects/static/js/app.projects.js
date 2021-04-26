@@ -441,7 +441,7 @@ app.controller('projectManagement.project.wiki', function($scope, $http, $aside,
   $scope.notes = []
 
   $scope.getNotes = function(){
-    var url = '/api/PIM/notesTitle/?limit=' + $scope.limit + '&offset=' + $scope.offset
+    var url = '/api/PIM/notesTitle/?project='+$state.params.id+'&limit=' + $scope.limit + '&offset=' + $scope.offset
 
     url = url + '&title__icontains=' + $scope.form.search
 
@@ -450,7 +450,6 @@ app.controller('projectManagement.project.wiki', function($scope, $http, $aside,
       url: url
     }).
     then(function(response) {
-      console.log(response.data.results);
       $scope.notes = response.data.results
       $scope.resPrev = response.data.previous
       $scope.resNext = response.data.next

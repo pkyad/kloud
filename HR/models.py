@@ -153,7 +153,7 @@ class profile(models.Model):
     zoom_token = models.TextField(null=True)
     postCount = models.PositiveIntegerField(default = 0)
     lastState = models.CharField(null=True , max_length = 200)
-
+    newReg =  models.BooleanField(default=False)
 
 
 User.profile = property(lambda u : profile.objects.get_or_create(user = u)[0])

@@ -309,12 +309,13 @@ class NotesTitleViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     serializer_class = NotesLiteSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['title']
+    filter_fields = ['title','project']
     def get_queryset(self):
         division = self.request.user.designation.division
         notesObj = notebook.objects.filter(division = division)
         toReturn = notesObj.order_by('-created')
-
+        if 'own' in self.request.GET:
+            toReturn = toReturn.filter(user = self.request.user)
         return toReturn
 
 

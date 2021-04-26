@@ -8,7 +8,7 @@ from django.template.loader import render_to_string, get_template
 from django.core.mail import send_mail , EmailMessage
 from django.conf import settings as globalSettings
 import datetime
-from django.contrib.auth.models import User 
+from django.contrib.auth.models import User
 from .models import Division
 import pytz
 
@@ -34,17 +34,21 @@ def send_otp_email(to_email,name, otp):
 
 
 @shared_task
-def send_division_welcome_email(to_email):
+def send_division_welcome_email(user):
     try:
+        to_email = []
         email_subject ="Welcome to kloudERP"
-        to_email = to_email
-        # to_email.append(to_email)
+        # to_email = user.email
+        to_email.append(user.email)
         ctx = {
-            'otp': 1234,
-            'name' : 'Raj',
+            'name': user.first_name,
+            'serverUrl' : 'https://klouderp.com/',
+            'appUrl':'https://play.google.com/store/search?q=CIOC%20FMCG'
         }
 
-        email_body = get_template('app.ERP.otp.html').render(ctx)
+
+        # email_body = get_template('app.ERP.otp.html').render(ctx)
+        email_body = get_template('app.ERP.welcome.html').render(ctx)
         # email_body = 'Hi'
         msg = EmailMessage(email_subject, email_body, to=to_email)
         msg.content_subtype = 'html'
@@ -52,14 +56,14 @@ def send_division_welcome_email(to_email):
     except:
         pass
 
-    return {'status':'ok'}   
+    return {'status':'ok'}
 
 
 @periodic_task(run_every=(crontab(hour="23", minute="50")))
 def daily_user_acquisition():
     ctx = {}
     today = datetime.datetime.now(pytz.timezone('Asia/Kolkata')).date()
-    # step 1 : getting new users 
+    # step 1 : getting new users
     newUsers = len(User.objects.filter(date_joined__startswith = str(today)))
 
     # step 2 : getting user who used the platform today
