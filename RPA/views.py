@@ -80,10 +80,13 @@ class JobssViewset(viewsets.ModelViewSet):
     filter_fields = ['process','division']
 
     def get_queryset(self):
+        params = self.request.GET
         divisionObj = self.request.user.designation.division
         toRet = divisionObj.rpa_jobs.all().order_by('-pk')
-        if 'search' in self.request.GET:
-            toRet = toRet.filter(Q(process__name__icontains = self.request.GET['search']) | Q(status__icontains = self.request.GET['search']))
+        if 'search' in params:
+            toRet = toRet.filter(Q(process__name__icontains = self.request.GET['search']) | Q(status__icontains = params['search']))
+        if 'key' in params:
+            toRet = toRet.filter(machine__key = params['key'])
         return toRet
 
 class JobContextViewset(viewsets.ModelViewSet):
@@ -134,7 +137,7 @@ def is_machine_exist(request):
     except:
         pass
 
-    return  JsonResponse({'isExist':isExist})  
+    return  JsonResponse({'isExist':isExist})
 
 @csrf_exempt
 def get_context(request):
@@ -148,9 +151,9 @@ def get_context(request):
         value = JobContext.objects.get(job = str(params['jobId']),key = params['key']).value
         success = True
     except:
-        message = 'Not found the key in job context'  
+        message = 'Not found the key in job context'
 
-    return  JsonResponse({'success':success,'message':message,'value':value})   
+    return  JsonResponse({'success':success,'message':message,'value':value})
 
 @csrf_exempt
 def set_context(request):
@@ -166,9 +169,9 @@ def set_context(request):
         obj.save()
         success = True
     except:
-        message = 'Not found the key in job context'  
+        message = 'Not found the key in job context'
 
-    return  JsonResponse({'success':success,'message':message,'value':value})   
+    return  JsonResponse({'success':success,'message':message,'value':value})
 
 @csrf_exempt
 def update_job_status(request):
@@ -184,6 +187,6 @@ def update_job_status(request):
         obj.save()
         success = True
     except:
-        message = 'Not able to set the status, status choices : started,failed,success,aborted'  
+        message = 'Not able to set the status, status choices : started,failed,success,aborted'
 
-    return  JsonResponse({'success':success,'message':message,'value':value})       
+    return  JsonResponse({'success':success,'message':message,'value':value})
