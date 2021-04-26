@@ -112,6 +112,7 @@ def loginView(request):
             logo = d.logo.url
     except:
         pass
+
     if request.method == 'POST':
 
         try:
@@ -132,8 +133,8 @@ def loginView(request):
         #         #     prof = newuser.profile
         #         #     prof.mobile = request.POST['mobile']
         #         #     prof.save()
-        # else:
-        #     usernameOrEmail = d['username']
+        else:
+            usernameOrEmail = d['username']
 
 
         otpMode = False
