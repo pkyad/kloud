@@ -1204,7 +1204,7 @@ app.directive('ecommerceNewproducts', function() {
     scope:{
       data:'='
     },
-    controller: function($scope, $state, $stateParams, $users,$http) {
+    controller: function($scope, $state, $stateParams, $users) {
       $scope.me = $users.get('mySelf')
       console.log($scope.data,'aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
       if ($scope.data!=undefined) {
@@ -1213,14 +1213,6 @@ app.directive('ecommerceNewproducts', function() {
       }
       catch(err) {
       $scope.data = $scope.data
-      $http({
-        method: 'GET',
-        url: '/api/finance/inventory/?division='+DIVISION,
-
-      }).
-      then(function(response) {
-        $scope.data = response.data
-      })
       }
     }
       console.log($scope.data,'sssssssssssssssssss');
