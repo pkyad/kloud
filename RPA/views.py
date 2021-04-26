@@ -148,7 +148,11 @@ def get_context(request):
 
     # getting value
     try:
-        value = JobContext.objects.get(job = str(params['jobId']),key = params['key']).value
+        contextObj = JobContext.objects.get(job = str(params['jobId']),key = params['key'])
+        if contextObj.type == 'number':
+            value = float(contextObj.value)
+        else:
+            value = contextObj.value
         success = True
     except:
         message = 'Not found the key in job context'
