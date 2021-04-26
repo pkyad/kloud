@@ -149,7 +149,7 @@ def get_context(request):
     # getting value
     try:
         contextObj = JobContext.objects.get(job = str(params['jobId']),key = params['key'])
-        if contextObj.type == 'number':
+        if contextObj.typ == 'number':
             value = float(contextObj.value)
         else:
             value = contextObj.value
