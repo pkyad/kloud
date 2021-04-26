@@ -113,27 +113,27 @@ def loginView(request):
     except:
         pass
     if request.method == 'POST':
+
         try:
             d = json.loads(str(request.body))
         except:
             d = request.POST
-
+        print d
         if 'mobile' in d:
-            try:
-                usernameOrEmail = User.objects.filter(profile__mobile = d['mobile']).first().username
-            except:
-                pass
-                # reg = Registration.objects.filter(mobile = request.POST['mobile'], mobileOTP = request.POST['otp'])
-                # if len(reg)>0:
-                #     newuser = User.objects.create(username = request.POST['mobile'])
-                #     usernameOrEmail = newuser.username
-                #     username = newuser.username
-                #     prof = newuser.profile
-                #     prof.mobile = request.POST['mobile']
-                #     prof.save()
-        else:
-            usernameOrEmail = d['username']
-
+            # try:
+            usernameOrEmail = User.objects.filter(profile__mobile = d['mobile']).first().username
+        #     except:
+        #         pass
+        #         # reg = Registration.objects.filter(mobile = request.POST['mobile'], mobileOTP = request.POST['otp'])
+        #         # if len(reg)>0:
+        #         #     newuser = User.objects.create(username = request.POST['mobile'])
+        #         #     usernameOrEmail = newuser.username
+        #         #     username = newuser.username
+        #         #     prof = newuser.profile
+        #         #     prof.mobile = request.POST['mobile']
+        #         #     prof.save()
+        # else:
+        #     usernameOrEmail = d['username']
 
 
         otpMode = False
@@ -188,7 +188,7 @@ def loginView(request):
                         division = user.designation.division.pk
                     else:
                         division = None
-                    return JsonResponse({'csrf_token':csrf_token , "pk" : user.pk , "division" : division} , status = 200)
+                    return JsonResponse({'csrf_token':csrf_token , "pk" : user.pk , "division" : division,'newReg' : user.profile.newReg} , status = 200)
                 return redirect('/ERP/')
             else:
                 authStatus = {'status' : 'warning' , 'message' : 'Your account is Inactive'}
@@ -208,7 +208,7 @@ def loginView(request):
                         division = user.designation.division.pk
                     else:
                         division = None
-                    dataMobile = {'csrf_token':csrf_token , "pk" : user.pk , "division" : division}
+                    dataMobile = {'csrf_token':csrf_token , "pk" : user.pk , "division" : division,'newReg' : user.profile.newReg}
                     if newUser is not None:
                         dataMobile['newUser'] = True
                     return JsonResponse(dataMobile , status = 200)
@@ -616,16 +616,16 @@ def generateOTPView(request):
                     user = userObj.first()
                 else:
                     otp = generateOTPCode()
-                    # print otp
+                    print otp
                     # regObj, r = Registration.objects.get_or_create(mobile = request.GET['mobile'])
                     # regObj.mobileOTP = otp
                     # regObj.save()
                     # msg = "Hi, {0} is the OTP to verify your mobile number for KloudERP App. {1}".format(otp,'')
-                    user = User.objects.create(username = val['mobile'] , first_name = val['mobile'] )
+                    user = User.objects.create(username = request.GET['mobile'] , first_name = request.GET['mobile'] )
                     prof = user.profile
-                    prof.mobile = val['mobile']
+                    prof.mobile = request.GET['mobile']
                     div = user.designation.division
-                    resData = helperCreateUser(val['mobile'], '')
+                    resData = helperCreateUser(request.GET['mobile'], '')
                     designation = user.designation
                     div = Division.objects.get(pk = int(resData['division']))
                     designation.division = div
@@ -633,6 +633,10 @@ def generateOTPView(request):
                     designation.unit = unit
                     designation.save()
                     prof.save()
+                    user.save()
+                    key_expires = timezone.now() + datetime.timedelta(days=2)
+                    ak = accountsKey(user= user,key_expires = key_expires, activation_key= otp,keyType = 'otp')
+                    ak.save()
                     try:
                         globalSettings.SEND_WHATSAPP_MSG( request.GET['mobile'], msg)
                     except:
