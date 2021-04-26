@@ -38,7 +38,7 @@
             </thead>
             <tbody>
               <tr ng-repeat="k in jobs track by $index">
-                <th scope="row">{{$index+1}}</th>
+                <th scope="row">{{k.pk}}</th>
                 <td>{{k.process.name}}</td>
                 <td>{{k.retryCount}}</td>
                 <td>{{k.status}}</td>

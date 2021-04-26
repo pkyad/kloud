@@ -6,13 +6,13 @@
   <table style="width:80%">
     <tr>
       <th>Name</th>
-      <th>Environment</th>      
+      <th>Environment</th>
       <th>Key</th>
       <th>Action</th>
     </tr>
     <tr ng-repeat="item in machineList track by $index" style="padding:10px;">
       <td>{{item.name}}</td>
-      <td>{{item.env}}</td>      
+      <td>{{item.env}}</td>
       <td>{{item.key}}</td>
       <td>
         <a ng-click="openModal(item)" style="cursor:pointer;">Edit</a>
@@ -60,6 +60,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">Key</th>
+                <th scope="col">Environment</th>
                 <th scope="col"></th>
               </tr>
             </thead>
@@ -68,6 +69,7 @@
                 <th scope="row">{{$index+1}}</th>
                 <td>{{item.name}}</td>
                 <td>{{item.key}}</td>
+                <td>{{item.env}}</td>
                   <td><u style="color:#051dc1;cursor:pointer" ng-click="openModal(item)">Edit</u> <u style="color:#c11605;cursor:pointer" ng-click="$event.stopPropagation()"  data-placement="top"  mwl-confirm title="Confirm" message="Are you sure?" data-placement="top" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="delMachine(item.pk)"
                     confirm-button-type="default" cancel-button-type="default"> Delete </u></td>
               </tr>
