@@ -483,7 +483,7 @@ class NotebookFullSerializer(serializers.ModelSerializer):
     shares = userSearchSerializer(many=True , read_only=True)
     class Meta:
         model = notebook
-        fields = ('created', 'title', 'source', 'shares', 'type', 'locked', 'user', 'pk','project')
+        fields = ('created', 'title', 'source', 'shares', 'type', 'locked', 'user', 'pk','project','parent')
         read_only_fields = ('shares' , )
     def create(self , validated_data):
         notesObj = notebook(**validated_data)
@@ -512,6 +512,10 @@ class NotebookFullSerializer(serializers.ModelSerializer):
 
 
 class NotesLiteSerializer(serializers.ModelSerializer):
+    children = serializers.SerializerMethodField()
     class Meta:
         model = notebook
-        fields = ('pk', 'title')
+        fields = ('pk', 'title','children')
+    def get_children(self , obj):
+
+        return NotebookFullSerializer(obj.notebook.filter(parent = obj.pk),many=True).data

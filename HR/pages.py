@@ -11,7 +11,7 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.views.decorators.cache import never_cache
 from ERP.models import *
 from LMS.models import *
-from finance.models import Cart
+from finance.models import Cart,Sale
 from website.models import *
 from recruitment.models import *
 from finance.models import *
@@ -143,6 +143,27 @@ def privacypolicy(request):
 def Divisionprivacypolicy(request,apiKey):
     context={}
     return render(request, 'app.HR.privacypolicy.html',context)
+def DivisionOrders(request,apiKey):
+    context={}
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    if request.user.designation.division.headerTemplate:
+        header  = request.user.designation.division.headerTemplate
+        headerCss  = request.user.designation.division.headerCss
+    if request.user.designation.division.headerTemplate:
+        footer  = request.user.designation.division.footerTemplate
+        footerCss  = request.user.designation.division.footerCss
+    try:
+        div = request.user.designation.division
+    except:
+        pass
+
+    data = Sale.objects.filter(isInvoice = False,division = div.pk)
+    return render(request, 'app.HR.orders.html',{'header':header,"headerCss":headerCss,"footer":footer,"footerCss":footerCss,"apiKey":apiKey,'div':div,'data':data})
+
+
 def refundpolicy(request):
     context={}
     return render(request, 'app.HR.refundpolicy.html',context)

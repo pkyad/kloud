@@ -31,6 +31,16 @@
     border-right: solid 4px red !important;
     background: #fbfbfb !important;
   }
+  .trash{
+    opacity: 0
+  }
+  .menuItems:hover .trash{
+    opacity: 1
+
+  }
+  .trash:hover{
+    opacity: 1
+  }
 
 </style>
 
@@ -50,8 +60,18 @@
       </div>
     </div>
     <div class="row" style="cursor:pointer;height:89vh;overflow-y:scroll;scrollbar-width:none;scrollbar-behaviour:smooth;">
-      <div class="col-md-12 menuItems {{$index == row? 'activeMenu' : ''}}" ng-repeat="a in notes" ng-click="$state.go('projectManagement.projects.details.wiki.explore', {wikiid : a.pk});getIndex($index)" style="border-bottom:1px solid #e0e0e0">
-        <p style="margin-left:35px">{{a.title}} </p>
+      <div class="col-md-12 menuItems {{$index == row? 'activeMenu' : ''}}" ng-repeat="a in notes" ng-click="$state.go('projectManagement.projects.details.wiki.explore', {wikiid : a.pk});getIndex($index);mainIndex=$index;a.show=true;" style="border-bottom:1px solid #e0e0e0" ng-init="mainIndex=$index;a.show=false;">
+
+        <p style="margin-left:35px">{{a.title}} <span class="pull-right"><i class="fa fa-trash trash" mwl-confirm title="Delete" message="Are you sure?" data-placement="bottom" confirm-text="Yes <i class='fa fa-check'></i>"
+          cancel-text="No" on-confirm="delNotes($index);" confirm-button-type="default" cancel-button-type="default"></i></span> </p>
+
+      </div>
+      <div class="row" >
+      </div>
+
+      <div class="row">
+        <input type="text" class="form-control" ng-model="form.title" ng-enter="saveNote()" name="" value="" style="padding:17px;background:white;border-radius:10px !important;border:1px solid #d3d3d3;height:65px;" placeholder="create the note">
+          <!-- <button type="button" class="btn btn-default btn-block" ng-click="showInput=true"  ng-init="showInput=false"><i class="fa fa-plus"></i></button> -->
       </div>
       <div class="col-md-offset-4 col-md-4" style="padding:20px 0px 20px">
         <div class="col-md-6">

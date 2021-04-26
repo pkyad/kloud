@@ -72,6 +72,18 @@ class TermsAndConditionsViewSet(viewsets.ModelViewSet):
         divsn = self.request.user.designation.division
         return TermsAndConditions.objects.filter(division = divsn)
 
+class salesliteViewset(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,  )
+    serializer_class = SalesliteSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['isInvoice','division']
+    def get_queryset(self):
+        divsn = self.request.user.designation.division
+        if 'isInvoice' in self.request.GET:
+            sales = Sale.objects.filter(isInvoice = False,division=divsn).order_by('-pk')
+            return sales
+
+
 def getProducts(request, id):
     data = Inventory.objects.filter(division = request.user.designation.division.pk, category__id = int(id))
     user = request.user

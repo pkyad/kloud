@@ -303,13 +303,14 @@ class NoteBookViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     queryset = notebook.objects.all()
     serializer_class = NotebookFullSerializer
-
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['parent']
 
 class NotesTitleViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     serializer_class = NotesLiteSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['title','project']
+    filter_fields = ['title','project','parent']
     def get_queryset(self):
         division = self.request.user.designation.division
         notesObj = notebook.objects.filter(division = division)

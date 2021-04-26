@@ -23,3 +23,4 @@ class notebook(models.Model):
     shares = models.ManyToManyField(User , related_name = 'sharedNotes' , blank = True)
     type = models.CharField(max_length = 40 , choices = NOTEBOOK_TYPE_CHOICES, default = 'private')
     locked = models.BooleanField(default = False)
+    parent = models.ForeignKey('self',related_name="notebook",null=True)

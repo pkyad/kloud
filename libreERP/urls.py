@@ -99,6 +99,7 @@ urlpatterns = [
     url(r'^pages/(?P<apiKey>[\w|\W]+)/profile', ProfileView , name ='profile'),
     url(r'^pages/(?P<apiKey>[\w|\W]+)/categories/(?P<id>\d+)', Categories , name ='Categories'),
     url(r'^pages/(?P<apiKey>[\w|\W]+)/blog', Divisionblogs , name ='Divisionblogs'),
+    url(r'^pages/(?P<apiKey>[\w|\W]+)/orders', DivisionOrders , name ='orders'),
     url(r'^pages/(?P<apiKey>[\w|\W]+)/careers', careersbyDivision , name ='careersbyDivision'),
     url(r'^pages/(?P<apiKey>[\w|\W]+)/course/(?P<id>\d+)/(?P<urlSuffix>[\w|\W]+)', Divisioncoursedetails , name ='Divisionblogs'),
     url(r'^pages/(?P<apiKey>[\w|\W]+)/articles/(?P<articleUrl>[\w|\W]+)', DivisionblogDetails , name ='DivisionblogDetails'),

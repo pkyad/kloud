@@ -1,0 +1,169 @@
+<div class="container-fluid">
+  <div class="row card" style="padding:20px; border-left:4px solid #0c9a9e;position:relative;margin-bottom:20px;margin:30px;" ng-repeat="k in datas track by $index">
+
+
+    <div class="row" style="margin:0px;" ng-click="showblock($index)">
+      <div class="col-lg-1  col-xs-6 mobile_padding">
+        <h6 style="font-weight:600;font-size:12px">Order ID</h6>
+        <p># {{k.pk}}</p>
+
+      </div>
+      <div class="col-lg-1 col-xs-6 mobile_padding">
+        <h6 style="font-weight:600;font-size:12px">Ordered On</h6>
+        <p>{{k.created | date}}</p>
+
+      </div>
+      <div class="col-lg-1 col-xs-6 mobile_padding">
+        <h6 style="font-weight:600;font-size:12px">Customer Name</h6>
+        <p>{{k.personName}}</p>
+
+      </div>
+      <div class="col-lg-1 col-xs-6 mobile_padding">
+        <h6 style="font-weight:600;font-size:12px">Total</h6>
+        <p><i class="fa fa-inr"></i> {{k.total.toFixed(2)}}</p>
+
+      </div>
+      <div class="col-lg-1 col-xs-6 mobile_padding">
+        <h6 style="font-weight:600;font-size:12px">Paid</h6>
+        <p><i class="fa fa-inr"></i> {{k.paidAmount.toFixed(2)}}</p>
+
+      </div>
+      <div class="col-lg-1 col-xs-6 mobile_padding">
+        <h6 style="font-weight:600;font-size:12px">Balance</h6>
+        <p><i class="fa fa-inr"></i> {{k.total.toFixed(2) - k.paidAmount.toFixed(2)}}</p>
+
+      </div>
+      <div class="col-lg-1 col-xs-6 mobile_padding">
+        <h6 style="font-weight:600;font-size:12px">Payment Mode</h6>
+        <p ng-if="k.isCash == 'cash'"> COD</p>
+        <p ng-if="k.isCash == 'card'"> Card</p>
+        <p ng-if="k.isCash == 'cheque'"> Cheque</p>
+      </div>
+      <div class="col-lg-1 col-xs-6 mobile_padding">
+        <h6 style="font-weight:600;font-size:12px">Payment Status</h6>
+        <span class="fa-stack text-success" ng-if="k.paymentStatus">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+        </span>
+        <span class="fa-stack text-danger" ng-if="!k.paymentStatus">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-times fa-stack-1x fa-inverse"></i>
+        </span>
+      </div>
+
+      <div class="col-lg-2 col-xs-6 mobile_padding " style="padding-right:0px">
+        <h6 style="font-weight:600;font-size:12px">Location</h6>
+        <p> {{k.city}},{{k.state}}</p>
+
+      </div>
+      <div class="col-lg-1 col-xs-6 mobile_padding">
+        <h6 style="font-weight:600;font-size:12px">Status</h6>
+
+        <p ng-if="k.status == 'newOrder'" class="label label-primary">New order</p>
+        <p ng-if="k.status == 'shipped'" class="label label-primary"> Shipped</p>
+        <p ng-if="k.status == 'workInProgress'" class="label label-primary"> Work In Progress</p>
+        <p ng-if="k.status == 'delivered'" class="label label-primary"> Delivered</p>
+        <p ng-if="k.status == 'quote'" class="label label-primary"> Quotation</p>
+        <p ng-if="k.status == 'completed'" class="label label-primary"> Completed</p>
+        <p ng-if="k.status == 'cancelled'" class="label label-primary"> Cancelled</p>
+        <p ng-if="k.status == 'RTO'" class="label label-primary"> RTO</p>
+        <p ng-if="k.status == 'accepted'" class="label label-primary"> Accepted</p>
+        <p ng-if="k.status == 'packed'" class="label label-primary"> Packed</p>
+        <p ng-if="k.status == 'return'" class="label label-primary"> Return</p>
+        <p ng-if="k.status == 'replacement'" class="label label-primary"> Replacement</p>
+        <p ng-if="!k.cancelled" class="label label-primary"> SalesOrder</p>
+        <p ng-if="k.cancelled" class="label label-primary">Cancelled</p>
+
+      </div>
+
+      <div class="col-lg-1 col-xs-6 mobile_padding ">
+        <h6 style="font-weight:600;font-size:12px" >Invoice</h6>
+        <a ng-click="$event.stopPropagation();"  href="/api/finance/invoiceDownload/?value={{k.pk}}&typ=outbond" target="_self"><i class="fa fa-print fa-lg" ></i></a>
+        <!-- <a href="/api/POS/downloadInvoice/?order={{k.pk}}" target="_blank"><i class="fa fa-print fa-lg" style="font-size:30px"></i></a> -->
+      </div>
+    </div>
+    <div class="row" ng-if="$index==indx">
+      <hr/>
+      <div class="col-md-4">
+        <div class="row">
+          <div class="col-md-6 col-xs-6">
+            <h5 class="sizemobile"> Billing Address : </h5>
+            <div>{{k.billingStreet}}</div>
+            <div>{{k.billingCity}}</div>
+            <div>{{k.billingState}}</div>
+            <div>{{k.billingPincode}}</div>
+            <div>{{k.billingCountry}}</div>
+          </div>
+          <div class="col-md-6 col-xs-6 no-padding">
+            <h5 class="sizemobile"> Shipping Address : </h5>
+            <div>{{k.street}}</div>
+            <div>{{k.city}}</div>
+            <div>{{k.state}}</div>
+            <div>{{k.pincode}}</div>
+            <div>{{k.country}}</div>
+          </div>
+        </div>
+        <!-- <div class="row" style="margin:20px 5px" ng-if="STORE_TYPE == 'MULTI-VENDOR'&&k.status == 'shipped'">
+          <h5>Tracking Status</h5>
+          <h6> <span> Assured Delivery Date : {{k.shipmentDetails.Gatiresponse.dktinfo.ASSURED_DELIVERY_DATE}} </span>
+            <span ng-if="trackingData.Gatiresponse.dktinfo.REVISED_DELIVERY_DATE"> Revised Delivery Date : {{k.shipmentDetails.Gatiresponse.dktinfo.REVISED_DELIVERY_DATE}} </span>  </h6>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Location</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="row in k.shipmentDetails.Gatiresponse.dktinfo.TRANSIT_DTLS.ROW">
+                  <td>{{row.INTRANSIT_DATE}}</td>
+                  <td>{{row.INTRANSIT_TIME}}</td>
+                  <td>{{row.INTRANSIT_LOCATION}}</td>
+                  <td>{{row.INTRANSIT_STATUS}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div> -->
+        </div>
+        <div class="col-md-8">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Price</th>
+                <th scope="col">Qty</th>
+                <th scope="col">Total Price</th>
+                <th scope="col">Tax</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="o in k.salesQty">
+                <th scope="row">{{o.product}}</th>
+                <td>{{o.price.toFixed(2)}}</td>
+                <td>{{o.qty}}</td>
+                <td>{{(o.price * o.qty).toFixed(2)}}</td>
+                <td>{{o.taxPer}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+        <div class="row" ng-if="$index==indx">
+        <div class="col-md-12 text-right" >
+          <button class="btn btn-danger"  ng-if="!k.cancelled" mwl-confirm title="Cancel" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="cancelOrder(k.pk)" confirm-button-type="danger" cancel-button-type="default"> Cancel Order </button>
+          <button class="btn btn-danger" ng-if="k.status == 'received'" mwl-confirm title="Cancel" message="Are you sure?" confirm-text="Yes <i class='fa fa-check'></i>" cancel-text="No" on-confirm="cancelOrder(k.pk,'return',$index)" confirm-button-type="danger" cancel-button-type="default"> Return </button>
+        </div>
+      </div>
+      </div>
+
+
+
+    </div>
+
+    <div class="row text-center">
+      <button type="button" name="button" class="btn" style="background-color: var(--themeColor);color:white;" ng-click="loadMore()" >Load More</button>
+    </div>
+
+</div>

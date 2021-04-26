@@ -30,11 +30,12 @@ z-index: 1;position: relative;background-color:white;"><i class="fa fa-arrow-dow
           </div>
           <div class="col-md-12">
 
+            <!-- <span><i class="fa fa-star" style="color:#eee"></i></span>
             <span><i class="fa fa-star" style="color:#eee"></i></span>
             <span><i class="fa fa-star" style="color:#eee"></i></span>
             <span><i class="fa fa-star" style="color:#eee"></i></span>
-            <span><i class="fa fa-star" style="color:#eee"></i></span>
-            <span><i class="fa fa-star" style="color:#eee"></i></span> 0 ratings
+            <span><i class="fa fa-star" style="color:#eee"></i></span> 0 ratings -->
+            <p>{{products.category.name}}</p>
           </div>
           <br><br>
           <div class="col-md-12">
@@ -46,13 +47,13 @@ z-index: 1;position: relative;background-color:white;"><i class="fa fa-arrow-dow
               <span class="ng-scope" style="margin-right:10px;">
                 <strong style="font-size:14px;"><strike class="ng-binding"><i class="fa fa-inr"></i>{{products.mrp}}</strike> </strong>
               </span><span class="ng-scope" style="margin-right:10px;">
-                <span style="color:red;" class="ng-binding"> {{(products.mrp - products.rate) / products.mrp * 100 | number:0}} % OFF </span>
+                <span style="color:red;" class="ng-binding"> {{products.buyingPrice}} % OFF </span>
+                <span ng-if="products.taxRate>0">(gst included)</span>
               </span>
             </div>
           </div>
           <br><br><br>
           <div class="col-md-12">
-            <p>Delivered in:5 days</p>
           </div>
           <div class="row" style="margin:0px;margin-bottom:30px">
             <div class="col-md-5" ng-if="products.addonsData.length>0">
@@ -86,23 +87,26 @@ z-index: 1;position: relative;background-color:white;"><i class="fa fa-arrow-dow
 
     </div>
     <div class="row">
-      <div class="col-md-3" ng-repeat="k in similarproducts">
-        <div class="similarCard">
-          <div class="" style="background-image:url({{k.img1}});background-position:center;height:200px;background-size:contain;background-repeat:no-repeat">
 
-          </div>
-          <a href="/pages/{{division}}/details/{{k.pk}}/{{k.url}}" style="margin-top:10px;color:black" >{{k.name}}</a>
-          <p ng-click="getDetails()"><b></b></p>
-          <div class="col-md-12" style="padding:0px;">
-            <span  style="font-weight:500;font-size:16px;color:black;padding-right:10px;" class=" "><i class="fa fa-inr"></i>{{k.rate}}</span>
-            <strike>
-              <span style="font-size:12px;" class=" "> <i class="fa fa-inr"></i>{{k.mrp}}</span>
-            </strike>
+      <ng-owl-carousel class="owl-theme " owl-items="similarproducts" owl-properties="viewedProductsProperties" owl-ready="ready($api)">
+        <div class="mediaofcarrecent " ng-repeat="l in similarproducts track by $index" style="margin:20px 0 10px 20px;border-radius: 8px;padding:25px 15px;position:relative;background:#fff;cursor:pointer;box-shadow: 0px 0px 10px 0px #f1f1f1;" ng-click="gotoDetails(l.pk,l.url)">
 
-
+          <div class=" text-center" style="width:100%"  >
+            <div style="padding:15px 10px 0px 15px;justify-content:center;width:100%;">
+              <div style="height:170px;margin:auto;background:url({{l.img1}}) center center no-repeat;background-size: cover;">
+              </div>
+            </div>
+            <div style="padding-top:15px;width: 100%;overflow: hidden;white-space: nowrap;text-overflow:ellipsis; ">
+              <span style="color:#000">{{l.name}}</span><br><br>
+              <span  style="font-weight:500;font-size:16px;color:black;padding-right:10px;" class=" "><i class="fa fa-inr"></i>{{l.rate}}</span>
+              <strike>
+                <span style="font-size:12px;" class=" "> <i class="fa fa-inr"></i>{{l.mrp}}</span>
+              </strike>
+            </div>
           </div>
         </div>
-      </div>
+      </ng-owl-carousel>
+
     </div>
 
     <!-- <div class="row" style="margin:30px 0px;">
