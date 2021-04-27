@@ -1,4 +1,32 @@
 <div class="container-fluid" style="padding:0px;">
+  <style media="screen">
+    .cat_pagination  a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: all 1s ease-in-out;
+    right: calc(100% - 100px);
+  }
+  .pagination > li > a,.pagination > li > a:hover,.pagination > li > span:hover,.pagination > li > a:focus,.pagination > li > span:focus, .pagination > li > span{
+    color:black ;
+    border:none;
+    background-color:transparent ;
+  }
+  .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    background-color:var(--themeColor);
+    border-color:var(--themeColor);
+  }
+  categoryActive{
+  color:#B8860B;
+  font-weight: bold;
+  border-bottom: 2px solid #B8860B;
+  padding-bottom: 10px;
+}
+.category{
+  color:black;
+}
+  </style>
 <div class="row">
 <div class="col-md-2 hidden-xs " style="padding:20px;background:#fafafa;min-height: 160vh;">
   <div class="row">
@@ -6,7 +34,7 @@
       <h4>Filters</h4>
     </div>
     <div class="col-md-6" style="padding-top:10px;">
-      <button type="button" name="button" ng-if="filters.showClear || filters.price > filters.minPrice || priceFil" ng-click="resetFiltes()"
+      <button type="button" name="button" ng-if="filters.price > filters.minPrice" ng-click="resetFiltes()"
         style="cursor:pointer;padding:5px;background:#f92128;color:white;border-radius:20px;border:none;width:100%;"><i class="fa fa-times"></i> Clear</button>
       <span </span>
     </div>
@@ -38,7 +66,7 @@
   </div>
 </div>
 <div class="col-md-8" style="padding-top:20px;">
-  <div class="row hidden-xs">
+  <!-- <div class="row hidden-xs">
     <ol class="breadcrumb" style="background:white;margin-bottom:20px;">
       <li><a href="#">Home</a></li>
       <li class="active">{{category.name}}</li>
@@ -53,7 +81,7 @@
         </ol>
       </nav>
     </div>
-  </div>
+  </div> -->
   <div class="row visible-xs" style="margin:0px;border:1px solid #ccc;">
     <div class="col-xs-6" style="padding:5px;border-right:1px solid #ccc;height:35px;">
       <!-- <select class="" name="" style="background-color:transparent;box-shadow:none !important;font-size:14px;width:100%;">
@@ -77,10 +105,10 @@
   </div>
   <div class="hidden-xs" style="margin:0px;margin-bottom:40px;">
     <span class="text-center" style="padding-right: 25px;font-size:20px;font-weight:400px;"> Sort By</span>
-    <span class="text-center" style="cursor:pointer;padding-right: 25px;border-bottom:solid {{filters.sort == 'low2high'? '4px red' : '2px #eee' }};padding-bottom:10px;" ng-click="filters.sort = 'low2high'; refresh();"> Price - Low to High</span>
-    <span class="text-center" class="text-center" style="cursor:pointer;padding-right: 25px;padding-bottom:10px;border-bottom:solid {{filters.sort == 'high2low'? '4px red' : '2px #eee' }}" ng-click="filters.sort = 'high2low'; refresh();"> Price -
+    <span class="text-center" style="cursor:pointer;padding-right: 25px;border-bottom:solid {{filters.sort == 'low2high'? '4px red' : '2px #eee' }};padding-bottom:10px;" ng-click="filters.sort = 'low2high'; getProducts();"> Price - Low to High</span>
+    <span class="text-center" class="text-center" style="cursor:pointer;padding-right: 25px;padding-bottom:10px;border-bottom:solid {{filters.sort == 'high2low'? '4px red' : '2px #eee' }}" ng-click="filters.sort = 'high2low'; getProducts();"> Price -
       High to Low</span>
-    <span class="text-center" style="cursor:pointer;padding-right: 25px;padding-bottom:10px;border-bottom:solid  {{filters.sort == 'new'? '4px red' : '2px #eee' }};" ng-click="filters.sort = 'new'; refresh();"> Newest First</span>
+    <span class="text-center" style="cursor:pointer;padding-right: 25px;padding-bottom:10px;border-bottom:solid  {{filters.sort == 'new'? '4px red' : '2px #eee' }};" ng-click="filters.sort = 'new'; getProducts();"> Newest First</span>
     <span class="pull-right" style="cursor:pointer;padding-bottom:10px;border-bottom:solid {{filters.view == 'list'? '4px green' : '2px #eee' }};" ng-click="filters.view = 'list'">List <i class="fa fa-list"></i></span>
     <span class="pull-right" style="cursor:pointer;padding-right: 35px;border-bottom:solid {{filters.view == 'grid'? '4px green' : '2px #eee' }};padding-bottom:10px;" ng-click="filters.view = 'grid'">Grid <i class="fa fa-th"></i></span>
   </div>
@@ -149,11 +177,10 @@
 </div>
 </div>
 <div class="text-center">
-<div class="cat_pagination">
-  <a ng-click="move_page('dec')" ng-if="current_page != 1">&laquo;</a>
-  <a onclick='window.scrollTo({top: 0, behavior: "smooth"});' class="{{current_page == $index+1?'active':''}}" ng-repeat="x in [].constructor(page_count) track by $index" ng-click="changepagination($index)"
-    style="cursor:pointer;">{{$index+1}}</a>
-  <a ng-click="move_page('inc')" ng-if="current_page != page_count">&raquo;</a>
-</div>
+  <div class="text-center">
+      <ul  uib-pagination boundary-links="false" total-items="totalData" items-per-page="limit"  max-size="3" ng-model="current_page" class="pagination-sm" previous-text="&laquo;" next-text="&raquo;" first-text="&laquo;" last-text="&raquo;" ng-change="pageChanged(current_page)"></ul>
+
+    </div>
+
 </div>
 </div>

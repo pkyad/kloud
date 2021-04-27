@@ -95,7 +95,8 @@
                       <p>{{c.product.name}}</p>
                     </div>
                     <div class="col-md-2 col-xs-6 proData_padding" style="padding-top:20px">
-                      <span> <span style="font-size:14px;"><i class="fa fa-inr"></i> {{c.price}} </span>
+                       <span style="font-size:14px;"><i class="fa fa-inr"></i> {{c.price}} </span><br>
+                       <span>({{c.product.mrp-(c.product.mrp*c.product.buyingPrice)/100}}+{{c.product.taxRate}}% of gst)</span>
                       <!-- <span> <span style="font-size:14px;"><i class="fa {{currency}}"></i> {{c.productVariant.sellingPrice + (c.product.gstType =='gst_extra'?c.productVariant.sellingPrice*(c.product.taxRate / 100):0)|number:2}}</span> <strike style="margin-right:15px"> <i class="fa {{currency}}"></i> {{c.productVariant.price.toFixed(2)}} </strike> </span> <br>
                       <span style="font-size:15px;" ng-if="!c.discountedPrice">
                         <span ng-if="c.product.gstType != 'gst_included'">(<i class="fa {{currency}}"></i>{{c.productVariant.sellingPrice.toFixed(2)}}</span>

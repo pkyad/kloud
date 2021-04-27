@@ -34,10 +34,10 @@
 <body ng-app="app" ng-controller="main" ng-init="division = '{{divisionJson}}'" style="background-color:#f7f7f7;">
   <div>
     <div class="container-fluid" style="margin-top:130px;margin-bottom:30px;">
-      {% if divisionJson.pageType == 'Ecommerce' and page.url == None %}
+      {% if divisionJson.pageType == 'Ecommerce' and components.count == 0 and page.url == None %}
       {% verbatim %}
-      <ecommerce-hotproducts data="products"> </ecommerce-hotproducts>
-      <ecommerce-newproducts data="products"> </ecommerce-newproducts>
+      <ecommerce-hotproducts > </ecommerce-hotproducts>
+      <ecommerce-newproducts > </ecommerce-newproducts>
       {% endverbatim %}
 
 
@@ -189,7 +189,7 @@
     var DIVISION = '{{divisionJson.pk}}'
     var page = '{{page.pk}}'
   </script>
-  {% if page.enableChat or divisionJson.enableChat   %}
+  {% if page.enableChat or divisionJson.enableChatbot   %}
   <script src="/script/chatter-{{API_KEY}}.js?debugger=1"></script>
   {% endif %}
   {% endblock %}

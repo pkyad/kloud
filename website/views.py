@@ -229,6 +229,8 @@ class GetProductsView(APIView):
             invData = Inventory.objects.filter(category__pk = int(data['category']))
             toRet = RateListSerializer(invData, many = True,  context = {"request": request}).data
             # toRet.context['request'] = request
+
+
         return Response(toRet, status =  status.HTTP_200_OK)
 
 

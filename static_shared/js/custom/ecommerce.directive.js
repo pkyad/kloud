@@ -464,27 +464,55 @@ app.directive('categories', function() {
       $scope.me = $users.get('mySelf')
       $scope.division = DIVISION_APIKEY
       $scope.is_quickadd = false;
-  $scope.filters = {
-    varients: {},
-    price: 0,
-    sort: 'low2high',
-    page: 0,
-    filters: [],
-    view: 'list',
-    showClear: false,
-    pricefilters: '',
-    bulkOption: '',
-    minPrice: 0,
-    maxPrice: 0
-  }
+      $scope.filters = {
+        sort: 'low2high',
+        page: 0,
+        filters: [],
+        view: 'list',
+        showClear: false,
+        minPrice:0,maxPrice:0,
+        price:0,showClear: false,
 
-      $scope.getProducts = function(){
+      }
+      $scope.resetFiltes = function(){
+        $scope.filters.showClear=true
+        $scope.filters.price=0
+      }
+      $scope.$watch('filters.price', function(newValue, oldValue) {
+        console.log(newValue, oldValue);
+        $scope.getProducts()
+      }, true)
+      $scope.filterCategories = function(){
         $http({
           method: 'GET',
-          url: '/api/website/getProducts/?category='+ID,
+          url: '/api/finance/filterbyCategory/?category='+ID,
         }).
         then(function(response) {
-          $scope.products = response.data
+          $scope.filters.minPrice = response.data.minPrice
+          $scope.filters.maxPrice = response.data.maxPrice
+          $scope.filters.price = response.data.minPrice
+
+        })
+      }
+      $scope.filterCategories()
+      $scope.limit = 8
+      $scope.offset = 0
+      $scope.current_page=1
+      $scope.getProducts = function(){
+        var url = '/api/finance/inventory/?category='+ID+'&sort='+$scope.filters.sort+'&limit='+$scope.limit+'&offset='+$scope.offset
+        if ($scope.filters.price > 0) {
+          url +='&minPrice='+$scope.filters.price
+        }
+        if ($scope.filters.maxPrice > 0) {
+          url +='&maxPrice='+$scope.filters.maxPrice
+        }
+        $http({
+          method: 'GET',
+          url:url
+        }).
+        then(function(response) {
+          $scope.products = response.data.results
+          $scope.totalData = response.data.count
           for (var i = 0; i < $scope.products.length; i++) {
             var space = /[ ]/;
             var special = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
@@ -511,7 +539,11 @@ app.directive('categories', function() {
         })
       }
       $scope.getProducts()
-
+      $scope.pageChanged =function(currentPage){
+        $scope.current_page = currentPage
+        $scope.offset = $scope.limit*($scope.current_page-1)
+        $scope.getProducts()
+      }
 
     },
   };
@@ -1204,20 +1236,59 @@ app.directive('ecommerceNewproducts', function() {
     scope:{
       data:'='
     },
-    controller: function($scope, $state, $stateParams, $users) {
+    controller: function($scope, $state, $stateParams, $users,$http) {
       $scope.me = $users.get('mySelf')
-      console.log($scope.data,'aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+      console.log($scope.data,"823421731931jbksdkgshif");
       if ($scope.data!=undefined) {
       try {
         $scope.data = JSON.parse($scope.data)
+        $scope.recentProducts = [{
+            "heading": "Newly Added Products",
+            "items": $scope.data
+          },
+          {
+            "heading": "Top Deals",
+            "items": $scope.data
+          }
+
+
+        ]
       }
       catch(err) {
       $scope.data = $scope.data
+      $scope.recentProducts = [{
+          "heading": "Newly Added Products",
+          "items": $scope.data
+        },
+        {
+          "heading": "Top Deals",
+          "items": $scope.data
+        }
+
+
+      ]
       }
+    }else {
+      $http({
+        method:'GET',
+        url:'/api/finance/inventory/?division='+DIVISION
+
+      }).then(function(response){
+
+        $scope.recentProducts = [{
+            "heading": "Newly Added Products",
+            "items": response.data
+          },
+          {
+            "heading": "Top Deals",
+            "items": response.data
+          }
+
+
+        ]
+      })
     }
-      console.log($scope.data,'sssssssssssssssssss');
-      $scope.items = $scope.data
-      console.log($scope.items,'243423');
+
       $scope.recentProductsProperties = {
         lazyLoad: false,
         loop: false,
@@ -1245,17 +1316,7 @@ app.directive('ecommerceNewproducts', function() {
       };
 
 
-      $scope.recentProducts = [{
-          "heading": "Newly Added Products",
-          "items": $scope.data
-        },
-        {
-          "heading": "Top Deals",
-          "items": $scope.data
-        }
 
-
-      ]
 
     },
   };
@@ -1548,10 +1609,9 @@ app.directive('ecommerceHotproducts', function() {
     transclude: true,
     replace: true,
     scope: {
-      data:"="
+      data:"=",
     },
     controller: function($scope, $state, $http, Flash, $rootScope, $users, $filter, $interval) {
-      console.log($scope.data);
       $scope.items = $scope.data
       if ($scope.data !=undefined ) {
       try {
@@ -1560,23 +1620,31 @@ app.directive('ecommerceHotproducts', function() {
           "heading": $scope.data.heading.string,
           "items": $scope.data.products.array
         }
+        console.log(typeof($scope.data),'kkdkdlfkl');
         console.log($scope.data,"klklllk");
       }
       catch(err) {
         $scope.hotproducts = {
-          "heading": 'Hot Products',
-          "items": $scope.data
+          "heading": $scope.data.heading.string,
+          "items": $scope.data.products.array
         }
       }
-      console.log($scope.data);
 
 
     }
     else {
-      $scope.hotproducts = {
-        "heading": 'Hot Products',
-        "items": $scope.data
-      }
+
+      $http({
+        method:'GET',
+        url:'/api/finance/inventory/?division='+DIVISION
+
+      }).then(function(response){
+
+        $scope.hotproducts = {
+          "heading": 'Hot Products',
+          "items":response.data
+        }
+      })
     }
 
     },
@@ -1843,7 +1911,29 @@ app.directive('productDetails', function() {
         $scope.getProd()
       })
     }
-
+    $scope.viewedProductsProperties = {
+      lazyLoad: false,
+      loop: true,
+      items: 1,
+      autoplay: true,
+      autoplayTimeout: 10000,
+      dots: false,
+      // nav:true,
+      responsive: {
+        0: {
+          items: 1
+        },
+        479: {
+          items: 2
+        },
+        600: {
+          items: 3
+        },
+        1000: {
+          items: 4,
+        }
+      },
+    };
       $scope.getProd = function(){
         var url = '/api/website/getProducts/?id='+PRODUCT
         if ($scope.userId!=undefined) {
