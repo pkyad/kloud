@@ -22,11 +22,11 @@ import json
 
 
 import requests
-
-url = 'http://localhost:8000/api/ERP/addNewUser/'
-myobj = {'username' : 'neeluaa','first_name' : 'Neelu','last_name' : 'Singh','email' : 'neeluaa.s@aaa.in','applist' : ['app.messenger', 'app.catalogmaker','app.sales','app.chatbot','app.website'],'type':'chatbot'}
-
-x = requests.post(url, json = myobj)
+#
+# url = 'http://localhost:8000/api/ERP/addNewUser/'
+# myobj = {'username' : 'neeluaa','first_name' : 'Neelu','last_name' : 'Singh','email' : 'neeluaa.s@aaa.in','applist' : ['app.messenger', 'app.catalogmaker','app.sales','app.chatbot','app.website'],'type':'chatbot'}
+#
+# x = requests.post(url, json = myobj)
 #
 # #print the response text (the content of the requested file):
 #
@@ -37,8 +37,21 @@ x = requests.post(url, json = myobj)
 #
 # obj = AES.new('This is a key123', AES.MODE_CBC, 'This is an IV456')
 # message = "The answer is no"
-# ciphertext = obj.encrypt(message)
+# ciphertext = obj0.encrypt(message)
 # encoded_cipher = base64.b64encode(ciphertext)
 # print encoded_cipher
 # data = obj.decrypt(encoded_cipher)
 # print data
+
+#
+# url = 'https://dev.klouderp.com/api/RPA/job/7/'
+# headers = {
+#     'accept': 'text/html,application/xhtml+xml,application/xml',
+#     'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36'
+# }
+# headers['cookie'] = 'session=q8m34t4ogtnqd6v98c3bfg7ik1lv926q; csrfKey=HLxblMzZnJk0sej25MwMqtbDxBaXrTNE5acvW5i76sQqKc30h6AXzHqgXJAJdrsR'
+# headers['content-type'] = 'application/x-www-form-urlencoded'
+# myobj = {'status' : 'success'}
+#
+# x = requests.put(url, json = myobj, headers = headers)
+# print x
