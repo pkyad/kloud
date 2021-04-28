@@ -60,10 +60,10 @@ div.scrollView .prodView:hover {\
     display: none;\
     position: fixed;\
     z-index: 1;\
-    padding-top: 100px;\
-    left: 30%;\
+    padding: 30px;\
+    left: 20%;\
     top: 100px;\
-    width: 820px;\
+    width: 60%;\
     height: 800px;\
     overflow: auto;\
     background-color: #ffffff;\
@@ -86,6 +86,70 @@ div.scrollView .prodView:hover {\
   color: #000;\
   text-decoration: none;\
   cursor: pointer;\
+}\
+.columnOne{\
+  float: left;\
+  width:33.33%;\
+}\
+.columnTwo{\
+  width:40%\
+}\
+.textOne{\
+  margin-top:30px;\
+  font-size:26px\
+}\
+.textTwo{\
+  font-size:32px\
+}\
+.textThree{\
+  font-size:26px\
+}\
+.textFour{\
+  font-size:18px;\
+  margin-bottom:0px;\
+  margin-top:15px;\
+}\
+.rowOne:after {\
+  display: table;\
+}\
+.imageIcon{\
+  height: 100px;\
+  width: 100px;\
+  border-radius: 50%;\
+  background-size: cover;\
+  background-repeat: no-repeat;\
+}\
+.slotbox{\
+  width:100%;\
+  border:1px solid #11aaf5;\
+  text-align:center;\
+  padding-top: 15px;\
+  padding-bottom: 15px;\
+  margin-bottom: 15px;\
+  font-size:22px;\
+  cursor:pointer;\
+  color:#11aaf5;\
+}\
+.confirm_btn{\
+  width:100%;\
+  border:1px solid #11aaf5;\
+  text-align:center;\
+  padding-top: 15px;\
+  padding-bottom: 15px;\
+  margin-bottom: 15px;\
+  font-size:22px;\
+  cursor:pointer;\
+  background: #11aaf5;\
+  color:#ffffff;\
+  display:none;\
+}\
+.slot_input{\
+  width:100%;\
+  border:none;\
+  background:#f9f9f9;\
+  height: 40px;\
+  border-radius: 10px;\
+  font-size: 18px;\
 }\
 }\
 "));

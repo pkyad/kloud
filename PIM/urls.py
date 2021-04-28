@@ -28,5 +28,6 @@ urlpatterns = [
     url(r'forwardMeg/$' , ForwardMessageAPIView.as_view()),
     url(r'getChatMessage/$' , GetChatMessages.as_view()),
     url(r'readMessage/$' , readMessageAPIView.as_view()),
+    url(r'genCalendarEntry/$' , GenCalendarEntryAPIView.as_view()),
 
 ]

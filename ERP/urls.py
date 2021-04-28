@@ -57,6 +57,7 @@ urlpatterns = [
     url(r'createSubscription/$' , CreateSubscriptionAPIView.as_view()),
     url(r'getAppUsageCount/$' , GetAppUsageCountAPIView.as_view()),
     url(r'getAppUsageGraph/$' , GetAppUsageGraphAPIView.as_view()),
+    url(r'getCalendarSlots/$' , GetCalendarSlotsAPIView.as_view()),
     url(r'clearData/$' , ClearDataAPIView.as_view()),
 
 ]
