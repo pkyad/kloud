@@ -168,6 +168,16 @@ app.controller('controller.home.calendar.addSlots', function($scope, $uibModalIn
     })
 
   }
+
+  $scope.createScript = function(){
+    $http({
+      method: 'GET',
+      url: '/api/HR/getCalendarScript/',
+    }).
+    then(function(response) {
+      $scope.calendarScript = response.data.src
+    })
+  }
   $scope.windowObjectReference = document.createElement("iframe");
   $scope.openAuthenticator = function(typ) {
     if (typ == 'zoom') {

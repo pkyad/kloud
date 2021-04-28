@@ -51,6 +51,12 @@ from clientRelationships.serializers import ContactLiteSerializer
 # Create your views here.
 import basehash
 hash_fn = basehash.base36()
+import re
+regex = re.compile('^HTTP_')
+def getCalendarScript(request , id):
+    id = hash_fn.unhash(id)
+    dataToSend = {'id' : id,'siteurl' : globalSettings.SITE_ADDRESS}
+    return render(request, 'calendar.js', dataToSend ,content_type="application/x-javascript")
 
 class PageViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )

@@ -1,0 +1,91 @@
+newStyle.appendChild(document.createTextNode("\
+div.scrollView {\
+  overflow: auto;\
+  white-space: nowrap;\
+}\
+\
+div.scrollView .prodView {\
+  display: inline-block;\
+  text-align: center;\
+  padding: 14px;\
+  border-radius:20px;\
+  text-decoration: none;\
+}\
+.scrollView img{\
+  width: 120px;\
+}\
+div.scrollView .prodView:hover {\
+  background-color: #eee;\
+}\
+@media only screen and (max-width: 600px) {\
+  .CalendarBoxDiv{\
+    padding:0px;\
+    margin:0px;\
+    position: fixed;\
+    bottom: 30px;\
+    font-family: 'Muli', sans-serif;\
+    border-radius:10px;\
+    box-shadow: 0px 0px 25px 5px rgba(0,0,0,0.2);\
+    z-index:9999999999999999999;\
+    color:black;\
+    background: rgb(198, 198, 198);\
+    height: 70px;\
+    width: 70px;\
+    border-radius: 50%;\
+    right: 20px;\
+    background-size: cover;\
+    background-repeat: no-repeat;\
+  }\
+}\
+@media only screen and (min-width: 600px) {\
+  .CalendarBoxDiv{\
+    padding:0px;\
+    margin:0px;\
+    position: fixed;\
+    bottom: 30px;\
+    font-family: 'Muli', sans-serif;\
+    border-radius:10px;\
+    box-shadow: 0px 0px 25px 5px rgba(0,0,0,0.2);\
+    z-index:9999999999999999999;\
+    color:black;\
+    background: rgb(198, 198, 198);\
+    height: 70px;\
+    width: 70px;\
+    border-radius: 50%;\
+    right: 20px;\
+    background-size: cover;\
+    background-repeat: no-repeat;\
+  }\
+  .modal {\
+    display: none;\
+    position: fixed;\
+    z-index: 1;\
+    padding-top: 100px;\
+    left: 30%;\
+    top: 100px;\
+    width: 820px;\
+    height: 800px;\
+    overflow: auto;\
+    background-color: #ffffff;\
+  }\
+  .modal-content {\
+    background-color: #fefefe;\
+    margin: auto;\
+    padding: 20px;\
+    border: 1px solid #888;\
+    width: 80%;\
+  }\
+  .close {\
+  color: #aaaaaa;\
+  float: right;\
+  font-size: 28px;\
+  font-weight: bold;\
+}\
+.close:hover,\
+.close:focus {\
+  color: #000;\
+  text-decoration: none;\
+  cursor: pointer;\
+}\
+}\
+"));

@@ -11,6 +11,7 @@ from HR.pages import *
 from website.views import *
 from finance.views import *
 from chatbot.views import *
+from website.views import getCalendarScript
 app_name="libreERP"
 
 
@@ -83,6 +84,7 @@ urlpatterns = [
     url(r'^templateEditor/(?P<pk>[\w|\W]+)/', templateEditorView , name ='templateEditor'),
     url(r'intentDesigner/(?P<id>[\w|\W]+)/' , intentDesignerView , name = "intentDesigner"),
     url(r'^script/chatter-(?P<fileid>[\w|\W]+).js', getChatterScript , name ='getChatterScript'),
+    url(r'^script/calendar-(?P<id>[\w|\W]+).js', getCalendarScript , name ='getCalendarScript'),
     url(r'activities' , activityView , name = "activity"),
     url(r'^externalWindow/', ExternalWindow , name ='externalWindow'),
     url(r'^zoomAuthRedirect/', ZoomAuthRedirect , name ='zoomAuthRedirect'),
