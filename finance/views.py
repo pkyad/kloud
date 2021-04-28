@@ -408,7 +408,28 @@ class RateListViewSet(viewsets.ModelViewSet):
             return toReturn
         if 'category' in self.request.GET:
             toReturn = toReturn.filter(category__pk = self.request.GET['category'])
-            return toReturn
+            if 'sort' in self.request.GET:
+                if self.request.GET['sort'] == 'low2high':
+                    toReturn = toReturn.order_by('rate')
+                    if 'minPrice' in self.request.GET:
+                        toReturn = toReturn.filter(rate__gte=self.request.GET['minPrice'],rate__lte=self.request.GET['maxPrice'])
+                        return toReturn
+                    return toReturn
+
+                if self.request.GET['sort'] == 'high2low':
+                    toReturn = toReturn.order_by('-rate')
+                    if 'minPrice' in self.request.GET:
+                        toReturn = toReturn.filter(rate__gte=self.request.GET['minPrice'])
+                        return toReturn
+                    return toReturn
+                if self.request.GET['sort'] == 'new':
+                    toReturn = toReturn.order_by('-created')
+                    if 'minPrice' in self.request.GET:
+                        toReturn = toReturn.filter(rate__gte=self.request.GET['minPrice'])
+                        return toReturn
+                    return toReturn
+
+
         return toReturn
 
 class InventoryLogViewSet(viewsets.ModelViewSet):
@@ -663,6 +684,20 @@ class GetInventoryAPI(APIView):
                 invObj = invObj.filter(Q(name__icontains = params['search'])|Q(sku__icontains = params['search']))
             data = RateListSerializer(invObj[offset:limit], many = True).data
         return Response(data, status=status.HTTP_200_OK)
+from django.db.models import Min, Max
+class FilterbyCategoryAPI(APIView):
+    permission_classes = (permissions.IsAuthenticated ,)
+    def get(self , request , format = None):
+        data = request.GET
+        if 'category' in data:
+            invData = Inventory.objects.filter(category__pk = int(data['category'])).order_by('-rate')
+            invDatas = Inventory.objects.filter(category__pk = int(data['category'])).order_by('rate')
+            print invData[0].rate,"ooo"
+            toReturn ={
+            'maxPrice':invData[0].rate,'minPrice':invDatas[0].rate
+            }
+
+        return Response(toReturn, status=status.HTTP_200_OK)
 
 class ExpensesGraphDataAPI(APIView):
     permission_classes = (permissions.IsAuthenticated ,)
@@ -4941,11 +4976,13 @@ class CartTotalAPIView(APIView):
         if tot['sum'] is not None:
             total = tot['sum']
         for c in cartObj:
+            gst += (c.qty*((c.product.mrp-(c.product.mrp*c.product.buyingPrice)/100))*(c.product.taxRate))/100
+
             if c.addon is not None:
                 c.addon = json.loads(c.addon)
                 addontotal = float(c.qty) * float(c.addon['price'])
-        grandTotal = total + gst + shipping + addontotal
-        data = {'subTotal' : total, 'totalGST' : gst , 'shipping' : shipping , 'grandTotal' : grandTotal , 'showDetails' : showDetails , 'addonTotal' : addontotal}
+        grandTotal = total + shipping + addontotal
+        data = {'subTotal' : total-gst, 'totalGST' : gst , 'shipping' : shipping , 'grandTotal' : grandTotal , 'showDetails' : showDetails , 'addonTotal' : addontotal}
         return Response(data ,status = status.HTTP_200_OK)
 
 

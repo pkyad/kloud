@@ -392,7 +392,7 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
             defaultTitle:'',
             defaultDescription: '',
             url: '',
-            stage:''
+            pageType:''
 
           }
 
@@ -406,7 +406,6 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
         then(function(response) {
           $scope.division = response.data
           $scope.form = response.data
-          console.log($scope.form,"opopop");
         })
 
         $scope.selectTyp = [
@@ -464,8 +463,12 @@ app.controller('pages', function($scope, $http, $aside, $state, Flash, $users, $
         }
 
         $scope.save = function() {
-          if ($scope.form.defaultTitle.length == 0 || $scope.form.defaultDescription.length == 0) {
+          if ($scope.form.defaultTitle.length == 0 || $scope.form.defaultDescription.length == 0 ) {
             Flash.create('warning', 'Please fill all the details')
+            return
+          }
+          if ($scope.form.pageType.length == 0) {
+            Flash.create('warning', 'Please select the type of website')
             return
           }
 

@@ -315,7 +315,7 @@ class Inventory(models.Model):
     richtxtDesc = models.TextField(max_length=10000 , null=True)
     taxCode  = models.TextField(max_length = 500 , null = True )
     sku = models.CharField(max_length = 100 , null = True )
-    buyingPrice = models.FloatField(default=1)
+    buyingPrice = models.FloatField(default=1)#using as discount in product  creation
     division = models.ForeignKey(Division,related_name='divisionInventory',null=True)
     taxRate = models.FloatField(default=0)
     mrp = models.FloatField(default=0)

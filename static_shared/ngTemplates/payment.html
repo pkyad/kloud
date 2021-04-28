@@ -106,7 +106,8 @@
                     </div>
                     <div class="col-xs-2" >
                       <div>
-                        <i class="fa {{currency}}"></i> {{(c.price).toFixed(2)}}
+                        <i class="fa {{currency}}"></i> {{(c.price).toFixed(2)}}<br>
+                         <span>({{c.product.mrp-(c.product.mrp*c.product.buyingPrice)/100}}+{{c.product.taxRate}}% of gst)</span>
                       </div>
                     </div>
                     <div class="col-xs-2" >
