@@ -8,23 +8,23 @@
     '<div class="rowOne">'+
     '<div class="columnOne">'+
       '<p class="textTwo">Book an appointment</p>'+
-      '<p class="textFour">Name</p>'+
+      '<p class="textFour">Name*</p>'+
       '<input type="text" id="name" name="name" required class="slot_input">'+
       '<p class="textFour">Mobile</p>'+
       '<input type="number" id="mobile" name="mobile" required class="slot_input">'+
-      '<p class="textFour">Email</p>'+
+      '<p class="textFour">Email*</p>'+
       '<input type="email" id="email" name="email" required class="slot_input">'+
+      '<p class="textFour">Date*</p>'+
+      '<input type="date" id="datePicker" onchange="getSlots()" required class="slot_input">'+
+      '<div class="confirm_btn" onclick="createSlot()" id="confrm"> CONFIRM </div>'+
+      '<div class="confirm_btn"  id="pleaseWait"> Please Wait </div>'+
+      '<div id="alerts" style="color:green;">  </div>'+
+      '<div id="errors" style="color:red;">  </div>'+
       '</div>'+
-    '<div class="columnOne">'+
-      '<input type="date" id="datePicker" onchange="getSlots()">'+
-      '</div>'+
-    '<div class="columnOne">'+
-      '<div id="allSlots">'+
 
+    '<div class="columnOne">'+
+      '<div id="allSlots" class="allSlot">'+
         '</div>'+
-        '<div class="confirm_btn" onclick="createSlot()" id="confrm"> CONFIRM </div>'+
-        '<div class="confirm_btn"  id="pleaseWait"> Please Wait </div>'+
-        '<div id="alerts" style="color:green">  </div>'+
         <!-- '<div class="confirm_btn" onclick="createSlot()"> CONFIRM </div>'+ -->
       '</div>'+
     '</div>'+

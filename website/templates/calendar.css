@@ -60,11 +60,11 @@ div.scrollView .prodView:hover {\
     display: none;\
     position: fixed;\
     z-index: 1;\
-    padding: 30px;\
+    padding: 60px;\
     left: 20%;\
     top: 100px;\
     width: 60%;\
-    height: 800px;\
+    height: 550px;\
     overflow: auto;\
     background-color: #ffffff;\
   }\
@@ -89,7 +89,7 @@ div.scrollView .prodView:hover {\
 }\
 .columnOne{\
   float: left;\
-  width:33.33%;\
+  width:50%;\
 }\
 .columnTwo{\
   width:40%\
@@ -119,8 +119,11 @@ div.scrollView .prodView:hover {\
   background-size: cover;\
   background-repeat: no-repeat;\
 }\
+.allSlot{\
+  padding:30px\
+}\
 .slotbox{\
-  width:100%;\
+  width:40%;\
   border:1px solid #11aaf5;\
   text-align:center;\
   padding-top: 15px;\
@@ -129,9 +132,15 @@ div.scrollView .prodView:hover {\
   font-size:22px;\
   cursor:pointer;\
   color:#11aaf5;\
+  float: left;\
+  margin-right: 15px\
+}\
+.allSlot:after {\
+  display: table;\
 }\
 .confirm_btn{\
-  width:100%;\
+  margin-top:30px;\
+  width:50%;\
   border:1px solid #11aaf5;\
   text-align:center;\
   padding-top: 15px;\
@@ -142,6 +151,7 @@ div.scrollView .prodView:hover {\
   background: #11aaf5;\
   color:#ffffff;\
   display:none;\
+  border-radius: 25px;\
 }\
 .slot_input{\
   width:100%;\
@@ -150,6 +160,5 @@ div.scrollView .prodView:hover {\
   height: 40px;\
   border-radius: 10px;\
   font-size: 18px;\
-}\
 }\
 "));

@@ -1,11 +1,26 @@
 {% include "calender.dependencies.js" %}
+var bootstrap1 = document.createElement('script');
+bootstrap1.setAttribute('src','https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js');
+document.head.appendChild(bootstrap1);
+var jQueryScript = document.createElement('script');
+jQueryScript.setAttribute('src','https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js');
+document.head.appendChild(jQueryScript);
+var bootstrap2 = document.createElement('script');
+bootstrap2.setAttribute('src','https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js');
+document.head.appendChild(bootstrap2);
+var bootstrap3 = document.createElement('script');
+bootstrap3.setAttribute('src','https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js');
+document.head.appendChild(bootstrap3);
+
+
+
 
 var siteurl = "{{siteurl}}"
 var id = "{{id}}"
 document.addEventListener("DOMContentLoaded", function(event) {
   var icon = siteurl+'/static/apps/calender.png'
   var userIcon = siteurl+'/static/images/avatar5.png'
-  function createCalDiv() {
+  function createChatDiv() {
     var body = document.getElementsByTagName("BODY")[0];
     var mainDiv = document.createElement("div");
     mainDiv.id="calendarDiv"
@@ -14,11 +29,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
     body.appendChild(mainDiv);
 
   }
-  createCalDiv()
+  createChatDiv()
   function setStyle() {
     var newStyle = document.createElement('style');
     {% include "calendar.css" %}
     document.head.appendChild(newStyle);
+    var link  = document.createElement('link');
+    // link.id   = cssId;
+    link.rel  = 'stylesheet';
+    link.type = 'text/css';
+    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css';
+    link.media = 'all';
+    document.head.appendChild(link);
+    var link1  = document.createElement('link');
+    // link1.id   = cssId;
+    link1.rel  = 'stylesheet';
+    link1.type = 'text/css';
+    link1.href = 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css';
+    link1.media = 'all';
+    document.head.appendChild(link1);
   }
 
   setTimeout(function () {
@@ -27,14 +56,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var maindiv = document.getElementById('chatBox');
   var modal = document.getElementById('myModal');
   var modalContent = document.getElementById('modalContent');
-  var datePicker =  document.getElementById('datePicker');
-  var today = new Date()
-  datePicker.value =  today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
-  getSlots()
-
 
   window.onclick = function(event) {
       if (event.target == maindiv) {
+        console.log('sssssss', event.target)
           modal.style.display = "block";
       }
   }
@@ -118,21 +143,6 @@ var createSlot = function(){
     }
   };
   var tempDate = new Date(date)
-  var error = document.getElementById('errors');
-  error.innerHTML = ''
-  if (name.value == undefined  || name.value == null || name.value.length==0) {
-    error.innerHTML = '<h4>Name is required</h4>'
-    return
-  }
-
-  if (mobile.value == undefined  || mobile.value == null || mobile.value.toString().length==0) {
-    error.innerHTML = '<h4>Mobile number is required</h4>'
-    return
-  }
-  if (email.value == undefined  || email.value == null || email.value.length==0) {
-    error.innerHTML = '<h4>Email is required</h4>'
-    return
-  }
   var form = {
       when:tempDate,
       slot:slotSelected,
