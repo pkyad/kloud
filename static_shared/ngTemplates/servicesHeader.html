@@ -12,7 +12,7 @@
     <div class="container-fluid" style="padding:15px 25px;background-color:white;box-shadow: 0px 0px 10px 0px #ccc;">
       <div class="col-md-10 col-md-offset-1">
         <div class="navbar-header">
-          <a class="navbar-brand" href="/"><img src="{{division.logo}}" alt="" style="height:50px;" /></a>
+          <a class="navbar-brand" href="/pages/{{apiKey}}/"><img src="{{division.logo}}" alt="" style="height:50px;" /></a>
         </div>
 
         <ul class="nav navbar-nav navbar-right">
@@ -43,7 +43,7 @@
           <a href="#" class="dropdown-toggle" type="button" data-toggle="dropdown" style="line-height: 4;color:black;font-size: 16px;" ><img src="/static/images/loggedinblack-min.svg" alt="" style="height:30px;">{{me.first_name}} {{me.last_name}}   <span class="caret"></span></a>
 
           <ul class="dropdown-menu">
-            <li><a href="#">Profile</a></li>
+            <li><a href="/pages/{{apiKey}}/profile">Profile</a></li>
             <li><a href="/logout">logout</a></li>
           </ul>
         </div>

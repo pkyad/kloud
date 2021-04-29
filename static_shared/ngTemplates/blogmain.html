@@ -62,7 +62,10 @@
           </ul>
         </div>
         <h2 style="color:white;margin-top:0px;">{{allBlogs[0].title}}</h2>
-        <button type="button" class="btn btn-lg btn-default  btn_read" name="button" style="margin-top:40px;padding:10px 25px"><a href="/detailsblogs/{{allBlogs[0].articleUrl}} " class="link_read">Read Story</a></button>
+        <button type="button" class="btn btn-lg btn-default  btn_read" name="button" style="margin-top:40px;padding:10px 25px">
+          <a href="/detailsblogs/{{allBlogs[0].articleUrl}} " class="link_read" ng-if="!apiKey">Read Story</a>
+          <a href="/pages/{{apiKey}}/detailsblogs/{{allBlogs[0].articleUrl}} " class="link_read" ng-if="apiKey">Read Story</a>
+        </button>
       </div>
      <i class="fa fa-pencil pull-right fa-3x" ng-click="$state.go('businessManagement.editblog',{'id' : allBlogs[0].pk});$event.stopPropagation()" ng-if="$state.is('businessManagement.blogging')"></i>
     </div>
@@ -77,7 +80,11 @@
               <div  style="background-image:url('{{i.contents[0].img}}');background-size:cover;min-height:300px;padding:30px;border-radius:5px;">
                 <i class="fa fa-pencil pull-right fa-lg" ng-click="$state.go('businessManagement.editblog',{'id' : i.pk});$event.stopPropagation()" ng-if="$state.is('businessManagement.blogging')"></i>
                   <h3 style="color:white;height:40px;">{{i.title}}</h3>
-                  <button type="button" class="btn btn-lg btn-default  btn_cardread" name="button"><a class="read_art" href="/detailsblogs/{{i.articleUrl}}">Read Article </a></button>
+                  <button type="button" class="btn btn-lg btn-default  btn_cardread" name="button">
+                    <a class="read_art" href="/detailsblogs/{{i.articleUrl}}" ng-if="!apiKey">Read Article  </a>
+                    <a class="read_art" href="/pages/{{apiKey}}/detailsblogs/{{i.articleUrl}}" ng-if="apiKey">Read Article  </a>
+
+                  </button>
                 </div>
               </div>
           <!-- </a> -->

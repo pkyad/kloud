@@ -84,7 +84,12 @@
   <script src="{% static 'js/angular-owl-carousel-2.js' %}"></script>
   <script src="{% static 'js/custom/directive.js' %}"></script>
 
-  {% block pageJS %}{% endblock %}
+  {% block pageJS %}
+  <script type="text/javascript">
+    var DIVISION_APIKEY = ''
+    var DIVISION = '{{div.pk}}'
+  </script>
+  {% endblock %}
   {% endblock %}
 </body>
 

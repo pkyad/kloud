@@ -33,7 +33,7 @@
 
 <body ng-app="app"ng-controller="main" style="background-color:#f7f7f7;">
   {% verbatim %}
-      <about-us>  </about-us>
+      <terms>  </terms>
   {% endverbatim %}
 
 
@@ -70,15 +70,6 @@
 
 
 
-      $http({
-        method: 'GET',
-        url: '/api/organization/divisions/' + DIVISION,
-      }).
-      then(function(response) {
-        $scope.division = response.data
-
-      })
-
 
 
     });
@@ -96,16 +87,44 @@
   <script src="{% static 'js/custom/services.js' %}"></script>
   <script src="{% static 'js/custom/ecommerce.directive.js' %}"></script>
   <script src="{% static 'js/angular-ui-switch.min.js' %}"></script>
+  <script>
+    function animate(elem, style, unit, from, to, time, prop) {
+      if (!elem) {
+        return;
+      }
+      var start = new Date().getTime(),
+        timer = setInterval(function() {
+          var step = Math.min(1, (new Date().getTime() - start) / time);
+          if (prop) {
+            elem[style] = (from + step * (to - from)) + unit;
+          } else {
+            elem.style[style] = (from + step * (to - from)) + unit;
+          }
+          if (step === 1) {
+            clearInterval(timer);
+          }
+        }, 25);
+      if (prop) {
+        elem[style] = from + unit;
+      } else {
+        elem.style[style] = from + unit;
+      }
+    }
 
+    function getView(getId) {
+      var target = document.getElementById(getId);
+      animate(document.scrollingElement || document.documentElement, "scrollTop", "", 0, target.offsetTop, 200, true);
+    }
+
+    var h = window.innerHeight;
+    console.log(h);
+  </script>
   {% block pageJS %}
   <script type="text/javascript">
     var DIVISION_APIKEY = '{{apiKey}}'
-    var DIVISION = '{{division.pk}}'
-    // var page = '{{page.pk}}'
+    var DIVISION = '{{div.pk}}'
   </script>
-  {% if page.enableChat %}
-  <script src="/script/chatter-{{API_KEY}}.js?debugger=1"></script>
-  {% endif %}
+
   {% endblock %}
   {% endblock %}
 

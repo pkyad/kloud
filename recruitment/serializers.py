@@ -16,7 +16,7 @@ class JobsSerializer(serializers.ModelSerializer):
     total_selected = serializers.SerializerMethodField()
     class Meta:
         model = Jobs
-        fields = ('created','pk', 'jobtype','unit', 'role' , 'skill' , 'approved' , 'maximumCTC' , 'status','description','total_app' , 'total_selected')
+        fields = ('created','pk', 'jobtype','unit', 'role' , 'skill' , 'approved' , 'maximumCTC' , 'status','description','total_app' , 'total_selected','division')
     def create(self , validated_data):
         # del validated_data['contacts']
         inv = Jobs(**validated_data)

@@ -29,7 +29,7 @@
 
 
     <div class="navbar-header">
-      <a class="navbar-brand " href="/" style="padding:0px;"> <img src="{{division.logo}}" alt="" style="height:45px;margin-top:10%;margin-left:10px;"> </a>
+      <a class="navbar-brand " href="/pages/{{apiKey}}/" style="padding:0px;"> <img src="{{division.logo}}" alt="" style="height:45px;margin-top:10%;margin-left:10px;"> </a>
 
 
       <div class="navbar-toggle toggleBtn" data-toggle="collapse" data-target="#myNavbar" ng-click="toggleNavbar = !toggleNavbar" style="border:none;padding:0px">
@@ -40,7 +40,7 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar" uib-collapse="!toggleNavbar">
 
-      <ul class="nav navbar-nav header_nav {{device.smallDevice?'pull-left':'pull-right'}}">
+      <ul class="nav navbar-nav header_nav pull-right">
 
 
         <li class="header_element">
@@ -54,8 +54,8 @@
           <a href="" ng-mouseleave="show[3]=false" ng-mouseover="show[3]=true" class="navLink"> Company</a>
           <ul ng-mouseleave="keepshow[3]=false" ng-click="keepshow[3] = false; toggleNavbar = false;" ng-mouseover="keepshow[3]=true" ng-show="show[3]||keepshow[3]" class="container_box ng-hide">
 
-              <li ng-click="$state.go('career')"><a href="/career">Careers</a></li>
-              <li ng-click="$state.go('contact_us')"> <a href="/contact_us">Contact Us</a></li>
+              <li><a href="/pages/{{apiKey}}/careers">Careers</a></li>
+              <li > <a href="/pages/{{apiKey}}/contactus">Contact Us</a></li>
             </ul>
         </li>
 

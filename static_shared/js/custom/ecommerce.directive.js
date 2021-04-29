@@ -367,9 +367,11 @@ app.directive('agencyHeader', function() {
     transclude: true,
     controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
       $scope.me = $users.get('mySelf')
+      $scope.apiKey = DIVISION_APIKEY
+      $scope.divObj = DIVISION
       $http({
         method:'GET',
-        url:'/api/organization/divisions/'+$scope.me.designation.division
+        url:'/api/organization/divisions/'+$scope.divObj
       }).then(function(response){
         $scope.division = response.data
       })
@@ -401,9 +403,11 @@ app.directive('agencyFooter', function() {
     transclude: true,
     controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
       $scope.me = $users.get('mySelf')
+      $scope.apiKey = DIVISION_APIKEY
+      $scope.divObj = DIVISION
       $http({
         method:'GET',
-        url:'/api/organization/divisions/'+$scope.me.designation.division
+        url:'/api/organization/divisions/'+$scope.divObj
       }).then(function(response){
         $scope.division = response.data
       })
@@ -418,6 +422,7 @@ app.directive('servicesHeader', function() {
     transclude: true,
     controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
       $scope.me = $users.get('mySelf')
+      $scope.apiKey = DIVISION_APIKEY
       $http({
         method:'GET',
         url:'/api/organization/divisions/'+$scope.me.designation.division
@@ -436,6 +441,7 @@ app.directive('servicesFooter', function() {
     transclude: true,
     controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
       $scope.me = $users.get('mySelf')
+      $scope.apiKey = DIVISION_APIKEY
       $http({
         method:'GET',
         url:'/api/organization/divisions/'+$scope.me.designation.division
