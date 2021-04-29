@@ -2541,3 +2541,18 @@ class ClearDataAPIView(APIView):
             else:
                 print 'no user'
         return Response({} , status = status.HTTP_200_OK)
+
+
+
+
+class GetCalendarSlotsAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny,)
+    def get(self, request, format=None):
+        id = hash_fn.unhash(request.GET['id'])
+        date = datetime.datetime.strptime(self.request.GET['date'], '%Y-%m-%d').date()
+        weekDay = date.strftime('%A')
+        slots = []
+        print CalendarSlots.objects.filter(user = User.objects.get(pk = int(id)), is_available = True, day = weekDay )
+        obj = CalendarSlots.objects.filter(user = User.objects.get(pk = int(id)), is_available = True, day = weekDay ).values_list('slot', flat=True).distinct()
+        return Response({'slots':obj} , status = status.HTTP_200_OK)

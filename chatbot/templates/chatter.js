@@ -1821,7 +1821,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       }else {
         div.innerHTML = messageDiv(chat.messages[i])
       }
-      
+
       messageBox.appendChild(div);
     }
     scroll();

@@ -13,6 +13,8 @@ from django.db.models import Q,  Case, When
 from  datetime import  datetime
 from django.db.models import Count
 from rest_framework.request import Request
+import basehash
+hash_fn = basehash.base36()
 
 class settingsViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, isOwner, )
@@ -381,3 +383,27 @@ class readMessageAPIView(APIView):
         data =  []
 
         return Response(data,status=status.HTTP_200_OK)
+
+class GenCalendarEntryAPIView(APIView):
+    permission_classes = (permissions.IsAuthenticated ,)
+    def post(self , request , format = None):
+        id = hash_fn.unhash(request.data['id'])
+        success = False
+        user = User.objects.get(pk = int(id))
+        division = user.designation.division
+        calObj = calendar.objects.create(user = user, eventType = request.data['eventType'],text = 'Appointment',division = division)
+        hour = request.data['slot'].split('-')[0]
+        calObj.when = datetime.strptime(request.data['when'], '%Y-%m-%dT%H:%M:%S.%fZ').replace(hour=int(hour), minute=0)
+        if 'mobile' in request.data:
+            conObj, c = Contacts.objects.get_or_create(mobile = request.data['mobile'], division = division)
+            if 'name' in request.data:
+                conObj.name = request.data['name']
+            if 'email' in request.data:
+                conObj.email = request.data['email']
+            conObj.save()
+        print conObj.pk,'aaaaaaaaaa'
+        calObj.contact = conObj
+        calObj.save()
+        if calObj.pk:
+            success = True
+        return Response({'success' : success},status=status.HTTP_200_OK)

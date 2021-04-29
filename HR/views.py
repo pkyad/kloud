@@ -46,6 +46,8 @@ from ERP.initializing import *
 from chatbot.models import Activity
 from ERP.tasks import *
 from .tasks import *
+import basehash
+hash_fn = basehash.base36()
 
 class userProfileViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
@@ -1269,3 +1271,15 @@ class UpdateProfileAPIView(APIView):
         userObj.save()
         send_division_welcome_email(userObj)
         return Response({} , status = status.HTTP_200_OK)
+
+
+class GetCalendarScriptAPIView(APIView):
+    renderer_classes = (JSONRenderer,)
+    def get(self, request, format=None):
+        data = request.data
+        user = request.user
+        key =  hash_fn.hash(user.pk)
+        srcUrl = globalSettings.SITE_ADDRESS + '/script/calendar-'+ key +'.js';
+        src = '<script src="'+ srcUrl +'"></script>'
+
+        return Response({'src' : src},status = status.HTTP_200_OK)
