@@ -1601,6 +1601,14 @@ app.directive('careerView', function() {
     transclude: true,
     replace: true,
     controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
+      $scope.apiKey = DIVISION_APIKEY
+      $scope.divObj = DIVISION
+      $http({
+        method:'GET',
+        url:'/api/organization/divisions/'+$scope.divObj
+      }).then(function(response){
+        $scope.division = response.data
+      })
       $http({
         method: 'GET',
         url: '/api/recruitment/job/',
@@ -1798,6 +1806,7 @@ app.directive('academyCourses', function() {
       data: '=',
     },
     controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
+      console.log($scope.data,"KKK");
     $scope.courses = JSON.parse($scope.data)
       // $http({
       //   method: 'GET',
@@ -2102,6 +2111,10 @@ app.directive('blogMain', function() {
     transclude: true,
     replace: true,
     controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
+      if (DIVISION_APIKEY != undefined) {
+
+        $scope.apiKey = DIVISION_APIKEY
+      }
       var url = '/api/blogging/article/'
 
       $http({

@@ -1,0 +1,268 @@
+{% extends 'base.html'%}
+
+<style media="screen">
+  html{
+    overflow-x:hidden
+  }
+  ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+  #imge {
+    position: absolute;
+
+    top: 0;
+
+    left: 0;
+
+    right: 0;
+
+    bottom:67%;
+    margin: auto;
+
+    min-width: 100%;
+
+    min-height: 50%;
+  }
+  .btn_def:focus{
+    outline:none !important;
+    box-shadow:none;
+  }
+
+
+
+  .navbar-dark{
+    background:white;
+  }
+  .navbar-dark .navLink{
+    color:#262626 !important;
+    outline:none !important;
+  }
+  .navbar-dark .navLink:hover, .navbar-dark .navLink:focus{
+    color:#ff6900 !important;
+    background: none !important;
+  }
+  .navbar-dark .btn-default{
+    background: none !important;
+  }
+  .lightIcon{
+    display:none;
+  }
+  .darkIcon{
+    display:initial;
+  }
+  .btn_back:focus,.btn_back:hover{
+    background-color:none !important;
+    outline:none;
+  }
+  .lightic{
+    display:none !important;
+  }
+  .link{
+    color:black;
+  }
+  .link:hover{
+    color:black;
+    background-color:transparent !important;
+  }
+</style>
+
+{% block header %}
+<style media="screen">
+  {{headerCss | safe}}
+</style>
+<div class="">
+    {{header | safe}}
+</div>
+
+{% endblock %}
+{% block content%}
+<div class="container-fluid carer_view_container" style="" >
+  <!-- <img src="static/images/grey.svg" alt="" id="imge"> -->
+  <div class="row" style="margin:0px;">
+
+    <div class="carer_view_stat" >
+      <div class="col-md-6 col-xs-6" style="z-index:1000;padding:0px">
+        <button type="submit" class=" btn btn_back " style='background-color:transparent;border:none;'>
+
+          <i class="fa fa-arrow-left" aria-hidden="true"><a href="/pages/{{apiKey}}/careers" style="margin-left:10px;color:gray;font-size:14px;">Back</a></i>
+
+        </button>
+
+
+      </div>
+      <div class="col-md-6 col-xs-6" style="z-index:1000;padding:0px;">
+
+        <button type="submit" class="btn btn-lg btn-default pull-right " style="background-color:#31ca8bff;border:none;color:white;font-size:16px;font-size:14px;font-weight:bold;border-radius:3px;" ng-click="apply('{{finalData.pk}}')">Apply Now</button>
+
+      </div>
+
+      <div class="col-lg-12 col-md-12 career_view_page" >
+        <div class="row flex-container" style="display:flex;margin-top:20px;">
+          <div class=" career_view_btns" >
+
+            <button class="btn  btn-default" type="button" name="button" style="color:#7493fbff;background-color:#e8eeffff;font-weight:bold;border:none;padding:10px 26px;">{{finalData.jobtype}}</button>
+          </div>
+          <div class="career_view_btns" >
+            <button class="btn   btn_def" type="button" name="button" >
+
+              <span style="letter-spacing:0.5px;color:gray;"><i class="fa fa-map-marker " aria-hidden="true" style="font-size:20px;color:#e5e5e5;padding-right:10px;"></i> {{finalData.unit.city}}</span>
+
+            </button>
+
+
+          </div>
+
+        </div>
+
+        <div class="row career_view_position">
+          <h1 style="font-size:30px;">{{finalData.role.name}}</h1>
+          <p style="font-size:20px;font-weight:600">skills</p>
+            {% if  finalData.skill != None %}
+            <div style="margin-top:30px;">
+              {{finalData.skill | safe}}
+            </div>
+            {% endif %}
+            <div class="">
+              {% if  finalData.description != None %}
+              <div style="margin-top:30px;">
+                {{finalData.description | safe}}
+              </div>
+              {% endif %}
+
+            </div>
+
+        </div>
+
+        <div class="row common_margin" >
+          <h3 style="letter-spacing:0,5px;font-weight:bold;font-size:20px;">Benefits</h3>
+
+
+
+          <div style="padding-top:20px;">
+            <div class="col-xs-12" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;">
+              <div class="col-xs-1" style="padding-left:0px;padding-right:0px">
+                <div style=" width:25px;height:25px;border-radius:50%;background-color:#dbf7eeff;">
+                  <i class="fa fa-check" aria-hidden="true" style="position:absolute;padding:5px;color:#82e1bbff"></i>
+
+                </div>
+
+              </div>
+              <div class="col-xs-11 cmn_margin" >
+
+                <span style="color:gray;font-size:18px;line-height:1.5;letter-spacing:0.5px;"> Flexible office timing </span>
+              </div>
+
+            </div>
+
+          </div>
+          <div style="padding-top:20px;">
+            <div class="col-xs-12" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;">
+              <div class="col-xs-1" style="padding-left:0px;padding-right:0px">
+                <div style=" width:25px;height:25px;border-radius:50%;background-color:#dbf7eeff;">
+                  <i class="fa fa-check" aria-hidden="true" style="position:absolute;padding:5px;color:#82e1bbff"></i>
+
+                </div>
+
+              </div>
+              <div class="col-xs-11 cmn_margin" >
+
+                <span style="color:gray;font-size:18px;line-height:1.5;letter-spacing:0.5px;"> Free snacks and lunches </span>
+              </div>
+
+            </div>
+
+          </div>
+          <div >
+            <div class="col-xs-12" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;">
+              <div class="col-xs-1" style="padding-left:0px;padding-right:0px">
+                <div style=" width:25px;height:25px;border-radius:50%;background-color:#dbf7eeff;">
+                  <i class="fa fa-check" aria-hidden="true" style="position:absolute;padding:5px;color:#82e1bbff"></i>
+
+                </div>
+
+              </div>
+              <div class="col-xs-11 cmn_margin" >
+
+                <span style="color:gray;font-size:18px;line-height:1.5;letter-spacing:0.5px;">Work from home , office and road </span>
+              </div>
+
+            </div>
+
+          </div>
+          <div >
+            <div class="col-xs-12" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;">
+              <div class="col-xs-1" style="padding-left:0px;padding-right:0px">
+                <div style=" width:25px;height:25px;border-radius:50%;background-color:#dbf7eeff;">
+                  <i class="fa fa-check" aria-hidden="true" style="position:absolute;padding:5px;color:#82e1bbff"></i>
+
+                </div>
+
+              </div>
+              <div class="col-xs-11 cmn_margin" >
+
+                <span style="color:gray;font-size:18px;line-height:1.5;letter-spacing:0.5px;"> Learning and growth opportunity </span>
+              </div>
+
+            </div>
+
+          </div>
+          <div >
+            <div class="col-xs-12" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;">
+              <div class="col-xs-1" style="padding-left:0px;padding-right:0px">
+                <div style=" width:25px;height:25px;border-radius:50%;background-color:#dbf7eeff;">
+                  <i class="fa fa-check" aria-hidden="true" style="position:absolute;padding:5px;color:#82e1bbff"></i>
+
+                </div>
+
+              </div>
+              <div class="col-xs-11 cmn_margin" >
+
+                <span style="color:gray;font-size:18px;line-height:1.5;letter-spacing:0.5px;"> No hirarchy to follow. Open door policy. Impliment your ideas at our expense </span>
+              </div>
+
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+      <div class="row career_img" style="position:relative;z-index:1">
+        <img src="/static/img/career.svg" alt="" style="min-width:35%;margin-top:65px" >
+        <div class=" col-md-3 col-lg-2 career_view_apply" >
+          <p style="font-size:24px;color:white;font-weight:500;letter-spacing:0.5px;line-height:1.5;">To apply for the position,please send your application</p>
+          <button type="submit" class="btn btn-lg btn-default  " style="background-color:white;border:none;color:#31ca8bff;font-size:14px;font-weight:bold;border-radius:3px;margin-top:15px;" ng-click="apply('{{finalData.pk}}')">Apply Now</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% verbatim %}
+<main-view> </main-view>
+
+{% endverbatim %}
+{% endblock %}
+
+
+
+{% block pageJS %}
+<script type="text/javascript">
+  var DIVISION_APIKEY = '{{apiKey}}'
+  var DIVISION = '{{div.pk}}'
+</script>
+{% if  div.enableChatbot   %}
+<script src="/script/chatter-{{apiKey}}.js?debugger=1"></script>
+{% endif %}
+{% endblock %}
+{% block footer %}
+
+<style media="screen">
+  {{footerCss | safe}}
+</style>
+<div class="">
+    {{footer | safe}}
+</div>
+
+{% endblock %}

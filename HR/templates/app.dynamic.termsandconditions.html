@@ -72,17 +72,6 @@
 
 
 
-      $http({
-        method: 'GET',
-        url: '/api/organization/divisions/' + DIVISION,
-      }).
-      then(function(response) {
-        $scope.division = response.data
-
-      })
-
-
-
     });
   </script>
 
@@ -132,13 +121,13 @@
   </script>
   {% block pageJS %}
   <script type="text/javascript">
-    var DIVISION_APIKEY = '{{API_KEY}}'
-    var DIVISION = '{{divisionJson.pk}}'
-    var page = '{{page.pk}}'
+    var DIVISION_APIKEY = '{{apiKey}}'
+    var DIVISION = '{{div.pk}}'
   </script>
   {% if  div.enableChatbot   %}
-  <script src="/script/chatter-{{API_KEY}}.js?debugger=1"></script>
+  <script src="/script/chatter-{{apiKey}}.js?debugger=1"></script>
   {% endif %}
+
   {% endblock %}
   {% endblock %}
 

@@ -1,0 +1,32 @@
+{% extends 'base.html'%}
+
+{% block specific_css%}
+{% endblock %}
+{% block header %}
+<div class="">
+  {{header | safe}}
+</div>
+
+{% endblock %}
+{% block content %}
+<career-view></career-view>
+{% endblock %}
+
+{% block footer %}
+
+<div class="">
+  {{footer | safe}}
+</div>
+
+{% endblock %}
+
+
+{% block pageJS %}
+<script type="text/javascript">
+  var DIVISION_APIKEY = '{{API_KEY}}'
+  var DIVISION = '{{div.pk}}'
+</script>
+{% if  div.enableChatbot   %}
+<script src="/script/chatter-{{API_KEY}}.js?debugger=1"></script>
+{% endif %}
+{% endblock %}

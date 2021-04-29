@@ -367,12 +367,115 @@ app.directive('agencyHeader', function() {
     transclude: true,
     controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
       $scope.me = $users.get('mySelf')
+      $scope.apiKey = DIVISION_APIKEY
+      $scope.divObj = DIVISION
       $http({
         method:'GET',
-        url:'/api/organization/divisions/'+$scope.me.designation.division
+        url:'/api/organization/divisions/'+$scope.divObj
       }).then(function(response){
         $scope.division = response.data
       })
+
+      var customer = getCookie("customer");
+      if (customer!=undefined && customer!=null && customer.length>0) {
+        $http({
+          method: 'GET',
+          url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY,
+        }).
+        then(function(response) {
+          $scope.userDetails = response.data
+        })
+      }
+      $scope.me = $users.get('mySelf')
+      $scope.loginPage = function(){
+        $uibModal.open({
+          templateUrl: '/static/ngTemplates/app.ecommerce.customer.login.html',
+          size: 'lg',
+          backdrop: false,
+          // resolve: {
+          //   job: function() {
+          //     return $scope.jobDetails.pk;
+          //   },
+          // },
+          controller: function($scope, $uibModalInstance,Flash,$timeout) {
+            $scope.waitMsg = "please wait for otp"
+            $scope.isMsg = false
+            $scope.form = {
+              mobile:'',
+              otp:'',
+              errMsg:'',
+              successMsg:''
+            }
+            $scope.login = function(){
+              if ($scope.form.mobile.length == 0) {
+                $scope.msg = '* Please enter the mobile number'
+                $timeout(function(){
+                  $scope.msg =''
+                },500)
+                return
+              }
+              $scope.isMsg = true
+              var dataToSend = {
+                  mobile : $scope.form.mobile,
+                  divId : DIVISION_APIKEY
+                }
+              if ($scope.form.otp != null && $scope.form.otp.length>0) {
+                dataToSend.otp = $scope.form.otp
+              }
+              $http({
+                method: 'POST',
+                url: '/getCustomerOtp/',
+                data:dataToSend
+              }).
+              then(function(response) {
+                $scope.form.errMsg = ''
+                $scope.form.successMsg = ''
+                if (response.data.errMsg!=undefined) {
+                  $scope.form.errMsg = response.data.errMsg
+                }
+                if (response.data.successMsg!=undefined) {
+                  $scope.form.successMsg = response.data.successMsg
+                }
+                if (response.data.success!=undefined) {
+                  $scope.form.success = response.data.success
+                }
+                if (response.data.contact!=undefined) {
+                  $scope.form.contact = response.data.contact
+                  $uibModalInstance.dismiss($scope.form.contact)
+                }
+                $timeout(function(){
+                  $scope.waitMsg =''
+                  $scope.msg =''
+                },250)
+              })
+            }
+
+
+
+            $scope.close = function(){
+              $uibModalInstance.dismiss();
+            }
+          },
+        }).result.then(function(data) {
+          if (data!=undefined) {
+            $rootScope.userDetails = data
+            location.reload();
+
+          }
+        }, function(data) {
+          if (data!=undefined) {
+            $rootScope.userDetails = data
+            location.reload();
+
+          }
+
+        });
+      }
+
+      $scope.logoutCustomer = function(){
+        deleteCookie("customer");
+        location.reload();
+      }
     },
   };
 });
@@ -401,9 +504,11 @@ app.directive('agencyFooter', function() {
     transclude: true,
     controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
       $scope.me = $users.get('mySelf')
+      $scope.apiKey = DIVISION_APIKEY
+      $scope.divObj = DIVISION
       $http({
         method:'GET',
-        url:'/api/organization/divisions/'+$scope.me.designation.division
+        url:'/api/organization/divisions/'+$scope.divObj
       }).then(function(response){
         $scope.division = response.data
       })
@@ -418,13 +523,114 @@ app.directive('servicesHeader', function() {
     transclude: true,
     controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
       $scope.me = $users.get('mySelf')
+      $scope.apiKey = DIVISION_APIKEY
       $http({
         method:'GET',
         url:'/api/organization/divisions/'+$scope.me.designation.division
       }).then(function(response){
         $scope.division = response.data
       })
+
+      var customer = getCookie("customer");
+      if (customer!=undefined && customer!=null && customer.length>0) {
+        $http({
+          method: 'GET',
+          url: '/getDetailsCustomer/?token='+customer+'&divId='+DIVISION_APIKEY,
+        }).
+        then(function(response) {
+          $scope.userDetails = response.data
+        })
+      }
       $scope.me = $users.get('mySelf')
+      $scope.loginPage = function(){
+        $uibModal.open({
+          templateUrl: '/static/ngTemplates/app.ecommerce.customer.login.html',
+          size: 'lg',
+          backdrop: false,
+          // resolve: {
+          //   job: function() {
+          //     return $scope.jobDetails.pk;
+          //   },
+          // },
+          controller: function($scope, $uibModalInstance,Flash,$timeout) {
+            $scope.waitMsg = "please wait for otp"
+            $scope.isMsg = false
+            $scope.form = {
+              mobile:'',
+              otp:'',
+              errMsg:'',
+              successMsg:''
+            }
+            $scope.login = function(){
+              if ($scope.form.mobile.length == 0) {
+                $scope.msg = '* Please enter the mobile number'
+                $timeout(function(){
+                  $scope.msg =''
+                },500)
+                return
+              }
+              $scope.isMsg = true
+              var dataToSend = {
+                  mobile : $scope.form.mobile,
+                  divId : DIVISION_APIKEY
+                }
+              if ($scope.form.otp != null && $scope.form.otp.length>0) {
+                dataToSend.otp = $scope.form.otp
+              }
+              $http({
+                method: 'POST',
+                url: '/getCustomerOtp/',
+                data:dataToSend
+              }).
+              then(function(response) {
+                $scope.form.errMsg = ''
+                $scope.form.successMsg = ''
+                if (response.data.errMsg!=undefined) {
+                  $scope.form.errMsg = response.data.errMsg
+                }
+                if (response.data.successMsg!=undefined) {
+                  $scope.form.successMsg = response.data.successMsg
+                }
+                if (response.data.success!=undefined) {
+                  $scope.form.success = response.data.success
+                }
+                if (response.data.contact!=undefined) {
+                  $scope.form.contact = response.data.contact
+                  $uibModalInstance.dismiss($scope.form.contact)
+                }
+                $timeout(function(){
+                  $scope.waitMsg =''
+                  $scope.msg =''
+                },250)
+              })
+            }
+
+
+
+            $scope.close = function(){
+              $uibModalInstance.dismiss();
+            }
+          },
+        }).result.then(function(data) {
+          if (data!=undefined) {
+            $rootScope.userDetails = data
+            location.reload();
+
+          }
+        }, function(data) {
+          if (data!=undefined) {
+            $rootScope.userDetails = data
+            location.reload();
+
+          }
+
+        });
+      }
+
+      $scope.logoutCustomer = function(){
+        deleteCookie("customer");
+        location.reload();
+      }
     },
   };
 });
@@ -436,6 +642,7 @@ app.directive('servicesFooter', function() {
     transclude: true,
     controller: function($scope, $state, $stateParams, $users,$http, $rootScope, $uibModal) {
       $scope.me = $users.get('mySelf')
+      $scope.apiKey = DIVISION_APIKEY
       $http({
         method:'GET',
         url:'/api/organization/divisions/'+$scope.me.designation.division

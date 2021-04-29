@@ -47,6 +47,9 @@
 <script type="text/javascript">
   var DIVISION_APIKEY = '{{apiKey}}'
 </script>
+{% if  div.enableChatbot   %}
+<script src="/script/chatter-{{apiKey}}.js?debugger=1"></script>
+{% endif %}
 {% endblock%}
 
 

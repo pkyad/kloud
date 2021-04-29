@@ -1,0 +1,143 @@
+
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block header %}
+
+<style media="screen">
+  {{headerCss | safe}}
+</style>
+<div class="">
+  {{header | safe}}
+</div>
+{% endblock%}
+
+{% block content %}
+{% verbatim %}
+<blog-detail></blog-detail>
+{% endverbatim %}
+
+
+<div class="row" style="margin:0px;background-image:url('/static/img/constellation-bg.png');background-repeat: no-repeat;background-size: cover;min-height: 200px;background-position: center;background-color:#080738">
+  <div class="col-md-12 text-center" style="color:#fff;padding:20px">
+    <h2>Experience a better learning platform</h2><br>
+    <a type="button" class="btn btn-default redbtn" href="/contactus">Get a free demo</a>
+  </div>
+</div>
+
+</div>
+
+
+  {% endblock %}
+
+
+{% block footer %}
+<style media="screen">
+  {{footerCss | safe}}
+</style>
+<div class="">
+  {{footer | safe}}
+</div>
+
+{% endblock%}
+
+{% block pageJS %}
+<script src="/static/js/jquery-2.1.4.min.js"></script>
+<script src="/static/js/jquery.cookie-1.4.1.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/angular.min.js"></script>
+<script src="/static/js/angular-flash.js"></script>
+<script src="/static/js/angular-ui-router.min.js"></script>
+<script src="/static/js/ui-bootstrap-tpls-0.14.3.min.js"></script>
+<script src="/static/js/angular-sanitize.min.js"></script>
+<script src="/static/js/ngDraggable.js"></script>
+
+
+<!-- <script src="/static/js/app.pageEditor.js"></script> -->
+<script type="text/javascript">
+  var app = angular.module('app', ['ui.router', 'flash', 'ngSanitize', 'ngDraggable', 'ui.bootstrap', 'angular-owl-carousel-2', 'uiSwitch']);
+  app.config(function($httpProvider, $stateProvider, $urlRouterProvider, $provide) {
+
+    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+    $httpProvider.defaults.withCredentials = true;
+
+
+  });
+
+  app.controller('controller.comment.blog', function($scope, $state, $http, $timeout) {
+
+    $scope.showField = false
+    $scope.resetForm = function() {
+      $scope.data = {
+        txt: '',
+        name: '',
+        email: ''
+      }
+    }
+    $scope.resetForm()
+
+    $scope.error = ''
+    $scope.success = ''
+    $scope.commentSent = []
+    $scope.addComment = function() {
+
+      if ($scope.data.txt == '') {
+        $scope.error = "Add Comment"
+        return
+      }
+      if ($scope.data.name == '') {
+        $scope.error = "Add Name"
+        return
+      }
+      if ($scope.data.email == '') {
+        $scope.error = "Add Email"
+        return
+      }
+
+      var article = document.getElementById('article').value
+      $http({
+        method: 'POST',
+        url: '/api/businessManagement/comment/',
+        data: {
+          txt: $scope.data.txt,
+          name: $scope.data.name,
+          email: $scope.data.email,
+          article: article
+        }
+      }).
+      then(function(response) {
+        $scope.error = ''
+        $scope.success = "Successfully Added!"
+        $scope.commentSent.push(response.data);
+        $scope.resetForm()
+        $timeout(function() {
+          $scope.success = ''
+        }, 2000);
+      })
+    }
+
+
+  })
+</script>
+
+
+<script type="text/javascript" src="/static/js/owl.carousel.min.js"></script>
+<script src="{% static 'js/app.main.js' %}"></script>
+<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'js/angular-owl-carousel-2.js' %}"></script>
+<script src="{% static 'js/custom/directives.js' %}"></script>
+<script src="{% static 'js/custom/directives.native.js' %}"></script>
+<script src="{% static 'js/custom/nativeJS.js' %}"></script>
+<script src="{% static 'js/custom/services.js' %}"></script>
+<script src="{% static 'js/custom/ecommerce.directive.js' %}"></script>
+<script src="{% static 'js/angular-ui-switch.min.js' %}"></script>
+
+<script type="text/javascript">
+  var DIVISION_APIKEY = '{{apiKey}}'
+  var DIVISION = '{{div.pk}}'
+  var BLOG_NAME = '{{blogname}}'
+</script>
+{% if  div.enableChatbot   %}
+<script src="/script/chatter-{{apiKey}}.js?debugger=1"></script>
+{% endif %}
+{% endblock %}

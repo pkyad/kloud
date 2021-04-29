@@ -4,7 +4,7 @@ var siteurl = "{{siteurl}}"
 var id = "{{id}}"
 document.addEventListener("DOMContentLoaded", function(event) {
   var icon = siteurl+'/static/apps/calender.png'
-  var userIcon = siteurl+'/static/images/avatar5.png'
+  var closeIcon = siteurl+'/static/images/close.png'
   function createCalDiv() {
     var body = document.getElementsByTagName("BODY")[0];
     var mainDiv = document.createElement("div");
@@ -95,6 +95,7 @@ var selectSlot = function(arg) {
   slotSelected = arg.split('slot_')[1]
 }
 
+
 var createSlot = function(){
   var name = document.getElementById('name')
   var email = document.getElementById('email')
@@ -114,6 +115,7 @@ var createSlot = function(){
       setTimeout(function () {
         var win = document.getElementById('myModal');
         win.style.display = "none"
+      document.getElementById('alerts').innerHTML=''
       }, 1500);
     }
   };
@@ -150,4 +152,8 @@ var createSlot = function(){
   xhttp.setRequestHeader('X-CSRFToken', csrftoken);
   xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send(JSON.stringify(form));
+}
+var closemodal = function(){
+  var win = document.getElementById('myModal');
+  win.style.display = "none"
 }

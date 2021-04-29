@@ -1,8 +1,12 @@
 {% extends 'base.html'%}
 
 {% block header %}
-
-{% include 'app.HR.header.html'%}
+<style media="screen">
+  {{headerCss}}
+</style>
+<div class="">
+  {{header | safe}}
+</div>
 
 {% endblock %}
 
@@ -171,6 +175,22 @@
 
 {% block footer %}
 
-  {% include 'app.HR.pagefooter.html' %}
+<style media="screen">
+  {{footerCss}}
+</style>
+<div class="">
+  {{footer | safe}}
+</div>
+
+{% endblock %}
+
+{% block pageJS %}
+<script type="text/javascript">
+  var DIVISION_APIKEY = '{{apiKey}}'
+  var DIVISION = '{{div.pk}}'
+</script>
+{% if  div.enableChatbot   %}
+<script src="/script/chatter-{{apiKey}}.js?debugger=1"></script>
+{% endif %}
 
 {% endblock %}

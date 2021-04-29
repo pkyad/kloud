@@ -106,16 +106,13 @@ def page10(request):
 def contactus(request):
     context={}
     return render(request, 'app.HR.contactus.html',context)
-def aboutus(request):
+def Divisioncontactus(request,apiKey):
     context={}
-    return render(request, 'app.HR.aboutus.html',context)
-def Divisionaboutus(request,apiKey):
-    context={}
+
     header =None
     footer = None
     headerCss = None
     footerCss = None
-    page = Page.objects.get(pk = id)
     if request.user.designation.division.headerTemplate:
         header  = request.user.designation.division.headerTemplate
         headerCss  = request.user.designation.division.headerCss
@@ -126,7 +123,27 @@ def Divisionaboutus(request,apiKey):
         div = request.user.designation.division
     except:
         pass
-    return render(request, 'app.ecommerce.aboutus.html',{'header':header,'headerCss':headerCss,'footer':footer,'footerCss':footerCss})
+    return render(request,'app.ecommerce.contactus.html',{'header':header,'headerCss':headerCss,'footer':footer,'footerCss':footerCss,'apiKey':apiKey,'div':div})
+def aboutus(request):
+    context={}
+    return render(request, 'app.HR.aboutus.html',context)
+def Divisionaboutus(request,apiKey):
+    context={}
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    if request.user.designation.division.headerTemplate:
+        header  = request.user.designation.division.headerTemplate
+        headerCss  = request.user.designation.division.headerCss
+    if request.user.designation.division.headerTemplate:
+        footer  = request.user.designation.division.footerTemplate
+        footerCss  = request.user.designation.division.footerCss
+    try:
+        div = request.user.designation.division
+    except:
+        pass
+    return render(request, 'app.ecommerce.aboutus.html',{'header':header,'headerCss':headerCss,'footer':footer,'footerCss':footerCss,'apikey':apiKey,'div':div})
 
 def carouselsection(request):
     context={}
@@ -140,9 +157,9 @@ def Divisiontermsofservices(request,apiKey):
 def privacypolicy(request):
     context={}
     return render(request, 'app.HR.privacypolicy.html',context)
-def Divisionprivacypolicy(request,apiKey):
-    context={}
-    return render(request, 'app.HR.privacypolicy.html',context)
+# def Divisionprivacypolicy(request,apiKey):
+#     context={}
+#     return render(request, 'app.HR.privacypolicy.html',context)
 def DivisionOrders(request,apiKey):
     context={}
     header =None
@@ -236,25 +253,29 @@ def renderpage(request,apiKey,url):
         page = Page.objects.get(url__isnull=True , user__designation__division = div )
         return redirect('/login')
     else:
-        page = Page.objects.get(url = url, user__designation__division = div )
+        try:
+            page = Page.objects.get(url = url, user__designation__division = div )
+        except:
+            page = None
     components = Components.objects.filter(parent = page)
     data = ''
     for indx, i in enumerate(components):
         i.template = i.template.replace('$data' , 'components[%s].data'%(indx))
         i.dataTemplate = i.template
         # i.data = json.loads(json.dumps(i.data))
+    data = {'header':header,'headerCss':headerCss,'footer':footer,'footerCss':footerCss,'page':page,'apiKey':apiKey,'div':div}
+    if div.pageType != 'Ecommerce' :
+        if url =='aboutus':
+            return render(request, 'app.dynamic.aboutus.html',data)
+        elif  url =='privacypolicy':
+            return render(request, 'app.dynamic.privacypolicy.html',data)
+        elif  url =='terms':
+            return render(request, 'app.dynamic.termsandconditions.html',data)
+        elif  url =='refundpolicy':
+            return render(request, 'app.dynamic.refundpolicy.html',data)
+        elif  url =='contactus':
+            return render(request, 'app.dynamic.contactus.html',data)
 
-    # if url =='aboutus':
-    #     return render(request, 'app.ecommerce.aboutus.html',{'header':header,'headerCss':headerCss,'footer':footer,'footerCss':footerCss,'page':page,'API_KEY':apiKey,'divisionJson':div})
-    # elif  url =='privacypolicy':
-    #     return render(request, 'app.ecommerce.aboutus.html',{'header':header,'headerCss':headerCss,'footer':footer,'footerCss':footerCss,'page':page,'API_KEY':apiKey,'divisionJson':div})
-    # elif  url =='terms':
-    #     return render(request, 'app.ecommerce.termsandconditions.html',{'header':header,'headerCss':headerCss,'footer':footer,'footerCss':footerCss,'page':page,'API_KEY':apiKey,'divisionJson':div})
-
-    # if page.enableChat:
-
-    # API_KEY = hash_fn.hash(page.user.designation.division.pk)
-    # division = page.user.designation.division
     return render(request,'app.HR.page.html',{'components':components,'page':page,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'divisionJson':div,'showLms' : showLms})
 
 def renderpageMain(request,apiKey):
@@ -371,7 +392,7 @@ def ProductDetails(request,apiKey,id):
         footer  = div.footerTemplate
         footerCss  = div.footerCss
     div = hash_fn.hash(request.user.designation.division.pk)
-    return render(request, 'app.finance.inventory.productDetails.html',{'product':product,'API_KEY':div,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
+    return render(request, 'app.finance.inventory.productDetails.html',{'product':product,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'div':div})
 
 def Categories(request,apiKey,id):
     header =None
@@ -391,7 +412,7 @@ def Categories(request,apiKey,id):
         footerCss  = div.footerCss
     # div = hash_fn.hash(request.user.designation.division.pk)
     print id,'sssssssssssssssssssssssssssss'
-    return render(request, 'app.ecommerce.categories.html',{'id':id,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
+    return render(request, 'app.ecommerce.categories.html',{'id':id,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'div':div})
 
 def CheckoutView(request,apiKey):
     header =None
@@ -411,7 +432,7 @@ def CheckoutView(request,apiKey):
         footerCss  = div.footerCss
     cartItems = len(Cart.objects.all())
     # div = hash_fn.hash(request.user.designation.division.pk)
-    return render(request, 'app.ecommerce.checkout.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'API_KEY':apiKey,'cartItems':cartItems})
+    return render(request, 'app.ecommerce.checkout.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'API_KEY':apiKey,'cartItems':cartItems,'div':div})
 
 
 def CheckoutAddressView(request,apiKey):
@@ -431,7 +452,7 @@ def CheckoutAddressView(request,apiKey):
         footer  = div.footerTemplate
         footerCss  = div.footerCss
     # div = hash_fn.hash(request.user.designation.division.pk)
-    return render(request, 'app.ecommerce.address.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'API_KEY':apiKey})
+    return render(request, 'app.ecommerce.address.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'API_KEY':apiKey,'div':div})
 
 def CheckoutPaymentView(request,apiKey):
     header =None
@@ -449,7 +470,7 @@ def CheckoutPaymentView(request,apiKey):
     if div.headerTemplate:
         footer  = div.footerTemplate
         footerCss  = div.footerCss
-    return render(request, 'app.ecommerce.payment.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'API_KEY':apiKey})
+    return render(request, 'app.ecommerce.payment.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'API_KEY':apiKey,'div':div})
 
 def OrderSuccessfulView(request,apiKey):
     header =None
@@ -505,14 +526,100 @@ def ProfileView(request,apiKey):
     if div.headerTemplate:
         footer  = div.footerTemplate
         footerCss  = div.footerCss
-    return render(request, 'app.ecommerce.profile.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'API_KEY':apiKey})
+    return render(request, 'app.ecommerce.profile.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'API_KEY':apiKey,'div':div})
+def Privacypolicy(request,apiKey):
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    try:
+        div = request.user.designation.division
+    except:
+        divId = hash_fn.unhash(apiKey)
+        div = Division.objects.get(pk = int(divId))
+    if div.headerTemplate:
+        header  = div.headerTemplate
+        headerCss  = div.headerCss
+    if div.headerTemplate:
+        footer  = div.footerTemplate
+        footerCss  = div.footerCss
+    return render(request, 'app.dynamic.privacypolicy.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'apiKey':apiKey})
+def Refundpolicy(request,apiKey):
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    try:
+        div = request.user.designation.division
+    except:
+        divId = hash_fn.unhash(apiKey)
+        div = Division.objects.get(pk = int(divId))
+    if div.headerTemplate:
+        header  = div.headerTemplate
+        headerCss  = div.headerCss
+    if div.headerTemplate:
+        footer  = div.footerTemplate
+        footerCss  = div.footerCss
+    return render(request, 'app.dynamic.privacypolicy.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'apiKey':apiKey})
+def Contactus(request,apiKey):
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    try:
+        div = request.user.designation.division
+    except:
+        divId = hash_fn.unhash(apiKey)
+        div = Division.objects.get(pk = int(divId))
+    if div.headerTemplate:
+        header  = div.headerTemplate
+        headerCss  = div.headerCss
+    if div.headerTemplate:
+        footer  = div.footerTemplate
+        footerCss  = div.footerCss
+    return render(request, 'app.dynamic.contactus.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'apiKey':apiKey})
+def Terms(request,apiKey):
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    try:
+        div = request.user.designation.division
+    except:
+        divId = hash_fn.unhash(apiKey)
+        div = Division.objects.get(pk = int(divId))
+    if div.headerTemplate:
+        header  = div.headerTemplate
+        headerCss  = div.headerCss
+    if div.headerTemplate:
+        footer  = div.footerTemplate
+        footerCss  = div.footerCss
+    return render(request, 'app.dynamic.termsandconditions.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'apiKey':apiKey})
+def Aboutus(request,apiKey):
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    try:
+        div = request.user.designation.division
+    except:
+        divId = hash_fn.unhash(apiKey)
+        div = Division.objects.get(pk = int(divId))
+    if div.headerTemplate:
+        header  = div.headerTemplate
+        headerCss  = div.headerCss
+    if div.headerTemplate:
+        footer  = div.footerTemplate
+        footerCss  = div.footerCss
+    return render(request, 'app.dynamic.aboutus.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'apiKey':apiKey})
+
 
 
 import json
 def careers(request):
     context={}
-
-    finalData =  Jobs.objects.all()
+    div = request.user.designation.division
+    finalData =  Jobs.objects.filter(division = div)
 
 
     halfData = len(finalData)/2
@@ -521,23 +628,75 @@ def careers(request):
     return render(request, 'app.HR.careers.html',{'firstSec':firstSec,'secondSec':secondSec})
 def careersbyDivision(request,apiKey):
     context={}
+    id = hash_fn.unhash(apiKey)
+    div = Division.objects.get(pk = int(id))
+    finalData =  Jobs.objects.filter(division = div)
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
 
-    finalData =  Jobs.objects.all()
-
+    if request.user.designation.division.headerTemplate:
+        header  = request.user.designation.division.headerTemplate
+        headerCss  = request.user.designation.division.headerCss
+    if request.user.designation.division.headerTemplate:
+        footer  = request.user.designation.division.footerTemplate
+        footerCss  = request.user.designation.division.footerCss
+    try:
+        div = request.user.designation.division
+    except:
+        pass
 
     halfData = len(finalData)/2
     firstSec = finalData[:halfData]
     secondSec = finalData[halfData:len(finalData)]
-    return render(request, 'app.HR.careers.html',{'firstSec':firstSec,'secondSec':secondSec})
+    return render(request, 'app.dynamicpages.careers.html',{'firstSec':firstSec,'secondSec':secondSec,'header':header,'headerCss':headerCss,'footer':footer,'footerCss':footerCss,'div':div,'API_KEY':apiKey})
 def career(request,id):
 
     finalData =  Jobs.objects.get(pk = id)
 
     return render(request, 'app.HR.careersview.html',{'finalData':finalData})
+def careerviewbyDivision(request,apiKey,id):
+    id = hash_fn.unhash(apiKey)
+    div = Division.objects.get(pk = int(id))
+    finalData =  Jobs.objects.filter(division = div)
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+
+    if request.user.designation.division.headerTemplate:
+        header  = request.user.designation.division.headerTemplate
+        headerCss  = request.user.designation.division.headerCss
+    if request.user.designation.division.footerTemplate:
+        footer  = request.user.designation.division.footerTemplate
+        footerCss  = request.user.designation.division.footerCss
+    try:
+        div = request.user.designation.division
+    except:
+        pass
+    finalData =  Jobs.objects.get(pk = id)
+
+    return render(request, 'app.dynamicpages.careersview.html',{'finalData':finalData,'header':header,'headerCss':headerCss,'footer':footer,'footerCss':footerCss,'div':div,'apiKey':apiKey})
 
 def academy(request,id):
     context = {}
-    return render(request, 'app.LMS.academy.courses.html',context)
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    try:
+        div = request.user.designation.division
+    except:
+        divId = hash_fn.unhash(apiKey)
+        div = Division.objects.get(pk = int(divId))
+    if div.headerTemplate:
+        header  = div.headerTemplate
+        headerCss  = div.headerCss
+    if div.headerTemplate:
+        footer  = div.footerTemplate
+        footerCss  = div.footerCss
+    return render(request, 'app.LMS.academy.courses.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'apiKey':apiKey,'div':div})
 
 def coursedetails(request,id,urlSuffix):
     idx = id
@@ -546,12 +705,27 @@ def coursedetails(request,id,urlSuffix):
 def Divisioncoursedetails(request,apiKey,id,urlSuffix):
     idx = id
     context = {}
-    return render(request, 'app.LMS.academy.coursesdetails.html',{'id':idx})
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    try:
+        div = request.user.designation.division
+    except:
+        divId = hash_fn.unhash(apiKey)
+        div = Division.objects.get(pk = int(divId))
+    if div.headerTemplate:
+        header  = div.headerTemplate
+        headerCss  = div.headerCss
+    if div.footerTemplate:
+        footer  = div.footerTemplate
+        footerCss  = div.footerCss
+    return render(request, 'app.dynamicpages.coursedetails.html',{'id':idx,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'apiKey':apiKey,'div':div})
 
 
 import math
 @never_cache
-def blog(request ):
+def blog(request):
 
     pageNumber = 1
     offset = pageNumber*6
@@ -606,8 +780,22 @@ def blog(request ):
 
 
     return render(request,"app.HR.blogs.html" , {"blogs" : blogs,"featuredblogs":featuredblogs,"home" : False , "pageNumber" : pageNumber ,"prevpage":prevpage, "nextPage" : nextpage , "firstArticle" : featuredblogs[0] , "pageNumbers" : pageNumbers , "pageCount" : int(pageCount) , "currentPage" : currentPage,'totalCatg':[]})
-def Divisionblogs(request ):
-
+def Divisionblogs(request,apiKey ):
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    try:
+        div = request.user.designation.division
+    except:
+        divId = hash_fn.unhash(apiKey)
+        div = Division.objects.get(pk = int(divId))
+    if div.headerTemplate:
+        header  = div.headerTemplate
+        headerCss  = div.headerCss
+    if div.footerTemplate:
+        footer  = div.footerTemplate
+        footerCss  = div.footerCss
     # pageNumber = 1
     # offset = pageNumber*6
     # articlesAll = Article.objects.filter(division = request.user.designation.division)
@@ -660,7 +848,7 @@ def Divisionblogs(request ):
 
 
 
-    return render(request,"app.HR.blogs.html" , {})
+    return render(request,"app.dynamicpages.blogs.html" , {'footer':footer,'header':header,'headerCss':headerCss,'footerCss':footerCss,'div':div,'apiKey':apiKey})
 
 
 def blogDetails(request, blogname):
@@ -687,10 +875,10 @@ def BlogCategory(request, name):
 
 
 from django.urls import resolve
-def DivisionblogDetails(request ,apiKey, articleUrl):
+def DivisionblogDetails(request ,apiKey, blogname):
     # print articleUrl,'2390resdsdasdasr219732'
     article = []
-    article = Article.objects.get(articleUrl = articleUrl)
+    article = Article.objects.get(articleUrl = blogname)
     print article.title,'23902rer19732'
     comments = Comment.objects.filter(article = article, verified=True)
     intro = article.contents.all()[0]
@@ -709,9 +897,18 @@ def DivisionblogDetails(request ,apiKey, articleUrl):
             if i.contents.all()[0].img:
                 i.blgimage =  i.contents.all()[0].img
 
-
-    # return render(request , 'app.HR.articleView.html' , { "article" : article })
-    return render(request , 'app.HR.articleView.html' , { "article" : article , "intro" : intro ,"restsec":restsec, "relatedArticles" : relatedArticles,"comments":comments,'blogs':blogs,'randPks':Article.objects.all().order_by('-created')[:5]})
+    try:
+        div = request.user.designation.division
+    except:
+        divId = hash_fn.unhash(apiKey)
+        div = Division.objects.get(pk = int(divId))
+    if div.headerTemplate:
+        header  = div.headerTemplate
+        headerCss  = div.headerCss
+    if div.footerTemplate:
+        footer  = div.footerTemplate
+        footerCss  = div.footerCss
+    return render(request , 'app.dynamicpages.articleView.html' , { "article" : article , "intro" : intro ,"restsec":restsec, "relatedArticles" : relatedArticles,"comments":comments,'blogs':blogs,'randPks':Article.objects.all().order_by('-created')[:5],'footer':footer,'header':header,'headerCss':headerCss,'footerCss':footerCss,'div':div,'apiKey':apiKey,'blogname':blogname})
 def renderedArticleView(request , articleUrl):
     # print articleUrl,'2390resdsdasdasr219732'
     article = []
