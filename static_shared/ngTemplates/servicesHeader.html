@@ -39,12 +39,12 @@
         </a>
       </li>
       <li style="width:120px;text-align:right;">
-        <div class="dropdown" ng-if="me.pk">
-          <a href="#" class="dropdown-toggle" type="button" data-toggle="dropdown" style="line-height: 4;color:black;font-size: 16px;" ><img src="/static/images/loggedinblack-min.svg" alt="" style="height:30px;">{{me.first_name}} {{me.last_name}}   <span class="caret"></span></a>
+        <div class="dropdown" ng-click="userDetails.pk ?'':loginPage()">
+          <a href="#" class="dropdown-toggle" type="button" data-toggle="dropdown" style="line-height: 4;color:black;font-size: 16px;" ><img src="/static/images/loggedinblack-min.svg" alt="" style="height:30px;" > {{userDetails.name}}   <span class="caret"></span></a>
 
           <ul class="dropdown-menu">
             <li><a href="/pages/{{apiKey}}/profile">Profile</a></li>
-            <li><a href="/logout">logout</a></li>
+            <li><a ng-click="logoutCustomer()">logout</a></li>
           </ul>
         </div>
         <a href="/login" ng-if="!me.pk"><img src="/static/images/LoginThickBlack.svg" alt="" style="height:30px;"></a>

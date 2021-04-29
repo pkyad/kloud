@@ -137,4 +137,7 @@
   var DIVISION = '{{div.pk}}'
   var BLOG_NAME = '{{blogname}}'
 </script>
+{% if  div.enableChatbot   %}
+<script src="/script/chatter-{{apiKey}}.js?debugger=1"></script>
+{% endif %}
 {% endblock %}

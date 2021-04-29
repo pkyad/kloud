@@ -189,5 +189,8 @@
   var DIVISION_APIKEY = '{{apiKey}}'
   var DIVISION = '{{div.pk}}'
 </script>
+{% if  div.enableChatbot   %}
+<script src="/script/chatter-{{apiKey}}.js?debugger=1"></script>
+{% endif %}
 
 {% endblock %}

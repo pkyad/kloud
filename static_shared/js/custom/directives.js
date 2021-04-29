@@ -1806,6 +1806,7 @@ app.directive('academyCourses', function() {
       data: '=',
     },
     controller: function($scope, $state, $http, Flash, $rootScope, $filter) {
+      console.log($scope.data,"KKK");
     $scope.courses = JSON.parse($scope.data)
       // $http({
       //   method: 'GET',

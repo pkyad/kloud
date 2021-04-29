@@ -91,6 +91,10 @@
   var ID = '{{id}}'
   var DIVISION_APIKEY = '{{API_KEY}}'
 </script>
+{% if  div.enableChatbot   %}
+<script src="/script/chatter-{{API_KEY}}.js?debugger=1"></script>
+{% endif %}
+
 {% endblock%}
 
 {% block footer %}

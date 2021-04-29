@@ -78,13 +78,15 @@
         </li>
 
 
-        <li class="lightic" style="width:70px;cursor:pointer;display:inline-block" ng-if="me.pk">
+        <!-- <li class="lightic" style="width:70px;cursor:pointer;display:inline-block" >
           <a class="link" href="/account" style="margin-left:0px;"> <img class=" lightIcon" src="/static/images/loggedinwhite-min.svg" style="width:30px;">
           </a>
-        </li>
-        <li class="darkic" style="width:70px;cursor:pointer;inline-block" ng-if="me.pk">
-          <a class="link" href="/account" style="margin-left:0px;">
-            <img class="  darkIcon" src="/static/images/loggedinblack-min.svg" style="width:30px;"></a>
+        </li> -->
+        <li class="darkic" style="width:70px;cursor:pointer;inline-block" ng-click="userDetails.pk?'':loginPage()">
+          <a class="link" style="margin-left:0px;display:inline-flex">
+            <img class="  darkIcon" src="/static/images/loggedinblack-min.svg" style="width:30px;">
+            <span style="padding:5px;">{{userDetails.name}}
+            </span> </a>
         </li>
 
 

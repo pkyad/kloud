@@ -85,7 +85,7 @@
       <div class="col-md-6 col-xs-6" style="z-index:1000;padding:0px">
         <button type="submit" class=" btn btn_back " style='background-color:transparent;border:none;'>
 
-          <i class="fa fa-arrow-left" aria-hidden="true"><a href="/pages/{{apiKey}}/" style="margin-left:10px;color:gray;font-size:14px;">Back</a></i>
+          <i class="fa fa-arrow-left" aria-hidden="true"><a href="/pages/{{apiKey}}/careers" style="margin-left:10px;color:gray;font-size:14px;">Back</a></i>
 
         </button>
 
@@ -252,6 +252,9 @@
   var DIVISION_APIKEY = '{{apiKey}}'
   var DIVISION = '{{div.pk}}'
 </script>
+{% if  div.enableChatbot   %}
+<script src="/script/chatter-{{apiKey}}.js?debugger=1"></script>
+{% endif %}
 {% endblock %}
 {% block footer %}
 

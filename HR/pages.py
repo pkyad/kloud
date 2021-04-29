@@ -392,7 +392,7 @@ def ProductDetails(request,apiKey,id):
         footer  = div.footerTemplate
         footerCss  = div.footerCss
     div = hash_fn.hash(request.user.designation.division.pk)
-    return render(request, 'app.finance.inventory.productDetails.html',{'product':product,'API_KEY':div,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
+    return render(request, 'app.finance.inventory.productDetails.html',{'product':product,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'div':div})
 
 def Categories(request,apiKey,id):
     header =None
@@ -412,7 +412,7 @@ def Categories(request,apiKey,id):
         footerCss  = div.footerCss
     # div = hash_fn.hash(request.user.designation.division.pk)
     print id,'sssssssssssssssssssssssssssss'
-    return render(request, 'app.ecommerce.categories.html',{'id':id,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss})
+    return render(request, 'app.ecommerce.categories.html',{'id':id,'API_KEY':apiKey,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'div':div})
 
 def CheckoutView(request,apiKey):
     header =None
@@ -432,7 +432,7 @@ def CheckoutView(request,apiKey):
         footerCss  = div.footerCss
     cartItems = len(Cart.objects.all())
     # div = hash_fn.hash(request.user.designation.division.pk)
-    return render(request, 'app.ecommerce.checkout.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'API_KEY':apiKey,'cartItems':cartItems})
+    return render(request, 'app.ecommerce.checkout.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'API_KEY':apiKey,'cartItems':cartItems,'div':div})
 
 
 def CheckoutAddressView(request,apiKey):
@@ -452,7 +452,7 @@ def CheckoutAddressView(request,apiKey):
         footer  = div.footerTemplate
         footerCss  = div.footerCss
     # div = hash_fn.hash(request.user.designation.division.pk)
-    return render(request, 'app.ecommerce.address.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'API_KEY':apiKey})
+    return render(request, 'app.ecommerce.address.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'API_KEY':apiKey,'div':div})
 
 def CheckoutPaymentView(request,apiKey):
     header =None
@@ -470,7 +470,7 @@ def CheckoutPaymentView(request,apiKey):
     if div.headerTemplate:
         footer  = div.footerTemplate
         footerCss  = div.footerCss
-    return render(request, 'app.ecommerce.payment.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'API_KEY':apiKey})
+    return render(request, 'app.ecommerce.payment.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'API_KEY':apiKey,'div':div})
 
 def OrderSuccessfulView(request,apiKey):
     header =None
@@ -681,7 +681,22 @@ def careerviewbyDivision(request,apiKey,id):
 
 def academy(request,id):
     context = {}
-    return render(request, 'app.LMS.academy.courses.html',context)
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    try:
+        div = request.user.designation.division
+    except:
+        divId = hash_fn.unhash(apiKey)
+        div = Division.objects.get(pk = int(divId))
+    if div.headerTemplate:
+        header  = div.headerTemplate
+        headerCss  = div.headerCss
+    if div.headerTemplate:
+        footer  = div.footerTemplate
+        footerCss  = div.footerCss
+    return render(request, 'app.LMS.academy.courses.html',{'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'apiKey':apiKey,'div':div})
 
 def coursedetails(request,id,urlSuffix):
     idx = id
@@ -690,7 +705,22 @@ def coursedetails(request,id,urlSuffix):
 def Divisioncoursedetails(request,apiKey,id,urlSuffix):
     idx = id
     context = {}
-    return render(request, 'app.LMS.academy.coursesdetails.html',{'id':idx})
+    header =None
+    footer = None
+    headerCss = None
+    footerCss = None
+    try:
+        div = request.user.designation.division
+    except:
+        divId = hash_fn.unhash(apiKey)
+        div = Division.objects.get(pk = int(divId))
+    if div.headerTemplate:
+        header  = div.headerTemplate
+        headerCss  = div.headerCss
+    if div.footerTemplate:
+        footer  = div.footerTemplate
+        footerCss  = div.footerCss
+    return render(request, 'app.dynamicpages.coursedetails.html',{'id':idx,'header':header,'footer':footer,'headerCss':headerCss,'footerCss':footerCss,'apiKey':apiKey,'div':div})
 
 
 import math
