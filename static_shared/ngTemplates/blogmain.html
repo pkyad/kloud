@@ -63,8 +63,8 @@
         </div>
         <h2 style="color:white;margin-top:0px;">{{allBlogs[0].title}}</h2>
         <button type="button" class="btn btn-lg btn-default  btn_read" name="button" style="margin-top:40px;padding:10px 25px">
-          <a href="/detailsblogs/{{allBlogs[0].articleUrl}} " class="link_read" ng-if="!apiKey">Read Story</a>
-          <a href="/pages/{{apiKey}}/detailsblogs/{{allBlogs[0].articleUrl}} " class="link_read" ng-if="apiKey">Read Story</a>
+          <a href="/read/{{allBlogs[0].articleUrl}} " class="link_read" ng-if="!apiKey">Read Story</a>
+          <a href="/pages/{{apiKey}}/read/{{allBlogs[0].articleUrl}} " class="link_read" ng-if="apiKey">Read Story</a>
         </button>
       </div>
      <i class="fa fa-pencil pull-right fa-3x" ng-click="$state.go('businessManagement.editblog',{'id' : allBlogs[0].pk});$event.stopPropagation()" ng-if="$state.is('businessManagement.blogging')"></i>
@@ -81,8 +81,8 @@
                 <i class="fa fa-pencil pull-right fa-lg" ng-click="$state.go('businessManagement.editblog',{'id' : i.pk});$event.stopPropagation()" ng-if="$state.is('businessManagement.blogging')"></i>
                   <h3 style="color:white;height:40px;">{{i.title}}</h3>
                   <button type="button" class="btn btn-lg btn-default  btn_cardread" name="button">
-                    <a class="read_art" href="/detailsblogs/{{i.articleUrl}}" ng-if="!apiKey">Read Article  </a>
-                    <a class="read_art" href="/pages/{{apiKey}}/detailsblogs/{{i.articleUrl}}" ng-if="apiKey">Read Article  </a>
+                    <a class="read_art" href="/read/{{i.articleUrl}}" ng-if="!apiKey">Read Article  </a>
+                    <a class="read_art" href="/pages/{{apiKey}}/read/{{i.articleUrl}}" ng-if="apiKey">Read Article  </a>
 
                   </button>
                 </div>
@@ -108,7 +108,7 @@
                     </div>
                     <div class="text-left" style="padding:20px;padding-left: 0px;padding-right: 0px;">
                       <p style="color:#0085ca"><strong>{{i.category}}</strong></p>
-                      <a class="blog_text" href="/detailsblogs/{{i.articleUrl}}" style="display:block;margin-bottom:10px;min-height:100px;">{{i.title }}</a>
+                      <a class="blog_text" href="/read/{{i.articleUrl}}" style="display:block;margin-bottom:10px;min-height:100px;">{{i.title }}</a>
                       <p style="margin-top:10px;color:rgba(0,40,85,.5)">{{i.created | date: 'dd-MMM-yyyy : hh:mm a'}}</p>
                     </div>
                   </div>

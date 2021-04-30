@@ -148,7 +148,7 @@ class UnitSerializer(serializers.ModelSerializer):
     parent = UnitLiteSerializer(many = False , read_only = True)
     class Meta:
         model = Unit
-        fields = ('pk' , 'name','address','pincode','l1','l2','mobile','telephone','email','division','parent', 'city','state','country' , 'areaCode','gstin', 'warehouse', 'bankName', 'bankBranch', 'bankAccNumber' , 'ifsc', 'swift','master')
+        fields = ('pk' , 'name','address','pincode','l1','l2','mobile','telephone','email','division','parent', 'city','state','country' , 'areaCode','gstin', 'warehouse', 'bankName', 'bankBranch', 'bankAccNumber' , 'ifsc', 'swift','master','lat','lng')
         read_only_fields=('contacts','parent')
     def create(self , validated_data):
         d = Unit(**validated_data)
@@ -160,7 +160,7 @@ class UnitSerializer(serializers.ModelSerializer):
         return d
 
     def update(self ,instance, validated_data):
-        for key in ['name','address','pincode','l1','l2','mobile','telephone','email','city','state','country' ,'parent','areaCode','gstin', 'warehouse', 'bankName', 'bankBranch', 'bankAccNumber' , 'ifsc', 'swift','master']:
+        for key in ['name','address','pincode','l1','l2','mobile','telephone','email','city','state','country' ,'parent','areaCode','gstin', 'warehouse', 'bankName', 'bankBranch', 'bankAccNumber' , 'ifsc', 'swift','master','lat','lng']:
             try:
                 setattr(instance , key , validated_data[key])
             except:

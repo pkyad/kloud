@@ -60,14 +60,48 @@
 
 
   <div class="container-fluid" style="margin-top:30px;" ng-init="form.showMore = false;">
-
-
-    <div class="form-group">
-      <label>Address</label>
-      <input type="text " class="form-control officeInputWhite" ng-model="form.address" >
-    </div>
-
     <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="text " class="form-control officeInputWhite" ng-model="form.email" >
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Mobile</label>
+          <input type="text" class="form-control officeInputWhite" ng-model="form.mobile">
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Code/ID</label>
+          <input type="text" class="form-control officeInputWhite" ng-model="form.areaCode" >
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row" style="margin:15px;margin-bottom:100px;">
+          <label>Address</label>
+          <input places-auto-complete
+            ng-model="form.address"
+            component-restrictions="{country:'in'}"
+            types="{{types}}"
+            strict-bounds="true"
+            on-place-changed="placeChanged()" class="form-control whiteInputField" />
+
+          <map ng-if="form.address" center="{{locations}}" style="display: block;width: auto;height: 300px;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;overflow: hidden;"   zoom="12">
+            <marker  position="{{locations}}" centered="true" draggable="true" on-dragend="getCurrentLocation($event)" ></marker>
+          </map>
+        </div>
+
+      </div>
+    </div>
+    <!-- <div class="row">
       <div class="col-md-6">
         <div class="form-group">
           <label>Pincode</label>
@@ -80,33 +114,27 @@
           <input type="text" class="form-control officeInputWhite" ng-model="form.areaCode" >
         </div>
       </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label>Email</label>
-          <input type="text " class="form-control officeInputWhite" ng-model="form.email" >
-        </div>
-      </div>
-
-      <div class="col-md-6">
-        <div class="form-group">
-          <label>Mobile</label>
-          <input type="text" class="form-control officeInputWhite" ng-model="form.mobile"
-        </div>
-      </div>
-    </div>
+    </div> -->
+    <!-- <div class="form-group">
+      <label>Address</label>
+      <input type="text " class="form-control officeInputWhite" ng-model="form.address" >
+    </div> -->
 
 
-    <span  ng-if="!form.showMore" ng-click="form.showMore = true;" style="cursor:pointer;">More</span>
 
+
+    <div class="row" ng-if="!form.showMore">
+      <div class="col-md-12">
+    <span   ng-click="form.showMore = true;" style="cursor:pointer;">More</span>
+  </div>
+
+</div>
 
     <div ng-if="form.showMore" >
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <label>Enable Warehouse Inventory ?</label>
+            <label> Enable Warehouse Inventory ? </label>
             <input type="checkbox" ng-model="form.warehouse">
           </div>
         </div>
@@ -166,8 +194,6 @@
           </div>
         </div>
 
-
-
         <!-- <div class="form-group">
           <label>Parent</label>
           <input uib-typeahead="units as units.name for units in unitsSearch($viewValue)" ng-model="form.parent" type="text" class="form-control" placeholder="Select units">
@@ -190,10 +216,10 @@
 
 
 
+    <div class="btn-group pull-right">
+      <button type="button" class="btn btn-primary pull-right cutebuttonplain" style="background:rgb(13, 45, 88);color:white;" ng-click="save()">Save</button>
+    </div>
   </div>
 
-  <div class="btn-group pull-right">
-    <button type="button" class="btn btn-primary pull-right cutebuttonplain" style="background:rgb(13, 45, 88);color:white;" ng-click="save()">Save</button>
-  </div>
 
 </div>

@@ -36,6 +36,106 @@ div.scrollView .prodView:hover {\
     background-size: cover;\
     background-repeat: no-repeat;\
   }\
+  .modal {\
+    display: none;\
+    position: fixed;\
+    z-index: 999999999999;\
+    padding: 10px;\
+    left: 0;\
+    top: 0;\
+    width: 100%;\
+    height: 800px;\
+    overflow: auto;\
+    background-color: #ffffff;\
+  }\
+  .modal-content {\
+    background-color: #fefefe;\
+    margin: auto;\
+    padding: 20px;\
+    border: 1px solid #888;\
+    width: 80%;\
+  }\
+  .close {\
+  color: #aaaaaa;\
+  float: right;\
+  font-size: 28px;\
+  font-weight: bold;\
+}\
+.close:hover,\
+.close:focus {\
+  color: #000;\
+  text-decoration: none;\
+  cursor: pointer;\
+}\
+.textTwo{\
+  font-size:22px\
+}\
+.textFour{\
+  font-size:16px;\
+  margin-bottom:0px;\
+  margin-top:15px;\
+}\
+.slot_input{\
+  width:100%;\
+  border:none;\
+  background:#f9f9f9;\
+  height: 40px;\
+  border-radius: 10px;\
+  font-size: 18px;\
+}\
+.allSlot{\
+  padding:30px\
+}\
+.slotbox{\
+  width:40%;\
+  border:1px solid #11aaf5;\
+  text-align:center;\
+  padding-top: 15px;\
+  padding-bottom: 15px;\
+  margin-bottom: 15px;\
+  font-size:22px;\
+  cursor:pointer;\
+  color:#11aaf5;\
+  float: left;\
+  margin-right: 15px\
+}\
+.allSlot:after {\
+  display: table;\
+}\
+.confirm_btn{\
+  margin-top:15px;\
+  width:65%;\
+  border:1px solid #11aaf5;\
+  text-align:center;\
+  padding-top: 15px;\
+  padding-bottom: 15px;\
+  margin-bottom: 15px;\
+  font-size:22px;\
+  cursor:pointer;\
+  background: #11aaf5;\
+  color:#ffffff;\
+  display:none;\
+  border-radius: 25px;\
+}\
+.rowTwo{\
+  display: block;\
+  position: absolute;\
+  bottom: 55px;\
+  width: 80%;\
+}\
+.slot_input{\
+  width:100%;\
+  border:none;\
+  background:#f9f9f9;\
+  height: 40px;\
+  border-radius: 10px;\
+  font-size: 18px;\
+}\
+.close_btn{\
+  width:60px;\
+  height:40px;\
+  float: right;\
+}\
 }\
 @media only screen and (min-width: 600px) {\
   .CalendarBoxDiv{\
@@ -60,11 +160,11 @@ div.scrollView .prodView:hover {\
     display: none;\
     position: fixed;\
     z-index: 1;\
-    padding: 30px;\
+    padding: 60px;\
     left: 20%;\
     top: 100px;\
     width: 60%;\
-    height: 800px;\
+    height: 550px;\
     overflow: auto;\
     background-color: #ffffff;\
   }\
@@ -89,7 +189,7 @@ div.scrollView .prodView:hover {\
 }\
 .columnOne{\
   float: left;\
-  width:33.33%;\
+  width:50%;\
 }\
 .columnTwo{\
   width:40%\
@@ -119,8 +219,11 @@ div.scrollView .prodView:hover {\
   background-size: cover;\
   background-repeat: no-repeat;\
 }\
+.allSlot{\
+  padding:30px\
+}\
 .slotbox{\
-  width:100%;\
+  width:40%;\
   border:1px solid #11aaf5;\
   text-align:center;\
   padding-top: 15px;\
@@ -129,9 +232,15 @@ div.scrollView .prodView:hover {\
   font-size:22px;\
   cursor:pointer;\
   color:#11aaf5;\
+  float: left;\
+  margin-right: 15px\
+}\
+.allSlot:after {\
+  display: table;\
 }\
 .confirm_btn{\
-  width:100%;\
+  margin-top:30px;\
+  width:50%;\
   border:1px solid #11aaf5;\
   text-align:center;\
   padding-top: 15px;\
@@ -142,6 +251,13 @@ div.scrollView .prodView:hover {\
   background: #11aaf5;\
   color:#ffffff;\
   display:none;\
+  border-radius: 25px;\
+}\
+.rowTwo{\
+  display: block;\
+  position: absolute;\
+  bottom: 30px;\
+  width: 50%;\
 }\
 .slot_input{\
   width:100%;\
@@ -150,6 +266,14 @@ div.scrollView .prodView:hover {\
   height: 40px;\
   border-radius: 10px;\
   font-size: 18px;\
+}\
+.rowTwo{\
+  display: block;\
+}\
+.close_btn{\
+  width:40px;\
+  height:40px;\
+  float: right;\
 }\
 }\
 "));
