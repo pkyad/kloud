@@ -330,6 +330,8 @@ class Unit(models.Model):
     ifsc = models.CharField(max_length = 200 , null = True)
     swift = models.CharField(max_length = 200 , null = True)
     master = models.BooleanField(default = False)
+    lat = models.FloatField(null=False , default=0)
+    lng = models.FloatField(null=False , default=0)
     class Meta:
             unique_together = ('name', 'areaCode',)
 

@@ -699,15 +699,56 @@ app.controller("workforceManagement.organization.company.units.form", function($
   if (data != undefined) {
     $scope.mode = 'edit';
     $scope.form = data;
+    $scope.place = $scope.form.address
+    $scope.locations = [$scope.form.lat, $scope.form.lng]
     // $scope.units = $scope.form.units;
   } else {
     $scope.mode = 'new';
     $scope.resetForm();
   }
 
+    $scope.types = "[]";
+    $scope.placeChanged = function() {
+      $scope.place = this.getPlace();
+      if ($scope.place.geometry.location != undefined) {
+        $scope.locations = $scope.place.geometry.location
+        $scope.lat = $scope.place.geometry.location.lat()
+        $scope.lng = $scope.place.geometry.location.lng()
+      }
+      console.log('location', $scope.place.geometry.location.lat() ,  $scope.place.geometry.location.lng());
+      console.log('location', $scope.place);
+    }
 
+    $scope.getLocation = function(lat, lon) {
+      console.log(lat);
+      $scope.lat = lat
+      $scope.lng = lon
+      $http({
+        method: 'GET',
+        url: '/api/marketing/getloaction/?lat=' + lat + '&lon=' + lon
+      }).
+      then(function(response) {
+        if (response.data.msg) {
+          Flash.create('warning', response.data.msg)
+          return
+        } else {
+          console.log(response.data.address);
+          $scope.form.address = response.data.address.display_name
+          $scope.form.pincode = response.data.address.address.postcode
+        }
+      })
+    }
+
+    $scope.center = [12.970435, 77.578424];
+
+    $scope.getCurrentLocation = function(event) {
+      console.log("ssssssssss", event.latLng.lat(), event.latLng.lng());
+      $scope.lat = event.latLng.lat()
+      $scope.lng = event.latLng.lng()
+    }
 
   $scope.save = function() {
+    console.log($scope.lat,$scope.lng);
     if ($scope.form.name == null || $scope.form.name.length == 0 || $scope.form.mobile == null || $scope.form.mobile.length == 0 || $scope.form.areaCode == null || $scope.form.areaCode.length == 0) {
       Flash.create('warning', 'Name, Mobile and Code/ID is required')
       return
@@ -741,6 +782,8 @@ app.controller("workforceManagement.organization.company.units.form", function($
       bankAccNumber: f.bankAccNumber,
       ifsc: f.ifsc,
       swift: f.swift,
+      lat: $scope.lat,
+      lng: $scope.lng,
     }
     // if (f.parent!=null && typeof f.parent=='object') {
     //   toSend.parent =  f.parent.pk
