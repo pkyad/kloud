@@ -79,9 +79,10 @@
 </style>
 
 <div class="row">
-  <div class="col-md-3" style="background:#F2F3F7;">
-    <div class="row text-center" style="margin:20px;padding-left:20px">
-      <div class="col-md-9">
+  <div class="col-md-3 col-sm-3" style="background:#F2F3F7;">
+    <br>
+    <div class="row text-center" style="">
+      <div class="col-md-9" style="margin-bottom:10px;">
         <div class="input-group" style="padding:10px;background:white !important;border-radius:10px;border:1px solid #d3d3d3">
           <input type="text" class="form-control" ng-model="form.search"  placeholder="Search..." style="background:white !important;border: none !important;">
           <span class="input-group-btn">
@@ -89,19 +90,20 @@
           </span>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-3 col-sm-12">
         <button type="button" class="btn btn-default btn-block" ng-click="openCreateNote()" style="padding:17px;background:white;border-radius:10px !important;border:1px solid #d3d3d3;"><i class="fa fa-plus"></i></button>
       </div>
     </div>
+    <br>
     <div class="row" style="cursor:pointer;height:89vh;overflow-y:scroll;">
       <div class="col-md-12 menuItems {{$index == row? 'activeMenu' : ''}}" ng-repeat="a in notes" ng-click="$state.go('home.notes.view', {id : a.pk});getIndex($index)" style="border-bottom:1px solid #e0e0e0">
         <p style="margin-left:35px">{{a.title}} </p>
       </div>
         <div class="col-md-offset-4 col-md-4" style="padding:20px 0px 20px">
-      <div class="col-md-6">
+      <div class="col-md-6 col-sm-6">
       <i class="fa fa-chevron-left" aria-hidden="true" ng-click="previous()"></i>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6 col-sm-6">
         <i class="fa fa-chevron-right" aria-hidden="true" ng-click="next()"></i>
       </div>
       </div>
@@ -113,7 +115,7 @@
     </div>
 
   </div>
-  <div class="col-md-9">
+  <div class="col-md-9 col-sm-9">
     <ui-view></ui-view>
   </div>
 </div>

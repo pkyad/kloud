@@ -2670,6 +2670,115 @@ width: 100%;
   width:75px;
   margin-right:15px;
 }
+
+.taskMenuItem:hover{
+  background:white;
+  cursor:pointer;
+}
+.taskTicker{
+  border-radius: 20px;width: 30px;height: 30px;
+  border: solid 1px #c4c4c4;
+  cursor:pointer;
+  padding: 6px;
+  float:right;
+}
+.taskTicker:hover , .completedTask{
+  border: solid 1px rgb(59, 179, 36);
+  background: rgb(59, 179, 36);
+  color:white;
+}
+.newTaskTicker{
+  border: solid 1px rgb(59, 179, 36);
+  padding: 2px;border-radius: 20px;width: 30px;height: 30px;
+  border: solid 1px #c4c4c4;
+  cursor:pointer;
+}
+.taskTickerBlue{
+  padding: 2px;border-radius: 20px;width: 30px;height: 30px;
+  border: solid 1px rgb(42, 60, 136);
+  cursor:pointer;
+  background: rgb(42, 60, 136);
+  color:white;
+  float:right;
+}
+.todoAdd {
+  border:none;
+}
+.datePill{
+  border: solid 1px #eee;
+  padding: 6px;
+  border-radius: 100px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #9d9d9d;
+  cursor:pointer;
+}
+.taskDatePicker .btn{
+  border:none;
+}
+.timeLabel {
+  color:orange;font-size:13px;margin-left:15px;
+  border-radius:100px !important;padding-left:15px;padding-right:15px;
+  background:rgb(255, 251, 243);
+  border:none;
+}
+
+.timeLabel:hover{
+  background:orange !important;
+  color:white !important;
+  cursor:pointer;
+
+}
+
+
+.projectLabel{
+  padding:8px;color:rgb(42, 60, 136);font-size:13px;margin-left:15px;
+  border-radius:100px !important;padding-left:15px;padding-right:15px;
+  background:rgb(239, 246, 251);
+}
+
+.projectLabel:hover{
+  background:rgb(42, 60, 136) !important;
+  color:white !important;
+  cursor:pointer;
+}
+.fileLabel{
+  padding:8px;color:grey;font-size:13px;margin-left:15px;
+  border-radius:100px !important;padding-left:15px;padding-right:15px;
+  background:rgb(247, 247, 247);
+}
+.fileLabel:hover{
+  background:grey !important;
+  color:white !important;
+  cursor:pointer;
+}
+.addLabel{
+  padding:0px;border:solid 3px grey;border-radius:30px;color:grey;padding-left:10px;padding-right:10px;font-size:13px;margin-left:15px;height:30px;
+}
+.activeMenuItem{
+  background: white;
+}
+
+.user-search .list-group-item.active{
+  color:white;
+}
+@media  (min-width: 800px)  and (max-width: 1279px) {
+.sideMenuView{
+  width:15%;
+}
+.mainUIViewParent{
+  width:83%;
+}
+.taskImg{
+  padding:0px;
+}
+.taskTickerBlue{
+  float:left;
+}
+.taskTicker{
+  float:left;
+}
+}
 @media screen and (min-width: 1279px) and (max-width: 1365px) and (-webkit-device-pixel-ratio: 1) {
   .chat-input{
     bottom:-53px !important

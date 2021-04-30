@@ -45,7 +45,7 @@ body {
   outline: none !important;
 }
 .appStoreDiv{
-  min-height: 100vh;
+  /* min-height: 100vh; */
   padding: 0px 155px;
 }
 .navbar-dark .navLink:hover,
@@ -57,7 +57,9 @@ body {
 .lightic {
   display: none !important;
 }
-
+.searchImg{
+  width: 40px;position: absolute;left: 33px;top: 10px;
+}
 .link {
   color: black;
 }
@@ -109,6 +111,7 @@ body {
     display: none;
   }
 }
+
 
 .playicn {
   border-radius: 50%;
@@ -7344,4 +7347,271 @@ figure {
   .robt_img3 {
     height: 110px;
   } */
+}
+
+.footer {
+  background-color: #13191C;
+  padding: 30px;
+  color: white;
+  height:580px;
+}
+
+.footer h5 {
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.footer span {
+  font-size: 30px;
+  font-weight: 700
+}
+
+.footer button {
+  background-color: #FA949D;
+  width: 150px;
+  height: 50px;
+  text-align: left;
+  box-shadow: none;
+  color: white;
+  border-radius: 10px;
+  border: 2px solid #FA949D
+}
+
+.footer button:hover {
+  color: white;
+}
+
+.footer .facebookin {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background-color: #5B2EDA;
+  padding: 18px 25px;
+  font-size: 20px;
+
+}
+
+.footer .twitter {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background-color: #FA949D;
+  padding: 18px 25px;
+  font-size: 20px;
+  margin: 0px 20px
+}
+
+.footer #OrangeCircle {
+  background-color: #FA949D;
+  border-radius: 50%;
+  padding: 115px;
+  /* box-shadow: 0px 8px 18px #FA949D !important; */
+}
+
+.footer #BlueCircle {
+  background-color: #5B2EDA;
+  border-radius: 50%;
+  padding: 150px 50px;
+  position: absolute;
+  left: 95px;
+  opacity: 0.8;
+  z-index: 99;
+  top: 15%;
+  /* box-shadow: 0px 8px 18px rgb(91, 46, 218) !important; */
+}
+
+.footer #BlueCircle a {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.footer #Greencircle {
+  background-color: #8EC1C0;
+  border-radius: 50%;
+  padding: 85px;
+  position: absolute;
+  right: 330px;
+  bottom: -285px;
+  /* box-shadow: 0px 8px 18px #8EC1C0 !important; */
+}
+
+.footer h3 {
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1.5
+}
+
+
+.footer .circleMargins {
+  margin-top: 30px;
+}
+.deviceBox{
+  box-shadow: 0px 0px 10px #ccc;padding: 15px;margin:10px 0px;
+}
+ @media only screen and (min-width : 600px) and (max-width : 1000px) {
+
+ }
+@media only screen and (min-width : 200px) and (max-width : 600px) {
+  .footer {
+    padding: 0px 15px;
+    height:initial
+  }
+
+  .footer #OrangeCircle {
+    height: 70px;
+    display:none;
+  }
+
+  .footer #BlueCircle {
+    position: relative;
+    left: 0px !important;
+    /* display:none; */
+    padding: 100px 50px;
+    margin-bottom: 50px;
+    top:0%;
+  }
+
+  .footer #Greencircle {
+    height: 50px;
+    position: relative;
+    right: 0;
+    display:none;
+    bottom: -80px;
+    left: -70px;
+
+  }
+
+  .footer h3 {
+    font-size: 25px;
+  }
+
+  .footer #BlueCircle p {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 1365px){
+
+  .footer #OrangeCircle {
+    box-shadow: none !important;
+    border: 2px solid #FA949D;
+    padding:90px;
+  }
+  .footer h3 {
+    font-size:25px;
+
+  }
+  .footer #BlueCircle {
+    padding: 65px;
+    left: 50px;
+    border: 2px solid #5B2EDA;top:25%;
+  }
+
+  .footer #Greencircle {
+    border: 2px solid #8EC1C0;
+    background-color:  #8EC1C0;
+    border-radius: 50%;
+    padding: 55px;
+    position: absolute;
+    right: 250px;
+    bottom: -210px;
+    box-shadow: none !important;
+  }
+
+  .footer .twitter {
+    margin: 0px 5px;
+  }
+}
+
+@media screen and (min-width: 1366px) and (max-width:1445px) {
+  .footer #OrangeCircle {
+    box-shadow: none !important;
+    border: 2px solid #FA949D;
+    padding:90px;
+  }
+  .footer h3 {
+    font-size:25px;
+
+  }
+  .footer #BlueCircle {
+    padding: 75px;
+    left: 50px;
+    border: 2px solid #5B2EDA;top:25%;
+  }
+
+  .footer #Greencircle {
+    border: 2px solid #8EC1C0;
+    background-color:  #8EC1C0;
+    border-radius: 50%;
+    padding: 55px;
+    position: absolute;
+    right: 250px;
+    bottom: -210px;
+    box-shadow: none !important;
+  }
+
+
+  .footer .twitter {
+    margin: 0px 10px;
+  }
+}
+@media screen and (min-width: 1446px) and (max-width:1620px) {
+  .footer #OrangeCircle {
+    box-shadow: none !important;
+    border: 2px solid #FA949D;
+    padding:90px;
+  }
+  .footer h3 {
+    font-size:25px;
+
+  }
+  .footer #BlueCircle {
+    padding:105px;
+    left: 50px;
+    border: 2px solid #5B2EDA;top:25%;
+  }
+
+  .footer #Greencircle {
+    border: 2px solid #8EC1C0;
+    background-color:  #8EC1C0;
+    border-radius: 50%;
+    padding: 65px;
+    position: absolute;
+    right: 310px;
+    bottom: -250px;
+    box-shadow: none !important;
+  }
+
+  .footer .twitter {
+    margin: 0px 10px;
+  }
+}
+
+@media  (min-width: 800px)  and (max-width: 1280px) {
+  .apps{
+    height:100px !important;
+  }
+  .searchImg{
+    width: 40px;position: absolute;left: 15px;top: 20px;
+  }
+  .text-start {
+    text-align: right
+  }
+
+  .footer #BlueCircle{
+    padding:100px;
+    position:absolute;
+  }
+  .footer #OrangeCircle{
+    display:none;
+  }
+  .footer #Greencircle{
+    display:none;
+  }
+  .deviceBox{
+    padding:5px;
+  }
+  .logo {
+    padding:10px;
+  }
 }

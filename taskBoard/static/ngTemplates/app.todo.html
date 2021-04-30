@@ -1,130 +1,42 @@
 <style media="screen">
-  .taskMenuItem:hover{
-    background:white;
-    cursor:pointer;
-  }
-  .taskTicker{
-    border-radius: 20px;width: 30px;height: 30px;
-    border: solid 1px #c4c4c4;
-    cursor:pointer;
-    padding: 6px;
-  }
-  .taskTicker:hover , .completedTask{
-    border: solid 1px rgb(59, 179, 36);
-    background: rgb(59, 179, 36);
-    color:white;
-  }
-  .newTaskTicker{
-    border: solid 1px rgb(59, 179, 36);
-    padding: 2px;border-radius: 20px;width: 30px;height: 30px;
-    border: solid 1px #c4c4c4;
-    cursor:pointer;
-  }
-  .taskTickerBlue{
-    padding: 2px;border-radius: 20px;width: 30px;height: 30px;
-    border: solid 1px rgb(42, 60, 136);
-    cursor:pointer;
-    background: rgb(42, 60, 136);
-    color:white;
-  }
-  .todoAdd {
-    border:none;
-  }
-  .datePill{
-    border: solid 1px #eee;
-    padding: 6px;
-    border-radius: 100px;
-    padding-left: 10px;
-    padding-right: 10px;
-    color: #9d9d9d;
-    cursor:pointer;
-  }
-  .taskDatePicker .btn{
-    border:none;
-  }
-  .timeLabel {
-    color:orange;font-size:13px;margin-left:15px;
-    border-radius:100px !important;padding-left:15px;padding-right:15px;
-    background:rgb(255, 251, 243);
-    border:none;
-  }
 
-  .timeLabel:hover{
-    background:orange !important;
-    color:white !important;
-    cursor:pointer;
-
-  }
-
-
-  .projectLabel{
-    padding:8px;color:rgb(42, 60, 136);font-size:13px;margin-left:15px;
-    border-radius:100px !important;padding-left:15px;padding-right:15px;
-    background:rgb(239, 246, 251);
-  }
-
-  .projectLabel:hover{
-    background:rgb(42, 60, 136) !important;
-    color:white !important;
-    cursor:pointer;
-  }
-  .fileLabel{
-    padding:8px;color:grey;font-size:13px;margin-left:15px;
-    border-radius:100px !important;padding-left:15px;padding-right:15px;
-    background:rgb(247, 247, 247);
-  }
-  .fileLabel:hover{
-    background:grey !important;
-    color:white !important;
-    cursor:pointer;
-  }
-  .addLabel{
-    padding:0px;border:solid 3px grey;border-radius:30px;color:grey;padding-left:10px;padding-right:10px;font-size:13px;margin-left:15px;height:30px;
-  }
-  .activeMenuItem{
-    background: white;
-  }
-
-  .user-search .list-group-item.active{
-    color:white;
-  }
 
 
 </style>
 
 <div class="row" ng-controller="projectManagement.todo">
 
-  <div class="col-md-2" style="background:#FAFAFA;height:100vh;padding:0px;padding-left:10px;overflow:hidden;position: fixed;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;">
+  <div class="col-md-2 col-sm-2" style="background:#FAFAFA;height:100vh;padding:0px;padding-left:10px;overflow:hidden;position: fixed;box-shadow: 0px 8px 18px rgba(157, 157, 157, 0.94) !important;">
 
     <div class="row taskMenuItem {{form.open == 'inbox' ? 'activeMenuItem':''}}" style="padding:15px;margin:0px;" ng-click="form.open = 'inbox';form.heading = 'Inbox';">
-      <div class="col-md-3">
+      <div class="col-md-3 col-sm-2 taskImg">
         <svg width="27" height="27" viewBox="0 0 24 24"><g fill="currentColor" fill-rule="evenodd"><path fill-rule="nonzero" d="M10 14.5a2 2 0 1 0 4 0h5.5V18a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 18v-3.5H10z" opacity=".1"></path><path fill-rule="nonzero" d="M8.062 4h7.876a2 2 0 0 1 1.94 1.515l2.062 8.246a2 2 0 0 1 .06.485V18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3.754a2 2 0 0 1 .06-.485L6.12 5.515A2 2 0 0 1 8.061 4zm0 1a1 1 0 0 0-.97.757L5.03 14.004a1 1 0 0 0-.03.242V18a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.754a1 1 0 0 0-.03-.242L16.91 5.757a1 1 0 0 0-.97-.757H8.061zM12 17.25A2.75 2.75 0 0 1 9.295 15H7a.5.5 0 1 1 0-1h2.75a.5.5 0 0 1 .5.5 1.75 1.75 0 0 0 3.5 0 .5.5 0 0 1 .5-.5H17a.5.5 0 1 1 0 1h-2.295A2.75 2.75 0 0 1 12 17.25z"></path></g></svg>
       </div>
-      <div class="col-md-9 font18" >
+      <div class="col-md-9 col-sm-9 font18" >
         Inbox
       </div>
     </div>
     <div class="row taskMenuItem {{form.open == 'team' ? 'activeMenuItem':''}}" style="padding:15px;margin:0px;" ng-click="form.open = 'team';form.heading = 'My Team';">
-      <div class="col-md-3" style="color:rgb(29, 75, 130);">
+      <div class="col-md-3 col-sm-2 taskImg" style="color:rgb(29, 75, 130);">
         <svg width="27" height="27" viewBox="0 0 24 24"><g fill="currentColor" fill-rule="evenodd"><path fill-rule="nonzero" d="M6 4.5h12A1.5 1.5 0 0 1 19.5 6v2.5h-15V6A1.5 1.5 0 0 1 6 4.5z" opacity=".1"></path><path fill-rule="nonzero" d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H6zm10 12a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm-4 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm-4 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm8-4a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm-4 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm-4 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM7 8h10a.5.5 0 1 1 0 1H7a.5.5 0 0 1 0-1z"></path></g></svg>
       </div>
-      <div class="col-md-9 font18" >
+      <div class="col-md-9 col-sm-9 font18" >
         Team Inbox
       </div>
     </div>
     <div class="row taskMenuItem {{form.open == 'today' ? 'activeMenuItem':''}}" style="padding:15px;margin:0px;" ng-click="form.open = 'today';form.heading = 'Due Today';">
-      <div class="col-md-3" style="color:orange;">
+      <div class="col-md-3 col-sm-2 taskImg" style="color:orange;">
         <svg width="27" height="27" viewBox="0 0 24 24"><g fill="currentColor" fill-rule="evenodd"><path fill-rule="nonzero" d="M6 4.5h12A1.5 1.5 0 0 1 19.5 6v2.5h-15V6A1.5 1.5 0 0 1 6 4.5z" opacity=".1"></path><path fill-rule="nonzero" d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H6zm1 3h10a.5.5 0 1 1 0 1H7a.5.5 0 0 1 0-1z"></path><text font-family="-apple-system, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'" font-size="9" transform="translate(4 2)" font-weight="500"><tspan x="8" y="15" text-anchor="middle">08</tspan></text></g></svg>
       </div>
-      <div class="col-md-9 font18" >
+      <div class="col-md-9 col-sm-9 font18" >
         Today
       </div>
     </div>
     <div class="row taskMenuItem {{form.open == 'backlogs' ? 'activeMenuItem':''}}" style="padding:15px;margin:0px;" ng-click="form.open = 'backlogs';form.heading = 'Backlogs';">
-      <div class="col-md-3" style="color:rgb(167, 60, 209);">
+      <div class="col-md-3 col-sm-2 taskImg" style="color:rgb(167, 60, 209);">
         <svg width="27" height="27" viewBox="0 0 24 24"><g fill="currentColor" fill-rule="evenodd"><path fill-rule="nonzero" d="M6 4.5h12A1.5 1.5 0 0 1 19.5 6v2.5h-15V6A1.5 1.5 0 0 1 6 4.5z" opacity=".1"></path><path fill-rule="nonzero" d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H6zm10 12a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm-4 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm-4 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm8-4a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm-4 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm-4 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM7 8h10a.5.5 0 1 1 0 1H7a.5.5 0 0 1 0-1z"></path></g></svg>
       </div>
-      <div class="col-md-9 font18" >
+      <div class="col-md-9 col-sm-9 font18" >
         Backlogs
       </div>
     </div>
@@ -135,7 +47,7 @@
         <h4>Projects</h4>
       </div>
     </div>
-    <div ng-click="form.open = project.pk;form.heading = project.title; " class="row taskMenuItem {{form.open == project.pk ? 'activeMenuItem':''}}" style="padding:15px;margin:0px;" ng-repeat="project in projects">
+    <div ng-click="form.open = project.pk;form.heading = project.title; " class="row taskMenuItem {{form.open == project.pk ? 'activeMenuItem':''}}" style="margin:0px;margin-bottom:10px;" ng-repeat="project in projects">
       <div class="col-md-3">
         <div class="pull-right" style="padding: 2px;border-radius: 20px;border: solid 2px #b6b3b3;width: 20px;height: 20px;">
         </div>
@@ -143,11 +55,12 @@
       <div class="col-md-9" >
         {{project.title}}
       </div>
+      <br>
     </div>
 
   </div>
 
-  <div class="col-md-10" style="padding-right:50px;position:fixed;right:0px;width: 72%;height:100vh;overflow:auto;">
+  <div class="col-md-10 col-md-offset-2 col-sm-10 col-sm-offset-2" style="padding-right:50px;height:100vh;overflow:auto;">
 
     <mentio-menu
                 mentio-for="'newTaskTxt'"
@@ -169,12 +82,12 @@
 
     <div class="row" style="margin-top: 10px;margin-bottom: 10px;">
       <div class="container-fluid">
-        <div class="col-md-1">
-          <div class="pull-right taskTickerBlue" style="padding: 5px;padding-left: 8px;">
+        <div class="col-md-1 col-sm-2">
+          <div class="taskTickerBlue" style="padding: 5px;padding-left: 8px;">
             <i class="fa fa-plus"></i>
           </div>
         </div>
-        <div class="col-md-7" style="padding:0px;">
+        <div class="col-md-7 col-sm-7" style="padding:0px;">
           <input mentio mentio-id="'newTaskTxt'" ng-focus="form.creatingNew = true;" ng-blur="form.creatingNew = false;" type="text" class="form-control todoAdd" placeholder="Create new .." style="padding-left: 0px;" ng-model="form.title" >
 
           <button type="button" ng-if="form.creatingNew || form.title.length > 0" class="btn btn-primary btn-sm" style="margin-top:15px;" ng-click="creteTask()">
@@ -215,12 +128,12 @@
 
 
       <div class="container-fluid">
-        <div class="col-md-1 text-right" style="padding-top:20px;" ng-mouseenter="task.hover = true;" ng-mouseleave="task.hover = false;">
-          <div class="pull-right taskTicker  {{task.completion >0 ? 'completedTask':''}} " ng-click="markTask($index , task.pk , task.completion )">
+        <div class="col-md-1 col-sm-1 text-right" style="padding-top:20px;" ng-mouseenter="task.hover = true;" ng-mouseleave="task.hover = false;">
+          <div class="taskTicker  {{task.completion >0 ? 'completedTask':''}} " ng-click="markTask($index , task.pk , task.completion )">
             <i class="fa fa-check" ng-if="task.hover || task.completion >0"></i>
           </div>
         </div>
-        <div class="col-md-11" style="padding:18px;border-bottom:solid 0.5px #eee;">
+        <div class="col-md-11 col-sm-11" style="padding:18px;border-bottom:solid 0.5px #eee;">
           <div class="row" style="line-height: 26pt;" ng-mouseenter="task.hover = true;" ng-mouseleave="task.hover = false;">
             <span contenteditable="" ng-model="task.title" ng-model-options="{debounce:1000}" ng-change="updateTaskTitle(task.pk , task.title)" ></span>
 
