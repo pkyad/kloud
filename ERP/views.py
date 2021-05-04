@@ -625,7 +625,6 @@ def generateOTPView(request):
                     user = User.objects.create(username = request.GET['mobile'] , first_name = request.GET['mobile'] )
                     prof = user.profile
                     prof.mobile = request.GET['mobile']
-                    prof.newReg = False
                     div = user.designation.division
                     resData = helperCreateUser(request.GET['mobile'], '')
                     designation = user.designation
