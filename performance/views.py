@@ -83,26 +83,32 @@ class UpdateAttendanceAPIView(APIView):
         today = date.today()
         user = request.user
         data = request.data
+        print data ,'data'
         if data['stage'] == 'checkin':
-            checkinObj = TimeSheet.objects.create(user = user,date = today)
-            checkinObj.checkIn = datetime.today()
+            checkinObj, created = TimeSheet.objects.get_or_create(user = user,date = today)
+            checkinObj.date = datetime.today()
+            checkinObj.checkIn = datetime.now()
             checkinObj.checkinLat = data['checkinLat']
             checkinObj.checkinLon = data['checkinLon']
+            if 'checkinPhoto' in data:
+                checkinObj.checkinPhoto = data['checkinPhoto']
             checkinObj.save()
         if data['stage'] == 'checkout':
             checkinObj = TimeSheet.objects.get(user = user,date = today)
-            checkinObj.checkOut = datetime.today()
-            checkinObj.checkoutLat = data['checkoutLat']
-            checkinObj.checkoutLon = data['checkoutLon']
+            checkinObj.checkOut = datetime.now()
+            if 'checkoutLat' in data:
+                checkinObj.checkoutLat = data['checkoutLat']
+            if 'checkoutLon' in data:
+                checkinObj.checkoutLon = data['checkoutLon']
             checkinObj.save()
-            print checkinObj.checkoutLat
             checkinObj = TimeSheet.objects.get(user = user,date = today)
-            diff =  checkinObj.checkOut - checkinObj.checkIn
-            days, seconds = diff.days, diff.seconds
-            hours = days * 24 + seconds // 3600
-            minutes = (seconds % 3600) // 60
-            seconds = seconds % 60
-            checkinObj.totaltime = str(hours) + ':'+ str(minutes)+ ':'+ str(seconds)+':00'
+            if checkinObj.checkIn is not None and  checkinObj.checkOut is not None:
+                diff =  checkinObj.checkOut - checkinObj.checkIn
+                days, seconds = diff.days, diff.seconds
+                hours = days * 24 + seconds // 3600
+                minutes = (seconds % 3600) // 60
+                seconds = seconds % 60
+                checkinObj.totaltime = str(hours) + ':'+ str(minutes)+ ':'+ str(seconds)+':00'
             checkinObj.save()
         return Response(status = status.HTTP_200_OK)
 

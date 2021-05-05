@@ -5,10 +5,14 @@ from django.db import models
 from projects.models import project
 from django.contrib.auth.models import User
 from datetime import datetime
-
+from time import time
 
 
 # Create your models here.
+
+def getCheckinImagePath(instance , filename):
+    print instance.user.pk , filename
+    return 'Performance/timesheet/%s_%s_%s' % (str(time()).replace('.', '_'), str(instance.user.pk), filename)
 
 STATUS_CHOICES = (
     ('created','created'),
@@ -40,7 +44,7 @@ class TimeSheet(models.Model):
     checkoutLon = models.FloatField(null=False , default=0)
     distanceTravelled = models.FloatField(null=False , default=0)
     attendance_status = models.CharField(choices = ATTANDANCE_STATUS , max_length = 10 ,default='Absent', null = True)
-
+    checkinPhoto = models.FileField(upload_to = getCheckinImagePath ,  null = True)
     class Meta:
         unique_together = ('user', 'date',)
 
