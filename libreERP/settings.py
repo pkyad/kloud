@@ -106,7 +106,7 @@ BRAND_ACTIVATION_LINK = "https://cioc.in/"
 SNERT_PATH_1 = '/home/cioc-d3/stanford-ner-2018-10-16/classifiers/english.all.3class.distsim.crf.ser.gz'
 SNERT_PATH_2 = '/home/cioc-d3/stanford-ner-2018-10-16/stanford-ner.jar'
 
-SMS_API_PREFIX = "https://api.msg91.com/api/sendhttp.php?authkey=279046AKJ4Zj7fqm60503328P1&route=4&sender=KLDERP&country=91&mobiles=%s&message=%s&DLT_TE_ID=1307161587386355879"
+SMS_API_PREFIX = "https://api.msg91.com/api/sendhttp.php?authkey=279046AKJ4Zj7fqm60503328efad&route=4&sender=KLDERP&country=91&mobiles=%s&message=%s&DLT_TE_ID=1307161587386355879"
 
 # ZOOM_AUTH_API_TOKEN = "https://zoom.us/oauth/authorize?client_id=36PvaAvfQM6XeI0PbMZMzQ&response_type=code&redirect_uri=https://5187a883fbe6.ngrok.io"
 # ZOOM_API_TOKEN = "https://zoom.us/oauth/token?grant_type=authorization_code&code=GepXDV2Ecx_WUtSuluLS0aQi5EsVIRRQw&redirect_uri=https://5187a883fbe6.ngrok.io"https://zoom.us/oauth/authorize?client_id=36PvaAvfQM6XeI0PbMZMzQ&response_type=code&redirect_uri=https%3A%2F%2F5187a883fbe6.ngrok.io
