@@ -778,6 +778,7 @@ from ERP.serializers import UserAppsLiteSerializer
 class UpdatepayrollDesignationMasterAccountAPI(APIView):
     # permission_classes = (permissions.IsAuthenticated)
     def post(self, request, format=None):
+        # print request.data, 'data'
         if 'pk' in request.data:
             profObj = profile.objects.get(pk = int(request.data['pk']))
             if 'displayPicture' in request.data:
@@ -886,7 +887,6 @@ class UpdatepayrollDesignationMasterAccountAPI(APIView):
                 payObj.joiningDate = request.data['payroll']['joiningDate']
             if 'lastWorkingDate' in request.data['payroll']:
                 payObj.lastWorkingDate = request.data['payroll']['lastWorkingDate']
-            print request.data['payroll']['PFUan'],'aaaaaaaaaa'
             if 'PFUan' in request.data['payroll']:
                 payObj.PFUan = request.data['payroll']['PFUan']
             payObj.policyNumber = request.data['payroll']['policyNumber']
