@@ -1265,7 +1265,7 @@ class UpdateProfileAPIView(APIView):
         files = request.FILES
         if 'logo' in files:
             div.logo = files['logo']
-        prof.newReg = True
+        prof.newReg = False
         div.save()
         prof.save()
         userObj.save()
