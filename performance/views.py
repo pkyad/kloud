@@ -74,7 +74,7 @@ class UpdateAttendanceAPIView(APIView):
         today = date.today()
         user = request.user
         checkinObjs = TimeSheet.objects.filter(user = user,date = today)
-        checkin = None
+        checkIn = None
         checkOut = None
         stage = None
         if len(checkinObjs) == 0:
