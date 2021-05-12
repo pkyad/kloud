@@ -2542,6 +2542,30 @@ class ClearDataAPIView(APIView):
                 print 'no user'
         return Response({} , status = status.HTTP_200_OK)
 
+class SupportMessage(APIView):
+    renderer_classes = (JSONRenderer,)
+    permission_classes = (permissions.AllowAny,)
+    def post(self, request, format=None):
+        data = request.data
+        user = request.user
+        profile = user.profile
+        email_subject ="Support Message from %s"%(profile.mobile)
+        to_email =  ['info@epsilonai.com','pradeep@epsilonai.com']
+        # to_email.append(to_email)
+        ctx = {
+            'message': data.message,
+            'email':user.email,
+            'mobile':profile.mobile
+        }
+
+        email_body = get_template('app.ERP.supportEmail.html').render(ctx)
+        # email_body = 'Hi'
+        msg = EmailMessage(email_subject, email_body, to=to_email)
+        msg.content_subtype = 'html'
+        msg.send()
+
+        return Response({'status':'ok'} , status = status.HTTP_200_OK)
+
 
 
 

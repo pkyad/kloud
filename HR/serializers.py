@@ -150,7 +150,7 @@ class userProfileSerializer(serializers.ModelSerializer):
     teamlead = serializers.SerializerMethodField()
     class Meta:
         model = profile
-        fields = ( 'pk' , 'mobile' , 'displayPicture' , 'website' , 'prefix' , 'almaMater', 'pgUniversity' , 'docUniversity' ,'email','gender' , 'empID','teamlead','isDashboard','isManager','emergency','bloodGroup','married','localAddressStreet','localAddressCity' , 'localAddressPin' , 'localAddressState' , 'localAddressCountry', 'sipUserName' , 'sipExtension','onboarding','zoom_token')
+        fields = ( 'pk' , 'mobile' , 'displayPicture' , 'website' , 'prefix' , 'almaMater', 'pgUniversity' , 'docUniversity' ,'email','gender' , 'empID','teamlead','isDashboard','isManager','emergency','bloodGroup','married','localAddressStreet','localAddressCity' , 'localAddressPin' , 'localAddressState' , 'localAddressCountry', 'sipUserName' , 'sipExtension','onboarding','zoom_token','lang','countryCode')
         read_only_fields = ('website' , 'prefix' , 'almaMater', 'pgUniversity' , 'docUniversity' , 'sipUserName' , 'sipExtension' , 'sipPassword' )
     def get_teamlead(self, obj):
         toRet = {}
@@ -229,7 +229,7 @@ class userSerializer(serializers.ModelSerializer):
     designation = userDesignationSerializer(read_only=True)
     class Meta:
         model = User
-        fields = ('pk' , 'username' , 'email' , 'first_name' , 'last_name' , 'designation' ,'settings' , 'password' , 'is_superuser','is_active','profile','payroll','is_staff','logo','last_login')
+        fields = ('pk' , 'username' , 'email' , 'first_name' , 'last_name' , 'designation' ,'settings' , 'password' , 'is_superuser','is_active','profile','payroll','is_staff','logo','last_login','lang')
         read_only_fields = ('designation' , 'profile' , 'settings', 'payroll' )
         extra_kwargs = {'password': {'write_only': True} }
     def create(self , validated_data):

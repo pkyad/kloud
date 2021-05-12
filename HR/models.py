@@ -154,6 +154,8 @@ class profile(models.Model):
     postCount = models.PositiveIntegerField(default = 0)
     lastState = models.CharField(null=True , max_length = 200)
     newReg =  models.BooleanField(default=False)
+    lang = models.CharField(null=True , max_length = 200)
+    countryCode = models.CharField(null=True , max_length = 200)
 
 
 User.profile = property(lambda u : profile.objects.get_or_create(user = u)[0])
