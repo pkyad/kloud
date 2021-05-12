@@ -616,7 +616,7 @@ def generateOTPView(request):
                 if len(userObj)>0:
                     user = userObj.first()
                     profileObj = user.profile
-                    if profileObj.countryCode is None:
+                    if 'countryCode' in request.GET:
                         profileObj.countryCode = request.GET['countryCode']
                         profileObj.save()
                 else:
