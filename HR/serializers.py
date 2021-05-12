@@ -21,7 +21,7 @@ class userProfileLiteSerializer(serializers.ModelSerializer):
     # to be used in the typehead tag search input, only a small set of fields is responded to reduce the bandwidth requirements
     class Meta:
         model = profile
-        fields = ('displayPicture' , 'prefix' ,'pk','mobile','lat','lon','isDashboard','isManager','zoom_token','empID','newReg')
+        fields = ('displayPicture' , 'prefix' ,'pk','mobile','lat','lon','isDashboard','isManager','zoom_token','empID','newReg','lang')
 
 
 class userLiteSerializer(serializers.ModelSerializer):
@@ -229,7 +229,7 @@ class userSerializer(serializers.ModelSerializer):
     designation = userDesignationSerializer(read_only=True)
     class Meta:
         model = User
-        fields = ('pk' , 'username' , 'email' , 'first_name' , 'last_name' , 'designation' ,'settings' , 'password' , 'is_superuser','is_active','profile','payroll','is_staff','logo','last_login','lang')
+        fields = ('pk' , 'username' , 'email' , 'first_name' , 'last_name' , 'designation' ,'settings' , 'password' , 'is_superuser','is_active','profile','payroll','is_staff','logo','last_login')
         read_only_fields = ('designation' , 'profile' , 'settings', 'payroll' )
         extra_kwargs = {'password': {'write_only': True} }
     def create(self , validated_data):
