@@ -74,10 +74,16 @@ class UpdateAttendanceAPIView(APIView):
         today = date.today()
         user = request.user
         checkinObj = TimeSheet.objects.filter(user = user,date = today).count()
+        checkin = None
+        checkOut = None
+        stage = None
         if checkinObj == 0:
-            data = {'stage':'checkin'}
+            stage = 'checkin'
         else:
-            data =  {'stage':'checkout'}
+            checkIn = checkinObj[0].checkIn
+            checkOut = checkinObj[0].checkOut
+            stage = 'checkout'
+        data = {'stage':stage,'checkin':checkIn, 'checkOut':checkOut}
         return Response( data,status = status.HTTP_200_OK)
     def post(self, request, format=None):
         today = date.today()
