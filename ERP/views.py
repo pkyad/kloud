@@ -2561,7 +2561,7 @@ class SupportMessage(APIView):
         to_email =  ['info@epsilonai.com','pradeep@epsilonai.com']
         # to_email.append(to_email)
         ctx = {
-            'message': data.message,
+            'message': data['message'],
             'email':user.email,
             'mobile':profileObj.mobile
         }
