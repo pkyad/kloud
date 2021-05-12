@@ -615,6 +615,10 @@ def generateOTPView(request):
                 userObj = User.objects.filter(Q(profile__mobile = request.GET['mobile']) | Q(username = request.GET['mobile']))
                 if len(userObj)>0:
                     user = userObj.first()
+                    profileObj = user.profile
+                    if profileObj.countryCode is None:
+                        profileObj.countryCode = request.GET['countryCode']
+                        profileObj.save()
                 else:
                     otp = generateOTPCode()
                     print otp
@@ -632,6 +636,8 @@ def generateOTPView(request):
                     div = Division.objects.get(pk = int(resData['division']))
                     designation.division = div
                     unit = Unit.objects.get(pk = int(resData['unit']))
+                    if 'countryCode' in request.GET:
+                        prof.countryCode = request.GET['countryCode']
                     designation.unit = unit
                     designation.save()
                     prof.save()
@@ -663,6 +669,8 @@ def generateOTPView(request):
         elif 'mobile' in request.POST:
             mobileNo = request.GET['mobile']
             user = get_object_or_404(User, profile__mobile = request.POST['mobile'])
+
+
 
 
     key_expires = timezone.now() + datetime.timedelta(days=2)
@@ -2548,14 +2556,14 @@ class SupportMessage(APIView):
     def post(self, request, format=None):
         data = request.data
         user = request.user
-        profile = user.profile
-        email_subject ="Support Message from %s"%(profile.mobile)
+        profileObj = user.profile
+        email_subject ="Support Message from %s"%(profileObj.mobile)
         to_email =  ['info@epsilonai.com','pradeep@epsilonai.com']
         # to_email.append(to_email)
         ctx = {
             'message': data.message,
             'email':user.email,
-            'mobile':profile.mobile
+            'mobile':profileObj.mobile
         }
 
         email_body = get_template('app.ERP.supportEmail.html').render(ctx)
