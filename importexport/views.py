@@ -2129,7 +2129,7 @@ class MaterialIssueMainViewSet(viewsets.ModelViewSet):
     permissions_classes  = (permissions.AllowAny , )
     serializer_class = MaterialIssueMainSerializer
     filter_backends = [DjangoFilterBackend]
-    # filter_fields = ['project','created']
+    filter_fields = ['project','created']
     # queryset = MaterialIssueMain.objects.all()
     def get_queryset(self):
         user = self.request.user

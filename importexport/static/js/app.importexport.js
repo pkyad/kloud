@@ -3371,6 +3371,7 @@ app.controller("businessManagement.importexport.inventory1", function($scope, $s
   });
 
   $scope.offset = 0
+  $scope.limit = 7
   $scope.text = {
     searchText: ''
   }
@@ -3458,12 +3459,21 @@ app.controller("businessManagement.importexport.inventory1", function($scope, $s
   }
 
   $scope.next = function() {
-    $scope.offset = $scope.offset + 7
-    $scope.fetchProdInventory($scope.offset)
-    if ($scope.products.length == 0) {
-      $scope.offset = $scope.offset - 7
+    $scope.offset = $scope.offset + $scope.limit
+    if($scope.modeToggle){
+      $scope.getMaterialIssue($scope.offset)
+      if ($scope.materialIssue.length == 0) {
+        $scope.offset = $scope.offset -  $scope.limit
+        $scope.getMaterialIssue($scope.offset)
+      }
+    }else {
       $scope.fetchProdInventory($scope.offset)
+      if ($scope.products.length == 0) {
+        $scope.offset = $scope.offset -  $scope.limit
+        $scope.fetchProdInventory($scope.offset)
+      }
     }
+
   }
 
   $scope.prev = function() {
@@ -3472,7 +3482,12 @@ app.controller("businessManagement.importexport.inventory1", function($scope, $s
       return
     }
     $scope.offset = $scope.offset - 7
-    $scope.fetchProdInventory($scope.offset)
+    if($scope.modeToggle){
+      $scope.getMaterialIssue($scope.offset)
+    }else{
+      $scope.fetchProdInventory($scope.offset)    
+    }
+
   }
 
   $scope.reset = function() {
