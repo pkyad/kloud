@@ -440,6 +440,22 @@ def genInvoice(response, contract, request):
     # tab5 = Table([[ima , imal]],colWidths=[6*inch, 6*inch])
     imageTable = [[ima]]
     tabHeaderImage = Table(imageTable)
+
+    unt.address = '' if unt.address is None else unt.address
+    unt.city = '' if unt.city is None else unt.city
+    unt.pincode = '' if unt.pincode is None else unt.pincode
+    unt.mobile = '' if unt.mobile is None else unt.mobile
+    unt.email = '' if unt.email is None else unt.email
+    unt.gstin = '' if unt.gstin is None else unt.gstin
+    unt.state = '' if unt.state is None else unt.state
+    unt.gstin = '' if unt.gstin is None else unt.gstin
+    unt.bankName = '' if unt.bankName is None else unt.bankName
+    unt.ifsc = '' if unt.ifsc is None else unt.ifsc
+    unt.bankAccNumber = '' if unt.bankAccNumber is None else unt.bankAccNumber
+    unt.swift = '' if unt.swift is None else unt.swift
+
+
+
     toHeading1  =  Paragraph("<para align='left'><strong>%s</strong></para>"%(divsn.name ), tableheaderparaStyle)
     toHeading2  = Paragraph( "<para align='left'><font size='7'>%s,%s - %s</font></para>"%(unt.address , unt.city ,unt.pincode  ) , tableheaderparaStyle)
     toHeading3  =  Paragraph("<para align='left'><font size='7'><strong>Tel : </strong>%s<br/><strong>e-mail : </strong>%s</font></para>"%(unt.mobile, unt.email ), tableheaderparaStyle)

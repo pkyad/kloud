@@ -187,7 +187,19 @@ class PageNumCanvas(canvas.Canvas):
         # d = Drawing(100,100)
         # d.add(Rect(0,68,1500,3, fillColor=themeColor,strokeWidth=0))
         # print dir(self)
-        print self.unit,'aaaaaaaaaaaa'
+        # unit address
+        self.unit.address = '' if self.unit.address is None else self.unit.address
+        self.unit.city = '' if self.unit.city is None else self.unit.city
+        self.unit.pincode = '' if self.unit.pincode is None else self.unit.pincode
+        self.unit.mobile = '' if self.unit.mobile is None else self.unit.mobile
+        self.unit.email = '' if self.unit.email is None else self.unit.email
+        self.unit.gstin = '' if self.unit.gstin is None else self.unit.gstin
+        self.unit.state = '' if self.unit.state is None else self.unit.state
+        self.unit.gstin = '' if self.unit.gstin is None else self.unit.gstin
+        self.unit.bankName = '' if self.unit.bankName is None else self.unit.bankName
+        self.unit.ifsc = '' if self.unit.ifsc is None else self.unit.ifsc
+        self.unit.bankAccNumber = '' if self.unit.bankAccNumber is None else self.unit.bankAccNumber
+        self.unit.swift = '' if self.unit.swift is None else self.unit.swift
         compNameStyle = styleN.clone('footerCompanyName')
         compNameStyle.textColor = 'white'
         addStr = "<font size='10'>%s,%s %s %s %s</font>"%(self.unit.address , self.unit.city ,self.unit.pincode , self.unit.state, self.unit.country )
