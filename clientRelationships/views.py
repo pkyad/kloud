@@ -140,8 +140,8 @@ class DownloadInvoice(APIView):
             # f.write(response.content)
             # f.close()
             dataBase = open(filePath, 'rb').read().encode('base64')
-            # file_name = 'media/' + filePath.split('/')[-1]
-            return Response({'fileUrl' : '' ,'data':dataBase}, status = status.HTTP_200_OK)
+            file_name = 'media/' + filePath.split('/')[-1]
+            return Response({'fileUrl' : file_name ,'data':dataBase}, status = status.HTTP_200_OK)
         return response
 
 
