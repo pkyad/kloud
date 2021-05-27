@@ -170,7 +170,7 @@ class BoMViewSet(viewsets.ModelViewSet):
         user = self.request.user
         divisionObj = user.designation.division
         if 'searchBom' in self.request.GET and 'project' in self.request.GET:
-            productList=BoM.objects.filter(products__part_no__icontains=str(self.request.GET['searchBom']),project__pk=self.request.GET['project'],division = divisionObj)
+            productList=BoM.objects.filter(division = divisionObj).filter(Q(products__part_no__icontains=str(self.request.GET['searchBom']))|Q(project__pk=self.request.GET['project']))
             return productList
         else:
             return BoM.objects.filter(division = divisionObj)
