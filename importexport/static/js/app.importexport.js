@@ -1166,7 +1166,7 @@ app.controller("businessManagement.importexport.projects.service.view", function
         })
       };
       $scope.bomChange = function(query) {
-        return $http.get('/api/importexport/bom/?limit=10&searchBom=' + query + '&project=' + $scope.form.pk).
+        return $http.get('/api/importexport/bom/?limit=10&searchBom=' + query + '&projectId=' + $scope.form.pk).
         then(function(response) {
           return response.data.results;
         })
@@ -3485,7 +3485,7 @@ app.controller("businessManagement.importexport.inventory1", function($scope, $s
     if($scope.modeToggle){
       $scope.getMaterialIssue($scope.offset)
     }else{
-      $scope.fetchProdInventory($scope.offset)    
+      $scope.fetchProdInventory($scope.offset)
     }
 
   }

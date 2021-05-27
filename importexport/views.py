@@ -169,11 +169,11 @@ class BoMViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         divisionObj = user.designation.division
-        if 'searchBom' in self.request.GET and 'project' in self.request.GET:
-            productList=BoM.objects.filter(division = divisionObj).filter(Q(products__part_no__icontains=str(self.request.GET['searchBom']))|Q(project__pk=self.request.GET['project']))
+        if 'searchBom' in self.request.GET and 'projectId' in self.request.GET:
+            productList=BoM.objects.filter(products__part_no__icontains=str(self.request.GET['searchBom']),project__pk=self.request.GET['projectId'],division = divisionObj)
             return productList
-        else:
-            return BoM.objects.filter(division = divisionObj)
+
+        return BoM.objects.filter(division = divisionObj)
 
 class StockCheckViewSet(viewsets.ModelViewSet):
     permissions_classes  = (permissions.AllowAny , )
@@ -274,6 +274,7 @@ class ProductsUploadAPIView(APIView):
     def post(self , request , format = None):
 
         excelFile = request.FILES['excelFile']
+        divsn = request.user.designation.division
 
         print 'llllllllllll'
         wb = load_workbook(filename = BytesIO(excelFile.read()) ,  read_only=True)
@@ -481,6 +482,7 @@ class UploadSheetAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated ,)
     def post(self , request , format = None):
         project = Projects.objects.get(pk=request.GET['projectpk'])
+        divisn = request.user.designation.division
         projectPk = project.id
         userPk = request.GET['userpk']
         excelFile = request.FILES['excelFile']
@@ -539,7 +541,7 @@ class UploadSheetAPIView(APIView):
 
 
                         totInvoiceValue += invoiceValue
-                        bomObj = BoM.objects.create(user=User.objects.get(pk=userPk), products=Products.objects.get(pk=prodPk),project=Projects.objects.get(pk=projectPk),quantity1=quantity,quantity2=quantity,price=prodObj.price, landed_price=landng,gst=prodObj.gst,custom=prodObj.custom,customs_no=prodObj.customs_no)
+                        bomObj = BoM.objects.create(user=User.objects.get(pk=userPk), products=Products.objects.get(pk=prodPk),project=Projects.objects.get(pk=projectPk),quantity1=quantity,quantity2=quantity,price=prodObj.price, landed_price=landng,gst=prodObj.gst,custom=prodObj.custom,customs_no=prodObj.customs_no,division =divsn)
                         bomObj.save()
                         productsObj = ProductsSerializer(instance=Products.objects.get(pk=prodPk)).data
                         prjojectObj = ProjectsSerializer(instance=Projects.objects.get(pk=projectPk)).data
@@ -4296,6 +4298,7 @@ class BulkCreateInventoryAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated ,)
     def post(self , request , format = None):
         print request.data
+        divisn = request.user.designation.division
         if 'project' in request.data:
             bomData = BoM.objects.filter(project=int(request.data['project']))
             invData = []
