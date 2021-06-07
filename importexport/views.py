@@ -513,6 +513,8 @@ class UploadSheetAPIView(APIView):
                 except:
                     quantity = None
 
+                print part_no,quantity, 'part no and qty'
+
                 try:
                     prodObj = Products.objects.get(part_no=str(part_no))
                     prodPk = prodObj.id
@@ -541,7 +543,7 @@ class UploadSheetAPIView(APIView):
 
 
                         totInvoiceValue += invoiceValue
-                        bomObj = BoM.objects.create(user=User.objects.get(pk=userPk), products=Products.objects.get(pk=prodPk),project=Projects.objects.get(pk=projectPk),quantity1=quantity,quantity2=quantity,price=prodObj.price, landed_price=landng,gst=prodObj.gst,custom=prodObj.custom,customs_no=prodObj.customs_no,division =divsn)
+                        bomObj = BoM.objects.create(user=User.objects.get(pk=userPk), products=Products.objects.get(pk=prodPk),project=Projects.objects.get(pk=projectPk),quantity1=quantity,quantity2=quantity,price=prodObj.price, landed_price=landng,gst=prodObj.gst,custom=prodObj.custom,customs_no=prodObj.customs_no,division =divisn)
                         bomObj.save()
                         productsObj = ProductsSerializer(instance=Products.objects.get(pk=prodPk)).data
                         prjojectObj = ProjectsSerializer(instance=Projects.objects.get(pk=projectPk)).data
